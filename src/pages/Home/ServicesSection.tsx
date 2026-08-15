@@ -1,16 +1,18 @@
 // ─── Imports
 import React from 'react';
 import type { Service } from '@/types';
-import { ServiceCard } from './ServiceCard';
+import { ServiceCard } from '@/components/shared/ServiceCard';
+import { EmptyState } from '@/components/ui/EmptyState';
 
 // ─── Types
 interface ServicesSectionProps {
   services: Service[];
   onSelectService: (service: Service) => void;
   onResetFilters: () => void;
+  isLoading?: boolean;
 }
 
-// ─── Render
+// ─── Component
 export function ServicesSection({
   services,
   onSelectService,
@@ -22,31 +24,34 @@ export function ServicesSection({
   };
 
   return (
-    <section aria-label="الخدمات المتاحة">
-      {/* Section Header */}
+    <section className="services-section" aria-label="الخدمات المتاحة">
       <div className="section-header">
         <h3>
-          <span role="img" aria-hidden="true">⚡</span>
-          {' '}الخدمات المتاحة
+          <span role="img" aria-hidden="true">
+            ⚡
+          </span>{' '}
+          الخدمات المتاحة ({services.length})
         </h3>
         <a href="#all-services" onClick={handleAllClick}>
           الكل
         </a>
       </div>
 
-      {/* Services Grid */}
       {services.length === 0 ? (
-        <div className="services-empty">
-          <span role="img" aria-hidden="true">🔍</span>
-          <p>مفيش خدمات مطابقة لبحثك في الوقت الحالي</p>
-        </div>
+        <EmptyState
+          emoji="🔍"
+          title="مفيش خدمات مطابقة"
+          description="لم نجد أي خدمات تطابق بحثك الحالي في القرية."
+          actionText="عرض كل الخدمات"
+          onAction={onResetFilters}
+        />
       ) : (
         <div className="services-grid" id="servicesGrid">
           {services.map((service) => (
             <ServiceCard
               key={service.id}
               service={service}
-              onSelectService={onSelectService}
+              onSelect={onSelectService}
             />
           ))}
         </div>

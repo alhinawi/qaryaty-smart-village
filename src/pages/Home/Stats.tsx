@@ -1,10 +1,10 @@
-// ─── Render
+// ─── Component
 export function Stats() {
   return (
-    <section className="stats" aria-label="إحصائيات قريتي">
+    <section className="stats-section" aria-label="إحصائيات قريتي">
       <div className="stat-card">
         <div className="stat-num">+200</div>
-        <div className="stat-label">مزود خدمة</div>
+        <div className="stat-label">مزود خدمة محلي</div>
       </div>
       <div className="stat-card">
         <div className="stat-num">15د</div>
@@ -13,6 +13,10 @@ export function Stats() {
       <div className="stat-card">
         <div className="stat-num">4.9⭐</div>
         <div className="stat-label">تقييم التطبيق</div>
+      </div>
+      <div className="stat-card desktop-only-stat">
+        <div className="stat-num">100%</div>
+        <div className="stat-label">ضمان الجودة</div>
       </div>
     </section>
   );

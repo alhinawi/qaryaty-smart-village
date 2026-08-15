@@ -1,209 +1,137 @@
 // ─── Imports
-import React, { useRef, useState } from 'react';
-import type {
-  CategoryFilter,
-  OrderFormData,
-  OrderModalData,
-  Service,
-} from '@/types';
-import { CATEGORIES } from '@/data/categories';
-import { SERVICES } from '@/data/services';
-import { SHOPS } from '@/data/shops';
+import { Suspense, lazy, useState } from 'react';
 import { useSplashScreen } from '@/hooks/useSplashScreen';
+import { useUIStore } from '@/stores/useUIStore';
+import type { OrderModalData } from '@/types';
 
-// Components
+// Layout & Global Components
 import { Header } from '@/components/layout/Header';
 import { BottomNav } from '@/components/layout/BottomNav';
+import { PageWrapper } from '@/components/layout/PageWrapper';
 import { SplashScreen } from '@/components/layout/SplashScreen';
-import { Hero } from '@/components/home/Hero';
-import { Stats } from '@/components/home/Stats';
-import { Categories } from '@/components/home/Categories';
-import { LiveOrderBanner } from '@/components/home/LiveOrderBanner';
-import { ServicesSection } from '@/components/home/ServicesSection';
-import { PromoBanner } from '@/components/home/PromoBanner';
-import { ShopsSection } from '@/components/home/ShopsSection';
-import { FeaturesSection } from '@/components/home/FeaturesSection';
+import { CartDrawer } from '@/components/layout/CartDrawer';
+import { NotificationsDrawer } from '@/components/layout/NotificationsDrawer';
 import { OrderModal } from '@/components/orders/OrderModal';
 import { OrderSuccess } from '@/components/orders/OrderSuccess';
+import { RatingModal } from '@/components/shared/RatingModal';
 import { Toast } from '@/components/ui/Toast';
 
-// ─── Constants
-const INITIAL_FORM_DATA: OrderFormData = {
-  address: '',
-  phone: '',
-  notes: '',
-  paymentMethod: 'cash',
-};
+// ─── Lazy Loaded Pages
+const HomePage = lazy(() => import('@/pages/Home'));
+const OrdersPage = lazy(() => import('@/pages/Orders'));
+const FavoritesPage = lazy(() => import('@/pages/Favorites'));
+const MessagesPage = lazy(() => import('@/pages/Messages'));
+const ProfilePage = lazy(() => import('@/pages/Profile'));
+
+// ─── Page Loading Fallback
+function PageLoadingFallback() {
+  return (
+    <div className="page-loading-spinner-container" aria-label="جاري التحميل...">
+      <div className="q-spinner-large" />
+      <p>جاري تحميل الصفحة...</p>
+    </div>
+  );
+}
 
 // ─── Component
 export default function App() {
-  // ─── State
   const { showSplash, isFadingOut, isAppVisible } = useSplashScreen();
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>('all');
+  const activeTab = useUIStore((state) => state.activeTab);
+  const setActiveTab = useUIStore((state) => state.setActiveTab);
+  const toastMessage = useUIStore((state) => state.toastMessage);
 
+  // Modal States
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [modalData, setModalData] = useState<OrderModalData | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [formData, setFormData] = useState<OrderFormData>(INITIAL_FORM_DATA);
-  const [orderNumber, setOrderNumber] = useState('');
+  // Order Success Screen State
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const [successOrderNumber, setSuccessOrderNumber] = useState('');
 
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // ─── Toast Handler
-  const showToast = (message: string) => {
-    if (toastTimerRef.current) {
-      clearTimeout(toastTimerRef.current);
-    }
-    setToastMessage(message);
-    toastTimerRef.current = setTimeout(() => {
-      setToastMessage(null);
-    }, 3000);
-  };
-
-  // ─── Derived State: Filtered Services
-  const normalizedQuery = searchQuery.trim().toLowerCase();
-  const filteredServices = SERVICES.filter((service) => {
-    const matchesCategory =
-      selectedCategory === 'all' || service.cat === selectedCategory;
-    const matchesSearch =
-      !normalizedQuery ||
-      service.name.toLowerCase().includes(normalizedQuery) ||
-      service.desc.toLowerCase().includes(normalizedQuery);
-
-    return matchesCategory && matchesSearch;
-  });
-
-  // ─── Modal Handlers
-  const handleOpenModal = (data: OrderModalData) => {
+  const handleOpenOrderModal = (data: OrderModalData) => {
     setModalData(data);
-    setIsModalOpen(true);
+    setIsOrderModalOpen(true);
   };
 
-  const handleSelectService = (service: Service) => {
-    handleOpenModal({
-      emoji: service.emoji,
-      name: service.name,
-      desc: service.desc,
-    });
+  const handleCloseOrderModal = () => {
+    setIsOrderModalOpen(false);
+    setModalData(null);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  // ─── Form Handlers
-  const handleFormChange = (fields: Partial<OrderFormData>) => {
-    setFormData((prev) => ({ ...prev, ...fields }));
-  };
-
-  const handleSubmitOrder = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!formData.address.trim() || !formData.phone.trim()) {
-      showToast('⚠️ من فضلك اكمل بيانات العنوان والموبايل');
-      return;
-    }
-
-    const generatedOrderNum = `#${Math.floor(Math.random() * 9000 + 1000)}`;
-    setOrderNumber(generatedOrderNum);
-    setIsModalOpen(false);
+  const handleOrderSuccess = (orderNumber: string) => {
+    setSuccessOrderNumber(orderNumber);
     setIsSuccessOpen(true);
   };
 
   const handleCloseSuccess = () => {
     setIsSuccessOpen(false);
-    setFormData(INITIAL_FORM_DATA);
   };
 
-  const handleResetFilters = () => {
-    setSelectedCategory('all');
-    setSearchQuery('');
+  const handleViewOrdersFromSuccess = () => {
+    setIsSuccessOpen(false);
+    setActiveTab('orders');
   };
 
-  // ─── Render
   return (
     <>
       {/* Splash Screen */}
       {showSplash && <SplashScreen isFadingOut={isFadingOut} />}
 
-      {/* Main Application Container */}
+      {/* Main Application */}
       <div
         id="app"
-        className={`app-container${isAppVisible ? ' visible' : ''}`}
+        className={`app-root-layout${isAppVisible ? ' visible' : ''}`}
       >
-        {/* Header */}
-        <Header
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          onShowToast={showToast}
-        />
+        {/* Responsive Header */}
+        <Header />
 
-        {/* Main Content */}
-        <main>
-          {/* Hero Banner */}
-          <Hero onOpenModal={handleOpenModal} />
-
-          {/* Quick Stats */}
-          <Stats />
-
-          {/* Categories Horizontal Scroll */}
-          <Categories
-            categories={CATEGORIES}
-            selectedCategory={selectedCategory}
-            onSelectCategory={setSelectedCategory}
-          />
-
-          {/* Live Order Pulse Widget */}
-          <LiveOrderBanner onShowToast={showToast} />
-
-          {/* Services Grid Section */}
-          <ServicesSection
-            services={filteredServices}
-            onSelectService={handleSelectService}
-            onResetFilters={handleResetFilters}
-          />
-
-          {/* Promotional Banner */}
-          <PromoBanner onShowToast={showToast} />
-
-          {/* Village Shops Section */}
-          <ShopsSection
-            shops={SHOPS}
-            onSelectShop={handleOpenModal}
-            onShowToast={showToast}
-          />
-
-          {/* Why Choose Qaryati Features */}
-          <FeaturesSection />
+        {/* Dynamic Page Content */}
+        <main className="app-main-content">
+          <PageWrapper>
+            <Suspense fallback={<PageLoadingFallback />}>
+              {activeTab === 'home' && (
+                <HomePage onOpenOrderModal={handleOpenOrderModal} />
+              )}
+              {activeTab === 'orders' && <OrdersPage />}
+              {activeTab === 'favorites' && (
+                <FavoritesPage onOpenOrderModal={handleOpenOrderModal} />
+              )}
+              {activeTab === 'messages' && <MessagesPage />}
+              {activeTab === 'profile' && <ProfilePage />}
+            </Suspense>
+          </PageWrapper>
         </main>
 
-        {/* Bottom Navigation */}
-        <BottomNav
-          onOpenModal={handleOpenModal}
-          onShowToast={showToast}
-        />
+        {/* Mobile Bottom Navigation */}
+        <BottomNav onOpenQuickOrder={handleOpenOrderModal} />
 
-        {/* Order Modal */}
+        {/* Global Cart Drawer */}
+        <CartDrawer />
+
+        {/* Global Notifications Drawer */}
+        <NotificationsDrawer />
+
+        {/* Order Modal Flow */}
         <OrderModal
-          isOpen={isModalOpen}
+          isOpen={isOrderModalOpen}
           data={modalData}
-          formData={formData}
-          onFormChange={handleFormChange}
-          onSubmit={handleSubmitOrder}
-          onClose={handleCloseModal}
+          onClose={handleCloseOrderModal}
+          onSuccess={handleOrderSuccess}
         />
 
         {/* Order Success Screen */}
         <OrderSuccess
           isOpen={isSuccessOpen}
-          orderNumber={orderNumber}
+          orderNumber={successOrderNumber}
           onClose={handleCloseSuccess}
+          onViewOrders={handleViewOrdersFromSuccess}
         />
 
-        {/* Global Toast Notifications */}
+        {/* 5-Star Rating Modal */}
+        <RatingModal />
+
+        {/* Floating Global Toast Notification */}
         <Toast message={toastMessage} />
       </div>
     </>

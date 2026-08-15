@@ -1,4 +1,5 @@
 // ─── Imports
+import React from 'react';
 import type { OrderModalData, Shop } from '@/types';
 
 // ─── Types
@@ -7,8 +8,11 @@ interface ShopCardProps {
   onSelectShop: (modalData: OrderModalData) => void;
 }
 
-// ─── Render
-export function ShopCard({ shop, onSelectShop }: ShopCardProps) {
+// ─── Component
+export const ShopCard = React.memo(function ShopCard({
+  shop,
+  onSelectShop,
+}: ShopCardProps) {
   const handleClick = () => {
     onSelectShop({
       emoji: shop.emoji,
@@ -32,7 +36,9 @@ export function ShopCard({ shop, onSelectShop }: ShopCardProps) {
       aria-label={`طلب من محل ${shop.name}`}
     >
       <div className="shop-img" style={{ background: shop.bgColor }}>
-        <span role="img" aria-hidden="true">{shop.emoji}</span>
+        <span role="img" aria-hidden="true">
+          {shop.emoji}
+        </span>
       </div>
       <div className="shop-body">
         <h5>{shop.name}</h5>
@@ -43,4 +49,4 @@ export function ShopCard({ shop, onSelectShop }: ShopCardProps) {
       </div>
     </div>
   );
-}
+});

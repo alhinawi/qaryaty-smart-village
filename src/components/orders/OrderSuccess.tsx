@@ -1,18 +1,21 @@
 // ─── Imports
 import { useEffect } from 'react';
+import { Button } from '@/components/ui/Button';
 
 // ─── Types
 interface OrderSuccessProps {
   isOpen: boolean;
   orderNumber: string;
   onClose: () => void;
+  onViewOrders: () => void;
 }
 
-// ─── Render
+// ─── Component
 export function OrderSuccess({
   isOpen,
   orderNumber,
   onClose,
+  onViewOrders,
 }: OrderSuccessProps) {
   useEffect(() => {
     if (!isOpen) return;
@@ -47,8 +50,8 @@ export function OrderSuccess({
       <div className="success-check" role="img" aria-label="نجاح">
         ✅
       </div>
-      <h2 id="successTitle">تم تأكيد طلبك!</h2>
-      <p>جاري إيجاد أقرب مزود خدمة ليك</p>
+      <h2 id="successTitle">تم تأكيد طلبك بنجاح!</h2>
+      <p>جاري إيجاد أقرب مزود خدمة ليك داخل القرية</p>
 
       {/* Order Number Box */}
       <div className="order-id">
@@ -76,14 +79,19 @@ export function OrderSuccess({
         </div>
       </div>
 
-      {/* Back Button */}
-      <button
-        type="button"
-        className="btn-back"
-        onClick={onClose}
-      >
-        🏠 الرئيسية
-      </button>
+      {/* Action Buttons */}
+      <div className="success-actions-row">
+        <Button variant="gold" size="lg" onClick={onViewOrders}>
+          📋 تتبع الطلب في طلباتي
+        </Button>
+        <button
+          type="button"
+          className="btn-back-home"
+          onClick={onClose}
+        >
+          🏠 العودة للرئيسية
+        </button>
+      </div>
     </div>
   );
 }

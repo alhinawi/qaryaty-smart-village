@@ -1,12 +1,14 @@
-// ─── Types
-interface LiveOrderBannerProps {
-  onShowToast: (message: string) => void;
-}
+// ─── Imports
+import { useUIStore } from '@/stores/useUIStore';
 
-// ─── Render
-export function LiveOrderBanner({ onShowToast }: LiveOrderBannerProps) {
+// ─── Component
+export function LiveOrderBanner() {
+  const setActiveTab = useUIStore((state) => state.setActiveTab);
+  const showToast = useUIStore((state) => state.showToast);
+
   const handleTrackClick = () => {
-    onShowToast('📍 جاري تتبع الطلب...');
+    showToast('📍 جاري تتبع طلب حامد العيش...');
+    setActiveTab('orders');
   };
 
   return (
@@ -27,6 +29,7 @@ export function LiveOrderBanner({ onShowToast }: LiveOrderBannerProps) {
         type="button"
         className="live-order-btn"
         onClick={handleTrackClick}
+        aria-label="تتبع الطلب المباشر"
       >
         تتبع
       </button>

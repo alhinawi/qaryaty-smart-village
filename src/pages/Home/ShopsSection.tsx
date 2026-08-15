@@ -1,40 +1,38 @@
 // ─── Imports
 import React from 'react';
 import type { OrderModalData, Shop } from '@/types';
-import { ShopCard } from './ShopCard';
+import { ShopCard } from '@/components/shared/ShopCard';
+import { useUIStore } from '@/stores/useUIStore';
 
 // ─── Types
 interface ShopsSectionProps {
   shops: Shop[];
   onSelectShop: (modalData: OrderModalData) => void;
-  onShowToast: (message: string) => void;
 }
 
-// ─── Render
-export function ShopsSection({
-  shops,
-  onSelectShop,
-  onShowToast,
-}: ShopsSectionProps) {
+// ─── Component
+export function ShopsSection({ shops, onSelectShop }: ShopsSectionProps) {
+  const showToast = useUIStore((state) => state.showToast);
+
   const handleAllShopsClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    onShowToast('🏪 جميع محلات القرية معروضة أمامك');
+    showToast('🏪 جميع محلات وسوبرماركت القرية متاحة أمامك');
   };
 
   return (
-    <section aria-label="محلات القرية">
-      {/* Section Header */}
+    <section className="shops-section" aria-label="محلات القرية">
       <div className="section-header">
         <h3>
-          <span role="img" aria-hidden="true">🏪</span>
-          {' '}محلات القرية
+          <span role="img" aria-hidden="true">
+            🏪
+          </span>{' '}
+          محلات القرية
         </h3>
         <a href="#all-shops" onClick={handleAllShopsClick}>
           كل المحلات
         </a>
       </div>
 
-      {/* Horizontal Scroll Shops */}
       <div className="shops-scroll">
         {shops.map((shop) => (
           <ShopCard

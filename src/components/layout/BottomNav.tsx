@@ -1,88 +1,77 @@
 // ─── Imports
-import type { OrderModalData } from '@/types';
+import { useUIStore } from '@/stores/useUIStore';
+import type { ActiveTab, OrderModalData } from '@/types';
 
 // ─── Types
 interface BottomNavProps {
-  onOpenModal: (service: OrderModalData) => void;
-  onShowToast: (message: string) => void;
+  onOpenQuickOrder: (data: OrderModalData) => void;
 }
 
-// ─── Render
-export function BottomNav({ onOpenModal, onShowToast }: BottomNavProps) {
-  const handleOrdersClick = () => {
-    onShowToast('📋 قيد التطوير!');
-  };
+// ─── Component
+export function BottomNav({ onOpenQuickOrder }: BottomNavProps) {
+  const activeTab = useUIStore((state) => state.activeTab);
+  const setActiveTab = useUIStore((state) => state.setActiveTab);
 
   const handleFabClick = () => {
-    onOpenModal({
+    onOpenQuickOrder({
       emoji: '🚀',
-      name: 'اطلب خدمة',
-      desc: 'اختار الخدمة اللي محتاجها',
+      name: 'اطلب خدمة سريعة',
+      desc: 'اكتب اللي محتاجه وهنوصلهولك فوراً داخل القرية',
     });
   };
 
-  const handleMessagesClick = () => {
-    onShowToast('💬 قيد التطوير!');
-  };
-
-  const handleAccountClick = () => {
-    onShowToast('👤 قيد التطوير!');
-  };
+  const navItems: { id: ActiveTab; label: string; icon: string }[] = [
+    { id: 'home', label: 'الرئيسية', icon: '🏠' },
+    { id: 'orders', label: 'طلباتي', icon: '📋' },
+    { id: 'favorites', label: 'المفضلة', icon: '❤️' },
+    { id: 'profile', label: 'حسابي', icon: '👤' },
+  ];
 
   return (
-    <nav className="bottom-nav" aria-label="التنقل السفلي">
-      {/* Home */}
-      <button
-        type="button"
-        className="nav-item active"
-        aria-label="الرئيسية"
-      >
-        <span className="nav-icon" role="img" aria-hidden="true">🏠</span>
-        <span className="nav-label">الرئيسية</span>
-      </button>
+    <nav className="bottom-nav" aria-label="شريط التنقل السفلي">
+      {/* Home & Orders */}
+      {navItems.slice(0, 2).map((item) => (
+        <button
+          key={item.id}
+          type="button"
+          className={`nav-item ${activeTab === item.id ? 'active' : ''}`}
+          onClick={() => setActiveTab(item.id)}
+          aria-label={item.label}
+        >
+          <span className="nav-icon" role="img" aria-hidden="true">
+            {item.icon}
+          </span>
+          <span className="nav-label">{item.label}</span>
+        </button>
+      ))}
 
-      {/* Orders */}
+      {/* Central Floating Action Button (FAB) */}
       <button
         type="button"
-        className="nav-item"
-        onClick={handleOrdersClick}
-        aria-label="طلباتي"
-      >
-        <span className="nav-icon" role="img" aria-hidden="true">📋</span>
-        <span className="nav-label">طلباتي</span>
-      </button>
-
-      {/* Add / FAB */}
-      <button
-        type="button"
-        className="nav-item"
+        className="nav-item nav-fab-wrapper"
         onClick={handleFabClick}
-        aria-label="طلب خدمة جديدة"
+        aria-label="طلب خدمة سريعة"
       >
-        <div className="nav-fab" aria-hidden="true">+</div>
+        <div className="nav-fab" aria-hidden="true">
+          +
+        </div>
       </button>
 
-      {/* Messages */}
-      <button
-        type="button"
-        className="nav-item"
-        onClick={handleMessagesClick}
-        aria-label="الرسائل"
-      >
-        <span className="nav-icon" role="img" aria-hidden="true">💬</span>
-        <span className="nav-label">رسائل</span>
-      </button>
-
-      {/* Account */}
-      <button
-        type="button"
-        className="nav-item"
-        onClick={handleAccountClick}
-        aria-label="حسابي"
-      >
-        <span className="nav-icon" role="img" aria-hidden="true">👤</span>
-        <span className="nav-label">حسابي</span>
-      </button>
+      {/* Favorites & Profile */}
+      {navItems.slice(2, 4).map((item) => (
+        <button
+          key={item.id}
+          type="button"
+          className={`nav-item ${activeTab === item.id ? 'active' : ''}`}
+          onClick={() => setActiveTab(item.id)}
+          aria-label={item.label}
+        >
+          <span className="nav-icon" role="img" aria-hidden="true">
+            {item.icon}
+          </span>
+          <span className="nav-label">{item.label}</span>
+        </button>
+      ))}
     </nav>
   );
 }

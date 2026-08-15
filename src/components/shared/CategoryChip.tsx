@@ -1,4 +1,5 @@
 // ─── Imports
+import React from 'react';
 import type { CategoryItem } from '@/types';
 
 // ─── Types
@@ -8,8 +9,8 @@ interface CategoryChipProps {
   onSelect: (id: CategoryItem['id']) => void;
 }
 
-// ─── Render
-export function CategoryChip({
+// ─── Component
+export const CategoryChip = React.memo(function CategoryChip({
   category,
   isActive,
   onSelect,
@@ -23,9 +24,11 @@ export function CategoryChip({
       aria-label={`تصفية فئة: ${category.label}`}
     >
       <div className="cat-icon">
-        <span role="img" aria-hidden="true">{category.emoji}</span>
+        <span role="img" aria-hidden="true">
+          {category.emoji}
+        </span>
       </div>
       <div className="cat-label">{category.label}</div>
     </button>
   );
-}
+});

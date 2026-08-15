@@ -1,0 +1,63 @@
+// ─── Imports
+import { useUserStore } from '@/stores/useUserStore';
+import { useUIStore } from '@/stores/useUIStore';
+import { SERVICES } from '@/data/services';
+import { ServiceCard } from '@/components/shared/ServiceCard';
+import { EmptyState } from '@/components/ui/EmptyState';
+import type { OrderModalData, Service } from '@/types';
+
+// ─── Types
+interface FavoritesPageProps {
+  onOpenOrderModal: (data: OrderModalData) => void;
+}
+
+// ─── Component
+export default function FavoritesPage({
+  onOpenOrderModal,
+}: FavoritesPageProps) {
+  const favorites = useUserStore((state) => state.favorites);
+  const setActiveTab = useUIStore((state) => state.setActiveTab);
+
+  const favoriteServices = SERVICES.filter((service) =>
+    favorites.includes(service.id)
+  );
+
+  const handleSelectService = (service: Service) => {
+    onOpenOrderModal({
+      emoji: service.emoji,
+      name: service.name,
+      desc: service.desc,
+      price: service.price,
+      numericPrice: service.numericPrice,
+    });
+  };
+
+  return (
+    <div className="favorites-page-container">
+      <div className="page-header-title">
+        <h2>❤️ خدماتي المفضلة ({favoriteServices.length})</h2>
+        <p>الخدمات والمحلات التي قمت بحفظها للوصول إليها وطلبها بسرعة</p>
+      </div>
+
+      {favoriteServices.length === 0 ? (
+        <EmptyState
+          emoji="💔"
+          title="مفيش خدمات مفضلة!"
+          description="لم تقم بإضافة أي خدمات للمفضلة بعد. اضغط على أيقونة القلب ❤️ على أي خدمة لحفظها هنا."
+          actionText="تصفح الخدمات"
+          onAction={() => setActiveTab('home')}
+        />
+      ) : (
+        <div className="services-grid">
+          {favoriteServices.map((service) => (
+            <ServiceCard
+              key={service.id}
+              service={service}
+              onSelect={handleSelectService}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
