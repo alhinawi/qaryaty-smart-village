@@ -1,0 +1,60 @@
+// ─── Imports
+import type { Shop } from '@/types';
+
+// ─── Constants
+export const SHOPS: Shop[] = [
+  {
+    id: 1,
+    emoji: '🛒',
+    name: 'الحاج سيد',
+    description: 'بقالة ومواد غذائية متنوعة',
+    open: true,
+    time: '⏰ 7ص - 12م',
+    bgColor: '#f0fdf4',
+  },
+  {
+    id: 2,
+    emoji: '🥖',
+    name: 'فرن الأصيل',
+    description: 'عيش بلدي وفينو طازج يومياً',
+    open: true,
+    time: '⏰ 5ص - 2م',
+    bgColor: '#fefce8',
+  },
+  {
+    id: 3,
+    emoji: '🥬',
+    name: 'خضار الفلاح',
+    description: 'خضار وفاكهة طازجة من الحقل',
+    open: true,
+    time: '⏰ 6ص - 3م',
+    bgColor: '#f0fdf4',
+  },
+  {
+    id: 4,
+    emoji: '💈',
+    name: 'صالون أبو العز',
+    description: 'حلاقة وتصفيف شعر',
+    open: true,
+    time: '⏰ 9ص - 10م',
+    bgColor: '#fdf4ff',
+  },
+  {
+    id: 5,
+    emoji: '🐟',
+    name: 'عم صابر',
+    description: 'سمك طازج وشوي بالفحم',
+    open: false,
+    time: '⏰ يفتح 2م',
+    bgColor: '#eff6ff',
+  },
+  {
+    id: 6,
+    emoji: '🔧',
+    name: 'ورشة أبو خالد',
+    description: 'سباكة وكهرباء وصيانة',
+    open: true,
+    time: '⏰ 8ص - 8م',
+    bgColor: '#fff7ed',
+  },
+];
