@@ -13,7 +13,7 @@ export function triggerHapticFeedback(): void {
 
     // Visual ripple / haptic flash effect on body
     const flashElement = document.createElement('div');
-    flashElement.className = 'fixed inset-0 bg-[rgba(26,122,74,0.08)] pointer-events-none z-[99999] animate-[hapticFlash_0.15s_ease-out_forwards]';
+    flashElement.className = 'fixed inset-0 bg-[rgba(26,122,74,0.08)] pointer-events-none z-99999 animate-[hapticFlash_0.15s_ease-out_forwards]';
     document.body.appendChild(flashElement);
     setTimeout(() => {
       flashElement.remove();

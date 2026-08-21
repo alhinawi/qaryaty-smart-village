@@ -28,7 +28,7 @@ export function BottomNav({ onOpenQuickOrder }: BottomNavProps) {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-black/10 flex shadow-[0_-8px_30px_rgba(0,0,0,0.08)] z-[100] pb-[env(safe-area-inset-bottom)] md:hidden" aria-label="شريط التنقل السفلي">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-black/10 flex shadow-[0_-8px_30px_rgba(0,0,0,0.08)] z-100 pb-[env(safe-area-inset-bottom)] md:hidden" aria-label="شريط التنقل السفلي">
       {/* Home & Orders */}
       {navItems.slice(0, 2).map((item) => {
         const isActive = activeTab === item.id;
@@ -55,7 +55,7 @@ export function BottomNav({ onOpenQuickOrder }: BottomNavProps) {
         onClick={handleFabClick}
         aria-label="طلب خدمة سريعة"
       >
-        <div className="w-[52px] h-[52px] bg-green rounded-2xl flex items-center justify-center text-[26px] text-white -mt-[24px] shadow-[0_8px_24px_rgba(26,122,74,0.5)] transition-all duration-200 group-hover:scale-110 group-hover:bg-green-light" aria-hidden="true">
+        <div className="w-[52px] h-[52px] bg-green rounded-2xl flex items-center justify-center text-[26px] text-white mt-[-24px] shadow-[0_8px_24px_rgba(26,122,74,0.5)] transition-all duration-200 group-hover:scale-110 group-hover:bg-green-light" aria-hidden="true">
           +
         </div>
       </button>

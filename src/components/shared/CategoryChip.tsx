@@ -18,7 +18,7 @@ export const CategoryChip = React.memo(function CategoryChip({
   return (
     <button
       type="button"
-      className={`flex flex-col items-center gap-[0.4rem] cursor-pointer transition-transform duration-200 shrink-0 bg-transparent border-none font-['Cairo',sans-serif] p-0  hover:-translate-y-[3px]    group `}
+      className={`flex flex-col items-center gap-[0.4rem] cursor-pointer transition-transform duration-200 shrink-0 bg-transparent border-none font-['Cairo',sans-serif] p-0  hover:translate-y-[-3px]    group `}
       onClick={() => onSelect(category.id)}
       aria-pressed={isActive}
       aria-label={`تصفية فئة: ${category.label}`}

@@ -175,7 +175,7 @@ export default function MessagesPage() {
           </div>
 
           {/* Messages Feed */}
-          <div className="flex-1 p-4 overflow-y-auto flex flex-col gap-3 bg-[#faf6ee]">
+          <div className="flex-1 p-4 overflow-y-auto flex flex-col gap-3 bg-cream">
             {activeChat.messages.map((msg) => (
               <div
                 key={msg.id}

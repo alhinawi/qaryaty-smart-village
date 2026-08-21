@@ -41,7 +41,7 @@ export function OrderSuccess({
 
   return (
     <div
-      className="fixed inset-0 z-[300] bg-gradient-to-br from-green-dark to-green flex flex-col items-center justify-center text-white text-center p-8 min-h-[100svh]"
+      className="fixed inset-0 z-300 bg-linear-to-br from-green-dark to-green flex flex-col items-center justify-center text-white text-center p-8 min-h-svh"
       id="successScreen"
       role="dialog"
       aria-modal="true"

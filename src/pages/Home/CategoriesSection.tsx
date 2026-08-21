@@ -35,7 +35,7 @@ export function CategoriesSection({
         </a>
       </div>
 
-      <div className="flex gap-3 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-wrap md:overflow-x-visible" id="catScroll">
+      <div className="flex gap-3  pb-1 scrollbar-none [&::-webkit-scrollbar]:hidden md:flex-wrap md:overflow-x-visible" id="catScroll">
         {categories.map((category) => (
           <CategoryChip
             key={category.id}

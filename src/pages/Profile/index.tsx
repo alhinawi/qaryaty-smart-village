@@ -47,7 +47,7 @@ export default function ProfilePage() {
   return (
     <div className="profile-page-container">
       {/* Profile Header */}
-      <div className="bg-gradient-to-br from-green-dark to-green text-white rounded-2xl p-6 flex items-center gap-5 mb-6">
+      <div className="bg-linear-to-br from-green-dark to-green text-white rounded-2xl p-6 flex items-center gap-5 mb-6">
         <div className="w-16 h-16 bg-gold rounded-2xl flex items-center justify-center text-[32px]">👤</div>
         <div>
           <h2 className="text-[1.375rem] font-black font-['Tajawal',sans-serif]">{profile.name}</h2>
@@ -70,7 +70,7 @@ export default function ProfilePage() {
         <div className="points-progress-container">
           <div className="h-[10px] bg-gray-100 rounded-full overflow-hidden mb-1.5">
             <div
-              className="h-full bg-gradient-to-r from-gold to-gold-light rounded-full"
+              className="h-full bg-linear-to-r from-gold to-gold-light rounded-full"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
@@ -175,7 +175,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Share with village */}
-      <div className="bg-gradient-to-br from-[#1e3a8a] to-[#3b82f6] text-white rounded-2xl p-5 flex items-center justify-between">
+      <div className="bg-linear-to-br from-[#1e3a8a] to-[#3b82f6] text-white rounded-2xl p-5 flex items-center justify-between">
         <div>
           <h4 className="text-base font-extrabold mb-1">📢 ادعُ أهالي القرية لاستخدام التطبيق</h4>
           <p className="text-xs opacity-85">شارك التطبيق مع جيرانك في القرية واكسبوا نقاط مكافآت مع كل طلب</p>
