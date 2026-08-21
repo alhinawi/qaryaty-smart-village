@@ -67,35 +67,34 @@ export function Header() {
   ];
 
   return (
-    <header className="app-header">
-      <div className="header-inner">
+    <header className="bg-gradient-to-br from-green-dark to-green sticky top-0 z-[100] shadow-card w-full">
+      <div className="w-[min(100%-1.5rem,1200px)] mx-auto py-3">
         {/* Top Section */}
-        <div className="header-top">
+        <div className="flex items-center justify-between gap-4">
           {/* Brand Logo & Village Name */}
           <div
-            className="header-brand"
+            className="flex items-center gap-3 select-none cursor-pointer"
             role="button"
             tabIndex={0}
             onClick={() => setActiveTab('home')}
-            style={{ cursor: 'pointer' }}
           >
-            <div className="brand-icon" role="img" aria-label="أيقونة قريتي">
+            <div className="w-[44px] h-[44px] bg-gold rounded-xl flex items-center justify-center text-[24px] shrink-0" role="img" aria-label="أيقونة قريتي">
               🏡
             </div>
-            <div className="brand-text">
-              <h1>قريتي</h1>
-              <span>📍 قرية البركة - الجيزة</span>
+            <div>
+              <h1 className="text-[clamp(1.25rem,3vw,1.5rem)] font-black text-white font-['Tajawal',sans-serif] leading-[1.1]">قريتي</h1>
+              <span className="text-xs text-white/80 block">📍 قرية البركة - الجيزة</span>
             </div>
           </div>
 
           {/* Desktop Navigation Links */}
-          <nav className="desktop-nav" aria-label="التنقل الرئيسي">
+          <nav className="hidden md:flex items-center gap-2" aria-label="التنقل الرئيسي">
             {navLinks.map((link) => (
               <button
                 key={link.id}
                 type="button"
-                className={`desktop-nav-link ${
-                  activeTab === link.id ? 'active' : ''
+                className={`inline-flex items-center gap-[0.4rem] px-[0.875rem] py-2 rounded-[10px] bg-transparent border-none font-['Cairo',sans-serif] text-[0.9375rem] cursor-pointer transition-all duration-200 hover:bg-white/15 hover:text-white ${
+                  activeTab === link.id ? 'bg-white/25 text-gold-light font-bold' : 'text-white/85 font-semibold'
                 }`}
                 onClick={() => setActiveTab(link.id)}
               >
@@ -106,22 +105,22 @@ export function Header() {
           </nav>
 
           {/* Action Buttons: Notifications & Cart */}
-          <div className="header-actions">
+          <div className="flex items-center gap-2.5">
             <button
               type="button"
-              className="btn-icon"
+              className="w-[40px] h-[40px] rounded-xl bg-white/15 border-none cursor-pointer flex items-center justify-center text-[18px] text-white transition-all duration-200 relative font-['Cairo',sans-serif] hover:bg-white/25 hover:scale-105"
               onClick={() => setIsNotificationsOpen(true)}
               aria-label={`الإشعارات (${unreadCount} غير مقروءة)`}
             >
               <span role="img" aria-hidden="true">
                 🔔
               </span>
-              {unreadCount > 0 && <span className="badge">{unreadCount}</span>}
+              {unreadCount > 0 && <span className="absolute -top-1 -right-1 bg-gold text-black rounded-full w-[18px] h-[18px] text-[10px] font-extrabold flex items-center justify-center">{unreadCount}</span>}
             </button>
 
             <button
               type="button"
-              className={`btn-icon ${cartWiggle ? 'wiggle-animation' : ''}`}
+              className={`w-[40px] h-[40px] rounded-xl bg-white/15 border-none cursor-pointer flex items-center justify-center text-[18px] text-white transition-all duration-200 relative font-['Cairo',sans-serif] hover:bg-white/25 hover:scale-105 ${cartWiggle ? '[animation:cartWiggleAnim_0.5s_ease-in-out]' : ''}`}
               onClick={() => setIsCartOpen(true)}
               aria-label={`سلة المشتريات (${totalCartCount} عناصر)`}
             >
@@ -129,20 +128,21 @@ export function Header() {
                 🛒
               </span>
               {totalCartCount > 0 && (
-                <span className="badge">{totalCartCount}</span>
+                <span className="absolute -top-1 -right-1 bg-gold text-black rounded-full w-[18px] h-[18px] text-[10px] font-extrabold flex items-center justify-center">{totalCartCount}</span>
               )}
             </button>
           </div>
         </div>
 
         {/* Search Bar with History Dropdown */}
-        <div className="search-bar" ref={searchContainerRef}>
-          <form onSubmit={handleSearchSubmit} className="search-inner">
+        <div className="mt-2.5 relative" ref={searchContainerRef}>
+          <form onSubmit={handleSearchSubmit} className="flex items-center gap-2.5 bg-white/14 rounded-[14px] px-[0.875rem] py-[0.5625rem] border border-white/22 transition-all duration-200 focus-within:bg-white/20 focus-within:border-white/40">
             <span role="img" aria-hidden="true">
               🔍
             </span>
             <input
               type="text"
+              className="flex-1 bg-transparent border-none outline-none text-white font-['Cairo',sans-serif] text-[0.9375rem] rtl:direction-rtl placeholder:text-white/65"
               placeholder="دور على خدمة أو محل (مثل: عيش، سباك، شوي سمك)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -152,7 +152,7 @@ export function Header() {
             {searchQuery && (
               <button
                 type="button"
-                className="search-clear-btn"
+                className="bg-transparent border-none text-white/70 cursor-pointer text-sm p-[0.2rem]"
                 onClick={() => setSearchQuery('')}
                 aria-label="مسح البحث"
               >
@@ -163,24 +163,24 @@ export function Header() {
 
           {/* Search History Suggestions Dropdown */}
           {isSearchFocused && searchHistory.length > 0 && (
-            <div className="search-suggestions-dropdown">
-              <div className="suggestions-header">
+            <div className="absolute top-[calc(100%+6px)] inset-x-0 bg-white rounded-[14px] shadow-[0_10px_30px_rgba(0,0,0,0.15)] border border-black/8 z-[150] overflow-hidden [animation:fadeIn_0.15s_ease-out]">
+              <div className="px-[0.875rem] py-2 text-[0.8125rem] text-text-muted font-bold bg-[#f9fafb] border-b border-[#f3f4f6]">
                 <span>🕒 آخر عمليات البحث</span>
               </div>
-              <ul className="suggestions-list">
+              <ul className="list-none m-0 p-0">
                 {searchHistory.map((term, index) => (
-                  <li key={index} className="suggestion-item">
+                  <li key={index} className="flex items-center justify-between border-b border-[#f9fafb] last:border-b-0">
                     <button
                       type="button"
-                      className="suggestion-btn"
+                      className="flex-1 flex items-center gap-2 px-[0.875rem] py-[0.625rem] border-none bg-transparent text-right font-['Cairo',sans-serif] text-[0.875rem] text-text cursor-pointer transition-colors duration-150 hover:bg-[#f0fdf4] hover:text-green"
                       onClick={() => handleSuggestionClick(term)}
                     >
-                      <span className="suggestion-icon">🔍</span>
-                      <span className="suggestion-text">{term}</span>
+                      <span>🔍</span>
+                      <span>{term}</span>
                     </button>
                     <button
                       type="button"
-                      className="suggestion-remove-btn"
+                      className="border-none bg-transparent text-text-muted px-3 py-2 cursor-pointer text-[0.8125rem] hover:text-danger"
                       onClick={(e) => {
                         e.stopPropagation();
                         removeSearchHistoryItem(term);

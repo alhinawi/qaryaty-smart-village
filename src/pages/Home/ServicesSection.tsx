@@ -24,15 +24,15 @@ export function ServicesSection({
   };
 
   return (
-    <section className="services-section" aria-label="الخدمات المتاحة">
-      <div className="section-header">
-        <h3>
+    <section className="mb-6" aria-label="الخدمات المتاحة">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-lg font-extrabold text-text m-0">
           <span role="img" aria-hidden="true">
             ⚡
           </span>{' '}
           الخدمات المتاحة ({services.length})
         </h3>
-        <a href="#all-services" onClick={handleAllClick}>
+        <a href="#all-services" onClick={handleAllClick} className="text-sm font-bold text-green no-underline">
           الكل
         </a>
       </div>
@@ -46,7 +46,7 @@ export function ServicesSection({
           onAction={onResetFilters}
         />
       ) : (
-        <div className="services-grid" id="servicesGrid">
+        <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3" id="servicesGrid">
           {services.map((service) => (
             <ServiceCard
               key={service.id}

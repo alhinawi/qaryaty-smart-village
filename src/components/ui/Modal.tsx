@@ -65,7 +65,7 @@ export function Modal({
 
   return (
     <div
-      className="overlay open"
+      className="fixed inset-0 z-[200] bg-black/60 backdrop-blur-sm flex items-end justify-center p-0 md:items-center md:p-6 animate-[fadeIn_0.2s_ease]"
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           onClose();
@@ -77,20 +77,20 @@ export function Modal({
     >
       <div
         ref={modalRef}
-        className="modal spring-modal"
+        className="bg-white rounded-t-[28px] md:rounded-xl w-full p-6 max-h-[88svh] md:max-h-[85vh] overflow-y-auto text-right [animation:springUp_0.35s_cubic-bezier(0.34,1.56,0.64,1)]"
         style={{ maxWidth }}
         onClick={(e) => e.stopPropagation()}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        <div className="modal-handle" aria-hidden="true" />
+        <div className="w-10 h-1 bg-gray-200 rounded-sm mx-auto mb-5 md:hidden" aria-hidden="true" />
         {emoji && (
-          <div className="modal-emoji" role="img" aria-label="أيقونة النافذة">
+          <div className="text-[50px] text-center mb-2" role="img" aria-label="أيقونة النافذة">
             {emoji}
           </div>
         )}
         {title && (
-          <h3 id="modal-dialog-title" className="modal-title">
+          <h3 id="modal-dialog-title" className="text-xl font-black text-center mb-2 text-text">
             {title}
           </h3>
         )}

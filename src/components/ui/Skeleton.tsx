@@ -1,16 +1,17 @@
 // ─── Skeleton Loading Components
 
 export function SkeletonCard() {
+  const pulseClass = "bg-[linear-gradient(90deg,#f0f0f0_25%,#e0e0e0_50%,#f0f0f0_75%)] bg-[length:200%_100%] [animation:skeletonShimmer_1.5s_infinite]";
   return (
-    <div className="skeleton-card" aria-hidden="true">
-      <div className="skeleton-img skeleton-pulse" />
-      <div className="skeleton-body">
-        <div className="skeleton-line skeleton-title skeleton-pulse" />
-        <div className="skeleton-line skeleton-desc skeleton-pulse" />
-        <div className="skeleton-line skeleton-desc-short skeleton-pulse" />
-        <div className="skeleton-footer">
-          <div className="skeleton-tag skeleton-pulse" />
-          <div className="skeleton-tag skeleton-pulse" />
+    <div className="bg-white rounded-lg overflow-hidden p-0 border border-black/5" aria-hidden="true">
+      <div className={`h-[110px] w-full ${pulseClass}`} />
+      <div className="p-[0.875rem]">
+        <div className={`h-[16px] rounded-md mb-2 w-[70%] ${pulseClass}`} />
+        <div className={`h-[14px] rounded-md mb-2 w-[90%] ${pulseClass}`} />
+        <div className={`h-[14px] rounded-md mb-2 w-1/2 ${pulseClass}`} />
+        <div className="flex justify-between mt-3">
+          <div className={`w-[40%] h-[18px] rounded-md ${pulseClass}`} />
+          <div className={`w-[40%] h-[18px] rounded-md ${pulseClass}`} />
         </div>
       </div>
     </div>

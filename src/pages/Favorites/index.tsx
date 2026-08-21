@@ -34,9 +34,9 @@ export default function FavoritesPage({
 
   return (
     <div className="favorites-page-container">
-      <div className="page-header-title">
-        <h2>❤️ خدماتي المفضلة ({favoriteServices.length})</h2>
-        <p>الخدمات والمحلات التي قمت بحفظها للوصول إليها وطلبها بسرعة</p>
+      <div className="mb-6">
+        <h2 className="text-[clamp(1.375rem,3vw,1.75rem)] font-black text-green-dark font-['Tajawal',sans-serif] mb-1">❤️ خدماتي المفضلة ({favoriteServices.length})</h2>
+        <p className="text-sm text-text-muted">الخدمات والمحلات التي قمت بحفظها للوصول إليها وطلبها بسرعة</p>
       </div>
 
       {favoriteServices.length === 0 ? (

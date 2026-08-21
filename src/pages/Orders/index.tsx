@@ -58,9 +58,9 @@ export default function OrdersPage() {
   return (
     <div className="orders-page-container">
       {/* Page Header */}
-      <div className="page-header-title">
-        <h2>📋 سجل طلباتي ({orders.length})</h2>
-        <p>تابع حالة طلباتك الحالية وسجل الطلبات السابقة داخل القرية</p>
+      <div className="mb-6">
+        <h2 className="text-[clamp(1.375rem,3vw,1.75rem)] font-black text-green-dark font-['Tajawal',sans-serif] mb-1">📋 سجل طلباتي ({orders.length})</h2>
+        <p className="text-sm text-text-muted">تابع حالة طلباتك الحالية وسجل الطلبات السابقة داخل القرية</p>
       </div>
 
       {orders.length === 0 ? (
@@ -72,16 +72,16 @@ export default function OrdersPage() {
           onAction={() => setActiveTab('home')}
         />
       ) : (
-        <div className="orders-grid">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {orders.map((order) => (
-            <div key={order.id} className="order-history-card">
+            <div key={order.id} className="bg-white rounded-lg p-5 shadow-sm border border-green/10">
               {/* Card Top */}
-              <div className="order-card-header">
-                <div className="order-header-main">
-                  <span className="order-card-emoji">{order.serviceEmoji}</span>
+              <div className="flex items-start justify-between mb-3 pb-3 border-b border-gray-100">
+                <div className="flex items-center gap-2.5">
+                  <span className="text-[32px]">{order.serviceEmoji}</span>
                   <div>
-                    <h3 className="order-service-name">{order.serviceName}</h3>
-                    <span className="order-meta-info">
+                    <h3 className="text-base font-extrabold">{order.serviceName}</h3>
+                    <span className="block text-xs text-text-muted">
                       رقم الطلب: <strong>{order.orderNumber}</strong> • {order.createdAt}
                     </span>
                   </div>
@@ -90,73 +90,73 @@ export default function OrdersPage() {
               </div>
 
               {/* Order Details */}
-              <div className="order-card-details">
-                <div className="detail-item">
-                  <span className="detail-label">📍 العنوان:</span>
+              <div className="mb-3.5 text-[13px]">
+                <div className="flex gap-2 mb-1">
+                  <span className="text-text-muted font-bold">📍 العنوان:</span>
                   <span className="detail-val">{order.address}</span>
                 </div>
-                <div className="detail-item">
-                  <span className="detail-label">📱 الموبايل:</span>
+                <div className="flex gap-2 mb-1">
+                  <span className="text-text-muted font-bold">📱 الموبايل:</span>
                   <span className="detail-val">{order.phone}</span>
                 </div>
                 {order.notes && (
-                  <div className="detail-item">
-                    <span className="detail-label">📝 ملاحظات:</span>
+                  <div className="flex gap-2 mb-1">
+                    <span className="text-text-muted font-bold">📝 ملاحظات:</span>
                     <span className="detail-val">{order.notes}</span>
                   </div>
                 )}
-                <div className="detail-item total-item">
-                  <span className="detail-label">💰 المبلغ:</span>
-                  <span className="detail-val price-val">
+                <div className="flex gap-2 mb-1">
+                  <span className="text-text-muted font-bold">💰 المبلغ:</span>
+                  <span className="font-extrabold text-green-dark">
                     {formatCurrency(order.totalAmount)}
                     {order.discountAmount > 0 && (
-                      <span className="discount-tag"> (خصم {order.discountAmount} ج)</span>
+                      <span className="text-success font-bold"> (خصم {order.discountAmount} ج)</span>
                     )}
                   </span>
                 </div>
               </div>
 
               {/* 4-Step Tracking Timeline */}
-              <div className="order-timeline-box">
-                <div className={`timeline-step ${order.status !== 'pending' ? 'done' : 'active'}`}>
-                  <div className="step-dot">1</div>
+              <div className="grid grid-cols-4 gap-1 bg-gray-50 rounded-xl py-2.5 px-1 mb-3.5 text-center">
+                <div className={`flex flex-col items-center gap-1 text-[10px] font-bold ${order.status !== 'pending' ? 'text-text' : 'text-text'}`}>
+                  <div className={`w-[22px] h-[22px] rounded-full flex items-center justify-center font-extrabold ${order.status !== 'pending' ? 'bg-green text-white' : 'bg-gold text-black'}`}>1</div>
                   <span>استلام الطلب</span>
                 </div>
                 <div
-                  className={`timeline-step ${
+                  className={`flex flex-col items-center gap-1 text-[10px] font-bold ${
                     order.status === 'confirmed'
-                      ? 'active'
+                      ? 'text-text'
                       : order.status === 'onway' || order.status === 'done'
-                      ? 'done'
-                      : ''
+                      ? 'text-text'
+                      : 'text-text-muted'
                   }`}
                 >
-                  <div className="step-dot">2</div>
+                  <div className={`w-[22px] h-[22px] rounded-full flex items-center justify-center font-extrabold ${order.status === 'confirmed' ? 'bg-gold text-black' : order.status === 'onway' || order.status === 'done' ? 'bg-green text-white' : 'bg-gray-200 text-gray-500'}`}>2</div>
                   <span>تجهيز المزود</span>
                 </div>
                 <div
-                  className={`timeline-step ${
+                  className={`flex flex-col items-center gap-1 text-[10px] font-bold ${
                     order.status === 'onway'
-                      ? 'active'
+                      ? 'text-text'
                       : order.status === 'done'
-                      ? 'done'
-                      : ''
+                      ? 'text-text'
+                      : 'text-text-muted'
                   }`}
                 >
-                  <div className="step-dot">3</div>
+                  <div className={`w-[22px] h-[22px] rounded-full flex items-center justify-center font-extrabold ${order.status === 'onway' ? 'bg-gold text-black' : order.status === 'done' ? 'bg-green text-white' : 'bg-gray-200 text-gray-500'}`}>3</div>
                   <span>في الطريق</span>
                 </div>
-                <div className={`timeline-step ${order.status === 'done' ? 'done' : ''}`}>
-                  <div className="step-dot">4</div>
+                <div className={`flex flex-col items-center gap-1 text-[10px] font-bold ${order.status === 'done' ? 'text-text' : 'text-text-muted'}`}>
+                  <div className={`w-[22px] h-[22px] rounded-full flex items-center justify-center font-extrabold ${order.status === 'done' ? 'bg-green text-white' : 'bg-gray-200 text-gray-500'}`}>4</div>
                   <span>التسليم</span>
                 </div>
               </div>
 
               {/* Rating Section if Delivered */}
               {order.status === 'done' && (
-                <div className="order-rating-preview">
+                <div className="mb-3">
                   {order.rating ? (
-                    <div className="existing-rating">
+                    <div className="text-[13px] bg-amber-50 rounded-lg py-1.5 px-2.5">
                       <span>تقييمك:</span>
                       <span className="stars">{'⭐'.repeat(order.rating)}</span>
                       {order.feedback && <p className="feedback">"{order.feedback}"</p>}
@@ -174,7 +174,7 @@ export default function OrdersPage() {
               )}
 
               {/* Action Buttons */}
-              <div className="order-card-actions">
+              <div className="flex items-center justify-between gap-2 mt-3">
                 {order.status !== 'done' && (
                   <Button
                     variant="primary"
@@ -187,7 +187,7 @@ export default function OrdersPage() {
 
                 <button
                   type="button"
-                  className="order-delete-btn"
+                  className="bg-transparent border-none text-text-muted text-[13px] cursor-pointer font-['Cairo',sans-serif] font-bold hover:text-danger"
                   onClick={() => handleDelete(order.id, order.orderNumber)}
                   aria-label="حذف من السجل"
                 >

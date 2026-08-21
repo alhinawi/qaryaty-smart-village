@@ -90,32 +90,32 @@ export function CartDrawer() {
       ) : (
         <div className="cart-drawer-content">
           {/* Items List */}
-          <div className="cart-items-list">
+          <div className="flex flex-col gap-3 mb-4">
             {items.map((item) => (
-              <div key={item.id} className="cart-item-row">
-                <div className="cart-item-icon">{item.emoji}</div>
-                <div className="cart-item-info">
-                  <h4 className="cart-item-name">{item.name}</h4>
-                  <div className="cart-item-price">
+              <div key={item.id} className="flex items-center gap-3 p-2.5 bg-gray-50 rounded-xl">
+                <div className="text-[28px]">{item.emoji}</div>
+                <div className="flex-1">
+                  <h4 className="text-sm font-extrabold">{item.name}</h4>
+                  <div className="text-xs text-text-muted">
                     {formatCurrency(item.price)} × {item.quantity} ={' '}
                     <strong>{formatCurrency(item.price * item.quantity)}</strong>
                   </div>
                 </div>
 
                 {/* Quantity Controls */}
-                <div className="cart-qty-controls">
+                <div className="flex items-center gap-1.5">
                   <button
                     type="button"
-                    className="qty-btn"
+                    className="w-[26px] h-[26px] rounded-md bg-white border border-gray-300 flex items-center justify-center font-extrabold cursor-pointer"
                     onClick={() => updateQuantity(item.id, item.quantity - 1)}
                     aria-label="تقليل الكمية"
                   >
                     -
                   </button>
-                  <span className="qty-value">{item.quantity}</span>
+                  <span className="text-sm font-extrabold min-w-[20px] text-center">{item.quantity}</span>
                   <button
                     type="button"
-                    className="qty-btn"
+                    className="w-[26px] h-[26px] rounded-md bg-white border border-gray-300 flex items-center justify-center font-extrabold cursor-pointer"
                     onClick={() => updateQuantity(item.id, item.quantity + 1)}
                     aria-label="زيادة الكمية"
                   >
@@ -126,7 +126,7 @@ export function CartDrawer() {
                 {/* Delete Button */}
                 <button
                   type="button"
-                  className="cart-delete-btn"
+                  className="bg-transparent border-none text-[16px] cursor-pointer p-1"
                   onClick={() => removeItem(item.id)}
                   aria-label={`حذف ${item.name}`}
                 >
@@ -137,13 +137,14 @@ export function CartDrawer() {
           </div>
 
           {/* Promo Code Box */}
-          <form onSubmit={handleApplyPromo} className="promo-input-box">
+          <form onSubmit={handleApplyPromo} className="flex gap-2 mb-4">
             <input
               type="text"
               placeholder="هل لديك كود خصم؟ (جرب QARYA1)"
               value={promoCode}
               onChange={(e) => setPromoCode(e.target.value)}
               disabled={discountApplied}
+              className="flex-1 py-2 px-3 rounded-lg border-2 border-green/15 font-['Cairo',sans-serif] text-[13px]"
             />
             <Button
               type="submit"
@@ -176,25 +177,25 @@ export function CartDrawer() {
           </div>
 
           {/* Cart Summary */}
-          <div className="cart-summary-box">
-            <div className="summary-row">
+          <div className="bg-gray-50 rounded-xl p-3.5 mb-4">
+            <div className="flex justify-between text-sm mb-1.5">
               <span>المجموع الفرعي:</span>
               <span>{formatCurrency(totalAmount)}</span>
             </div>
             {discountApplied && (
-              <div className="summary-row discount-row">
+              <div className="flex justify-between text-sm mb-1.5 text-success font-bold">
                 <span>خصم كود QARYA1:</span>
                 <span>-{formatCurrency(discountAmount)}</span>
               </div>
             )}
-            <div className="summary-row total-row">
+            <div className="flex justify-between text-sm mb-1.5 text-base border-t border-gray-200 pt-2 mt-2">
               <strong>الإجمالي المطلوب:</strong>
               <strong>{formatCurrency(finalTotal)}</strong>
             </div>
           </div>
 
           {/* Action Buttons */}
-          <div className="cart-actions-row">
+          <div className="flex flex-col gap-2 mt-4">
             <Button
               variant="primary"
               size="lg"
