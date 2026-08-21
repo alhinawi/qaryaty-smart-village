@@ -22,20 +22,20 @@ export function CategoriesSection({
   };
 
   return (
-    <section className="categories-section" aria-label="فئات الخدمات">
-      <div className="section-header">
-        <h3>
+    <section className="mb-6" aria-label="فئات الخدمات">
+      <div className="flex items-center justify-between mb-3.5">
+        <h3 className="text-[clamp(1.0625rem,2.5vw,1.25rem)] font-extrabold text-green-dark flex items-center gap-2">
           <span role="img" aria-hidden="true">
             🗂️
           </span>{' '}
           الفئات
         </h3>
-        <a href="#all" onClick={handleAllClick}>
+        <a href="#all" onClick={handleAllClick} className="text-sm text-green-light no-underline font-bold hover:underline">
           عرض الكل
         </a>
       </div>
 
-      <div className="categories-scroll" id="catScroll">
+      <div className="flex gap-3 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-wrap md:overflow-x-visible" id="catScroll">
         {categories.map((category) => (
           <CategoryChip
             key={category.id}

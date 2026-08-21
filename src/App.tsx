@@ -26,8 +26,8 @@ const ProfilePage = lazy(() => import('@/pages/Profile'));
 // ─── Page Loading Fallback
 function PageLoadingFallback() {
   return (
-    <div className="page-loading-spinner-container" aria-label="جاري التحميل...">
-      <div className="q-spinner-large" />
+    <div className="flex flex-col items-center justify-center py-20 text-text-muted gap-4" aria-label="جاري التحميل...">
+      <div className="w-10 h-10 border-4 border-[rgba(26,122,74,0.15)] border-t-green rounded-full animate-[spin_0.8s_linear_infinite]" />
       <p>جاري تحميل الصفحة...</p>
     </div>
   );
@@ -81,13 +81,13 @@ export default function App() {
       {/* Main Application */}
       <div
         id="app"
-        className={`app-root-layout${isAppVisible ? ' visible' : ''}`}
+        className={`w-full min-h-svh flex flex-col ${isAppVisible ? 'visible' : ''}`}
       >
         {/* Responsive Header */}
         <Header />
 
         {/* Dynamic Page Content */}
-        <main className="app-main-content">
+        <main className="flex-1 w-full pb-[calc(85px+env(safe-area-inset-bottom))] md:pb-10">
           <PageWrapper>
             <Suspense fallback={<PageLoadingFallback />}>
               {activeTab === 'home' && (

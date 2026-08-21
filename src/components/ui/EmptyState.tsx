@@ -22,8 +22,8 @@ export function EmptyState({
   onAction,
 }: EmptyStateProps) {
   return (
-    <div className="empty-state-container" role="status">
-      <div className="empty-state-icon">
+    <div className="text-center py-10 px-6" role="status">
+      <div className="text-[48px] mb-3">
         {emoji ? (
           <span role="img" aria-hidden="true">
             {emoji}
@@ -32,8 +32,8 @@ export function EmptyState({
           icon
         )}
       </div>
-      <h3 className="empty-state-title">{title}</h3>
-      <p className="empty-state-desc">{description}</p>
+      <h3 className="text-xl font-extrabold text-text mb-1.5">{title}</h3>
+      <p className="text-sm text-text-muted max-w-[360px] mx-auto mb-5 leading-[1.5]">{description}</p>
       {actionText && onAction && (
         <Button variant="primary" size="md" onClick={onAction}>
           {actionText}

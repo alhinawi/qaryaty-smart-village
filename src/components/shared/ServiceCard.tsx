@@ -52,7 +52,7 @@ export const ServiceCard = React.memo(function ServiceCard({
     <div
       role="button"
       tabIndex={0}
-      className={`service-card${service.featured ? ' featured' : ''}`}
+      className={`bg-white rounded-[18px] overflow-hidden shadow-[var(--shadow-card)] cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] border border-[rgba(26,122,74,0.08)] relative text-right flex flex-col hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)] ${service.featured ? ' max-lg:col-span-2 max-lg:flex-row max-lg:items-center' : ''}`}
       onClick={() => onSelect(service)}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -62,7 +62,7 @@ export const ServiceCard = React.memo(function ServiceCard({
       }}
       aria-label={`طلب خدمة ${service.name}`}
     >
-      <div className="card-img" style={{ background: bg }}>
+      <div className={`h-[110px] flex items-center justify-center text-[48px] relative ${service.featured ? 'max-lg:w-[120px] max-lg:h-[120px] max-lg:shrink-0' : ''}`} style={{ background: bg }}>
         <span role="img" aria-hidden="true">
           {service.emoji}
         </span>
@@ -70,7 +70,7 @@ export const ServiceCard = React.memo(function ServiceCard({
         {/* Favorite Heart Button */}
         <button
           type="button"
-          className={`card-fav-btn ${isFav ? 'is-active' : ''}`}
+          className={`absolute top-2 left-2 bg-white/85 border-none rounded-full w-[30px] h-[30px] flex items-center justify-center text-[15px] cursor-pointer shadow-[0_2px_6px_rgba(0,0,0,0.1)] transition-transform duration-200 hover:scale-[1.15] ${isFav ? 'is-active' : ''}`}
           onClick={handleFavoriteClick}
           aria-label={isFav ? 'إزالة من المفضلة' : 'إضافة للمفضلة'}
         >
@@ -80,8 +80,8 @@ export const ServiceCard = React.memo(function ServiceCard({
         {/* Badge */}
         {service.badge && (
           <div
-            className={`card-badge ${
-              service.badge === 'new' ? 'new' : 'popular'
+            className={`absolute top-2 right-2 text-[10px] font-extrabold px-[7px] py-[2px] rounded-lg ${
+              service.badge === 'new' ? 'bg-danger text-white' : 'bg-gold text-black'
             }`}
           >
             {service.badge === 'popular' ? '🔥 الأكثر طلباً' : '🆕 جديد'}
@@ -89,19 +89,19 @@ export const ServiceCard = React.memo(function ServiceCard({
         )}
       </div>
 
-      <div className="card-body">
-        <h4>{service.name}</h4>
-        <p>{service.desc}</p>
-        <div className="card-meta">
-          <div className="card-time">⏱️ {service.time}</div>
-          <div className="card-rating">⭐ {service.rating}</div>
+      <div className="p-3.5 flex-1 flex flex-col">
+        <h4 className="text-[15px] font-extrabold mb-1 text-text">{service.name}</h4>
+        <p className="text-xs text-text-muted leading-[1.4] mb-2.5 flex-1">{service.desc}</p>
+        <div className="flex items-center justify-between mb-2">
+          <div className="text-xs text-green font-bold flex items-center gap-[3px]">⏱️ {service.time}</div>
+          <div className="text-xs text-gold font-extrabold">⭐ {service.rating}</div>
         </div>
 
-        <div className="card-actions-row">
-          <div className="card-price-tag">{service.price}</div>
+        <div className="flex items-center justify-between pt-1.5 border-t border-gray-100">
+          <div className="text-[13px] font-extrabold text-green-dark">{service.price}</div>
           <button
             type="button"
-            className="card-add-cart-btn"
+            className="bg-[rgba(26,122,74,0.1)] text-green border-none py-1 px-2.5 rounded-lg text-xs font-extrabold font-['Cairo',sans-serif] cursor-pointer transition-all duration-200 hover:bg-green hover:text-white"
             onClick={handleQuickAdd}
             aria-label={`إضافة ${service.name} للسلة`}
           >

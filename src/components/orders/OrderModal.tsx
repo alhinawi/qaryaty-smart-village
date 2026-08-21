@@ -120,27 +120,27 @@ export function OrderModal({
       title={data.name || 'اطلب خدمة'}
       maxWidth="540px"
     >
-      <div className="order-modal-body">
-        <p className="order-modal-desc">
+      <div className="p-0">
+        <p className="text-sm text-text-muted text-center mb-5 leading-relaxed">
           {data.desc || 'املي البيانات وهنبعتلك حد في أسرع وقت داخل القرية'}
         </p>
 
         {/* Step Progress Bar */}
-        <div className="order-step-progress-bar" aria-label={`الخطوة ${step} من 2`}>
-          <div className={`step-item ${step >= 1 ? 'active' : ''}`}>
-            <span className="step-num">1</span>
+        <div className="flex items-center justify-center gap-2 mb-5" aria-label={`الخطوة ${step} من 2`}>
+          <div className={`flex items-center gap-1.5 text-xs font-bold ${step >= 1 ? 'text-green' : 'text-text-muted'}`}>
+            <span className={`w-[22px] h-[22px] rounded-full flex items-center justify-center text-[11px] ${step >= 1 ? 'bg-green text-white' : 'bg-gray-200 text-black'}`}>1</span>
             <span className="step-text">العنوان والبيانات</span>
           </div>
-          <div className="step-divider" />
-          <div className={`step-item ${step >= 2 ? 'active' : ''}`}>
-            <span className="step-num">2</span>
+          <div className="w-[30px] h-0.5 bg-gray-200" />
+          <div className={`flex items-center gap-1.5 text-xs font-bold ${step >= 2 ? 'text-green' : 'text-text-muted'}`}>
+            <span className={`w-[22px] h-[22px] rounded-full flex items-center justify-center text-[11px] ${step >= 2 ? 'bg-green text-white' : 'bg-gray-200 text-black'}`}>2</span>
             <span className="step-text">الدفع والخصم</span>
           </div>
         </div>
 
         {/* STEP 1: Address & Contact */}
         {step === 1 && (
-          <form onSubmit={handleNextStep} className="order-step-form">
+          <form onSubmit={handleNextStep} className="flex flex-col gap-4">
             <div className="form-group">
               <label htmlFor="modalAddress">📍 عنوانك داخل القرية *</label>
               <input
@@ -198,17 +198,18 @@ export function OrderModal({
 
         {/* STEP 2: Payment & Promo */}
         {step === 2 && (
-          <form onSubmit={handleFinalSubmit} className="order-step-form">
+          <form onSubmit={handleFinalSubmit} className="flex flex-col gap-4">
             {/* Promo Code Box */}
             <div className="form-group">
               <label>🎟️ كود الخصم (جرب كود QARYA1)</label>
-              <div className="promo-input-row">
+              <div className="flex gap-2">
                 <input
                   type="text"
                   placeholder="أدخل كود الخصم..."
                   value={discountCode}
                   onChange={(e) => setDiscountCode(e.target.value)}
                   disabled={discountApplied}
+                  className="flex-1"
                 />
                 <Button
                   type="button"
@@ -239,18 +240,18 @@ export function OrderModal({
             </div>
 
             {/* Price Summary */}
-            <div className="order-summary-box">
-              <div className="summary-row">
+            <div className="bg-gray-50 rounded-xl p-3.5 mb-4">
+              <div className="flex justify-between text-sm mb-1.5">
                 <span>سعر الخدمة:</span>
                 <span>{data.price || formatCurrency(basePrice)}</span>
               </div>
               {discountApplied && (
-                <div className="summary-row discount-row">
+                <div className="flex justify-between text-sm mb-1.5 text-success font-bold">
                   <span>خصم كود QARYA1:</span>
                   <span>-{formatCurrency(discountAmount)} (100% مجاناً)</span>
                 </div>
               )}
-              <div className="summary-row total-row">
+              <div className="flex justify-between mb-1.5 text-base border-t border-gray-200 pt-2 mt-2">
                 <strong>الإجمالي النهائي:</strong>
                 <strong>{formatCurrency(finalPrice)}</strong>
               </div>

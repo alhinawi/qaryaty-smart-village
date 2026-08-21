@@ -36,19 +36,19 @@ export function RatingModal() {
       emoji="⭐"
       title="كيف كانت تجربتك؟"
     >
-      <form onSubmit={handleSubmit} className="rating-form">
-        <p className="rating-subtitle">
+      <form onSubmit={handleSubmit} className="text-center">
+        <p className="text-sm text-text-muted mb-5">
           تقييمك لطلب <strong>{ratingOrder.serviceName}</strong> (
           {ratingOrder.orderNumber})
         </p>
 
         {/* 5-Star Interactive Rating */}
-        <div className="stars-selector" role="radiogroup" aria-label="اختر عدد النجوم">
+        <div className="flex justify-center gap-2 mb-5" role="radiogroup" aria-label="اختر عدد النجوم">
           {[1, 2, 3, 4, 5].map((star) => (
             <button
               key={star}
               type="button"
-              className={`star-btn ${star <= rating ? 'active' : ''}`}
+              className={`bg-transparent border-none text-[36px] cursor-pointer transition-all duration-150 ${star <= rating ? 'text-gold scale-110' : 'text-gray-300'}`}
               onClick={() => setRating(star)}
               aria-label={`${star} من 5 نجوم`}
             >
@@ -58,7 +58,7 @@ export function RatingModal() {
         </div>
 
         {/* Feedback Notes */}
-        <div className="form-group">
+        <div className="form-group mb-4">
           <label htmlFor="ratingFeedback">📝 ملاحظاتك أو كلمة للمزود (اختياري)</label>
           <textarea
             id="ratingFeedback"
@@ -69,7 +69,7 @@ export function RatingModal() {
           />
         </div>
 
-        <div className="rating-bonus-notice">
+        <div className="bg-green-50 text-green-dark text-[13px] p-2 rounded-lg mb-4">
           🎁 ستحصل على <strong>+20 نقطة مكافآت</strong> عند إرسال التقييم!
         </div>
 
