@@ -43,7 +43,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       }
     };
 
-    const baseClasses = "inline-flex items-center justify-center gap-2 rounded-[14px] font-['Cairo',sans-serif] font-extrabold cursor-pointer transition-all duration-200 border-none no-underline disabled:opacity-50 disabled:pointer-events-none";
+    const baseClasses = "inline-flex items-center justify-center gap-2 rounded-xl font-['Cairo',sans-serif] font-extrabold cursor-pointer transition-all duration-200 border-none no-underline disabled:opacity-50 disabled:pointer-events-none";
     
     const sizeClasses = {
       sm: 'px-3 py-1.5 text-[0.8125rem]',

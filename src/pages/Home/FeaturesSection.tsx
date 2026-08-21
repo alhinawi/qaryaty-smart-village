@@ -4,7 +4,7 @@ import { FEATURES } from '@/data/features';
 // ─── Component
 export function FeaturesSection() {
   return (
-    <section className="bg-green-dark rounded-xl p-6 text-white mb-6" aria-label="مميزات تطبيق قريتي">
+    <section className="bg-green-dark rounded-3xl p-6 text-white mb-6" aria-label="مميزات تطبيق قريتي">
       <h3 className="text-[clamp(1.125rem,2.5vw,1.375rem)] font-black mb-4 flex items-center gap-2">
         <span role="img" aria-hidden="true">
           ✨

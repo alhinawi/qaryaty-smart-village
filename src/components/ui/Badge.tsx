@@ -13,7 +13,7 @@ export function Badge({
   className = '',
   ...props
 }: BadgeProps) {
-  const baseClasses = "inline-block px-[0.6rem] py-[0.2rem] rounded-lg text-xs font-extrabold";
+  const baseClasses = "inline-block px-[0.6rem] py-[0.2rem] rounded-xl text-xs font-extrabold";
   const variantClasses = {
     popular: "bg-[#fef3c7] text-[#b45309]",
     new: "bg-blue-100 text-blue-800", // Fallback for missing 'new' variant

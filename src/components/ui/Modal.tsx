@@ -77,13 +77,13 @@ export function Modal({
     >
       <div
         ref={modalRef}
-        className="bg-white rounded-t-[28px] md:rounded-xl w-full p-6 max-h-[88svh] md:max-h-[85vh] overflow-y-auto text-right [animation:springUp_0.35s_cubic-bezier(0.34,1.56,0.64,1)]"
+        className="bg-white rounded-t-3xl md:rounded-2xl w-full p-6 max-h-[88svh] md:max-h-[85vh] overflow-y-auto text-right [animation:springUp_0.35s_cubic-bezier(0.34,1.56,0.64,1)]"
         style={{ maxWidth }}
         onClick={(e) => e.stopPropagation()}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
-        <div className="w-10 h-1 bg-gray-200 rounded-sm mx-auto mb-5 md:hidden" aria-hidden="true" />
+        <div className="w-10 h-1 bg-gray-200 rounded-full mx-auto mb-5 md:hidden" aria-hidden="true" />
         {emoji && (
           <div className="text-[50px] text-center mb-2" role="img" aria-label="أيقونة النافذة">
             {emoji}

@@ -25,7 +25,7 @@ export const FEATURES: FeatureItem[] = [
     id: 4,
     icon: '📍',
     title: 'تتبع لحظي',
-    description: 'تعرف مطلبك فين في أي لحظة لحد ما يوصلك',
+    description: 'تعرف طلبك فين في أي لحظة لحد ما يوصلك',
   },
   {
     id: 5,

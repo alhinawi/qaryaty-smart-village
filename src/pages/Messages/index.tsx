@@ -132,7 +132,7 @@ export default function MessagesPage() {
         <p className="text-sm text-text-muted">تواصل مباشرة مع الدعم الفني، المناديب، ومزودي الخدمات في القرية</p>
       </div>
 
-      <div className="bg-white rounded-xl overflow-hidden shadow-sm min-h-[480px] grid grid-cols-1 md:grid-cols-[280px_1fr]">
+      <div className="bg-white rounded-2xl overflow-hidden shadow-sm min-h-[480px] grid grid-cols-1 md:grid-cols-[280px_1fr]">
         {/* Contacts Sidebar */}
         <div className="border-l border-gray-100 bg-gray-50">
           {chats.map((chat) => {
@@ -179,7 +179,7 @@ export default function MessagesPage() {
             {activeChat.messages.map((msg) => (
               <div
                 key={msg.id}
-                className={`max-w-[75%] py-2.5 px-3.5 rounded-[14px] text-sm ${
+                className={`max-w-[75%] py-2.5 px-3.5 rounded-2xl text-sm ${
                   msg.sender === 'me' ? 'self-start bg-green text-white rounded-br-[4px]' : 'self-end bg-white text-text shadow-[0_2px_8px_rgba(0,0,0,0.05)] rounded-bl-[4px]'
                 }`}
               >

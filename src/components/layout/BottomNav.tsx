@@ -55,7 +55,7 @@ export function BottomNav({ onOpenQuickOrder }: BottomNavProps) {
         onClick={handleFabClick}
         aria-label="طلب خدمة سريعة"
       >
-        <div className="w-[52px] h-[52px] bg-green rounded-[18px] flex items-center justify-center text-[26px] text-white -mt-[24px] shadow-[0_8px_24px_rgba(26,122,74,0.5)] transition-all duration-200 group-hover:scale-110 group-hover:bg-green-light" aria-hidden="true">
+        <div className="w-[52px] h-[52px] bg-green rounded-2xl flex items-center justify-center text-[26px] text-white -mt-[24px] shadow-[0_8px_24px_rgba(26,122,74,0.5)] transition-all duration-200 group-hover:scale-110 group-hover:bg-green-light" aria-hidden="true">
           +
         </div>
       </button>

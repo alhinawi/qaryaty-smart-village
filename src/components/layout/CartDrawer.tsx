@@ -1,12 +1,12 @@
 // ─── Imports
-import React, { useState } from 'react';
-import { Modal } from '@/components/ui/Modal';
-import { Button } from '@/components/ui/Button';
-import { EmptyState } from '@/components/ui/EmptyState';
-import { useCartStore } from '@/stores/useCartStore';
-import { useUIStore } from '@/stores/useUIStore';
-import { useOrderStore } from '@/stores/useOrderStore';
-import { formatCurrency, generateOrderNumber } from '@/utils/helpers';
+import React, { useState } from "react";
+import { Modal } from "@/components/ui/Modal";
+import { Button } from "@/components/ui/Button";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { useCartStore } from "@/stores/useCartStore";
+import { useUIStore } from "@/stores/useUIStore";
+import { useOrderStore } from "@/stores/useOrderStore";
+import { formatCurrency, generateOrderNumber } from "@/utils/helpers";
 
 // ─── Component
 export function CartDrawer() {
@@ -23,10 +23,10 @@ export function CartDrawer() {
 
   const placeOrder = useOrderStore((state) => state.placeOrder);
 
-  const [promoCode, setPromoCode] = useState('');
+  const [promoCode, setPromoCode] = useState("");
   const [discountApplied, setDiscountApplied] = useState(false);
-  const [address, setAddress] = useState('شارع المدرسة، قرية البركة');
-  const [phone, setPhone] = useState('01012345678');
+  const [address, setAddress] = useState("شارع المدرسة، قرية البركة");
+  const [phone, setPhone] = useState("01012345678");
 
   if (!isOpen) return null;
 
@@ -35,37 +35,40 @@ export function CartDrawer() {
 
   const handleApplyPromo = (e: React.FormEvent) => {
     e.preventDefault();
-    if (promoCode.trim().toUpperCase() === 'QARYA1') {
+    if (promoCode.trim().toUpperCase() === "QARYA1") {
       setDiscountApplied(true);
-      showToast('🎉 تم تطبيق كود QARYA1: خصم 100% على الطلب!');
+      showToast("🎉 تم تطبيق كود QARYA1: خصم 100% على الطلب!");
     } else {
-      showToast('❌ كود الخصم غير صحيح. جرب كود QARYA1');
+      showToast("❌ كود الخصم غير صحيح. جرب كود QARYA1");
     }
   };
 
   const handleCheckout = () => {
     if (items.length === 0) return;
 
-    const names = items.map((i) => `${i.name} (${i.quantity})`).join(' + ');
-    const emojis = items.map((i) => i.emoji).slice(0, 3).join(' ');
+    const names = items.map((i) => `${i.name} (${i.quantity})`).join(" + ");
+    const emojis = items
+      .map((i) => i.emoji)
+      .slice(0, 3)
+      .join(" ");
 
     const newOrder = placeOrder({
       orderNumber: generateOrderNumber(),
       serviceName: `سلة مشتريات: ${names}`,
-      serviceEmoji: emojis || '🛒',
+      serviceEmoji: emojis || "🛒",
       address,
       phone,
-      paymentMethod: 'cash',
-      discountCode: discountApplied ? 'QARYA1' : undefined,
+      paymentMethod: "cash",
+      discountCode: discountApplied ? "QARYA1" : undefined,
       discountAmount,
       totalAmount: finalTotal,
-      status: 'pending',
+      status: "pending",
     });
 
     clearCart();
     setIsOpen(false);
     showToast(`✅ تم تأكيد طلبك برقم ${newOrder.orderNumber}!`);
-    setActiveTab('orders');
+    setActiveTab("orders");
   };
 
   return (
@@ -84,7 +87,7 @@ export function CartDrawer() {
           actionText="تصفح الخدمات"
           onAction={() => {
             setIsOpen(false);
-            setActiveTab('home');
+            setActiveTab("home");
           }}
         />
       ) : (
@@ -92,13 +95,18 @@ export function CartDrawer() {
           {/* Items List */}
           <div className="flex flex-col gap-3 mb-4">
             {items.map((item) => (
-              <div key={item.id} className="flex items-center gap-3 p-2.5 bg-gray-50 rounded-xl">
+              <div
+                key={item.id}
+                className="flex items-center gap-3 p-2.5 bg-gray-50 rounded-xl"
+              >
                 <div className="text-[28px]">{item.emoji}</div>
                 <div className="flex-1">
                   <h4 className="text-sm font-extrabold">{item.name}</h4>
                   <div className="text-xs text-text-muted">
-                    {formatCurrency(item.price)} × {item.quantity} ={' '}
-                    <strong>{formatCurrency(item.price * item.quantity)}</strong>
+                    {formatCurrency(item.price)} × {item.quantity} ={" "}
+                    <strong>
+                      {formatCurrency(item.price * item.quantity)}
+                    </strong>
                   </div>
                 </div>
 
@@ -112,7 +120,9 @@ export function CartDrawer() {
                   >
                     -
                   </button>
-                  <span className="text-sm font-extrabold min-w-[20px] text-center">{item.quantity}</span>
+                  <span className="text-sm font-extrabold min-w-[20px] text-center">
+                    {item.quantity}
+                  </span>
                   <button
                     type="button"
                     className="w-[26px] h-[26px] rounded-md bg-white border border-gray-300 flex items-center justify-center font-extrabold cursor-pointer"
@@ -144,15 +154,15 @@ export function CartDrawer() {
               value={promoCode}
               onChange={(e) => setPromoCode(e.target.value)}
               disabled={discountApplied}
-              className="flex-1 py-2 px-3 rounded-lg border-2 border-green/15 font-['Cairo',sans-serif] text-[13px]"
+              className="flex-1 py-2 px-3 rounded-xl border-2 border-green/15 font-['Cairo',sans-serif] text-[13px]"
             />
             <Button
               type="submit"
-              variant={discountApplied ? 'success' : 'gold'}
+              variant={discountApplied ? "success" : "gold"}
               size="sm"
               disabled={discountApplied}
             >
-              {discountApplied ? 'مفعّل ✓' : 'تطبيق'}
+              {discountApplied ? "مفعّل ✓" : "تطبيق"}
             </Button>
           </form>
 
