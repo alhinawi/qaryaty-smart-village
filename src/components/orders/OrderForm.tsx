@@ -94,7 +94,7 @@ export function OrderForm({
       </div>
 
       {/* Submit Button */}
-      <button type="submit" className="w-full bg-gradient-to-br from-green to-green-light text-white font-extrabold py-3.5 rounded-xl shadow-[0_4px_16px_rgba(26,122,74,0.25)] transition-all hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(26,122,74,0.35)] mt-4">
+      <button type="submit" className="w-full bg-linear-to-br from-green to-green-light text-white font-extrabold py-3.5 rounded-xl shadow-[0_4px_16px_rgba(26,122,74,0.25)] transition-all hover:scale-[1.02] hover:shadow-[0_8px_24px_rgba(26,122,74,0.35)] mt-4">
         🚀 اطلب دلوقتي
       </button>
 

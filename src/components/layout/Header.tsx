@@ -89,7 +89,7 @@ export function Header() {
   ];
 
   return (
-    <header className="bg-gradient-to-br from-green-dark to-green sticky top-0 z-[100] shadow-card w-full">
+    <header className="bg-linear-to-br from-green-dark to-green sticky top-0 z-100 shadow-card w-full">
       <div className="w-[min(100%-1.5rem,1200px)] mx-auto py-3">
         {/* Top Section */}
         <div className="flex items-center justify-between gap-4">
@@ -129,7 +129,7 @@ export function Header() {
               <button
                 key={link.id}
                 type="button"
-                className={`inline-flex items-center gap-[0.4rem] font-bold px-[0.875rem] py-2  rounded-xl bg-transparent border-none font-['Cairo',sans-serif]  text-[0.9375rem] duration-200 cursor-pointer transition-colors hover:bg-white/15 ${
+                className={`inline-flex items-center gap-[0.4rem] font-bold px-3.5 py-2  rounded-xl bg-transparent border-none font-['Cairo',sans-serif]  text-[0.9375rem] duration-200 cursor-pointer transition-colors hover:bg-white/15 ${
                   activeTab === link.id
                     ? "bg-white/25 text-gold-light "
                     : "text-white/85"
@@ -164,7 +164,7 @@ export function Header() {
             <button
               type="button"
               className={`w-[40px] h-[40px] rounded-xl bg-white/15 border-none cursor-pointer flex items-center justify-center text-[18px] text-white transition-all duration-200 relative font-['Cairo',sans-serif] hover:bg-white/25 hover:scale-105 ${
-                cartWiggle ? "[animation:cartWiggleAnim_0.5s_ease-in-out]" : ""
+                cartWiggle ? "animate-[cartWiggleAnim_0.5s_ease-in-out]" : ""
               }`}
               onClick={() => setIsCartOpen(true)}
               aria-label={`سلة المشتريات (${totalCartCount} عناصر)`}
@@ -186,7 +186,7 @@ export function Header() {
         <div className="mt-2.5 relative" ref={searchContainerRef}>
           <form
             onSubmit={handleSearchSubmit}
-            className="flex items-center gap-2.5 bg-white/14 rounded-xl px-[0.875rem] py-[0.5625rem] border border-white/22 transition-all duration-200 focus-within:bg-white/20 focus-within:border-white/40"
+            className="flex items-center gap-2.5 bg-white/14 rounded-xl px-3.5 py-2.25 border border-white/22 transition-all duration-200 focus-within:bg-white/20 focus-within:border-white/40"
           >
             <span role="img" aria-hidden="true">
               🔍
@@ -216,8 +216,8 @@ export function Header() {
 
           {/* Search History Suggestions Dropdown */}
           {isSearchFocused && searchHistory.length > 0 && (
-            <div className="absolute top-[calc(100%+6px)] inset-x-0 bg-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.15)] border border-black/8 z-[150] overflow-hidden [animation:fadeIn_0.15s_ease-out]">
-              <div className="px-[0.875rem] py-2 text-[0.8125rem] text-text-muted font-bold bg-[#f9fafb] border-b border-[#f3f4f6]">
+            <div className="absolute top-[calc(100%+6px)] inset-x-0 bg-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.15)] border border-black/8 z-150 overflow-hidden animate-[fadeIn_0.15s_ease-out]">
+              <div className="px-3.5 py-2 text-[0.8125rem] text-text-muted font-bold bg-[#f9fafb] border-b border-[#f3f4f6]">
                 <span>🕒 آخر عمليات البحث</span>
               </div>
 
@@ -229,7 +229,7 @@ export function Header() {
                   >
                     <button
                       type="button"
-                      className="flex-1 flex items-center gap-2 px-[0.875rem] py-[0.625rem] border-none bg-transparent text-right font-['Cairo',sans-serif] text-[0.875rem] text-text cursor-pointer transition-colors duration-150 hover:bg-[#f0fdf4] hover:text-green"
+                      className="flex-1 flex items-center gap-2 px-3.5 py-2.5 border-none bg-transparent text-right font-['Cairo',sans-serif] text-[0.875rem] text-text cursor-pointer transition-colors duration-150 hover:bg-[#f0fdf4] hover:text-green"
                       onClick={() => handleSuggestionClick(term)}
                     >
                       <span>🔍</span>

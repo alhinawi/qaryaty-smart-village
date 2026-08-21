@@ -42,7 +42,7 @@ export const ShopCard = React.memo(function ShopCard({
     <div
       role="button"
       tabIndex={0}
-      className="shrink-0 w-[150px] bg-white rounded-2xl overflow-hidden shadow-md cursor-pointer transition-all duration-200 border border-green/10 text-right lg:w-full hover:-translate-y-[3px] hover:shadow-lg"
+      className="shrink-0 w-[150px] bg-white rounded-2xl overflow-hidden shadow-md cursor-pointer transition-all duration-200 border border-green/10 text-right lg:w-full hover:translate-y-[-3px] hover:shadow-lg"
       onClick={handleClick}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {

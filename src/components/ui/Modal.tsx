@@ -65,7 +65,7 @@ export function Modal({
 
   return (
     <div
-      className="fixed inset-0 z-[200] bg-black/60 backdrop-blur-sm flex items-end justify-center p-0 md:items-center md:p-6 animate-[fadeIn_0.2s_ease]"
+      className="fixed inset-0 z-200 bg-black/60 backdrop-blur-sm flex items-end justify-center p-0 md:items-center md:p-6 animate-[fadeIn_0.2s_ease]"
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           onClose();
@@ -77,7 +77,7 @@ export function Modal({
     >
       <div
         ref={modalRef}
-        className="bg-white rounded-t-3xl md:rounded-2xl w-full p-6 max-h-[88svh] md:max-h-[85vh] overflow-y-auto text-right [animation:springUp_0.35s_cubic-bezier(0.34,1.56,0.64,1)]"
+        className="bg-white rounded-t-3xl md:rounded-2xl w-full p-6 max-h-[88svh] md:max-h-[85vh] overflow-y-auto text-right animate-[springUp_0.35s_cubic-bezier(0.34,1.56,0.64,1)]"
         style={{ maxWidth }}
         onClick={(e) => e.stopPropagation()}
         onTouchStart={handleTouchStart}

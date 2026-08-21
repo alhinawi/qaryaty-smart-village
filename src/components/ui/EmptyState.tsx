@@ -33,7 +33,7 @@ export function EmptyState({
         )}
       </div>
       <h3 className="text-xl font-extrabold text-text mb-1.5">{title}</h3>
-      <p className="text-sm text-text-muted max-w-[360px] mx-auto mb-5 leading-[1.5]">{description}</p>
+      <p className="text-sm text-text-muted max-w-[360px] mx-auto mb-5 leading-normal">{description}</p>
       {actionText && onAction && (
         <Button variant="primary" size="md" onClick={onAction}>
           {actionText}

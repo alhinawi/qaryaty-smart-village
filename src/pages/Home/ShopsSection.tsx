@@ -33,7 +33,7 @@ export function ShopsSection({ shops, onSelectShop }: ShopsSectionProps) {
         </a>
       </div>
 
-      <div className="flex gap-3.5 overflow-x-auto pb-1.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:grid lg:grid-cols-6 lg:overflow-x-visible">
+      <div className="flex gap-3.5 overflow-x-auto pb-1.5 scrollbar-none [&::-webkit-scrollbar]:hidden lg:grid lg:grid-cols-6 lg:overflow-x-visible">
         {shops.map((shop) => (
           <ShopCard
             key={shop.id}
