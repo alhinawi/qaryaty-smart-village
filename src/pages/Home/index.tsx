@@ -73,10 +73,10 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
   return (
     <div className="home-page-container">
       {/* Pull-to-Refresh Trigger Area */}
-      <div className="flex justify-center mb-3">
+      <div className="flex justify-center mb-3 md:hidden">
         <button
           type="button"
-          className={`bg-[rgba(26,122,74,0.08)] border border-[rgba(26,122,74,0.15)] rounded-[20px] px-3.5 py-1.5 inline-flex items-center gap-1.5 font-['Cairo',sans-serif] text-[13px] text-green-dark font-bold cursor-pointer transition-all duration-200`}
+          className={`bg-[rgba(26,122,74,0.08)] border border-[rgba(26,122,74,0.15)] rounded-xl  px-3.5 py-1.5 inline-flex items-center gap-1.5 font-['Cairo',sans-serif] text-[13px] text-green-dark font-bold cursor-pointer transition-all duration-200`}
           onClick={handlePullToRefresh}
           aria-label="تحديث الخدمات"
         >

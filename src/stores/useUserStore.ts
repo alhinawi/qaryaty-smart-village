@@ -5,7 +5,7 @@ import type { UserProfile } from '@/types';
 
 // ─── Initial Demo Profile
 const INITIAL_PROFILE: UserProfile = {
-  name: 'أحمد محمود',
+  name: 'محمدالهناوي', 
   phone: '01012345678',
   address: 'شارع المدرسة، قرية البركة',
   village: 'قرية البركة - الجيزة',

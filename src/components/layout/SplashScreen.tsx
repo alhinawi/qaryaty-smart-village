@@ -16,7 +16,7 @@ export function SplashScreen({ isFadingOut }: SplashScreenProps) {
       aria-label="شاشة البداية"
     >
       <div className="text-center [animation:splashPop_0.7s_cubic-bezier(0.34,1.56,0.64,1)_both]">
-        <div className="w-[100px] h-[100px] bg-gold rounded-[26px] flex items-center justify-center text-[54px] mx-auto mb-5 shadow-[0_20px_60px_rgba(240,165,0,0.5)]" role="img" aria-label="شعار قريتي">
+        <div className="w-[100px] h-[100px] bg-gold rounded-3xl flex items-center justify-center text-[54px] mx-auto mb-5 shadow-[0_20px_60px_rgba(240,165,0,0.5)]" role="img" aria-label="شعار قريتي">
           🏡
         </div>
         <h1 className="font-['Tajawal',sans-serif] text-[clamp(2.5rem,6vw,3.5rem)] font-black text-white [text-shadow:0_4px_20px_rgba(0,0,0,0.3)] leading-[1.1]">قريتي</h1>

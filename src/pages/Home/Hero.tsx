@@ -18,9 +18,9 @@ export function Hero({ onOpenOrder }: HeroProps) {
   };
 
   return (
-    <section className="bg-gradient-to-br from-green to-green-dark rounded-xl p-6 relative overflow-hidden text-white mb-6 flex flex-col justify-between md:flex-row md:items-center md:py-9 md:px-10" aria-label="بانر البداية">
+    <section className="bg-gradient-to-br from-green to-green-dark rounded-2xl p-6 relative overflow-hidden text-white mb-6 flex flex-col justify-between md:flex-row md:items-center md:py-9 md:px-10" aria-label="بانر البداية">
       <div className="relative z-2 max-w-[580px]">
-        <div className="inline-block bg-gold text-black text-[0.8125rem] font-extrabold px-3 py-1 rounded-[20px] mb-3">🌟 القرية الذكية</div>
+        <div className="inline-block bg-gold text-black text-[0.8125rem] font-extrabold px-3 py-1 rounded-full mb-3">🌟 القرية الذكية</div>
         <h2 className="text-[clamp(1.5rem,4vw,2.25rem)] font-black font-['Tajawal',sans-serif] mb-2 leading-[1.2]">
           كل اللي محتاجه
           <br />

@@ -48,7 +48,7 @@ export default function ProfilePage() {
     <div className="profile-page-container">
       {/* Profile Header */}
       <div className="bg-gradient-to-br from-green-dark to-green text-white rounded-2xl p-6 flex items-center gap-5 mb-6">
-        <div className="w-16 h-16 bg-gold rounded-[20px] flex items-center justify-center text-[32px]">👤</div>
+        <div className="w-16 h-16 bg-gold rounded-2xl flex items-center justify-center text-[32px]">👤</div>
         <div>
           <h2 className="text-[1.375rem] font-black font-['Tajawal',sans-serif]">{profile.name}</h2>
           <p className="text-[13px] opacity-90">📍 {profile.village}</p>
@@ -57,7 +57,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Rewards Points Card */}
-      <div className="bg-white rounded-xl p-5 shadow-sm border-2 border-gold-light mb-5">
+      <div className="bg-white rounded-2xl p-5 shadow-sm border-2 border-gold-light mb-5">
         <div className="flex items-center justify-between mb-3">
           <div>
             <span className="text-[13px] text-text-muted font-bold">🌟 رصيد نقاط المكافآت</span>
@@ -68,9 +68,9 @@ export default function ProfilePage() {
 
         {/* Progress to Free Delivery */}
         <div className="points-progress-container">
-          <div className="h-[10px] bg-gray-100 rounded-[5px] overflow-hidden mb-1.5">
+          <div className="h-[10px] bg-gray-100 rounded-full overflow-hidden mb-1.5">
             <div
-              className="h-full bg-gradient-to-r from-gold to-gold-light rounded-[5px]"
+              className="h-full bg-gradient-to-r from-gold to-gold-light rounded-full"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
@@ -85,22 +85,22 @@ export default function ProfilePage() {
 
       {/* Quick Stats Grid */}
       <div className="grid grid-cols-3 gap-3 mb-5">
-        <div className="bg-white rounded-md p-3.5 text-center shadow-sm">
+        <div className="bg-white rounded-2xl p-3.5 text-center shadow-sm">
           <span className="block text-[1.25rem] font-black text-green font-['Tajawal',sans-serif]">{orders.length}</span>
           <span className="text-[11px] text-text-muted font-bold">إجمالي الطلبات</span>
         </div>
-        <div className="bg-white rounded-md p-3.5 text-center shadow-sm">
+        <div className="bg-white rounded-2xl p-3.5 text-center shadow-sm">
           <span className="block text-[1.25rem] font-black text-green font-['Tajawal',sans-serif]">{profile.rewardPoints}</span>
           <span className="text-[11px] text-text-muted font-bold">نقاط مكتسبة</span>
         </div>
-        <div className="bg-white rounded-md p-3.5 text-center shadow-sm">
+        <div className="bg-white rounded-2xl p-3.5 text-center shadow-sm">
           <span className="block text-[1.25rem] font-black text-green font-['Tajawal',sans-serif]">100%</span>
           <span className="text-[11px] text-text-muted font-bold">دعم الاقتصاد المحلي</span>
         </div>
       </div>
 
       {/* User Information Form */}
-      <div className="bg-white rounded-xl p-5 shadow-sm mb-5">
+      <div className="bg-white rounded-2xl p-5 shadow-sm mb-5">
         <div className="flex items-center justify-between mb-3.5">
           <h3 className="text-base font-extrabold">👤 بيانات الحساب والعنوان</h3>
           {!isEditing && (
@@ -175,7 +175,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Share with village */}
-      <div className="bg-gradient-to-br from-[#1e3a8a] to-[#3b82f6] text-white rounded-xl p-5 flex items-center justify-between">
+      <div className="bg-gradient-to-br from-[#1e3a8a] to-[#3b82f6] text-white rounded-2xl p-5 flex items-center justify-between">
         <div>
           <h4 className="text-base font-extrabold mb-1">📢 ادعُ أهالي القرية لاستخدام التطبيق</h4>
           <p className="text-xs opacity-85">شارك التطبيق مع جيرانك في القرية واكسبوا نقاط مكافآت مع كل طلب</p>

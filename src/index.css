@@ -19,10 +19,7 @@
   --color-success: #16a34a;
   --shadow-card: 0 4px 20px rgba(26, 122, 74, 0.08);
   --shadow-card-hover: 0 12px 36px rgba(26, 122, 74, 0.16);
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 18px;
-  --radius-xl: 28px;
+
 }
 
 :root {
@@ -40,10 +37,6 @@
   --success: var(--color-success);
   --card-shadow: var(--shadow-card);
   --card-shadow-hover: var(--shadow-card-hover);
-  --radius-sm: var(--radius-sm);
-  --radius-md: var(--radius-md);
-  --radius-lg: var(--radius-lg);
-  --radius-xl: var(--radius-xl);
 }
 
 
