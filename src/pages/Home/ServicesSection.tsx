@@ -10,6 +10,8 @@ interface ServicesSectionProps {
   onSelectService: (service: Service) => void;
   onResetFilters: () => void;
   isLoading?: boolean;
+  /** People to pick from per service id (سباك، نجار…). */
+  peopleCounts?: Record<number, number>;
 }
 
 // ─── Component
@@ -17,6 +19,7 @@ export function ServicesSection({
   services,
   onSelectService,
   onResetFilters,
+  peopleCounts,
 }: ServicesSectionProps) {
   const handleAllClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -52,6 +55,7 @@ export function ServicesSection({
               key={service.id}
               service={service}
               onSelect={onSelectService}
+              peopleCount={peopleCounts?.[service.id]}
             />
           ))}
         </div>
