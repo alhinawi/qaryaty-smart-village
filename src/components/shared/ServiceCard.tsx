@@ -151,14 +151,29 @@ export const ServiceCard = React.memo(function ServiceCard({
             {service.price}
           </div>
 
+          {/* Services with required choices (المرحلة، ممرض/ممرضة…) go through the order form */}
+          {service.options?.length ? (
+            <button
+              type="button"
+              className="bg-[rgba(26,122,74,0.1)] text-green border-none py-1.5 px-2.5 rounded-xl text-xs font-extrabold font-['Cairo',sans-serif] cursor-pointer transition-all duration-200 hover:bg-green hover:text-white"
+              onClick={(e) => {
+                e.stopPropagation();
+                onSelect(service);
+              }}
+              aria-label={`اطلب ${service.name}`}
+            >
+              اطلب
+            </button>
+          ) : (
           <button
-            type="button"
-            className="bg-[rgba(26,122,74,0.1)] text-green border-none py-1.5 px-2.5 rounded-xl text-xs font-extrabold font-['Cairo',sans-serif] cursor-pointer transition-all duration-200 hover:bg-green hover:text-white"
-            onClick={handleQuickAdd}
-            aria-label={`إضافة ${service.name} للسلة`}
-          >
-            + إضافة
-          </button>
+              type="button"
+              className="bg-[rgba(26,122,74,0.1)] text-green border-none py-1.5 px-2.5 rounded-xl text-xs font-extrabold font-['Cairo',sans-serif] cursor-pointer transition-all duration-200 hover:bg-green hover:text-white"
+              onClick={handleQuickAdd}
+              aria-label={`إضافة ${service.name} للسلة`}
+            >
+              + إضافة
+            </button>
+          )}
         </div>
       </div>
     </div>
