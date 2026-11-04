@@ -20,6 +20,9 @@ export function getSupabase(): Promise<SupabaseClient> {
     clientPromise = import('@supabase/supabase-js')
       .then(({ createClient }) =>
         createClient(url, anonKey, {
+          // No built-in retries (1s, 2s, 4s): the circuit breaker decides, and
+          // a paused project should show the sample data right away.
+          db: { retry: false },
           auth: { persistSession: true, autoRefreshToken: true, storageKey: 'qaryati_supabase_auth' },
         })
       )
