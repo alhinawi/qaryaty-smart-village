@@ -1,26 +1,42 @@
 // ─── Full search screen (opened from the header's search bar), in the style of Talabat:
 // back + field + cart, tabs from the app's sections, "عايز إيه النهارده؟" circles, recent
 // searches, the village's shops (or people), the first-order code, and live grouped results.
-import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
-import type { FormEvent, KeyboardEvent as ReactKeyboardEvent } from 'react';
-import { ArrowRight, History, Search, ShoppingCart, X } from 'lucide-react';
+import {
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import type { FormEvent, KeyboardEvent as ReactKeyboardEvent } from "react";
+import { ArrowRight, History, Search, ShoppingCart, X } from "lucide-react";
 
-import { useUIStore } from '@/stores/useUIStore';
-import { useCartStore } from '@/stores/useCartStore';
-import { useCatalogStore } from '@/stores/useCatalogStore';
-import { useOrderStore } from '@/stores/useOrderStore';
-import { useUserStore } from '@/stores/useUserStore';
-import { useBackButtonClose } from '@/hooks/useBackButtonClose';
-import { useGoToTab } from '@/hooks/useTabNavigation';
-import { useReach } from '@/hooks/useReach';
-import { CATEGORIES } from '@/data/categories';
-import { productsForShop } from '@/data/catalog';
-import { ShopMenuModal } from '@/components/modals/ShopMenuModal';
-import { Avatar } from '@/components/shared/Avatar';
-import { formatCurrency } from '@/utils/helpers';
-import { FIRST_ORDER_PROMO, hasRealOrders, providerToOrderModalData, serviceToOrderModalData } from '@/utils/pricing';
-import { isLocalProvider, villagesInReach } from '@/utils/reach';
-import { whenHistorySettled } from '@/utils/overlayHistory';
+import { useUIStore } from "@/stores/useUIStore";
+import { useCartStore } from "@/stores/useCartStore";
+import { useCatalogStore } from "@/stores/useCatalogStore";
+import { useOrderStore } from "@/stores/useOrderStore";
+import { useUserStore } from "@/stores/useUserStore";
+import { useBackButtonClose } from "@/hooks/useBackButtonClose";
+import { useGoToTab } from "@/hooks/useTabNavigation";
+import { useReach } from "@/hooks/useReach";
+import { useNavigate } from "react-router";
+import { CATEGORIES } from "@/data/categories";
+import { DONATION_SEARCH_FIELDS } from "@/config/donations";
+import { matchesSearch } from "@/utils/arabicSearch";
+import { ROUTES } from "@/routes";
+import { productsForShop } from "@/data/catalog";
+import { ShopMenuModal } from "@/components/modals/ShopMenuModal";
+import { Avatar } from "@/components/shared/Avatar";
+import { formatCurrency } from "@/utils/helpers";
+import {
+  FIRST_ORDER_PROMO,
+  hasRealOrders,
+  providerToOrderModalData,
+  serviceToOrderModalData,
+} from "@/utils/pricing";
+import { isLocalProvider, villagesInReach } from "@/utils/reach";
+import { whenHistorySettled } from "@/utils/overlayHistory";
 import {
   ALL_TAB,
   buildSearchIndex,
@@ -33,14 +49,21 @@ import {
   type ResultGroup,
   type SearchEntry,
   type SearchTabId,
-} from '@/utils/searchScreen';
-import type { OrderModalData, Provider, Service, Shop } from '@/types';
-import { Highlight } from './Highlight';
+} from "@/utils/searchScreen";
+import type { OrderModalData, Provider, Service, Shop } from "@/types";
+import { Highlight } from "./Highlight";
 
 const CLOSE_MS = 160;
 const GROUP_PREVIEW = 4;
-const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
-const SHOP_TABS = new Set<SearchTabId>([ALL_TAB, 'restaurants', 'grocery', 'pharmacy', 'shops']);
+const FOCUSABLE =
+  'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])';
+const SHOP_TABS = new Set<SearchTabId>([
+  ALL_TAB,
+  "restaurants",
+  "grocery",
+  "pharmacy",
+  "shops",
+]);
 
 interface SearchScreenProps {
   onOpenOrderModal: (data: OrderModalData) => void;
@@ -52,7 +75,12 @@ export function SearchScreen({ onOpenOrderModal }: SearchScreenProps) {
   const [menuShop, setMenuShop] = useState<Shop | null>(null);
   return (
     <>
-      {isOpen && <SearchOverlay onOpenOrderModal={onOpenOrderModal} onOpenMenu={setMenuShop} />}
+      {isOpen && (
+        <SearchOverlay
+          onOpenOrderModal={onOpenOrderModal}
+          onOpenMenu={setMenuShop}
+        />
+      )}
       <ShopMenuModal shop={menuShop} onClose={() => setMenuShop(null)} />
     </>
   );
@@ -92,19 +120,33 @@ function SearchOverlay({
   const restoreFocusRef = useRef(true);
 
   const index = useMemo(
-    () => buildSearchIndex({ shops, services, providers, categories: CATEGORIES }),
-    [shops, services, providers]
+    () =>
+      buildSearchIndex({ shops, services, providers, categories: CATEGORIES }),
+    [shops, services, providers],
   );
   const tabs = useMemo(() => buildSearchTabs(index, CATEGORIES), [index]);
   const tab = tabs.some((t) => t.id === chosenTab) ? chosenTab : ALL_TAB;
   const hasQuery = deferredQuery.trim().length > 0;
-  const results = useMemo(() => searchEntries(index, deferredQuery, tab), [index, deferredQuery, tab]);
+  const navigate = useNavigate();
+  // تبرع، زكاة، بيت المال… opens باب الخير, which has its own page
+  const showDonations =
+    hasQuery && matchesSearch(deferredQuery, [...DONATION_SEARCH_FIELDS]);
+  const results = useMemo(
+    () => searchEntries(index, deferredQuery, tab),
+    [index, deferredQuery, tab],
+  );
   const groups = useMemo(() => groupResults(results), [results]);
   const countOnAll = useMemo(
-    () => (tab === ALL_TAB || results.length > 0 ? 0 : searchEntries(index, deferredQuery, ALL_TAB).length),
-    [index, deferredQuery, tab, results.length]
+    () =>
+      tab === ALL_TAB || results.length > 0
+        ? 0
+        : searchEntries(index, deferredQuery, ALL_TAB).length,
+    [index, deferredQuery, tab, results.length],
   );
-  const tiles = useMemo(() => exploreTiles(tab, shops, index), [tab, shops, index]);
+  const tiles = useMemo(
+    () => exploreTiles(tab, shops, index),
+    [tab, shops, index],
+  );
 
   // ─── Closing: a short fade, then whatever the tap asked for (a menu, an order, the cart)
   const closeTimer = useRef<number | null>(null);
@@ -120,7 +162,7 @@ function SearchOverlay({
         if (then) window.setTimeout(() => whenHistorySettled(then), 0);
       }, CLOSE_MS);
     },
-    [setIsSearchOpen]
+    [setIsSearchOpen],
   );
   const closePlain = useCallback(() => close(), [close]);
   useBackButtonClose(true, closePlain);
@@ -135,26 +177,28 @@ function SearchOverlay({
   useEffect(() => {
     const previous = document.activeElement as HTMLElement | null;
     const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
     inputRef.current?.focus({ preventScroll: true });
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         e.preventDefault();
         closePlain();
       }
     };
-    window.addEventListener('keydown', onKey);
+    window.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = originalOverflow;
-      window.removeEventListener('keydown', onKey);
+      window.removeEventListener("keydown", onKey);
       if (restoreFocusRef.current) previous?.focus?.({ preventScroll: true });
     };
   }, [closePlain]);
 
   // Tab stays inside the screen
   const trapTab = (e: ReactKeyboardEvent<HTMLDivElement>) => {
-    if (e.key !== 'Tab' || !panelRef.current) return;
-    const items = Array.from(panelRef.current.querySelectorAll<HTMLElement>(FOCUSABLE));
+    if (e.key !== "Tab" || !panelRef.current) return;
+    const items = Array.from(
+      panelRef.current.querySelectorAll<HTMLElement>(FOCUSABLE),
+    );
     if (items.length === 0) return;
     const first = items[0];
     const last = items[items.length - 1];
@@ -183,7 +227,7 @@ function SearchOverlay({
       return;
     }
     remember();
-    if (shop.kind === 'restaurant' || productsForShop(shop)) {
+    if (shop.kind === "restaurant" || productsForShop(shop)) {
       close(() => onOpenMenu(shop));
       return;
     }
@@ -191,9 +235,9 @@ function SearchOverlay({
       onOpenOrderModal({
         name: `طلب من ${shop.name}`,
         desc: `اكتب اللي محتاجه من ${shop.name} والمندوب هيجيبهولك`,
-        price: 'حسب الطلب',
+        price: "حسب الطلب",
         emoji: shop.emoji,
-      })
+      }),
     );
   };
 
@@ -208,31 +252,33 @@ function SearchOverlay({
   };
 
   const openEntry = (entry: SearchEntry) => {
-    if (entry.type === 'shop' || entry.type === 'product') openShop(entry.shop);
-    else if (entry.type === 'service') openService(entry.service);
+    if (entry.type === "shop" || entry.type === "product") openShop(entry.shop);
+    else if (entry.type === "service") openService(entry.service);
     else openPerson(entry.provider, entry.service);
   };
 
   const showOnHome = () => {
     remember();
     setHomeQuery(query.trim());
-    close(() => goToTab('home'));
+    close(() => goToTab("home"));
   };
 
   const pickTerm = (term: string) => {
     setQuery(term);
-    panelRef.current?.querySelector('[data-search-body]')?.scrollTo({ top: 0 });
+    panelRef.current?.querySelector("[data-search-body]")?.scrollTo({ top: 0 });
   };
 
   const clearQuery = () => {
-    setQuery('');
+    setQuery("");
     inputRef.current?.focus();
   };
 
   return (
     <div
       className={`fixed inset-0 z-[190] lg:flex lg:items-start lg:justify-center lg:p-6 lg:bg-black/45 ${
-        closing ? 'animate-[searchOut_0.16s_ease-in_forwards]' : 'animate-[searchIn_0.2s_ease-out]'
+        closing
+          ? "animate-[searchOut_0.16s_ease-in_forwards]"
+          : "animate-[searchIn_0.2s_ease-out]"
       } motion-reduce:animate-none`}
       onMouseDown={(e) => {
         // Desktop: a click on the dark area around the panel closes it
@@ -259,10 +305,21 @@ function SearchOverlay({
               <ArrowRight size={22} strokeWidth={2.5} aria-hidden="true" />
             </button>
 
-            <form role="search" onSubmit={handleSubmit} className="flex-1 min-w-0">
+            <form
+              role="search"
+              onSubmit={handleSubmit}
+              className="flex-1 min-w-0"
+            >
               <label className="flex items-center gap-2 bg-white rounded-xl ps-3 pe-1 h-[44px] shadow-sm focus-within:ring-2 focus-within:ring-gold-light">
-                <Search size={18} strokeWidth={2.5} className="text-green shrink-0" aria-hidden="true" />
-                <span className="sr-only">دوّر على محل أو أكلة أو خدمة أو مدرس</span>
+                <Search
+                  size={18}
+                  strokeWidth={2.5}
+                  className="text-green shrink-0"
+                  aria-hidden="true"
+                />
+                <span className="sr-only">
+                  دوّر على محل أو أكلة أو خدمة أو مدرس
+                </span>
                 <input
                   ref={inputRef}
                   type="search"
@@ -289,7 +346,7 @@ function SearchOverlay({
             <button
               type="button"
               onClick={() => close(() => setIsCartOpen(true))}
-              aria-label={cartCount > 0 ? `السلة، فيها ${cartCount}` : 'السلة'}
+              aria-label={cartCount > 0 ? `السلة، فيها ${cartCount}` : "السلة"}
               className="relative w-[44px] h-[44px] shrink-0 rounded-xl bg-white/15 border-none cursor-pointer flex items-center justify-center text-white hover:bg-white/25 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-light"
             >
               <ShoppingCart size={21} strokeWidth={2.25} aria-hidden="true" />
@@ -316,14 +373,16 @@ function SearchOverlay({
                   aria-selected={active}
                   onClick={() => setTab(t.id)}
                   className={`relative shrink-0 px-3 pt-1.5 pb-2.5 min-h-[44px] bg-transparent border-none cursor-pointer font-['Cairo',sans-serif] text-[0.875rem] whitespace-nowrap transition-colors ${
-                    active ? 'text-white font-black' : 'text-white/75 font-bold hover:text-white'
+                    active
+                      ? "text-white font-black"
+                      : "text-white/75 font-bold hover:text-white"
                   }`}
                 >
                   {t.label}
                   <span
                     aria-hidden="true"
                     className={`absolute inset-x-2 bottom-0 h-[3px] rounded-t-full bg-gold-light transition-opacity ${
-                      active ? 'opacity-100' : 'opacity-0'
+                      active ? "opacity-100" : "opacity-0"
                     }`}
                   />
                 </button>
@@ -338,9 +397,35 @@ function SearchOverlay({
           className="flex-1 overflow-y-auto overscroll-contain px-4 pt-4 pb-[calc(1.5rem+env(safe-area-inset-bottom))]"
         >
           <p className="sr-only" role="status" aria-live="polite">
-            {hasQuery ? (results.length > 0 ? `${results.length} نتيجة` : 'مفيش نتايج') : ''}
+            {hasQuery
+              ? results.length > 0
+                ? `${results.length} نتيجة`
+                : "مفيش نتايج"
+              : ""}
           </p>
 
+          {showDonations && (
+            <button
+              type="button"
+              onClick={() => close(() => void navigate(ROUTES.donate))}
+              className="w-full flex items-center gap-3 mb-3 p-3 min-h-[56px] rounded-2xl bg-white border-2 border-gold-light text-start cursor-pointer font-['Cairo',sans-serif]"
+            >
+              <span
+                className="w-[42px] h-[42px] bg-gold rounded-xl flex items-center justify-center text-[22px] shrink-0"
+                aria-hidden="true"
+              >
+                🤲
+              </span>
+              <span className="min-w-0">
+                <span className="block text-[0.9375rem] font-extrabold text-green-dark">
+                  باب الخير
+                </span>
+                <span className="block text-xs text-text-muted">
+                  بيت المال، الجمعية الشرعية، تجهيز عرايس وأبواب خير تانية
+                </span>
+              </span>
+            </button>
+          )}
           {hasQuery ? (
             results.length > 0 ? (
               <Results
@@ -405,20 +490,25 @@ function Explore({
   const orders = useOrderStore((s) => s.orders);
   const usedPromoCodes = useUserStore((s) => s.usedPromoCodes);
   const showToast = useUIStore((s) => s.showToast);
-  const promoAvailable = !usedPromoCodes.includes(FIRST_ORDER_PROMO) && !hasRealOrders(orders);
+  const promoAvailable =
+    !usedPromoCodes.includes(FIRST_ORDER_PROMO) && !hasRealOrders(orders);
 
   const isShopTab = SHOP_TABS.has(tab);
   const places = useMemo(() => {
     if (!isShopTab) return [];
-    const list = index.flatMap((e) => (e.type === 'shop' ? [e.shop] : []));
+    const list = index.flatMap((e) => (e.type === "shop" ? [e.shop] : []));
     const inTab =
-      tab === ALL_TAB ? list.filter((s) => s.kind !== 'restaurant') : list.filter((s) => shopTab(s) === tab);
+      tab === ALL_TAB
+        ? list.filter((s) => s.kind !== "restaurant")
+        : list.filter((s) => shopTab(s) === tab);
     return [...inTab].sort((a, b) => Number(b.open) - Number(a.open));
   }, [index, tab, isShopTab]);
 
   const people = useMemo(() => {
     if (isShopTab) return [];
-    const list = index.flatMap((e) => (e.type === 'person' && e.tabs.includes(tab) ? [e] : []));
+    const list = index.flatMap((e) =>
+      e.type === "person" && e.tabs.includes(tab) ? [e] : [],
+    );
     return list
       .filter((e) => isLocalProvider(e.provider, reach))
       .sort((a, b) => b.provider.rating - a.provider.rating)
@@ -427,18 +517,20 @@ function Explore({
 
   // "From your village" only when everyone in the row is; online people from farther away also show
   const nearby = villagesInReach(reach);
-  const peopleTitle = people.every((e) => e.type === 'person' && nearby.has(e.provider.village))
-    ? `ناس من ${reach.village}${reach.includeNearby ? ' واللي جنبها' : ''}`
-    : 'ناس تقدر تحجزهم';
+  const peopleTitle = people.every(
+    (e) => e.type === "person" && nearby.has(e.provider.village),
+  )
+    ? `ناس من ${reach.village}${reach.includeNearby ? " واللي جنبها" : ""}`
+    : "ناس تقدر تحجزهم";
 
   const placesTitle =
-    tab === 'restaurants'
-      ? 'مطاعم القرية'
-      : tab === 'grocery'
-        ? 'سوبر ماركت القرية'
-        : tab === 'pharmacy'
-          ? 'صيدليات القرية'
-          : 'محلات القرية';
+    tab === "restaurants"
+      ? "مطاعم القرية"
+      : tab === "grocery"
+        ? "سوبر ماركت القرية"
+        : tab === "pharmacy"
+          ? "صيدليات القرية"
+          : "محلات القرية";
 
   const copyCode = () => {
     navigator.clipboard?.writeText(FIRST_ORDER_PROMO).catch(() => {});
@@ -449,8 +541,13 @@ function Explore({
     <div className="flex flex-col gap-6">
       {tiles.length > 0 && (
         <section aria-labelledby="search-tiles-title">
-          <h2 id="search-tiles-title" className="text-[1.0625rem] font-black text-text mb-3">
-            {tab === 'restaurants' ? 'عايز تاكل إيه النهارده؟' : 'عايز إيه النهارده؟'}
+          <h2
+            id="search-tiles-title"
+            className="text-[1.0625rem] font-black text-text mb-3"
+          >
+            {tab === "restaurants"
+              ? "عايز تاكل إيه النهارده؟"
+              : "عايز إيه النهارده؟"}
           </h2>
           <ul className="flex gap-3 overflow-x-auto -mx-4 px-4 pb-1 list-none m-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:flex-wrap lg:overflow-visible">
             {tiles.map((tile) => (
@@ -476,7 +573,10 @@ function Explore({
       {history.length > 0 && (
         <section aria-labelledby="search-history-title">
           <div className="flex items-center justify-between mb-2.5">
-            <h2 id="search-history-title" className="text-[1.0625rem] font-black text-text">
+            <h2
+              id="search-history-title"
+              className="text-[1.0625rem] font-black text-text"
+            >
               دوّرت عليه قبل كده
             </h2>
             <button
@@ -498,7 +598,11 @@ function Explore({
                   onClick={() => onPick(term)}
                   className="flex items-center gap-1.5 ps-3 pe-1 min-h-[38px] bg-transparent border-none cursor-pointer font-['Cairo',sans-serif] text-[0.875rem] text-text hover:text-green"
                 >
-                  <History size={15} className="text-text-muted" aria-hidden="true" />
+                  <History
+                    size={15}
+                    className="text-text-muted"
+                    aria-hidden="true"
+                  />
                   {term}
                 </button>
                 <button
@@ -517,7 +621,10 @@ function Explore({
 
       {places.length > 0 && (
         <section aria-labelledby="search-places-title">
-          <h2 id="search-places-title" className="text-[1.0625rem] font-black text-text mb-3">
+          <h2
+            id="search-places-title"
+            className="text-[1.0625rem] font-black text-text mb-3"
+          >
             {placesTitle}
           </h2>
           <ul className="flex gap-3 overflow-x-auto -mx-4 px-4 pb-1 list-none m-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -530,19 +637,30 @@ function Explore({
                 >
                   <span
                     className="relative w-[112px] h-[84px] rounded-2xl overflow-hidden border border-green/10 shadow-sm flex items-center justify-center text-[38px] transition-transform group-hover:-translate-y-0.5"
-                    style={{ background: shop.bgColor || '#f0fdf4' }}
+                    style={{ background: shop.bgColor || "#f0fdf4" }}
                   >
                     <TilePicture photo={shop.photo} emoji={shop.emoji} />
                     {!shop.open && (
-                      <span className="absolute inset-0 bg-white/55" aria-hidden="true" />
+                      <span
+                        className="absolute inset-0 bg-white/55"
+                        aria-hidden="true"
+                      />
                     )}
                   </span>
-                  <span className="text-[0.8125rem] font-bold text-text leading-tight line-clamp-1">{shop.name}</span>
+                  <span className="text-[0.8125rem] font-bold text-text leading-tight line-clamp-1">
+                    {shop.name}
+                  </span>
                   <span className="text-[0.6875rem] text-text-muted leading-tight">
-                    <span className={shop.open ? 'text-success font-bold' : 'text-danger font-bold'}>
-                      {shop.open ? 'مفتوح' : 'مغلق'}
+                    <span
+                      className={
+                        shop.open
+                          ? "text-success font-bold"
+                          : "text-danger font-bold"
+                      }
+                    >
+                      {shop.open ? "مفتوح" : "مغلق"}
                     </span>
-                    {shop.time ? ` · ${shop.time}` : ''}
+                    {shop.time ? ` · ${shop.time}` : ""}
                   </span>
                 </button>
               </li>
@@ -553,24 +671,35 @@ function Explore({
 
       {people.length > 0 && (
         <section aria-labelledby="search-people-title">
-          <h2 id="search-people-title" className="text-[1.0625rem] font-black text-text mb-3">
+          <h2
+            id="search-people-title"
+            className="text-[1.0625rem] font-black text-text mb-3"
+          >
             {peopleTitle}
           </h2>
           <ul className="flex gap-3 overflow-x-auto -mx-4 px-4 pb-1 list-none m-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {people.map((e) =>
-              e.type === 'person' ? (
+              e.type === "person" ? (
                 <li key={e.key} className="shrink-0">
                   <button
                     type="button"
                     onClick={() => onOpenPerson(e.provider, e.service)}
                     className="w-[96px] flex flex-col items-center gap-1 bg-transparent border-none cursor-pointer p-0 text-center"
                   >
-                    <Avatar name={e.provider.name} src={e.provider.photo} size={64} />
-                    <span className="text-[0.75rem] font-bold text-text leading-tight line-clamp-2">{e.provider.name}</span>
-                    <span className="text-[0.6875rem] text-text-muted leading-tight line-clamp-1">{e.subtitle}</span>
+                    <Avatar
+                      name={e.provider.name}
+                      src={e.provider.photo}
+                      size={64}
+                    />
+                    <span className="text-[0.75rem] font-bold text-text leading-tight line-clamp-2">
+                      {e.provider.name}
+                    </span>
+                    <span className="text-[0.6875rem] text-text-muted leading-tight line-clamp-1">
+                      {e.subtitle}
+                    </span>
                   </button>
                 </li>
-              ) : null
+              ) : null,
             )}
           </ul>
         </section>
@@ -578,13 +707,20 @@ function Explore({
 
       {promoAvailable && (
         <section aria-labelledby="search-promo-title">
-          <h2 id="search-promo-title" className="text-[1.0625rem] font-black text-text mb-3">
+          <h2
+            id="search-promo-title"
+            className="text-[1.0625rem] font-black text-text mb-3"
+          >
             متفوّتهاش
           </h2>
           <div className="rounded-2xl p-4 bg-[linear-gradient(135deg,#0f4f2e,#1a7a4a)] text-white flex items-center justify-between gap-3 shadow-card">
             <div className="min-w-0">
-              <p className="font-black text-[1rem] mb-0.5">🎉 كود خصم لأول طلب</p>
-              <p className="text-[0.8125rem] text-white/85">اكتبه في خانة كود الخصم وإنت بتطلب، للخدمات اللي ليها سعر ثابت.</p>
+              <p className="font-black text-[1rem] mb-0.5">
+                🎉 كود خصم لأول طلب
+              </p>
+              <p className="text-[0.8125rem] text-white/85">
+                اكتبه في خانة كود الخصم وإنت بتطلب، للخدمات اللي ليها سعر ثابت.
+              </p>
             </div>
             <button
               type="button"
@@ -633,10 +769,14 @@ function Results({
 }) {
   const [expanded, setExpanded] = useState<Set<string>>(() => new Set());
   return (
-    <div className={`flex flex-col gap-5 transition-opacity ${stale ? 'opacity-70' : ''}`}>
+    <div
+      className={`flex flex-col gap-5 transition-opacity ${stale ? "opacity-70" : ""}`}
+    >
       {groups.map((group) => {
         const open = expanded.has(group.id) || groups.length === 1;
-        const shown = open ? group.entries.slice(0, 60) : group.entries.slice(0, GROUP_PREVIEW);
+        const shown = open
+          ? group.entries.slice(0, 60)
+          : group.entries.slice(0, GROUP_PREVIEW);
         return (
           <section key={group.id} aria-labelledby={`search-group-${group.id}`}>
             <h2
@@ -645,7 +785,9 @@ function Results({
             >
               <span aria-hidden="true">{group.emoji}</span>
               {group.title}
-              <span className="text-[0.75rem] font-bold text-text-muted">({group.entries.length})</span>
+              <span className="text-[0.75rem] font-bold text-text-muted">
+                ({group.entries.length})
+              </span>
             </h2>
             <ul className="list-none m-0 p-0 bg-white rounded-2xl border border-black/6 shadow-sm divide-y divide-black/5 overflow-hidden">
               {shown.map((entry) => (
@@ -657,7 +799,9 @@ function Results({
             {!open && group.entries.length > GROUP_PREVIEW && (
               <button
                 type="button"
-                onClick={() => setExpanded((prev) => new Set(prev).add(group.id))}
+                onClick={() =>
+                  setExpanded((prev) => new Set(prev).add(group.id))
+                }
                 className="mt-1.5 bg-transparent border-none cursor-pointer text-[0.8125rem] font-bold text-green min-h-[36px] px-1 hover:underline"
               >
                 عرض الكل ({group.entries.length})
@@ -690,37 +834,49 @@ function ResultRow({
   let thumb;
   let meta: string | null;
   let subtitle = entry.subtitle;
-  let metaTone = 'text-text';
+  let metaTone = "text-text";
 
-  if (entry.type === 'shop') {
+  if (entry.type === "shop") {
     thumb = (
       <span
         className="w-[48px] h-[48px] rounded-xl overflow-hidden flex items-center justify-center text-[24px] shrink-0"
-        style={{ background: entry.shop.bgColor || '#f0fdf4' }}
+        style={{ background: entry.shop.bgColor || "#f0fdf4" }}
       >
         <TilePicture photo={entry.shop.photo} emoji={entry.shop.emoji} />
       </span>
     );
-    meta = entry.shop.open ? 'مفتوح' : 'مغلق';
-    metaTone = entry.shop.open ? 'text-success' : 'text-danger';
-  } else if (entry.type === 'product') {
+    meta = entry.shop.open ? "مفتوح" : "مغلق";
+    metaTone = entry.shop.open ? "text-success" : "text-danger";
+  } else if (entry.type === "product") {
     thumb = (
       <span className="w-[48px] h-[48px] rounded-xl overflow-hidden bg-[#f9fafb] flex items-center justify-center text-[24px] shrink-0">
         <TilePicture photo={entry.product.photo} emoji={entry.product.emoji} />
       </span>
     );
-    meta = `${formatCurrency(entry.product.price)}${entry.product.unit ? ` / ${entry.product.unit}` : ''}`;
-    subtitle = `${entry.shop.name}${entry.shop.open ? '' : ' · مغلق دلوقتي'}`;
-  } else if (entry.type === 'service') {
+    meta = `${formatCurrency(entry.product.price)}${entry.product.unit ? ` / ${entry.product.unit}` : ""}`;
+    subtitle = `${entry.shop.name}${entry.shop.open ? "" : " · مغلق دلوقتي"}`;
+  } else if (entry.type === "service") {
     thumb = (
-      <span className="w-[48px] h-[48px] rounded-xl bg-green/8 flex items-center justify-center text-[24px] shrink-0" aria-hidden="true">
+      <span
+        className="w-[48px] h-[48px] rounded-xl bg-green/8 flex items-center justify-center text-[24px] shrink-0"
+        aria-hidden="true"
+      >
         {entry.service.emoji}
       </span>
     );
     meta = entry.service.price || null;
   } else {
-    thumb = <Avatar name={entry.provider.name} src={entry.provider.photo} size={48} className="shrink-0" />;
-    subtitle = [entry.subtitle, entry.provider.village].filter(Boolean).join(' · ');
+    thumb = (
+      <Avatar
+        name={entry.provider.name}
+        src={entry.provider.photo}
+        size={48}
+        className="shrink-0"
+      />
+    );
+    subtitle = [entry.subtitle, entry.provider.village]
+      .filter(Boolean)
+      .join(" · ");
     meta = entry.provider.price || null;
   }
 
@@ -741,7 +897,13 @@ function ResultRow({
           </span>
         )}
       </span>
-      {meta && <span className={`shrink-0 text-[0.75rem] font-bold max-w-[38%] truncate ${metaTone}`}>{meta}</span>}
+      {meta && (
+        <span
+          className={`shrink-0 text-[0.75rem] font-bold max-w-[38%] truncate ${metaTone}`}
+        >
+          {meta}
+        </span>
+      )}
     </button>
   );
 }
@@ -765,8 +927,12 @@ function EmptyState({
       <span className="text-[52px]" aria-hidden="true">
         🔍
       </span>
-      <h2 className="text-[1.0625rem] font-black text-text">مفيش نتايج لـ «{query.trim()}»</h2>
-      <p className="text-[0.875rem] text-text-muted max-w-[300px]">جرّب كلمة تانية أقصر، أو اسم المحل أو الحاجة اللي محتاجها.</p>
+      <h2 className="text-[1.0625rem] font-black text-text">
+        مفيش نتايج لـ «{query.trim()}»
+      </h2>
+      <p className="text-[0.875rem] text-text-muted max-w-[300px]">
+        جرّب كلمة تانية أقصر، أو اسم المحل أو الحاجة اللي محتاجها.
+      </p>
       {countOnAll > 0 && (
         <button
           type="button"
@@ -778,7 +944,9 @@ function EmptyState({
       )}
       {tiles.length > 0 && (
         <div className="mt-2 w-full">
-          <p className="text-[0.8125rem] font-bold text-text-muted mb-2">أو جرّب:</p>
+          <p className="text-[0.8125rem] font-bold text-text-muted mb-2">
+            أو جرّب:
+          </p>
           <ul className="flex flex-wrap justify-center gap-2 list-none m-0 p-0">
             {tiles.slice(0, 8).map((tile) => (
               <li key={tile.key}>

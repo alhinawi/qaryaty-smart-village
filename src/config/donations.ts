@@ -18,16 +18,20 @@
 // PLACEHOLDERS: no cause has real contact or payment details yet. Until then every cause
 // goes through our own WhatsApp and the "عايز أتبرع" form, and we arrange the donation.
 
-import { whatsappChatLink } from './developer';
+import { whatsappChatLink } from "./developer";
 
-export type DonationType = 'money' | 'clothes' | 'furniture' | 'food' | 'other';
+export type DonationType = "money" | "clothes" | "furniture" | "food" | "other";
 
-export const DONATION_TYPES: readonly { id: DonationType; label: string; icon: string }[] = [
-  { id: 'money', label: 'فلوس', icon: '💵' },
-  { id: 'clothes', label: 'هدوم', icon: '👕' },
-  { id: 'furniture', label: 'عفش وأجهزة', icon: '🛋️' },
-  { id: 'food', label: 'أكل وتموين', icon: '🍚' },
-  { id: 'other', label: 'حاجة تانية', icon: '🎁' },
+export const DONATION_TYPES: readonly {
+  id: DonationType;
+  label: string;
+  icon: string;
+}[] = [
+  { id: "money", label: "فلوس", icon: "💵" },
+  { id: "clothes", label: "هدوم", icon: "👕" },
+  { id: "furniture", label: "عفش وأجهزة", icon: "🛋️" },
+  { id: "food", label: "أكل وتموين", icon: "🍚" },
+  { id: "other", label: "حاجة تانية", icon: "🎁" },
 ];
 
 export interface DonationWallet {
@@ -57,7 +61,7 @@ export interface DonationCause {
   icon: string;
   name: string;
   /** organization: a body in the village (بيت المال، الجمعية). cause: a kind of good deed. */
-  kind: 'organization' | 'cause';
+  kind: "organization" | "cause";
   /** One or two warm lines: what the money or things go to */
   description: string;
   /** What people can give to this cause; the form offers these (and "حاجة تانية") */
@@ -70,106 +74,119 @@ export interface DonationCause {
 export const DONATION_CAUSES: readonly DonationCause[] = [
   // ── Organizations in the village
   {
-    id: 'beit-almal',
-    icon: '🕌',
-    name: 'بيت المال',
-    kind: 'organization',
-    description: 'زكاة مالك وصدقاتك بتتجمع وتتوزع على الأسر المحتاجة في القرية، بالأولوية للأقرب فالأقرب.',
-    accepts: ['money', 'food'],
+    id: "beit-almal",
+    icon: "🕌",
+    name: "بيت المال",
+    kind: "organization",
+    description:
+      "زكاة مالك وصدقاتك بتتجمع وتتوزع على الأسر المحتاجة في القرية، بالأولوية للأقرب فالأقرب.",
+    accepts: ["money", "food"],
   },
   {
-    id: 'gameya-sharia',
-    icon: '🤝',
-    name: 'الجمعية الشرعية',
-    kind: 'organization',
-    description: 'كفالة أيتام، ومساعدة أسر محتاجة، وعلاج مرضى. تبرعك بيوصل عن طريق فرع الجمعية في القرية.',
-    accepts: ['money', 'clothes', 'food', 'furniture'],
+    id: "gameya-sharia",
+    icon: "🤝",
+    name: "الجمعية الشرعية",
+    kind: "organization",
+    description:
+      "كفالة أيتام، ومساعدة أسر محتاجة، وعلاج مرضى. تبرعك بيوصل عن طريق فرع الجمعية في القرية.",
+    accepts: ["money", "clothes", "food", "furniture"],
   },
   // ── Kinds of good deeds
   {
-    id: 'brides',
-    icon: '👰',
-    name: 'تجهيز عرايس',
-    kind: 'cause',
-    description: 'ساعد بنت من بنات القرية تكمّل جهازها: أجهزة كهربائية، مفروشات، أو مبلغ يسد اللي ناقص.',
-    accepts: ['money', 'furniture'],
+    id: "brides",
+    icon: "👰",
+    name: "تجهيز عرايس",
+    kind: "cause",
+    description:
+      "ساعد بنت من بنات القرية تكمّل جهازها: أجهزة كهربائية، مفروشات، أو مبلغ يسد اللي ناقص.",
+    accepts: ["money", "furniture"],
   },
   {
-    id: 'orphans',
-    icon: '🧒',
-    name: 'كفالة يتيم',
-    kind: 'cause',
-    description: 'مبلغ شهري أو مرة واحدة لطفل يتيم من القرية، يساعده في أكله ولبسه ومصاريف مدرسته.',
-    accepts: ['money', 'clothes'],
+    id: "orphans",
+    icon: "🧒",
+    name: "كفالة يتيم",
+    kind: "cause",
+    description:
+      "مبلغ شهري أو مرة واحدة لطفل يتيم من القرية، يساعده في أكله ولبسه ومصاريف مدرسته.",
+    accepts: ["money", "clothes"],
   },
   {
-    id: 'ramadan-bag',
-    icon: '🌙',
-    name: 'شنطة رمضان وكرتونة الخير',
-    kind: 'cause',
-    description: 'رز وسكر وزيت ومكرونة وبقوليات للأسر المحتاجة، في رمضان وفي أي وقت من السنة.',
-    accepts: ['money', 'food'],
+    id: "ramadan-bag",
+    icon: "🌙",
+    name: "شنطة رمضان وكرتونة الخير",
+    kind: "cause",
+    description:
+      "رز وسكر وزيت ومكرونة وبقوليات للأسر المحتاجة، في رمضان وفي أي وقت من السنة.",
+    accepts: ["money", "food"],
   },
   {
-    id: 'feeding',
-    icon: '🍲',
-    name: 'إطعام وإفطار صايم',
-    kind: 'cause',
-    description: 'وجبات سخنة لكبار السن والأسر اللي محتاجة، وإفطار صايم في رمضان.',
-    accepts: ['money', 'food'],
+    id: "feeding",
+    icon: "🍲",
+    name: "إطعام وإفطار صايم",
+    kind: "cause",
+    description:
+      "وجبات سخنة لكبار السن والأسر اللي محتاجة، وإفطار صايم في رمضان.",
+    accepts: ["money", "food"],
   },
   {
-    id: 'medical',
-    icon: '💊',
-    name: 'علاج المرضى',
-    kind: 'cause',
-    description: 'مصاريف كشف وتحاليل وأدوية وعمليات لمرضى من القرية مش قادرين على تكلفة العلاج.',
-    accepts: ['money'],
+    id: "medical",
+    icon: "💊",
+    name: "علاج المرضى",
+    kind: "cause",
+    description:
+      "مصاريف كشف وتحاليل وأدوية وعمليات لمرضى من القرية مش قادرين على تكلفة العلاج.",
+    accepts: ["money"],
   },
   {
-    id: 'debtors',
-    icon: '⚖️',
-    name: 'الغارمين والغارمات',
-    kind: 'cause',
-    description: 'سداد دين عن حد اتزنق في قسط أو وصل أمانة، علشان يرجع لبيته وولاده.',
-    accepts: ['money'],
+    id: "debtors",
+    icon: "⚖️",
+    name: "الغارمين والغارمات",
+    kind: "cause",
+    description:
+      "سداد دين عن حد اتزنق في قسط أو وصل أمانة، علشان يرجع لبيته وولاده.",
+    accepts: ["money"],
   },
   {
-    id: 'winter-clothes',
-    icon: '🧥',
-    name: 'كسوة الشتا',
-    kind: 'cause',
-    description: 'بطاطين وهدوم شتوي للكبار والصغار. الهدوم المستعملة لازم تكون نضيفة وسليمة.',
-    accepts: ['clothes', 'money'],
+    id: "winter-clothes",
+    icon: "🧥",
+    name: "كسوة الشتا",
+    kind: "cause",
+    description:
+      "بطاطين وهدوم شتوي للكبار والصغار. الهدوم المستعملة لازم تكون نضيفة وسليمة.",
+    accepts: ["clothes", "money"],
   },
   {
-    id: 'sadaqa-jariya',
-    icon: '💧',
-    name: 'صدقة جارية',
-    kind: 'cause',
-    description: 'كولدير مية، فرش وتجديد مسجد، مصاحف، أو أي حاجة الناس تفضل تنتفع بيها وثوابها مستمر.',
-    accepts: ['money', 'furniture'],
+    id: "sadaqa-jariya",
+    icon: "💧",
+    name: "صدقة جارية",
+    kind: "cause",
+    description:
+      "كولدير مية، فرش وتجديد مسجد، مصاحف، أو أي حاجة الناس تفضل تنتفع بيها وثوابها مستمر.",
+    accepts: ["money", "furniture"],
   },
 ];
 
 /** Words that bring up باب الخير in the home search, besides the causes' names */
 export const DONATION_KEYWORDS = [
-  'باب الخير',
-  'تبرع',
-  'تبرعات',
-  'اتبرع',
-  'زكاة',
-  'صدقة',
-  'جمعية',
-  'عروسة',
-  'عرايس',
-  'أيتام',
-  'محتاجين',
-  'كرتونة رمضان',
+  "باب الخير",
+  "تبرع",
+  "تبرعات",
+  "اتبرع",
+  "زكاة",
+  "صدقة",
+  "جمعية",
+  "عروسة",
+  "عرايس",
+  "أيتام",
+  "محتاجين",
+  "كرتونة رمضان",
 ];
 
 /** Text the home search looks in for باب الخير */
-export const DONATION_SEARCH_FIELDS: readonly string[] = [...DONATION_KEYWORDS, ...DONATION_CAUSES.map((c) => c.name)];
+export const DONATION_SEARCH_FIELDS: readonly string[] = [
+  ...DONATION_KEYWORDS,
+  ...DONATION_CAUSES.map((c) => c.name),
+];
 
 /** Label for a donation type */
 export function donationTypeLabel(type: DonationType): string {
@@ -177,9 +194,13 @@ export function donationTypeLabel(type: DonationType): string {
 }
 
 /** The types the form offers for a cause: what it accepts, then "حاجة تانية" */
-export function donationTypesFor(cause: DonationCause | undefined): DonationType[] {
-  const accepted = cause?.accepts ?? DONATION_TYPES.map((t) => t.id).filter((t) => t !== 'other');
-  return [...accepted.filter((t) => t !== 'other'), 'other'];
+export function donationTypesFor(
+  cause: DonationCause | undefined,
+): DonationType[] {
+  const accepted =
+    cause?.accepts ??
+    DONATION_TYPES.map((t) => t.id).filter((t) => t !== "other");
+  return [...accepted.filter((t) => t !== "other"), "other"];
 }
 
 export function findCause(id: string): DonationCause | undefined {
@@ -193,20 +214,27 @@ export function hasPaymentDetails(cause: DonationCause): boolean {
 }
 
 /** Message typed in for a donor asking about a cause */
-export function donationMessage(cause: DonationCause, details?: { name?: string; type?: DonationType; notes?: string }): string {
+export function donationMessage(
+  cause: DonationCause,
+  details?: { name?: string; type?: DonationType; notes?: string },
+): string {
   const lines = [`السلام عليكم، عايز أتبرع لـ"${cause.name}" من خلال قريتي.`];
   if (details?.name) lines.push(`الاسم: ${details.name}`);
-  lines.push(`نوع التبرع: ${details?.type ? donationTypeLabel(details.type) : ''}`);
+  lines.push(
+    `نوع التبرع: ${details?.type ? donationTypeLabel(details.type) : ""}`,
+  );
   if (details?.notes) lines.push(`ملاحظات: ${details.notes}`);
-  return lines.join('\n');
+  return lines.join("\n");
 }
 
 /** WhatsApp chat for a cause: the organization's own number once it's filled in, else ours */
 export function donationWhatsappLink(
   cause: DonationCause,
-  details?: { name?: string; type?: DonationType; notes?: string }
+  details?: { name?: string; type?: DonationType; notes?: string },
 ): string {
   const text = donationMessage(cause, details);
   const own = cause.contact?.whatsapp;
-  return own ? `https://wa.me/${own}?text=${encodeURIComponent(text)}` : whatsappChatLink(text);
+  return own
+    ? `https://wa.me/${own}?text=${encodeURIComponent(text)}`
+    : whatsappChatLink(text);
 }
