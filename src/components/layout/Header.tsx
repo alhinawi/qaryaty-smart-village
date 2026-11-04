@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 import { useUIStore } from "@/stores/useUIStore";
+import { useGoToTab, useActiveTab } from '@/hooks/useTabNavigation';
 
 import { useCartStore } from "@/stores/useCartStore";
 
@@ -11,9 +12,9 @@ import type { ActiveTab } from "@/types";
 // ─── Component
 
 export function Header() {
-  const activeTab = useUIStore((state) => state.activeTab);
+  const activeTab = useActiveTab();
 
-  const setActiveTab = useUIStore((state) => state.setActiveTab);
+  const setActiveTab = useGoToTab();
 
   const searchQuery = useUIStore((state) => state.searchQuery);
 

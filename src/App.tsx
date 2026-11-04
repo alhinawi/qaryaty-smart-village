@@ -1,7 +1,10 @@
 // ─── Imports
 import { Suspense, lazy, useState } from 'react';
+import { Navigate, Route, Routes } from 'react-router';
+import { ROUTES } from '@/routes';
 import { useSplashScreen } from '@/hooks/useSplashScreen';
 import { useUIStore } from '@/stores/useUIStore';
+import { useGoToTab } from '@/hooks/useTabNavigation';
 import type { OrderModalData } from '@/types';
 
 // Layout & Global Components
@@ -37,8 +40,7 @@ function PageLoadingFallback() {
 export default function App() {
   const { showSplash, isFadingOut, isAppVisible } = useSplashScreen();
 
-  const activeTab = useUIStore((state) => state.activeTab);
-  const setActiveTab = useUIStore((state) => state.setActiveTab);
+  const setActiveTab = useGoToTab();
   const toastMessage = useUIStore((state) => state.toastMessage);
 
   // Modal States
@@ -93,15 +95,21 @@ export default function App() {
         <main className="flex-1 w-full pb-[calc(85px+env(safe-area-inset-bottom))] lg:pb-10">
           <PageWrapper>
             <Suspense fallback={<PageLoadingFallback />}>
-              {activeTab === 'home' && (
-                <HomePage onOpenOrderModal={handleOpenOrderModal} />
-              )}
-              {activeTab === 'orders' && <OrdersPage />}
-              {activeTab === 'favorites' && (
-                <FavoritesPage onOpenOrderModal={handleOpenOrderModal} />
-              )}
-              {activeTab === 'messages' && <MessagesPage />}
-              {activeTab === 'profile' && <ProfilePage />}
+              <Routes>
+                <Route
+                  path={ROUTES.home}
+                  element={<HomePage onOpenOrderModal={handleOpenOrderModal} />}
+                />
+                <Route path={ROUTES.orders} element={<OrdersPage />} />
+                <Route
+                  path={ROUTES.favorites}
+                  element={<FavoritesPage onOpenOrderModal={handleOpenOrderModal} />}
+                />
+                <Route path={ROUTES.messages} element={<MessagesPage />} />
+                <Route path={ROUTES.profile} element={<ProfilePage />} />
+                {/* Unknown URLs go home instead of a blank page */}
+                <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
+              </Routes>
             </Suspense>
           </PageWrapper>
         </main>

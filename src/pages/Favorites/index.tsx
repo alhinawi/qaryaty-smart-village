@@ -1,6 +1,6 @@
 // ─── Imports
 import { useUserStore } from '@/stores/useUserStore';
-import { useUIStore } from '@/stores/useUIStore';
+import { useGoToTab } from '@/hooks/useTabNavigation';
 import { SERVICES } from '@/data/services';
 import { ServiceCard } from '@/components/shared/ServiceCard';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -17,7 +17,7 @@ export default function FavoritesPage({
   onOpenOrderModal,
 }: FavoritesPageProps) {
   const favorites = useUserStore((state) => state.favorites);
-  const setActiveTab = useUIStore((state) => state.setActiveTab);
+  const setActiveTab = useGoToTab();
 
   const favoriteServices = SERVICES.filter((service) =>
     favorites.includes(service.id)
