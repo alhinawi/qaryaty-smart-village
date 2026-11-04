@@ -32,6 +32,7 @@ const MessagesPage = lazy(() => import('@/pages/Messages'));
 const ProfilePage = lazy(() => import('@/pages/Profile'));
 const LoginPage = lazy(() => import('@/pages/Auth/LoginPage'));
 const RegisterPage = lazy(() => import('@/pages/Auth/RegisterPage'));
+const AboutPage = lazy(() => import('@/pages/About'));
 
 // ─── Page Loading Fallback
 function PageLoadingFallback() {
@@ -138,6 +139,7 @@ export default function App() {
                 <Route path={ROUTES.profile} element={<ProfilePage />} />
                 <Route path={ROUTES.login} element={<LoginPage />} />
                 <Route path={ROUTES.register} element={<RegisterPage />} />
+                <Route path={ROUTES.about} element={<AboutPage />} />
                 {/* Unknown URLs go home instead of a blank page */}
                 <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
               </Routes>
