@@ -30,9 +30,14 @@ export const useCartStore = create<CartState>()(
         );
 
         if (existingIndex > -1) {
-          const updated = [...currentItems];
-          updated[existingIndex].quantity += 1;
-          set({ items: updated });
+          // Return new objects instead of mutating the persisted item in place
+          set({
+            items: currentItems.map((item, index) =>
+              index === existingIndex
+                ? { ...item, quantity: Math.min(item.quantity + 1, 100) }
+                : item
+            ),
+          });
         } else {
           const newItem: CartItem = {
             id: `cart_${service.id}_${Date.now()}`,
