@@ -29,8 +29,7 @@ export function generateOrderNumber(): string {
   return `#${Math.floor(Math.random() * 9000 + 1000)}`;
 }
 
-export function getFormattedDate(): string {
-  const now = new Date();
+export function getFormattedDate(now: Date = new Date()): string {
   return new Intl.DateTimeFormat('ar-EG', {
     month: 'short',
     day: 'numeric',
