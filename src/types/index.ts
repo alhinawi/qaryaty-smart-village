@@ -58,8 +58,9 @@ export type TeacherSubject =
 
 export type SchoolStage = 'primary' | 'prep' | 'secondary';
 
-// ─── Providers (teachers, nurses, babysitters, doctors, cleaners)
-export type ProviderKind = 'teacher' | 'nurse' | 'babysitter' | 'doctor' | 'cleaner';
+// ─── Providers (teachers, nurses, babysitters, doctors, cleaners, and workers for every other service)
+/** `worker`: anyone booked through an ordinary service (سباك، نجار، جزار…); `role` says what they do. */
+export type ProviderKind = 'teacher' | 'nurse' | 'babysitter' | 'doctor' | 'cleaner' | 'worker';
 
 /** Where the provider works: at the customer's home, online, or in a clinic. */
 export type ProviderMode = 'home' | 'online' | 'clinic';
@@ -79,6 +80,8 @@ export interface Provider {
   stages?: SchoolStage[];
   /** Doctors: specialty, e.g. باطنة. */
   specialty?: string;
+  /** Workers: what they do, as shown on their card (سباك، كوافيرة، بيّاعة خضار). */
+  role?: string;
   experienceYears: number;
   rating: number;
   reviews: number;
