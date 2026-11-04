@@ -21,6 +21,7 @@ import {
   getCartPricing,
 } from "@/utils/pricing";
 import type { CartItem, PaymentMethod } from "@/types";
+import { APP_COMMISSION_LABEL } from "@/config/commission";
 
 // ─── Component
 // The content only mounts while the drawer is open, so the promo code,
@@ -81,12 +82,14 @@ function CartDrawerContent() {
       ? items.map((i) => ({ productId: i.productId as string, quantity: i.quantity, grill: i.grill }))
       : undefined;
   // Card and wallet charge a known amount, so they need a fixed total
-  const paymentOptions = paymentChoices(!pricing.isEstimate && pricing.total > 0);
+  const paymentOptions = paymentChoices(!pricing.isEstimate && (pricing.totalToPay ?? 0) > 0);
   const payWith: PaymentMethod = paymentOptions.includes(paymentMethod) ? paymentMethod : "cash";
+  // عمولة التطبيق is in the total here, at checkout, and nowhere before
   const totalLabel = describeTotal(
-    pricing.subtotal === 0 && pricing.hasQuoteItems ? null : pricing.total,
+    pricing.totalToPay,
     pricing.isEstimate,
     formatCurrency,
+    pricing.commission,
   );
 
   const promoContext = {
@@ -135,10 +138,7 @@ function CartDrawerContent() {
     const promoStillValid =
       discountApplied && checkPromoCode(promoCode, promoContext).ok;
     const finalPricing = getCartPricing(items, promoStillValid);
-    const total =
-      finalPricing.subtotal === 0 && finalPricing.hasQuoteItems
-        ? null
-        : finalPricing.total;
+    const total = finalPricing.totalToPay;
 
     const vendor = useCartStore.getState().getVendor();
     const names = items
@@ -162,6 +162,7 @@ function CartDrawerContent() {
         discountCode: promoStillValid ? FIRST_ORDER_PROMO : undefined,
         discountAmount: finalPricing.discountAmount,
         totalAmount: total,
+        commissionAmount: finalPricing.commission,
         isEstimate: finalPricing.isEstimate,
         status: "pending",
         ...(shopItems ? { shopId, items: shopItems } : {}),
@@ -362,6 +363,12 @@ function CartDrawerContent() {
               <div className="flex justify-between text-sm mb-1.5 text-success font-bold">
                 <span>خصم كود {FIRST_ORDER_PROMO}:</span>
                 <span>-{formatCurrency(pricing.discountAmount)}</span>
+              </div>
+            )}
+            {pricing.commission > 0 && (
+              <div className="flex justify-between text-sm mb-1.5">
+                <span>{APP_COMMISSION_LABEL}:</span>
+                <span>{formatCurrency(pricing.commission)}</span>
               </div>
             )}
             <div className="flex justify-between text-base border-t border-gray-200 pt-2 mt-2">

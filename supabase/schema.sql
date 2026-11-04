@@ -237,7 +237,7 @@ create table if not exists public.orders (
   payment_method  text not null,
   discount_code   text,
   discount_amount numeric not null default 0,
-  total_amount    numeric not null default 0,
+  total_amount    numeric default 0,  -- null: the price is set after confirmation
   is_estimate     boolean not null default false,
   status          text not null default 'pending'
                   check (status in ('pending','confirmed','onway','done')),
@@ -299,9 +299,28 @@ alter table public.orders add constraint orders_one_place check (
 create unique index if not exists orders_paymob_order_id_key
   on public.orders (paymob_order_id) where paymob_order_id is not null;
 
+-- عمولة التطبيق: one fixed fee on every order, set and added to total_amount by
+-- orders_before_insert. total_amount is what the customer pays, the fee included.
+-- Old projects: a price set after confirmation is null, not 0 (the app sends null).
+alter table public.orders add column if not exists commission_amount numeric not null default 0;
+alter table public.orders alter column total_amount drop not null;
+
+-- The fee in EGP. Same number as APP_COMMISSION in src/config/commission.ts.
+create or replace function public.app_commission() returns numeric
+language sql immutable as $$ select 5::numeric $$;
+
+-- Same rule as appCommission() in src/utils/pricing.ts: every order pays it
+-- (a price set after confirmation too), except one the first-order code made free.
+create or replace function public.order_commission(code text, payable numeric, estimate boolean)
+returns numeric language sql immutable set search_path = public as $$
+  select case when code = 'QARYA1' and payable = 0 and not coalesce(estimate, false)
+              then 0 else public.app_commission() end
+$$;
+
 alter table public.orders drop constraint if exists orders_sane_values;
 alter table public.orders add constraint orders_sane_values check (
-  discount_amount >= 0 and total_amount >= 0
+  discount_amount >= 0 and (total_amount is null or total_amount >= 0)
+  and commission_amount >= 0
   and (discount_code is null or discount_code = 'QARYA1')
   and length(order_number) <= 40 and length(service_name) <= 300
   and length(service_emoji) <= 40 and length(address) <= 300
@@ -331,6 +350,7 @@ declare
   subtotal  numeric := 0;
   priced    jsonb := '[]'::jsonb;
   names     text[] := '{}';
+  price_part numeric;
   grill_per_kilo constant numeric := 40;  -- GRILL_PRICE_PER_KILO in src/data/catalog.ts
 begin
   if current_user in ('anon', 'authenticated') then
@@ -380,13 +400,25 @@ begin
     new.is_estimate := false;
     -- Same rule as the app (utils/pricing.ts): QARYA1 takes the whole fixed total off
     new.discount_amount := case when new.discount_code = 'QARYA1' then subtotal else 0 end;
-    new.total_amount := subtotal - new.discount_amount;
+    new.commission_amount := public.order_commission(new.discount_code, subtotal - new.discount_amount, false);
+    new.total_amount := subtotal - new.discount_amount + new.commission_amount;
     new.service_name := left(shop.name || ': ' || array_to_string(names, ' + '), 300);
     new.service_emoji := left(coalesce(shop.emoji, ''), 40);
+  else
+    -- A service order: the app's total holds the price and the commission it
+    -- showed. Take the app's commission out and add the server's own instead,
+    -- so it can't be dropped or lowered. A null total (price set after
+    -- confirmation) stays null and the commission is still recorded.
+    -- (greatest() skips nulls, so keep a null total null by hand)
+    price_part := case when new.total_amount is null then null
+                       else greatest(new.total_amount - greatest(coalesce(new.commission_amount, 0), 0), 0) end;
+    new.commission_amount := public.order_commission(new.discount_code, price_part, new.is_estimate);
+    new.total_amount := price_part + new.commission_amount;
   end if;
 
   -- Card and wallet need a known amount to charge
-  if new.payment_method in ('card','wallet') and (new.is_estimate or new.total_amount <= 0) then
+  if new.payment_method in ('card','wallet')
+     and (new.is_estimate or new.total_amount is null or new.total_amount <= 0) then
     raise exception 'online payment needs a fixed price' using errcode = '22023';
   end if;
   return new;
@@ -414,6 +446,9 @@ grant update (status) on public.orders to authenticated; -- admins only (RLS)
 
 revoke all on function public.handle_new_user() from public, anon, authenticated;
 revoke all on function public.orders_before_insert() from public, anon, authenticated;
+-- The insert trigger runs as the caller, so the app's roles call these two
+grant execute on function public.app_commission(), public.order_commission(text, numeric, boolean)
+  to anon, authenticated, service_role;
 revoke all on function public.admin_set_role(uuid, text) from public, anon;
 revoke all on function public.admin_set_blocked(uuid, boolean) from public, anon;
 grant execute on function public.admin_set_role(uuid, text) to authenticated;

@@ -12,6 +12,7 @@ import type {
   ServiceOption,
 } from '@/types';
 import { STAGE_LABELS } from '@/data/teachers';
+import { APP_COMMISSION } from '@/config/commission';
 import { teacherLessonOptions } from './teacherGroups';
 
 // ─── Promo code
@@ -64,6 +65,22 @@ export function checkPromoCode(
   return { ok: true, code };
 }
 
+// ─── App commission
+/**
+ * The app's fee for one order. Every order pays it, a price set after
+ * confirmation included; only an order the first-order code made free
+ * pays nothing. Same rule as public.order_commission() in supabase/schema.sql.
+ */
+export function appCommission(order: {
+  /** What the order costs after the discount; null when set after confirmation. */
+  payable: number | null;
+  isEstimate: boolean;
+  discounted: boolean;
+}): number {
+  if (order.discounted && order.payable === 0 && !order.isEstimate) return 0;
+  return APP_COMMISSION;
+}
+
 // ─── Single service pricing (OrderModal)
 export interface OrderPricing {
   priceType: PriceType;
@@ -83,6 +100,10 @@ export interface OrderPricing {
   deliveryFee: number;
   /** What the picked choice says about the price, e.g. "معاينة 100 ج" or "360 ج/الشهر". */
   priceLabel?: string;
+  /** عمولة التطبيق, shown at the payment step only. */
+  commission: number;
+  /** finalPrice plus the commission: what the customer pays. null when set after confirmation. */
+  totalToPay: number | null;
 }
 
 export function resolvePriceType(data: {
@@ -170,6 +191,8 @@ export function getOrderPricing(
       finalPrice: null,
       isEstimate: false,
       unitPrice: null,
+      commission: appCommission({ payable: null, isEstimate: false, discounted: false }),
+      totalToPay: null,
       ...extra,
     };
   }
@@ -177,15 +200,20 @@ export function getOrderPricing(
   const basePrice = (priced as number) + deliveryFee;
   const discountableAmount = priceType === 'fixed' ? basePrice : 0;
   const discountAmount = discountApplied ? discountableAmount : 0;
+  const finalPrice = Math.max(0, basePrice - discountAmount);
+  const isEstimate = priceType === 'from';
+  const commission = appCommission({ payable: finalPrice, isEstimate, discounted: discountAmount > 0 });
 
   return {
     priceType,
     basePrice,
     discountableAmount,
     discountAmount,
-    finalPrice: Math.max(0, basePrice - discountAmount),
-    isEstimate: priceType === 'from',
+    finalPrice,
+    isEstimate,
     unitPrice: perUnit ?? null,
+    commission,
+    totalToPay: finalPrice + commission,
     ...extra,
   };
 }
@@ -201,6 +229,10 @@ export interface CartPricing {
   /** true when some items have a starting price or no price yet. */
   isEstimate: boolean;
   hasQuoteItems: boolean;
+  /** عمولة التطبيق, shown at checkout only. */
+  commission: number;
+  /** total plus the commission. null when nothing in the cart has a price yet. */
+  totalToPay: number | null;
 }
 
 export function getCartItemPriceType(item: CartItem): PriceType {
@@ -228,14 +260,23 @@ export function getCartPricing(items: CartItem[], discountApplied: boolean): Car
   }
 
   const discountAmount = discountApplied ? discountableAmount : 0;
+  const total = Math.max(0, subtotal - discountAmount);
+  const unpriced = subtotal === 0 && hasQuoteItems;
+  const commission = appCommission({
+    payable: unpriced ? null : total,
+    isEstimate,
+    discounted: discountAmount > 0,
+  });
 
   return {
     subtotal,
     discountableAmount,
     discountAmount,
-    total: Math.max(0, subtotal - discountAmount),
+    total,
     isEstimate,
     hasQuoteItems,
+    commission,
+    totalToPay: unpriced ? null : total + commission,
   };
 }
 
@@ -330,12 +371,16 @@ export function providerOptions(provider: Provider, options: ServiceOption[]): S
   });
 }
 
-/** Text for an order total: handles "no price yet" and starting prices. */
+/**
+ * Text for an order total: handles "no price yet" and starting prices.
+ * `added` is what gets added once the price is set (the app's commission).
+ */
 export function describeTotal(
   total: number | null,
   isEstimate: boolean,
-  format: (amount: number) => string
+  format: (amount: number) => string,
+  added = 0
 ): string {
-  if (total == null) return 'السعر يتحدد بعد التأكيد';
+  if (total == null) return added > 0 ? `السعر يتحدد بعد التأكيد + ${format(added)}` : 'السعر يتحدد بعد التأكيد';
   return isEstimate ? `من ${format(total)}` : format(total);
 }

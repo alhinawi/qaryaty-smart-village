@@ -18,6 +18,7 @@ import {
   visibleOptions,
 } from '@/utils/pricing';
 import { PAYMENT_LABELS, isOnlinePayment, paymentChoices, startOnlinePayment } from '@/services/payments';
+import { APP_COMMISSION_LABEL } from '@/config/commission';
 
 // ─── Types
 interface OrderModalProps {
@@ -69,10 +70,11 @@ export function OrderModal({
   if (!isOpen || !data) return null;
 
   const pricing = getOrderPricing(data, discountApplied, { selections: selected, quantity });
-  const { basePrice, discountAmount, finalPrice, isEstimate, unitPrice, amount, deliveryFee, priceLabel } = pricing;
+  const { basePrice, discountAmount, finalPrice, isEstimate, unitPrice, amount, deliveryFee, priceLabel, commission, totalToPay } =
+    pricing;
   const unit = resolveQuantity(data.quantity, selected)?.unit;
   // Card and wallet charge a known amount, so they need a fixed price
-  const paymentOptions = paymentChoices(!isEstimate && (finalPrice ?? 0) > 0);
+  const paymentOptions = paymentChoices(!isEstimate && (totalToPay ?? 0) > 0);
   const payWith: PaymentMethod = paymentOptions.includes(paymentMethod) ? paymentMethod : 'cash';
   const servicePriceLabel =
     priceLabel ||
@@ -141,9 +143,10 @@ export function OrderModal({
         usedPromoCodes,
         discountableAmount: pricing.discountableAmount,
       }).ok;
-    const appliedDiscount = promoStillValid ? discountAmount : 0;
-    const total =
-      finalPrice == null ? null : Math.max(0, (basePrice ?? 0) - appliedDiscount);
+    const finalPricing = getOrderPricing(data, promoStillValid, { selections: selected, quantity });
+    const appliedDiscount = finalPricing.discountAmount;
+    // What the customer pays, عمولة التطبيق included (null: price set after confirmation)
+    const total = finalPricing.totalToPay;
 
     const orderNum = generateOrderNumber();
     setSubmitting(true);
@@ -160,6 +163,7 @@ export function OrderModal({
           discountCode: promoStillValid ? FIRST_ORDER_PROMO : undefined,
           discountAmount: appliedDiscount,
           totalAmount: total,
+          commissionAmount: finalPricing.commission,
           isEstimate,
           status: 'pending',
           options:
@@ -426,6 +430,12 @@ export function OrderModal({
                   <span>-{formatCurrency(discountAmount)} (100% مجاناً)</span>
                 </div>
               )}
+              {commission > 0 && (
+                <div className="flex justify-between text-sm mb-1.5">
+                  <span>{APP_COMMISSION_LABEL}:</span>
+                  <span>{formatCurrency(commission)}</span>
+                </div>
+              )}
               <div className="flex justify-between mb-1.5 text-base border-t border-gray-200 pt-2 mt-2">
                 <strong>
                   {finalPrice == null
@@ -434,7 +444,7 @@ export function OrderModal({
                       ? 'الإجمالي المبدئي:'
                       : 'الإجمالي النهائي:'}
                 </strong>
-                <strong>{describeTotal(finalPrice, isEstimate, formatCurrency)}</strong>
+                <strong>{describeTotal(totalToPay, isEstimate, formatCurrency, commission)}</strong>
               </div>
               {finalPrice == null && (
                 <p className="text-xs text-text-muted mt-1">
