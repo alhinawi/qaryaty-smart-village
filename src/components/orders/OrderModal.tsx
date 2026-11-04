@@ -18,7 +18,7 @@ import {
   visibleOptions,
 } from '@/utils/pricing';
 import { PAYMENT_LABELS, isOnlinePayment, paymentChoices, startOnlinePayment } from '@/services/payments';
-import { APP_COMMISSION_LABEL } from '@/config/commission';
+import { APP_COMMISSION_LABEL, APP_COMMISSION_PERCENT } from '@/config/commission';
 
 // ─── Types
 interface OrderModalProps {
@@ -444,7 +444,7 @@ export function OrderModal({
                       ? 'الإجمالي المبدئي:'
                       : 'الإجمالي النهائي:'}
                 </strong>
-                <strong>{describeTotal(totalToPay, isEstimate, formatCurrency, commission)}</strong>
+                <strong>{describeTotal(totalToPay, isEstimate, formatCurrency, APP_COMMISSION_PERCENT)}</strong>
               </div>
               {finalPrice == null && (
                 <p className="text-xs text-text-muted mt-1">
