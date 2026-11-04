@@ -4,6 +4,12 @@
 // Edit this list to match the real roads; nothing else needs to change.
 
 export const DEFAULT_VILLAGE = 'منية سندوب';
+export const GOVERNORATE = 'الدقهلية';
+
+/** "منية سندوب" → "منية سندوب - الدقهلية", as the profile and the header show it. */
+export function villageLabel(village: string): string {
+  return `${village} - ${GOVERNORATE}`;
+}
 
 const NEIGHBOURS: Record<string, string[]> = {
   'منية سندوب': ['بدواي', 'منية بدواي', 'ميت خميس', 'سلكا', 'شها'],
