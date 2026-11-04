@@ -1,9 +1,11 @@
 // ─── Imports
 import { useUserStore } from '@/stores/useUserStore';
 import { useGoToTab } from '@/hooks/useTabNavigation';
-import { SERVICES } from '@/data/services';
+import { useEffect } from 'react';
+import { useCatalogStore } from '@/stores/useCatalogStore';
 import { ServiceCard } from '@/components/shared/ServiceCard';
 import { EmptyState } from '@/components/ui/EmptyState';
+import { SkeletonList } from '@/components/ui/Skeleton';
 import type { OrderModalData, Service } from '@/types';
 import { serviceToOrderModalData } from '@/utils/pricing';
 
@@ -18,8 +20,15 @@ export default function FavoritesPage({
 }: FavoritesPageProps) {
   const favorites = useUserStore((state) => state.favorites);
   const setActiveTab = useGoToTab();
+  const services = useCatalogStore((state) => state.services);
+  const loadCatalog = useCatalogStore((state) => state.load);
+  const isLoading = useCatalogStore((state) => state.loadState !== 'ready');
 
-  const favoriteServices = SERVICES.filter((service) =>
+  useEffect(() => {
+    void loadCatalog();
+  }, [loadCatalog]);
+
+  const favoriteServices = services.filter((service) =>
     favorites.includes(service.id)
   );
 
@@ -34,7 +43,9 @@ export default function FavoritesPage({
         <p className="text-sm text-text-muted">الخدمات والمحلات التي قمت بحفظها للوصول إليها وطلبها بسرعة</p>
       </div>
 
-      {favoriteServices.length === 0 ? (
+      {isLoading ? (
+        <SkeletonList count={4} />
+      ) : favoriteServices.length === 0 ? (
         <EmptyState
           emoji="💔"
           title="مفيش خدمات مفضلة!"
