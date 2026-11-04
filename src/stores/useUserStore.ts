@@ -1,17 +1,23 @@
 // ─── Imports
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { UserProfile } from '@/types';
+import type { AuthUser, UserProfile } from '@/types';
 
-// ─── Initial Demo Profile
-const INITIAL_PROFILE: UserProfile = {
-  name: 'محمدالهناوي', 
-  phone: '01012345678',
-  address: 'شارع المدرسة، قرية البركة',
+// ─── Guest Profile (nobody signed in)
+export const GUEST_PROFILE: UserProfile = {
+  name: 'ضيف',
+  phone: '',
+  address: '',
   village: 'قرية البركة - الجيزة',
-  rewardPoints: 120,
-  memberSince: 'يناير 2026',
+  rewardPoints: 0,
+  memberSince: '',
 };
+
+function memberSinceFrom(isoDate: string): string {
+  const date = new Date(isoDate);
+  if (Number.isNaN(date.getTime())) return '';
+  return new Intl.DateTimeFormat('ar-EG', { month: 'long', year: 'numeric' }).format(date);
+}
 
 // ─── State Interface
 interface UserState {
@@ -24,13 +30,17 @@ interface UserState {
   isFavorite: (serviceId: number) => boolean;
   addRewardPoints: (points: number) => void;
   updateProfile: (data: Partial<UserProfile>) => void;
+  /** Fill the profile from the signed-in account (keeps reward points). */
+  applyAuthUser: (user: AuthUser) => void;
+  /** Back to the guest profile after logout. Favorites stay on the device. */
+  resetToGuest: () => void;
 }
 
 // ─── Store
 export const useUserStore = create<UserState>()(
   persist(
     (set, get) => ({
-      profile: INITIAL_PROFILE,
+      profile: GUEST_PROFILE,
       favorites: [1, 3, 13], // default initial favorites: bread, supermarket, home food
       usedPromoCodes: [],
 
@@ -70,6 +80,23 @@ export const useUserStore = create<UserState>()(
             ...data,
           },
         }));
+      },
+
+      applyAuthUser: (user: AuthUser) => {
+        set((state) => ({
+          profile: {
+            ...state.profile,
+            name: user.name,
+            phone: user.phone,
+            address: user.address,
+            village: user.village,
+            memberSince: memberSinceFrom(user.createdAt),
+          },
+        }));
+      },
+
+      resetToGuest: () => {
+        set({ profile: GUEST_PROFILE });
       },
     }),
     {

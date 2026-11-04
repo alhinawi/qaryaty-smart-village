@@ -17,18 +17,22 @@ export function normalizeEgyptianPhone(value: string): string {
   return digits;
 }
 
+// ─── Shared field schemas
+/** Egyptian mobile number; Arabic digits, spaces and +20 are normalized first. */
+export const egyptianPhoneSchema = z.preprocess(
+  (value) => (typeof value === 'string' ? normalizeEgyptianPhone(value) : value),
+  z.string().regex(/^01[0125][0-9]{8}$/, {
+    message: 'رقم الموبايل غير صحيح (مثال: 01012345678)',
+  })
+);
+
 // ─── Order Form Schema
 export const orderFormSchema = z.object({
   address: z
     .string()
     .trim()
     .min(5, { message: 'من فضلك أدخل عنوانك بالتفصيل داخل القرية' }),
-  phone: z.preprocess(
-    (value) => (typeof value === 'string' ? normalizeEgyptianPhone(value) : value),
-    z.string().regex(/^01[0125][0-9]{8}$/, {
-      message: 'رقم الموبايل غير صحيح (مثال: 01012345678)',
-    })
-  ),
+  phone: egyptianPhoneSchema,
   notes: z.string().optional().default(''),
   paymentMethod: z.enum(['cash', 'vodafone', 'instapay']),
   discountCode: z.string().optional().default(''),
@@ -48,3 +52,52 @@ export const ratingSchema = z.object({
   rating: z.number().int().min(1).max(5),
   feedback: z.string().optional(),
 });
+
+// ─── Auth Schemas
+export const loginSchema = z.object({
+  phone: egyptianPhoneSchema,
+  password: z.string().min(1, { message: 'اكتب كلمة السر' }),
+});
+
+export type LoginInput = z.infer<typeof loginSchema>;
+
+export const passwordSchema = z
+  .string()
+  .min(8, { message: 'كلمة السر لازم تكون 8 حروف أو أرقام على الأقل' })
+  .max(64, { message: 'كلمة السر طويلة أوي' })
+  .regex(/[0-9\u0660-\u0669]/, { message: 'كلمة السر لازم يكون فيها رقم واحد على الأقل' })
+  .regex(/[^0-9\u0660-\u0669\s]/, { message: 'كلمة السر لازم يكون فيها حرف واحد على الأقل' });
+
+export const registerSchema = z
+  .object({
+    name: z
+      .string()
+      .trim()
+      .min(3, { message: 'اكتب اسمك (3 حروف على الأقل)' })
+      .max(40, { message: 'الاسم طويل أوي' }),
+    phone: egyptianPhoneSchema,
+    village: z.string().trim().min(2, { message: 'اكتب اسم قريتك' }).max(60),
+    address: z
+      .string()
+      .trim()
+      .min(5, { message: 'من فضلك أدخل عنوانك بالتفصيل داخل القرية' })
+      .max(120),
+    password: passwordSchema,
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ['confirmPassword'],
+    message: 'كلمتين السر مش زي بعض',
+  });
+
+export type RegisterInput = z.infer<typeof registerSchema>;
+
+/** Zod issues → { field: first message } for the forms. */
+export function fieldErrorsFrom(issues: { path: PropertyKey[]; message: string }[]): Record<string, string> {
+  const errors: Record<string, string> = {};
+  for (const issue of issues) {
+    const key = issue.path[0];
+    if (key != null && !errors[String(key)]) errors[String(key)] = issue.message;
+  }
+  return errors;
+}
