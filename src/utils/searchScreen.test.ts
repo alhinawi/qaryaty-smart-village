@@ -142,6 +142,14 @@ describe('highlightParts', () => {
 });
 
 describe('photos', () => {
+  it('food tiles use different photos where the restaurants allow it', () => {
+    const tiles = exploreTiles('restaurants', SHOPS, index);
+    const photos = tiles.map((t) => t.photo).filter(Boolean);
+    expect(photos.length).toBeGreaterThan(0);
+    // Repeats only where a type's restaurants are all shown already
+    expect(new Set(photos).size).toBeGreaterThanOrEqual(Math.ceil(photos.length * 0.8));
+  });
+
   it('asks Pexels for a small tile photo and leaves other links alone', () => {
     expect(smallPhoto('https://images.pexels.com/photos/1/a.jpeg?auto=compress&cs=tinysrgb&w=330')).toBe(
       'https://images.pexels.com/photos/1/a.jpeg?auto=compress&cs=tinysrgb&w=160'
