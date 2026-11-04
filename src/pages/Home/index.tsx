@@ -7,10 +7,10 @@ import type {
   ProviderKind,
   SchoolStage,
   Service,
+  ServiceCategory,
   TeacherSubject,
 } from '@/types';
 import { CATEGORIES } from '@/data/categories';
-import { SUBJECT_LABELS } from '@/data/teachers';
 import { useUIStore } from '@/stores/useUIStore';
 import { useCatalogStore } from '@/stores/useCatalogStore';
 
@@ -23,18 +23,22 @@ import { ServicesSection } from './ServicesSection';
 import { PromoBanner } from './PromoBanner';
 import { ShopsSection } from './ShopsSection';
 import { ProvidersSection } from './ProvidersSection';
+import { PeopleSectionsRow } from './PeopleSectionsRow';
 import { FeaturesSection } from './FeaturesSection';
 import { SkeletonList } from '@/components/ui/Skeleton';
 import { providerToOrderModalData, serviceToOrderModalData } from '@/utils/pricing';
 import { matchesSearch } from '@/utils/arabicSearch';
+import {
+  PEOPLE_SECTIONS,
+  filterProviders,
+  gridServices,
+  quickRequestServices,
+  sectionCounts,
+  sectionForCategory,
+} from '@/utils/peopleSections';
 
-// ─── Which people show under each category
-const PROVIDER_KINDS: Partial<Record<CategoryFilter, { kinds: ProviderKind[]; title: string }>> = {
-  edu: { kinds: ['teacher'], title: '👩‍🏫 المدرسين' },
-  health: { kinds: ['doctor', 'nurse'], title: '🩺 الدكاترة والتمريض' },
-  care: { kinds: ['babysitter'], title: '❤️ جليسات الأطفال' },
-  home: { kinds: ['cleaner'], title: '🧹 عمال وعاملات النظافة' },
-};
+/** Search results on الكل: how many people to show per section before "عرض الكل". */
+const SEARCH_PREVIEW = 4;
 
 // ─── Types
 interface HomePageProps {
@@ -47,7 +51,7 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
   const setSearchQuery = useUIStore((state) => state.setSearchQuery);
   const showToast = useUIStore((state) => state.showToast);
 
-  const [selectedCategory, setSelectedCategory] =
+  const [selectedCategory, setSelectedCategoryState] =
     useState<CategoryFilter>('all');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const services = useCatalogStore((state) => state.services);
@@ -62,7 +66,22 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
   }, [loadCatalog]);
   const [subject, setSubject] = useState<TeacherSubject | 'all'>('all');
   const [stage, setStage] = useState<SchoolStage | 'all'>('all');
-  const providerGroup = PROVIDER_KINDS[selectedCategory];
+  const [kind, setKind] = useState<ProviderKind | 'all'>('all');
+  const peopleSection = sectionForCategory(selectedCategory);
+  const isSearching = searchQuery.trim().length > 0;
+
+  const setSelectedCategory = (category: CategoryFilter) => {
+    setSelectedCategoryState(category);
+    setKind('all');
+  };
+
+  /** Open a people section from its tile or from "عرض الكل" and scroll to it. */
+  const openSection = (category: ServiceCategory) => {
+    setSelectedCategory(category);
+    requestAnimationFrame(() =>
+      document.getElementById(`people-${category}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    );
+  };
 
   // Pull to refresh: reload the catalog through the repository
   const handlePullToRefresh = async () => {
@@ -73,14 +92,15 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
     showToast('🔄 تم تحديث خدمات ومحلات القرية!');
   };
 
-  // Filtered Services logic (Arabic-aware: ignores tashkeel, hamza forms, ة/ه, ى/ي)
+  // Services grid: teachers, doctors, nurses… are not repeated here; they live in their own section.
+  // Search is Arabic-aware (ignores tashkeel, hamza forms, ة/ه, ى/ي).
   const filteredServices = useMemo(() => {
-    return services.filter((service) => {
+    return gridServices(services, providers).filter((service) => {
       const matchesCategory =
         selectedCategory === 'all' || service.cat === selectedCategory;
       return matchesCategory && matchesSearch(searchQuery, [service.name, service.desc]);
     });
-  }, [services, searchQuery, selectedCategory]);
+  }, [services, providers, searchQuery, selectedCategory]);
 
   // Shops are searched too, by name and description
   const filteredShops = useMemo(
@@ -88,20 +108,37 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
     [shops, searchQuery]
   );
 
-  // People for the selected category (teachers, nurses…), with teacher filters
+  // People in the selected category's section (teachers, nurses…), with its filters
   const filteredProviders = useMemo(() => {
-    if (!providerGroup) return [];
-    return providers.filter((provider) => {
-      if (!provider.active || !providerGroup.kinds.includes(provider.kind)) return false;
-      if (provider.kind === 'teacher') {
-        if (subject !== 'all' && provider.subject !== subject) return false;
-        // No stages listed (e.g. Quran) means all ages
-        if (stage !== 'all' && provider.stages && !provider.stages.includes(stage)) return false;
-      }
-      const subjectLabel = provider.subject ? SUBJECT_LABELS[provider.subject] : '';
-      return matchesSearch(searchQuery, [provider.name, provider.bio, provider.area, subjectLabel, provider.specialty ?? '']);
+    if (!peopleSection) return [];
+    return filterProviders(providers, services, {
+      kinds: peopleSection.kinds,
+      kind,
+      subject,
+      stage,
+      query: searchQuery,
     });
-  }, [providers, providerGroup, subject, stage, searchQuery]);
+  }, [providers, services, peopleSection, kind, subject, stage, searchQuery]);
+
+  const quickServices = useMemo(
+    () => (peopleSection ? quickRequestServices(peopleSection, services, providers) : []),
+    [peopleSection, services, providers]
+  );
+
+  // Searching from الكل: people who match, grouped by section
+  const searchPeople = useMemo(() => {
+    if (selectedCategory !== 'all' || !isSearching) return [];
+    return PEOPLE_SECTIONS.map((section) => ({
+      section,
+      providers: filterProviders(providers, services, { kinds: section.kinds, query: searchQuery }),
+    })).filter((group) => group.providers.length > 0);
+  }, [selectedCategory, isSearching, providers, services, searchQuery]);
+
+  const counts = useMemo(() => sectionCounts(providers, services), [providers, services]);
+
+  // Hide an empty services grid when a people section is on screen (it has its own empty message)
+  const showServicesGrid =
+    filteredServices.length > 0 || (!peopleSection && searchPeople.length === 0);
 
   const handleBookProvider = (provider: Provider) => {
     const service = services.find((s) => s.id === provider.serviceId);
@@ -117,6 +154,7 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
     setSearchQuery('');
     setSubject('all');
     setStage('all');
+    setKind('all');
   };
 
   return (
@@ -150,15 +188,39 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
       {/* Live Order Pulse Widget */}
       <LiveOrderBanner />
 
-      {/* Services Section with Skeleton Loading support */}
-      {isLoading ? (
+      {isLoading && (
         <section className="services-section">
           <div className="section-header">
             <h3>⚡ {isRefreshing ? 'جاري تحديث الخدمات...' : 'جاري تحميل الخدمات...'}</h3>
           </div>
           <SkeletonList count={4} />
         </section>
-      ) : (
+      )}
+
+      {/* One tile per people section (المدرسين، الدكاترة والتمريض…) */}
+      {!isLoading && selectedCategory === 'all' && !isSearching && (
+        <PeopleSectionsRow counts={counts} onOpen={openSection} />
+      )}
+
+      {/* The selected category's people, all in one section, with its filters */}
+      {!isLoading && peopleSection && (
+        <ProvidersSection
+          section={peopleSection}
+          providers={filteredProviders}
+          onBook={handleBookProvider}
+          showFilters
+          subject={subject}
+          onSubjectChange={setSubject}
+          stage={stage}
+          onStageChange={setStage}
+          kind={kind}
+          onKindChange={setKind}
+          quickServices={quickServices}
+          onQuickRequest={handleSelectService}
+        />
+      )}
+
+      {!isLoading && showServicesGrid && (
         <ServicesSection
           services={filteredServices}
           onSelectService={handleSelectService}
@@ -166,19 +228,18 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
         />
       )}
 
-      {/* Teachers, nurses, doctors… for the selected category */}
-      {providerGroup && !isLoading && (
-        <ProvidersSection
-          title={providerGroup.title}
-          providers={filteredProviders}
-          onBook={handleBookProvider}
-          showTeacherFilters={selectedCategory === 'edu'}
-          subject={subject}
-          onSubjectChange={setSubject}
-          stage={stage}
-          onStageChange={setStage}
-        />
-      )}
+      {/* Searching from الكل: matching people, a few per section */}
+      {!isLoading &&
+        searchPeople.map(({ section, providers: matches }) => (
+          <ProvidersSection
+            key={section.id}
+            section={section}
+            providers={matches}
+            onBook={handleBookProvider}
+            maxVisible={SEARCH_PREVIEW}
+            onShowAll={() => openSection(section.id)}
+          />
+        ))}
 
       {/* Promo Banner */}
       <PromoBanner />
