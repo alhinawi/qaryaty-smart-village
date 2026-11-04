@@ -22,6 +22,9 @@ import { getBrowserStorage, readJson, writeJson, type KeyValueStorage } from './
 export type AuthErrorCode =
   | 'invalid_credentials'
   | 'phone_taken'
+  | 'email_taken'
+  /** Signed up but hasn't opened the activation email yet. */
+  | 'email_not_confirmed'
   | 'blocked'
   | 'not_found'
   /** The backend refused the request (rate limit, bad data). */
@@ -38,8 +41,13 @@ export class AuthError extends Error {
   }
 }
 
+/** Signed in right away, or the account needs the activation email first. */
+export type RegisterResult =
+  | { status: 'signed_in'; session: AuthSession }
+  | { status: 'confirm_email'; email: string };
+
 export interface AuthService {
-  register(input: Omit<RegisterInput, 'confirmPassword'>): Promise<AuthSession>;
+  register(input: Omit<RegisterInput, 'confirmPassword'>): Promise<RegisterResult>;
   login(input: LoginInput): Promise<AuthSession>;
   logout(token: string): Promise<void>;
   /** Current state of a user (role/blocked may have changed). null when gone. */
@@ -58,16 +66,17 @@ export interface AuthService {
 // ─── Demo accounts (SAMPLE DATA, remove when a backend exists)
 /** DEMO ADMIN, for trying the control panel. Not a secret: it ships in the bundle. */
 export const DEMO_ADMIN = {
+  email: 'admin@qaryati.app',
   phone: '01000000000',
   password: 'admin1234',
   name: 'مدير التجربة',
 } as const;
 
 /** Sample customers so the admin users list isn't empty. They have no password and can't log in. */
-const SAMPLE_CUSTOMERS: Array<Pick<AuthUser, 'name' | 'phone' | 'village' | 'address'>> = [
-  { name: 'أم أحمد عبد الرحمن', phone: '01011112222', village: 'قرية البركة', address: 'شارع الجامع الكبير' },
-  { name: 'حسن محمود الشافعي', phone: '01122223333', village: 'قرية البركة', address: 'جنب المدرسة الابتدائي' },
-  { name: 'سارة إبراهيم علي', phone: '01233334444', village: 'كفر الشيخ', address: 'عزبة النخل، بيت رقم 4' },
+const SAMPLE_CUSTOMERS: Array<Pick<AuthUser, 'name' | 'email' | 'phone' | 'village' | 'address'>> = [
+  { name: 'أم أحمد عبد الرحمن', email: 'om.ahmed@example.com', phone: '01011112222', village: 'قرية البركة', address: 'شارع الجامع الكبير' },
+  { name: 'حسن محمود الشافعي', email: 'hassan@example.com', phone: '01122223333', village: 'قرية البركة', address: 'جنب المدرسة الابتدائي' },
+  { name: 'سارة إبراهيم علي', email: 'sara@example.com', phone: '01233334444', village: 'كفر الشيخ', address: 'عزبة النخل، بيت رقم 4' },
 ];
 
 // ─── Password hashing (WebCrypto PBKDF2)
@@ -121,12 +130,13 @@ interface StoredAccount {
   passwordHash?: string;
 }
 
-const USERS_KEY = 'qaryati_mock_users_v1';
+/** Accounts keyed by email (v1 was keyed by phone). */
+const USERS_KEY = 'qaryati_mock_users_v2';
 const SESSIONS_KEY = 'qaryati_mock_sessions_v1';
 
 const MESSAGES = {
-  invalid: 'رقم الموبايل أو كلمة السر مش صح',
-  taken: 'الرقم ده عنده حساب قبل كده، جرّب تسجل دخول',
+  invalid: 'الإيميل أو كلمة السر مش صح',
+  taken: 'الإيميل ده عنده حساب قبل كده، جرّب تسجل دخول',
   blocked: 'الحساب ده موقوف، كلم إدارة قريتي',
   notFound: 'الحساب مش موجود',
 };
@@ -148,7 +158,7 @@ export function createMockAuthService(
     writeJson(storage, SESSIONS_KEY, sessions);
 
   function newUser(
-    data: Pick<AuthUser, 'name' | 'phone' | 'village' | 'address'>,
+    data: Pick<AuthUser, 'name' | 'email' | 'phone' | 'village' | 'address'>,
     role: UserRole
   ): AuthUser {
     return {
@@ -167,16 +177,16 @@ export function createMockAuthService(
         const accounts = readAccounts();
         if (Object.keys(accounts).length > 0) return;
         const salt = randomHex(16);
-        accounts[DEMO_ADMIN.phone] = {
+        accounts[DEMO_ADMIN.email] = {
           user: newUser(
-            { name: DEMO_ADMIN.name, phone: DEMO_ADMIN.phone, village: 'قرية البركة', address: 'مكتب قريتي' },
+            { name: DEMO_ADMIN.name, email: DEMO_ADMIN.email, phone: DEMO_ADMIN.phone, village: 'قرية البركة', address: 'مكتب قريتي' },
             'admin'
           ),
           salt,
           passwordHash: await hashPassword(DEMO_ADMIN.password, salt),
         };
         for (const sample of SAMPLE_CUSTOMERS) {
-          accounts[sample.phone] = { user: newUser(sample, 'customer') };
+          accounts[sample.email] = { user: newUser(sample, 'customer') };
         }
         writeAccounts(accounts);
       })();
@@ -200,9 +210,9 @@ export function createMockAuthService(
     const accounts = readAccounts();
     const entry = Object.entries(accounts).find(([, acc]) => acc.user.id === userId);
     if (!entry) throw new AuthError('not_found', MESSAGES.notFound);
-    const [phone, account] = entry;
-    const user = { ...account.user, ...patch, id: account.user.id, phone: account.user.phone };
-    accounts[phone] = { ...account, user };
+    const [email, account] = entry;
+    const user = { ...account.user, ...patch, id: account.user.id, email: account.user.email, phone: account.user.phone };
+    accounts[email] = { ...account, user };
     writeAccounts(accounts);
     return user;
   }
@@ -211,30 +221,32 @@ export function createMockAuthService(
     async register(input) {
       await ensureSeeded();
       await wait();
+      const email = input.email.trim().toLowerCase();
       const phone = normalizeEgyptianPhone(input.phone);
       const accounts = readAccounts();
-      if (accounts[phone]) throw new AuthError('phone_taken', MESSAGES.taken);
+      if (accounts[email]) throw new AuthError('email_taken', MESSAGES.taken);
       const salt = randomHex(16);
       const user = newUser(
         {
           name: input.name.trim(),
+          email,
           phone,
           village: input.village.trim(),
           address: input.address.trim(),
         },
         'customer'
       );
-      accounts[phone] = { user, salt, passwordHash: await hashPassword(input.password, salt) };
+      accounts[email] = { user, salt, passwordHash: await hashPassword(input.password, salt) };
       writeAccounts(accounts);
-      return startSession(user);
+      // The demo has no mail server: the account is active right away
+      return { status: 'signed_in', session: startSession(user) };
     },
 
     async login(input) {
       await ensureSeeded();
       await wait();
-      const phone = normalizeEgyptianPhone(input.phone);
-      const account = readAccounts()[phone];
-      // Same message whether the phone or the password is wrong
+      const account = readAccounts()[input.email.trim().toLowerCase()];
+      // Same message whether the email or the password is wrong
       if (!account?.salt || !account.passwordHash) {
         throw new AuthError('invalid_credentials', MESSAGES.invalid);
       }

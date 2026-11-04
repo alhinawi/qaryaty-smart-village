@@ -12,6 +12,7 @@ import { useRedirectTarget } from '@/hooks/useRedirectTarget';
 
 const EMPTY = {
   name: '',
+  email: '',
   phone: '',
   village: '',
   address: '',
@@ -31,8 +32,32 @@ export default function RegisterPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [sentTo, setSentTo] = useState('');
 
   if (session && !submitting) return <Navigate to={target} replace />;
+
+  if (sentTo) {
+    return (
+      <AuthLayout
+        title="فعّل حسابك من الإيميل"
+        subtitle="خطوة واحدة وتبدأ تطلب"
+        footer={
+          <Link to={ROUTES.login} state={location.state} className="text-green font-bold">
+            فعّلت؟ سجّل دخول
+          </Link>
+        }
+      >
+        <div className="flex flex-col gap-3 text-center" role="status">
+          <p className="text-4xl" aria-hidden="true">📧</p>
+          <p className="font-bold">بعتنالك إيميل تفعيل على</p>
+          <p className="font-bold text-green" dir="ltr">{sentTo}</p>
+          <p className="text-sm text-text-muted">
+            افتح الإيميل واضغط على لينك التفعيل، وبعدها سجّل دخول بالإيميل وكلمة السر. لو مش لاقيه، بص في الـ Spam.
+          </p>
+        </div>
+      </AuthLayout>
+    );
+  }
 
   const set = (field: keyof typeof EMPTY) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setValues((v) => ({ ...v, [field]: e.target.value }));
@@ -48,11 +73,18 @@ export default function RegisterPage() {
     setErrors({});
     setSubmitting(true);
     try {
-      const user = await register(parsed.data);
-      showToast(`🎉 أهلاً بيك في قريتي يا ${user.name.split(' ')[0]}!`);
+      const result = await register(parsed.data);
+      if ('confirmEmail' in result) {
+        setSentTo(result.confirmEmail);
+        setSubmitting(false);
+        return;
+      }
+      showToast(`🎉 أهلاً بيك في قريتي يا ${result.user.name.split(' ')[0]}!`);
       navigate(target, { replace: true });
     } catch (err) {
-      if (err instanceof AuthError && err.code === 'phone_taken') {
+      if (err instanceof AuthError && err.code === 'email_taken') {
+        setErrors({ email: err.message });
+      } else if (err instanceof AuthError && err.code === 'phone_taken') {
         setErrors({ phone: err.message });
       } else {
         setFormError(err instanceof AuthError ? err.message : 'حصلت مشكلة، حاول تاني');
@@ -76,6 +108,19 @@ export default function RegisterPage() {
     >
       <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-3" aria-label="حساب جديد">
         <AuthField id="regName" label="الاسم بالكامل" autoComplete="name" value={values.name} onChange={set('name')} error={errors.name} />
+        <AuthField
+          id="regEmail"
+          label="الإيميل"
+          type="email"
+          inputMode="email"
+          autoComplete="email"
+          dir="ltr"
+          placeholder="name@gmail.com"
+          hint="هنبعتلك عليه إيميل تفعيل الحساب"
+          value={values.email}
+          onChange={set('email')}
+          error={errors.email}
+        />
         <AuthField
           id="regPhone"
           label="رقم الموبايل"

@@ -191,6 +191,8 @@ export type UserRole = 'customer' | 'admin';
 export interface AuthUser {
   id: string;
   name: string;
+  /** Sign-in address. Supabase sends the activation email here. */
+  email: string;
   phone: string;
   village: string;
   address: string;
