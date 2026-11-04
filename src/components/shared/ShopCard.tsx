@@ -69,7 +69,7 @@ export const ShopCard = React.memo(function ShopCard({
         >
           {shop.open ? "🟢 مفتوح" : "🔴 مغلق"}
         </div>
-        <div className="text-[11px] text-text-muted">⏱️ {shop.time}</div>
+        <div className="text-[11px] text-text-muted">{shop.time}</div>
       </div>
     </div>
   );
