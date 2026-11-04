@@ -103,6 +103,12 @@ export default function OrdersPage() {
 
               {/* Order Details */}
               <div className="mb-3.5 text-[13px]">
+                {order.options?.map((option) => (
+                  <div key={option.label} className="flex gap-2 mb-1">
+                    <span className="text-text-muted font-bold">✔️ {option.label}:</span>
+                    <span className="detail-val">{option.value}</span>
+                  </div>
+                ))}
                 <div className="flex gap-2 mb-1">
                   <span className="text-text-muted font-bold">📍 العنوان:</span>
                   <span className="detail-val">{order.address}</span>
