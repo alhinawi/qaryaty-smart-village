@@ -4,6 +4,7 @@ import { useUserStore } from '@/stores/useUserStore';
 import { useOrderStore } from '@/stores/useOrderStore';
 import { useUIStore } from '@/stores/useUIStore';
 import { Button } from '@/components/ui/Button';
+import { Modal } from '@/components/ui/Modal';
 import { Link, useNavigate } from 'react-router';
 import { useAuthStore, selectUser } from '@/stores/useAuthStore';
 import { ROUTES } from '@/routes';
@@ -22,6 +23,8 @@ export default function ProfilePage() {
   const navigate = useNavigate();
 
   const [isEditing, setIsEditing] = useState(false);
+  // Guests can't save details for good, so "تعديل" asks them to sign in instead
+  const [isSignInPromptOpen, setIsSignInPromptOpen] = useState(false);
   const [name, setName] = useState(profile.name);
   const [phone, setPhone] = useState(profile.phone);
   const [address, setAddress] = useState(profile.address);
@@ -173,6 +176,10 @@ export default function ProfilePage() {
               type="button"
               className="bg-transparent border-none text-green font-extrabold cursor-pointer font-['Cairo',sans-serif] text-[13px]"
               onClick={() => {
+                if (!user) {
+                  setIsSignInPromptOpen(true);
+                  return;
+                }
                 setName(profile.name);
                 setPhone(profile.phone);
                 setAddress(profile.address);
@@ -296,13 +303,52 @@ export default function ProfilePage() {
         <span aria-hidden="true">⬅️</span>
       </Link>
 
-      {/* Share with village */}
-      <div className="bg-linear-to-br from-[#1e3a8a] to-[#3b82f6] text-white rounded-2xl p-5 flex items-center justify-between">
-        <div>
-          <h4 className="text-base font-extrabold mb-1">📢 ادعُ أهالي القرية لاستخدام التطبيق</h4>
-          <p className="text-xs opacity-85">شارك التطبيق مع جيرانك في القرية واكسبوا نقاط مكافآت مع كل طلب</p>
+      {/* Guest tapped "تعديل": sign in first */}
+      <Modal
+        isOpen={isSignInPromptOpen}
+        onClose={() => setIsSignInPromptOpen(false)}
+        emoji="🔐"
+        title="سجّل دخولك عشان تحفظ بياناتك وماتكتبهاش تاني مع كل طلب"
+        maxWidth="420px"
+      >
+        <div className="flex gap-2.5 mt-3">
+          <Link
+            to={ROUTES.login}
+            state={{ from: ROUTES.profile }}
+            className="flex-1 min-h-[48px] flex items-center justify-center text-center bg-green text-white rounded-xl px-3 font-extrabold text-sm"
+          >
+            تسجيل الدخول
+          </Link>
+          <Link
+            to={ROUTES.register}
+            state={{ from: ROUTES.profile }}
+            className="flex-1 min-h-[48px] flex items-center justify-center text-center bg-gold text-black rounded-xl px-3 font-extrabold text-sm"
+          >
+            حساب جديد
+          </Link>
         </div>
-        <Button variant="gold" size="md" onClick={handleShareApp}>
+        <button
+          type="button"
+          className="w-full min-h-[44px] mt-2 bg-transparent border-none text-text-muted font-bold text-sm cursor-pointer font-['Cairo',sans-serif] rounded-xl hover:bg-gray-50"
+          onClick={() => setIsSignInPromptOpen(false)}
+        >
+          مش دلوقتي
+        </button>
+      </Modal>
+
+      {/* Share with village */}
+      {/* Phones: the button sits under the text, compact; sm+ (640px): beside it */}
+      <div className="bg-linear-to-br from-[#1e3a8a] to-[#3b82f6] text-white rounded-2xl p-4 sm:p-5 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-5">
+        <div className="min-w-0 flex-1">
+          <h4 className="text-[15px] sm:text-base font-extrabold leading-snug mb-1 text-balance">📢 ادعُ أهالي القرية لاستخدام التطبيق</h4>
+          <p className="text-xs leading-relaxed opacity-85">شارك التطبيق مع جيرانك في القرية واكسبوا نقاط مكافآت مع كل طلب</p>
+        </div>
+        <Button
+          variant="gold"
+          size="sm"
+          className="shrink-0 whitespace-nowrap min-h-[40px] px-4"
+          onClick={handleShareApp}
+        >
           مشاركة الرابط 📤
         </Button>
       </div>
