@@ -301,21 +301,23 @@ export function smallPhoto(url: string | undefined): string | undefined {
 }
 
 function foodTiles(shops: Shop[]): ExploreTile[] {
-  const tiles = new Map<string, ExploreTile>();
-  for (const shop of shops) {
-    if (shop.kind !== 'restaurant') continue;
+  const restaurants = shops.filter((s) => s.kind === 'restaurant');
+  const tiles: ExploreTile[] = [];
+  const used = new Set<string>();
+  const seen = new Set<string>();
+  for (const shop of restaurants) {
     for (const type of shop.foodTypes ?? []) {
       const label = FOOD_TYPE_LABELS[type];
-      if (!label) continue;
-      const existing = tiles.get(type);
-      if (!existing) {
-        tiles.set(type, { key: `food-${type}`, label: label.label, emoji: label.emoji, photo: smallPhoto(shop.photo), term: label.label });
-      } else if (!existing.photo && shop.photo) {
-        existing.photo = smallPhoto(shop.photo);
-      }
+      if (!label || seen.has(type)) continue;
+      seen.add(type);
+      // A photo from a restaurant of this type, preferring one no other tile shows yet
+      const withType = restaurants.filter((r) => r.photo && r.foodTypes?.includes(type));
+      const pick = withType.find((r) => !used.has(r.photo as string)) ?? withType[0];
+      if (pick?.photo) used.add(pick.photo);
+      tiles.push({ key: `food-${type}`, label: label.label, emoji: label.emoji, photo: smallPhoto(pick?.photo), term: label.label });
     }
   }
-  return [...tiles.values()];
+  return tiles;
 }
 
 function kindTiles(shops: Shop[]): ExploreTile[] {
