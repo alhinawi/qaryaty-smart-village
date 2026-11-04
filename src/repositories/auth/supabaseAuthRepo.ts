@@ -50,6 +50,10 @@ const MESSAGES = {
   blocked: 'الحساب ده موقوف، كلم إدارة قريتي',
   notFound: 'الحساب مش موجود',
   tooMany: 'محاولات كتير، استنى شوية وجرّب تاني',
+  emailLimit: 'ماقدرناش نبعت إيميل التفعيل دلوقتي عشان اتبعت إيميلات كتير. جرّب تاني بعد ساعة',
+  badEmail: 'الإيميل ده مش صحيح، راجعه وجرّب تاني',
+  weakPassword: 'كلمة السر ضعيفة، خليها 8 حروف على الأقل فيهم حرف ورقم',
+  signupsOff: 'التسجيل مقفول دلوقتي، كلم إدارة قريتي',
   rejected: 'الطلب اترفض، راجع البيانات وجرّب تاني',
 };
 
@@ -73,6 +77,10 @@ export function mapAuthError(error: ErrorLike): unknown {
     return new AuthError('email_taken', MESSAGES.taken);
   }
   if (code === 'user_banned') return new AuthError('blocked', MESSAGES.blocked);
+  if (code === 'over_email_send_rate_limit') return new AuthError('rejected', MESSAGES.emailLimit);
+  if (code === 'email_address_invalid' || code === 'validation_failed') return new AuthError('rejected', MESSAGES.badEmail);
+  if (code === 'weak_password') return new AuthError('rejected', MESSAGES.weakPassword);
+  if (code === 'signup_disabled' || code === 'email_provider_disabled') return new AuthError('rejected', MESSAGES.signupsOff);
   if (status === 429) return new AuthError('rejected', MESSAGES.tooMany);
   if (status >= 400 && status < 500) return new AuthError('rejected', MESSAGES.rejected);
   return error; // 5xx, paused project, offline

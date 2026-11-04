@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import { ROUTES } from '@/routes';
+import { isSupabaseConfigured } from '@/repositories';
 
 interface AuthLayoutProps {
   title: string;
@@ -25,9 +26,9 @@ export function AuthLayout({ title, subtitle, children, footer }: AuthLayoutProp
 
       <div className="text-center text-sm text-text-muted mt-4">{footer}</div>
 
-      {/* Honest note while there is no backend */}
-      <p className="text-[11px] text-text-muted text-center mt-4 leading-relaxed" role="note">
-        تجريبي: الحساب متخزن على الجهاز ده بس لحد ما يبقى فيه سيرفر.{' '}
+      <p className="text-[11px] text-text-muted text-center mt-4 leading-relaxed" role={isSupabaseConfigured ? undefined : 'note'}>
+        {/* Demo mode only: accounts live in this browser. Live accounts are saved on Supabase */}
+        {!isSupabaseConfigured && <>تجريبي: الحساب متخزن على الجهاز ده بس لحد ما يبقى فيه سيرفر. </>}
         <Link to={ROUTES.home} className="text-green font-bold underline">
           رجوع للرئيسية
         </Link>

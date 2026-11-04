@@ -20,6 +20,13 @@ export default function LoginPage() {
 
   const [email, setEmail] = useState('');
   const activated = new URLSearchParams(location.search).has('activated');
+  // The activation link lands here with the session tokens in the #hash: drop them from the
+  // address bar and history (the customer signs in with email and password right after)
+  React.useEffect(() => {
+    if (activated && /access_token|error_description/.test(window.location.hash)) {
+      window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search);
+    }
+  }, [activated]);
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState('');

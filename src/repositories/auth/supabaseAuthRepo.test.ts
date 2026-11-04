@@ -99,6 +99,9 @@ describe('supabase auth repo', () => {
     expect((mapAuthError({ status: 422, code: 'user_already_exists' }) as AuthError).code).toBe('email_taken');
     expect((mapAuthError({ status: 400, code: 'email_not_confirmed' }) as AuthError).code).toBe('email_not_confirmed');
     expect((mapAuthError({ status: 429, code: 'over_request_rate_limit' }) as AuthError).code).toBe('rejected');
+    expect((mapAuthError({ status: 429, code: 'over_email_send_rate_limit' }) as AuthError).message).toContain('إيميل التفعيل');
+    expect((mapAuthError({ status: 400, code: 'email_address_invalid' }) as AuthError).message).toContain('الإيميل');
+    expect((mapAuthError({ status: 422, code: 'weak_password' }) as AuthError).message).toContain('كلمة السر');
     const outage = { status: 503, message: 'project paused' };
     expect(mapAuthError(outage)).toBe(outage);
     expect(mapAuthError({ message: 'Failed to fetch' })).not.toBeInstanceOf(AuthError);
