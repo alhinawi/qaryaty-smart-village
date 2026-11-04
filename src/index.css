@@ -231,6 +231,16 @@ body {
   #mobile-menu { animation: none; }
 }
 
+/* Search screen: rises in, fades out */
+@keyframes searchIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes searchOut {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(14px); }
+}
+
 @keyframes springUp {
   from {
     transform: translateY(60px) scale(0.95);

@@ -1,7 +1,7 @@
 // ─── Imports
 
-import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Menu } from "lucide-react";
+import { useState, useEffect, useCallback } from "react";
+import { Menu, Search, X } from "lucide-react";
 
 import { useUIStore } from "@/stores/useUIStore";
 import { useGoToTab, useActiveTab } from '@/hooks/useTabNavigation';
@@ -13,6 +13,7 @@ import { useUserStore } from "@/stores/useUserStore";
 import { DEFAULT_VILLAGE, knownVillage, villageLabel } from "@/data/villages";
 import { ROUTES } from "@/routes";
 import { MobileMenu } from "./MobileMenu";
+import { preloadSearchScreen } from "@/components/search/loadSearchScreen";
 
 import type { ActiveTab } from "@/types";
 
@@ -32,13 +33,8 @@ export function Header() {
 
   const setSearchQuery = useUIStore((state) => state.setSearchQuery);
 
-  const searchHistory = useUIStore((state) => state.searchHistory);
-
-  const addSearchHistory = useUIStore((state) => state.addSearchHistory);
-
-  const removeSearchHistoryItem = useUIStore(
-    (state) => state.removeSearchHistoryItem,
-  );
+  const isSearchOpen = useUIStore((state) => state.isSearchOpen);
+  const setIsSearchOpen = useUIStore((state) => state.setIsSearchOpen);
 
   const notifications = useUIStore((state) => state.notifications);
 
@@ -54,8 +50,6 @@ export function Header() {
 
   const setIsCartOpen = useUIStore((state) => state.setIsCartOpen);
 
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const closeMenu = useCallback(() => setIsMenuOpen(false), [setIsMenuOpen]);
   // Pages reached from the menu light up the ☰ button
@@ -63,38 +57,13 @@ export function Header() {
     (path) => pathname === path,
   );
 
-  const searchContainerRef = useRef<HTMLDivElement>(null);
-
-  // Close search suggestions on click outside
+  // Load the search screen's code while the phone is idle, so it opens at once
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        searchContainerRef.current &&
-        !searchContainerRef.current.contains(e.target as Node)
-      ) {
-        setIsSearchFocused(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 2500));
+    const cancel = window.cancelIdleCallback ?? window.clearTimeout;
+    const id = idle(() => void preloadSearchScreen());
+    return () => cancel(id);
   }, []);
-
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (searchQuery.trim()) {
-      addSearchHistory(searchQuery.trim());
-      setIsSearchFocused(false);
-    }
-  };
-
-  const handleSuggestionClick = (term: string) => {
-    setSearchQuery(term);
-    addSearchHistory(term);
-    setIsSearchFocused(false);
-  };
 
   const navLinks: {
     id: ActiveTab;
@@ -239,75 +208,33 @@ export function Header() {
 
         <MobileMenu isOpen={isMenuOpen} onClose={closeMenu} />
 
-        {/* Search Bar */}
-        <div className="mt-2.5 relative" ref={searchContainerRef}>
-          <form
-            onSubmit={handleSearchSubmit}
-            className="flex items-center gap-2.5 bg-white/14 rounded-xl px-3.5 py-2.25 border border-white/22 transition-all duration-200 focus-within:bg-white/20 focus-within:border-white/40"
+        {/* Search bar: opens the full search screen */}
+        <div className="mt-2.5 relative flex items-center">
+          <button
+            type="button"
+            onClick={() => setIsSearchOpen(true)}
+            onPointerEnter={() => void preloadSearchScreen()}
+            onFocus={() => void preloadSearchScreen()}
+            aria-haspopup="dialog"
+            aria-expanded={isSearchOpen}
+            aria-label={searchQuery ? `البحث: ${searchQuery}` : "البحث عن خدمة أو محل"}
+            className="flex-1 min-w-0 flex items-center gap-2.5 bg-white/14 rounded-xl ps-3.5 pe-11 py-2.25 min-h-[44px] border border-white/22 text-start cursor-pointer font-['Cairo',sans-serif] text-[0.9375rem] transition-colors duration-200 hover:bg-white/20 hover:border-white/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-light"
           >
-            <span role="img" aria-hidden="true">
-              🔍
+            <Search size={18} strokeWidth={2.5} className="text-white/85 shrink-0" aria-hidden="true" />
+            <span className={`truncate ${searchQuery ? "text-white font-bold" : "text-white/65"}`}>
+              {searchQuery || "دور على خدمة أو محل (مثل: عيش، سباك، شوي سمك)..."}
             </span>
+          </button>
 
-            <input
-              type="text"
-              className="flex-1 bg-transparent border-none outline-none text-white font-['Cairo',sans-serif] text-[0.9375rem] rtl:direction-rtl placeholder:text-white/65"
-              placeholder="دور على خدمة أو محل (مثل: عيش، سباك، شوي سمك)..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onFocus={() => setIsSearchFocused(true)}
-              aria-label="البحث عن خدمة أو محل"
-            />
-
-            {searchQuery && (
-              <button
-                type="button"
-                className="bg-transparent border-none text-white/70 cursor-pointer text-sm p-[0.2rem]"
-                onClick={() => setSearchQuery("")}
-                aria-label="مسح البحث"
-              >
-                ✕
-              </button>
-            )}
-          </form>
-
-          {/* Search History Suggestions Dropdown */}
-          {isSearchFocused && searchHistory.length > 0 && (
-            <div className="absolute top-[calc(100%+6px)] inset-x-0 bg-white rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.15)] border border-black/8 z-150 overflow-hidden animate-[fadeIn_0.15s_ease-out]">
-              <div className="px-3.5 py-2 text-[0.8125rem] text-text-muted font-bold bg-[#f9fafb] border-b border-[#f3f4f6]">
-                <span>🕒 آخر عمليات البحث</span>
-              </div>
-
-              <ul className="list-none m-0 p-0">
-                {searchHistory.map((term, index) => (
-                  <li
-                    key={index}
-                    className="flex items-center justify-between border-b border-[#f9fafb] last:border-b-0"
-                  >
-                    <button
-                      type="button"
-                      className="flex-1 flex items-center gap-2 px-3.5 py-2.5 border-none bg-transparent text-right font-['Cairo',sans-serif] text-[0.875rem] text-text cursor-pointer transition-colors duration-150 hover:bg-[#f0fdf4] hover:text-green"
-                      onClick={() => handleSuggestionClick(term)}
-                    >
-                      <span>🔍</span>
-                      <span>{term}</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      className="border-none bg-transparent text-text-muted px-3 py-2 cursor-pointer text-[0.8125rem] hover:text-danger"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        removeSearchHistoryItem(term);
-                      }}
-                      aria-label={`حذف ${term} من تاريخ البحث`}
-                    >
-                      ✕
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {searchQuery && (
+            <button
+              type="button"
+              className="absolute end-1 top-1/2 -translate-y-1/2 w-[36px] h-[36px] rounded-lg bg-transparent border-none text-white/80 cursor-pointer flex items-center justify-center hover:bg-white/15 hover:text-white"
+              onClick={() => setSearchQuery("")}
+              aria-label="مسح البحث"
+            >
+              <X size={18} aria-hidden="true" />
+            </button>
           )}
         </div>
       </div>

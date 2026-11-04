@@ -1,6 +1,7 @@
 // ─── Imports
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { rememberSearch } from '@/utils/recentSearches';
 import type { AppNotification, Order } from '@/types';
 
 // ─── Initial Notifications
@@ -39,6 +40,12 @@ interface UIState {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
 
+  /** The full-screen search (opened from the header's search bar). */
+  isSearchOpen: boolean;
+  /** True once the search screen was opened, so its code stays loaded. */
+  searchMounted: boolean;
+  setIsSearchOpen: (open: boolean) => void;
+
   searchHistory: string[];
   addSearchHistory: (term: string) => void;
   removeSearchHistoryItem: (term: string) => void;
@@ -67,6 +74,12 @@ interface UIState {
   clearToast: () => void;
 }
 
+const SEEDED_HISTORY = ['عيش', 'شوي سمك', 'سباك', 'سوبر ماركت'];
+export const isSeededHistory = (history: unknown): boolean =>
+  Array.isArray(history) &&
+  history.length === SEEDED_HISTORY.length &&
+  history.every((item, i) => item === SEEDED_HISTORY[i]);
+
 let toastTimer: ReturnType<typeof setTimeout> | null = null;
 
 // ─── Store
@@ -76,12 +89,15 @@ export const useUIStore = create<UIState>()(
       searchQuery: '',
       setSearchQuery: (query) => set({ searchQuery: query }),
 
-      searchHistory: ['عيش', 'شوي سمك', 'سباك', 'سوبر ماركت'],
+      isSearchOpen: false,
+      searchMounted: false,
+      setIsSearchOpen: (open) =>
+        set(open ? { isSearchOpen: true, searchMounted: true } : { isSearchOpen: false }),
+
+      // Only what this person searched for, on this device
+      searchHistory: [],
       addSearchHistory: (term: string) => {
-        const trimmed = term.trim();
-        if (!trimmed) return;
-        const current = get().searchHistory.filter((item) => item !== trimmed);
-        set({ searchHistory: [trimmed, ...current].slice(0, 5) });
+        set({ searchHistory: rememberSearch(get().searchHistory, term) });
       },
       removeSearchHistoryItem: (term: string) => {
         set((state) => ({
@@ -144,6 +160,13 @@ export const useUIStore = create<UIState>()(
     }),
     {
       name: 'qaryati_ui_storage',
+      version: 1,
+      // v0 started everyone with made-up recent searches; drop them if they were never changed
+      migrate: (persisted, version) => {
+        const state = (persisted ?? {}) as { searchHistory?: unknown };
+        if (version < 1 && isSeededHistory(state.searchHistory)) state.searchHistory = [];
+        return state as UIState;
+      },
       partialize: (state) => ({
         searchHistory: state.searchHistory,
         notifications: state.notifications,

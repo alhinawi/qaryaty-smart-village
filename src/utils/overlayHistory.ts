@@ -9,6 +9,8 @@ const MARKER = '__qaryatiOverlay';
 interface OpenOverlay {
   id: number;
   close: () => void;
+  /** False until its history entry is pushed (it waits while one of our backs is on its way). */
+  pushed: boolean;
 }
 
 const stack: OpenOverlay[] = [];
@@ -16,6 +18,8 @@ const stack: OpenOverlay[] = [];
 let pendingBacks = 0;
 let nextId = 1;
 let listening = false;
+/** Work that must wait until the backs we started have landed. */
+const whenSettled: Array<() => void> = [];
 
 function isMarker(state: unknown): boolean {
   return typeof state === 'object' && state !== null && MARKER in state;
@@ -26,9 +30,23 @@ function goBackSilently() {
   window.history.back();
 }
 
+function flushSettled() {
+  while (pendingBacks === 0 && whenSettled.length > 0) whenSettled.shift()?.();
+}
+
+/**
+ * Runs `fn` once no history.back() of ours is still on its way. history.back() is async:
+ * a pushState or a navigation made before it lands would be the entry it removes.
+ */
+export function whenHistorySettled(fn: () => void): void {
+  if (pendingBacks === 0) fn();
+  else whenSettled.push(fn);
+}
+
 function handlePopState() {
   if (pendingBacks > 0) {
     pendingBacks -= 1;
+    flushSettled();
     return;
   }
   const top = stack.pop();
@@ -51,10 +69,16 @@ function ensureListener() {
 export function openOverlay(close: () => void): number {
   ensureListener();
   const id = nextId++;
-  stack.push({ id, close });
-  // Keep react-router's own state (key, idx) so it stays in sync.
-  const current = (window.history.state ?? {}) as Record<string, unknown>;
-  window.history.pushState({ ...current, [MARKER]: id }, '');
+  const overlay: OpenOverlay = { id, close, pushed: false };
+  stack.push(overlay);
+  // An overlay opened right as another one closed waits for that one's back to land
+  whenHistorySettled(() => {
+    if (!stack.includes(overlay)) return; // closed before its turn came
+    // Keep react-router's own state (key, idx) so it stays in sync.
+    const current = (window.history.state ?? {}) as Record<string, unknown>;
+    window.history.pushState({ ...current, [MARKER]: id }, '');
+    overlay.pushed = true;
+  });
   return id;
 }
 
@@ -65,7 +89,8 @@ export function openOverlay(close: () => void): number {
 export function closeOverlay(id: number): void {
   const index = stack.findIndex((o) => o.id === id);
   if (index === -1) return; // already closed by the back button
-  stack.splice(index, 1);
+  const [overlay] = stack.splice(index, 1);
+  if (!overlay.pushed) return; // its entry was never added
   // Only step back when we are still on an overlay entry; if the app already
   // navigated to a new page, going back would undo that navigation.
   if (isMarker(window.history.state)) goBackSilently();
@@ -75,5 +100,6 @@ export function closeOverlay(id: number): void {
 export function __resetOverlayHistory(): void {
   stack.length = 0;
   pendingBacks = 0;
+  whenSettled.length = 0;
   listening = false;
 }
