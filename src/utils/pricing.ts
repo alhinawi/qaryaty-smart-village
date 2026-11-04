@@ -161,6 +161,8 @@ export function serviceToOrderModalData(service: Service): OrderModalData {
     price: service.price,
     numericPrice: service.numericPrice,
     priceType: service.priceType,
+    options: service.options,
+    serviceId: service.id,
   };
 }
 

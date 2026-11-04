@@ -18,6 +18,8 @@ const CATEGORY_BACKGROUNDS: Record<ServiceCategory, string> = {
   craft: "#fff7ed",
   care: "#fdf4ff",
   edu: "#eff6ff",
+  health: "#ecfeff",
+  home: "#f5f3ff",
 };
 
 // ─── Types

@@ -48,6 +48,9 @@ export function OrderModal({
   const [discountCode, setDiscountCode] = useState('');
   const [discountApplied, setDiscountApplied] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  // Required choices (ممرض/ممرضة, المرحلة, …): option id → chosen value
+  const [selected, setSelected] = useState<Record<string, string>>({});
+  const serviceOptions = data?.options ?? [];
 
   if (!isOpen || !data) return null;
 
@@ -70,15 +73,20 @@ export function OrderModal({
       discountCode,
     });
 
+    const fieldErrors: Record<string, string> = {};
+    for (const option of serviceOptions) {
+      if (!selected[option.id]) fieldErrors[`option_${option.id}`] = `اختار ${option.label}`;
+    }
     if (!validation.success) {
-      const fieldErrors: Record<string, string> = {};
       validation.error.issues.forEach((err) => {
-        if (err.path[0]) {
+        if (err.path[0] && !fieldErrors[String(err.path[0])]) {
           fieldErrors[String(err.path[0])] = err.message;
         }
       });
+    }
+    if (Object.keys(fieldErrors).length > 0) {
       setErrors(fieldErrors);
-      showToast('⚠️ من فضلك تأكد من صحة بيانات العنوان والموبايل');
+      showToast('⚠️ من فضلك كمّل البيانات المطلوبة');
       return;
     }
 
@@ -128,6 +136,11 @@ export function OrderModal({
       totalAmount: total,
       isEstimate,
       status: 'pending',
+      options: serviceOptions.length
+        ? serviceOptions.map((o) => ({ label: o.label, value: selected[o.id] }))
+        : undefined,
+      serviceId: data.serviceId,
+      providerId: data.providerId,
     });
 
     if (promoStillValid) {
@@ -172,6 +185,37 @@ export function OrderModal({
         {/* STEP 1: Address & Contact */}
         {step === 1 && (
           <form onSubmit={handleNextStep} className="flex flex-col gap-4">
+            {serviceOptions.map((option) => {
+              const errorId = `option_${option.id}`;
+              return (
+                <fieldset key={option.id} className="form-group border-0 p-0 m-0 min-w-0" aria-describedby={errors[errorId] ? `${errorId}Error` : undefined}>
+                  <legend className="text-sm font-bold mb-2">{option.label} *</legend>
+                  <div className="flex flex-wrap gap-2" role="radiogroup" aria-label={option.label}>
+                    {option.choices.map((choice) => {
+                      const isOn = selected[option.id] === choice;
+                      return (
+                        <button
+                          key={choice}
+                          type="button"
+                          role="radio"
+                          aria-checked={isOn}
+                          onClick={() => setSelected((prev) => ({ ...prev, [option.id]: choice }))}
+                          className={`px-4 py-2 rounded-full text-sm font-bold border-2 transition-colors ${
+                            isOn ? 'bg-green text-white border-green' : 'bg-white text-text border-gray-200 hover:border-green'
+                          }`}
+                        >
+                          {choice}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {errors[errorId] && (
+                    <span id={`${errorId}Error`} className="input-error-msg">{errors[errorId]}</span>
+                  )}
+                </fieldset>
+              );
+            })}
+
             <div className="form-group">
               <label htmlFor="modalAddress">📍 عنوانك داخل القرية *</label>
               <input
@@ -282,6 +326,12 @@ export function OrderModal({
 
             {/* Price Summary */}
             <div className="bg-gray-50 rounded-xl p-3.5 mb-4">
+              {serviceOptions.map((option) => (
+                <div key={option.id} className="flex justify-between text-sm mb-1.5">
+                  <span>{option.label}:</span>
+                  <span className="font-bold">{selected[option.id]}</span>
+                </div>
+              ))}
               <div className="flex justify-between text-sm mb-1.5">
                 <span>سعر الخدمة:</span>
                 <span>{servicePriceLabel}</span>

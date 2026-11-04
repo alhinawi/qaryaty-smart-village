@@ -1,6 +1,13 @@
 // ─── Core Types for Qaryati Application
 
-export type ServiceCategory = 'food' | 'delivery' | 'craft' | 'care' | 'edu';
+export type ServiceCategory =
+  | 'food'
+  | 'delivery'
+  | 'craft'
+  | 'care'
+  | 'edu'
+  | 'health'
+  | 'home';
 
 export type CategoryFilter = 'all' | ServiceCategory;
 
@@ -20,6 +27,70 @@ export type PriceType = 'fixed' | 'from' | 'quote';
 
 export type ActiveTab = 'home' | 'orders' | 'favorites' | 'messages' | 'profile';
 
+/** A required choice the customer makes when ordering (ممرض/ممرضة, زيارة/عيادة…). */
+export interface ServiceOption {
+  id: string;
+  label: string;
+  choices: string[];
+}
+
+/** One answer to a ServiceOption, saved on the order. */
+export interface SelectedOption {
+  label: string;
+  value: string;
+}
+
+// ─── Teachers
+export type TeacherSubject =
+  | 'arabic'
+  | 'english'
+  | 'math'
+  | 'science'
+  | 'history'
+  | 'geography'
+  | 'physics'
+  | 'chemistry'
+  | 'biology'
+  | 'french'
+  | 'german'
+  | 'quran'
+  | 'computer';
+
+export type SchoolStage = 'primary' | 'prep' | 'secondary';
+
+// ─── Providers (teachers, nurses, babysitters, doctors, cleaners)
+export type ProviderKind = 'teacher' | 'nurse' | 'babysitter' | 'doctor' | 'cleaner';
+
+/** Where the provider works: at the customer's home, online, or in a clinic. */
+export type ProviderMode = 'home' | 'online' | 'clinic';
+
+export type Gender = 'male' | 'female';
+
+export interface Provider {
+  id: number;
+  kind: ProviderKind;
+  /** The service this provider is booked through. */
+  serviceId: number;
+  name: string;
+  gender: Gender;
+  /** Fixed profile-photo URL (sample data). Falls back to initials if it fails. */
+  photo: string;
+  subject?: TeacherSubject;
+  stages?: SchoolStage[];
+  /** Doctors: specialty, e.g. باطنة. */
+  specialty?: string;
+  experienceYears: number;
+  rating: number;
+  reviews: number;
+  price: string;
+  numericPrice: number | null;
+  priceType: PriceType;
+  area: string;
+  bio: string;
+  modes: ProviderMode[];
+  active: boolean;
+}
+
 export interface Service {
   id: number;
   cat: ServiceCategory;
@@ -33,6 +104,12 @@ export interface Service {
   rating: string;
   badge: BadgeType;
   featured: boolean;
+  /** Teachers: the subject this service is for. */
+  subject?: TeacherSubject;
+  /** Choices the customer must make when ordering. */
+  options?: ServiceOption[];
+  /** Hidden from customers (set from the admin panel). */
+  hidden?: boolean;
 }
 
 export interface Shop {
@@ -89,6 +166,10 @@ export interface Order {
   createdAt: string;
   rating?: number;
   feedback?: string;
+  /** Choices made in the order form (ممرض/ممرضة, المرحلة…). */
+  options?: SelectedOption[];
+  serviceId?: number;
+  providerId?: number;
 }
 
 export interface UserProfile {
@@ -150,6 +231,12 @@ export interface OrderModalData {
   /** null or missing means the price is set after the provider confirms. */
   numericPrice?: number | null;
   priceType?: PriceType;
+  /** Choices to make in the order form. */
+  options?: ServiceOption[];
+  /** Service the order is for (stats in the admin panel). */
+  serviceId?: number;
+  /** Provider booked, when ordering a specific teacher/nurse/doctor. */
+  providerId?: number;
 }
 
 export interface OrderFormData {
