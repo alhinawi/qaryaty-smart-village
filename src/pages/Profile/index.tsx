@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/Button';
 import { Link, useNavigate } from 'react-router';
 import { useAuthStore, selectUser } from '@/stores/useAuthStore';
 import { ROUTES } from '@/routes';
+import { useReach } from '@/hooks/useReach';
+import { VILLAGES, villageLabel } from '@/data/villages';
 
 // ─── Component
 export default function ProfilePage() {
@@ -23,6 +25,8 @@ export default function ProfilePage() {
   const [name, setName] = useState(profile.name);
   const [phone, setPhone] = useState(profile.phone);
   const [address, setAddress] = useState(profile.address);
+  const { village, setVillage } = useReach();
+  const [villageDraft, setVillageDraft] = useState(village);
 
   const handleSaveProfile = (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,6 +37,7 @@ export default function ProfilePage() {
     } else {
       updateProfile({ name, phone, address });
     }
+    if (villageDraft !== village) setVillage(villageDraft);
     setIsEditing(false);
     showToast('✅ تم حفظ بيانات الحساب بنجاح!');
   };
@@ -166,6 +171,7 @@ export default function ProfilePage() {
                 setName(profile.name);
                 setPhone(profile.phone);
                 setAddress(profile.address);
+                setVillageDraft(village);
                 setIsEditing(true);
               }}
             >
@@ -204,6 +210,17 @@ export default function ProfilePage() {
               )}
             </div>
             <div className="form-group">
+              <label htmlFor="profileVillage">القرية</label>
+              <select id="profileVillage" value={villageDraft} onChange={(e) => setVillageDraft(e.target.value)}>
+                {VILLAGES.map((v) => (
+                  <option key={v} value={v}>
+                    {villageLabel(v)}
+                  </option>
+                ))}
+              </select>
+              <span className="text-[11px] text-text-muted">بنعرضلك المدرسين والصنايعية من قريتك</span>
+            </div>
+            <div className="form-group">
               <label htmlFor="profileAddress">العنوان في القرية</label>
               <input
                 id="profileAddress"
@@ -237,7 +254,7 @@ export default function ProfilePage() {
               <span className="font-bold">{profile.address || '—'}</span>
             </div>
             <div className="flex gap-2 py-2 border-b border-gray-50 text-sm last:border-b-0">
-              <span className="text-text-muted font-bold min-w-[100px]">🏡 المنطقة:</span>
+              <span className="text-text-muted font-bold min-w-[100px]">🏡 القرية:</span>
               <span className="font-bold">{profile.village}</span>
             </div>
           </div>
