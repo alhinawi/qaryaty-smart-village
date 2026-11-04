@@ -38,7 +38,7 @@ create table if not exists public.shops (
 
 create table if not exists public.providers (
   id               bigint primary key,
-  kind             text not null check (kind in ('teacher','nurse','doctor','babysitter','cleaner')),
+  kind             text not null check (kind in ('teacher','nurse','doctor','babysitter','cleaner','worker')),
   service_id       bigint not null references public.services (id),
   name             text not null,
   gender           text not null check (gender in ('male','female')),
@@ -46,6 +46,7 @@ create table if not exists public.providers (
   subject          text,
   stages           text[],
   specialty        text,
+  role             text,
   experience_years int not null default 0,
   rating           numeric(2,1) not null default 5.0,
   reviews          int not null default 0,
@@ -57,6 +58,12 @@ create table if not exists public.providers (
   modes            text[] not null default '{}',
   active           boolean not null default true
 );
+
+-- Projects created before workers were added: add the column and allow the new kind
+alter table public.providers add column if not exists role text;
+alter table public.providers drop constraint if exists providers_kind_check;
+alter table public.providers add constraint providers_kind_check
+  check (kind in ('teacher','nurse','doctor','babysitter','cleaner','worker'));
 
 -- ─── Profiles (one per auth user, filled by a trigger) ───────────────────────────────
 create table if not exists public.profiles (
