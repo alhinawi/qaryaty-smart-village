@@ -375,7 +375,7 @@ export const SERVICES: Service[] = [
     badge: '',
     featured: false,
     subject: 'german',
-    options: [{ id: 'stage', label: 'المرحلة', choices: ['ابتدائي', 'إعدادي', 'ثانوي'] }, { id: 'mode', label: 'مكان الحصة', choices: ['في البيت', 'أونلاين'] }],
+    options: [{ id: 'stage', label: 'المرحلة', choices: ['إعدادي', 'ثانوي'] }, { id: 'mode', label: 'مكان الحصة', choices: ['في البيت', 'أونلاين'] }],
   },
   {
     id: 26,
