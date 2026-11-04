@@ -1,5 +1,5 @@
 // ─── Imports
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useId, useRef } from 'react';
 
 // ─── Types
 interface ModalProps {
@@ -22,6 +22,18 @@ export function Modal({
 }: ModalProps) {
   const startYRef = useRef<number | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
+  // Unique per modal so stacked dialogs don't share one id
+  const titleId = useId();
+
+  // Move focus into the dialog on open and give it back on close
+  useEffect(() => {
+    if (!isOpen) return;
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    modalRef.current?.focus({ preventScroll: true });
+    return () => {
+      previouslyFocused?.focus?.({ preventScroll: true });
+    };
+  }, [isOpen]);
 
   // Lock background scroll & handle escape key
   useEffect(() => {
@@ -45,8 +57,11 @@ export function Modal({
   }, [isOpen, onClose]);
 
   // Touch gestures for mobile swipe down to close
+  // Only a swipe that starts while the sheet is scrolled to the top closes it,
+  // so scrolling back up inside a long form never dismisses the modal.
   const handleTouchStart = (e: React.TouchEvent) => {
-    startYRef.current = e.touches[0].clientY;
+    const scrollTop = modalRef.current?.scrollTop ?? 0;
+    startYRef.current = scrollTop <= 0 ? e.touches[0].clientY : null;
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
@@ -54,8 +69,8 @@ export function Modal({
     const endY = e.changedTouches[0].clientY;
     const diff = endY - startYRef.current;
 
-    // If dragged down by more than 80px, close modal
-    if (diff > 80) {
+    // If dragged down by more than 80px from the top, close modal
+    if (diff > 80 && (modalRef.current?.scrollTop ?? 0) <= 0) {
       onClose();
     }
     startYRef.current = null;
@@ -73,11 +88,12 @@ export function Modal({
       }}
       role="dialog"
       aria-modal="true"
-      aria-labelledby={title ? 'modal-dialog-title' : undefined}
+      aria-labelledby={title ? titleId : undefined}
     >
       <div
         ref={modalRef}
-        className="bg-white rounded-t-3xl md:rounded-2xl w-full p-6 max-h-[88svh] md:max-h-[85vh] overflow-y-auto text-right animate-[springUp_0.35s_cubic-bezier(0.34,1.56,0.64,1)]"
+        tabIndex={-1}
+        className="outline-none bg-white rounded-t-3xl md:rounded-2xl w-full p-6 max-h-[88svh] md:max-h-[85vh] overflow-y-auto text-right animate-[springUp_0.35s_cubic-bezier(0.34,1.56,0.64,1)]"
         style={{ maxWidth }}
         onClick={(e) => e.stopPropagation()}
         onTouchStart={handleTouchStart}
@@ -90,7 +106,7 @@ export function Modal({
           </div>
         )}
         {title && (
-          <h3 id="modal-dialog-title" className="text-xl font-black text-center mb-2 text-text">
+          <h3 id={titleId} className="text-xl font-black text-center mb-2 text-text">
             {title}
           </h3>
         )}
