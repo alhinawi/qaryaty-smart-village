@@ -293,7 +293,13 @@ export function OrderModal({
                 </div>
               )}
               <div className="flex justify-between mb-1.5 text-base border-t border-gray-200 pt-2 mt-2">
-                <strong>{isEstimate ? 'الإجمالي المبدئي:' : 'الإجمالي النهائي:'}</strong>
+                <strong>
+                  {finalPrice == null
+                    ? 'الإجمالي:'
+                    : isEstimate
+                      ? 'الإجمالي المبدئي:'
+                      : 'الإجمالي النهائي:'}
+                </strong>
                 <strong>{describeTotal(finalPrice, isEstimate, formatCurrency)}</strong>
               </div>
               {finalPrice == null && (
