@@ -1,10 +1,12 @@
 // ─── Imports
 import { useEffect } from 'react';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import { ROUTES } from '@/routes';
 import { DEVELOPER_NAME } from '@/components/layout/Footer';
 import { DeveloperLinks } from '@/components/layout/DeveloperLinks';
 import { ONLINE_PAYMENTS_ENABLED } from '@/services/payments';
+import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon';
+import { ADVERTISE_MESSAGE, DEVELOPER_PHONE_LINK, whatsappChatLink } from '@/config/developer';
 
 // ─── Content
 // Everything here describes what the app really has today. No made-up numbers.
@@ -80,6 +82,8 @@ const STEPS: OfferItem[] = [
 
 // ─── Component
 export default function AboutPage() {
+  const { hash } = useLocation();
+
   useEffect(() => {
     const previous = document.title;
     document.title = 'عن قريتي';
@@ -87,6 +91,15 @@ export default function AboutPage() {
       document.title = previous;
     };
   }, []);
+
+  // /about#advertise opens straight on the shop-owners section
+  useEffect(() => {
+    if (hash !== '#advertise') return;
+    const timer = window.setTimeout(() => {
+      document.getElementById('advertise')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+    return () => window.clearTimeout(timer);
+  }, [hash]);
 
   return (
     <article className="max-w-[960px] mx-auto" aria-labelledby="about-title">
@@ -191,6 +204,56 @@ export default function AboutPage() {
           ))}
         </ol>
       </section>
+
+      {/* Shop owners: list or advertise your shop */}
+      <section
+        id="advertise"
+        className="scroll-mt-24 bg-cream rounded-2xl p-5 md:p-6 border-2 border-gold mb-6"
+        aria-labelledby="about-advertise"
+      >
+        <h3 id="about-advertise" className="text-[clamp(1.125rem,2.5vw,1.375rem)] font-black mb-2 text-green-dark">
+          <span aria-hidden="true">🏪</span> عندك محل وعايز تعلن عنه في قريتي؟
+        </h3>
+        <p className="text-sm text-text-muted leading-relaxed max-w-[640px]">
+          لو عندك محل أو مطعم أو صيدلية، أو بتقدّم خدمة في القرية، وعايز أهل القرية يشوفوك ويطلبوا منك،
+          تواصل معانا ونضيف محلك. ابعتلنا اسم المحل ونوعه والقرية.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-2.5 mt-4">
+          <a
+            href={whatsappChatLink(ADVERTISE_MESSAGE)}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="كلمنا على واتساب (بيفتح في صفحة جديدة)"
+            className="inline-flex items-center justify-center gap-2 min-h-[44px] px-5 rounded-xl bg-[#25D366] text-white font-extrabold text-[0.9375rem] transition-transform duration-200 hover:scale-105"
+          >
+            <WhatsAppIcon className="w-5 h-5" />
+            كلمنا على واتساب
+          </a>
+          <a
+            href={DEVELOPER_PHONE_LINK}
+            className="inline-flex items-center justify-center gap-2 min-h-[44px] px-5 rounded-xl bg-white text-green-dark border-2 border-green font-extrabold text-[0.9375rem] transition-transform duration-200 hover:scale-105"
+          >
+            <span aria-hidden="true">📞</span> اتصل بينا
+          </a>
+        </div>
+      </section>
+
+      {/* WhatsApp groups until launch */}
+      <Link
+        to={ROUTES.groups}
+        className="flex items-center justify-between gap-3 bg-white rounded-2xl p-5 shadow-card mb-6 min-h-[44px] transition-colors hover:bg-cream"
+      >
+        <span className="flex items-center gap-3">
+          <span className="w-[42px] h-[42px] bg-[#25D366] text-white rounded-xl flex items-center justify-center shrink-0">
+            <WhatsAppIcon className="w-6 h-6" />
+          </span>
+          <span>
+            <span className="block text-base font-extrabold text-green-dark">جروبات قريتي على واتساب</span>
+            <span className="block text-[13px] text-text-muted">لحد ما نطلق المنصة، الخدمة شغالة من الجروبات</span>
+          </span>
+        </span>
+        <span aria-hidden="true">⬅️</span>
+      </Link>
 
       {/* Developer + call to action */}
       <section className="bg-white rounded-2xl p-5 md:p-6 shadow-card flex flex-col sm:flex-row sm:items-center justify-between gap-4">
