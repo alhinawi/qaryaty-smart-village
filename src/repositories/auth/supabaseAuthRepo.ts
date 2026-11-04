@@ -29,6 +29,9 @@ export interface ProfileRow {
   created_at: string;
 }
 
+/** Profile columns a customer may change; role, blocked and phone are not among them. */
+type EditableColumn = 'name' | 'village' | 'address';
+
 export function userFromProfile(row: ProfileRow): AuthUser {
   return {
     id: row.id,
@@ -89,12 +92,22 @@ export function createSupabaseAuthRepo(getClient: () => Promise<SupabaseClient>)
     return data ? userFromProfile(data as ProfileRow) : null;
   }
 
-  async function updateProfileRow(userId: string, patch: Partial<ProfileRow>): Promise<AuthUser> {
+  /** The app may change only these columns (see the grants in supabase/schema.sql). */
+  async function updateProfileRow(userId: string, patch: Partial<Pick<ProfileRow, EditableColumn>>): Promise<AuthUser> {
     const supabase = await getClient();
     const { data, error } = await supabase.from('profiles').update(patch).eq('id', userId).select().maybeSingle();
     if (error) throw mapDbError(error);
     if (!data) throw new AuthError('not_found', MESSAGES.notFound);
     return userFromProfile(data as ProfileRow);
+  }
+
+  async function adminRpc(fn: 'admin_set_role' | 'admin_set_blocked', args: Record<string, unknown>): Promise<AuthUser> {
+    const supabase = await getClient();
+    const { data, error } = await supabase.rpc(fn, args);
+    if (error) throw mapDbError(error);
+    const row = data as ProfileRow | null;
+    if (!row?.id) throw new AuthError('not_found', MESSAGES.notFound);
+    return userFromProfile(row);
   }
 
   return {
@@ -146,7 +159,7 @@ export function createSupabaseAuthRepo(getClient: () => Promise<SupabaseClient>)
     },
 
     async updateProfile(userId, data) {
-      const patch: Partial<ProfileRow> = {};
+      const patch: Partial<Pick<ProfileRow, EditableColumn>> = {};
       if (data.name !== undefined) patch.name = data.name.trim();
       if (data.village !== undefined) patch.village = data.village.trim();
       if (data.address !== undefined) patch.address = data.address.trim();
@@ -160,7 +173,9 @@ export function createSupabaseAuthRepo(getClient: () => Promise<SupabaseClient>)
       return (data as ProfileRow[]).map(userFromProfile);
     },
 
-    setBlocked: (userId, blocked) => updateProfileRow(userId, { blocked }),
-    setRole: (userId, role) => updateProfileRow(userId, { role }),
+    // role and blocked can't be updated from the app (column privileges); only
+    // these admin functions in the database may change them, after checking the caller.
+    setBlocked: (userId, blocked) => adminRpc('admin_set_blocked', { target: userId, new_blocked: blocked }),
+    setRole: (userId, role) => adminRpc('admin_set_role', { target: userId, new_role: role }),
   };
 }

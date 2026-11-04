@@ -1,10 +1,26 @@
 -- ─── Qaryati: Supabase schema
--- Run once in Supabase → SQL Editor. Matches the mappers in src/repositories.
+-- Run in Supabase → SQL Editor, then run seed.sql. Safe to run again.
+-- Matches the mappers in src/repositories.
+--
+-- Security model (the publishable key is public, it ships in the app):
+--   • Every table has Row Level Security on.
+--   • Catalog (services, shops, providers): anyone reads; only admins write.
+--   • profiles: you read your own row and may change only name, village and
+--     address. role, blocked, phone and anything added later (a balance, points)
+--     can't be changed from the app: column privileges are a whitelist.
+--     Admins change role/blocked only through admin_set_role / admin_set_blocked.
+--   • orders: anyone may place one (guests too), only as themselves; the status
+--     always starts as 'pending'; a customer reads only their own orders;
+--     only admins change the status, and nothing else.
+--   • There is no balance/wallet in the database. If one is added later, keep it
+--     out of every grant below and change it only in a SECURITY DEFINER function
+--     or an Edge Function with the secret key.
 --
 -- Auth: the app signs in with phone + password by turning the phone into an
 -- internal address (01012345678@phone.qaryati.app). In Authentication →
--- Providers → Email, turn OFF "Confirm email", or new accounts can't sign in.
--- First admin: after you register in the app, run
+-- Sign In / Providers → Email, turn OFF "Confirm email", or new accounts can't
+-- sign in.
+-- First admin: after you register in the app, run in the SQL Editor
 --   update public.profiles set role = 'admin' where phone = '01XXXXXXXXX';
 
 -- ─── Catalog (anyone can read) ─────────────────────────────────────────────────
@@ -77,16 +93,27 @@ create table if not exists public.profiles (
   created_at timestamptz not null default now()
 );
 
+alter table public.profiles drop constraint if exists profiles_text_lengths;
+alter table public.profiles add constraint profiles_text_lengths
+  check (length(name) <= 80 and length(village) <= 120 and length(address) <= 300);
+
+-- New account → profile. The phone comes from the sign-in address, never from
+-- what the client sends, and the role is always 'customer'.
 create or replace function public.handle_new_user() returns trigger
 language plpgsql security definer set search_path = public as $$
+declare
+  v_phone text := split_part(coalesce(new.email, ''), '@', 1);
 begin
+  if coalesce(new.email, '') !~ '^01[0125][0-9]{8}@phone\.qaryati\.app$' then
+    raise exception 'sign up with a phone number' using errcode = '22023';
+  end if;
   insert into public.profiles (id, name, phone, village, address)
   values (
     new.id,
-    coalesce(new.raw_user_meta_data ->> 'name', ''),
-    coalesce(new.raw_user_meta_data ->> 'phone', split_part(new.email, '@', 1)),
-    coalesce(new.raw_user_meta_data ->> 'village', ''),
-    coalesce(new.raw_user_meta_data ->> 'address', '')
+    left(btrim(coalesce(new.raw_user_meta_data ->> 'name', '')), 80),
+    v_phone,
+    left(btrim(coalesce(new.raw_user_meta_data ->> 'village', '')), 120),
+    left(btrim(coalesce(new.raw_user_meta_data ->> 'address', '')), 300)
   );
   return new;
 end $$;
@@ -100,20 +127,51 @@ language sql stable security definer set search_path = public as $$
   select exists (select 1 from public.profiles where id = auth.uid() and role = 'admin' and not blocked);
 $$;
 
--- Customers can edit their name/village/address, never their own role or block
-create or replace function public.protect_profile_columns() returns trigger
-language plpgsql as $$
+create or replace function public.is_blocked() returns boolean
+language sql stable security definer set search_path = public as $$
+  select exists (select 1 from public.profiles where id = auth.uid() and blocked);
+$$;
+
+-- Replaced by column privileges (below): role/blocked/phone are not updatable
+-- from the app at all, and the old trigger also stopped the SQL Editor.
+drop trigger if exists protect_profile_columns on public.profiles;
+drop function if exists public.protect_profile_columns();
+
+-- Admin actions: the only way to change role or blocked from the app
+create or replace function public.admin_set_role(target uuid, new_role text)
+returns public.profiles
+language plpgsql security definer set search_path = public as $$
+declare
+  result public.profiles;
 begin
-  if (new.role is distinct from old.role or new.blocked is distinct from old.blocked
-      or new.phone is distinct from old.phone) and not public.is_admin() then
+  if not public.is_admin() then
     raise exception 'not allowed' using errcode = '42501';
   end if;
-  return new;
+  if target = auth.uid() then
+    raise exception 'you can''t change your own role' using errcode = '42501';
+  end if;
+  if new_role not in ('customer','admin') then
+    raise exception 'bad role' using errcode = '22023';
+  end if;
+  update public.profiles set role = new_role where id = target returning * into result;
+  return result;
 end $$;
 
-drop trigger if exists protect_profile_columns on public.profiles;
-create trigger protect_profile_columns
-  before update on public.profiles for each row execute function public.protect_profile_columns();
+create or replace function public.admin_set_blocked(target uuid, new_blocked boolean)
+returns public.profiles
+language plpgsql security definer set search_path = public as $$
+declare
+  result public.profiles;
+begin
+  if not public.is_admin() then
+    raise exception 'not allowed' using errcode = '42501';
+  end if;
+  if target = auth.uid() then
+    raise exception 'you can''t block yourself' using errcode = '42501';
+  end if;
+  update public.profiles set blocked = coalesce(new_blocked, false) where id = target returning * into result;
+  return result;
+end $$;
 
 -- ─── Orders ─────────────────────────────────────────────────────────────────────────
 create table if not exists public.orders (
@@ -138,6 +196,61 @@ create table if not exists public.orders (
   created_at      timestamptz not null default now()
 );
 
+alter table public.orders drop constraint if exists orders_sane_values;
+alter table public.orders add constraint orders_sane_values check (
+  discount_amount >= 0 and total_amount >= 0
+  and (discount_code is null or discount_code = 'QARYA1')
+  and length(order_number) <= 40 and length(service_name) <= 300
+  and length(service_emoji) <= 40 and length(address) <= 300
+  and length(coalesce(notes, '')) <= 1000
+  and pg_column_size(options) <= 8000
+);
+
+-- The first-order code once per account (guests are checked on the device only)
+create unique index if not exists orders_one_promo_per_user
+  on public.orders (user_id, discount_code)
+  where user_id is not null and discount_code is not null;
+
+-- Orders from the app always start as 'pending' with the server's clock
+create or replace function public.orders_before_insert() returns trigger
+language plpgsql as $$
+begin
+  if current_user in ('anon', 'authenticated') then
+    new.status := 'pending';
+    new.created_at := now();
+  end if;
+  return new;
+end $$;
+
+drop trigger if exists orders_before_insert on public.orders;
+create trigger orders_before_insert
+  before insert on public.orders for each row execute function public.orders_before_insert();
+
+-- ─── Privileges (what the app's key may touch at all) ────────────────────────────────
+-- Supabase grants everything on new tables to anon/authenticated; start from
+-- nothing and give back only what the app uses. RLS below narrows it to rows.
+revoke all on public.services, public.shops, public.providers, public.profiles, public.orders
+  from anon, authenticated;
+
+grant select on public.services, public.shops, public.providers to anon, authenticated;
+grant insert, update, delete on public.services, public.shops, public.providers to authenticated; -- admins only (RLS)
+
+grant select on public.profiles to authenticated;
+grant update (name, village, address) on public.profiles to authenticated;
+
+grant insert on public.orders to anon, authenticated;
+grant select on public.orders to authenticated;
+grant update (status) on public.orders to authenticated; -- admins only (RLS)
+
+revoke all on function public.handle_new_user() from public, anon, authenticated;
+revoke all on function public.orders_before_insert() from public, anon, authenticated;
+revoke all on function public.admin_set_role(uuid, text) from public, anon;
+revoke all on function public.admin_set_blocked(uuid, boolean) from public, anon;
+grant execute on function public.admin_set_role(uuid, text) to authenticated;
+grant execute on function public.admin_set_blocked(uuid, boolean) to authenticated;
+-- Used inside the policies, so every role needs them; they only answer about the caller
+grant execute on function public.is_admin(), public.is_blocked() to anon, authenticated;
+
 -- ─── Row Level Security ──────────────────────────────────────────────────────────────
 alter table public.services  enable row level security;
 alter table public.shops     enable row level security;
@@ -145,20 +258,34 @@ alter table public.providers enable row level security;
 alter table public.profiles  enable row level security;
 alter table public.orders    enable row level security;
 
+drop policy if exists "catalog: anyone reads services"  on public.services;
+drop policy if exists "catalog: anyone reads shops"     on public.shops;
+drop policy if exists "catalog: anyone reads providers" on public.providers;
+drop policy if exists "catalog: admins edit services"   on public.services;
+drop policy if exists "catalog: admins edit shops"      on public.shops;
+drop policy if exists "catalog: admins edit providers"  on public.providers;
 create policy "catalog: anyone reads services"  on public.services  for select using (not hidden or public.is_admin());
 create policy "catalog: anyone reads shops"     on public.shops     for select using (true);
 create policy "catalog: anyone reads providers" on public.providers for select using (active or public.is_admin());
-create policy "catalog: admins edit services"   on public.services  for all using (public.is_admin()) with check (public.is_admin());
-create policy "catalog: admins edit shops"      on public.shops     for all using (public.is_admin()) with check (public.is_admin());
-create policy "catalog: admins edit providers"  on public.providers for all using (public.is_admin()) with check (public.is_admin());
+create policy "catalog: admins edit services"   on public.services  for all to authenticated using (public.is_admin()) with check (public.is_admin());
+create policy "catalog: admins edit shops"      on public.shops     for all to authenticated using (public.is_admin()) with check (public.is_admin());
+create policy "catalog: admins edit providers"  on public.providers for all to authenticated using (public.is_admin()) with check (public.is_admin());
 
-create policy "profiles: read own or admin"   on public.profiles for select using (id = auth.uid() or public.is_admin());
-create policy "profiles: update own or admin" on public.profiles for update using (id = auth.uid() or public.is_admin());
+drop policy if exists "profiles: read own or admin"   on public.profiles;
+drop policy if exists "profiles: update own or admin" on public.profiles;
+create policy "profiles: read own or admin" on public.profiles for select to authenticated
+  using (id = (select auth.uid()) or public.is_admin());
+create policy "profiles: update own or admin" on public.profiles for update to authenticated
+  using ((id = (select auth.uid()) and not public.is_blocked()) or public.is_admin())
+  with check ((id = (select auth.uid()) and not public.is_blocked()) or public.is_admin());
 
--- Guests may order (user_id null); signed-in customers only as themselves
-create policy "orders: anyone creates" on public.orders for insert
-  with check (user_id is null or user_id = auth.uid());
-create policy "orders: read own or admin" on public.orders for select
-  using (user_id = auth.uid() or public.is_admin());
-create policy "orders: admins update" on public.orders for update
+-- Guests may order (user_id null); signed-in customers only as themselves; blocked accounts can't
+drop policy if exists "orders: anyone creates"    on public.orders;
+drop policy if exists "orders: read own or admin" on public.orders;
+drop policy if exists "orders: admins update"     on public.orders;
+create policy "orders: anyone creates" on public.orders for insert to anon, authenticated
+  with check ((user_id is null or user_id = (select auth.uid())) and not public.is_blocked());
+create policy "orders: read own or admin" on public.orders for select to authenticated
+  using (user_id = (select auth.uid()) or public.is_admin());
+create policy "orders: admins update" on public.orders for update to authenticated
   using (public.is_admin()) with check (public.is_admin());
