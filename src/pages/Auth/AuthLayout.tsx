@@ -77,11 +77,18 @@ export function PasswordField(props: Omit<FieldProps, 'type'>) {
   const [visible, setVisible] = React.useState(false);
   return (
     <div className="relative">
-      <AuthField {...props} type={visible ? 'text' : 'password'} dir="ltr" />
+      {/* Room on the left so a long password never runs under the toggle */}
+      <AuthField
+        {...props}
+        type={visible ? 'text' : 'password'}
+        dir="ltr"
+        style={{ paddingLeft: '4.25rem', ...props.style }}
+      />
+      {/* A full 44px tap target, centred on the input */}
       <button
         type="button"
         onClick={() => setVisible((v) => !v)}
-        className="absolute left-3 top-[34px] text-xs font-bold text-green px-1 py-1"
+        className="absolute left-1.5 top-[30px] h-11 min-w-11 px-3 rounded-lg text-xs font-bold text-green cursor-pointer hover:bg-green/5"
         aria-label={visible ? 'إخفاء كلمة السر' : 'إظهار كلمة السر'}
         aria-pressed={visible}
       >

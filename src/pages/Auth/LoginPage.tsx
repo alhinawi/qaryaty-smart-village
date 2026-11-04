@@ -94,7 +94,7 @@ export default function LoginPage() {
 
         <button
           type="button"
-          className="text-xs text-text-muted underline self-center"
+          className="text-xs text-text-muted underline self-center min-h-11 px-3 cursor-pointer"
           onClick={() => showToast('نسيت كلمة السر هتشتغل لما نضيف كود التأكيد بالـ SMS')}
         >
           نسيت كلمة السر؟
