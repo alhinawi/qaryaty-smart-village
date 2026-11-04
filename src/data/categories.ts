@@ -9,6 +9,6 @@ export const CATEGORIES: CategoryItem[] = [
   { id: 'craft', label: 'حرف', emoji: '🔨' },
   { id: 'edu', label: 'مدرسين', emoji: '👩‍🏫' },
   { id: 'health', label: 'صحة', emoji: '🩺' },
-  { id: 'care', label: 'رعاية', emoji: '❤️' },
+  { id: 'care', label: 'رعاية أطفال', emoji: '🍼' },
   { id: 'home', label: 'خدمات البيت', emoji: '🧹' },
 ];
