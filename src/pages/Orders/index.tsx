@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { formatCurrency } from "@/utils/helpers";
+import { describeTotal } from "@/utils/pricing";
 import type { Order, OrderStatus } from "@/types";
 
 // ─── Component
@@ -122,7 +123,7 @@ export default function OrdersPage() {
                 <div className="flex gap-2 mb-1">
                   <span className="text-text-muted font-bold">💰 المبلغ:</span>
                   <span className="font-extrabold text-green-dark">
-                    {formatCurrency(order.totalAmount)}
+                    {describeTotal(order.totalAmount, Boolean(order.isEstimate), formatCurrency)}
                     {order.discountAmount > 0 && (
                       <span className="text-success font-bold">
                         {" "}

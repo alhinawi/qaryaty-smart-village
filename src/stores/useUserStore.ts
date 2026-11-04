@@ -17,6 +17,9 @@ const INITIAL_PROFILE: UserProfile = {
 interface UserState {
   profile: UserProfile;
   favorites: number[]; // Service IDs
+  /** Single-use promo codes this device already redeemed (client-side guard only). */
+  usedPromoCodes: string[];
+  markPromoUsed: (code: string) => void;
   toggleFavorite: (serviceId: number) => void;
   isFavorite: (serviceId: number) => boolean;
   addRewardPoints: (points: number) => void;
@@ -29,6 +32,14 @@ export const useUserStore = create<UserState>()(
     (set, get) => ({
       profile: INITIAL_PROFILE,
       favorites: [1, 3, 13], // default initial favorites: bread, supermarket, home food
+      usedPromoCodes: [],
+
+      markPromoUsed: (code: string) => {
+        const current = get().usedPromoCodes;
+        if (!current.includes(code)) {
+          set({ usedPromoCodes: [...current, code] });
+        }
+      },
 
       toggleFavorite: (serviceId: number) => {
         const current = get().favorites;

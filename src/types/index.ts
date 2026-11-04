@@ -10,6 +10,14 @@ export type OrderStatus = 'pending' | 'confirmed' | 'onway' | 'done';
 
 export type PaymentMethod = 'cash' | 'vodafone' | 'instapay';
 
+/**
+ * How a service is priced:
+ * - fixed: numericPrice is the final price
+ * - from:  numericPrice is a starting price; the provider confirms the final amount
+ * - quote: no price until the provider confirms (numericPrice is null)
+ */
+export type PriceType = 'fixed' | 'from' | 'quote';
+
 export type ActiveTab = 'home' | 'orders' | 'favorites' | 'messages' | 'profile';
 
 export interface Service {
@@ -20,7 +28,8 @@ export interface Service {
   desc: string;
   time: string;
   price: string;
-  numericPrice: number;
+  numericPrice: number | null;
+  priceType: PriceType;
   rating: string;
   badge: BadgeType;
   featured: boolean;
@@ -55,6 +64,8 @@ export interface CartItem {
   name: string;
   price: number;
   formattedPrice: string;
+  /** Optional so carts persisted before this field existed keep working (treated as 'fixed'). */
+  priceType?: PriceType;
   emoji: string;
   quantity: number;
 }
@@ -70,7 +81,10 @@ export interface Order {
   paymentMethod: PaymentMethod;
   discountCode?: string;
   discountAmount: number;
-  totalAmount: number;
+  /** null when the price is set after the provider confirms. */
+  totalAmount: number | null;
+  /** true when totalAmount is a starting price, not the final amount. */
+  isEstimate?: boolean;
   status: OrderStatus;
   createdAt: string;
   rating?: number;
@@ -112,7 +126,9 @@ export interface OrderModalData {
   name: string;
   desc: string;
   price?: string;
-  numericPrice?: number;
+  /** null or missing means the price is set after the provider confirms. */
+  numericPrice?: number | null;
+  priceType?: PriceType;
 }
 
 export interface OrderFormData {
