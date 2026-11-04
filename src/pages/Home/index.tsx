@@ -184,11 +184,13 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
       <PromoBanner />
 
       {/* Village Shops Section */}
-      <ShopsSection
-        shops={filteredShops}
-        isSearching={searchQuery.trim().length > 0}
-        onSelectShop={onOpenOrderModal}
-      />
+      {!isLoading && (
+        <ShopsSection
+          shops={filteredShops}
+          isSearching={searchQuery.trim().length > 0}
+          onSelectShop={onOpenOrderModal}
+        />
+      )}
 
       {/* Why Choose Us Features */}
       <FeaturesSection />
