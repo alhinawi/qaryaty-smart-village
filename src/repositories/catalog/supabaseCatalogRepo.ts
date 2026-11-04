@@ -63,6 +63,7 @@ export interface ProviderRow {
   numeric_price: number | null;
   price_type: PriceType;
   area: string;
+  village: string | null;
   bio: string;
   modes: ProviderMode[];
   active: boolean;
@@ -119,6 +120,7 @@ export function providerFromRow(row: ProviderRow): Provider {
     numericPrice: row.numeric_price == null ? null : Number(row.numeric_price),
     priceType: row.price_type,
     area: row.area,
+    village: row.village ?? '',
     bio: row.bio,
     modes: row.modes ?? [],
     active: row.active,

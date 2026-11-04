@@ -192,7 +192,9 @@ export function providerToOrderModalData(provider: Provider, service?: Service):
 }
 
 const MODE_CHOICES: Record<ProviderMode, string[]> = {
-  home: ['في البيت', 'زيارة في البيت'],
+  home: ['في البيت', 'زيارة في البيت', 'في بيتك'],
+  teacher_home: ['في بيت المدرس'],
+  center: ['في سنتر'],
   online: ['أونلاين'],
   clinic: ['حجز في العيادة'],
 };

@@ -54,6 +54,7 @@ create table if not exists public.providers (
   numeric_price    numeric,
   price_type       text not null check (price_type in ('fixed','from','quote')),
   area             text not null default '',
+  village          text not null default '',
   bio              text not null default '',
   modes            text[] not null default '{}',
   active           boolean not null default true
@@ -64,6 +65,8 @@ alter table public.providers add column if not exists role text;
 alter table public.providers drop constraint if exists providers_kind_check;
 alter table public.providers add constraint providers_kind_check
   check (kind in ('teacher','nurse','doctor','babysitter','cleaner','worker'));
+-- Projects created before villages were added
+alter table public.providers add column if not exists village text not null default '';
 
 -- ─── Profiles (one per auth user, filled by a trigger) ───────────────────────────────
 create table if not exists public.profiles (

@@ -215,7 +215,7 @@ export const SERVICES: Service[] = [
     badge: 'new',
     featured: false,
     subject: 'arabic',
-    options: [{ id: 'stage', label: 'المرحلة', choices: ['ابتدائي', 'إعدادي', 'ثانوي'] }, { id: 'mode', label: 'مكان الحصة', choices: ['في البيت', 'أونلاين'] }],
+    options: [{ id: 'stage', label: 'المرحلة', choices: ['ابتدائي', 'إعدادي', 'ثانوي'] }, { id: 'mode', label: 'مكان الحصة', choices: ['في بيتك', 'في بيت المدرس', 'في سنتر', 'أونلاين'] }],
   },
   {
     id: 16,
@@ -231,7 +231,7 @@ export const SERVICES: Service[] = [
     badge: '',
     featured: false,
     subject: 'english',
-    options: [{ id: 'stage', label: 'المرحلة', choices: ['ابتدائي', 'إعدادي', 'ثانوي'] }, { id: 'mode', label: 'مكان الحصة', choices: ['في البيت', 'أونلاين'] }],
+    options: [{ id: 'stage', label: 'المرحلة', choices: ['ابتدائي', 'إعدادي', 'ثانوي'] }, { id: 'mode', label: 'مكان الحصة', choices: ['في بيتك', 'في بيت المدرس', 'في سنتر', 'أونلاين'] }],
   },
   {
     id: 17,
@@ -247,7 +247,7 @@ export const SERVICES: Service[] = [
     badge: '',
     featured: false,
     subject: 'math',
-    options: [{ id: 'stage', label: 'المرحلة', choices: ['ابتدائي', 'إعدادي', 'ثانوي'] }, { id: 'mode', label: 'مكان الحصة', choices: ['في البيت', 'أونلاين'] }],
+    options: [{ id: 'stage', label: 'المرحلة', choices: ['ابتدائي', 'إعدادي', 'ثانوي'] }, { id: 'mode', label: 'مكان الحصة', choices: ['في بيتك', 'في بيت المدرس', 'في سنتر', 'أونلاين'] }],
   },
   {
     id: 18,
@@ -263,7 +263,7 @@ export const SERVICES: Service[] = [
     badge: '',
     featured: false,
     subject: 'science',
-    options: [{ id: 'stage', label: 'المرحلة', choices: ['ابتدائي', 'إعدادي'] }, { id: 'mode', label: 'مكان الحصة', choices: ['في البيت', 'أونلاين'] }],
+    options: [{ id: 'stage', label: 'المرحلة', choices: ['ابتدائي', 'إعدادي'] }, { id: 'mode', label: 'مكان الحصة', choices: ['في بيتك', 'في بيت المدرس', 'في سنتر', 'أونلاين'] }],
   },
   {
     id: 19,
@@ -279,7 +279,7 @@ export const SERVICES: Service[] = [
     badge: '',
     featured: false,
     subject: 'history',
-    options: [{ id: 'stage', label: 'المرحلة', choices: ['إعدادي', 'ثانوي'] }, { id: 'mode', label: 'مكان الحصة', choices: ['في البيت', 'أونلاين'] }],
+    options: [{ id: 'stage', label: 'المرحلة', choices: ['إعدادي', 'ثانوي'] }, { id: 'mode', label: 'مكان الحصة', choices: ['في بيتك', 'في بيت المدرس', 'في سنتر', 'أونلاين'] }],
   },
   {
     id: 20,
@@ -295,7 +295,7 @@ export const SERVICES: Service[] = [
     badge: '',
     featured: false,
     subject: 'geography',
-    options: [{ id: 'stage', label: 'المرحلة', choices: ['إعدادي', 'ثانوي'] }, { id: 'mode', label: 'مكان الحصة', choices: ['في البيت', 'أونلاين'] }],
+    options: [{ id: 'stage', label: 'المرحلة', choices: ['إعدادي', 'ثانوي'] }, { id: 'mode', label: 'مكان الحصة', choices: ['في بيتك', 'في بيت المدرس', 'في سنتر', 'أونلاين'] }],
   },
   {
     id: 21,
@@ -311,7 +311,7 @@ export const SERVICES: Service[] = [
     badge: '',
     featured: false,
     subject: 'physics',
-    options: [{ id: 'mode', label: 'مكان الحصة', choices: ['في البيت', 'أونلاين'] }],
+    options: [{ id: 'mode', label: 'مكان الحصة', choices: ['في بيتك', 'في بيت المدرس', 'في سنتر', 'أونلاين'] }],
   },
   {
     id: 22,
@@ -327,7 +327,7 @@ export const SERVICES: Service[] = [
     badge: '',
     featured: false,
     subject: 'chemistry',
-    options: [{ id: 'mode', label: 'مكان الحصة', choices: ['في البيت', 'أونلاين'] }],
+    options: [{ id: 'mode', label: 'مكان الحصة', choices: ['في بيتك', 'في بيت المدرس', 'في سنتر', 'أونلاين'] }],
   },
   {
     id: 23,
@@ -343,7 +343,7 @@ export const SERVICES: Service[] = [
     badge: '',
     featured: false,
     subject: 'biology',
-    options: [{ id: 'mode', label: 'مكان الحصة', choices: ['في البيت', 'أونلاين'] }],
+    options: [{ id: 'mode', label: 'مكان الحصة', choices: ['في بيتك', 'في بيت المدرس', 'في سنتر', 'أونلاين'] }],
   },
   {
     id: 24,
@@ -359,7 +359,7 @@ export const SERVICES: Service[] = [
     badge: '',
     featured: false,
     subject: 'french',
-    options: [{ id: 'stage', label: 'المرحلة', choices: ['ابتدائي', 'إعدادي', 'ثانوي'] }, { id: 'mode', label: 'مكان الحصة', choices: ['في البيت', 'أونلاين'] }],
+    options: [{ id: 'stage', label: 'المرحلة', choices: ['ابتدائي', 'إعدادي', 'ثانوي'] }, { id: 'mode', label: 'مكان الحصة', choices: ['في بيتك', 'في بيت المدرس', 'في سنتر', 'أونلاين'] }],
   },
   {
     id: 25,
@@ -375,7 +375,7 @@ export const SERVICES: Service[] = [
     badge: '',
     featured: false,
     subject: 'german',
-    options: [{ id: 'stage', label: 'المرحلة', choices: ['إعدادي', 'ثانوي'] }, { id: 'mode', label: 'مكان الحصة', choices: ['في البيت', 'أونلاين'] }],
+    options: [{ id: 'stage', label: 'المرحلة', choices: ['إعدادي', 'ثانوي'] }, { id: 'mode', label: 'مكان الحصة', choices: ['في بيتك', 'في بيت المدرس', 'في سنتر', 'أونلاين'] }],
   },
   {
     id: 26,
@@ -391,7 +391,7 @@ export const SERVICES: Service[] = [
     badge: '',
     featured: false,
     subject: 'quran',
-    options: [{ id: 'mode', label: 'مكان الحصة', choices: ['في البيت', 'أونلاين'] }],
+    options: [{ id: 'mode', label: 'مكان الحصة', choices: ['في بيتك', 'في بيت المدرس', 'في سنتر', 'أونلاين'] }],
   },
   {
     id: 27,
@@ -407,7 +407,7 @@ export const SERVICES: Service[] = [
     badge: '',
     featured: false,
     subject: 'computer',
-    options: [{ id: 'mode', label: 'مكان الحصة', choices: ['في البيت', 'أونلاين'] }],
+    options: [{ id: 'mode', label: 'مكان الحصة', choices: ['في بيتك', 'في بيت المدرس', 'في سنتر', 'أونلاين'] }],
   },
   {
     id: 28,
