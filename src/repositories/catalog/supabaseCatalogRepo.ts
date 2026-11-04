@@ -43,6 +43,8 @@ export interface ShopRow {
   open: boolean;
   time: string;
   bg_color: string;
+  kind?: string | null;
+  food_types?: string[] | null;
 }
 
 export interface ProviderRow {
@@ -98,6 +100,8 @@ export function shopFromRow(row: ShopRow): Shop {
     open: row.open,
     time: row.time,
     bgColor: row.bg_color,
+    kind: (row.kind ?? 'other') as Shop['kind'],
+    foodTypes: (row.food_types ?? []) as Shop['foodTypes'],
   };
 }
 

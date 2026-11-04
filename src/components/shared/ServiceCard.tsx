@@ -6,7 +6,8 @@ import type { Service, ServiceCategory } from "@/types";
 
 import { useUserStore } from "@/stores/useUserStore";
 
-import { useCartStore } from "@/stores/useCartStore";
+import { cartItemFromService } from "@/stores/useCartStore";
+import { useAddToCart } from "@/hooks/useAddToCart";
 
 import { useUIStore } from "@/stores/useUIStore";
 
@@ -44,7 +45,7 @@ export const ServiceCard = React.memo(function ServiceCard({
 
   const toggleFavorite = useUserStore((state) => state.toggleFavorite);
 
-  const addItemToCart = useCartStore((state) => state.addItem);
+  const addToCart = useAddToCart();
 
   const showToast = useUIStore((state) => state.showToast);
 
@@ -64,11 +65,16 @@ export const ServiceCard = React.memo(function ServiceCard({
     );
   };
 
-  const handleQuickAdd = (e: React.MouseEvent) => {
+  const handleQuickAdd = async (e: React.MouseEvent) => {
     e.stopPropagation();
 
-    addItemToCart(service);
-
+    // Choices (subject, grade, hours) are made in the order form, not in the cart
+    if (service.options?.length) {
+      onSelect(service);
+      return;
+    }
+    const item = cartItemFromService(service);
+    if (!(await addToCart(item))) return;
     showToast(`🛒 تم إضافة ${service.name} إلى السلة!`);
   };
 

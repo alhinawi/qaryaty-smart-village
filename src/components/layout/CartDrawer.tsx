@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { ProductPhoto } from "@/components/ui/ProductPhoto";
 import { useCartStore } from "@/stores/useCartStore";
 import { createOrder } from "@/repositories";
+import { PAYMENT_LABELS, isOnlinePayment, paymentChoices, startOnlinePayment } from "@/services/payments";
 import { useUIStore } from "@/stores/useUIStore";
 import { useGoToTab } from '@/hooks/useTabNavigation';
 import { useOrderStore } from "@/stores/useOrderStore";
@@ -29,10 +31,15 @@ export function CartDrawer() {
   return <CartDrawerContent />;
 }
 
+function formatQuantity(item: CartItem): string {
+  return item.unit ? `${item.quantity.toLocaleString("ar-EG")} ${item.unit}` : "";
+}
+
 function formatLinePrice(item: CartItem): string {
   const type = getCartItemPriceType(item);
   if (type === "quote") return "السعر بعد التأكيد";
-  const line = `${formatCurrency(item.price)} × ${item.quantity} = ${formatCurrency(
+  if (!item.unit) return type === "from" ? `من ${formatCurrency(item.price)}` : formatCurrency(item.price);
+  const line = `${formatCurrency(item.price)} × ${formatQuantity(item)} = ${formatCurrency(
     item.price * item.quantity,
   )}`;
   return type === "from" ? `من ${line}` : line;
@@ -67,6 +74,15 @@ function CartDrawerContent() {
   const close = () => setIsOpen(false);
 
   const pricing = getCartPricing(items, discountApplied);
+  // A shop cart is priced by the server from its product list; a service cart as before
+  const shopId = items[0]?.shopId;
+  const shopItems =
+    shopId !== undefined && items.every((i) => i.shopId === shopId && i.productId)
+      ? items.map((i) => ({ productId: i.productId as string, quantity: i.quantity, grill: i.grill }))
+      : undefined;
+  // Card and wallet charge a known amount, so they need a fixed total
+  const paymentOptions = paymentChoices(!pricing.isEstimate && pricing.total > 0);
+  const payWith: PaymentMethod = paymentOptions.includes(paymentMethod) ? paymentMethod : "cash";
   const totalLabel = describeTotal(
     pricing.subtotal === 0 && pricing.hasQuoteItems ? null : pricing.total,
     pricing.isEstimate,
@@ -99,7 +115,7 @@ function CartDrawerContent() {
       address,
       phone,
       notes: "",
-      paymentMethod,
+      paymentMethod: payWith,
       discountCode: promoCode,
     });
 
@@ -124,7 +140,10 @@ function CartDrawerContent() {
         ? null
         : finalPricing.total;
 
-    const names = items.map((i) => `${i.name} (${i.quantity})`).join(" + ");
+    const vendor = useCartStore.getState().getVendor();
+    const names = items
+      .map((i) => (i.unit ? `${i.name} (${formatQuantity(i)})` : i.name))
+      .join(" + ");
     const emojis = items
       .map((i) => i.emoji)
       .slice(0, 3)
@@ -135,7 +154,7 @@ function CartDrawerContent() {
     try {
       newOrder = await createOrder({
         orderNumber: generateOrderNumber(),
-        serviceName: `سلة مشتريات: ${names}`,
+        serviceName: vendor && items[0]?.shopId ? `${vendor.name}: ${names}` : names,
         serviceEmoji: emojis || "🛒",
         address: validation.data.address,
         phone: validation.data.phone,
@@ -145,6 +164,7 @@ function CartDrawerContent() {
         totalAmount: total,
         isEstimate: finalPricing.isEstimate,
         status: "pending",
+        ...(shopItems ? { shopId, items: shopItems } : {}),
       });
     } catch (err) {
       // Not saved: keep the cart as it is
@@ -164,6 +184,12 @@ function CartDrawerContent() {
     }
 
     clearCart();
+    if (isOnlinePayment(validation.data.paymentMethod)) {
+      // Opens Paymob; the order turns paid only when Paymob's webhook confirms it
+      const problem = await startOnlinePayment(newOrder.id);
+      if (!problem) return;
+      showToast(`⚠️ ${problem}`);
+    }
     close();
     showToast(`✅ تم تأكيد طلبك برقم ${newOrder.orderNumber}!`);
     setActiveTab("orders");
@@ -197,7 +223,7 @@ function CartDrawerContent() {
                 key={item.id}
                 className="flex items-center gap-3 p-2.5 bg-gray-50 rounded-xl"
               >
-                <div className="text-[28px]">{item.emoji}</div>
+                <ProductPhoto photo={item.photo} emoji={item.emoji} />
                 <div className="flex-1 min-w-0">
                   <h4 className="text-sm font-extrabold">{item.name}</h4>
                   <div className="text-xs text-text-muted">
@@ -205,28 +231,30 @@ function CartDrawerContent() {
                   </div>
                 </div>
 
-                {/* Quantity Controls */}
-                <div className="flex items-center gap-1.5">
-                  <button
-                    type="button"
-                    className="w-[26px] h-[26px] rounded-md bg-white border border-gray-300 flex items-center justify-center font-extrabold cursor-pointer"
-                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                    aria-label="تقليل الكمية"
-                  >
-                    -
-                  </button>
-                  <span className="text-sm font-extrabold min-w-[20px] text-center">
-                    {item.quantity}
-                  </span>
-                  <button
-                    type="button"
-                    className="w-[26px] h-[26px] rounded-md bg-white border border-gray-300 flex items-center justify-center font-extrabold cursor-pointer"
-                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                    aria-label="زيادة الكمية"
-                  >
-                    +
-                  </button>
-                </div>
+                {/* Quantity: only for things ordered by a unit (kilo, hour, month) */}
+                {item.unit && (
+                  <div className="flex items-center gap-1.5">
+                    <button
+                      type="button"
+                      className="w-[26px] h-[26px] rounded-md bg-white border border-gray-300 flex items-center justify-center font-extrabold cursor-pointer"
+                      onClick={() => updateQuantity(item.id, item.quantity - (item.step ?? 1))}
+                      aria-label={`أقل ${item.name}`}
+                    >
+                      -
+                    </button>
+                    <span className="text-sm font-extrabold min-w-[52px] text-center" aria-live="polite">
+                      {formatQuantity(item)}
+                    </span>
+                    <button
+                      type="button"
+                      className="w-[26px] h-[26px] rounded-md bg-white border border-gray-300 flex items-center justify-center font-extrabold cursor-pointer"
+                      onClick={() => updateQuantity(item.id, item.quantity + (item.step ?? 1))}
+                      aria-label={`أكتر ${item.name}`}
+                    >
+                      +
+                    </button>
+                  </div>
+                )}
 
                 {/* Delete Button */}
                 <button
@@ -312,12 +340,14 @@ function CartDrawerContent() {
               <label htmlFor="cartPayment">💳 طريقة الدفع</label>
               <select
                 id="cartPayment"
-                value={paymentMethod}
+                value={payWith}
                 onChange={(e) => setPaymentMethod(e.target.value as PaymentMethod)}
               >
-                <option value="cash">كاش عند الاستلام 💵</option>
-                <option value="vodafone">فودافون كاش 📱</option>
-                <option value="instapay">انستاباي ⚡</option>
+                {paymentOptions.map((method) => (
+                  <option key={method} value={method}>
+                    {PAYMENT_LABELS[method]}
+                  </option>
+                ))}
               </select>
             </div>
           </div>

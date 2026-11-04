@@ -22,6 +22,7 @@ import { LiveOrderBanner } from './LiveOrderBanner';
 import { ServicesSection } from './ServicesSection';
 import { PromoBanner } from './PromoBanner';
 import { ShopsSection } from './ShopsSection';
+import { productsForShop } from '@/data/catalog';
 import { ProvidersSection } from './ProvidersSection';
 import { PeopleSectionsRow } from './PeopleSectionsRow';
 import { ProviderPickerModal } from './ProviderPickerModal';
@@ -104,11 +105,20 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
     });
   }, [services, providers, searchQuery, selectedCategory]);
 
-  // Shops are searched too, by name and description
+  // Shops and restaurants are searched too: by name, description and what they sell
   const filteredShops = useMemo(
-    () => shops.filter((shop) => matchesSearch(searchQuery, [shop.name, shop.description])),
+    () =>
+      shops.filter((shop) =>
+        matchesSearch(searchQuery, [
+          shop.name,
+          shop.description,
+          ...(productsForShop(shop)?.map((p) => p.name) ?? []),
+        ])
+      ),
     [shops, searchQuery]
   );
+  const villageShops = useMemo(() => filteredShops.filter((s) => s.kind !== 'restaurant'), [filteredShops]);
+  const restaurants = useMemo(() => filteredShops.filter((s) => s.kind === 'restaurant'), [filteredShops]);
 
   // People in the selected category's section (teachers, nurses…), with its filters
   const filteredProviders = useMemo(() => {
@@ -276,11 +286,19 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
 
       {/* Village Shops Section */}
       {!isLoading && (
-        <ShopsSection
-          shops={filteredShops}
-          isSearching={searchQuery.trim().length > 0}
-          onSelectShop={onOpenOrderModal}
-        />
+        <>
+          <ShopsSection
+            shops={villageShops}
+            isSearching={searchQuery.trim().length > 0}
+            onSelectShop={onOpenOrderModal}
+          />
+          <ShopsSection
+            variant="restaurants"
+            shops={restaurants}
+            isSearching={searchQuery.trim().length > 0}
+            onSelectShop={onOpenOrderModal}
+          />
+        </>
       )}
 
       {/* Why Choose Us Features */}
