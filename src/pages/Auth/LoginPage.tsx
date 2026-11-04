@@ -1,0 +1,103 @@
+// ─── /login
+import React, { useState } from 'react';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router';
+import { Button } from '@/components/ui/Button';
+import { useAuthStore } from '@/stores/useAuthStore';
+import { useUIStore } from '@/stores/useUIStore';
+import { AuthError } from '@/services/auth';
+import { fieldErrorsFrom, loginSchema } from '@/utils/validators';
+import { ROUTES } from '@/routes';
+import { useRedirectTarget } from '@/hooks/useRedirectTarget';
+import { AuthField, AuthLayout, PasswordField } from './AuthLayout';
+
+export default function LoginPage() {
+  const session = useAuthStore((s) => s.session);
+  const login = useAuthStore((s) => s.login);
+  const showToast = useUIStore((s) => s.showToast);
+  const navigate = useNavigate();
+  const target = useRedirectTarget();
+  const location = useLocation();
+
+  const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [formError, setFormError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+
+  if (session && !submitting) return <Navigate to={target} replace />;
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormError('');
+    const parsed = loginSchema.safeParse({ phone, password });
+    if (!parsed.success) {
+      setErrors(fieldErrorsFrom(parsed.error.issues));
+      return;
+    }
+    setErrors({});
+    setSubmitting(true);
+    try {
+      const user = await login(parsed.data);
+      showToast(`👋 أهلاً يا ${user.name.split(' ')[0]}!`);
+      navigate(target, { replace: true });
+    } catch (err) {
+      setFormError(err instanceof AuthError ? err.message : 'حصلت مشكلة، حاول تاني');
+      setSubmitting(false);
+    }
+  };
+
+  return (
+    <AuthLayout
+      title="تسجيل الدخول"
+      subtitle="ادخل برقم موبايلك عشان تتابع طلباتك ونقطك"
+      footer={
+        <>
+          ماعندكش حساب؟{' '}
+          <Link to={ROUTES.register} state={location.state} className="text-green font-bold">
+            اعمل حساب جديد
+          </Link>
+        </>
+      }
+    >
+      <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-3" aria-label="تسجيل الدخول">
+        <AuthField
+          id="loginPhone"
+          label="رقم الموبايل"
+          type="tel"
+          inputMode="tel"
+          autoComplete="tel"
+          placeholder="01012345678"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          error={errors.phone}
+        />
+        <PasswordField
+          id="loginPassword"
+          label="كلمة السر"
+          autoComplete="current-password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          error={errors.password}
+        />
+
+        {formError && (
+          <p className="input-error-msg text-center" role="alert">
+            {formError}
+          </p>
+        )}
+
+        <Button type="submit" variant="primary" size="lg" loading={submitting} disabled={submitting}>
+          دخول
+        </Button>
+
+        <button
+          type="button"
+          className="text-xs text-text-muted underline self-center"
+          onClick={() => showToast('نسيت كلمة السر هتشتغل لما نضيف كود التأكيد بالـ SMS')}
+        >
+          نسيت كلمة السر؟
+        </button>
+      </form>
+    </AuthLayout>
+  );
+}
