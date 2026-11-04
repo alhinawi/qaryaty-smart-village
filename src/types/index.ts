@@ -317,8 +317,10 @@ export interface Order {
   paymentMethod: PaymentMethod;
   discountCode?: string;
   discountAmount: number;
-  /** null when the price is set after the provider confirms. */
+  /** What the customer pays, عمولة التطبيق included. null when the price is set after the provider confirms. */
   totalAmount: number | null;
+  /** عمولة التطبيق in this order (the server sets its own value). */
+  commissionAmount?: number;
   /** true when totalAmount is a starting price, not the final amount. */
   isEstimate?: boolean;
   status: OrderStatus;
