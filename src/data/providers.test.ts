@@ -33,11 +33,11 @@ describe('providers sample data', () => {
     const serviceOf = (id: number) => SERVICES.find((s) => s.id === byId(id).serviceId)!;
     const choices = (id: number, option: string) =>
       providerToOrderModalData(byId(id), serviceOf(id)).options?.find((o) => o.id === option)?.choices;
-    // أ. نهى الشافعي: English, primary only, home and online
+    // أ. نهى الشافعي: English, primary only, in a centre and online
     expect(choices(63, 'stage')).toEqual(['ابتدائي']);
-    expect(choices(63, 'mode')).toEqual(['في البيت', 'أونلاين']);
-    // أ. محمود عبد الرازق: home only
-    expect(choices(65, 'mode')).toEqual(['في البيت']);
+    expect(choices(63, 'mode')).toEqual(['في سنتر', 'أونلاين']);
+    // أ. محمود عبد الرازق: at his home or at yours, not online
+    expect(choices(65, 'mode')).toEqual(['في بيتك', 'في بيت المدرس']);
     for (const p of PROVIDERS.filter((x) => x.kind === 'teacher' && x.stages)) {
       const offered = choices(p.id, 'stage');
       if (offered) for (const c of offered) expect(p.stages!.map((st) => STAGE_LABELS[st])).toContain(c);
