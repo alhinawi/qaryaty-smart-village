@@ -4,6 +4,9 @@ import { useUserStore } from '@/stores/useUserStore';
 import { useOrderStore } from '@/stores/useOrderStore';
 import { useUIStore } from '@/stores/useUIStore';
 import { Button } from '@/components/ui/Button';
+import { Link, useNavigate } from 'react-router';
+import { useAuthStore, selectUser } from '@/stores/useAuthStore';
+import { ROUTES } from '@/routes';
 
 // ─── Component
 export default function ProfilePage() {
@@ -11,6 +14,10 @@ export default function ProfilePage() {
   const updateProfile = useUserStore((state) => state.updateProfile);
   const orders = useOrderStore((state) => state.orders);
   const showToast = useUIStore((state) => state.showToast);
+  const user = useAuthStore(selectUser);
+  const updateAuthUser = useAuthStore((state) => state.updateUser);
+  const logout = useAuthStore((state) => state.logout);
+  const navigate = useNavigate();
 
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(profile.name);
@@ -19,9 +26,21 @@ export default function ProfilePage() {
 
   const handleSaveProfile = (e: React.FormEvent) => {
     e.preventDefault();
-    updateProfile({ name, phone, address });
+    if (user) {
+      // Signed in: the phone is the account id, so only name/address change
+      updateProfile({ name, address });
+      void updateAuthUser({ name, address });
+    } else {
+      updateProfile({ name, phone, address });
+    }
     setIsEditing(false);
     showToast('✅ تم حفظ بيانات الحساب بنجاح!');
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    showToast('👋 تم تسجيل الخروج');
+    navigate(ROUTES.home);
   };
 
   const handleShareApp = () => {
@@ -57,9 +76,40 @@ export default function ProfilePage() {
         <div>
           <h2 className="text-[1.375rem] font-black font-['Tajawal',sans-serif]">{profile.name}</h2>
           <p className="text-[13px] opacity-90">📍 {profile.village}</p>
-          <span className="text-[11px] opacity-70">عضو منذ {profile.memberSince}</span>
+          {user && profile.memberSince && (
+            <span className="text-[11px] opacity-70">عضو منذ {profile.memberSince}</span>
+          )}
+          {!user && (
+            <span className="text-[11px] opacity-80">سجّل دخولك عشان تحفظ بياناتك وطلباتك</span>
+          )}
         </div>
       </div>
+
+      {/* Account actions */}
+      {user ? (
+        <div className="flex flex-wrap gap-2.5 mb-5">
+          <button type="button" className="btn-cancel" onClick={handleLogout}>
+            تسجيل خروج
+          </button>
+        </div>
+      ) : (
+        <div className="flex flex-wrap gap-2.5 mb-5">
+          <Link
+            to={ROUTES.login}
+            state={{ from: ROUTES.profile }}
+            className="flex-1 text-center bg-green text-white rounded-xl py-3 font-extrabold text-sm"
+          >
+            تسجيل الدخول
+          </Link>
+          <Link
+            to={ROUTES.register}
+            state={{ from: ROUTES.profile }}
+            className="flex-1 text-center bg-gold text-black rounded-xl py-3 font-extrabold text-sm"
+          >
+            حساب جديد
+          </Link>
+        </div>
+      )}
 
       {/* Rewards Points Card */}
       <div className="bg-white rounded-2xl p-5 shadow-sm border-2 border-gold-light mb-5">
@@ -112,7 +162,12 @@ export default function ProfilePage() {
             <button
               type="button"
               className="bg-transparent border-none text-green font-extrabold cursor-pointer font-['Cairo',sans-serif] text-[13px]"
-              onClick={() => setIsEditing(true)}
+              onClick={() => {
+                setName(profile.name);
+                setPhone(profile.phone);
+                setAddress(profile.address);
+                setIsEditing(true);
+              }}
             >
               تعديل ✏️
             </button>
@@ -136,10 +191,17 @@ export default function ProfilePage() {
               <input
                 id="profilePhone"
                 type="tel"
-                value={phone}
+                value={user ? user.phone : phone}
                 onChange={(e) => setPhone(e.target.value)}
+                disabled={Boolean(user)}
+                aria-describedby={user ? 'profilePhoneHint' : undefined}
                 required
               />
+              {user && (
+                <span id="profilePhoneHint" className="text-[11px] text-text-muted">
+                  رقم الموبايل هو اسم الدخول، ومش هيتغير من هنا
+                </span>
+              )}
             </div>
             <div className="form-group">
               <label htmlFor="profileAddress">العنوان في القرية</label>
@@ -168,11 +230,11 @@ export default function ProfilePage() {
           <div>
             <div className="flex gap-2 py-2 border-b border-gray-50 text-sm last:border-b-0">
               <span className="text-text-muted font-bold min-w-[100px]">📱 رقم الموبايل:</span>
-              <span className="font-bold">{profile.phone}</span>
+              <span className="font-bold">{profile.phone || '—'}</span>
             </div>
             <div className="flex gap-2 py-2 border-b border-gray-50 text-sm last:border-b-0">
               <span className="text-text-muted font-bold min-w-[100px]">📍 العنوان:</span>
-              <span className="font-bold">{profile.address}</span>
+              <span className="font-bold">{profile.address || '—'}</span>
             </div>
             <div className="flex gap-2 py-2 border-b border-gray-50 text-sm last:border-b-0">
               <span className="text-text-muted font-bold min-w-[100px]">🏡 المنطقة:</span>
