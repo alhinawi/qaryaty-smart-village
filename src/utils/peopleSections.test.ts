@@ -8,13 +8,14 @@ import {
   quickRequestServices,
   sectionCounts,
   sectionForKind,
+  providersForService,
 } from './peopleSections';
 
 const visible = SERVICES.filter((s) => !s.hidden);
 
 describe('people sections', () => {
   it('every kind of person has exactly one section', () => {
-    for (const provider of PROVIDERS) {
+    for (const provider of PROVIDERS.filter((p) => p.kind !== 'worker')) {
       const sections = PEOPLE_SECTIONS.filter((s) => s.kinds.includes(provider.kind));
       expect(sections).toHaveLength(1);
     }
@@ -23,7 +24,9 @@ describe('people sections', () => {
   it('teachers and people-backed services are not repeated in the services grid', () => {
     const grid = gridServices(visible, PROVIDERS);
     expect(grid.some((s) => s.cat === 'edu')).toBe(false);
-    const bookedThrough = new Set(PROVIDERS.map((p) => p.serviceId));
+    const bookedThrough = new Set(
+      PROVIDERS.filter((p) => p.kind !== 'worker').map((p) => p.serviceId)
+    );
     expect(grid.some((s) => bookedThrough.has(s.id))).toBe(false);
     // Ordinary services stay
     expect(grid.map((s) => s.name)).toEqual(expect.arrayContaining(['عيش من الفرن', 'سباك', 'غسيل ومكواة']));
@@ -79,6 +82,28 @@ describe('people sections', () => {
   it('section counts add up to all active, bookable people', () => {
     const counts = sectionCounts(PROVIDERS, visible);
     const total = PEOPLE_SECTIONS.reduce((sum, s) => sum + counts[s.id], 0);
-    expect(total).toBe(PROVIDERS.filter((p) => p.active).length);
+    expect(total).toBe(PROVIDERS.filter((p) => p.active && p.kind !== 'worker').length);
+  });
+
+  it('every service in the grid has at least three people to pick from, best rated first', () => {
+    for (const service of gridServices(visible, PROVIDERS)) {
+      const people = providersForService(service, PROVIDERS);
+      expect(people.length, service.name).toBeGreaterThanOrEqual(3);
+      expect(people.every((p) => p.kind === 'worker' && p.role)).toBe(true);
+      const ratings = people.map((p) => p.rating);
+      expect([...ratings].sort((a, b) => b - a)).toEqual(ratings);
+    }
+  });
+
+  it('nurses, doctors and cleaners have both women and men', () => {
+    for (const kind of ['nurse', 'doctor', 'cleaner'] as const) {
+      const genders = new Set(PROVIDERS.filter((p) => p.kind === kind).map((p) => p.gender));
+      expect([...genders].sort(), kind).toEqual(['female', 'male']);
+    }
+  });
+
+  it('search finds workers by role', () => {
+    const plumbers = filterProviders(PROVIDERS, visible, { kinds: ['worker'], query: 'سباك' });
+    expect(plumbers.length).toBeGreaterThanOrEqual(3);
   });
 });
