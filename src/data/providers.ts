@@ -6,7 +6,11 @@
 import type { Provider } from '@/types';
 import { providerPhoto } from '@/utils/avatars';
 import { WORKERS } from './workers';
+import { DEVELOPER_NAME } from '@/config/developer';
 import { sampleTeacherGroups } from '@/utils/teacherGroups';
+
+/** The developer's own teacher cards (programming, English): a real person, not sample data. */
+export const DEVELOPER_TEACHER_IDS = [143, 144] as const;
 
 const PEOPLE: Provider[] = [
   {
@@ -1483,6 +1487,34 @@ const PEOPLE: Provider[] = [
     modes: ['home'],
     active: true,
   },
+  // ─── A real teacher: the app's developer, with his own photo and his consent.
+  // One card per subject he teaches, so he shows under both. No ratings, years,
+  // prices, groups or village are made up for him: the card hides what is empty.
+  ...(['computer', 'english'] as const).map(
+    (subject, i): Provider => ({
+      id: DEVELOPER_TEACHER_IDS[i],
+      kind: 'teacher',
+      serviceId: subject === 'computer' ? 27 : 16,
+      name: DEVELOPER_NAME,
+      gender: 'male',
+      photo: '/img/t/mohamed-alhinawi.webp',
+      subject,
+      experienceYears: 0,
+      rating: 0,
+      reviews: 0,
+      price: 'السعر بالاتفاق',
+      numericPrice: null,
+      priceType: 'quote',
+      area: '',
+      village: '',
+      bio:
+        subject === 'computer'
+          ? 'برمجة وتطوير مواقع: JavaScript و React والويب'
+          : 'إنجليزي من البيت، أونلاين',
+      modes: ['online'],
+      active: true,
+    }),
+  ),
   ...WORKERS,
 ];
 

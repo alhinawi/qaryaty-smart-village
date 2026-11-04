@@ -1,8 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { PROVIDERS } from './providers';
+import { existsSync } from 'node:fs';
+import type { Provider } from '@/types';
+import { DEVELOPER_NAME } from '@/config/developer';
+import { DEVELOPER_TEACHER_IDS, PROVIDERS } from './providers';
 import { SERVICES } from './services';
 import { providerToOrderModalData } from '@/utils/pricing';
 import { STAGES, STAGE_LABELS, SUBJECTS, SUBJECT_STAGES } from './teachers';
+
+const isReal = (p: Provider) => (DEVELOPER_TEACHER_IDS as readonly number[]).includes(p.id);
 
 describe('providers sample data', () => {
   it('ids are unique and every provider points to a real service', () => {
@@ -14,6 +19,8 @@ describe('providers sample data', () => {
   it('teachers have a subject; school subjects also list their stages', () => {
     for (const teacher of PROVIDERS.filter((p) => p.kind === 'teacher')) {
       expect(teacher.subject).toBeDefined();
+      // The developer teaches all ages; nothing is made up for him
+      if (isReal(teacher)) continue;
       // Quran teachers have no stages: they teach all ages
       if (teacher.subject !== 'quran') expect(teacher.stages?.length).toBeGreaterThan(0);
     }
@@ -84,14 +91,28 @@ describe('providers sample data', () => {
     }
   });
 
-  it('everyone has a fixed DiceBear picture of their own', () => {
-    for (const p of PROVIDERS) {
+  it('the developer is a teacher of programming and English, with his own photo', () => {
+    const cards = PROVIDERS.filter(isReal);
+    expect(cards.map((p) => p.subject)).toEqual(['computer', 'english']);
+    for (const p of cards) {
+      expect(p.name).toBe(DEVELOPER_NAME);
+      expect(p.photo).toBe('/img/t/mohamed-alhinawi.webp');
+      expect(existsSync(`public${p.photo}`)).toBe(true);
+      expect(p.modes).toEqual(['online']);
+      // No made-up price, rating, years or groups
+      expect([p.numericPrice, p.priceType, p.reviews, p.experienceYears, p.groups]).toEqual([null, 'quote', 0, 0, undefined]);
+    }
+  });
+
+  it('every sample person has a fixed DiceBear picture of their own', () => {
+    const samples = PROVIDERS.filter((p) => !isReal(p));
+    for (const p of samples) {
       const url = new URL(p.photo);
       expect(url.hostname).toBe('api.dicebear.com');
       expect(url.searchParams.get('seed')).toBe(`qaryaty-provider-${p.id}`);
       if (p.gender === 'female') expect(url.searchParams.get('top')).toBe('hijab');
     }
-    expect(new Set(PROVIDERS.map((p) => p.photo)).size).toBe(PROVIDERS.length);
+    expect(new Set(samples.map((p) => p.photo)).size).toBe(samples.length);
     expect(new Set(PROVIDERS.map((p) => p.id)).size).toBe(PROVIDERS.length);
   });
 });

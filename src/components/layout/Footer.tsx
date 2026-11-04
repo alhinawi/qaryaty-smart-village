@@ -1,12 +1,8 @@
 // ─── Imports
 import { Link } from 'react-router';
 import { ROUTES } from '@/routes';
+import { DEVELOPER_NAME } from '@/config/developer';
 import { DeveloperLinks } from './DeveloperLinks';
-
-// ─── Constants
-
-/** Shown in the footer as the app's developer */
-export const DEVELOPER_NAME = 'Mohamed Alhinawi';
 
 // ─── Component
 
