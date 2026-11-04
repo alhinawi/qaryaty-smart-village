@@ -1,10 +1,10 @@
 // ─── Auth store
-// Holds the current session and talks only to `authService` (mocked for now,
-// see src/services/auth.ts). Not real security until a backend exists.
+// Holds the current session and talks only to `authRepo` (mock in demo mode,
+// Supabase when configured; see src/repositories/index.ts).
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { AuthSession, AuthUser } from '@/types';
-import { authService } from '@/services/auth';
+import { AuthError, authRepo } from '@/repositories';
 import type { LoginInput, RegisterInput } from '@/utils/validators';
 import { useUserStore } from './useUserStore';
 
@@ -24,14 +24,14 @@ export const useAuthStore = create<AuthState>()(
       session: null,
 
       login: async (input) => {
-        const session = await authService.login(input);
+        const session = await authRepo.login(input);
         set({ session });
         useUserStore.getState().applyAuthUser(session.user);
         return session.user;
       },
 
       register: async ({ confirmPassword: _confirm, ...input }) => {
-        const session = await authService.register(input);
+        const session = await authRepo.register(input);
         set({ session });
         useUserStore.getState().applyAuthUser(session.user);
         return session.user;
@@ -41,13 +41,21 @@ export const useAuthStore = create<AuthState>()(
         const token = get().session?.token;
         set({ session: null });
         useUserStore.getState().resetToGuest();
-        if (token) await authService.logout(token);
+        // Signed out on this device even if the server can't be reached
+        if (token) await authRepo.logout(token).catch((error: unknown) => console.warn('[qaryati] logout', error));
       },
 
       refresh: async () => {
         const session = get().session;
         if (!session) return;
-        const user = await authService.getUser(session.user.id);
+        let user;
+        try {
+          user = await authRepo.getUser(session.user.id);
+        } catch (error) {
+          // Backend down: keep the user signed in, check again next time
+          if (error instanceof AuthError && error.code === 'unavailable') return;
+          throw error;
+        }
         if (!user || user.blocked) {
           await get().logout();
           return;
@@ -58,7 +66,7 @@ export const useAuthStore = create<AuthState>()(
       updateUser: async (data) => {
         const session = get().session;
         if (!session) return;
-        const user = await authService.updateProfile(session.user.id, data);
+        const user = await authRepo.updateProfile(session.user.id, data);
         set({ session: { ...session, user } });
       },
     }),

@@ -4,7 +4,7 @@ import { Link, Navigate, useLocation, useNavigate } from 'react-router';
 import { Button } from '@/components/ui/Button';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useUIStore } from '@/stores/useUIStore';
-import { AuthError } from '@/services/auth';
+import { AuthError } from '@/repositories';
 import { fieldErrorsFrom, registerSchema } from '@/utils/validators';
 import { ROUTES } from '@/routes';
 import { AuthField, AuthLayout, PasswordField } from './AuthLayout';
