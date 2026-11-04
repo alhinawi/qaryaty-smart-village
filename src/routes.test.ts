@@ -14,6 +14,7 @@ describe('pathToTab', () => {
 
   it('returns null for pages outside the tabs', () => {
     expect(pathToTab('/login')).toBeNull();
+    expect(pathToTab('/about')).toBeNull();
     expect(pathToTab('/admin/orders')).toBeNull();
   });
 });
