@@ -1,5 +1,5 @@
 // ─── Imports
-import { useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import type {
   CategoryFilter,
   OrderModalData,
@@ -10,11 +10,9 @@ import type {
   TeacherSubject,
 } from '@/types';
 import { CATEGORIES } from '@/data/categories';
-import { SERVICES } from '@/data/services';
-import { SHOPS } from '@/data/shops';
-import { PROVIDERS } from '@/data/providers';
 import { SUBJECT_LABELS } from '@/data/teachers';
 import { useUIStore } from '@/stores/useUIStore';
+import { useCatalogStore } from '@/stores/useCatalogStore';
 
 // Subcomponents
 import { Hero } from './Hero';
@@ -52,38 +50,48 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
   const [selectedCategory, setSelectedCategory] =
     useState<CategoryFilter>('all');
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const services = useCatalogStore((state) => state.services);
+  const shops = useCatalogStore((state) => state.shops);
+  const providers = useCatalogStore((state) => state.providers);
+  const loadState = useCatalogStore((state) => state.loadState);
+  const loadCatalog = useCatalogStore((state) => state.load);
+  const isLoading = isRefreshing || loadState !== 'ready';
+
+  useEffect(() => {
+    void loadCatalog();
+  }, [loadCatalog]);
   const [subject, setSubject] = useState<TeacherSubject | 'all'>('all');
   const [stage, setStage] = useState<SchoolStage | 'all'>('all');
   const providerGroup = PROVIDER_KINDS[selectedCategory];
 
-  // Pull-to-refresh simulation handler
-  const handlePullToRefresh = () => {
+  // Pull to refresh: reload the catalog through the repository
+  const handlePullToRefresh = async () => {
+    if (isRefreshing) return;
     setIsRefreshing(true);
-    setTimeout(() => {
-      setIsRefreshing(false);
-      showToast('🔄 تم تحديث خدمات ومحلات القرية!');
-    }, 600);
+    await loadCatalog(true);
+    setIsRefreshing(false);
+    showToast('🔄 تم تحديث خدمات ومحلات القرية!');
   };
 
   // Filtered Services logic (Arabic-aware: ignores tashkeel, hamza forms, ة/ه, ى/ي)
   const filteredServices = useMemo(() => {
-    return SERVICES.filter((service) => {
+    return services.filter((service) => {
       const matchesCategory =
         selectedCategory === 'all' || service.cat === selectedCategory;
       return matchesCategory && matchesSearch(searchQuery, [service.name, service.desc]);
     });
-  }, [searchQuery, selectedCategory]);
+  }, [services, searchQuery, selectedCategory]);
 
   // Shops are searched too, by name and description
   const filteredShops = useMemo(
-    () => SHOPS.filter((shop) => matchesSearch(searchQuery, [shop.name, shop.description])),
-    [searchQuery]
+    () => shops.filter((shop) => matchesSearch(searchQuery, [shop.name, shop.description])),
+    [shops, searchQuery]
   );
 
   // People for the selected category (teachers, nurses…), with teacher filters
   const filteredProviders = useMemo(() => {
     if (!providerGroup) return [];
-    return PROVIDERS.filter((provider) => {
+    return providers.filter((provider) => {
       if (!provider.active || !providerGroup.kinds.includes(provider.kind)) return false;
       if (provider.kind === 'teacher') {
         if (subject !== 'all' && provider.subject !== subject) return false;
@@ -93,10 +101,10 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
       const subjectLabel = provider.subject ? SUBJECT_LABELS[provider.subject] : '';
       return matchesSearch(searchQuery, [provider.name, provider.bio, provider.area, subjectLabel, provider.specialty ?? '']);
     });
-  }, [providerGroup, subject, stage, searchQuery]);
+  }, [providers, providerGroup, subject, stage, searchQuery]);
 
   const handleBookProvider = (provider: Provider) => {
-    const service = SERVICES.find((s) => s.id === provider.serviceId);
+    const service = services.find((s) => s.id === provider.serviceId);
     onOpenOrderModal(providerToOrderModalData(provider, service));
   };
 
@@ -118,7 +126,7 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
         <button
           type="button"
           className={`bg-[rgba(26,122,74,0.08)] border border-[rgba(26,122,74,0.15)] rounded-xl  px-3.5 py-1.5 inline-flex items-center gap-1.5 font-['Cairo',sans-serif] text-[13px] text-green-dark font-bold cursor-pointer transition-all duration-200`}
-          onClick={handlePullToRefresh}
+          onClick={() => void handlePullToRefresh()}
           aria-label="تحديث الخدمات"
         >
           <span className={isRefreshing ? 'animate-[spin_0.8s_linear_infinite]' : ''}>🔄</span>
@@ -143,10 +151,10 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
       <LiveOrderBanner />
 
       {/* Services Section with Skeleton Loading support */}
-      {isRefreshing ? (
+      {isLoading ? (
         <section className="services-section">
           <div className="section-header">
-            <h3>⚡ جاري تحديث الخدمات...</h3>
+            <h3>⚡ {isRefreshing ? 'جاري تحديث الخدمات...' : 'جاري تحميل الخدمات...'}</h3>
           </div>
           <SkeletonList count={4} />
         </section>
@@ -159,7 +167,7 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
       )}
 
       {/* Teachers, nurses, doctors… for the selected category */}
-      {providerGroup && !isRefreshing && (
+      {providerGroup && !isLoading && (
         <ProvidersSection
           title={providerGroup.title}
           providers={filteredProviders}
