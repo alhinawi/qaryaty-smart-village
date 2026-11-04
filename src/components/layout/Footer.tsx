@@ -1,6 +1,7 @@
 // ─── Imports
 import { Link } from 'react-router';
 import { ROUTES } from '@/routes';
+import { DeveloperLinks } from './DeveloperLinks';
 
 // ─── Constants
 
@@ -43,13 +44,16 @@ export function Footer() {
           </Link>
         </nav>
 
-        {/* Developer */}
-        <p className="text-sm text-white/90">
-          تطوير وتصميم{' '}
-          <span className="font-extrabold text-gold-light" dir="auto">
-            {DEVELOPER_NAME}
-          </span>
-        </p>
+        {/* Developer + contact links */}
+        <div className="flex flex-col items-center gap-2">
+          <p className="text-sm text-white/90">
+            تطوير وتصميم{' '}
+            <span className="font-extrabold text-gold-light" dir="auto">
+              {DEVELOPER_NAME}
+            </span>
+          </p>
+          <DeveloperLinks tone="onDark" className="justify-center" />
+        </div>
 
         {/* Copyright */}
         <p className="text-xs text-white/70" dir="rtl">
