@@ -6,6 +6,9 @@ import { useUIStore } from "@/stores/useUIStore";
 import { useGoToTab, useActiveTab } from '@/hooks/useTabNavigation';
 
 import { useCartStore } from "@/stores/useCartStore";
+import { Link } from "react-router";
+import { useAuthStore, selectUser } from "@/stores/useAuthStore";
+import { ROUTES } from "@/routes";
 
 import type { ActiveTab } from "@/types";
 
@@ -15,6 +18,9 @@ export function Header() {
   const activeTab = useActiveTab();
 
   const setActiveTab = useGoToTab();
+
+  const user = useAuthStore(selectUser);
+  const firstName = user?.name.split(" ")[0] ?? "";
 
   const searchQuery = useUIStore((state) => state.searchQuery);
 
@@ -86,7 +92,7 @@ export function Header() {
     { id: "orders", label: "طلباتي", icon: "📋" },
     { id: "favorites", label: "المفضلة", icon: "❤️" },
     { id: "messages", label: "الرسائل", icon: "💬" },
-    { id: "profile", label: "حسابي", icon: "👤" },
+    { id: "profile", label: user ? firstName : "حسابي", icon: "👤" },
   ];
 
   return (
@@ -110,13 +116,13 @@ export function Header() {
             </div>
 
             {/* Brand Text */}
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 min-w-0">
               <h1 className="text-[clamp(1.25rem,3vw,1.5rem)] font-black text-white font-['Tajawal',sans-serif] leading-[1.2]">
                 قريتي
               </h1>
 
-              <span className="text-xs text-white/80 block">
-                📍 قرية البركة - الجيزة
+              <span className="text-xs text-white/80 block truncate">
+                📍 {user?.village || "قرية البركة - الجيزة"}
               </span>
             </div>
           </div>
@@ -144,7 +150,7 @@ export function Header() {
           </nav>
 
           {/* Action Buttons */}
-          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
             {/* Messages: the desktop nav (lg+) has it, but the bottom nav has no room,
                 so mobile gets it here (review item 7). */}
             <button
@@ -196,6 +202,25 @@ export function Header() {
                 </span>
               )}
             </button>
+
+            {/* Account: login when signed out, the user's initial when signed in */}
+            {user ? (
+              <Link
+                to={ROUTES.profile}
+                className="hidden lg:flex w-[40px] h-[40px] rounded-xl bg-gold text-black items-center justify-center text-[16px] font-black font-['Tajawal',sans-serif] transition-all duration-200 hover:scale-105"
+                aria-label={`حسابي: ${user.name}`}
+                title={user.name}
+              >
+                {firstName.charAt(0)}
+              </Link>
+            ) : (
+              <Link
+                to={ROUTES.login}
+                className="h-[40px] px-2.5 sm:px-3 rounded-xl bg-gold text-black flex items-center justify-center text-[13px] font-extrabold font-['Cairo',sans-serif] whitespace-nowrap transition-all duration-200 hover:scale-105"
+              >
+                دخول
+              </Link>
+            )}
           </div>
         </div>
 
