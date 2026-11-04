@@ -28,6 +28,26 @@ export const STAGES: { id: SchoolStage; label: string }[] = [
   { id: 'secondary', label: 'ثانوي' },
 ];
 
+/**
+ * The stages each subject is taught at, so the filters never offer an empty mix
+ * (فيزياء ابتدائي). Quran and computer are for all ages.
+ */
+export const SUBJECT_STAGES: Record<TeacherSubject, SchoolStage[]> = {
+  arabic: ['primary', 'prep', 'secondary'],
+  english: ['primary', 'prep', 'secondary'],
+  math: ['primary', 'prep', 'secondary'],
+  science: ['primary', 'prep'],
+  history: ['prep', 'secondary'],
+  geography: ['prep', 'secondary'],
+  physics: ['secondary'],
+  chemistry: ['secondary'],
+  biology: ['secondary'],
+  french: ['primary', 'prep', 'secondary'],
+  german: ['prep', 'secondary'],
+  quran: ['primary', 'prep', 'secondary'],
+  computer: ['primary', 'prep', 'secondary'],
+};
+
 export const STAGE_LABELS = Object.fromEntries(STAGES.map((s) => [s.id, s.label])) as Record<
   SchoolStage,
   string
