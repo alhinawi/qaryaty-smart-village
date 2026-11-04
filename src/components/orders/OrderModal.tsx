@@ -7,6 +7,7 @@ import { orderFormSchema } from '@/utils/validators';
 import { useOrderStore } from '@/stores/useOrderStore';
 import { useUserStore } from '@/stores/useUserStore';
 import { useUIStore } from '@/stores/useUIStore';
+import { createOrder } from '@/repositories';
 import { formatCurrency, generateOrderNumber } from '@/utils/helpers';
 import {
   FIRST_ORDER_PROMO,
@@ -37,7 +38,7 @@ export function OrderModal({
   const usedPromoCodes = useUserStore((state) => state.usedPromoCodes);
   const markPromoUsed = useUserStore((state) => state.markPromoUsed);
   const orders = useOrderStore((state) => state.orders);
-  const placeOrder = useOrderStore((state) => state.placeOrder);
+  const addOrder = useOrderStore((state) => state.addOrder);
   const showToast = useUIStore((state) => state.showToast);
 
   const [step, setStep] = useState<1 | 2>(1);
@@ -50,6 +51,7 @@ export function OrderModal({
   const [errors, setErrors] = useState<Record<string, string>>({});
   // Required choices (ممرض/ممرضة, المرحلة, …): option id → chosen value
   const [selected, setSelected] = useState<Record<string, string>>({});
+  const [submitting, setSubmitting] = useState(false);
   const serviceOptions = data?.options ?? [];
 
   if (!isOpen || !data) return null;
@@ -107,8 +109,9 @@ export function OrderModal({
     }
   };
 
-  const handleFinalSubmit = (e: React.FormEvent) => {
+  const handleFinalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (submitting) return;
 
     // Re-check at submit time in case another order was placed meanwhile
     const promoStillValid =
@@ -123,25 +126,35 @@ export function OrderModal({
       finalPrice == null ? null : Math.max(0, (basePrice ?? 0) - appliedDiscount);
 
     const orderNum = generateOrderNumber();
-    placeOrder({
-      orderNumber: orderNum,
-      serviceName: data.name,
-      serviceEmoji: data.emoji,
-      address,
-      phone,
-      notes,
-      paymentMethod,
-      discountCode: promoStillValid ? FIRST_ORDER_PROMO : undefined,
-      discountAmount: appliedDiscount,
-      totalAmount: total,
-      isEstimate,
-      status: 'pending',
-      options: serviceOptions.length
-        ? serviceOptions.map((o) => ({ label: o.label, value: selected[o.id] }))
-        : undefined,
-      serviceId: data.serviceId,
-      providerId: data.providerId,
-    });
+    setSubmitting(true);
+    let order;
+    try {
+      order = await createOrder({
+          orderNumber: orderNum,
+          serviceName: data.name,
+          serviceEmoji: data.emoji,
+          address,
+          phone,
+          notes,
+          paymentMethod,
+          discountCode: promoStillValid ? FIRST_ORDER_PROMO : undefined,
+          discountAmount: appliedDiscount,
+          totalAmount: total,
+          isEstimate,
+          status: 'pending',
+          options: serviceOptions.length
+            ? serviceOptions.map((o) => ({ label: o.label, value: selected[o.id] }))
+            : undefined,
+          serviceId: data.serviceId,
+          providerId: data.providerId,
+      });
+    } catch (err) {
+      // Not saved: keep the form open with what the customer typed
+      setSubmitting(false);
+      showToast(`⚠️ ${err instanceof Error ? err.message : 'حصلت مشكلة، والطلب ماتبعتش'}`);
+      return;
+    }
+    addOrder(order);
 
     if (promoStillValid) {
       markPromoUsed(FIRST_ORDER_PROMO);
@@ -280,7 +293,7 @@ export function OrderModal({
 
         {/* STEP 2: Payment & Promo */}
         {step === 2 && (
-          <form onSubmit={handleFinalSubmit} className="flex flex-col gap-4">
+          <form onSubmit={(e) => void handleFinalSubmit(e)} className="flex flex-col gap-4">
             {/* Promo Code Box */}
             <div className="form-group">
               <label htmlFor="modalPromo">
@@ -364,7 +377,7 @@ export function OrderModal({
               )}
             </div>
 
-            <Button type="submit" variant="primary" size="lg" className="w-full">
+            <Button type="submit" variant="primary" size="lg" className="w-full" loading={submitting}>
               🚀 تأكيد وإرسال الطلب الآن
             </Button>
 
