@@ -16,6 +16,7 @@ import { PromoBanner } from './PromoBanner';
 import { ShopsSection } from './ShopsSection';
 import { FeaturesSection } from './FeaturesSection';
 import { SkeletonList } from '@/components/ui/Skeleton';
+import { serviceToOrderModalData } from '@/utils/pricing';
 
 // ─── Types
 interface HomePageProps {
@@ -56,13 +57,7 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
   }, [searchQuery, selectedCategory]);
 
   const handleSelectService = (service: Service) => {
-    onOpenOrderModal({
-      emoji: service.emoji,
-      name: service.name,
-      desc: service.desc,
-      price: service.price,
-      numericPrice: service.numericPrice,
-    });
+    onOpenOrderModal(serviceToOrderModalData(service));
   };
 
   const handleResetFilters = () => {

@@ -8,6 +8,12 @@ import { useOrderStore } from '@/stores/useOrderStore';
 import { useUserStore } from '@/stores/useUserStore';
 import { useUIStore } from '@/stores/useUIStore';
 import { formatCurrency, generateOrderNumber } from '@/utils/helpers';
+import {
+  FIRST_ORDER_PROMO,
+  checkPromoCode,
+  describeTotal,
+  getOrderPricing,
+} from '@/utils/pricing';
 
 // ─── Types
 interface OrderModalProps {
@@ -18,6 +24,8 @@ interface OrderModalProps {
 }
 
 // ─── Component
+// App mounts this with a fresh `key` every time it opens, so all local state
+// (step, promo, notes) starts clean for each order.
 export function OrderModal({
   isOpen,
   data,
@@ -26,6 +34,9 @@ export function OrderModal({
 }: OrderModalProps) {
   const profile = useUserStore((state) => state.profile);
   const addRewardPoints = useUserStore((state) => state.addRewardPoints);
+  const usedPromoCodes = useUserStore((state) => state.usedPromoCodes);
+  const markPromoUsed = useUserStore((state) => state.markPromoUsed);
+  const orders = useOrderStore((state) => state.orders);
   const placeOrder = useOrderStore((state) => state.placeOrder);
   const showToast = useUIStore((state) => state.showToast);
 
@@ -40,9 +51,11 @@ export function OrderModal({
 
   if (!isOpen || !data) return null;
 
-  const basePrice = data.numericPrice || 25;
-  const discountAmount = discountApplied ? basePrice : 0;
-  const finalPrice = Math.max(0, basePrice - discountAmount);
+  const pricing = getOrderPricing(data, discountApplied);
+  const { basePrice, discountAmount, finalPrice, isEstimate } = pricing;
+  const servicePriceLabel =
+    data.price ||
+    (basePrice == null ? 'حسب الطلب' : formatCurrency(basePrice));
 
   const handleNextStep = (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,16 +86,33 @@ export function OrderModal({
   };
 
   const handleApplyPromo = () => {
-    if (discountCode.trim().toUpperCase() === 'QARYA1') {
+    const result = checkPromoCode(discountCode, {
+      orders,
+      usedPromoCodes,
+      discountableAmount: pricing.discountableAmount,
+    });
+    if (result.ok) {
       setDiscountApplied(true);
-      showToast('🎉 كود QARYA1 مفعّل: خصم 100% على أول طلب!');
+      showToast(`🎉 كود ${FIRST_ORDER_PROMO} مفعّل: خصم 100% على أول طلب!`);
     } else {
-      showToast('❌ كود الخصم غير صحيح. جرب كود QARYA1');
+      showToast(result.message);
     }
   };
 
   const handleFinalSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Re-check at submit time in case another order was placed meanwhile
+    const promoStillValid =
+      discountApplied &&
+      checkPromoCode(discountCode, {
+        orders,
+        usedPromoCodes,
+        discountableAmount: pricing.discountableAmount,
+      }).ok;
+    const appliedDiscount = promoStillValid ? discountAmount : 0;
+    const total =
+      finalPrice == null ? null : Math.max(0, (basePrice ?? 0) - appliedDiscount);
 
     const orderNum = generateOrderNumber();
     placeOrder({
@@ -93,20 +123,21 @@ export function OrderModal({
       phone,
       notes,
       paymentMethod,
-      discountCode: discountApplied ? 'QARYA1' : undefined,
-      discountAmount,
-      totalAmount: finalPrice,
+      discountCode: promoStillValid ? FIRST_ORDER_PROMO : undefined,
+      discountAmount: appliedDiscount,
+      totalAmount: total,
+      isEstimate,
       status: 'pending',
     });
 
-    // Add reward points (+10 points per order)
-    addRewardPoints(10);
+    if (promoStillValid) {
+      markPromoUsed(FIRST_ORDER_PROMO);
+    }
 
-    // Reset local modal state
-    setStep(1);
-    setNotes('');
-    setDiscountCode('');
-    setDiscountApplied(false);
+    // +10 reward points per order, but not for an order that ends up free
+    if (total !== 0) {
+      addRewardPoints(10);
+    }
 
     onClose();
     onSuccess(orderNum);
@@ -150,9 +181,12 @@ export function OrderModal({
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 className={errors.address ? 'is-invalid' : ''}
+                aria-invalid={Boolean(errors.address)}
+                aria-describedby={errors.address ? 'modalAddressError' : undefined}
+                autoComplete="street-address"
               />
               {errors.address && (
-                <span className="input-error-msg">{errors.address}</span>
+                <span id="modalAddressError" className="input-error-msg">{errors.address}</span>
               )}
             </div>
 
@@ -165,9 +199,13 @@ export function OrderModal({
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 className={errors.phone ? 'is-invalid' : ''}
+                aria-invalid={Boolean(errors.phone)}
+                aria-describedby={errors.phone ? 'modalPhoneError' : undefined}
+                inputMode="tel"
+                autoComplete="tel"
               />
               {errors.phone && (
-                <span className="input-error-msg">{errors.phone}</span>
+                <span id="modalPhoneError" className="input-error-msg">{errors.phone}</span>
               )}
             </div>
 
@@ -201,9 +239,12 @@ export function OrderModal({
           <form onSubmit={handleFinalSubmit} className="flex flex-col gap-4">
             {/* Promo Code Box */}
             <div className="form-group">
-              <label>🎟️ كود الخصم (جرب كود QARYA1)</label>
+              <label htmlFor="modalPromo">
+                🎟️ كود الخصم (كود {FIRST_ORDER_PROMO} لأول طلب)
+              </label>
               <div className="flex gap-2">
                 <input
+                  id="modalPromo"
                   type="text"
                   placeholder="أدخل كود الخصم..."
                   value={discountCode}
@@ -243,18 +284,28 @@ export function OrderModal({
             <div className="bg-gray-50 rounded-xl p-3.5 mb-4">
               <div className="flex justify-between text-sm mb-1.5">
                 <span>سعر الخدمة:</span>
-                <span>{data.price || formatCurrency(basePrice)}</span>
+                <span>{servicePriceLabel}</span>
               </div>
-              {discountApplied && (
+              {discountApplied && discountAmount > 0 && (
                 <div className="flex justify-between text-sm mb-1.5 text-success font-bold">
-                  <span>خصم كود QARYA1:</span>
+                  <span>خصم كود {FIRST_ORDER_PROMO}:</span>
                   <span>-{formatCurrency(discountAmount)} (100% مجاناً)</span>
                 </div>
               )}
               <div className="flex justify-between mb-1.5 text-base border-t border-gray-200 pt-2 mt-2">
-                <strong>الإجمالي النهائي:</strong>
-                <strong>{formatCurrency(finalPrice)}</strong>
+                <strong>{isEstimate ? 'الإجمالي المبدئي:' : 'الإجمالي النهائي:'}</strong>
+                <strong>{describeTotal(finalPrice, isEstimate, formatCurrency)}</strong>
               </div>
+              {finalPrice == null && (
+                <p className="text-xs text-text-muted mt-1">
+                  مقدم الخدمة هيكلمك يأكد السعر قبل التنفيذ.
+                </p>
+              )}
+              {isEstimate && (
+                <p className="text-xs text-text-muted mt-1">
+                  ده أقل سعر للخدمة، والسعر النهائي بيتأكد مع مقدم الخدمة.
+                </p>
+              )}
             </div>
 
             <Button type="submit" variant="primary" size="lg" className="w-full">

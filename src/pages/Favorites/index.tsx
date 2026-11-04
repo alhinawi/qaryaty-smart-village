@@ -5,6 +5,7 @@ import { SERVICES } from '@/data/services';
 import { ServiceCard } from '@/components/shared/ServiceCard';
 import { EmptyState } from '@/components/ui/EmptyState';
 import type { OrderModalData, Service } from '@/types';
+import { serviceToOrderModalData } from '@/utils/pricing';
 
 // ─── Types
 interface FavoritesPageProps {
@@ -23,13 +24,7 @@ export default function FavoritesPage({
   );
 
   const handleSelectService = (service: Service) => {
-    onOpenOrderModal({
-      emoji: service.emoji,
-      name: service.name,
-      desc: service.desc,
-      price: service.price,
-      numericPrice: service.numericPrice,
-    });
+    onOpenOrderModal(serviceToOrderModalData(service));
   };
 
   return (
