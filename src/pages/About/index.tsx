@@ -58,6 +58,11 @@ const OFFERS: OfferItem[] = [
     title: 'توصيل ومشاوير',
     text: 'عيش من الفرن، أنبوبة بوتاجاز، توصيل المدرسة، ورمي الزبالة.',
   },
+  {
+    icon: '🤲',
+    title: 'باب الخير',
+    text: 'اتبرع لبيت المال أو الجمعية الشرعية، أو لتجهيز عرايس وكفالة يتيم وشنطة رمضان وعلاج المرضى. فلوس أو هدوم أو عفش أو أكل، وإحنا نوصّله لأصحابه.',
+  },
 ];
 
 const STEPS: OfferItem[] = [
@@ -250,6 +255,26 @@ export default function AboutPage() {
           <span>
             <span className="block text-base font-extrabold text-green-dark">جروبات قريتي على واتساب</span>
             <span className="block text-[13px] text-text-muted">لحد ما نطلق المنصة، الخدمة شغالة من الجروبات</span>
+          </span>
+        </span>
+        <span aria-hidden="true">⬅️</span>
+      </Link>
+
+      {/* Donations */}
+      <Link
+        to={ROUTES.donate}
+        className="flex items-center justify-between gap-3 bg-white rounded-2xl p-5 shadow-card mb-6 min-h-[44px] transition-colors hover:bg-cream"
+      >
+        <span className="flex items-center gap-3">
+          <span
+            className="w-[42px] h-[42px] bg-gold rounded-xl flex items-center justify-center text-[22px] shrink-0"
+            aria-hidden="true"
+          >
+            🤲
+          </span>
+          <span>
+            <span className="block text-base font-extrabold text-green-dark">باب الخير</span>
+            <span className="block text-[13px] text-text-muted">اتبرع لأهل قريتك: بيت المال، الجمعية الشرعية، تجهيز عرايس</span>
           </span>
         </span>
         <span aria-hidden="true">⬅️</span>

@@ -5,8 +5,8 @@ import { ROUTES } from '@/routes';
 const allLinks = (isAdmin: boolean) => mobileMenuSections({ isAdmin }).flatMap((s) => s.links);
 
 describe('mobile menu', () => {
-  it('has messages, About, WhatsApp groups and advertise for everyone', () => {
-    expect(allLinks(false).map((l) => l.id)).toEqual(['messages', 'about', 'groups', 'advertise']);
+  it('has messages, About, WhatsApp groups, donations and advertise for everyone', () => {
+    expect(allLinks(false).map((l) => l.id)).toEqual(['messages', 'about', 'groups', 'donate', 'advertise']);
   });
 
   it('shows the admin panel to admins only', () => {

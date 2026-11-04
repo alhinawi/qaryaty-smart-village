@@ -6,7 +6,7 @@
 import { ROUTES } from '@/routes';
 
 export interface MobileMenuLink {
-  id: 'messages' | 'about' | 'groups' | 'advertise' | 'admin';
+  id: 'messages' | 'about' | 'groups' | 'donate' | 'advertise' | 'admin';
   label: string;
   /** Emoji shown in the item's icon tile */
   icon: string;
@@ -41,6 +41,13 @@ export function mobileMenuSections({ isAdmin }: MobileMenuOptions): MobileMenuSe
       links: [
         { id: 'about', label: 'عن قريتي', icon: 'ℹ️', to: ROUTES.about },
         { id: 'groups', label: 'جروبات واتساب', icon: '👥', to: ROUTES.groups },
+        {
+          id: 'donate',
+          label: 'باب الخير',
+          icon: '🤲',
+          to: ROUTES.donate,
+          hint: 'بيت المال، الجمعية الشرعية، تجهيز عرايس',
+        },
         {
           id: 'advertise',
           label: 'أعلن عن محلك',

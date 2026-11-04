@@ -36,6 +36,7 @@ const RegisterPage = lazy(() => import('@/pages/Auth/RegisterPage'));
 const AboutPage = lazy(() => import('@/pages/About'));
 const GroupsPage = lazy(() => import('@/pages/Groups'));
 const SearchScreen = lazy(() => preloadSearchScreen().then((m) => ({ default: m.SearchScreen })));
+const DonatePage = lazy(() => import('@/pages/Donate'));
 
 // ─── Page Loading Fallback
 function PageLoadingFallback() {
@@ -155,6 +156,7 @@ export default function App() {
                 <Route path={ROUTES.register} element={<RegisterPage />} />
                 <Route path={ROUTES.about} element={<AboutPage />} />
                 <Route path={ROUTES.groups} element={<GroupsPage />} />
+                <Route path={ROUTES.donate} element={<DonatePage />} />
                 {/* Unknown URLs go home instead of a blank page */}
                 <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
               </Routes>

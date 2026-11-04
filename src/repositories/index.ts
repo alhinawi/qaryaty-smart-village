@@ -25,6 +25,9 @@ import { createSupabaseOrderRepo } from './orders/supabaseOrderRepo';
 import type { NewOrder, OrderRepo } from './orders/types';
 import { RepoError, ServiceUnavailableError, UNAVAILABLE_MESSAGE } from './errors';
 import { createSupabaseAuthRepo } from './auth/supabaseAuthRepo';
+import { createMockDonationRepo } from './donations/mockDonationRepo';
+import { createSupabaseDonationRepo } from './donations/supabaseDonationRepo';
+import type { DonationRepo, NewDonationRequest } from './donations/types';
 import { AuthError, mockAuthService, type AuthService } from '@/services/auth';
 
 const breaker = createCircuitBreaker({ failureThreshold: 3, cooldownMs: 30_000 });
@@ -114,6 +117,23 @@ export const authRepo: AuthService = isSupabaseConfigured
   : mockAuthService;
 
 export { AuthError, type AuthService };
+
+// ─── Donation requests from /donate (writes never fall back to the sample data)
+export const DONATION_UNAVAILABLE_MESSAGE = 'الخدمة متوقفة مؤقتًا، وطلبك ماتبعتش. ابعتلنا على واتساب أو جرّب تاني بعد شوية';
+
+const donationLive = isSupabaseConfigured ? createSupabaseDonationRepo(getSupabase) : null;
+export const donationRepo: DonationRepo = donationLive
+  ? {
+      submitDonationRequest: (input) =>
+        resilience.write(
+          () => donationLive.submitDonationRequest(input),
+          (cause) => new ServiceUnavailableError(DONATION_UNAVAILABLE_MESSAGE, { cause })
+        ),
+    }
+  : createMockDonationRepo();
+
+export const submitDonationRequest = (input: NewDonationRequest) => donationRepo.submitDonationRequest(input);
+export type { NewDonationRequest };
 
 // ─── Status
 export { isSupabaseConfigured };
