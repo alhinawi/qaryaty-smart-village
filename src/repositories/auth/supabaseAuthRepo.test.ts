@@ -69,4 +69,43 @@ describe('supabase auth repo', () => {
       .catch((e: unknown) => e);
     expect((error as AuthError).code).toBe('invalid_credentials');
   });
+
+  it('changes role and blocked only through the admin functions', async () => {
+    const rpc = vi.fn(async (_fn: string, _args: object) => ({ data: { ...profile, role: 'admin' }, error: null }));
+    const update = vi.fn();
+    const client = { rpc, from: () => ({ update }) } as unknown as SupabaseClient;
+    const repo = createSupabaseAuthRepo(async () => client);
+
+    const user = await repo.setRole('u1', 'admin');
+    expect(rpc).toHaveBeenCalledWith('admin_set_role', { target: 'u1', new_role: 'admin' });
+    expect(user.role).toBe('admin');
+
+    await repo.setBlocked('u1', true);
+    expect(rpc).toHaveBeenCalledWith('admin_set_blocked', { target: 'u1', new_blocked: true });
+    expect(update).not.toHaveBeenCalled();
+  });
+
+  it('a refused admin call is a normal AuthError', async () => {
+    const client = {
+      rpc: async () => ({ data: null, error: { code: '42501', message: 'not allowed' } }),
+    } as unknown as SupabaseClient;
+    const error = await createSupabaseAuthRepo(async () => client)
+      .setRole('u2', 'admin')
+      .catch((e: unknown) => e);
+    expect((error as AuthError).code).toBe('rejected');
+  });
+
+  it('a profile edit sends only name, village and address', async () => {
+    const update = vi.fn((_patch: object) => ({
+      eq: () => ({ select: () => ({ maybeSingle: async () => ({ data: profile, error: null }) }) }),
+    }));
+    const client = { from: () => ({ update }) } as unknown as SupabaseClient;
+    await createSupabaseAuthRepo(async () => client).updateProfile('u1', {
+      name: ' أحمد ',
+      village: 'البركة',
+      address: 'شارع الجامع',
+      ...({ role: 'admin', blocked: false } as object),
+    });
+    expect(update).toHaveBeenCalledWith({ name: 'أحمد', village: 'البركة', address: 'شارع الجامع' });
+  });
 });
