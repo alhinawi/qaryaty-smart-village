@@ -21,7 +21,7 @@ import {
   getCartPricing,
 } from "@/utils/pricing";
 import type { CartItem, PaymentMethod } from "@/types";
-import { APP_COMMISSION_LABEL } from "@/config/commission";
+import { APP_COMMISSION_LABEL, APP_COMMISSION_PERCENT } from "@/config/commission";
 
 // ─── Component
 // The content only mounts while the drawer is open, so the promo code,
@@ -89,7 +89,7 @@ function CartDrawerContent() {
     pricing.totalToPay,
     pricing.isEstimate,
     formatCurrency,
-    pricing.commission,
+    APP_COMMISSION_PERCENT,
   );
 
   const promoContext = {
