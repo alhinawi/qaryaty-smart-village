@@ -45,7 +45,8 @@ interface OrderState {
     newOrderData: Omit<Order, 'id' | 'createdAt'>
   ) => Order;
   updateStatus: (orderId: string, status: OrderStatus) => void;
-  addRating: (orderId: string, rating: number, feedback?: string) => void;
+  /** Returns false if the order doesn't exist or was already rated. */
+  addRating: (orderId: string, rating: number, feedback?: string) => boolean;
   setActiveOrder: (order: Order | null) => void;
   deleteOrder: (orderId: string) => void;
 }
@@ -53,7 +54,7 @@ interface OrderState {
 // ─── Store
 export const useOrderStore = create<OrderState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       orders: INITIAL_DEMO_ORDERS,
       activeOrder: null,
 
@@ -85,11 +86,14 @@ export const useOrderStore = create<OrderState>()(
       },
 
       addRating: (orderId: string, rating: number, feedback?: string) => {
+        const target = get().orders.find((order) => order.id === orderId);
+        if (!target || target.rating) return false;
         set((state) => ({
           orders: state.orders.map((order) =>
             order.id === orderId ? { ...order, rating, feedback } : order
           ),
         }));
+        return true;
       },
 
       setActiveOrder: (order: Order | null) => {
