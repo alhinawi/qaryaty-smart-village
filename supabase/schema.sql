@@ -253,6 +253,7 @@ create table if not exists public.orders (
 -- come from supabase/seed_catalog.sql, generated with the app's list.
 alter table public.shops add column if not exists kind text not null default 'other';
 alter table public.shops add column if not exists food_types text[] not null default '{}';
+alter table public.shops add column if not exists photo text; -- a restaurant's cover photo
 
 create table if not exists public.catalog_products (
   scope      text not null,
@@ -265,6 +266,11 @@ create table if not exists public.catalog_products (
   rx         boolean not null default false,
   primary key (scope, product_id)
 );
+-- How the app shows each product (the menu screen reads these through the repository)
+alter table public.catalog_products add column if not exists emoji    text not null default '';
+alter table public.catalog_products add column if not exists section  text not null default '';
+alter table public.catalog_products add column if not exists photo    text;
+alter table public.catalog_products add column if not exists position integer not null default 0;
 
 create or replace function public.shop_scope(s public.shops) returns text
 language sql immutable as $$

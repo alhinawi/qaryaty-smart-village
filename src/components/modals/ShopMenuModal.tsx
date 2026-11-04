@@ -1,10 +1,11 @@
 // ─── Imports
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Modal } from '@/components/ui/Modal';
 import { ProductPhoto } from '@/components/ui/ProductPhoto';
-import { GRILL_PRICE_PER_KILO, productsForShop, sectionsOf } from '@/data/catalog';
+import { GRILL_PRICE_PER_KILO, sectionsOf } from '@/data/catalog';
 import { useAddToCart } from '@/hooks/useAddToCart';
 import { cartItemFromProduct, useCartStore } from '@/stores/useCartStore';
+import { useCatalogStore } from '@/stores/useCatalogStore';
 import { useUIStore } from '@/stores/useUIStore';
 import { formatCurrency } from '@/utils/helpers';
 import type { Product, Shop } from '@/types';
@@ -28,17 +29,7 @@ function normalize(text: string): string {
 }
 
 // ─── One line's add button or quantity stepper
-function LineControl({
-  shop,
-  product,
-  grill,
-  label,
-}: {
-  shop: Shop;
-  product: Product;
-  grill: boolean;
-  label: string;
-}) {
+function LineControl({ shop, product, grill, label }: { shop: Shop; product: Product; grill: boolean; label: string }) {
   const item = useMemo(
     () => cartItemFromProduct(shop, product, grill ? { pricePerKilo: GRILL_PRICE_PER_KILO } : undefined),
     [shop, product, grill]
@@ -51,7 +42,7 @@ function LineControl({
     return (
       <button
         type="button"
-        className="px-3 py-1.5 rounded-lg bg-green text-white text-[13px] font-bold cursor-pointer whitespace-nowrap"
+        className="min-h-[40px] px-3.5 py-1.5 rounded-lg bg-green text-white text-[13px] font-bold cursor-pointer whitespace-nowrap"
         onClick={() => void addToCart(item)}
         aria-label={`${label} ${item.name}`}
       >
@@ -65,7 +56,7 @@ function LineControl({
     <div className="flex items-center gap-1.5" dir="ltr">
       <button
         type="button"
-        className="w-7 h-7 rounded-md bg-white border border-gray-300 font-extrabold cursor-pointer"
+        className="w-9 h-9 rounded-lg bg-white border border-gray-300 font-extrabold cursor-pointer"
         onClick={() => updateQuantity(item.id, inCart.quantity - step)}
         aria-label={`أقل ${item.name}`}
       >
@@ -76,7 +67,7 @@ function LineControl({
       </span>
       <button
         type="button"
-        className="w-7 h-7 rounded-md bg-white border border-gray-300 font-extrabold cursor-pointer"
+        className="w-9 h-9 rounded-lg bg-white border border-gray-300 font-extrabold cursor-pointer"
         onClick={() => updateQuantity(item.id, inCart.quantity + step)}
         aria-label={`أكتر ${item.name}`}
       >
@@ -91,7 +82,16 @@ function LineControl({
 export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
   const [query, setQuery] = useState('');
   const [section, setSection] = useState(ALL);
-  const products = useMemo(() => (shop ? (productsForShop(shop) ?? []) : []), [shop]);
+  // The menu comes through the repository (Supabase, or the sample data offline)
+  const loaded = useCatalogStore((s) => (shop ? s.products[shop.id] : undefined));
+  const loadProducts = useCatalogStore((s) => s.loadProducts);
+  useEffect(() => {
+    if (shop) void loadProducts(shop);
+  }, [shop, loadProducts]);
+  const isLoading = loaded === undefined || loaded === 'loading';
+  const products = useMemo(() => (Array.isArray(loaded) ? loaded : []), [loaded]);
+  const isRestaurant = shop?.kind === 'restaurant';
+  const hasPexels = products.some((p) => p.photo?.includes('pexels.com'));
   const sections = useMemo(() => sectionsOf(products).filter(Boolean), [products]);
   const count = useCartStore((s) => (shop && s.getVendor()?.key === `shop:${shop.id}` ? s.items.length : 0));
   const total = useCartStore((s) => (count ? s.getTotalAmount() : 0));
@@ -99,9 +99,7 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
 
   const visible = useMemo(() => {
     const q = normalize(query);
-    return products.filter(
-      (p) => (section === ALL || p.section === section) && (!q || normalize(p.name).includes(q))
-    );
+    return products.filter((p) => (section === ALL || p.section === section) && (!q || normalize(p.name).includes(q)));
   }, [products, query, section]);
 
   const close = () => {
@@ -149,36 +147,80 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
           </p>
         )}
 
-        <ul className="flex flex-col gap-2 max-h-[55vh] overflow-y-auto">
-          {visible.map((p) => (
-            <li key={p.id} className="flex items-center gap-3 p-2.5 rounded-xl bg-gray-50">
-              <ProductPhoto photo={p.photo} emoji={p.emoji} className="w-14 h-14 rounded-lg" />
-              <div className="flex-1 min-w-0">
-                <div className="text-[14px] font-bold truncate">
-                  {p.name}
-                  {p.rx && (
-                    <span className="ms-1.5 text-[11px] font-bold text-blue-700 bg-blue-100 rounded px-1.5 py-0.5">
-                      بروشتة
-                    </span>
+        {isLoading && (
+          <ul className="flex flex-col gap-2" aria-label="جاري تحميل المنيو">
+            {[0, 1, 2].map((i) => (
+              <li key={i} className="h-[76px] rounded-xl bg-gray-100 animate-pulse" />
+            ))}
+          </ul>
+        )}
+
+        {loaded === 'error' && (
+          <div className="text-center py-6" role="alert">
+            <p className="text-gray-600 mb-3">المنيو ماحمّلش، اتأكد من النت وجرّب تاني.</p>
+            <button
+              type="button"
+              className="min-h-[44px] px-5 rounded-xl bg-green text-white font-bold cursor-pointer"
+              onClick={() => void loadProducts(shop, true)}
+            >
+              جرّب تاني
+            </button>
+          </div>
+        )}
+
+        {!isLoading && loaded !== 'error' && (
+          <ul className="flex flex-col gap-2 max-h-[55vh] overflow-y-auto">
+            {visible.map((p) => (
+              <li key={p.id} className="flex items-center gap-3 p-2.5 rounded-xl bg-gray-50">
+                <ProductPhoto photo={p.photo} emoji={p.emoji} className="w-14 h-14 rounded-lg" />
+                <div className="flex-1 min-w-0">
+                  <div className="text-[14px] font-bold truncate">
+                    {p.name}
+                    {p.rx && (
+                      <span className="ms-1.5 text-[11px] font-bold text-blue-700 bg-blue-100 rounded px-1.5 py-0.5">
+                        بروشتة
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-[12px] text-gray-600">
+                    {formatCurrency(p.price)} / {p.unit}
+                  </div>
+                  {p.grillable && (
+                    <div className="mt-1.5 flex items-center justify-between gap-2">
+                      <span className="text-[12px] text-orange-700">
+                        شراء وشوي: {formatCurrency(p.price + GRILL_PRICE_PER_KILO)} / {p.unit}
+                      </span>
+                      <LineControl shop={shop} product={p} grill label="أضف مشوي" />
+                    </div>
                   )}
                 </div>
-                <div className="text-[12px] text-gray-600">
-                  {formatCurrency(p.price)} / {p.unit}
-                </div>
-                {p.grillable && (
-                  <div className="mt-1.5 flex items-center justify-between gap-2">
-                    <span className="text-[12px] text-orange-700">
-                      شراء وشوي: {formatCurrency(p.price + GRILL_PRICE_PER_KILO)} / {p.unit}
-                    </span>
-                    <LineControl shop={shop} product={p} grill label="أضف مشوي" />
-                  </div>
-                )}
-              </div>
-              <LineControl shop={shop} product={p} grill={false} label="أضف" />
-            </li>
-          ))}
-          {visible.length === 0 && <li className="text-center text-gray-500 py-6">مفيش حاجة بالاسم ده</li>}
-        </ul>
+                <LineControl shop={shop} product={p} grill={false} label="أضف" />
+              </li>
+            ))}
+            {visible.length === 0 && (
+              <li className="text-center text-gray-500 py-6">
+                {products.length === 0 ? 'المنيو لسه مش متاح، اكتب طلبك للمندوب.' : 'مفيش حاجة بالاسم ده'}
+              </li>
+            )}
+          </ul>
+        )}
+
+        {isRestaurant && products.some((p) => p.photo) && (
+          <p className="mt-2 text-[11px] text-gray-500 text-center">
+            الصور للتوضيح •{' '}
+            {hasPexels && (
+              <>
+                <a href="https://www.pexels.com" target="_blank" rel="noopener noreferrer" className="underline">
+                  Photos from Pexels
+                </a>{' '}
+                و{' '}
+              </>
+            )}
+            <a href="https://commons.wikimedia.org" target="_blank" rel="noopener noreferrer" className="underline">
+              Wikimedia Commons
+            </a>
+          </p>
+        )}
 
         {count > 0 && (
           <button

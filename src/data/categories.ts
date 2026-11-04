@@ -5,6 +5,7 @@ import type { CategoryItem } from '@/types';
 export const CATEGORIES: CategoryItem[] = [
   { id: 'all', label: 'الكل', emoji: '🏠' },
   { id: 'food', label: 'أكل وشرب', emoji: '🍞' },
+  { id: 'restaurants', label: 'مطاعم', emoji: '🍽️' },
   { id: 'delivery', label: 'توصيل', emoji: '🛵' },
   { id: 'craft', label: 'حرف', emoji: '🔨' },
   { id: 'edu', label: 'مدرسين', emoji: '👩‍🏫' },

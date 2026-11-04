@@ -3,6 +3,7 @@ import React from "react";
 import type { OrderModalData, Shop } from "@/types";
 import { useUIStore } from "@/stores/useUIStore";
 import { productsForShop } from "@/data/catalog";
+import { ProductPhoto } from "@/components/ui/ProductPhoto";
 
 // ─── Types
 interface ShopCardProps {
@@ -33,7 +34,8 @@ export const ShopCard = React.memo(function ShopCard({
       showToast(`⚠️ ${shop.name} مغلق حالياً، بيفتح ${shop.time}`);
       return;
     }
-    if (onOpenMenu && productsForShop(shop)) {
+    // Restaurants always open their menu (it loads through the repository)
+    if (onOpenMenu && (shop.kind === "restaurant" || productsForShop(shop))) {
       onOpenMenu(shop);
       return;
     }
@@ -60,16 +62,38 @@ export const ShopCard = React.memo(function ShopCard({
       }}
       aria-label={`التسوق من ${shop.name}`}
     >
-      <div
-        className="h-[80px] flex items-center justify-center text-[38px]"
-        style={{ background: bg }}
-      >
-        <span role="img" aria-hidden="true">
-          {shop.emoji}
-        </span>
-      </div>
+      {shop.photo ? (
+        <div className="relative h-[90px]" style={{ background: bg }}>
+          <ProductPhoto
+            photo={shop.photo}
+            emoji={shop.emoji}
+            className="w-full h-full"
+            emojiClassName="text-[38px]"
+          />
+          <span
+            className="absolute bottom-1.5 start-1.5 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center text-[18px]"
+            aria-hidden="true"
+          >
+            {shop.emoji}
+          </span>
+        </div>
+      ) : (
+        <div
+          className="h-[80px] flex items-center justify-center text-[38px]"
+          style={{ background: bg }}
+        >
+          <span role="img" aria-hidden="true">
+            {shop.emoji}
+          </span>
+        </div>
+      )}
       <div className="p-2.5">
         <h5 className="text-sm font-extrabold mb-1 text-text">{shop.name}</h5>
+        {shop.kind === "restaurant" && (
+          <p className="text-[11px] text-text-muted leading-snug mb-1 line-clamp-2">
+            {shop.description}
+          </p>
+        )}
         <div
           className={`inline-block text-[11px] font-bold px-2 py-0.5 rounded-xl mb-1 ${
             shop.open ? "bg-green-50 text-success" : "bg-red-50 text-danger"

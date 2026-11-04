@@ -14,10 +14,21 @@ interface ShopsSectionProps {
   isSearching?: boolean;
   /** 'restaurants' shows the restaurants with food-type filters. */
   variant?: 'shops' | 'restaurants';
+  /** Every card in a grid (the مطاعم chip) instead of one scrolling row. */
+  showAll?: boolean;
+  /** "كل المطاعم": opens the full list. */
+  onShowAll?: () => void;
 }
 
 // ─── Component
-export function ShopsSection({ shops, onSelectShop, isSearching = false, variant = 'shops' }: ShopsSectionProps) {
+export function ShopsSection({
+  shops,
+  onSelectShop,
+  isSearching = false,
+  variant = 'shops',
+  showAll = false,
+  onShowAll,
+}: ShopsSectionProps) {
   const showToast = useUIStore((state) => state.showToast);
   const [menuShop, setMenuShop] = useState<Shop | null>(null);
   const [foodType, setFoodType] = useState<string | null>(null);
@@ -33,11 +44,15 @@ export function ShopsSection({ shops, onSelectShop, isSearching = false, variant
 
   const handleAllShopsClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
+    if (onShowAll) {
+      onShowAll();
+      return;
+    }
     showToast(isRestaurants ? '🍽️ كل مطاعم القرية قدامك' : '🏪 جميع محلات وسوبرماركت القرية متاحة أمامك');
   };
 
   return (
-    <section className="mb-6" aria-label={title}>
+    <section className="mb-6 scroll-mt-20" aria-label={title} id={isRestaurants ? 'restaurants' : undefined}>
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-extrabold text-text m-0">
           <span role="img" aria-hidden="true">
@@ -46,9 +61,15 @@ export function ShopsSection({ shops, onSelectShop, isSearching = false, variant
           {title}
           {isSearching ? ` (${shops.length})` : ''}
         </h3>
-        <a href="#all-shops" onClick={handleAllShopsClick} className="text-sm font-bold text-green no-underline">
-          {isRestaurants ? 'كل المطاعم' : 'كل المحلات'}
-        </a>
+        {!showAll && (
+          <a
+            href={isRestaurants ? '#restaurants' : '#all-shops'}
+            onClick={handleAllShopsClick}
+            className="text-sm font-bold text-green no-underline py-2"
+          >
+            {isRestaurants ? `كل المطاعم (${shops.length.toLocaleString('ar-EG')})` : 'كل المحلات'}
+          </a>
+        )}
       </div>
 
       {foodTypes.length > 1 && (
@@ -75,7 +96,13 @@ export function ShopsSection({ shops, onSelectShop, isSearching = false, variant
         </p>
       )}
 
-      <div className="flex gap-3.5 overflow-x-auto pb-1.5 scrollbar-none [&::-webkit-scrollbar]:hidden lg:grid lg:grid-cols-6 lg:overflow-x-visible">
+      <div
+        className={
+          showAll
+            ? 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 [&>*]:w-full'
+            : 'flex gap-3.5 overflow-x-auto pb-1.5 scrollbar-none [&::-webkit-scrollbar]:hidden lg:grid lg:grid-cols-6 lg:overflow-x-visible'
+        }
+      >
         {shown.map((shop) => (
           <ShopCard key={shop.id} shop={shop} onSelectShop={onSelectShop} onOpenMenu={setMenuShop} />
         ))}
