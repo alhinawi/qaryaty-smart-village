@@ -1,5 +1,5 @@
 // ─── Imports
-import type { CartItem, Order, OrderModalData, PriceType, Service } from '@/types';
+import type { CartItem, Order, OrderModalData, PriceType, Provider, Service } from '@/types';
 
 // ─── Promo code
 // NOTE: this check runs on the device only, so it is a UX guard, not real
@@ -163,6 +163,21 @@ export function serviceToOrderModalData(service: Service): OrderModalData {
     priceType: service.priceType,
     options: service.options,
     serviceId: service.id,
+  };
+}
+
+/** Booking a specific teacher/nurse/doctor: the provider's price, the service's choices. */
+export function providerToOrderModalData(provider: Provider, service?: Service): OrderModalData {
+  return {
+    emoji: service?.emoji ?? '👤',
+    name: service ? `${service.name} مع ${provider.name}` : provider.name,
+    desc: provider.bio,
+    price: provider.price,
+    numericPrice: provider.numericPrice,
+    priceType: provider.priceType,
+    options: service?.options,
+    serviceId: provider.serviceId,
+    providerId: provider.id,
   };
 }
 
