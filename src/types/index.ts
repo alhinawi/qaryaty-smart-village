@@ -25,7 +25,7 @@ export type PaymentMethod = 'cash' | 'vodafone' | 'instapay';
  */
 export type PriceType = 'fixed' | 'from' | 'quote';
 
-export type ActiveTab = 'home' | 'orders' | 'favorites' | 'messages' | 'rides' | 'profile';
+export type ActiveTab = 'home' | 'orders' | 'favorites' | 'messages' | 'profile';
 
 /** A required choice the customer makes when ordering (ممرض/ممرضة, زيارة/عيادة…). */
 export interface ServiceOption {
