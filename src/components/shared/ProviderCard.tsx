@@ -39,9 +39,17 @@ export function ProviderCard({ provider, onBook, online = false }: ProviderCardP
         <div className="min-w-0 flex-1">
           <h4 className="font-extrabold text-[15px] leading-snug truncate">{provider.name}</h4>
           <p className="text-xs text-green font-bold">{role}</p>
-          <p className="text-[11px] text-text-muted mt-0.5">
-            ⭐ {provider.rating.toFixed(1)} ({provider.reviews} تقييم) · {provider.experienceYears} سنين خبرة
-          </p>
+          {/* A new provider with no reviews or no stated experience shows neither, never a made-up 0 */}
+          {(provider.reviews > 0 || provider.experienceYears > 0) && (
+            <p className="text-[11px] text-text-muted mt-0.5">
+              {[
+                provider.reviews > 0 ? `⭐ ${provider.rating.toFixed(1)} (${provider.reviews} تقييم)` : null,
+                provider.experienceYears > 0 ? `${provider.experienceYears} سنين خبرة` : null,
+              ]
+                .filter(Boolean)
+                .join(' · ')}
+            </p>
+          )}
         </div>
         {online && (
           <span className="shrink-0 bg-[#eef2ff] text-[#4338ca] text-[11px] font-extrabold px-2 py-1 rounded-full">
@@ -68,9 +76,11 @@ export function ProviderCard({ provider, onBook, online = false }: ProviderCardP
             🔎 {provider.inspectionFee === 0 ? 'معاينة مجانية' : `معاينة ${provider.inspectionFee} ج`}
           </span>
         )}
-        <span className="bg-gray-100 text-text-muted px-2 py-0.5 rounded-full">
-          📍 {online ? `من ${provider.village}` : `${provider.village} · ${provider.area}`}
-        </span>
+        {provider.village && (
+          <span className="bg-gray-100 text-text-muted px-2 py-0.5 rounded-full">
+            📍 {online ? `من ${provider.village}` : [provider.village, provider.area].filter(Boolean).join(' · ')}
+          </span>
+        )}
       </div>
 
       {groups.length > 0 && (
