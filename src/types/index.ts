@@ -100,6 +100,27 @@ export interface UserProfile {
   memberSince: string;
 }
 
+// ─── Auth
+export type UserRole = 'customer' | 'admin';
+
+/** A signed-in user as the (mock) auth service returns it. Never holds a password. */
+export interface AuthUser {
+  id: string;
+  name: string;
+  phone: string;
+  village: string;
+  address: string;
+  role: UserRole;
+  blocked: boolean;
+  createdAt: string;
+}
+
+export interface AuthSession {
+  /** Opaque token. Mock for now; a real API will issue and verify it. */
+  token: string;
+  user: AuthUser;
+}
+
 export interface Message {
   id: string;
   senderName: string;
