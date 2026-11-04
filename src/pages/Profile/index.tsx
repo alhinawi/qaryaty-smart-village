@@ -117,8 +117,9 @@ export default function ProfilePage() {
         {isEditing ? (
           <form onSubmit={handleSaveProfile} className="flex flex-col gap-3">
             <div className="form-group">
-              <label>الاسم الكامل</label>
+              <label htmlFor="profileName">الاسم الكامل</label>
               <input
+                id="profileName"
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -126,8 +127,9 @@ export default function ProfilePage() {
               />
             </div>
             <div className="form-group">
-              <label>رقم الموبايل</label>
+              <label htmlFor="profilePhone">رقم الموبايل</label>
               <input
+                id="profilePhone"
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
@@ -135,8 +137,9 @@ export default function ProfilePage() {
               />
             </div>
             <div className="form-group">
-              <label>العنوان في القرية</label>
+              <label htmlFor="profileAddress">العنوان في القرية</label>
               <input
+                id="profileAddress"
                 type="text"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
