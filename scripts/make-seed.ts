@@ -71,6 +71,7 @@ const providers = PROVIDERS.map((p) => ({
   numeric_price: p.numericPrice,
   price_type: p.priceType,
   area: p.area,
+  village: p.village,
   bio: p.bio,
   modes: p.modes,
   active: p.active,

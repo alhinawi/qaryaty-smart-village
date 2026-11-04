@@ -26,9 +26,9 @@ describe('supabase row mapping', () => {
     const provider = providerFromRow({
       id: 3, kind: 'nurse', service_id: 9, name: 'م. سارة', gender: 'female', photo: null, subject: null,
       stages: null, specialty: null, experience_years: 5, rating: 4.7, reviews: 10, price: '150 ج',
-      numeric_price: 150, price_type: 'fixed', area: 'البركة', bio: 'حقن وغيار', modes: ['home'], active: true,
+      numeric_price: 150, price_type: 'fixed', area: 'الحي الغربي', village: 'منية سندوب', bio: 'حقن وغيار', modes: ['home'], active: true,
     });
-    expect(provider).toMatchObject({ serviceId: 9, experienceYears: 5, photo: '' });
+    expect(provider).toMatchObject({ serviceId: 9, experienceYears: 5, photo: '', village: 'منية سندوب' });
     expect(provider.stages).toBeUndefined();
   });
 });
