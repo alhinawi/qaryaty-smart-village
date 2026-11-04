@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router';
 import { ROUTES } from '@/routes';
 import { DEVELOPER_NAME } from '@/components/layout/Footer';
+import { DeveloperLinks } from '@/components/layout/DeveloperLinks';
 import { ONLINE_PAYMENTS_ENABLED } from '@/services/payments';
 
 // ─── Content
@@ -198,6 +199,7 @@ export default function AboutPage() {
           <p className="text-lg font-black text-green-dark" dir="auto">
             {DEVELOPER_NAME}
           </p>
+          <DeveloperLinks tone="onLight" className="mt-3" />
         </div>
         <Link
           to={ROUTES.home}
