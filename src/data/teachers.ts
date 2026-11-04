@@ -54,7 +54,9 @@ export const STAGE_LABELS = Object.fromEntries(STAGES.map((s) => [s.id, s.label]
 >;
 
 export const MODE_LABELS: Record<ProviderMode, string> = {
-  home: 'في البيت',
+  home: 'في بيتك',
+  teacher_home: 'في بيت المدرس',
+  center: 'في سنتر',
   online: 'أونلاين',
   clinic: 'في العيادة',
 };

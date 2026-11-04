@@ -25,7 +25,7 @@ export type PaymentMethod = 'cash' | 'vodafone' | 'instapay';
  */
 export type PriceType = 'fixed' | 'from' | 'quote';
 
-export type ActiveTab = 'home' | 'orders' | 'favorites' | 'messages' | 'profile';
+export type ActiveTab = 'home' | 'orders' | 'favorites' | 'messages' | 'rides' | 'profile';
 
 /** A required choice the customer makes when ordering (ممرض/ممرضة, زيارة/عيادة…). */
 export interface ServiceOption {
@@ -63,7 +63,11 @@ export type SchoolStage = 'primary' | 'prep' | 'secondary';
 export type ProviderKind = 'teacher' | 'nurse' | 'babysitter' | 'doctor' | 'cleaner' | 'worker';
 
 /** Where the provider works: at the customer's home, online, or in a clinic. */
-export type ProviderMode = 'home' | 'online' | 'clinic';
+/**
+ * Where the work happens. home: at the customer's home. teacher_home: at the teacher's home.
+ * center: in a centre (سنتر). clinic: at the clinic. online: over the internet, from anywhere.
+ */
+export type ProviderMode = 'home' | 'teacher_home' | 'center' | 'online' | 'clinic';
 
 export type Gender = 'male' | 'female';
 
@@ -88,7 +92,10 @@ export interface Provider {
   price: string;
   numericPrice: number | null;
   priceType: PriceType;
+  /** Street or part of the village, e.g. الحي الغربي. */
   area: string;
+  /** The village (or city) they live in, e.g. منية سندوب. */
+  village: string;
   bio: string;
   modes: ProviderMode[];
   active: boolean;
@@ -248,4 +255,83 @@ export interface OrderFormData {
   notes: string;
   paymentMethod: PaymentMethod;
   discountCode: string;
+}
+
+// ─── Shared rides (مشاوير مشتركة)
+/**
+ * car_seats: someone with a car takes people along their way.
+ * taxi_split: people split a taxi fare.
+ * private_share: people share a private car (ملاكي), e.g. coworkers taking turns or splitting costs.
+ */
+export type RideType = 'car_seats' | 'taxi_split' | 'private_share';
+
+/** Saturday first, like the Egyptian week. */
+export type Weekday = 'sat' | 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri';
+
+export interface Ride {
+  id: string;
+  type: RideType;
+  from: string;
+  to: string;
+  /** Leaving time, 24h "HH:MM". */
+  time: string;
+  /** Coming back, 24h "HH:MM", when the trip has a way back. */
+  returnTime?: string;
+  /** Days it repeats every week. Empty means one time, on `date`. */
+  days: Weekday[];
+  /** One-time trips: the date, YYYY-MM-DD. */
+  date?: string;
+  seatsTotal: number;
+  seatsTaken: number;
+  /** What each person pays, in pounds. */
+  pricePerSeat: number;
+  hostName: string;
+  hostGender: Gender;
+  hostPhoto: string;
+  hostRating: number;
+  hostTrips: number;
+  /** The car, e.g. "فيرنا فضي". */
+  car?: string;
+  /** Only women can join. */
+  womenOnly?: boolean;
+  notes?: string;
+  /** Posted by this user (from this device). */
+  mine?: boolean;
+}
+
+export interface NewRideInput {
+  type: RideType;
+  from: string;
+  to: string;
+  time: string;
+  returnTime?: string;
+  days: Weekday[];
+  date?: string;
+  seatsTotal: number;
+  pricePerSeat: number;
+  hostName: string;
+  hostGender: Gender;
+  phone: string;
+  car?: string;
+  womenOnly?: boolean;
+  notes?: string;
+}
+
+export interface SeatRequestInput {
+  rideId: string;
+  name: string;
+  phone: string;
+  seats: number;
+  /** Where to pick them up, if not the start. */
+  pickup?: string;
+  note?: string;
+}
+
+/** pending: the driver confirms (car_seats). joined: taxi / ملاكي groups, you're in. */
+export type SeatRequestStatus = 'pending' | 'joined';
+
+export interface SeatRequest extends SeatRequestInput {
+  id: string;
+  status: SeatRequestStatus;
+  createdAt: string;
 }
