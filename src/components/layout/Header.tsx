@@ -92,10 +92,10 @@ export function Header() {
     <header className="bg-linear-to-br from-green-dark to-green sticky top-0 z-100 shadow-card w-full">
       <div className="w-[min(100%-1.5rem,1200px)] mx-auto py-3">
         {/* Top Section */}
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-2 sm:gap-4">
           {/* Brand Logo & Village Name */}
           <div
-            className="flex items-center gap-3 select-none cursor-pointer"
+            className="flex items-center gap-2 sm:gap-3 min-w-0 select-none cursor-pointer"
             role="button"
             tabIndex={0}
             onClick={() => setActiveTab("home")}
@@ -143,7 +143,23 @@ export function Header() {
           </nav>
 
           {/* Action Buttons */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+            {/* Messages: the desktop nav has it, but the bottom nav has no room,
+                so mobile gets it here (review item 7). */}
+            <button
+              type="button"
+              className={`md:hidden w-[40px] h-[40px] rounded-xl border-none cursor-pointer flex items-center justify-center text-[18px] text-white transition-all duration-200 relative font-['Cairo',sans-serif] hover:bg-white/25 hover:scale-105 ${
+                activeTab === "messages" ? "bg-white/30" : "bg-white/15"
+              }`}
+              onClick={() => setActiveTab("messages")}
+              aria-label="الرسائل"
+              aria-current={activeTab === "messages" ? "page" : undefined}
+            >
+              <span role="img" aria-hidden="true">
+                💬
+              </span>
+            </button>
+
             <button
               type="button"
               className="w-[40px] h-[40px] rounded-xl bg-white/15 border-none cursor-pointer flex items-center justify-center text-[18px] text-white transition-all duration-200 relative font-['Cairo',sans-serif] hover:bg-white/25 hover:scale-105"
