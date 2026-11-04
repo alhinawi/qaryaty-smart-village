@@ -4,8 +4,8 @@ import { Link, Navigate, useLocation, useNavigate } from 'react-router';
 import { Button } from '@/components/ui/Button';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useUIStore } from '@/stores/useUIStore';
-import { AuthError } from '@/repositories';
-import { fieldErrorsFrom, registerSchema } from '@/utils/validators';
+import { AuthError, authRepo } from '@/repositories';
+import { fieldErrorsFrom, registerSchema, usernameSchema } from '@/utils/validators';
 import { ROUTES } from '@/routes';
 import { AuthField, AuthLayout, PasswordField } from './AuthLayout';
 import { useRedirectTarget } from '@/hooks/useRedirectTarget';
@@ -13,6 +13,7 @@ import { VILLAGES } from '@/data/villages';
 
 const EMPTY = {
   name: '',
+  username: '',
   email: '',
   phone: '',
   village: '',
@@ -34,6 +35,9 @@ export default function RegisterPage() {
   const [formError, setFormError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [sentTo, setSentTo] = useState('');
+  /** The username last confirmed free, so the hint shows only while it is still typed. */
+  const [freeUsername, setFreeUsername] = useState('');
+  const [checkingUsername, setCheckingUsername] = useState(false);
 
   if (session && !submitting) return <Navigate to={target} replace />;
 
@@ -63,6 +67,34 @@ export default function RegisterPage() {
   const set = (field: keyof typeof EMPTY) => (e: React.ChangeEvent<HTMLInputElement>) =>
     setValues((v) => ({ ...v, [field]: e.target.value }));
 
+  /** On leaving the field: check the rules, then ask whether the name is free. */
+  const checkUsername = async () => {
+    const parsed = usernameSchema.safeParse(values.username);
+    if (!parsed.success) {
+      if (values.username.trim()) setErrors((e) => ({ ...e, username: parsed.error.issues[0].message }));
+      return;
+    }
+    const wanted = parsed.data;
+    setCheckingUsername(true);
+    try {
+      const free = await authRepo.isUsernameAvailable(wanted);
+      setFreeUsername(free ? wanted : '');
+      setErrors(({ username: _old, ...rest }) =>
+        free ? rest : { ...rest, username: 'اسم المستخدم ده محجوز لحد تاني، جرّب اسم تاني' }
+      );
+    } catch {
+      // Can't tell right now; the sign-up checks again
+    } finally {
+      setCheckingUsername(false);
+    }
+  };
+
+  const usernameHint = checkingUsername
+    ? 'بنشوف الاسم متاح ولا لأ…'
+    : freeUsername && usernameSchema.safeParse(values.username).data === freeUsername
+      ? `✓ الاسم متاح، هيظهر كده: @${freeUsername}`
+      : 'بالإنجليزي: حروف وأرقام و _ من 3 لـ 20 حرف. مش هتقدر تغيّره بعدين';
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError('');
@@ -83,7 +115,10 @@ export default function RegisterPage() {
       showToast(`🎉 أهلاً بيك في قريتي يا ${result.user.name.split(' ')[0]}!`);
       navigate(target, { replace: true });
     } catch (err) {
-      if (err instanceof AuthError && err.code === 'email_taken') {
+      if (err instanceof AuthError && err.code === 'username_taken') {
+        setFreeUsername('');
+        setErrors({ username: err.message });
+      } else if (err instanceof AuthError && err.code === 'email_taken') {
         setErrors({ email: err.message });
       } else if (err instanceof AuthError && err.code === 'phone_taken') {
         setErrors({ phone: err.message });
@@ -109,6 +144,25 @@ export default function RegisterPage() {
     >
       <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-3" aria-label="حساب جديد">
         <AuthField id="regName" label="الاسم بالكامل" autoComplete="name" value={values.name} onChange={set('name')} error={errors.name} />
+        <AuthField
+          id="regUsername"
+          label="اسم المستخدم"
+          autoComplete="username"
+          autoCapitalize="none"
+          autoCorrect="off"
+          spellCheck={false}
+          dir="ltr"
+          placeholder="ahmed_10"
+          maxLength={21}
+          hint={usernameHint}
+          value={values.username}
+          onChange={(e) => {
+            set('username')(e);
+            if (errors.username) setErrors(({ username: _old, ...rest }) => rest);
+          }}
+          onBlur={checkUsername}
+          error={errors.username}
+        />
         <AuthField
           id="regEmail"
           label="الإيميل"

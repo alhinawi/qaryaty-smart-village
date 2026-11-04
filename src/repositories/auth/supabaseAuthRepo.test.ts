@@ -6,6 +6,7 @@ import { createSupabaseAuthRepo, mapAuthError, type ProfileRow } from './supabas
 const profile: ProfileRow = {
   id: 'u1',
   name: 'أحمد',
+  username: 'ahmed',
   email: 'ahmed@example.com',
   phone: '01012345678',
   village: 'البركة',
@@ -37,9 +38,11 @@ function fakeClient(opts: { signInError?: object; profile?: ProfileRow | null })
 describe('supabase auth repo', () => {
   it('signs up with the real email and waits for the activation link', async () => {
     const signUp = vi.fn(async (_args: object) => ({ data: { user: { id: 'u9', identities: [{}] }, session: null }, error: null }));
-    const client = { auth: { signUp } } as unknown as SupabaseClient;
+    const rpc = vi.fn(async (_fn: string, _args: object) => ({ data: true, error: null }));
+    const client = { auth: { signUp }, rpc } as unknown as SupabaseClient;
     const result = await createSupabaseAuthRepo(async () => client).register({
       name: ' أحمد ',
+      username: 'Ahmed_10',
       email: ' Ahmed@Example.com ',
       phone: '+20 101 234 5678',
       village: 'البركة',
@@ -50,17 +53,43 @@ describe('supabase auth repo', () => {
     expect(signUp).toHaveBeenCalledWith(
       expect.objectContaining({
         email: 'ahmed@example.com',
-        options: expect.objectContaining({ data: expect.objectContaining({ phone: '01012345678', name: 'أحمد' }) }),
+        options: expect.objectContaining({
+          data: expect.objectContaining({ phone: '01012345678', name: 'أحمد', username: 'ahmed_10' }),
+        }),
       })
     );
+    expect(rpc).toHaveBeenCalledWith('username_available', { wanted: 'ahmed_10' });
+  });
+
+  it('a taken username stops before the sign-up', async () => {
+    const signUp = vi.fn();
+    const client = { auth: { signUp }, rpc: async () => ({ data: false, error: null }) } as unknown as SupabaseClient;
+    const error = await createSupabaseAuthRepo(async () => client)
+      .register({ name: 'أحمد', username: 'ahmed', email: 'a@b.co', phone: '01012345678', village: 'ب', address: 'شارع الجامع', password: 'qarya2026' })
+      .catch((e: unknown) => e);
+    expect((error as AuthError).code).toBe('username_taken');
+    expect(signUp).not.toHaveBeenCalled();
+  });
+
+  it('a username taken during the sign-up is username_taken, not an outage', async () => {
+    let calls = 0;
+    const client = {
+      auth: { signUp: async () => ({ data: { user: null, session: null }, error: { status: 500, message: 'Database error saving new user' } }) },
+      rpc: async () => ({ data: calls++ === 0, error: null }),
+    } as unknown as SupabaseClient;
+    const error = await createSupabaseAuthRepo(async () => client)
+      .register({ name: 'أحمد', username: 'ahmed', email: 'a@b.co', phone: '01012345678', village: 'ب', address: 'شارع الجامع', password: 'qarya2026' })
+      .catch((e: unknown) => e);
+    expect((error as AuthError).code).toBe('username_taken');
   });
 
   it('an email that already has an account is email_taken', async () => {
     const client = {
       auth: { signUp: async () => ({ data: { user: { id: 'u9', identities: [] }, session: null }, error: null }) },
+      rpc: async () => ({ data: true, error: null }),
     } as unknown as SupabaseClient;
     const error = await createSupabaseAuthRepo(async () => client)
-      .register({ name: 'أحمد', email: 'a@b.co', phone: '01012345678', village: 'ب', address: 'شارع الجامع', password: 'qarya2026' })
+      .register({ name: 'أحمد', username: 'ahmed', email: 'a@b.co', phone: '01012345678', village: 'ب', address: 'شارع الجامع', password: 'qarya2026' })
       .catch((e: unknown) => e);
     expect((error as AuthError).code).toBe('email_taken');
   });

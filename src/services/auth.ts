@@ -14,7 +14,7 @@
 // nothing else talks to the storage directly.
 
 import type { AuthSession, AuthUser, UserRole } from '@/types';
-import { normalizeEgyptianPhone } from '@/utils/validators';
+import { normalizeEgyptianPhone, normalizeUsername } from '@/utils/validators';
 import type { LoginInput, RegisterInput } from '@/utils/validators';
 import { getBrowserStorage, readJson, writeJson, type KeyValueStorage } from './storage';
 
@@ -23,6 +23,7 @@ export type AuthErrorCode =
   | 'invalid_credentials'
   | 'phone_taken'
   | 'email_taken'
+  | 'username_taken'
   /** Signed up but hasn't opened the activation email yet. */
   | 'email_not_confirmed'
   | 'blocked'
@@ -49,6 +50,8 @@ export type RegisterResult =
 export interface AuthService {
   register(input: Omit<RegisterInput, 'confirmPassword'>): Promise<RegisterResult>;
   login(input: LoginInput): Promise<AuthSession>;
+  /** True when nobody has this username yet (it is normalized first). */
+  isUsernameAvailable(username: string): Promise<boolean>;
   logout(token: string): Promise<void>;
   /** Current state of a user (role/blocked may have changed). null when gone. */
   getUser(userId: string): Promise<AuthUser | null>;
@@ -67,16 +70,17 @@ export interface AuthService {
 /** DEMO ADMIN, for trying the control panel. Not a secret: it ships in the bundle. */
 export const DEMO_ADMIN = {
   email: 'admin@qaryati.app',
+  username: 'qaryati_admin',
   phone: '01000000000',
   password: 'admin1234',
   name: 'مدير التجربة',
 } as const;
 
 /** Sample customers so the admin users list isn't empty. They have no password and can't log in. */
-const SAMPLE_CUSTOMERS: Array<Pick<AuthUser, 'name' | 'email' | 'phone' | 'village' | 'address'>> = [
-  { name: 'أم أحمد عبد الرحمن', email: 'om.ahmed@example.com', phone: '01011112222', village: 'منية سندوب - الدقهلية', address: 'شارع الجامع الكبير' },
-  { name: 'حسن محمود الشافعي', email: 'hassan@example.com', phone: '01122223333', village: 'بدواي - الدقهلية', address: 'جنب المدرسة الابتدائي' },
-  { name: 'سارة إبراهيم علي', email: 'sara@example.com', phone: '01233334444', village: 'كفر الشيخ', address: 'عزبة النخل، بيت رقم 4' },
+const SAMPLE_CUSTOMERS: Array<Pick<AuthUser, 'name' | 'username' | 'email' | 'phone' | 'village' | 'address'>> = [
+  { name: 'أم أحمد عبد الرحمن', username: 'om_ahmed', email: 'om.ahmed@example.com', phone: '01011112222', village: 'منية سندوب - الدقهلية', address: 'شارع الجامع الكبير' },
+  { name: 'حسن محمود الشافعي', username: 'hassan_mahmoud', email: 'hassan@example.com', phone: '01122223333', village: 'بدواي - الدقهلية', address: 'جنب المدرسة الابتدائي' },
+  { name: 'سارة إبراهيم علي', username: 'sara_ibrahim', email: 'sara@example.com', phone: '01233334444', village: 'كفر الشيخ', address: 'عزبة النخل، بيت رقم 4' },
 ];
 
 // ─── Password hashing (WebCrypto PBKDF2)
@@ -122,6 +126,9 @@ function safeEqual(a: string, b: string): boolean {
   return diff === 0;
 }
 
+/** Shown under the username field by every implementation. */
+export const USERNAME_TAKEN_MESSAGE = 'اسم المستخدم ده محجوز لحد تاني، جرّب اسم تاني';
+
 // ─── Mock implementation
 interface StoredAccount {
   user: AuthUser;
@@ -137,6 +144,7 @@ const SESSIONS_KEY = 'qaryati_mock_sessions_v1';
 const MESSAGES = {
   invalid: 'الإيميل أو كلمة السر مش صح',
   taken: 'الإيميل ده عنده حساب قبل كده، جرّب تسجل دخول',
+  usernameTaken: USERNAME_TAKEN_MESSAGE,
   blocked: 'الحساب ده موقوف، كلم إدارة قريتي',
   notFound: 'الحساب مش موجود',
 };
@@ -150,7 +158,12 @@ export function createMockAuthService(
 
   let seeding: Promise<void> | null = null;
 
-  const readAccounts = () => readJson<Record<string, StoredAccount>>(storage, USERS_KEY, {});
+  const readAccounts = () => {
+    const accounts = readJson<Record<string, StoredAccount>>(storage, USERS_KEY, {});
+    // Accounts saved before usernames existed have none
+    for (const acc of Object.values(accounts)) acc.user.username ??= '';
+    return accounts;
+  };
   const writeAccounts = (accounts: Record<string, StoredAccount>) =>
     writeJson(storage, USERS_KEY, accounts);
   const readSessions = () => readJson<Record<string, string>>(storage, SESSIONS_KEY, {});
@@ -158,7 +171,7 @@ export function createMockAuthService(
     writeJson(storage, SESSIONS_KEY, sessions);
 
   function newUser(
-    data: Pick<AuthUser, 'name' | 'email' | 'phone' | 'village' | 'address'>,
+    data: Pick<AuthUser, 'name' | 'username' | 'email' | 'phone' | 'village' | 'address'>,
     role: UserRole
   ): AuthUser {
     return {
@@ -179,7 +192,7 @@ export function createMockAuthService(
         const salt = randomHex(16);
         accounts[DEMO_ADMIN.email] = {
           user: newUser(
-            { name: DEMO_ADMIN.name, email: DEMO_ADMIN.email, phone: DEMO_ADMIN.phone, village: 'منية سندوب - الدقهلية', address: 'مكتب قريتي' },
+            { name: DEMO_ADMIN.name, username: DEMO_ADMIN.username, email: DEMO_ADMIN.email, phone: DEMO_ADMIN.phone, village: 'منية سندوب - الدقهلية', address: 'مكتب قريتي' },
             'admin'
           ),
           salt,
@@ -202,6 +215,11 @@ export function createMockAuthService(
     return { token, user };
   }
 
+  function usernameTaken(username: string): boolean {
+    const wanted = normalizeUsername(username);
+    return Object.values(readAccounts()).some((acc) => acc.user.username === wanted);
+  }
+
   function findById(userId: string): [string, StoredAccount] | undefined {
     return Object.entries(readAccounts()).find(([, acc]) => acc.user.id === userId);
   }
@@ -211,7 +229,7 @@ export function createMockAuthService(
     const entry = Object.entries(accounts).find(([, acc]) => acc.user.id === userId);
     if (!entry) throw new AuthError('not_found', MESSAGES.notFound);
     const [email, account] = entry;
-    const user = { ...account.user, ...patch, id: account.user.id, email: account.user.email, phone: account.user.phone };
+    const user = { ...account.user, ...patch, id: account.user.id, username: account.user.username, email: account.user.email, phone: account.user.phone };
     accounts[email] = { ...account, user };
     writeAccounts(accounts);
     return user;
@@ -225,10 +243,13 @@ export function createMockAuthService(
       const phone = normalizeEgyptianPhone(input.phone);
       const accounts = readAccounts();
       if (accounts[email]) throw new AuthError('email_taken', MESSAGES.taken);
+      const username = normalizeUsername(input.username);
+      if (usernameTaken(username)) throw new AuthError('username_taken', MESSAGES.usernameTaken);
       const salt = randomHex(16);
       const user = newUser(
         {
           name: input.name.trim(),
+          username,
           email,
           phone,
           village: input.village.trim(),
@@ -256,6 +277,11 @@ export function createMockAuthService(
       }
       if (account.user.blocked) throw new AuthError('blocked', MESSAGES.blocked);
       return startSession(account.user);
+    },
+
+    async isUsernameAvailable(username) {
+      await ensureSeeded();
+      return !usernameTaken(username);
     },
 
     async logout(token) {

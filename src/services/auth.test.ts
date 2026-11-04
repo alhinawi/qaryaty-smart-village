@@ -5,6 +5,7 @@ import { loginSchema, registerSchema } from '@/utils/validators';
 
 const newAccount = {
   name: 'محمد الهناوي',
+  username: '@Hinawi_1',
   email: 'Hinawi@Example.com',
   phone: '٠١٠١٢٣٤٥٦٧٨',
   village: 'قرية البركة',
@@ -28,6 +29,7 @@ describe('mock auth service', () => {
     expect(session.user.phone).toBe('01012345678');
     expect(session.user.email).toBe('hinawi@example.com');
     expect(session.user.role).toBe('customer');
+    expect(session.user.username).toBe('hinawi_1');
     const again = await auth.login({ email: ' hinawi@EXAMPLE.com ', password: 'qarya2026' });
     expect(again.user.id).toBe(session.user.id);
   });
@@ -50,7 +52,25 @@ describe('mock auth service', () => {
 
   it('refuses a second account on the same email', async () => {
     await auth.register(newAccount);
-    await expect(auth.register({ ...newAccount, email: 'hinawi@example.com' })).rejects.toBeInstanceOf(AuthError);
+    await expect(auth.register({ ...newAccount, username: 'other_name', email: 'hinawi@example.com' })).rejects.toMatchObject({
+      code: 'email_taken',
+    });
+  });
+
+  it('refuses a username someone already has, whatever the case', async () => {
+    expect(await auth.isUsernameAvailable('hinawi_1')).toBe(true);
+    await auth.register(newAccount);
+    expect(await auth.isUsernameAvailable('HINAWI_1')).toBe(false);
+    const second = auth.register({ ...newAccount, username: 'Hinawi_1', email: 'second@example.com' });
+    await expect(second).rejects.toBeInstanceOf(AuthError);
+    await expect(second).rejects.toMatchObject({ code: 'username_taken' });
+    expect(await auth.isUsernameAvailable(DEMO_ADMIN.username)).toBe(false);
+  });
+
+  it('accounts saved before usernames read back with an empty one', async () => {
+    const old = { 'old@example.com': { user: { id: 'usr_old', name: 'قديم', email: 'old@example.com', phone: '01012345678', village: 'ب', address: 'شارع', role: 'customer', blocked: false, createdAt: '2026-01-01T00:00:00Z' } } };
+    storage.setItem('qaryati_mock_users_v2', JSON.stringify(old));
+    expect((await auth.getUser('usr_old'))?.username).toBe('');
   });
 
   it('seeds the demo admin, who can log in', async () => {
@@ -86,6 +106,7 @@ describe('auth form schemas', () => {
     const r = registerSchema.safeParse(valid);
     expect(r.success).toBe(true);
     if (r.success) expect(r.data.phone).toBe('01012345678');
+    if (r.success) expect(r.data.username).toBe('hinawi_1');
   });
 
   it.each([
@@ -97,6 +118,8 @@ describe('auth form schemas', () => {
     ['bad phone', { phone: '0123' }, 'phone'],
     ['bad email', { email: 'not-an-email' }, 'email'],
     ['short address', { address: 'بيت' }, 'address'],
+    ['missing username', { username: '' }, 'username'],
+    ['Arabic username', { username: 'محمد' }, 'username'],
   ])('rejects %s', (_label, patch, field) => {
     const r = registerSchema.safeParse({ ...valid, ...patch });
     expect(r.success).toBe(false);
