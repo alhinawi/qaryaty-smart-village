@@ -74,8 +74,8 @@ export const DEMO_ADMIN = {
 
 /** Sample customers so the admin users list isn't empty. They have no password and can't log in. */
 const SAMPLE_CUSTOMERS: Array<Pick<AuthUser, 'name' | 'email' | 'phone' | 'village' | 'address'>> = [
-  { name: 'أم أحمد عبد الرحمن', email: 'om.ahmed@example.com', phone: '01011112222', village: 'قرية البركة', address: 'شارع الجامع الكبير' },
-  { name: 'حسن محمود الشافعي', email: 'hassan@example.com', phone: '01122223333', village: 'قرية البركة', address: 'جنب المدرسة الابتدائي' },
+  { name: 'أم أحمد عبد الرحمن', email: 'om.ahmed@example.com', phone: '01011112222', village: 'منية سندوب - الدقهلية', address: 'شارع الجامع الكبير' },
+  { name: 'حسن محمود الشافعي', email: 'hassan@example.com', phone: '01122223333', village: 'بدواي - الدقهلية', address: 'جنب المدرسة الابتدائي' },
   { name: 'سارة إبراهيم علي', email: 'sara@example.com', phone: '01233334444', village: 'كفر الشيخ', address: 'عزبة النخل، بيت رقم 4' },
 ];
 
@@ -179,7 +179,7 @@ export function createMockAuthService(
         const salt = randomHex(16);
         accounts[DEMO_ADMIN.email] = {
           user: newUser(
-            { name: DEMO_ADMIN.name, email: DEMO_ADMIN.email, phone: DEMO_ADMIN.phone, village: 'قرية البركة', address: 'مكتب قريتي' },
+            { name: DEMO_ADMIN.name, email: DEMO_ADMIN.email, phone: DEMO_ADMIN.phone, village: 'منية سندوب - الدقهلية', address: 'مكتب قريتي' },
             'admin'
           ),
           salt,
