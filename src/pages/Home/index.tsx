@@ -8,6 +8,7 @@ import type {
   SchoolStage,
   Service,
   ServiceCategory,
+  TeacherGroup,
   TeacherSubject,
 } from '@/types';
 import { CATEGORIES } from '@/data/categories';
@@ -29,6 +30,7 @@ import { ProviderPickerModal } from './ProviderPickerModal';
 import { FeaturesSection } from './FeaturesSection';
 import { SkeletonList } from '@/components/ui/Skeleton';
 import { providerToOrderModalData, serviceToOrderModalData } from '@/utils/pricing';
+import { groupPreselection } from '@/utils/teacherGroups';
 import { matchesSearch } from '@/utils/arabicSearch';
 import {
   PEOPLE_SECTIONS,
@@ -101,7 +103,7 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
     return gridServices(services, providers).filter((service) => {
       const matchesCategory =
         selectedCategory === 'all' || service.cat === selectedCategory;
-      return matchesCategory && matchesSearch(searchQuery, [service.name, service.desc]);
+      return matchesCategory && matchesSearch(searchQuery, [service.name, service.desc, ...(service.keywords ?? [])]);
     });
   }, [services, providers, searchQuery, selectedCategory]);
 
@@ -160,9 +162,9 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
   const showServicesGrid =
     filteredServices.length > 0 || (!peopleSection && searchPeople.length === 0);
 
-  const handleBookProvider = (provider: Provider) => {
+  const handleBookProvider = (provider: Provider, group?: TeacherGroup) => {
     const service = services.find((s) => s.id === provider.serviceId);
-    onOpenOrderModal(providerToOrderModalData(provider, service));
+    onOpenOrderModal(providerToOrderModalData(provider, service, group && groupPreselection(group)));
   };
 
   const handleSelectService = (service: Service) => {

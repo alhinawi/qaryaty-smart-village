@@ -14,6 +14,8 @@ import {
   checkPromoCode,
   describeTotal,
   getOrderPricing,
+  resolveQuantity,
+  visibleOptions,
 } from '@/utils/pricing';
 import { PAYMENT_LABELS, isOnlinePayment, paymentChoices, startOnlinePayment } from '@/services/payments';
 
@@ -52,24 +54,33 @@ export function OrderModal({
   const [errors, setErrors] = useState<Record<string, string>>({});
   // Required choices (ممرض/ممرضة, المرحلة, …): option id → chosen value
   // An option with one choice left (a teacher who teaches one stage) is already chosen
-  const [selected, setSelected] = useState<Record<string, string>>(() =>
-    Object.fromEntries(
+  // Choices made before the form opened (the group picked on a teacher's card) come first
+  const [selected, setSelected] = useState<Record<string, string>>(() => ({
+    ...Object.fromEntries(
       (data?.options ?? []).filter((o) => o.choices.length === 1).map((o) => [o.id, o.choices[0]])
-    )
-  );
+    ),
+    ...(data?.preselected ?? {}),
+  }));
+  const [quantity, setQuantity] = useState<number>(data?.quantity?.min ?? 1);
   const [submitting, setSubmitting] = useState(false);
-  const serviceOptions = data?.options ?? [];
+  // An option with `showWhen` is asked only after its trigger answer (which group, for a group)
+  const serviceOptions = visibleOptions(data?.options, selected);
 
   if (!isOpen || !data) return null;
 
-  const pricing = getOrderPricing(data, discountApplied);
-  const { basePrice, discountAmount, finalPrice, isEstimate } = pricing;
+  const pricing = getOrderPricing(data, discountApplied, { selections: selected, quantity });
+  const { basePrice, discountAmount, finalPrice, isEstimate, unitPrice, amount, deliveryFee, priceLabel } = pricing;
+  const unit = resolveQuantity(data.quantity, selected)?.unit;
   // Card and wallet charge a known amount, so they need a fixed price
   const paymentOptions = paymentChoices(!isEstimate && (finalPrice ?? 0) > 0);
   const payWith: PaymentMethod = paymentOptions.includes(paymentMethod) ? paymentMethod : 'cash';
   const servicePriceLabel =
-    data.price ||
-    (basePrice == null ? 'حسب الطلب' : formatCurrency(basePrice));
+    priceLabel ||
+    (data.quantity || deliveryFee > 0
+      ? unitPrice == null
+        ? 'حسب الطلب'
+        : formatCurrency(unitPrice)
+      : data.price || (basePrice == null ? 'حسب الطلب' : formatCurrency(basePrice)));
 
   const handleNextStep = (e: React.FormEvent) => {
     e.preventDefault();
@@ -151,9 +162,13 @@ export function OrderModal({
           totalAmount: total,
           isEstimate,
           status: 'pending',
-          options: serviceOptions.length
-            ? serviceOptions.map((o) => ({ label: o.label, value: selected[o.id] }))
-            : undefined,
+          options:
+            serviceOptions.length || data.quantity
+              ? [
+                  ...serviceOptions.map((o) => ({ label: o.label, value: selected[o.id] })),
+                  ...(data.quantity ? [{ label: 'العدد', value: `${amount} ${unit ?? ''}`.trim() }] : []),
+                ]
+              : undefined,
           serviceId: data.serviceId,
           providerId: data.providerId,
       });
@@ -244,6 +259,35 @@ export function OrderModal({
                 </fieldset>
               );
             })}
+
+            {data.quantity && (
+              <div className="form-group">
+                <span className="text-sm font-bold mb-2 block">العدد ({unit})</span>
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    aria-label="أقل"
+                    disabled={quantity <= data.quantity.min}
+                    onClick={() => setQuantity((q) => Math.max(data.quantity!.min, q - data.quantity!.step))}
+                    className="w-9 h-9 rounded-full border-2 border-gray-200 font-black disabled:opacity-40"
+                  >
+                    −
+                  </button>
+                  <span className="font-black text-lg min-w-8 text-center" aria-live="polite">
+                    {quantity}
+                  </span>
+                  <button
+                    type="button"
+                    aria-label="أكتر"
+                    disabled={quantity >= data.quantity.max}
+                    onClick={() => setQuantity((q) => Math.min(data.quantity!.max, q + data.quantity!.step))}
+                    className="w-9 h-9 rounded-full border-2 border-gray-200 font-black disabled:opacity-40"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            )}
 
             <div className="form-group">
               <label htmlFor="modalAddress">📍 عنوانك داخل القرية *</label>
@@ -365,8 +409,17 @@ export function OrderModal({
               ))}
               <div className="flex justify-between text-sm mb-1.5">
                 <span>سعر الخدمة:</span>
-                <span>{servicePriceLabel}</span>
+                <span>
+                  {servicePriceLabel}
+                  {data.quantity && amount > 1 && ` × ${amount} ${unit ?? ''}`}
+                </span>
               </div>
+              {deliveryFee > 0 && (
+                <div className="flex justify-between text-sm mb-1.5">
+                  <span>التوصيل:</span>
+                  <span>{formatCurrency(deliveryFee)}</span>
+                </div>
+              )}
               {discountApplied && discountAmount > 0 && (
                 <div className="flex justify-between text-sm mb-1.5 text-success font-bold">
                   <span>خصم كود {FIRST_ORDER_PROMO}:</span>

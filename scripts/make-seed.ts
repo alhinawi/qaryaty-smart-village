@@ -43,6 +43,8 @@ const services = SERVICES.map((s) => ({
   subject: s.subject ?? null,
   options: s.options ?? null,
   hidden: s.hidden ?? false,
+  keywords: s.keywords ?? null,
+  quantity: s.quantity ?? null,
 }));
 
 const shops = SHOPS.map((s) => ({
@@ -78,6 +80,10 @@ const providers = PROVIDERS.map((p) => ({
   village: p.village,
   bio: p.bio,
   modes: p.modes,
+  group_price: p.groupPrice ?? null,
+  inspection_fee: p.inspectionFee ?? null,
+  delivery_fee: p.deliveryFee ?? null,
+  groups: p.groups ?? null,
   active: p.active,
 }));
 
