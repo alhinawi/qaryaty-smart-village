@@ -57,4 +57,22 @@ export const SHOPS: Shop[] = [
     time: '⏰ 8ص - 8م',
     bgColor: '#fff7ed',
   },
+  {
+    id: 7,
+    emoji: '🥩',
+    name: 'جزارة الحاج عبده',
+    description: 'لحمة بلدي وكفتة ومفروم طازة كل يوم',
+    open: true,
+    time: '⏰ 8ص - 10م',
+    bgColor: '#fef2f2',
+  },
+  {
+    id: 8,
+    emoji: '👔',
+    name: 'مغسلة ومكوجي النور',
+    description: 'غسيل ومكواة وتنظيف جاف',
+    open: true,
+    time: '⏰ 9ص - 11م',
+    bgColor: '#eff6ff',
+  },
 ];
