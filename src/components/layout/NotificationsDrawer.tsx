@@ -64,7 +64,7 @@ export function NotificationsDrawer() {
                   </div>
                   <p className="text-xs text-text-muted leading-[1.4]">{notif.message}</p>
                 </div>
-                {!notif.read && <span className="w-2 h-2 rounded-full bg-green absolute top-2.5 left-2.5" />}
+                {!notif.read && <span className="w-2 h-2 rounded-full bg-green absolute top-1 left-1.5" />}
               </div>
             ))}
           </div>
