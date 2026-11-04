@@ -1,6 +1,7 @@
 // ─── Imports
 import { useOrderStore } from "@/stores/useOrderStore";
 import { useUIStore } from "@/stores/useUIStore";
+import { useGoToTab } from '@/hooks/useTabNavigation';
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -15,7 +16,7 @@ export default function OrdersPage() {
   const deleteOrder = useOrderStore((state) => state.deleteOrder);
 
   const openRatingModal = useUIStore((state) => state.openRatingModal);
-  const setActiveTab = useUIStore((state) => state.setActiveTab);
+  const setActiveTab = useGoToTab();
   const showToast = useUIStore((state) => state.showToast);
 
   const handleSimulateNextStep = (order: Order) => {
