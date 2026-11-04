@@ -17,6 +17,7 @@ import { ShopsSection } from './ShopsSection';
 import { FeaturesSection } from './FeaturesSection';
 import { SkeletonList } from '@/components/ui/Skeleton';
 import { serviceToOrderModalData } from '@/utils/pricing';
+import { matchesSearch } from '@/utils/arabicSearch';
 
 // ─── Types
 interface HomePageProps {
@@ -42,19 +43,20 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
     }, 600);
   };
 
-  // Filtered Services logic
+  // Filtered Services logic (Arabic-aware: ignores tashkeel, hamza forms, ة/ه, ى/ي)
   const filteredServices = useMemo(() => {
-    const query = searchQuery.trim().toLowerCase();
     return SERVICES.filter((service) => {
       const matchesCategory =
         selectedCategory === 'all' || service.cat === selectedCategory;
-      const matchesSearch =
-        !query ||
-        service.name.toLowerCase().includes(query) ||
-        service.desc.toLowerCase().includes(query);
-      return matchesCategory && matchesSearch;
+      return matchesCategory && matchesSearch(searchQuery, [service.name, service.desc]);
     });
   }, [searchQuery, selectedCategory]);
+
+  // Shops are searched too, by name and description
+  const filteredShops = useMemo(
+    () => SHOPS.filter((shop) => matchesSearch(searchQuery, [shop.name, shop.description])),
+    [searchQuery]
+  );
 
   const handleSelectService = (service: Service) => {
     onOpenOrderModal(serviceToOrderModalData(service));
@@ -116,7 +118,11 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
       <PromoBanner />
 
       {/* Village Shops Section */}
-      <ShopsSection shops={SHOPS} onSelectShop={onOpenOrderModal} />
+      <ShopsSection
+        shops={filteredShops}
+        isSearching={searchQuery.trim().length > 0}
+        onSelectShop={onOpenOrderModal}
+      />
 
       {/* Why Choose Us Features */}
       <FeaturesSection />
