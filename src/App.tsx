@@ -90,7 +90,7 @@ export default function App() {
         <Header />
 
         {/* Dynamic Page Content */}
-        <main className="flex-1 w-full pb-[calc(85px+env(safe-area-inset-bottom))] md:pb-10">
+        <main className="flex-1 w-full pb-[calc(85px+env(safe-area-inset-bottom))] lg:pb-10">
           <PageWrapper>
             <Suspense fallback={<PageLoadingFallback />}>
               {activeTab === 'home' && (
