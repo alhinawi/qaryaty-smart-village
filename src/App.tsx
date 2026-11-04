@@ -1,10 +1,11 @@
 // ─── Imports
-import { Suspense, lazy, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router';
 import { ROUTES } from '@/routes';
 import { useSplashScreen } from '@/hooks/useSplashScreen';
 import { useUIStore } from '@/stores/useUIStore';
 import { useGoToTab } from '@/hooks/useTabNavigation';
+import { useAuthStore } from '@/stores/useAuthStore';
 import type { OrderModalData } from '@/types';
 
 // Layout & Global Components
@@ -25,6 +26,8 @@ const OrdersPage = lazy(() => import('@/pages/Orders'));
 const FavoritesPage = lazy(() => import('@/pages/Favorites'));
 const MessagesPage = lazy(() => import('@/pages/Messages'));
 const ProfilePage = lazy(() => import('@/pages/Profile'));
+const LoginPage = lazy(() => import('@/pages/Auth/LoginPage'));
+const RegisterPage = lazy(() => import('@/pages/Auth/RegisterPage'));
 
 // ─── Page Loading Fallback
 function PageLoadingFallback() {
@@ -39,6 +42,11 @@ function PageLoadingFallback() {
 // ─── Component
 export default function App() {
   const { showSplash, isFadingOut, isAppVisible } = useSplashScreen();
+
+  // Re-check the saved session once (the user may have been blocked or removed)
+  useEffect(() => {
+    void useAuthStore.getState().refresh();
+  }, []);
 
   const setActiveTab = useGoToTab();
   const toastMessage = useUIStore((state) => state.toastMessage);
@@ -107,6 +115,8 @@ export default function App() {
                 />
                 <Route path={ROUTES.messages} element={<MessagesPage />} />
                 <Route path={ROUTES.profile} element={<ProfilePage />} />
+                <Route path={ROUTES.login} element={<LoginPage />} />
+                <Route path={ROUTES.register} element={<RegisterPage />} />
                 {/* Unknown URLs go home instead of a blank page */}
                 <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
               </Routes>
