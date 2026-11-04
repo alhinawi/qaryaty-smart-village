@@ -5,7 +5,7 @@ import { useOrderStore } from '@/stores/useOrderStore';
 export function useOrders() {
   const orders = useOrderStore((state) => state.orders);
   const activeOrder = useOrderStore((state) => state.activeOrder);
-  const placeOrder = useOrderStore((state) => state.placeOrder);
+  const addOrder = useOrderStore((state) => state.addOrder);
   const updateStatus = useOrderStore((state) => state.updateStatus);
   const addRating = useOrderStore((state) => state.addRating);
   const setActiveOrder = useOrderStore((state) => state.setActiveOrder);
@@ -14,7 +14,7 @@ export function useOrders() {
   return {
     orders,
     activeOrder,
-    placeOrder,
+    addOrder,
     updateStatus,
     addRating,
     setActiveOrder,

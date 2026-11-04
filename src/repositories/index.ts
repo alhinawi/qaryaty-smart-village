@@ -19,9 +19,19 @@ import { getSupabase, isSupabaseConfigured } from './supabaseClient';
 import { createMockCatalogRepo } from './catalog/mockCatalogRepo';
 import { createSupabaseCatalogRepo } from './catalog/supabaseCatalogRepo';
 import type { CatalogRepo } from './catalog/types';
+import { createMockOrderRepo } from './orders/mockOrderRepo';
+import { createSupabaseOrderRepo } from './orders/supabaseOrderRepo';
+import type { NewOrder, OrderRepo } from './orders/types';
+import { RepoError, ServiceUnavailableError, UNAVAILABLE_MESSAGE } from './errors';
 
 const breaker = createCircuitBreaker({ failureThreshold: 3, cooldownMs: 30_000 });
-const resilience = createResilience({ breaker, status: backendStatus, timeoutMs: 8_000 });
+const resilience = createResilience({
+  breaker,
+  status: backendStatus,
+  timeoutMs: 8_000,
+  // A refused request means the backend is up
+  isExpectedError: (error) => error instanceof RepoError && error.code === 'rejected',
+});
 
 if (isSupabaseConfigured) backendStatus.markLive();
 
@@ -44,10 +54,30 @@ export const getServices = () => catalogRepo.getServices();
 export const getShops = () => catalogRepo.getShops();
 export const getProviders = () => catalogRepo.getProviders();
 
+// ─── Orders (writes never fall back to the sample data)
+export const ORDER_UNAVAILABLE_MESSAGE = 'الخدمة متوقفة مؤقتًا، وطلبك ماتبعتش. جرّب تاني بعد شوية';
+
+function createResilientOrderRepo(live: OrderRepo): OrderRepo {
+  return {
+    createOrder: (input) =>
+      resilience.write(
+        () => live.createOrder(input),
+        (cause) => new ServiceUnavailableError(ORDER_UNAVAILABLE_MESSAGE, { cause })
+      ),
+  };
+}
+
+export const orderRepo: OrderRepo = isSupabaseConfigured
+  ? createResilientOrderRepo(createSupabaseOrderRepo(getSupabase))
+  : createMockOrderRepo();
+
+export const createOrder = (input: NewOrder) => orderRepo.createOrder(input);
+export type { NewOrder };
+
 // ─── Status
 export { isSupabaseConfigured };
 export { useBackendStatus, type BackendMode } from './status';
-export { RepoError, ServiceUnavailableError, UNAVAILABLE_MESSAGE } from './errors';
+export { RepoError, ServiceUnavailableError, UNAVAILABLE_MESSAGE };
 
 /** "جرّب تاني": close the breaker so the next call goes to Supabase again. */
 export function retryBackend(): void {
