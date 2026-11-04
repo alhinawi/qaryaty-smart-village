@@ -1,5 +1,6 @@
 // ─── Imports
 import React, { useEffect, useId, useRef } from 'react';
+import { useBackButtonClose } from '@/hooks/useBackButtonClose';
 
 // ─── Types
 interface ModalProps {
@@ -24,6 +25,9 @@ export function Modal({
   const modalRef = useRef<HTMLDivElement>(null);
   // Unique per modal so stacked dialogs don't share one id
   const titleId = useId();
+
+  // Android/browser back closes the modal instead of leaving the page
+  useBackButtonClose(isOpen, onClose);
 
   // Move focus into the dialog on open and give it back on close
   useEffect(() => {
