@@ -2,11 +2,14 @@
 import React from "react";
 import type { OrderModalData, Shop } from "@/types";
 import { useUIStore } from "@/stores/useUIStore";
+import { productsForShop } from "@/data/catalog";
 
 // ─── Types
 interface ShopCardProps {
   shop: Shop;
   onSelectShop: (modalData: OrderModalData) => void;
+  /** Opens the shop's product list; shops without one take a free-text order. */
+  onOpenMenu?: (shop: Shop) => void;
 }
 
 const CATEGORY_BACKGROUNDS: Record<string, string> = {
@@ -20,6 +23,7 @@ const CATEGORY_BACKGROUNDS: Record<string, string> = {
 export const ShopCard = React.memo(function ShopCard({
   shop,
   onSelectShop,
+  onOpenMenu,
 }: ShopCardProps) {
   const showToast = useUIStore((state) => state.showToast);
   const bg = shop.bgColor || CATEGORY_BACKGROUNDS.default;
@@ -29,7 +33,11 @@ export const ShopCard = React.memo(function ShopCard({
       showToast(`⚠️ ${shop.name} مغلق حالياً، بيفتح ${shop.time}`);
       return;
     }
-    // Set a generic shop item for the modal
+    if (onOpenMenu && productsForShop(shop)) {
+      onOpenMenu(shop);
+      return;
+    }
+    // No product list (a salon, a workshop): write what you need
     onSelectShop({
       name: `طلب من ${shop.name}`,
       desc: `اكتب اللي محتاجه من ${shop.name} والمندوب هيجيبهولك`,

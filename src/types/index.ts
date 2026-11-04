@@ -15,7 +15,22 @@ export type BadgeType = 'popular' | 'new' | '';
 
 export type OrderStatus = 'pending' | 'confirmed' | 'onway' | 'done';
 
-export type PaymentMethod = 'cash' | 'vodafone' | 'instapay';
+/**
+ * cash: on delivery. card / wallet: online through Paymob (Visa, Meeza;
+ * Vodafone Cash and other wallets). vodafone / instapay: manual transfers,
+ * kept for old orders only.
+ */
+export type PaymentMethod = 'cash' | 'card' | 'wallet' | 'vodafone' | 'instapay';
+
+/** Only the Paymob webhook moves this past 'pending', after it checks the HMAC. */
+export type PaymentStatus = 'unpaid' | 'pending' | 'paid' | 'failed';
+
+/** One cart line as the server needs it: it looks up the name and price itself. */
+export interface OrderItem {
+  productId: string;
+  quantity: number;
+  grill?: boolean;
+}
 
 /**
  * How a service is priced:
@@ -32,6 +47,27 @@ export interface ServiceOption {
   id: string;
   label: string;
   choices: string[];
+  /** Asked only when another option has this answer (fish type only for "buy and grill"). */
+  showWhen?: { optionId: string; choice: string };
+  /** Added to the price per unit when this choice is picked (the fish's price per kilo). */
+  choicePrices?: Record<string, number>;
+}
+
+/**
+ * How much of a service the customer orders, and in what unit. Services
+ * without one are ordered once, with no quantity box.
+ */
+export interface QuantityRule {
+  /** 'ساعة', 'كيلو', 'شهر'… */
+  unit: string;
+  min: number;
+  max: number;
+  step: number;
+  /** The unit (and price per unit) follow a choice: private lesson per hour, group per month. */
+  byChoice?: {
+    optionId: string;
+    variants: Record<string, { unit: string; price?: number; priceLabel?: string }>;
+  };
 }
 
 /** One answer to a ServiceOption, saved on the order. */
@@ -118,8 +154,66 @@ export interface Service {
   subject?: TeacherSubject;
   /** Choices the customer must make when ordering. */
   options?: ServiceOption[];
+  /** Quantity box with its unit; missing means one of it. */
+  quantity?: QuantityRule;
   /** Hidden from customers (set from the admin panel). */
   hidden?: boolean;
+}
+
+/** What a shop does; shops with a product list open it instead of a free-text order. */
+export type ShopKind =
+  | 'grocery'
+  | 'bakery'
+  | 'veg'
+  | 'fruit'
+  | 'fish'
+  | 'pharmacy'
+  | 'butcher'
+  | 'poultry'
+  | 'sweets'
+  | 'attar'
+  | 'coffee'
+  | 'dairy'
+  | 'stationery'
+  | 'housewares'
+  | 'restaurant'
+  | 'other';
+
+export type FoodType =
+  | 'fool'
+  | 'hawawshi'
+  | 'kofta'
+  | 'koshary'
+  | 'pizza'
+  | 'seafood'
+  | 'shawarma'
+  | 'chicken'
+  | 'liver'
+  | 'feteer'
+  | 'grills'
+  | 'duck'
+  | 'sweets'
+  | 'juice'
+  | 'breakfast';
+
+/** Something a shop or restaurant sells, with its own price and unit. */
+export interface Product {
+  id: string;
+  name: string;
+  emoji: string;
+  /** Photo URL; the emoji shows when it's missing or fails to load. */
+  photo?: string;
+  price: number;
+  /** 'كيلو', 'قطعة', 'حزمة', 'طبق'… */
+  unit: string;
+  /** Kilos can be ordered in halves. */
+  step: number;
+  /** Section inside a menu ('سندوتشات', 'أطباق'). */
+  section?: string;
+  /** Fish: can also be grilled for an extra price per kilo. */
+  grillable?: boolean;
+  /** Medicine sold only with a prescription; the pharmacist checks it before delivery. */
+  rx?: boolean;
 }
 
 export interface Shop {
@@ -130,6 +224,9 @@ export interface Shop {
   open: boolean;
   time: string;
   bgColor: string;
+  kind?: ShopKind;
+  /** Restaurants: what they serve, for the food-type filter. */
+  foodTypes?: FoodType[];
 }
 
 export interface CategoryItem {
@@ -154,7 +251,19 @@ export interface CartItem {
   /** Optional so carts persisted before this field existed keep working (treated as 'fixed'). */
   priceType?: PriceType;
   emoji: string;
+  /** In `unit`s; whole numbers unless `step` is a half. */
   quantity: number;
+  /** Shows the quantity box ('كيلو', 'ساعة'…); missing means one of it. */
+  unit?: string;
+  step?: number;
+  photo?: string;
+  /** The service or shop this line is from; the cart holds one at a time. */
+  vendor?: { key: string; name: string };
+  shopId?: number;
+  /** The product's id in the shop's list; the server prices the order from it. */
+  productId?: string;
+  /** Fish bought and grilled. */
+  grill?: boolean;
 }
 
 export interface Order {
@@ -180,6 +289,10 @@ export interface Order {
   options?: SelectedOption[];
   serviceId?: number;
   providerId?: number;
+  /** A cart order from one shop or restaurant. */
+  shopId?: number;
+  items?: OrderItem[];
+  paymentStatus?: PaymentStatus;
 }
 
 export interface UserProfile {
@@ -247,6 +360,8 @@ export interface OrderModalData {
   priceType?: PriceType;
   /** Choices to make in the order form. */
   options?: ServiceOption[];
+  /** Quantity box and its unit. */
+  quantity?: QuantityRule;
   /** Service the order is for (stats in the admin panel). */
   serviceId?: number;
   /** Provider booked, when ordering a specific teacher/nurse/doctor. */
