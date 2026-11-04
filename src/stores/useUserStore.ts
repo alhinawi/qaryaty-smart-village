@@ -2,13 +2,14 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { AuthUser, UserProfile } from '@/types';
+import { DEFAULT_VILLAGE, knownVillage, villageLabel } from '@/data/villages';
 
 // ─── Guest Profile (nobody signed in)
 export const GUEST_PROFILE: UserProfile = {
   name: 'ضيف',
   phone: '',
   address: '',
-  village: 'قرية البركة - الجيزة',
+  village: villageLabel(DEFAULT_VILLAGE),
   rewardPoints: 0,
   memberSince: '',
 };
@@ -101,6 +102,15 @@ export const useUserStore = create<UserState>()(
     }),
     {
       name: 'qaryati_user_storage',
+      version: 1,
+      // v0 guests were in the made-up "قرية البركة - الجيزة": move anyone not in a known village home
+      migrate: (persisted, version) => {
+        const state = persisted as Partial<UserState>;
+        if (version < 1 && state?.profile && !knownVillage(state.profile.village)) {
+          state.profile = { ...state.profile, village: villageLabel(DEFAULT_VILLAGE) };
+        }
+        return state as UserState;
+      },
     }
   )
 );
