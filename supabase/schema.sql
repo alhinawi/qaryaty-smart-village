@@ -6,7 +6,7 @@
 --   • Every table has Row Level Security on.
 --   • Catalog (services, shops, providers): anyone reads; only admins write.
 --   • profiles: you read your own row and may change only name, village and
---     address. role, blocked, phone, email and anything added later (a balance, points)
+--     address. role, blocked, phone, email, username and anything added later (a balance, points)
 --     can't be changed from the app: column privileges are a whitelist.
 --     Admins change role/blocked only through admin_set_role / admin_set_blocked.
 --   • orders: anyone may place one (guests too), only as themselves; the status
@@ -17,7 +17,9 @@
 --     or an Edge Function with the secret key.
 --
 -- Auth: customers sign up with their real email + password; the phone is a
--- contact field. Keep "Confirm email" ON (Authentication → Sign In / Providers)
+-- contact field. Every new account also picks a unique username (a-z 0-9 _,
+-- 3–20, stored lowercase); it is fixed after sign-up. Anyone may ask
+-- username_available() before signing up; it answers yes/no and nothing else. Keep "Confirm email" ON (Authentication → Sign In / Providers)
 -- with custom SMTP so the activation email comes from the site's own address.
 -- First admin: after you register and activate in the app, run in the SQL Editor
 --   update public.profiles set role = 'admin' where email = 'you@example.com';
@@ -87,6 +89,7 @@ alter table public.providers add column if not exists village text not null defa
 create table if not exists public.profiles (
   id         uuid primary key references auth.users (id) on delete cascade,
   name       text not null,
+  username   text,
   email      text,
   phone      text not null,
   village    text not null default '',
@@ -101,24 +104,53 @@ alter table public.profiles add column if not exists email text;
 alter table public.profiles drop constraint if exists profiles_phone_key;
 create index if not exists profiles_phone_idx on public.profiles (phone);
 
+-- Usernames: projects created before them get the column; old rows stay null
+alter table public.profiles add column if not exists username text;
+alter table public.profiles drop constraint if exists profiles_username_format;
+alter table public.profiles add constraint profiles_username_format
+  check (username is null or (username ~ '^[a-z0-9_]{3,20}$' and username ~ '[a-z]'));
+create unique index if not exists profiles_username_key on public.profiles (username);
+
 alter table public.profiles drop constraint if exists profiles_text_lengths;
 alter table public.profiles add constraint profiles_text_lengths
   check (length(name) <= 80 and length(village) <= 120 and length(address) <= 300);
+
+-- Names nobody may take (mirrors RESERVED_USERNAMES in src/utils/validators.ts)
+create or replace function public.reserved_usernames() returns text[]
+language sql immutable set search_path = public as $$
+  select array['admin','administrator','root','system','support','help','qaryati','qaryaty']
+$$;
+
+-- Is this username free? Callable before signing in; reveals only yes/no.
+create or replace function public.username_available(wanted text) returns boolean
+language sql stable security definer set search_path = public as $$
+  select lower(btrim(coalesce(wanted, ''))) ~ '^[a-z0-9_]{3,20}$'
+     and lower(btrim(coalesce(wanted, ''))) ~ '[a-z]'
+     and not (lower(btrim(coalesce(wanted, ''))) = any (public.reserved_usernames()))
+     and not exists (select 1 from public.profiles where username = lower(btrim(coalesce(wanted, ''))))
+$$;
 
 -- New account → profile. The email is the one Supabase verified, the phone must
 -- be an Egyptian mobile number, and the role is always 'customer'.
 create or replace function public.handle_new_user() returns trigger
 language plpgsql security definer set search_path = public as $$
 declare
-  v_phone text := btrim(coalesce(new.raw_user_meta_data ->> 'phone', ''));
+  v_phone    text := btrim(coalesce(new.raw_user_meta_data ->> 'phone', ''));
+  v_username text := lower(btrim(coalesce(new.raw_user_meta_data ->> 'username', '')));
 begin
   if v_phone !~ '^01[0125][0-9]{8}$' then
     raise exception 'a valid phone number is required' using errcode = '22023';
   end if;
-  insert into public.profiles (id, name, email, phone, village, address)
+  if v_username !~ '^[a-z0-9_]{3,20}$' or v_username !~ '[a-z]'
+     or v_username = any (public.reserved_usernames()) then
+    raise exception 'a valid username is required' using errcode = '22023';
+  end if;
+  -- A taken username fails on profiles_username_key (unique_violation) and the sign-up is refused
+  insert into public.profiles (id, name, username, email, phone, village, address)
   values (
     new.id,
     left(btrim(coalesce(new.raw_user_meta_data ->> 'name', '')), 80),
+    v_username,
     lower(new.email),
     v_phone,
     left(btrim(coalesce(new.raw_user_meta_data ->> 'village', '')), 120),
@@ -257,6 +289,10 @@ revoke all on function public.admin_set_role(uuid, text) from public, anon;
 revoke all on function public.admin_set_blocked(uuid, boolean) from public, anon;
 grant execute on function public.admin_set_role(uuid, text) to authenticated;
 grant execute on function public.admin_set_blocked(uuid, boolean) to authenticated;
+revoke all on function public.username_available(text) from public;
+grant execute on function public.username_available(text) to anon, authenticated;
+revoke all on function public.reserved_usernames() from public, anon, authenticated;
+
 -- Used inside the policies, so every role needs them; they only answer about the caller
 grant execute on function public.is_admin(), public.is_blocked() to anon, authenticated;
 

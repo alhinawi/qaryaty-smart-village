@@ -80,6 +80,11 @@ export default function ProfilePage() {
         <div className="w-16 h-16 bg-gold rounded-2xl flex items-center justify-center text-[32px]">👤</div>
         <div>
           <h2 className="text-[1.375rem] font-black font-['Tajawal',sans-serif]">{profile.name}</h2>
+          {user?.username && (
+            <p className="text-[13px] opacity-90" dir="ltr">
+              @{user.username}
+            </p>
+          )}
           <p className="text-[13px] opacity-90">📍 {profile.village}</p>
           {user && profile.memberSince && (
             <span className="text-[11px] opacity-70">عضو منذ {profile.memberSince}</span>
@@ -245,6 +250,14 @@ export default function ProfilePage() {
           </form>
         ) : (
           <div>
+            {user?.username && (
+              <div className="flex gap-2 py-2 border-b border-gray-50 text-sm last:border-b-0">
+                <span className="text-text-muted font-bold min-w-[100px]">👤 اسم المستخدم:</span>
+                <span className="font-bold" dir="ltr">
+                  @{user.username}
+                </span>
+              </div>
+            )}
             <div className="flex gap-2 py-2 border-b border-gray-50 text-sm last:border-b-0">
               <span className="text-text-muted font-bold min-w-[100px]">📱 رقم الموبايل:</span>
               <span className="font-bold">{profile.phone || '—'}</span>
