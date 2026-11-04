@@ -26,7 +26,9 @@ export function orderToRow(id: string, input: NewOrder, userId: string | null) {
     payment_method: input.paymentMethod,
     discount_code: input.discountCode ?? null,
     discount_amount: input.discountAmount,
+    // The database sets the commission itself and adds it to the price (orders_before_insert)
     total_amount: input.totalAmount,
+    commission_amount: input.commissionAmount ?? 0,
     is_estimate: input.isEstimate ?? false,
     status: input.status,
     options: input.options ?? null,
