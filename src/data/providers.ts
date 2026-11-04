@@ -5,6 +5,7 @@
 // so they don't change between loads. Replace with real, consented providers and photos.
 import type { Provider } from '@/types';
 import { providerPhoto } from '@/utils/avatars';
+import { WORKERS } from './workers';
 
 export const PROVIDERS: Provider[] = [
   {
@@ -1358,4 +1359,5 @@ export const PROVIDERS: Provider[] = [
     modes: ['home'],
     active: true,
   },
+  ...WORKERS,
 ];
