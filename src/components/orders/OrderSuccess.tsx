@@ -1,6 +1,7 @@
 // ─── Imports
 import { useEffect } from 'react';
 import { Button } from '@/components/ui/Button';
+import { useBackButtonClose } from '@/hooks/useBackButtonClose';
 
 // ─── Types
 interface OrderSuccessProps {
@@ -17,6 +18,9 @@ export function OrderSuccess({
   onClose,
   onViewOrders,
 }: OrderSuccessProps) {
+  // Android/browser back closes this screen instead of leaving the page
+  useBackButtonClose(isOpen, onClose);
+
   useEffect(() => {
     if (!isOpen) return;
 
