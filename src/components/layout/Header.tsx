@@ -1,6 +1,7 @@
 // ─── Imports
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import { Menu } from "lucide-react";
 
 import { useUIStore } from "@/stores/useUIStore";
 import { useGoToTab, useActiveTab } from '@/hooks/useTabNavigation';
@@ -11,6 +12,7 @@ import { useAuthStore, selectUser } from "@/stores/useAuthStore";
 import { useUserStore } from "@/stores/useUserStore";
 import { DEFAULT_VILLAGE, knownVillage, villageLabel } from "@/data/villages";
 import { ROUTES } from "@/routes";
+import { MobileMenu } from "./MobileMenu";
 
 import type { ActiveTab } from "@/types";
 
@@ -53,6 +55,13 @@ export function Header() {
   const setIsCartOpen = useUIStore((state) => state.setIsCartOpen);
 
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const closeMenu = useCallback(() => setIsMenuOpen(false), [setIsMenuOpen]);
+  // Pages reached from the menu light up the ☰ button
+  const isMenuPage = [ROUTES.messages, ROUTES.about, ROUTES.groups, ROUTES.admin].some(
+    (path) => pathname === path,
+  );
 
   const searchContainerRef = useRef<HTMLDivElement>(null);
 
@@ -155,38 +164,6 @@ export function Header() {
 
           {/* Action Buttons */}
           <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-            {/* About: the footer (with its link) is desktop-only, so phones and
-                tablets get the About page from the header, signed in or not. */}
-            <Link
-              to={ROUTES.about}
-              className={`lg:hidden w-[40px] h-[40px] rounded-xl flex items-center justify-center text-[18px] text-white transition-all duration-200 hover:bg-white/25 hover:scale-105 ${
-                pathname === ROUTES.about ? "bg-white/30" : "bg-white/15"
-              }`}
-              aria-label="عن قريتي"
-              title="عن قريتي"
-              aria-current={pathname === ROUTES.about ? "page" : undefined}
-            >
-              <span role="img" aria-hidden="true">
-                ℹ️
-              </span>
-            </Link>
-
-            {/* Messages: the desktop nav (lg+) has it, but the bottom nav has no room,
-                so mobile gets it here (review item 7). */}
-            <button
-              type="button"
-              className={`lg:hidden w-[40px] h-[40px] rounded-xl border-none cursor-pointer flex items-center justify-center text-[18px] text-white transition-all duration-200 relative font-['Cairo',sans-serif] hover:bg-white/25 hover:scale-105 ${
-                activeTab === "messages" ? "bg-white/30" : "bg-white/15"
-              }`}
-              onClick={() => setActiveTab("messages")}
-              aria-label="الرسائل"
-              aria-current={activeTab === "messages" ? "page" : undefined}
-            >
-              <span role="img" aria-hidden="true">
-                💬
-              </span>
-            </button>
-
             <button
               type="button"
               className="w-[40px] h-[40px] rounded-xl bg-white/15 border-none cursor-pointer flex items-center justify-center text-[18px] text-white transition-all duration-200 relative font-['Cairo',sans-serif] hover:bg-white/25 hover:scale-105"
@@ -236,13 +213,31 @@ export function Header() {
             ) : (
               <Link
                 to={ROUTES.login}
-                className="h-[40px] px-2.5 sm:px-3 rounded-xl bg-gold text-black flex items-center justify-center text-[13px] font-extrabold font-['Cairo',sans-serif] whitespace-nowrap transition-all duration-200 hover:scale-105"
+                className="hidden lg:flex h-[40px] px-2.5 sm:px-3 rounded-xl bg-gold text-black items-center justify-center text-[13px] font-extrabold font-['Cairo',sans-serif] whitespace-nowrap transition-all duration-200 hover:scale-105"
               >
                 دخول
               </Link>
             )}
+
+            {/* Menu (phones and tablets): messages, About, groups and the account
+                live here so the header keeps only notifications and the cart */}
+            <button
+              type="button"
+              className={`lg:hidden w-[44px] h-[44px] rounded-xl border-none cursor-pointer flex items-center justify-center text-white transition-colors duration-200 hover:bg-white/25 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-light ${
+                isMenuOpen || isMenuPage ? "bg-white/30" : "bg-white/15"
+              }`}
+              onClick={() => setIsMenuOpen(true)}
+              aria-label="القايمة"
+              aria-haspopup="dialog"
+              aria-expanded={isMenuOpen}
+              aria-controls={isMenuOpen ? "mobile-menu" : undefined}
+            >
+              <Menu size={24} strokeWidth={2.25} aria-hidden="true" />
+            </button>
           </div>
         </div>
+
+        <MobileMenu isOpen={isMenuOpen} onClose={closeMenu} />
 
         {/* Search Bar */}
         <div className="mt-2.5 relative" ref={searchContainerRef}>
