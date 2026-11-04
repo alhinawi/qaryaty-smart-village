@@ -11,4 +11,5 @@ export const CATEGORIES: CategoryItem[] = [
   { id: 'health', label: 'صحة', emoji: '🩺' },
   { id: 'care', label: 'رعاية أطفال', emoji: '🍼' },
   { id: 'home', label: 'خدمات البيت', emoji: '🧹' },
+  { id: 'finishing', label: 'عمال التشطيب', emoji: '🧱' },
 ];

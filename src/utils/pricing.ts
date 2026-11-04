@@ -1,6 +1,7 @@
 // ─── Imports
 import type {
   CartItem,
+  ChoicePrice,
   Order,
   OrderModalData,
   PriceType,
@@ -11,6 +12,7 @@ import type {
   ServiceOption,
 } from '@/types';
 import { STAGE_LABELS } from '@/data/teachers';
+import { teacherLessonOptions } from './teacherGroups';
 
 // ─── Promo code
 // NOTE: this check runs on the device only, so it is a UX guard, not real
@@ -73,6 +75,14 @@ export interface OrderPricing {
   /** null when the price is set after confirmation. */
   finalPrice: number | null;
   isEstimate: boolean;
+  /** Price of one unit after the choices (null: set after confirmation). */
+  unitPrice: number | null;
+  /** How many units are ordered (1 when there is no quantity box). */
+  amount: number;
+  /** Added once on top (delivering a gas cylinder). */
+  deliveryFee: number;
+  /** What the picked choice says about the price, e.g. "معاينة 100 ج" or "360 ج/الشهر". */
+  priceLabel?: string;
 }
 
 export function resolvePriceType(data: {
@@ -103,6 +113,19 @@ export function resolveQuantity(
   return variant ?? { unit: rule.unit };
 }
 
+/** The last picked choice that sets the price itself (معاينة الأول, a group's monthly fee). */
+export function choicePriceOverride(
+  options: ServiceOption[] | undefined,
+  selections: Record<string, string>
+): ChoicePrice | undefined {
+  let found: ChoicePrice | undefined;
+  for (const option of visibleOptions(options, selections)) {
+    const priced = option.prices?.[selections[option.id] ?? ''];
+    if (priced) found = priced;
+  }
+  return found;
+}
+
 /**
  * Price of one unit for the current answers: the unit's own price (group month)
  * or the service price, plus what the picked choices add (the fish per kilo).
@@ -111,7 +134,8 @@ export function unitPrice(
   data: Pick<OrderModalData, 'numericPrice' | 'options' | 'quantity'>,
   selections: Record<string, string>
 ): number | null | undefined {
-  const base = resolveQuantity(data.quantity, selections)?.price ?? data.numericPrice;
+  const override = choicePriceOverride(data.options, selections);
+  const base = override ? override.price : (resolveQuantity(data.quantity, selections)?.price ?? data.numericPrice);
   if (base == null) return base;
   const extra = visibleOptions(data.options, selections).reduce(
     (sum, option) => sum + (option.choicePrices?.[selections[option.id] ?? ''] ?? 0),
@@ -122,7 +146,7 @@ export function unitPrice(
 
 export function getOrderPricing(
   data: Pick<OrderModalData, 'numericPrice' | 'priceType'> &
-    Partial<Pick<OrderModalData, 'options' | 'quantity'>>,
+    Partial<Pick<OrderModalData, 'options' | 'quantity' | 'deliveryFee'>>,
   discountApplied: boolean,
   order: { selections?: Record<string, string>; quantity?: number } = {}
 ): OrderPricing {
@@ -130,7 +154,12 @@ export function getOrderPricing(
   const perUnit = unitPrice(data, selections);
   const amount = data.quantity ? (order.quantity ?? data.quantity.min) : 1;
   const priced = perUnit == null ? perUnit : Math.round(perUnit * amount * 100) / 100;
-  const priceType = resolvePriceType({ numericPrice: priced, priceType: data.priceType });
+  const override = choicePriceOverride(data.options, selections);
+  const declared = override ? (override.priceType ?? (override.price == null ? 'quote' : data.priceType)) : data.priceType;
+  const priceType = resolvePriceType({ numericPrice: priced, priceType: declared });
+  const deliveryFee = data.deliveryFee ?? 0;
+  const priceLabel = override?.label ?? resolveQuantity(data.quantity, selections)?.priceLabel;
+  const extra = { amount, deliveryFee, priceLabel };
 
   if (priceType === 'quote') {
     return {
@@ -140,10 +169,12 @@ export function getOrderPricing(
       discountAmount: 0,
       finalPrice: null,
       isEstimate: false,
+      unitPrice: null,
+      ...extra,
     };
   }
 
-  const basePrice = priced as number;
+  const basePrice = (priced as number) + deliveryFee;
   const discountableAmount = priceType === 'fixed' ? basePrice : 0;
   const discountAmount = discountApplied ? discountableAmount : 0;
 
@@ -154,6 +185,8 @@ export function getOrderPricing(
     discountAmount,
     finalPrice: Math.max(0, basePrice - discountAmount),
     isEstimate: priceType === 'from',
+    unitPrice: perUnit ?? null,
+    ...extra,
   };
 }
 
@@ -222,7 +255,13 @@ export function serviceToOrderModalData(service: Service): OrderModalData {
 }
 
 /** Booking a specific teacher/nurse/doctor: the provider's price, the service's choices. */
-export function providerToOrderModalData(provider: Provider, service?: Service): OrderModalData {
+export function providerToOrderModalData(
+  provider: Provider,
+  service?: Service,
+  preselected?: Record<string, string>
+): OrderModalData {
+  const base = service?.options ? providerOptions(provider, service.options) : [];
+  const options = withInspectionFee(provider, teacherLessonOptions(provider, base));
   return {
     emoji: service?.emoji ?? '👤',
     name: service ? `${service.name} مع ${provider.name}` : provider.name,
@@ -230,11 +269,32 @@ export function providerToOrderModalData(provider: Provider, service?: Service):
     price: provider.price,
     numericPrice: provider.numericPrice,
     priceType: provider.priceType,
-    options: service?.options && providerOptions(provider, service.options),
+    options: options.length ? options : undefined,
     quantity: service?.quantity,
     serviceId: provider.serviceId,
     providerId: provider.id,
+    deliveryFee: provider.deliveryFee,
+    preselected,
   };
+}
+
+export const VISIT_INSPECTION = 'معاينة الأول';
+
+/** A worker's own inspection fee replaces the service's usual one. */
+function withInspectionFee(provider: Provider, options: ServiceOption[]): ServiceOption[] {
+  const fee = provider.inspectionFee;
+  if (fee === undefined) return options;
+  return options.map((option) =>
+    option.prices?.[VISIT_INSPECTION]
+      ? {
+          ...option,
+          prices: {
+            ...option.prices,
+            [VISIT_INSPECTION]: { price: fee, priceType: 'fixed' as const, label: fee === 0 ? 'معاينة مجانية' : `معاينة ${fee} ج` },
+          },
+        }
+      : option
+  );
 }
 
 const MODE_CHOICES: Record<ProviderMode, string[]> = {

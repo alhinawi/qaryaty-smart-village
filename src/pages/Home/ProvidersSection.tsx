@@ -16,7 +16,7 @@ import {
   SpellCheck,
   GraduationCap,
 } from 'lucide-react';
-import type { Provider, ProviderKind, SchoolStage, Service, TeacherSubject } from '@/types';
+import type { Provider, ProviderKind, SchoolStage, Service, TeacherSubject, TeacherGroup } from '@/types';
 import { STAGES, SUBJECTS, SUBJECT_STAGES } from '@/data/teachers';
 import { ProviderCard } from '@/components/shared/ProviderCard';
 import { KIND_FILTER_LABELS, type PeopleSection } from '@/utils/peopleSections';
@@ -40,7 +40,7 @@ const SUBJECT_ICONS: Record<TeacherSubject, LucideIcon> = {
 interface ProvidersSectionProps {
   section: PeopleSection;
   providers: Provider[];
-  onBook: (provider: Provider) => void;
+  onBook: (provider: Provider, group?: TeacherGroup) => void;
   /** Show the filters (subject and stage for teachers, kind for doctors/nurses). */
   showFilters?: boolean;
   subject?: TeacherSubject | 'all';

@@ -27,7 +27,7 @@
 -- ─── Catalog (anyone can read) ─────────────────────────────────────────────────
 create table if not exists public.services (
   id            bigint primary key,
-  cat           text not null check (cat in ('food','delivery','craft','edu','health','care','home')),
+  cat           text not null check (cat in ('food','delivery','craft','edu','health','care','home','finishing')),
   emoji         text not null,
   name          text not null,
   description   text not null default '',
@@ -84,6 +84,16 @@ alter table public.providers add constraint providers_kind_check
   check (kind in ('teacher','nurse','doctor','babysitter','cleaner','worker'));
 -- Projects created before villages were added
 alter table public.providers add column if not exists village text not null default '';
+-- Finishing trades (نقاش، مبلط…), gas delivery, search words and teachers' group classes
+alter table public.services drop constraint if exists services_cat_check;
+alter table public.services add constraint services_cat_check
+  check (cat in ('food','delivery','craft','edu','health','care','home','finishing'));
+alter table public.services add column if not exists keywords text[];
+alter table public.services add column if not exists quantity jsonb;
+alter table public.providers add column if not exists group_price numeric;
+alter table public.providers add column if not exists inspection_fee numeric;
+alter table public.providers add column if not exists delivery_fee numeric;
+alter table public.providers add column if not exists groups jsonb;
 
 -- ─── Profiles (one per auth user, filled by a trigger) ───────────────────────────────
 create table if not exists public.profiles (
