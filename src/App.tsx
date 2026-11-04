@@ -13,6 +13,7 @@ import { readPaymentReturn } from '@/services/payments';
 import { Header } from '@/components/layout/Header';
 import { ServiceStatusBanner } from '@/components/layout/ServiceStatusBanner';
 import { BottomNav } from '@/components/layout/BottomNav';
+import { Footer } from '@/components/layout/Footer';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { SplashScreen } from '@/components/layout/SplashScreen';
 import { CartDrawer } from '@/components/layout/CartDrawer';
@@ -143,6 +144,9 @@ export default function App() {
             </Suspense>
           </PageWrapper>
         </main>
+
+        {/* Desktop-only footer with the developer's name */}
+        <Footer />
 
         {/* Mobile Bottom Navigation */}
         <BottomNav onOpenQuickOrder={handleOpenOrderModal} />
