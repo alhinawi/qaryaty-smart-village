@@ -23,6 +23,8 @@ import { createMockOrderRepo } from './orders/mockOrderRepo';
 import { createSupabaseOrderRepo } from './orders/supabaseOrderRepo';
 import type { NewOrder, OrderRepo } from './orders/types';
 import { RepoError, ServiceUnavailableError, UNAVAILABLE_MESSAGE } from './errors';
+import { createSupabaseAuthRepo } from './auth/supabaseAuthRepo';
+import { AuthError, mockAuthService, type AuthService } from '@/services/auth';
 
 const breaker = createCircuitBreaker({ failureThreshold: 3, cooldownMs: 30_000 });
 const resilience = createResilience({
@@ -30,7 +32,9 @@ const resilience = createResilience({
   status: backendStatus,
   timeoutMs: 8_000,
   // A refused request means the backend is up
-  isExpectedError: (error) => error instanceof RepoError && error.code === 'rejected',
+  isExpectedError: (error) =>
+    (error instanceof RepoError && error.code === 'rejected') ||
+    (error instanceof AuthError && error.code !== 'unavailable'),
 });
 
 if (isSupabaseConfigured) backendStatus.markLive();
@@ -73,6 +77,35 @@ export const orderRepo: OrderRepo = isSupabaseConfigured
 
 export const createOrder = (input: NewOrder) => orderRepo.createOrder(input);
 export type { NewOrder };
+
+// ─── Auth (login/register never fall back to the demo accounts)
+export const AUTH_UNAVAILABLE_MESSAGE = 'الخدمة متوقفة مؤقتًا، ومش هنقدر ندخّلك دلوقتي. جرّب تاني بعد شوية';
+
+function createResilientAuthRepo(live: AuthService): AuthService {
+  const guard =
+    <A extends unknown[], R>(fn: (...args: A) => Promise<R>) =>
+    (...args: A) =>
+      resilience.write(
+        () => fn(...args),
+        () => new AuthError('unavailable', AUTH_UNAVAILABLE_MESSAGE)
+      );
+  return {
+    register: guard(live.register),
+    login: guard(live.login),
+    logout: guard(live.logout),
+    getUser: guard(live.getUser),
+    updateProfile: guard(live.updateProfile),
+    listUsers: guard(live.listUsers),
+    setBlocked: guard(live.setBlocked),
+    setRole: guard(live.setRole),
+  };
+}
+
+export const authRepo: AuthService = isSupabaseConfigured
+  ? createResilientAuthRepo(createSupabaseAuthRepo(getSupabase))
+  : mockAuthService;
+
+export { AuthError, type AuthService };
 
 // ─── Status
 export { isSupabaseConfigured };
