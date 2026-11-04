@@ -18,7 +18,8 @@ export default function LoginPage() {
   const target = useRedirectTarget();
   const location = useLocation();
 
-  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const activated = new URLSearchParams(location.search).has('activated');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState('');
@@ -29,7 +30,7 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError('');
-    const parsed = loginSchema.safeParse({ phone, password });
+    const parsed = loginSchema.safeParse({ email, password });
     if (!parsed.success) {
       setErrors(fieldErrorsFrom(parsed.error.issues));
       return;
@@ -49,7 +50,7 @@ export default function LoginPage() {
   return (
     <AuthLayout
       title="تسجيل الدخول"
-      subtitle="ادخل برقم موبايلك عشان تتابع طلباتك ونقطك"
+      subtitle={activated ? '✅ حسابك اتفعّل، سجّل دخول بالإيميل وكلمة السر' : 'ادخل بالإيميل عشان تتابع طلباتك ونقطك'}
       footer={
         <>
           ماعندكش حساب؟{' '}
@@ -61,15 +62,16 @@ export default function LoginPage() {
     >
       <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-3" aria-label="تسجيل الدخول">
         <AuthField
-          id="loginPhone"
-          label="رقم الموبايل"
-          type="tel"
-          inputMode="tel"
-          autoComplete="tel"
-          placeholder="01012345678"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          error={errors.phone}
+          id="loginEmail"
+          label="الإيميل"
+          type="email"
+          inputMode="email"
+          autoComplete="email"
+          dir="ltr"
+          placeholder="name@gmail.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          error={errors.email}
         />
         <PasswordField
           id="loginPassword"

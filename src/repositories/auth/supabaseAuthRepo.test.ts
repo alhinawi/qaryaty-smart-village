@@ -1,11 +1,12 @@
 import { describe, expect, it, vi } from 'vitest';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { AuthError } from '@/services/auth';
-import { createSupabaseAuthRepo, mapAuthError, phoneToEmail, type ProfileRow } from './supabaseAuthRepo';
+import { createSupabaseAuthRepo, mapAuthError, type ProfileRow } from './supabaseAuthRepo';
 
 const profile: ProfileRow = {
   id: 'u1',
   name: 'أحمد',
+  email: 'ahmed@example.com',
   phone: '01012345678',
   village: 'البركة',
   address: 'شارع الجامع',
@@ -34,13 +35,40 @@ function fakeClient(opts: { signInError?: object; profile?: ProfileRow | null })
 }
 
 describe('supabase auth repo', () => {
-  it('turns the phone into the internal sign-in address', () => {
-    expect(phoneToEmail('+20 101 234 5678')).toBe('01012345678@phone.qaryati.app');
+  it('signs up with the real email and waits for the activation link', async () => {
+    const signUp = vi.fn(async (_args: object) => ({ data: { user: { id: 'u9', identities: [{}] }, session: null }, error: null }));
+    const client = { auth: { signUp } } as unknown as SupabaseClient;
+    const result = await createSupabaseAuthRepo(async () => client).register({
+      name: ' أحمد ',
+      email: ' Ahmed@Example.com ',
+      phone: '+20 101 234 5678',
+      village: 'البركة',
+      address: 'شارع الجامع',
+      password: 'qarya2026',
+    });
+    expect(result).toEqual({ status: 'confirm_email', email: 'ahmed@example.com' });
+    expect(signUp).toHaveBeenCalledWith(
+      expect.objectContaining({
+        email: 'ahmed@example.com',
+        options: expect.objectContaining({ data: expect.objectContaining({ phone: '01012345678', name: 'أحمد' }) }),
+      })
+    );
+  });
+
+  it('an email that already has an account is email_taken', async () => {
+    const client = {
+      auth: { signUp: async () => ({ data: { user: { id: 'u9', identities: [] }, session: null }, error: null }) },
+    } as unknown as SupabaseClient;
+    const error = await createSupabaseAuthRepo(async () => client)
+      .register({ name: 'أحمد', email: 'a@b.co', phone: '01012345678', village: 'ب', address: 'شارع الجامع', password: 'qarya2026' })
+      .catch((e: unknown) => e);
+    expect((error as AuthError).code).toBe('email_taken');
   });
 
   it('maps real answers to AuthError and leaves outages alone', () => {
     expect((mapAuthError({ status: 400, code: 'invalid_credentials' }) as AuthError).code).toBe('invalid_credentials');
-    expect((mapAuthError({ status: 422, code: 'user_already_exists' }) as AuthError).code).toBe('phone_taken');
+    expect((mapAuthError({ status: 422, code: 'user_already_exists' }) as AuthError).code).toBe('email_taken');
+    expect((mapAuthError({ status: 400, code: 'email_not_confirmed' }) as AuthError).code).toBe('email_not_confirmed');
     expect((mapAuthError({ status: 429, code: 'over_request_rate_limit' }) as AuthError).code).toBe('rejected');
     const outage = { status: 503, message: 'project paused' };
     expect(mapAuthError(outage)).toBe(outage);
@@ -49,14 +77,14 @@ describe('supabase auth repo', () => {
 
   it('logs in and returns the profile', async () => {
     const { client } = fakeClient({ profile });
-    const session = await createSupabaseAuthRepo(async () => client).login({ phone: '01012345678', password: 'x' });
+    const session = await createSupabaseAuthRepo(async () => client).login({ email: 'ahmed@example.com', password: 'x' });
     expect(session).toEqual({ token: 'tok', user: expect.objectContaining({ id: 'u1', name: 'أحمد' }) });
   });
 
   it('refuses a blocked account and signs it out', async () => {
     const { client, signOut } = fakeClient({ profile: { ...profile, blocked: true } });
     const error = await createSupabaseAuthRepo(async () => client)
-      .login({ phone: '01012345678', password: 'x' })
+      .login({ email: 'ahmed@example.com', password: 'x' })
       .catch((e: unknown) => e);
     expect((error as AuthError).code).toBe('blocked');
     expect(signOut).toHaveBeenCalled();
@@ -65,7 +93,7 @@ describe('supabase auth repo', () => {
   it('wrong password is a normal AuthError', async () => {
     const { client } = fakeClient({ signInError: { status: 400, code: 'invalid_credentials', message: 'Invalid' } });
     const error = await createSupabaseAuthRepo(async () => client)
-      .login({ phone: '01012345678', password: 'x' })
+      .login({ email: 'ahmed@example.com', password: 'x' })
       .catch((e: unknown) => e);
     expect((error as AuthError).code).toBe('invalid_credentials');
   });
