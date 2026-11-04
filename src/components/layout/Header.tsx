@@ -8,6 +8,8 @@ import { useGoToTab, useActiveTab } from '@/hooks/useTabNavigation';
 import { useCartStore } from "@/stores/useCartStore";
 import { Link } from "react-router";
 import { useAuthStore, selectUser } from "@/stores/useAuthStore";
+import { useUserStore } from "@/stores/useUserStore";
+import { DEFAULT_VILLAGE, knownVillage, villageLabel } from "@/data/villages";
 import { ROUTES } from "@/routes";
 
 import type { ActiveTab } from "@/types";
@@ -20,6 +22,7 @@ export function Header() {
   const setActiveTab = useGoToTab();
 
   const user = useAuthStore(selectUser);
+  const profileVillage = useUserStore((s) => s.profile.village);
   const firstName = user?.name.split(" ")[0] ?? "";
 
   const searchQuery = useUIStore((state) => state.searchQuery);
@@ -122,7 +125,7 @@ export function Header() {
               </h1>
 
               <span className="text-xs text-white/80 block truncate">
-                📍 {user?.village || "قرية البركة - الجيزة"}
+                📍 {villageLabel(knownVillage(user?.village ?? profileVillage) ?? DEFAULT_VILLAGE)}
               </span>
             </div>
           </div>
