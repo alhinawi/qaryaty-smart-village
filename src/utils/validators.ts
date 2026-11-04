@@ -54,8 +54,15 @@ export const ratingSchema = z.object({
 });
 
 // ─── Auth Schemas
+export const emailSchema = z
+  .string()
+  .trim()
+  .toLowerCase()
+  .max(120, { message: 'الإيميل طويل أوي' })
+  .email({ message: 'اكتب إيميل صحيح، زي name@gmail.com' });
+
 export const loginSchema = z.object({
-  phone: egyptianPhoneSchema,
+  email: emailSchema,
   password: z.string().min(1, { message: 'اكتب كلمة السر' }),
 });
 
@@ -75,6 +82,7 @@ export const registerSchema = z
       .trim()
       .min(3, { message: 'اكتب اسمك (3 حروف على الأقل)' })
       .max(40, { message: 'الاسم طويل أوي' }),
+    email: emailSchema,
     phone: egyptianPhoneSchema,
     village: z.string().trim().min(2, { message: 'اكتب اسم قريتك' }).max(60),
     address: z
