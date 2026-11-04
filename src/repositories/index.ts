@@ -92,6 +92,7 @@ function createResilientAuthRepo(live: AuthService): AuthService {
   return {
     register: guard(live.register),
     login: guard(live.login),
+    isUsernameAvailable: guard(live.isUsernameAvailable),
     logout: guard(live.logout),
     getUser: guard(live.getUser),
     updateProfile: guard(live.updateProfile),

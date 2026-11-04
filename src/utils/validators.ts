@@ -61,6 +61,48 @@ export const emailSchema = z
   .max(120, { message: 'الإيميل طويل أوي' })
   .email({ message: 'اكتب إيميل صحيح، زي name@gmail.com' });
 
+/** Names nobody may take: they look like the site or its staff. Mirrored in supabase/schema.sql. */
+export const RESERVED_USERNAMES = [
+  'admin',
+  'administrator',
+  'root',
+  'system',
+  'support',
+  'help',
+  'qaryati',
+  'qaryaty',
+] as const;
+
+/**
+ * Public handle: 3–20 English letters, numbers or _, stored lowercase.
+ * A leading @ is dropped, so "@Ahmed_10" becomes "ahmed_10".
+ */
+export const usernameSchema = z
+  .string()
+  .trim()
+  .transform((value) => value.replace(/^@/, '').toLowerCase())
+  .pipe(
+    z
+      .string()
+      .min(1, { message: 'اختار اسم مستخدم' })
+      .min(3, { message: 'اسم المستخدم لازم يكون 3 حروف على الأقل' })
+      .max(20, { message: 'اسم المستخدم لازم يكون 20 حرف بالكتير' })
+      .regex(/^[a-z0-9_]+$/, {
+        message: 'اسم المستخدم بالحروف الإنجليزي والأرقام و _ بس، من غير مسافات',
+      })
+      .refine((value) => /[a-z]/.test(value), {
+        message: 'اسم المستخدم لازم يكون فيه حرف إنجليزي واحد على الأقل',
+      })
+      .refine((value) => !(RESERVED_USERNAMES as readonly string[]).includes(value), {
+        message: 'اسم المستخدم ده محجوز، اختار اسم تاني',
+      })
+  );
+
+/** Same rules as the form, for code that only needs the cleaned value. */
+export function normalizeUsername(value: string): string {
+  return value.trim().replace(/^@/, '').toLowerCase();
+}
+
 export const loginSchema = z.object({
   email: emailSchema,
   password: z.string().min(1, { message: 'اكتب كلمة السر' }),
@@ -82,6 +124,7 @@ export const registerSchema = z
       .trim()
       .min(3, { message: 'اكتب اسمك (3 حروف على الأقل)' })
       .max(40, { message: 'الاسم طويل أوي' }),
+    username: usernameSchema,
     email: emailSchema,
     phone: egyptianPhoneSchema,
     village: z.string().trim().min(2, { message: 'اكتب اسم قريتك' }).max(60),

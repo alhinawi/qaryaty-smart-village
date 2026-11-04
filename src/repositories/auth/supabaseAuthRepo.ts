@@ -8,12 +8,14 @@
 // table, filled by a database trigger on sign-up.
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { AuthUser, UserRole } from '@/types';
-import { normalizeEgyptianPhone } from '@/utils/validators';
-import { AuthError, type AuthService } from '@/services/auth';
+import { normalizeEgyptianPhone, normalizeUsername } from '@/utils/validators';
+import { AuthError, USERNAME_TAKEN_MESSAGE, type AuthService } from '@/services/auth';
 
 export interface ProfileRow {
   id: string;
   name: string;
+  /** Null for accounts made before usernames. */
+  username: string | null;
   email: string | null;
   phone: string;
   village: string;
@@ -30,6 +32,7 @@ export function userFromProfile(row: ProfileRow): AuthUser {
   return {
     id: row.id,
     name: row.name,
+    username: row.username ?? '',
     email: row.email ?? '',
     phone: row.phone,
     village: row.village,
@@ -111,12 +114,28 @@ export function createSupabaseAuthRepo(getClient: () => Promise<SupabaseClient>)
     return userFromProfile(row);
   }
 
+  /** Asks the database (username_available, callable without signing in). */
+  async function usernameAvailable(supabase: SupabaseClient, username: string): Promise<boolean> {
+    const { data, error } = await supabase.rpc('username_available', { wanted: normalizeUsername(username) });
+    if (error) throw mapDbError(error);
+    return data === true;
+  }
+
   return {
+    async isUsernameAvailable(username) {
+      return usernameAvailable(await getClient(), username);
+    },
+
     async register(input) {
       const supabase = await getClient();
       const email = input.email.trim().toLowerCase();
+      const username = normalizeUsername(input.username);
+      if (!(await usernameAvailable(supabase, username))) {
+        throw new AuthError('username_taken', USERNAME_TAKEN_MESSAGE);
+      }
       const meta = {
         name: input.name.trim(),
+        username,
         phone: normalizeEgyptianPhone(input.phone),
         village: input.village.trim(),
         address: input.address.trim(),
@@ -126,7 +145,14 @@ export function createSupabaseAuthRepo(getClient: () => Promise<SupabaseClient>)
         password: input.password,
         options: { data: meta, emailRedirectTo: activationRedirect() },
       });
-      if (error) throw mapAuthError(error);
+      if (error) {
+        // Someone took the name between the check and the sign-up: the trigger's unique
+        // index refuses it and Supabase answers "Database error saving new user"
+        if (/database error/i.test(error.message ?? '') && !(await usernameAvailable(supabase, username).catch(() => true))) {
+          throw new AuthError('username_taken', USERNAME_TAKEN_MESSAGE);
+        }
+        throw mapAuthError(error);
+      }
       // With confirmation on, Supabase answers an existing email with a user that has no identities
       if (data.user && data.user.identities?.length === 0) throw new AuthError('email_taken', MESSAGES.taken);
       if (!data.session || !data.user) return { status: 'confirm_email', email };

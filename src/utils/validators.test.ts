@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { normalizeEgyptianPhone, orderFormSchema } from './validators';
+import { normalizeEgyptianPhone, normalizeUsername, orderFormSchema, usernameSchema } from './validators';
 
 const validOrder = {
   address: 'شارع الجامع الكبير',
@@ -48,5 +48,43 @@ describe('orderFormSchema phone', () => {
 
   it('needs an address of at least 5 characters', () => {
     expect(orderFormSchema.safeParse({ ...validOrder, address: 'بيت' }).success).toBe(false);
+  });
+});
+
+describe('usernameSchema', () => {
+  it.each([
+    ['ahmed', 'ahmed'],
+    ['Ahmed_10', 'ahmed_10'],
+    ['  @Hinawi ', 'hinawi'],
+    ['abc', 'abc'],
+    ['a'.repeat(20), 'a'.repeat(20)],
+    ['_mona_2026', '_mona_2026'],
+  ])('accepts %j as %j', (input, expected) => {
+    const r = usernameSchema.safeParse(input);
+    expect(r.success).toBe(true);
+    if (r.success) expect(r.data).toBe(expected);
+  });
+
+  it.each([
+    ['', 'اختار اسم مستخدم'],
+    ['ab', '3 حروف على الأقل'],
+    ['a'.repeat(21), '20 حرف بالكتير'],
+    ['أحمد', 'بالحروف الإنجليزي'],
+    ['ahmed ali', 'بالحروف الإنجليزي'],
+    ['ahmed.ali', 'بالحروف الإنجليزي'],
+    ['ahmed-ali', 'بالحروف الإنجليزي'],
+    ['ahmed١٢', 'بالحروف الإنجليزي'],
+    ['12345', 'حرف إنجليزي واحد'],
+    ['___', 'حرف إنجليزي واحد'],
+    ['Admin', 'محجوز'],
+    ['qaryati', 'محجوز'],
+  ])('rejects %j with an Arabic message', (input, message) => {
+    const r = usernameSchema.safeParse(input);
+    expect(r.success).toBe(false);
+    if (!r.success) expect(r.error.issues[0].message).toContain(message);
+  });
+
+  it('normalizeUsername matches what the schema stores', () => {
+    expect(normalizeUsername(' @Ahmed_10 ')).toBe('ahmed_10');
   });
 });
