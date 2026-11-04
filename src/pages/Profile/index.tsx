@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { Link, useNavigate } from 'react-router';
 import { useAuthStore, selectUser } from '@/stores/useAuthStore';
+import { AuthError } from '@/repositories';
 import { ROUTES } from '@/routes';
 import { useReach } from '@/hooks/useReach';
 import { VILLAGES, villageLabel } from '@/data/villages';
@@ -31,12 +32,22 @@ export default function ProfilePage() {
   const { village, setVillage } = useReach();
   const [villageDraft, setVillageDraft] = useState(village);
 
-  const handleSaveProfile = (e: React.FormEvent) => {
+  const [saving, setSaving] = useState(false);
+
+  const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     if (user) {
-      // Signed in: the phone is the account id, so only name/address change
+      // Signed in: saved to the account first; the phone can't change from here
+      setSaving(true);
+      try {
+        await updateAuthUser({ name, address });
+      } catch (error) {
+        showToast(error instanceof AuthError ? `⚠️ ${error.message}` : '⚠️ ماقدرناش نحفظ التعديل، جرّب تاني');
+        return;
+      } finally {
+        setSaving(false);
+      }
       updateProfile({ name, address });
-      void updateAuthUser({ name, address });
     } else {
       updateProfile({ name, phone, address });
     }
@@ -217,7 +228,7 @@ export default function ProfilePage() {
               />
               {user && (
                 <span id="profilePhoneHint" className="text-[11px] text-text-muted">
-                  رقم الموبايل هو اسم الدخول، ومش هيتغير من هنا
+                  رقم الموبايل مش بيتغير من هنا
                 </span>
               )}
             </div>
@@ -243,7 +254,7 @@ export default function ProfilePage() {
               />
             </div>
             <div className="flex gap-3 mt-2">
-              <Button type="submit" variant="primary" size="md">
+              <Button type="submit" variant="primary" size="md" loading={saving} disabled={saving}>
                 حفظ التغييرات ✓
               </Button>
               <button

@@ -2,6 +2,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Order, OrderStatus } from '@/types';
+import { isSupabaseConfigured } from '@/repositories';
 
 // ─── Initial Demo Orders
 const INITIAL_DEMO_ORDERS: Order[] = [
@@ -36,6 +37,19 @@ const INITIAL_DEMO_ORDERS: Order[] = [
   },
 ];
 
+type SavedOrders = { orders: Order[]; activeOrder: Order | null };
+
+/** Removes the sample orders (ids ord_demo_*) a device saved before the live site. */
+export function dropDemoOrders(state: SavedOrders): SavedOrders {
+  if (!state?.orders) return state;
+  const isDemo = (o: Order | null) => Boolean(o?.id.startsWith('ord_demo_'));
+  return {
+    ...state,
+    orders: state.orders.filter((o) => !isDemo(o)),
+    activeOrder: isDemo(state.activeOrder) ? null : state.activeOrder,
+  };
+}
+
 // ─── State Interface
 interface OrderState {
   orders: Order[];
@@ -53,7 +67,8 @@ interface OrderState {
 export const useOrderStore = create<OrderState>()(
   persist(
     (set, get) => ({
-      orders: INITIAL_DEMO_ORDERS,
+      // The two sample orders are for demo mode only: a real customer starts with none
+      orders: isSupabaseConfigured ? [] : INITIAL_DEMO_ORDERS,
       activeOrder: null,
 
       addOrder: (order) => {
@@ -100,6 +115,12 @@ export const useOrderStore = create<OrderState>()(
     }),
     {
       name: 'qaryati_orders_storage',
+      version: 1,
+      // v0 saved the sample orders on every device; on the live site drop them
+      migrate: (persisted, version) => {
+        const state = persisted as SavedOrders;
+        return version < 1 && isSupabaseConfigured ? dropDemoOrders(state) : state;
+      },
     }
   )
 );
