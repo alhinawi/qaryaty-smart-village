@@ -19,6 +19,7 @@ import { getSupabase, isSupabaseConfigured } from './supabaseClient';
 import { createMockCatalogRepo } from './catalog/mockCatalogRepo';
 import { createSupabaseCatalogRepo } from './catalog/supabaseCatalogRepo';
 import type { CatalogRepo } from './catalog/types';
+import type { Shop } from '@/types';
 import { createMockOrderRepo } from './orders/mockOrderRepo';
 import { createSupabaseOrderRepo } from './orders/supabaseOrderRepo';
 import type { NewOrder, OrderRepo } from './orders/types';
@@ -47,6 +48,11 @@ function createResilientCatalogRepo(live: CatalogRepo, fallback: CatalogRepo): C
     getServices: () => resilience.read(live.getServices, fallback.getServices),
     getShops: () => resilience.read(live.getShops, fallback.getShops),
     getProviders: () => resilience.read(live.getProviders, fallback.getProviders),
+    getProducts: (shop) =>
+      resilience.read(
+        () => live.getProducts(shop),
+        () => fallback.getProducts(shop)
+      ),
   };
 }
 
@@ -57,6 +63,7 @@ export const catalogRepo: CatalogRepo = isSupabaseConfigured
 export const getServices = () => catalogRepo.getServices();
 export const getShops = () => catalogRepo.getShops();
 export const getProviders = () => catalogRepo.getProviders();
+export const getProducts = (shop: Pick<Shop, 'id' | 'kind'>) => catalogRepo.getProducts(shop);
 
 // ─── Orders (writes never fall back to the sample data)
 export const ORDER_UNAVAILABLE_MESSAGE = 'الخدمة متوقفة مؤقتًا، وطلبك ماتبعتش. جرّب تاني بعد شوية';

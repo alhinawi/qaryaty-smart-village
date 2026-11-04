@@ -57,6 +57,7 @@ const shops = SHOPS.map((s) => ({
   bg_color: s.bgColor,
   kind: s.kind ?? 'other',
   food_types: s.foodTypes ?? [],
+  photo: s.photo ?? null,
 }));
 
 const providers = PROVIDERS.map((p) => ({
@@ -89,7 +90,7 @@ const providers = PROVIDERS.map((p) => ({
 
 // What each kind of shop sells, and each restaurant's menu. The order trigger
 // prices cart orders from these rows, so they must match src/data/catalog.ts.
-const productRow = (scope: string) => (p: Product) => ({
+const productRow = (scope: string) => (p: Product, position: number) => ({
   scope,
   product_id: p.id,
   name: p.name,
@@ -98,6 +99,10 @@ const productRow = (scope: string) => (p: Product) => ({
   step: p.step ?? 1,
   grillable: p.grillable ?? false,
   rx: p.rx ?? false,
+  emoji: p.emoji,
+  section: p.section ?? '',
+  photo: p.photo ?? null,
+  position,
 });
 const products = [
   ...Object.entries(CATALOG_BY_KIND).flatMap(([kind, list]) => (list ?? []).map(productRow(kind))),
