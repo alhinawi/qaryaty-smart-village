@@ -305,22 +305,36 @@ alter table public.orders add constraint orders_one_place check (
 create unique index if not exists orders_paymob_order_id_key
   on public.orders (paymob_order_id) where paymob_order_id is not null;
 
--- عمولة التطبيق: one fixed fee on every order, set and added to total_amount by
--- orders_before_insert. total_amount is what the customer pays, the fee included.
+-- عمولة التطبيق: a percentage of what the order costs (after the discount),
+-- set and added to total_amount by orders_before_insert. total_amount is what
+-- the customer pays, the commission included.
 -- Old projects: a price set after confirmation is null, not 0 (the app sends null).
 alter table public.orders add column if not exists commission_amount numeric not null default 0;
 alter table public.orders alter column total_amount drop not null;
 
--- The fee in EGP. Same number as APP_COMMISSION in src/config/commission.ts.
-create or replace function public.app_commission() returns numeric
-language sql immutable as $$ select 5::numeric $$;
+-- The old fixed fee (5 EGP). Nothing uses it any more.
+drop function if exists public.app_commission();
 
--- Same rule as appCommission() in src/utils/pricing.ts: every order pays it
--- (a price set after confirmation too), except one the first-order code made free.
+-- Same numbers as src/config/commission.ts: APP_COMMISSION_PERCENT,
+-- APP_COMMISSION_MIN and APP_COMMISSION_MAX (EGP).
+create or replace function public.app_commission_percent() returns numeric
+language sql immutable as $$ select 5::numeric $$;
+create or replace function public.app_commission_min() returns numeric
+language sql immutable as $$ select 1::numeric $$;
+create or replace function public.app_commission_max() returns numeric
+language sql immutable as $$ select 50::numeric $$;
+
+-- Same rule as appCommission() in src/utils/pricing.ts: the percentage of what
+-- is left to pay, rounded to the nearest pound, kept between the min and max.
+-- Nothing when there is nothing to pay (a free first order) or no price yet
+-- (set after confirmation). code and estimate stay for the callers' sake.
 create or replace function public.order_commission(code text, payable numeric, estimate boolean)
 returns numeric language sql immutable set search_path = public as $$
-  select case when code = 'QARYA1' and payable = 0 and not coalesce(estimate, false)
-              then 0 else public.app_commission() end
+  select case when payable is null or payable <= 0 then 0
+              else least(public.app_commission_max(),
+                         greatest(public.app_commission_min(),
+                                  round(round(payable * 100) * public.app_commission_percent() / 10000)))
+         end
 $$;
 
 alter table public.orders drop constraint if exists orders_sane_values;
@@ -453,7 +467,8 @@ grant update (status) on public.orders to authenticated; -- admins only (RLS)
 revoke all on function public.handle_new_user() from public, anon, authenticated;
 revoke all on function public.orders_before_insert() from public, anon, authenticated;
 -- The insert trigger runs as the caller, so the app's roles call these two
-grant execute on function public.app_commission(), public.order_commission(text, numeric, boolean)
+grant execute on function public.app_commission_percent(), public.app_commission_min(),
+  public.app_commission_max(), public.order_commission(text, numeric, boolean)
   to anon, authenticated, service_role;
 revoke all on function public.admin_set_role(uuid, text) from public, anon;
 revoke all on function public.admin_set_blocked(uuid, boolean) from public, anon;

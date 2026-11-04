@@ -12,7 +12,7 @@ import type {
   ServiceOption,
 } from '@/types';
 import { STAGE_LABELS } from '@/data/teachers';
-import { APP_COMMISSION } from '@/config/commission';
+import { APP_COMMISSION_MAX, APP_COMMISSION_MIN, APP_COMMISSION_PERCENT } from '@/config/commission';
 import { teacherLessonOptions } from './teacherGroups';
 
 // ─── Promo code
@@ -67,9 +67,11 @@ export function checkPromoCode(
 
 // ─── App commission
 /**
- * The app's fee for one order. Every order pays it, a price set after
- * confirmation included; only an order the first-order code made free
- * pays nothing. Same rule as public.order_commission() in supabase/schema.sql.
+ * The app's fee for one order: APP_COMMISSION_PERCENT of what the order costs
+ * after the discount, rounded to the nearest pound, kept between
+ * APP_COMMISSION_MIN and APP_COMMISSION_MAX. Nothing when there is nothing to
+ * pay (a free first order) or no price yet (set after confirmation).
+ * Same rule as public.order_commission() in supabase/schema.sql.
  */
 export function appCommission(order: {
   /** What the order costs after the discount; null when set after confirmation. */
@@ -77,8 +79,12 @@ export function appCommission(order: {
   isEstimate: boolean;
   discounted: boolean;
 }): number {
-  if (order.discounted && order.payable === 0 && !order.isEstimate) return 0;
-  return APP_COMMISSION;
+  const { payable } = order;
+  if (payable == null || !Number.isFinite(payable) || payable <= 0) return 0;
+  // Whole piastres first, so 0.1 + 0.2 style float noise can't tip the rounding
+  const piastres = Math.round(payable * 100);
+  const percentOf = Math.round((piastres * APP_COMMISSION_PERCENT) / 10000);
+  return Math.min(APP_COMMISSION_MAX, Math.max(APP_COMMISSION_MIN, percentOf));
 }
 
 // ─── Single service pricing (OrderModal)
@@ -373,14 +379,19 @@ export function providerOptions(provider: Provider, options: ServiceOption[]): S
 
 /**
  * Text for an order total: handles "no price yet" and starting prices.
- * `added` is what gets added once the price is set (the app's commission).
+ * With `commissionPercent`, a price set after confirmation says the app's
+ * commission comes on top of it.
  */
 export function describeTotal(
   total: number | null,
   isEstimate: boolean,
   format: (amount: number) => string,
-  added = 0
+  commissionPercent = 0
 ): string {
-  if (total == null) return added > 0 ? `السعر يتحدد بعد التأكيد + ${format(added)}` : 'السعر يتحدد بعد التأكيد';
+  if (total == null) {
+    return commissionPercent > 0
+      ? `السعر يتحدد بعد التأكيد + عمولة ${commissionPercent}%`
+      : 'السعر يتحدد بعد التأكيد';
+  }
   return isEstimate ? `من ${format(total)}` : format(total);
 }
