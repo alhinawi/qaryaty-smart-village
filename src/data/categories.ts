@@ -7,6 +7,8 @@ export const CATEGORIES: CategoryItem[] = [
   { id: 'food', label: 'أكل وشرب', emoji: '🍞' },
   { id: 'delivery', label: 'توصيل', emoji: '🛵' },
   { id: 'craft', label: 'حرف', emoji: '🔨' },
+  { id: 'edu', label: 'مدرسين', emoji: '👩‍🏫' },
+  { id: 'health', label: 'صحة', emoji: '🩺' },
   { id: 'care', label: 'رعاية', emoji: '❤️' },
-  { id: 'edu', label: 'تعليم', emoji: '📚' },
+  { id: 'home', label: 'خدمات البيت', emoji: '🧹' },
 ];
