@@ -3,7 +3,10 @@ import { PROVIDERS } from '@/data/providers';
 import { SERVICES } from '@/data/services';
 import { getOrderPricing, providerToOrderModalData, visibleOptions } from './pricing';
 import {
+  GROUP_CLASS_PRICE,
   GROUP_OPTION_ID,
+  classesPerMonth,
+  groupClassPrice,
   LESSON_GROUP,
   LESSON_OPTION_ID,
   LESSON_PRIVATE,
@@ -49,6 +52,30 @@ describe('teacher groups', () => {
     const asPrivate = { [LESSON_OPTION_ID]: LESSON_PRIVATE };
     expect(visibleOptions(data.options, asPrivate).map((o) => o.id)).not.toContain(GROUP_OPTION_ID);
     expect(getOrderPricing(data, false, { selections: asPrivate }).basePrice).toBe(teacher.numericPrice);
+  });
+
+  it('prices are village prices, and a group class costs at most half a private lesson', () => {
+    for (const teacher of teachers) {
+      if (teacher.numericPrice == null) continue;
+      expect(teacher.numericPrice, teacher.name).toBeLessThanOrEqual(110);
+      for (const group of teacher.groups ?? []) {
+        const perClass = group.monthlyPrice / classesPerMonth(group);
+        expect(perClass, teacher.name).toBeLessThanOrEqual(teacher.numericPrice / 2);
+        expect(perClass, teacher.name).toBeLessThanOrEqual(40);
+        expect(group.monthlyPrice, teacher.name).toBeLessThanOrEqual(320);
+      }
+    }
+  });
+
+  it('a group class costs more as the stage goes up, and a set group price wins', () => {
+    const teacher = teachers.find((t) => t.subject === 'arabic' && t.numericPrice != null)!;
+    const priced = { ...teacher, numericPrice: 100 };
+    expect(groupClassPrice(priced, 'primary')).toBe(GROUP_CLASS_PRICE.primary);
+    expect(groupClassPrice(priced, 'prep')).toBe(GROUP_CLASS_PRICE.prep);
+    expect(groupClassPrice(priced, 'secondary')).toBe(GROUP_CLASS_PRICE.secondary);
+    expect(groupClassPrice({ ...priced, subject: 'physics' }, 'secondary')).toBe(40);
+    expect(groupClassPrice({ ...priced, numericPrice: 40 }, 'secondary')).toBe(20);
+    expect(groupClassPrice({ ...priced, groupPrice: 55 }, 'primary')).toBe(55);
   });
 
   it('a full group cannot be picked in the order form', () => {
