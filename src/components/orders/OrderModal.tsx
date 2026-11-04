@@ -50,7 +50,12 @@ export function OrderModal({
   const [discountApplied, setDiscountApplied] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   // Required choices (ممرض/ممرضة, المرحلة, …): option id → chosen value
-  const [selected, setSelected] = useState<Record<string, string>>({});
+  // An option with one choice left (a teacher who teaches one stage) is already chosen
+  const [selected, setSelected] = useState<Record<string, string>>(() =>
+    Object.fromEntries(
+      (data?.options ?? []).filter((o) => o.choices.length === 1).map((o) => [o.id, o.choices[0]])
+    )
+  );
   const [submitting, setSubmitting] = useState(false);
   const serviceOptions = data?.options ?? [];
 
