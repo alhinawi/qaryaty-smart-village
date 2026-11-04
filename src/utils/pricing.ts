@@ -1,5 +1,15 @@
 // ─── Imports
-import type { CartItem, Order, OrderModalData, PriceType, Provider, Service } from '@/types';
+import type {
+  CartItem,
+  Order,
+  OrderModalData,
+  PriceType,
+  Provider,
+  ProviderMode,
+  Service,
+  ServiceOption,
+} from '@/types';
+import { STAGE_LABELS } from '@/data/teachers';
 
 // ─── Promo code
 // NOTE: this check runs on the device only, so it is a UX guard, not real
@@ -175,10 +185,41 @@ export function providerToOrderModalData(provider: Provider, service?: Service):
     price: provider.price,
     numericPrice: provider.numericPrice,
     priceType: provider.priceType,
-    options: service?.options,
+    options: service?.options && providerOptions(provider, service.options),
     serviceId: provider.serviceId,
     providerId: provider.id,
   };
+}
+
+const MODE_CHOICES: Record<ProviderMode, string[]> = {
+  home: ['في البيت', 'زيارة في البيت'],
+  online: ['أونلاين'],
+  clinic: ['حجز في العيادة'],
+};
+
+/**
+ * Booking a specific person: only offer the choices that person really has
+ * (the stages a teacher teaches, home/online, ممرض or ممرضة). A choice left alone is preselected
+ * by the order form. If nothing matches, the service's choices stay as they are.
+ */
+export function providerOptions(provider: Provider, options: ServiceOption[]): ServiceOption[] {
+  const keep = (option: ServiceOption, allowed: string[]): ServiceOption => {
+    const choices = option.choices.filter((choice) => allowed.includes(choice));
+    return choices.length ? { ...option, choices } : option;
+  };
+  return options.map((option) => {
+    switch (option.id) {
+      case 'stage':
+        return provider.stages ? keep(option, provider.stages.map((st) => STAGE_LABELS[st])) : option;
+      case 'mode':
+      case 'visit':
+        return keep(option, provider.modes.flatMap((m) => MODE_CHOICES[m]));
+      case 'gender':
+        return keep(option, [provider.gender === 'female' ? 'ممرضة' : 'ممرض']);
+      default:
+        return option;
+    }
+  });
 }
 
 /** Text for an order total: handles "no price yet" and starting prices. */
