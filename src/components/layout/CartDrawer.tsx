@@ -4,6 +4,7 @@ import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { useCartStore } from "@/stores/useCartStore";
+import { createOrder } from "@/repositories";
 import { useUIStore } from "@/stores/useUIStore";
 import { useGoToTab } from '@/hooks/useTabNavigation';
 import { useOrderStore } from "@/stores/useOrderStore";
@@ -48,7 +49,7 @@ function CartDrawerContent() {
   const clearCart = useCartStore((state) => state.clearCart);
 
   const orders = useOrderStore((state) => state.orders);
-  const placeOrder = useOrderStore((state) => state.placeOrder);
+  const addOrder = useOrderStore((state) => state.addOrder);
 
   const profile = useUserStore((state) => state.profile);
   const usedPromoCodes = useUserStore((state) => state.usedPromoCodes);
@@ -56,6 +57,7 @@ function CartDrawerContent() {
   const addRewardPoints = useUserStore((state) => state.addRewardPoints);
 
   const [promoCode, setPromoCode] = useState("");
+  const [submitting, setSubmitting] = useState(false);
   const [discountApplied, setDiscountApplied] = useState(false);
   const [address, setAddress] = useState(profile.address || "");
   const [phone, setPhone] = useState(profile.phone || "");
@@ -88,8 +90,8 @@ function CartDrawerContent() {
     }
   };
 
-  const handleCheckout = () => {
-    if (items.length === 0) return;
+  const handleCheckout = async () => {
+    if (items.length === 0 || submitting) return;
     setErrors({});
 
     // Same rules as the single-service order form (PRD section 12)
@@ -128,19 +130,30 @@ function CartDrawerContent() {
       .slice(0, 3)
       .join(" ");
 
-    const newOrder = placeOrder({
-      orderNumber: generateOrderNumber(),
-      serviceName: `سلة مشتريات: ${names}`,
-      serviceEmoji: emojis || "🛒",
-      address: validation.data.address,
-      phone: validation.data.phone,
-      paymentMethod: validation.data.paymentMethod,
-      discountCode: promoStillValid ? FIRST_ORDER_PROMO : undefined,
-      discountAmount: finalPricing.discountAmount,
-      totalAmount: total,
-      isEstimate: finalPricing.isEstimate,
-      status: "pending",
-    });
+    setSubmitting(true);
+    let newOrder;
+    try {
+      newOrder = await createOrder({
+        orderNumber: generateOrderNumber(),
+        serviceName: `سلة مشتريات: ${names}`,
+        serviceEmoji: emojis || "🛒",
+        address: validation.data.address,
+        phone: validation.data.phone,
+        paymentMethod: validation.data.paymentMethod,
+        discountCode: promoStillValid ? FIRST_ORDER_PROMO : undefined,
+        discountAmount: finalPricing.discountAmount,
+        totalAmount: total,
+        isEstimate: finalPricing.isEstimate,
+        status: "pending",
+      });
+    } catch (err) {
+      // Not saved: keep the cart as it is
+      setSubmitting(false);
+      showToast(`⚠️ ${err instanceof Error ? err.message : "حصلت مشكلة، والطلب ماتبعتش"}`);
+      return;
+    }
+    addOrder(newOrder);
+    setSubmitting(false);
 
     if (promoStillValid) {
       markPromoUsed(FIRST_ORDER_PROMO);
@@ -339,7 +352,8 @@ function CartDrawerContent() {
               variant="primary"
               size="lg"
               className="w-full"
-              onClick={handleCheckout}
+              onClick={() => void handleCheckout()}
+              loading={submitting}
             >
               🚀 تأكيد وإتمام الطلب ({totalLabel})
             </Button>

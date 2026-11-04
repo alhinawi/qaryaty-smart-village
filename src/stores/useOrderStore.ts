@@ -2,7 +2,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Order, OrderStatus } from '@/types';
-import { getFormattedDate } from '@/utils/helpers';
 
 // ─── Initial Demo Orders
 const INITIAL_DEMO_ORDERS: Order[] = [
@@ -41,9 +40,8 @@ const INITIAL_DEMO_ORDERS: Order[] = [
 interface OrderState {
   orders: Order[];
   activeOrder: Order | null;
-  placeOrder: (
-    newOrderData: Omit<Order, 'id' | 'createdAt'>
-  ) => Order;
+  /** Adds an order the repository already saved (see createOrder in src/repositories). */
+  addOrder: (order: Order) => void;
   updateStatus: (orderId: string, status: OrderStatus) => void;
   /** Returns false if the order doesn't exist or was already rated. */
   addRating: (orderId: string, rating: number, feedback?: string) => boolean;
@@ -58,19 +56,11 @@ export const useOrderStore = create<OrderState>()(
       orders: INITIAL_DEMO_ORDERS,
       activeOrder: null,
 
-      placeOrder: (newOrderData) => {
-        const order: Order = {
-          ...newOrderData,
-          id: `ord_${Date.now()}`,
-          createdAt: getFormattedDate(),
-        };
-
+      addOrder: (order) => {
         set((state) => ({
-          orders: [order, ...state.orders],
+          orders: [order, ...state.orders.filter((o) => o.id !== order.id)],
           activeOrder: order,
         }));
-
-        return order;
       },
 
       updateStatus: (orderId: string, status: OrderStatus) => {
