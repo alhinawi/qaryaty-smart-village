@@ -1,9 +1,19 @@
 // ─── Imports
 import { useState, useMemo } from 'react';
-import type { CategoryFilter, OrderModalData, Service } from '@/types';
+import type {
+  CategoryFilter,
+  OrderModalData,
+  Provider,
+  ProviderKind,
+  SchoolStage,
+  Service,
+  TeacherSubject,
+} from '@/types';
 import { CATEGORIES } from '@/data/categories';
 import { SERVICES } from '@/data/services';
 import { SHOPS } from '@/data/shops';
+import { PROVIDERS } from '@/data/providers';
+import { SUBJECT_LABELS } from '@/data/teachers';
 import { useUIStore } from '@/stores/useUIStore';
 
 // Subcomponents
@@ -14,10 +24,19 @@ import { LiveOrderBanner } from './LiveOrderBanner';
 import { ServicesSection } from './ServicesSection';
 import { PromoBanner } from './PromoBanner';
 import { ShopsSection } from './ShopsSection';
+import { ProvidersSection } from './ProvidersSection';
 import { FeaturesSection } from './FeaturesSection';
 import { SkeletonList } from '@/components/ui/Skeleton';
-import { serviceToOrderModalData } from '@/utils/pricing';
+import { providerToOrderModalData, serviceToOrderModalData } from '@/utils/pricing';
 import { matchesSearch } from '@/utils/arabicSearch';
+
+// ─── Which people show under each category
+const PROVIDER_KINDS: Partial<Record<CategoryFilter, { kinds: ProviderKind[]; title: string }>> = {
+  edu: { kinds: ['teacher'], title: '👩‍🏫 المدرسين' },
+  health: { kinds: ['doctor', 'nurse'], title: '🩺 الدكاترة والتمريض' },
+  care: { kinds: ['babysitter'], title: '❤️ جليسات الأطفال' },
+  home: { kinds: ['cleaner'], title: '🧹 عمال وعاملات النظافة' },
+};
 
 // ─── Types
 interface HomePageProps {
@@ -33,6 +52,9 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
   const [selectedCategory, setSelectedCategory] =
     useState<CategoryFilter>('all');
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [subject, setSubject] = useState<TeacherSubject | 'all'>('all');
+  const [stage, setStage] = useState<SchoolStage | 'all'>('all');
+  const providerGroup = PROVIDER_KINDS[selectedCategory];
 
   // Pull-to-refresh simulation handler
   const handlePullToRefresh = () => {
@@ -58,6 +80,26 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
     [searchQuery]
   );
 
+  // People for the selected category (teachers, nurses…), with teacher filters
+  const filteredProviders = useMemo(() => {
+    if (!providerGroup) return [];
+    return PROVIDERS.filter((provider) => {
+      if (!provider.active || !providerGroup.kinds.includes(provider.kind)) return false;
+      if (provider.kind === 'teacher') {
+        if (subject !== 'all' && provider.subject !== subject) return false;
+        // No stages listed (e.g. Quran) means all ages
+        if (stage !== 'all' && provider.stages && !provider.stages.includes(stage)) return false;
+      }
+      const subjectLabel = provider.subject ? SUBJECT_LABELS[provider.subject] : '';
+      return matchesSearch(searchQuery, [provider.name, provider.bio, provider.area, subjectLabel, provider.specialty ?? '']);
+    });
+  }, [providerGroup, subject, stage, searchQuery]);
+
+  const handleBookProvider = (provider: Provider) => {
+    const service = SERVICES.find((s) => s.id === provider.serviceId);
+    onOpenOrderModal(providerToOrderModalData(provider, service));
+  };
+
   const handleSelectService = (service: Service) => {
     onOpenOrderModal(serviceToOrderModalData(service));
   };
@@ -65,6 +107,8 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
   const handleResetFilters = () => {
     setSelectedCategory('all');
     setSearchQuery('');
+    setSubject('all');
+    setStage('all');
   };
 
   return (
@@ -111,6 +155,20 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
           services={filteredServices}
           onSelectService={handleSelectService}
           onResetFilters={handleResetFilters}
+        />
+      )}
+
+      {/* Teachers, nurses, doctors… for the selected category */}
+      {providerGroup && !isRefreshing && (
+        <ProvidersSection
+          title={providerGroup.title}
+          providers={filteredProviders}
+          onBook={handleBookProvider}
+          showTeacherFilters={selectedCategory === 'edu'}
+          subject={subject}
+          onSubjectChange={setSubject}
+          stage={stage}
+          onStageChange={setStage}
         />
       )}
 
