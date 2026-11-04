@@ -10,6 +10,7 @@ import type { OrderModalData } from '@/types';
 
 // Layout & Global Components
 import { Header } from '@/components/layout/Header';
+import { ServiceStatusBanner } from '@/components/layout/ServiceStatusBanner';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { PageWrapper } from '@/components/layout/PageWrapper';
 import { SplashScreen } from '@/components/layout/SplashScreen';
@@ -98,6 +99,9 @@ export default function App() {
       >
         {/* Responsive Header */}
         <Header />
+
+        {/* Supabase down or paused: sample data + clear message */}
+        <ServiceStatusBanner />
 
         {/* Dynamic Page Content */}
         <main className="flex-1 w-full pb-[calc(85px+env(safe-area-inset-bottom))] lg:pb-10">
