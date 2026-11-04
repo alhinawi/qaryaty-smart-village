@@ -2,6 +2,9 @@
 // Shown next to "تطوير وتصميم" in the desktop footer and on the About page.
 // Change a link here and both places update.
 
+/** The app's developer, as credited in the footer and the About page (also a teacher in the app) */
+export const DEVELOPER_NAME = 'Mohamed Alhinawi';
+
 export type DeveloperLinkId = 'linkedin' | 'github' | 'facebook' | 'whatsapp';
 
 export interface DeveloperLink {
