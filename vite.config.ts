@@ -12,6 +12,21 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'favicon.svg', 'apple-touch-icon.png'],
+      workbox: {
+        // People's pictures come from the DiceBear API: keep them once loaded,
+        // so they show on slow connections and offline.
+        runtimeCaching: [
+          {
+            urlPattern: ({ url }) => url.origin === 'https://api.dicebear.com',
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'avatars',
+              expiration: { maxEntries: 200, maxAgeSeconds: 60 * 60 * 24 * 90 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+        ],
+      },
       manifest: {
         name: 'قريتي - تطبيق القرية الذكية',
         short_name: 'قريتي',
