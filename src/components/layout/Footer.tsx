@@ -1,3 +1,7 @@
+// ─── Imports
+import { Link } from 'react-router';
+import { ROUTES } from '@/routes';
+
 // ─── Constants
 
 /** Shown in the footer as the app's developer */
@@ -28,6 +32,16 @@ export function Footer() {
             <span className="text-xs text-white/75">خدمات قريتك كلها في مكان واحد</span>
           </div>
         </div>
+
+        {/* Site pages */}
+        <nav className="flex items-center gap-1" aria-label="روابط قريتي">
+          <Link
+            to={ROUTES.about}
+            className="text-sm font-bold text-white/90 px-3 py-2 rounded-xl transition-colors hover:bg-white/15 hover:text-gold-light"
+          >
+            عن قريتي
+          </Link>
+        </nav>
 
         {/* Developer */}
         <p className="text-sm text-white/90">
