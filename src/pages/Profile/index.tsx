@@ -33,8 +33,13 @@ export default function ProfilePage() {
           url: window.location.href,
         })
         .catch(() => {});
+    } else if (navigator.clipboard?.writeText) {
+      navigator.clipboard
+        .writeText(window.location.origin)
+        .then(() => showToast('🔗 تم نسخ رابط دعوة أهالي القرية!'))
+        .catch(() => showToast(`🔗 ابعت الرابط ده لأهل القرية: ${window.location.origin}`));
     } else {
-      showToast('🔗 تم نسخ رابط دعوة أهالي القرية!');
+      showToast(`🔗 ابعت الرابط ده لأهل القرية: ${window.location.origin}`);
     }
   };
 

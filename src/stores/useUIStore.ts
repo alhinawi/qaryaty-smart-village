@@ -26,7 +26,7 @@ const INITIAL_NOTIFICATIONS: AppNotification[] = [
   {
     id: 'notif_3',
     title: 'عرض ترويجي جديد 🎉',
-    message: 'استخدم كود QARYA1 واحصل على أول توصيل مجاناً!',
+    message: 'استخدم كود QARYA1 واحصل على خصم 100% على أول طلب!',
     time: 'اليوم',
     read: true,
     type: 'promo',
