@@ -63,6 +63,7 @@ const providers = PROVIDERS.map((p) => ({
   subject: p.subject ?? null,
   stages: p.stages ?? null,
   specialty: p.specialty ?? null,
+  role: p.role ?? null,
   experience_years: p.experienceYears,
   rating: p.rating,
   reviews: p.reviews,

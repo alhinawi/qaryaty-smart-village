@@ -36,6 +36,7 @@ export const KIND_FILTER_LABELS: Record<ProviderKind, string> = {
   nurse: 'تمريض',
   babysitter: 'جليسات أطفال',
   cleaner: 'نظافة',
+  worker: 'مقدمي خدمة',
 };
 
 export function sectionForCategory(category: CategoryFilter): PeopleSection | undefined {
@@ -52,7 +53,10 @@ export function sectionForKind(kind: ProviderKind): PeopleSection | undefined {
  * someone is booked through (تمريض، دكتور، جليسة، عاملة نظافة).
  */
 export function peopleServiceIds(services: Service[], providers: Provider[]): Set<number> {
-  const ids = new Set(providers.map((provider) => provider.serviceId));
+  const sectionKinds = new Set(PEOPLE_SECTIONS.flatMap((section) => section.kinds));
+  const ids = new Set(
+    providers.filter((provider) => sectionKinds.has(provider.kind)).map((provider) => provider.serviceId)
+  );
   for (const service of services) if (service.cat === 'edu') ids.add(service.id);
   return new Set(services.filter((service) => ids.has(service.id)).map((service) => service.id));
 }
@@ -120,6 +124,16 @@ export function filterProviders(
       provider.specialty ?? '',
     ]);
   });
+}
+
+/**
+ * People the customer can pick from for one service in the grid (سباك، نجار…), best rated first.
+ * Empty when nobody is listed: the order then goes to whoever is available.
+ */
+export function providersForService(service: Service, providers: Provider[]): Provider[] {
+  return providers
+    .filter((provider) => provider.active && provider.serviceId === service.id)
+    .sort((a, b) => b.rating - a.rating || b.reviews - a.reviews);
 }
 
 /** How many bookable people each section has (for the section tiles on the home page). */

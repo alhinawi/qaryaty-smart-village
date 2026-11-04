@@ -55,6 +55,7 @@ export interface ProviderRow {
   subject: TeacherSubject | null;
   stages: SchoolStage[] | null;
   specialty: string | null;
+  role?: string | null;
   experience_years: number;
   rating: number;
   reviews: number;
@@ -110,6 +111,7 @@ export function providerFromRow(row: ProviderRow): Provider {
     subject: row.subject ?? undefined,
     stages: row.stages?.length ? row.stages : undefined,
     specialty: row.specialty ?? undefined,
+    role: row.role ?? undefined,
     experienceYears: row.experience_years,
     rating: Number(row.rating),
     reviews: row.reviews,
