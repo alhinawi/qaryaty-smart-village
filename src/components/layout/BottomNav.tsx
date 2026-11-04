@@ -28,7 +28,7 @@ export function BottomNav({ onOpenQuickOrder }: BottomNavProps) {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-black/10 flex shadow-[0_-8px_30px_rgba(0,0,0,0.08)] z-100 pb-[env(safe-area-inset-bottom)] md:hidden" aria-label="شريط التنقل السفلي">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-black/10 flex shadow-[0_-8px_30px_rgba(0,0,0,0.08)] z-100 pb-[env(safe-area-inset-bottom)] lg:hidden" aria-label="شريط التنقل السفلي">
       {/* Home & Orders */}
       {navItems.slice(0, 2).map((item) => {
         const isActive = activeTab === item.id;

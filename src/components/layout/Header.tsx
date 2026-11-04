@@ -122,7 +122,7 @@ export function Header() {
 
           {/* Desktop Navigation Links */}
           <nav
-            className="hidden md:flex items-center gap-2"
+            className="hidden lg:flex items-center gap-2"
             aria-label="التنقل الرئيسي"
           >
             {navLinks.map((link) => (
@@ -144,11 +144,11 @@ export function Header() {
 
           {/* Action Buttons */}
           <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-            {/* Messages: the desktop nav has it, but the bottom nav has no room,
+            {/* Messages: the desktop nav (lg+) has it, but the bottom nav has no room,
                 so mobile gets it here (review item 7). */}
             <button
               type="button"
-              className={`md:hidden w-[40px] h-[40px] rounded-xl border-none cursor-pointer flex items-center justify-center text-[18px] text-white transition-all duration-200 relative font-['Cairo',sans-serif] hover:bg-white/25 hover:scale-105 ${
+              className={`lg:hidden w-[40px] h-[40px] rounded-xl border-none cursor-pointer flex items-center justify-center text-[18px] text-white transition-all duration-200 relative font-['Cairo',sans-serif] hover:bg-white/25 hover:scale-105 ${
                 activeTab === "messages" ? "bg-white/30" : "bg-white/15"
               }`}
               onClick={() => setActiveTab("messages")}
