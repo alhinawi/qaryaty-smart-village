@@ -8,10 +8,12 @@ import { useUIStore } from '@/stores/useUIStore';
 interface ShopsSectionProps {
   shops: Shop[];
   onSelectShop: (modalData: OrderModalData) => void;
+  /** true while the header search has text: shows a count and an empty message. */
+  isSearching?: boolean;
 }
 
 // ─── Component
-export function ShopsSection({ shops, onSelectShop }: ShopsSectionProps) {
+export function ShopsSection({ shops, onSelectShop, isSearching = false }: ShopsSectionProps) {
   const showToast = useUIStore((state) => state.showToast);
 
   const handleAllShopsClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -26,12 +28,18 @@ export function ShopsSection({ shops, onSelectShop }: ShopsSectionProps) {
           <span role="img" aria-hidden="true">
             🏪
           </span>{' '}
-          محلات القرية
+          محلات القرية{isSearching ? ` (${shops.length})` : ''}
         </h3>
         <a href="#all-shops" onClick={handleAllShopsClick} className="text-sm font-bold text-green no-underline">
           كل المحلات
         </a>
       </div>
+
+      {shops.length === 0 && (
+        <p className="text-sm text-text-muted bg-white rounded-xl p-4 text-center" role="status">
+          مفيش محلات بالاسم ده، جرّب كلمة تانية.
+        </p>
+      )}
 
       <div className="flex gap-3.5 overflow-x-auto pb-1.5 scrollbar-none [&::-webkit-scrollbar]:hidden lg:grid lg:grid-cols-6 lg:overflow-x-visible">
         {shops.map((shop) => (
