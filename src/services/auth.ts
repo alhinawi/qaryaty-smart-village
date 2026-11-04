@@ -9,9 +9,9 @@
 // the demo login can check them. A real backend must hash on the server and
 // should move to phone + OTP (see README "Next steps").
 //
-// To switch to a real API: implement `AuthService` with fetch calls and change
-// the `authService` export at the bottom. Nothing else in the app talks to the
-// storage directly.
+// This file holds the AuthService contract and its mock implementation.
+// The app picks mock or Supabase in src/repositories/index.ts (`authRepo`);
+// nothing else talks to the storage directly.
 
 import type { AuthSession, AuthUser, UserRole } from '@/types';
 import { normalizeEgyptianPhone } from '@/utils/validators';
@@ -19,7 +19,15 @@ import type { LoginInput, RegisterInput } from '@/utils/validators';
 import { getBrowserStorage, readJson, writeJson, type KeyValueStorage } from './storage';
 
 // ─── Public contract
-export type AuthErrorCode = 'invalid_credentials' | 'phone_taken' | 'blocked' | 'not_found';
+export type AuthErrorCode =
+  | 'invalid_credentials'
+  | 'phone_taken'
+  | 'blocked'
+  | 'not_found'
+  /** The backend refused the request (rate limit, bad data). */
+  | 'rejected'
+  /** The backend is down or paused. Nothing happened. */
+  | 'unavailable';
 
 export class AuthError extends Error {
   readonly code: AuthErrorCode;
@@ -284,5 +292,5 @@ export function createMockAuthService(
   };
 }
 
-/** The app's auth service. Swap this for a real API client later. */
-export const authService: AuthService = createMockAuthService(undefined, { latencyMs: 300 });
+/** Mock auth used in demo mode. The app uses `authRepo` from src/repositories. */
+export const mockAuthService: AuthService = createMockAuthService(undefined, { latencyMs: 300 });
