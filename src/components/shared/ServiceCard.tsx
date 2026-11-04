@@ -28,6 +28,8 @@ interface ServiceCardProps {
   service: Service;
   onSelect: (service: Service) => void;
   disableFeaturedLayout?: boolean;
+  /** How many people the customer can pick from for this service. */
+  peopleCount?: number;
 }
 
 // ─── Component
@@ -36,6 +38,7 @@ export const ServiceCard = React.memo(function ServiceCard({
   service,
   onSelect,
   disableFeaturedLayout = false,
+  peopleCount,
 }: ServiceCardProps) {
   const isFav = useUserStore((state) => state.isFavorite(service.id));
 
@@ -135,6 +138,12 @@ export const ServiceCard = React.memo(function ServiceCard({
         <p className="text-xs text-text-muted leading-[1.4] mb-2.5 flex-1">
           {service.desc}
         </p>
+
+        {peopleCount ? (
+          <p className="text-[11px] font-bold text-green-dark mb-2 m-0">
+            <span aria-hidden="true">👥</span> {peopleCount} تختار منهم
+          </p>
+        ) : null}
 
         <div className="flex items-center justify-between mb-2">
           <div className="text-xs text-green font-bold flex items-center gap-[3px]">

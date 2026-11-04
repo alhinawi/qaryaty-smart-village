@@ -24,6 +24,7 @@ import { PromoBanner } from './PromoBanner';
 import { ShopsSection } from './ShopsSection';
 import { ProvidersSection } from './ProvidersSection';
 import { PeopleSectionsRow } from './PeopleSectionsRow';
+import { ProviderPickerModal } from './ProviderPickerModal';
 import { FeaturesSection } from './FeaturesSection';
 import { SkeletonList } from '@/components/ui/Skeleton';
 import { providerToOrderModalData, serviceToOrderModalData } from '@/utils/pricing';
@@ -32,6 +33,7 @@ import {
   PEOPLE_SECTIONS,
   filterProviders,
   gridServices,
+  providersForService,
   quickRequestServices,
   sectionCounts,
   sectionForCategory,
@@ -135,6 +137,14 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
   }, [selectedCategory, isSearching, providers, services, searchQuery]);
 
   const counts = useMemo(() => sectionCounts(providers, services), [providers, services]);
+  const peopleCounts = useMemo(() => {
+    const byService: Record<number, number> = {};
+    for (const service of services) {
+      const n = providersForService(service, providers).length;
+      if (n) byService[service.id] = n;
+    }
+    return byService;
+  }, [services, providers]);
 
   // Hide an empty services grid when a people section is on screen (it has its own empty message)
   const showServicesGrid =
@@ -147,6 +157,25 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
 
   const handleSelectService = (service: Service) => {
     onOpenOrderModal(serviceToOrderModalData(service));
+  };
+
+  // A service in the grid with people listed (سباك، نجار…): pick who comes first
+  const [pickerService, setPickerService] = useState<Service | null>(null);
+  const pickerProviders = useMemo(
+    () => (pickerService ? providersForService(pickerService, providers) : []),
+    [pickerService, providers]
+  );
+  const handleGridService = (service: Service) => {
+    if (providersForService(service, providers).length > 0) setPickerService(service);
+    else handleSelectService(service);
+  };
+  const handlePick = (provider: Provider) => {
+    setPickerService(null);
+    handleBookProvider(provider);
+  };
+  const handlePickAnyone = (service: Service) => {
+    setPickerService(null);
+    handleSelectService(service);
   };
 
   const handleResetFilters = () => {
@@ -223,7 +252,8 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
       {!isLoading && showServicesGrid && (
         <ServicesSection
           services={filteredServices}
-          onSelectService={handleSelectService}
+          onSelectService={handleGridService}
+          peopleCounts={peopleCounts}
           onResetFilters={handleResetFilters}
         />
       )}
@@ -255,6 +285,14 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
 
       {/* Why Choose Us Features */}
       <FeaturesSection />
+
+      <ProviderPickerModal
+        service={pickerService}
+        providers={pickerProviders}
+        onPick={handlePick}
+        onAnyone={handlePickAnyone}
+        onClose={() => setPickerService(null)}
+      />
     </div>
   );
 }
