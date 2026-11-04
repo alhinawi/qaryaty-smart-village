@@ -23,6 +23,7 @@ import { OrderSuccess } from '@/components/orders/OrderSuccess';
 import { RatingModal } from '@/components/shared/RatingModal';
 import { Toast } from '@/components/ui/Toast';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
+import { preloadSearchScreen } from '@/components/search/loadSearchScreen';
 
 // ─── Lazy Loaded Pages
 const HomePage = lazy(() => import('@/pages/Home'));
@@ -34,6 +35,7 @@ const LoginPage = lazy(() => import('@/pages/Auth/LoginPage'));
 const RegisterPage = lazy(() => import('@/pages/Auth/RegisterPage'));
 const AboutPage = lazy(() => import('@/pages/About'));
 const GroupsPage = lazy(() => import('@/pages/Groups'));
+const SearchScreen = lazy(() => preloadSearchScreen().then((m) => ({ default: m.SearchScreen })));
 
 // ─── Page Loading Fallback
 function PageLoadingFallback() {
@@ -46,6 +48,15 @@ function PageLoadingFallback() {
 }
 
 // ─── Component
+/** The search screen's frame while its code arrives (first open on a slow connection). */
+function SearchLoadingFallback() {
+  return (
+    <div className="fixed inset-0 z-[190] bg-cream lg:bg-black/45" aria-busy="true" aria-label="البحث بيحمّل">
+      <div className="h-[112px] bg-linear-to-br from-green-dark to-green lg:hidden" />
+    </div>
+  );
+}
+
 export default function App() {
   const { showSplash, isFadingOut, isAppVisible } = useSplashScreen();
 
@@ -70,6 +81,8 @@ export default function App() {
 
   const setActiveTab = useGoToTab();
   const toastMessage = useUIStore((state) => state.toastMessage);
+  const isSearchOpen = useUIStore((state) => state.isSearchOpen);
+  const searchMounted = useUIStore((state) => state.searchMounted);
 
   // Modal States
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
@@ -154,6 +167,13 @@ export default function App() {
 
         {/* Mobile Bottom Navigation */}
         <BottomNav onOpenQuickOrder={handleOpenOrderModal} />
+
+        {/* Full search screen (from the header's search bar); its code loads on first use */}
+        {searchMounted && (
+          <Suspense fallback={isSearchOpen ? <SearchLoadingFallback /> : null}>
+            <SearchScreen onOpenOrderModal={handleOpenOrderModal} />
+          </Suspense>
+        )}
 
         {/* Global Cart Drawer */}
         <CartDrawer />
