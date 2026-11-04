@@ -9,6 +9,7 @@ import { fieldErrorsFrom, registerSchema } from '@/utils/validators';
 import { ROUTES } from '@/routes';
 import { AuthField, AuthLayout, PasswordField } from './AuthLayout';
 import { useRedirectTarget } from '@/hooks/useRedirectTarget';
+import { VILLAGES } from '@/data/villages';
 
 const EMPTY = {
   name: '',
@@ -90,11 +91,17 @@ export default function RegisterPage() {
         <AuthField
           id="regVillage"
           label="القرية"
-          placeholder="مثال: قرية البركة"
+          placeholder="مثال: منية سندوب"
+          list="regVillageList"
           value={values.village}
           onChange={set('village')}
           error={errors.village}
         />
+        <datalist id="regVillageList">
+          {VILLAGES.map((v) => (
+            <option key={v} value={v} />
+          ))}
+        </datalist>
         <AuthField
           id="regAddress"
           label="العنوان في القرية"
