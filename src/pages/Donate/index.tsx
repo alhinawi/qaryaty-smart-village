@@ -1,26 +1,38 @@
 // ─── باب الخير (/donate): causes and village organizations to give to
 // The causes, their contacts and payment details live in src/config/donations.ts.
-import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router';
+import { useEffect, useState } from "react";
+import { useLocation } from "react-router";
 import {
   DONATION_CAUSES,
   DONATION_TYPES,
   donationWhatsappLink,
   hasPaymentDetails,
   type DonationCause,
-} from '@/config/donations';
-import { whatsappChatLink } from '@/config/developer';
-import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon';
-import { useUIStore } from '@/stores/useUIStore';
-import { DonationForm } from './DonationForm';
+} from "@/config/donations";
+import { whatsappChatLink } from "@/config/developer";
+import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
+import { useUIStore } from "@/stores/useUIStore";
+import { DonationForm } from "./DonationForm";
 
 const SUGGEST_MESSAGE =
   'السلام عليكم، أعرف جهة خير في القرية وعايزها تظهر في "باب الخير" في قريتي.\nاسم الجهة: \nالقرية: \nرقم المسؤول: ';
 
 const STEPS = [
-  { icon: '👆', title: 'اختار باب الخير', text: 'بيت المال، الجمعية، تجهيز عروسة، أو أي باب قلبك مرتاح له.' },
-  { icon: '📝', title: 'سيب بياناتك', text: 'اسمك ورقمك، وهتتبرع بإيه: فلوس، هدوم، عفش، أو أكل.' },
-  { icon: '📞', title: 'هنكلمك', text: 'نرتب معاك إزاي تبرعك يوصل، ولو حاجات بنعدّي نستلمها من عندك.' },
+  {
+    icon: "👆",
+    title: "اختار باب الخير",
+    text: "بيت المال، الجمعية، تجهيز عروسة، أو أي باب قلبك مرتاح له.",
+  },
+  {
+    icon: "📝",
+    title: "سيب بياناتك",
+    text: "اسمك ورقمك، وهتتبرع بإيه: فلوس، هدوم، عفش، أو أكل.",
+  },
+  {
+    icon: "📞",
+    title: "هنكلمك",
+    text: "نرتب معاك إزاي تبرعك يوصل، ولو حاجات بنعدّي نستلمها من عندك.",
+  },
 ];
 
 // ─── A copyable line of payment details (InstaPay, wallet, account number)
@@ -29,9 +41,9 @@ function CopyLine({ label, value }: { label: string; value: string }) {
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(value);
-      showToast('✅ اتنسخ');
+      showToast("✅ اتنسخ");
     } catch {
-      showToast('ماقدرناش ننسخ، انسخه بإيدك');
+      showToast("ماقدرناش ننسخ، انسخه بإيدك");
     }
   };
   return (
@@ -58,13 +70,20 @@ function PaymentDetails({ cause }: { cause: DonationCause }) {
   const p = cause.payment!;
   return (
     <div className="border-t border-[rgba(26,122,74,0.1)] pt-3">
-      <p className="text-xs font-extrabold text-green-dark mb-2">حوّل لهم مباشرة:</p>
+      <p className="text-xs font-extrabold text-green-dark mb-2">
+        حوّل لهم مباشرة:
+      </p>
       <ul className="flex flex-col gap-1.5">
         {p.instapay && <CopyLine label="إنستاباي" value={p.instapay} />}
-        {p.wallets?.map((w) => <CopyLine key={w.name + w.number} label={w.name} value={w.number} />)}
+        {p.wallets?.map((w) => (
+          <CopyLine key={w.name + w.number} label={w.name} value={w.number} />
+        ))}
         {p.bank && (
           <>
-            <CopyLine label={`${p.bank.bankName}، باسم ${p.bank.accountName}`} value={p.bank.accountNumber} />
+            <CopyLine
+              label={`${p.bank.bankName}، باسم ${p.bank.accountName}`}
+              value={p.bank.accountNumber}
+            />
             {p.bank.iban && <CopyLine label="IBAN" value={p.bank.iban} />}
           </>
         )}
@@ -74,7 +93,13 @@ function PaymentDetails({ cause }: { cause: DonationCause }) {
 }
 
 // ─── One cause or organization
-function CauseCard({ cause, onDonate }: { cause: DonationCause; onDonate: (id: string) => void }) {
+function CauseCard({
+  cause,
+  onDonate,
+}: {
+  cause: DonationCause;
+  onDonate: (id: string) => void;
+}) {
   return (
     <li className="bg-white rounded-2xl p-4 border border-[rgba(26,122,74,0.1)] shadow-card flex flex-col gap-3">
       <div className="flex items-start gap-3">
@@ -86,7 +111,9 @@ function CauseCard({ cause, onDonate }: { cause: DonationCause; onDonate: (id: s
         </span>
         <div className="min-w-0">
           <h4 className="text-[0.9375rem] font-extrabold mb-1">{cause.name}</h4>
-          <p className="text-[13px] text-text-muted leading-relaxed">{cause.description}</p>
+          <p className="text-[13px] text-text-muted leading-relaxed">
+            {cause.description}
+          </p>
         </div>
       </div>
 
@@ -94,7 +121,10 @@ function CauseCard({ cause, onDonate }: { cause: DonationCause; onDonate: (id: s
         {cause.accepts.map((id) => {
           const t = DONATION_TYPES.find((x) => x.id === id)!;
           return (
-            <li key={id} className="text-[11px] font-bold text-green-dark bg-[rgba(26,122,74,0.08)] rounded-full px-2.5 py-1">
+            <li
+              key={id}
+              className="text-[11px] font-bold text-green-dark bg-[rgba(26,122,74,0.08)] rounded-full px-2.5 py-1"
+            >
               <span aria-hidden="true">{t.icon}</span> {t.label}
             </li>
           );
@@ -104,7 +134,7 @@ function CauseCard({ cause, onDonate }: { cause: DonationCause; onDonate: (id: s
       {(cause.contact?.name || cause.address) && (
         <p className="text-xs text-text-muted">
           {cause.contact?.name}
-          {cause.contact?.name && cause.address ? ' · ' : ''}
+          {cause.contact?.name && cause.address ? " · " : ""}
           {cause.address && <span>📍 {cause.address}</span>}
         </p>
       )}
@@ -137,11 +167,11 @@ function CauseCard({ cause, onDonate }: { cause: DonationCause; onDonate: (id: s
 // ─── Page
 export default function DonatePage() {
   const { hash } = useLocation();
-  const [cause, setCause] = useState('');
+  const [cause, setCause] = useState("");
 
   useEffect(() => {
     const previous = document.title;
-    document.title = 'باب الخير | قريتي';
+    document.title = "باب الخير | قريتي";
     return () => {
       document.title = previous;
     };
@@ -149,9 +179,11 @@ export default function DonatePage() {
 
   // /donate#form opens straight on the form
   useEffect(() => {
-    if (hash !== '#form') return;
+    if (hash !== "#form") return;
     const timer = window.setTimeout(() => {
-      document.getElementById('form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document
+        .getElementById("form")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 100);
     return () => window.clearTimeout(timer);
   }, [hash]);
@@ -159,13 +191,21 @@ export default function DonatePage() {
   const openForm = (id: string) => {
     setCause(id);
     requestAnimationFrame(() => {
-      document.getElementById('form')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      window.setTimeout(() => document.getElementById('donor-name')?.focus({ preventScroll: true }), 400);
+      document
+        .getElementById("form")
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      window.setTimeout(
+        () =>
+          document.getElementById("donor-name")?.focus({ preventScroll: true }),
+        400,
+      );
     });
   };
 
-  const organizations = DONATION_CAUSES.filter((c) => c.kind === 'organization');
-  const causes = DONATION_CAUSES.filter((c) => c.kind === 'cause');
+  const organizations = DONATION_CAUSES.filter(
+    (c) => c.kind === "organization",
+  );
+  const causes = DONATION_CAUSES.filter((c) => c.kind === "cause");
 
   return (
     <article className="max-w-[960px] mx-auto" aria-labelledby="donate-title">
@@ -185,14 +225,17 @@ export default function DonatePage() {
             >
               باب الخير
             </h2>
-            <p className="text-gold-light font-extrabold mt-1">خيرك يوصل لأهل قريتك</p>
+            <p className="text-gold-light font-extrabold mt-1">
+              خيرك يوصل لأهل قريتك
+            </p>
             <p className="text-[clamp(0.9rem,2vw,1.0625rem)] text-white/90 mt-3 leading-relaxed max-w-[620px]">
-              زكاة، صدقة، هدوم مش محتاجها، أو عفش لعروسة بتجهّز. اختار الباب اللي عايز تتبرع له، وسيب
-              بياناتك، وإحنا نكلمك ونوصّل تبرعك لأصحابه في القرية.
+              زكاة، صدقة، هدوم مش محتاجها، أو عفش لعروسة بتجهّز. اختار الباب
+              اللي عايز تتبرع له، وسيب بياناتك، وإحنا نكلمك ونوصّل تبرعك لأصحابه
+              في القرية.
             </p>
             <button
               type="button"
-              onClick={() => openForm('')}
+              onClick={() => openForm("")}
               className="mt-4 inline-flex items-center justify-center gap-2 min-h-[44px] px-5 rounded-xl bg-gold text-black font-extrabold text-[0.9375rem] cursor-pointer border-0 font-['Cairo',sans-serif] transition-transform duration-200 hover:scale-105"
             >
               عايز أتبرع ⬅️
@@ -207,7 +250,10 @@ export default function DonatePage() {
 
       {/* Organizations */}
       <section className="mb-6" aria-labelledby="donate-orgs">
-        <h3 id="donate-orgs" className="text-[clamp(1.125rem,2.5vw,1.375rem)] font-black mb-3.5 text-green-dark">
+        <h3
+          id="donate-orgs"
+          className="text-[clamp(1.125rem,2.5vw,1.375rem)] font-black mb-3.5 text-green-dark"
+        >
           جهات الخير في القرية
         </h3>
         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -219,7 +265,10 @@ export default function DonatePage() {
 
       {/* Causes */}
       <section className="mb-6" aria-labelledby="donate-causes">
-        <h3 id="donate-causes" className="text-[clamp(1.125rem,2.5vw,1.375rem)] font-black mb-3.5 text-green-dark">
+        <h3
+          id="donate-causes"
+          className="text-[clamp(1.125rem,2.5vw,1.375rem)] font-black mb-3.5 text-green-dark"
+        >
           أبواب الخير
         </h3>
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -230,8 +279,14 @@ export default function DonatePage() {
       </section>
 
       {/* How it works */}
-      <section className="bg-green-dark rounded-3xl p-6 text-white mb-6" aria-labelledby="donate-steps">
-        <h3 id="donate-steps" className="text-[clamp(1.125rem,2.5vw,1.375rem)] font-black mb-4">
+      <section
+        className="bg-green-dark rounded-3xl p-6 text-white mb-6"
+        aria-labelledby="donate-steps"
+      >
+        <h3
+          id="donate-steps"
+          className="text-[clamp(1.125rem,2.5vw,1.375rem)] font-black mb-4"
+        >
           التبرع بيتم إزاي؟
         </h3>
         <ol className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -247,14 +302,16 @@ export default function DonatePage() {
                 <h4 className="text-sm font-extrabold mb-1">
                   <span aria-hidden="true">{step.icon}</span> {step.title}
                 </h4>
-                <p className="text-xs text-white/80 leading-relaxed">{step.text}</p>
+                <p className="text-xs text-white/80 leading-relaxed">
+                  {step.text}
+                </p>
               </div>
             </li>
           ))}
         </ol>
         <p className="text-xs text-white/85 leading-relaxed mt-5 bg-white/10 rounded-xl p-3">
-          <span aria-hidden="true">🛡️</span> التطبيق مش بياخد فلوس منك. متحوّلش لأي رقم غير اللي مكتوب في الصفحة دي، حتى لو
-          حد كلمك باسم قريتي.
+          <span aria-hidden="true">🛡️</span> التطبيق مش بياخد فلوس منك. متحوّلش
+          لأي رقم غير اللي مكتوب في الصفحة دي، حتى لو حد كلمك باسم قريتي.
         </p>
       </section>
 
@@ -264,10 +321,15 @@ export default function DonatePage() {
         className="scroll-mt-24 bg-white rounded-2xl p-5 md:p-6 shadow-card border-2 border-gold-light mb-6"
         aria-labelledby="donate-form-title"
       >
-        <h3 id="donate-form-title" className="text-[clamp(1.125rem,2.5vw,1.375rem)] font-black mb-1 text-green-dark">
+        <h3
+          id="donate-form-title"
+          className="text-[clamp(1.125rem,2.5vw,1.375rem)] font-black mb-1 text-green-dark"
+        >
           <span aria-hidden="true">🤲</span> عايز أتبرع
         </h3>
-        <p className="text-sm text-text-muted leading-relaxed mb-4">سيب بياناتك وهنكلمك في أقرب وقت.</p>
+        <p className="text-sm text-text-muted leading-relaxed mb-4">
+          سيب بياناتك وهنكلمك في أقرب وقت.
+        </p>
         <DonationForm cause={cause} onCauseChange={setCause} />
       </section>
 
@@ -278,7 +340,8 @@ export default function DonatePage() {
             <span aria-hidden="true">🏡</span> تعرف جهة خير في قريتك؟
           </h3>
           <p className="text-[13px] text-text-muted leading-relaxed">
-            لجنة زكاة، جمعية، أو مسجد بيجمع تبرعات؟ ابعتلنا اسمها ورقم المسؤول ونضيفها هنا.
+            لجنة زكاة، جمعية، أو مسجد بيجمع تبرعات؟ ابعتلنا اسمها ورقم المسؤول
+            ونضيفها هنا.
           </p>
         </div>
         <a

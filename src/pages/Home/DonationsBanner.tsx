@@ -1,8 +1,13 @@
 // ─── باب الخير on the home page: a way in to /donate
-import { Link } from 'react-router';
-import { ROUTES } from '@/routes';
+import { Link } from "react-router";
+import { ROUTES } from "@/routes";
 
-const HIGHLIGHTS = ['🕌 بيت المال', '🤝 الجمعية الشرعية', '👰 تجهيز عرايس', '🧒 كفالة يتيم'];
+const HIGHLIGHTS = [
+  "🕌 بيت المال",
+  "🤝 الجمعية الشرعية",
+  "👰 تجهيز عرايس",
+  "🧒 كفالة يتيم",
+];
 
 export function DonationsBanner() {
   return (
@@ -18,15 +23,24 @@ export function DonationsBanner() {
           🤲
         </span>
         <div className="min-w-0">
-          <h3 id="home-donate-title" className="text-[clamp(1rem,2.5vw,1.25rem)] font-black text-green-dark mb-1">
+          <h3
+            id="home-donate-title"
+            className="text-[clamp(1rem,2.5vw,1.25rem)] font-black text-green-dark mb-1"
+          >
             باب الخير
           </h3>
           <p className="text-[13px] text-text-muted leading-relaxed">
             اتبرع لأهل قريتك بفلوس أو هدوم أو عفش أو أكل، وإحنا نوصّله لأصحابه.
           </p>
-          <ul className="flex flex-wrap gap-1.5 mt-2" aria-label="من أبواب الخير">
+          <ul
+            className="flex flex-wrap gap-1.5 mt-2"
+            aria-label="من أبواب الخير"
+          >
             {HIGHLIGHTS.map((item) => (
-              <li key={item} className="text-[11px] font-bold text-green-dark bg-cream rounded-full px-2.5 py-1">
+              <li
+                key={item}
+                className="text-[11px] font-bold text-green-dark bg-cream rounded-full px-2.5 py-1"
+              >
                 {item}
               </li>
             ))}
