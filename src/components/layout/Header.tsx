@@ -6,7 +6,7 @@ import { useUIStore } from "@/stores/useUIStore";
 import { useGoToTab, useActiveTab } from '@/hooks/useTabNavigation';
 
 import { useCartStore } from "@/stores/useCartStore";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { useAuthStore, selectUser } from "@/stores/useAuthStore";
 import { useUserStore } from "@/stores/useUserStore";
 import { DEFAULT_VILLAGE, knownVillage, villageLabel } from "@/data/villages";
@@ -18,6 +18,7 @@ import type { ActiveTab } from "@/types";
 
 export function Header() {
   const activeTab = useActiveTab();
+  const { pathname } = useLocation();
 
   const setActiveTab = useGoToTab();
 
@@ -154,6 +155,22 @@ export function Header() {
 
           {/* Action Buttons */}
           <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+            {/* About: the footer (with its link) is desktop-only, so phones and
+                tablets get the About page from the header, signed in or not. */}
+            <Link
+              to={ROUTES.about}
+              className={`lg:hidden w-[40px] h-[40px] rounded-xl flex items-center justify-center text-[18px] text-white transition-all duration-200 hover:bg-white/25 hover:scale-105 ${
+                pathname === ROUTES.about ? "bg-white/30" : "bg-white/15"
+              }`}
+              aria-label="عن قريتي"
+              title="عن قريتي"
+              aria-current={pathname === ROUTES.about ? "page" : undefined}
+            >
+              <span role="img" aria-hidden="true">
+                ℹ️
+              </span>
+            </Link>
+
             {/* Messages: the desktop nav (lg+) has it, but the bottom nav has no room,
                 so mobile gets it here (review item 7). */}
             <button
