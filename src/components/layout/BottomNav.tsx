@@ -1,5 +1,5 @@
 // ─── Imports
-import { useUIStore } from '@/stores/useUIStore';
+import { useGoToTab, useActiveTab } from '@/hooks/useTabNavigation';
 import type { ActiveTab, OrderModalData } from '@/types';
 
 // ─── Types
@@ -9,8 +9,8 @@ interface BottomNavProps {
 
 // ─── Component
 export function BottomNav({ onOpenQuickOrder }: BottomNavProps) {
-  const activeTab = useUIStore((state) => state.activeTab);
-  const setActiveTab = useUIStore((state) => state.setActiveTab);
+  const activeTab = useActiveTab();
+  const setActiveTab = useGoToTab();
 
   const handleFabClick = () => {
     onOpenQuickOrder({

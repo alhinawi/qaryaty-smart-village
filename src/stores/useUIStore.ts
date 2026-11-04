@@ -1,7 +1,7 @@
 // ─── Imports
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { ActiveTab, AppNotification, Order } from '@/types';
+import type { AppNotification, Order } from '@/types';
 
 // ─── Initial Notifications
 const INITIAL_NOTIFICATIONS: AppNotification[] = [
@@ -36,9 +36,6 @@ const INITIAL_NOTIFICATIONS: AppNotification[] = [
 
 // ─── State Interface
 interface UIState {
-  activeTab: ActiveTab;
-  setActiveTab: (tab: ActiveTab) => void;
-
   searchQuery: string;
   setSearchQuery: (query: string) => void;
 
@@ -76,9 +73,6 @@ let toastTimer: ReturnType<typeof setTimeout> | null = null;
 export const useUIStore = create<UIState>()(
   persist(
     (set, get) => ({
-      activeTab: 'home',
-      setActiveTab: (tab) => set({ activeTab: tab }),
-
       searchQuery: '',
       setSearchQuery: (query) => set({ searchQuery: query }),
 

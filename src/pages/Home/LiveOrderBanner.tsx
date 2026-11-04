@@ -1,9 +1,10 @@
 // ─── Imports
 import { useUIStore } from '@/stores/useUIStore';
+import { useGoToTab } from '@/hooks/useTabNavigation';
 
 // ─── Component
 export function LiveOrderBanner() {
-  const setActiveTab = useUIStore((state) => state.setActiveTab);
+  const setActiveTab = useGoToTab();
   const showToast = useUIStore((state) => state.showToast);
 
   const handleTrackClick = () => {

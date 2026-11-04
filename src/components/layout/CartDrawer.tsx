@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { useCartStore } from "@/stores/useCartStore";
 import { useUIStore } from "@/stores/useUIStore";
+import { useGoToTab } from '@/hooks/useTabNavigation';
 import { useOrderStore } from "@/stores/useOrderStore";
 import { useUserStore } from "@/stores/useUserStore";
 import { orderFormSchema } from "@/utils/validators";
@@ -39,7 +40,7 @@ function formatLinePrice(item: CartItem): string {
 function CartDrawerContent() {
   const setIsOpen = useUIStore((state) => state.setIsCartOpen);
   const showToast = useUIStore((state) => state.showToast);
-  const setActiveTab = useUIStore((state) => state.setActiveTab);
+  const setActiveTab = useGoToTab();
 
   const items = useCartStore((state) => state.items);
   const removeItem = useCartStore((state) => state.removeItem);
