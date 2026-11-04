@@ -11,7 +11,8 @@ import { useUserStore } from './useUserStore';
 interface AuthState {
   session: AuthSession | null;
   login: (input: LoginInput) => Promise<AuthUser>;
-  register: (input: RegisterInput) => Promise<AuthUser>;
+  /** The new user, or the address the activation email went to. */
+  register: (input: RegisterInput) => Promise<{ user: AuthUser } | { confirmEmail: string }>;
   logout: () => Promise<void>;
   /** Re-read the user (role/blocked can change from the admin panel). */
   refresh: () => Promise<void>;
@@ -31,10 +32,11 @@ export const useAuthStore = create<AuthState>()(
       },
 
       register: async ({ confirmPassword: _confirm, ...input }) => {
-        const session = await authRepo.register(input);
-        set({ session });
-        useUserStore.getState().applyAuthUser(session.user);
-        return session.user;
+        const result = await authRepo.register(input);
+        if (result.status === 'confirm_email') return { confirmEmail: result.email };
+        set({ session: result.session });
+        useUserStore.getState().applyAuthUser(result.session.user);
+        return { user: result.session.user };
       },
 
       logout: async () => {

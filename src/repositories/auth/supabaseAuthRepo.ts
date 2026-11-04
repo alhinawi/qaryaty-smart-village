@@ -1,26 +1,20 @@
-// ─── Auth on Supabase (phone + password)
+// ─── Auth on Supabase (email + password)
 //
-// Supabase password sign-in needs an email, and phone sign-in needs SMS. Until
-// SMS/OTP is set up, the phone number is turned into an internal address
-// (01012345678@phone.qaryati.app) that the customer never sees. In the Supabase
-// dashboard turn OFF "Confirm email" for this to work (see supabase/schema.sql).
+// The customer signs up with their real email. With "Confirm email" on in the
+// Supabase dashboard, Supabase sends the activation email (from the site's own
+// SMTP sender) and the account can sign in only after the link is opened.
 //
-// Profile data (name, village, role, blocked) lives in the `profiles` table,
-// filled by a database trigger on sign-up.
+// Profile data (name, phone, village, role, blocked) lives in the `profiles`
+// table, filled by a database trigger on sign-up.
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { AuthUser, UserRole } from '@/types';
 import { normalizeEgyptianPhone } from '@/utils/validators';
 import { AuthError, type AuthService } from '@/services/auth';
 
-export const PHONE_EMAIL_DOMAIN = 'phone.qaryati.app';
-
-export function phoneToEmail(phone: string): string {
-  return `${normalizeEgyptianPhone(phone)}@${PHONE_EMAIL_DOMAIN}`;
-}
-
 export interface ProfileRow {
   id: string;
   name: string;
+  email: string | null;
   phone: string;
   village: string;
   address: string;
@@ -36,6 +30,7 @@ export function userFromProfile(row: ProfileRow): AuthUser {
   return {
     id: row.id,
     name: row.name,
+    email: row.email ?? '',
     phone: row.phone,
     village: row.village,
     address: row.address,
@@ -46,13 +41,13 @@ export function userFromProfile(row: ProfileRow): AuthUser {
 }
 
 const MESSAGES = {
-  invalid: 'رقم الموبايل أو كلمة السر مش صح',
-  taken: 'الرقم ده عنده حساب قبل كده، جرّب تسجل دخول',
+  invalid: 'الإيميل أو كلمة السر مش صح',
+  taken: 'الإيميل ده عنده حساب قبل كده، جرّب تسجل دخول',
+  notConfirmed: 'لسه مافعّلتش حسابك. افتح إيميل التفعيل اللي بعتناهولك واضغط على اللينك',
   blocked: 'الحساب ده موقوف، كلم إدارة قريتي',
   notFound: 'الحساب مش موجود',
   tooMany: 'محاولات كتير، استنى شوية وجرّب تاني',
   rejected: 'الطلب اترفض، راجع البيانات وجرّب تاني',
-  needsConfirm: 'الحساب اتعمل بس محتاج تفعيل، كلم إدارة قريتي',
 };
 
 interface ErrorLike {
@@ -70,8 +65,9 @@ export function mapAuthError(error: ErrorLike): unknown {
   const code = error.code ?? '';
   const status = error.status ?? 0;
   if (code === 'invalid_credentials') return new AuthError('invalid_credentials', MESSAGES.invalid);
+  if (code === 'email_not_confirmed') return new AuthError('email_not_confirmed', MESSAGES.notConfirmed);
   if (code === 'user_already_exists' || code === 'email_exists' || /already registered/i.test(error.message ?? '')) {
-    return new AuthError('phone_taken', MESSAGES.taken);
+    return new AuthError('email_taken', MESSAGES.taken);
   }
   if (code === 'user_banned') return new AuthError('blocked', MESSAGES.blocked);
   if (status === 429) return new AuthError('rejected', MESSAGES.tooMany);
@@ -83,6 +79,11 @@ export function mapAuthError(error: ErrorLike): unknown {
 function mapDbError(error: ErrorLike): unknown {
   if (error.code && /^(22|23|42)/.test(error.code)) return new AuthError('rejected', MESSAGES.rejected);
   return error;
+}
+
+/** Where the link in the activation email lands: this site's login page. */
+function activationRedirect(): string | undefined {
+  return typeof window === 'undefined' ? undefined : `${window.location.origin}/login?activated=1`;
 }
 
 export function createSupabaseAuthRepo(getClient: () => Promise<SupabaseClient>): AuthService {
@@ -113,26 +114,33 @@ export function createSupabaseAuthRepo(getClient: () => Promise<SupabaseClient>)
   return {
     async register(input) {
       const supabase = await getClient();
-      const phone = normalizeEgyptianPhone(input.phone);
-      const meta = { name: input.name.trim(), phone, village: input.village.trim(), address: input.address.trim() };
+      const email = input.email.trim().toLowerCase();
+      const meta = {
+        name: input.name.trim(),
+        phone: normalizeEgyptianPhone(input.phone),
+        village: input.village.trim(),
+        address: input.address.trim(),
+      };
       const { data, error } = await supabase.auth.signUp({
-        email: phoneToEmail(phone),
+        email,
         password: input.password,
-        options: { data: meta },
+        options: { data: meta, emailRedirectTo: activationRedirect() },
       });
       if (error) throw mapAuthError(error);
-      if (!data.session || !data.user) throw new AuthError('rejected', MESSAGES.needsConfirm);
+      // With confirmation on, Supabase answers an existing email with a user that has no identities
+      if (data.user && data.user.identities?.length === 0) throw new AuthError('email_taken', MESSAGES.taken);
+      if (!data.session || !data.user) return { status: 'confirm_email', email };
       const user =
         (await fetchProfile(supabase, data.user.id)) ??
         // The trigger hasn't run yet: use what we just sent
-        { id: data.user.id, ...meta, role: 'customer' as const, blocked: false, createdAt: data.user.created_at };
-      return { token: data.session.access_token, user };
+        { id: data.user.id, email, ...meta, role: 'customer' as const, blocked: false, createdAt: data.user.created_at };
+      return { status: 'signed_in', session: { token: data.session.access_token, user } };
     },
 
     async login(input) {
       const supabase = await getClient();
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: phoneToEmail(input.phone),
+        email: input.email.trim().toLowerCase(),
         password: input.password,
       });
       if (error) throw mapAuthError(error);

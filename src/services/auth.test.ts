@@ -5,6 +5,7 @@ import { loginSchema, registerSchema } from '@/utils/validators';
 
 const newAccount = {
   name: 'محمد الهناوي',
+  email: 'Hinawi@Example.com',
   phone: '٠١٠١٢٣٤٥٦٧٨',
   village: 'قرية البركة',
   address: 'شارع المدرسة',
@@ -20,37 +21,40 @@ describe('mock auth service', () => {
     auth = createMockAuthService(storage);
   });
 
-  it('registers with a normalized phone and logs in with +20', async () => {
-    const session = await auth.register(newAccount);
+  it('registers with a normalized phone and logs in with the email', async () => {
+    const result = await auth.register(newAccount);
+    if (result.status !== 'signed_in') throw new Error('expected a session');
+    const { session } = result;
     expect(session.user.phone).toBe('01012345678');
+    expect(session.user.email).toBe('hinawi@example.com');
     expect(session.user.role).toBe('customer');
-    const again = await auth.login({ phone: '+20 101 234 5678', password: 'qarya2026' });
+    const again = await auth.login({ email: ' hinawi@EXAMPLE.com ', password: 'qarya2026' });
     expect(again.user.id).toBe(session.user.id);
   });
 
   it('never stores the plain password', async () => {
     await auth.register(newAccount);
-    const raw = storage.getItem('qaryati_mock_users_v1') ?? '';
+    const raw = storage.getItem('qaryati_mock_users_v2') ?? '';
     expect(raw).not.toContain('qarya2026');
     expect(raw).not.toContain(DEMO_ADMIN.password);
     expect(raw).toMatch(/"passwordHash":"[0-9a-f]{64}"/);
   });
 
-  it('rejects a wrong password and an unknown phone with the same error', async () => {
+  it('rejects a wrong password and an unknown email with the same error', async () => {
     await auth.register(newAccount);
-    const wrong = auth.login({ phone: '01012345678', password: 'nope12345' });
+    const wrong = auth.login({ email: 'hinawi@example.com', password: 'nope12345' });
     await expect(wrong).rejects.toMatchObject({ code: 'invalid_credentials' });
-    const unknown = auth.login({ phone: '01099999999', password: 'qarya2026' });
+    const unknown = auth.login({ email: 'nobody@example.com', password: 'qarya2026' });
     await expect(unknown).rejects.toMatchObject({ code: 'invalid_credentials' });
   });
 
-  it('refuses a second account on the same phone', async () => {
+  it('refuses a second account on the same email', async () => {
     await auth.register(newAccount);
-    await expect(auth.register({ ...newAccount, phone: '01012345678' })).rejects.toBeInstanceOf(AuthError);
+    await expect(auth.register({ ...newAccount, email: 'hinawi@example.com' })).rejects.toBeInstanceOf(AuthError);
   });
 
   it('seeds the demo admin, who can log in', async () => {
-    const session = await auth.login({ phone: DEMO_ADMIN.phone, password: DEMO_ADMIN.password });
+    const session = await auth.login({ email: DEMO_ADMIN.email, password: DEMO_ADMIN.password });
     expect(session.user.role).toBe('admin');
   });
 
@@ -58,15 +62,17 @@ describe('mock auth service', () => {
     const users = await auth.listUsers();
     const sample = users.find((u) => u.role === 'customer');
     expect(sample).toBeDefined();
-    await expect(auth.login({ phone: sample!.phone, password: 'anything1' })).rejects.toMatchObject({
+    await expect(auth.login({ email: sample!.email, password: 'anything1' })).rejects.toMatchObject({
       code: 'invalid_credentials',
     });
   });
 
   it('blocked users cannot log in; role changes stick', async () => {
-    const { user } = await auth.register(newAccount);
+    const result = await auth.register(newAccount);
+    if (result.status !== 'signed_in') throw new Error('expected a session');
+    const { user } = result.session;
     await auth.setBlocked(user.id, true);
-    await expect(auth.login({ phone: user.phone, password: 'qarya2026' })).rejects.toMatchObject({ code: 'blocked' });
+    await expect(auth.login({ email: user.email, password: 'qarya2026' })).rejects.toMatchObject({ code: 'blocked' });
     await auth.setBlocked(user.id, false);
     await auth.setRole(user.id, 'admin');
     expect((await auth.getUser(user.id))?.role).toBe('admin');
@@ -89,6 +95,7 @@ describe('auth form schemas', () => {
     ['mismatched confirmation', { confirmPassword: 'other1234' }, 'confirmPassword'],
     ['short name', { name: 'م' }, 'name'],
     ['bad phone', { phone: '0123' }, 'phone'],
+    ['bad email', { email: 'not-an-email' }, 'email'],
     ['short address', { address: 'بيت' }, 'address'],
   ])('rejects %s', (_label, patch, field) => {
     const r = registerSchema.safeParse({ ...valid, ...patch });
@@ -96,8 +103,9 @@ describe('auth form schemas', () => {
     if (!r.success) expect(r.error.issues.map((i) => i.path[0])).toContain(field);
   });
 
-  it('login needs a valid phone and a password', () => {
-    expect(loginSchema.safeParse({ phone: '+201012345678', password: 'x' }).success).toBe(true);
-    expect(loginSchema.safeParse({ phone: '01012345678', password: '' }).success).toBe(false);
+  it('login needs a valid email and a password', () => {
+    expect(loginSchema.safeParse({ email: 'a@b.co', password: 'x' }).success).toBe(true);
+    expect(loginSchema.safeParse({ email: '01012345678', password: 'x' }).success).toBe(false);
+    expect(loginSchema.safeParse({ email: 'a@b.co', password: '' }).success).toBe(false);
   });
 });

@@ -6,7 +6,7 @@
 --   • Every table has Row Level Security on.
 --   • Catalog (services, shops, providers): anyone reads; only admins write.
 --   • profiles: you read your own row and may change only name, village and
---     address. role, blocked, phone and anything added later (a balance, points)
+--     address. role, blocked, phone, email and anything added later (a balance, points)
 --     can't be changed from the app: column privileges are a whitelist.
 --     Admins change role/blocked only through admin_set_role / admin_set_blocked.
 --   • orders: anyone may place one (guests too), only as themselves; the status
@@ -16,12 +16,11 @@
 --     out of every grant below and change it only in a SECURITY DEFINER function
 --     or an Edge Function with the secret key.
 --
--- Auth: the app signs in with phone + password by turning the phone into an
--- internal address (01012345678@phone.qaryati.app). In Authentication →
--- Sign In / Providers → Email, turn OFF "Confirm email", or new accounts can't
--- sign in.
--- First admin: after you register in the app, run in the SQL Editor
---   update public.profiles set role = 'admin' where phone = '01XXXXXXXXX';
+-- Auth: customers sign up with their real email + password; the phone is a
+-- contact field. Keep "Confirm email" ON (Authentication → Sign In / Providers)
+-- with custom SMTP so the activation email comes from the site's own address.
+-- First admin: after you register and activate in the app, run in the SQL Editor
+--   update public.profiles set role = 'admin' where email = 'you@example.com';
 
 -- ─── Catalog (anyone can read) ─────────────────────────────────────────────────
 create table if not exists public.services (
@@ -85,7 +84,8 @@ alter table public.providers add constraint providers_kind_check
 create table if not exists public.profiles (
   id         uuid primary key references auth.users (id) on delete cascade,
   name       text not null,
-  phone      text not null unique,
+  email      text,
+  phone      text not null,
   village    text not null default '',
   address    text not null default '',
   role       text not null default 'customer' check (role in ('customer','admin')),
@@ -93,24 +93,30 @@ create table if not exists public.profiles (
   created_at timestamptz not null default now()
 );
 
+-- Projects created with phone sign-in: add the email, the phone is no longer the login
+alter table public.profiles add column if not exists email text;
+alter table public.profiles drop constraint if exists profiles_phone_key;
+create index if not exists profiles_phone_idx on public.profiles (phone);
+
 alter table public.profiles drop constraint if exists profiles_text_lengths;
 alter table public.profiles add constraint profiles_text_lengths
   check (length(name) <= 80 and length(village) <= 120 and length(address) <= 300);
 
--- New account → profile. The phone comes from the sign-in address, never from
--- what the client sends, and the role is always 'customer'.
+-- New account → profile. The email is the one Supabase verified, the phone must
+-- be an Egyptian mobile number, and the role is always 'customer'.
 create or replace function public.handle_new_user() returns trigger
 language plpgsql security definer set search_path = public as $$
 declare
-  v_phone text := split_part(coalesce(new.email, ''), '@', 1);
+  v_phone text := btrim(coalesce(new.raw_user_meta_data ->> 'phone', ''));
 begin
-  if coalesce(new.email, '') !~ '^01[0125][0-9]{8}@phone\.qaryati\.app$' then
-    raise exception 'sign up with a phone number' using errcode = '22023';
+  if v_phone !~ '^01[0125][0-9]{8}$' then
+    raise exception 'a valid phone number is required' using errcode = '22023';
   end if;
-  insert into public.profiles (id, name, phone, village, address)
+  insert into public.profiles (id, name, email, phone, village, address)
   values (
     new.id,
     left(btrim(coalesce(new.raw_user_meta_data ->> 'name', '')), 80),
+    lower(new.email),
     v_phone,
     left(btrim(coalesce(new.raw_user_meta_data ->> 'village', '')), 120),
     left(btrim(coalesce(new.raw_user_meta_data ->> 'address', '')), 300)
