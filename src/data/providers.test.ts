@@ -92,5 +92,6 @@ describe('providers sample data', () => {
       if (p.gender === 'female') expect(url.searchParams.get('top')).toBe('hijab');
     }
     expect(new Set(PROVIDERS.map((p) => p.photo)).size).toBe(PROVIDERS.length);
+    expect(new Set(PROVIDERS.map((p) => p.id)).size).toBe(PROVIDERS.length);
   });
 });
