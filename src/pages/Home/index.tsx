@@ -26,6 +26,8 @@ import { ShopsSection } from './ShopsSection';
 import { productsForShop } from '@/data/catalog';
 import { ProvidersSection } from './ProvidersSection';
 import { PeopleSectionsRow } from './PeopleSectionsRow';
+import { DonationsBanner } from './DonationsBanner';
+import { DONATION_SEARCH_FIELDS } from '@/config/donations';
 import { ProviderPickerModal } from './ProviderPickerModal';
 import { FeaturesSection } from './FeaturesSection';
 import { SkeletonList } from '@/components/ui/Skeleton';
@@ -306,6 +308,10 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
             onShowAll={() => openSection(section.id)}
           />
         ))}
+
+      {/* باب الخير: on الكل, or when the search is about giving (تبرع، زكاة، بيت المال…) */}
+      {selectedCategory === 'all' &&
+        (!isSearching || matchesSearch(searchQuery, [...DONATION_SEARCH_FIELDS])) && <DonationsBanner />}
 
       {/* Promo Banner */}
       {!isRestaurantsCategory && <PromoBanner />}
