@@ -33,7 +33,9 @@
 ## 🛠️ متطلبات التشغيل (Prerequisites)
 
 - **Node.js**: إصدار `v18+` (يوصى بـ `v20` أو `v22`).
-- **pnpm**: إصدار `v9+` أو `v11+`.
+- **pnpm**: إصدار `v10` (المشروع مثبّت على `pnpm@10.34.9` في `packageManager` داخل `package.json`).
+  - ‏pnpm 9 بيفشل مع `pnpm-workspace.yaml` (إعداد `allowBuilds`).
+  - أسهل طريقة: `corepack enable` وبعدها `pnpm` هيستخدم الإصدار الصح تلقائياً.
 
 ---
 
@@ -53,6 +55,11 @@ pnpm run dev
 ### 3. بناء نسخة الإنتاج (Production Build)
 ```bash
 pnpm run build
+```
+
+### 4. معاينة نسخة الإنتاج (Preview)
+```bash
+pnpm run preview
 ```
 
 ---
