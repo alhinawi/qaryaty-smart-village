@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { __resetOverlayHistory, closeOverlay, openOverlay } from './overlayHistory';
+import { __resetOverlayHistory, closeOverlay, openOverlay, whenHistorySettled } from './overlayHistory';
 
 // Minimal fake of window.history: back() is async like the real one.
 function installFakeHistory() {
@@ -75,5 +75,40 @@ describe('overlayHistory', () => {
     closeOverlay(id);
     await flush();
     expect(fake.getIndex()).toBe(2);
+  });
+
+  it('an overlay opened as another closes keeps its own entry, so back closes it', async () => {
+    const first = openOverlay(vi.fn());
+    closeOverlay(first); // its back is on its way
+    const second = vi.fn();
+    openOverlay(second); // e.g. the search closed and a shop menu opened
+    await flush();
+    expect(fake.getIndex()).toBe(1);
+    fake.history.back();
+    await flush();
+    expect(second).toHaveBeenCalledOnce();
+    expect(fake.getIndex()).toBe(0);
+  });
+
+  it('an overlay closed before its entry was added leaves history alone', async () => {
+    const first = openOverlay(vi.fn());
+    closeOverlay(first);
+    const second = openOverlay(vi.fn());
+    closeOverlay(second);
+    await flush();
+    expect(fake.getIndex()).toBe(0);
+  });
+
+  it('waits for our back to land before a navigation runs', async () => {
+    const id = openOverlay(vi.fn());
+    closeOverlay(id);
+    const navigate = vi.fn(() => fake.history.pushState({ idx: 1 }));
+    whenHistorySettled(navigate);
+    expect(navigate).not.toHaveBeenCalled();
+    await flush();
+    expect(navigate).toHaveBeenCalledOnce();
+    expect(fake.getIndex()).toBe(1);
+    whenHistorySettled(navigate); // nothing pending: runs at once
+    expect(navigate).toHaveBeenCalledTimes(2);
   });
 });
