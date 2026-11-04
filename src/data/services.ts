@@ -189,7 +189,7 @@ export const SERVICES: Service[] = [
   },
   {
     id: 14,
-    cat: 'care',
+    cat: 'food',
     emoji: '🐄',
     name: 'لقمة من بهايم',
     desc: 'شراء وبيع لبن ومنتجات الألبان الطازجة',
@@ -443,7 +443,7 @@ export const SERVICES: Service[] = [
     id: 30,
     cat: 'home',
     emoji: '🧹',
-    name: 'عاملة نظافة',
+    name: 'عامل / عاملة نظافة',
     desc: 'تنضيف شقة أو بيت كامل، ومطابخ وحمامات',
     time: 'حسب الموعد',
     price: 'من 200 ج/اليوم',
