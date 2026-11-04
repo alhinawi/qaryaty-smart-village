@@ -6,10 +6,19 @@ import { useUIStore } from "@/stores/useUIStore";
 import { useOrderStore } from "@/stores/useOrderStore";
 import { useUserStore } from "@/stores/useUserStore";
 
+import type { Order } from "@/types";
+
 // ─── Component
+// Keyed by order id so stars and feedback start fresh for every order.
 export function RatingModal() {
   const isOpen = useUIStore((state) => state.isRatingModalOpen);
   const ratingOrder = useUIStore((state) => state.ratingOrder);
+  if (!isOpen || !ratingOrder) return null;
+  return <RatingModalContent key={ratingOrder.id} ratingOrder={ratingOrder} />;
+}
+
+function RatingModalContent({ ratingOrder }: { ratingOrder: Order }) {
+  const isOpen = true;
   const closeModal = useUIStore((state) => state.closeRatingModal);
   const showToast = useUIStore((state) => state.showToast);
 
@@ -19,11 +28,13 @@ export function RatingModal() {
   const [rating, setRating] = useState(5);
   const [feedback, setFeedback] = useState("");
 
-  if (!isOpen || !ratingOrder) return null;
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    addRating(ratingOrder.id, rating, feedback);
+    if (!addRating(ratingOrder.id, rating, feedback.trim())) {
+      showToast("ℹ️ الطلب ده متقيّم قبل كده");
+      closeModal();
+      return;
+    }
     addRewardPoints(20); // +20 points for review
     showToast("🌟 شكراً لتقييمك! كسبت +20 نقطة مكافآت");
     closeModal();
