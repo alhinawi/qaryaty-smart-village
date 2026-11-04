@@ -4,6 +4,7 @@ import type {
   BadgeType,
   Gender,
   PriceType,
+  Product,
   Provider,
   ProviderKind,
   ProviderMode,
@@ -49,6 +50,42 @@ export interface ShopRow {
   bg_color: string;
   kind?: string | null;
   food_types?: string[] | null;
+  photo?: string | null;
+}
+
+export interface CatalogProductRow {
+  scope: string;
+  product_id: string;
+  name: string;
+  price: number | string;
+  unit: string;
+  step: number | string;
+  grillable: boolean;
+  rx: boolean;
+  emoji?: string | null;
+  section?: string | null;
+  photo?: string | null;
+  position?: number | null;
+}
+
+/** Same rule as public.shop_scope(): a restaurant has its own menu, other shops share their kind's list. */
+export function productScope(shop: Pick<Shop, 'id' | 'kind'>): string {
+  return shop.kind === 'restaurant' ? `restaurant:${shop.id}` : (shop.kind ?? 'other');
+}
+
+export function productFromRow(row: CatalogProductRow): Product {
+  return {
+    id: row.product_id,
+    name: row.name,
+    emoji: row.emoji || '🛍️',
+    photo: row.photo ?? undefined,
+    price: Number(row.price),
+    unit: row.unit,
+    step: Number(row.step),
+    section: row.section || undefined,
+    grillable: row.grillable || undefined,
+    rx: row.rx || undefined,
+  };
 }
 
 export interface ProviderRow {
@@ -112,6 +149,7 @@ export function shopFromRow(row: ShopRow): Shop {
     bgColor: row.bg_color,
     kind: (row.kind ?? 'other') as Shop['kind'],
     foodTypes: (row.food_types ?? []) as Shop['foodTypes'],
+    photo: row.photo ?? undefined,
   };
 }
 
@@ -164,6 +202,18 @@ export function createSupabaseCatalogRepo(getClient: () => Promise<SupabaseClien
       const { data, error } = await supabase.from('providers').select('*').eq('active', true).order('id');
       if (error) throw error;
       return (data as ProviderRow[]).map(providerFromRow);
+    },
+    async getProducts(shop) {
+      const supabase = await getClient();
+      const { data, error } = await supabase
+        .from('catalog_products')
+        .select('*')
+        .eq('scope', productScope(shop))
+        .order('position')
+        .order('product_id');
+      if (error) throw error;
+      const rows = data as CatalogProductRow[];
+      return rows.length > 0 ? rows.map(productFromRow) : null;
     },
   };
 }

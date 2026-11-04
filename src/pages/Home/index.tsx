@@ -74,6 +74,9 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
   const [kind, setKind] = useState<ProviderKind | 'all'>('all');
   const peopleSection = sectionForCategory(selectedCategory);
   const isSearching = searchQuery.trim().length > 0;
+  const isRestaurantsCategory = selectedCategory === 'restaurants';
+  /** Restaurants sit near the top on الكل and under the مطاعم chip; search results keep them lower down. */
+  const restaurantsOnTop = isRestaurantsCategory || (selectedCategory === 'all' && !isSearching);
 
   const setSelectedCategory = (category: CategoryFilter) => {
     setSelectedCategoryState(category);
@@ -160,7 +163,25 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
 
   // Hide an empty services grid when a people section is on screen (it has its own empty message)
   const showServicesGrid =
-    filteredServices.length > 0 || (!peopleSection && searchPeople.length === 0);
+    !isRestaurantsCategory && (filteredServices.length > 0 || (!peopleSection && searchPeople.length === 0));
+
+  const openRestaurants = () => {
+    setSelectedCategory('restaurants');
+    requestAnimationFrame(() =>
+      document.getElementById('restaurants')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    );
+  };
+
+  const restaurantsSection = (
+    <ShopsSection
+      variant="restaurants"
+      shops={restaurants}
+      isSearching={isSearching}
+      onSelectShop={onOpenOrderModal}
+      showAll={isRestaurantsCategory}
+      onShowAll={openRestaurants}
+    />
+  );
 
   const handleBookProvider = (provider: Provider, group?: TeacherGroup) => {
     const service = services.find((s) => s.id === provider.serviceId);
@@ -243,6 +264,9 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
         <PeopleSectionsRow counts={counts} onOpen={openSection} />
       )}
 
+      {/* Restaurants: near the top so they're easy to find */}
+      {!isLoading && restaurantsOnTop && restaurantsSection}
+
       {/* The selected category's people, all in one section, with its filters */}
       {!isLoading && peopleSection && (
         <ProvidersSection
@@ -284,24 +308,13 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
         ))}
 
       {/* Promo Banner */}
-      <PromoBanner />
+      {!isRestaurantsCategory && <PromoBanner />}
 
       {/* Village Shops Section */}
-      {!isLoading && (
-        <>
-          <ShopsSection
-            shops={villageShops}
-            isSearching={searchQuery.trim().length > 0}
-            onSelectShop={onOpenOrderModal}
-          />
-          <ShopsSection
-            variant="restaurants"
-            shops={restaurants}
-            isSearching={searchQuery.trim().length > 0}
-            onSelectShop={onOpenOrderModal}
-          />
-        </>
+      {!isLoading && !isRestaurantsCategory && (
+        <ShopsSection shops={villageShops} isSearching={isSearching} onSelectShop={onOpenOrderModal} />
       )}
+      {!isLoading && !restaurantsOnTop && restaurantsSection}
 
       {/* Why Choose Us Features */}
       <FeaturesSection />

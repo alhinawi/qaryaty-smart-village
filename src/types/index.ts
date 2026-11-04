@@ -10,7 +10,8 @@ export type ServiceCategory =
   | 'home'
   | 'finishing';
 
-export type CategoryFilter = 'all' | ServiceCategory;
+/** The home page's category chips: every service category, plus المطاعم. */
+export type CategoryFilter = 'all' | ServiceCategory | 'restaurants';
 
 export type BadgeType = 'popular' | 'new' | '';
 
@@ -267,6 +268,8 @@ export interface Shop {
   kind?: ShopKind;
   /** Restaurants: what they serve, for the food-type filter. */
   foodTypes?: FoodType[];
+  /** Restaurants: a photo of one of their dishes, for the card. */
+  photo?: string;
 }
 
 export interface CategoryItem {
