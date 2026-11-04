@@ -38,8 +38,9 @@ export const useCartStore = create<CartState>()(
             id: `cart_${service.id}_${Date.now()}`,
             serviceId: service.id,
             name: service.name,
-            price: service.numericPrice,
+            price: service.numericPrice ?? 0,
             formattedPrice: service.price,
+            priceType: service.priceType,
             emoji: service.emoji,
             quantity: 1,
           };

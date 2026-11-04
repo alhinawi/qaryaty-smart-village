@@ -44,6 +44,8 @@ export default function App() {
   // Modal States
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
   const [modalData, setModalData] = useState<OrderModalData | null>(null);
+  // Bumped on every open so OrderModal remounts with clean state (step, promo, notes)
+  const [orderModalKey, setOrderModalKey] = useState(0);
 
   // Order Success Screen State
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
@@ -51,6 +53,7 @@ export default function App() {
 
   const handleOpenOrderModal = (data: OrderModalData) => {
     setModalData(data);
+    setOrderModalKey((key) => key + 1);
     setIsOrderModalOpen(true);
   };
 
@@ -114,6 +117,7 @@ export default function App() {
 
         {/* Order Modal Flow */}
         <OrderModal
+          key={orderModalKey}
           isOpen={isOrderModalOpen}
           data={modalData}
           onClose={handleCloseOrderModal}
