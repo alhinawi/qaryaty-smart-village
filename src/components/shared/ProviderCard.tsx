@@ -1,18 +1,12 @@
 // ─── Card for a teacher / nurse / doctor / babysitter / cleaner
 import type { Provider } from '@/types';
 import { Avatar } from './Avatar';
-import { MODE_LABELS, PROVIDER_KIND_LABELS, STAGE_LABELS, SUBJECT_LABELS } from '@/data/teachers';
+import { MODE_LABELS, STAGE_LABELS } from '@/data/teachers';
+import { providerRoleLabel } from '@/utils/people';
 
 interface ProviderCardProps {
   provider: Provider;
   onBook: (provider: Provider) => void;
-}
-
-export function providerRoleLabel(provider: Provider): string {
-  const role = PROVIDER_KIND_LABELS[provider.kind][provider.gender];
-  if (provider.subject) return `${role} ${SUBJECT_LABELS[provider.subject]}`;
-  if (provider.specialty) return `${role} ${provider.specialty}`;
-  return role;
 }
 
 export function ProviderCard({ provider, onBook }: ProviderCardProps) {
