@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router';
 import { ROUTES } from '@/routes';
-import { DEVELOPER_NAME } from '@/components/layout/Footer';
+import { DEVELOPER_NAME } from '@/config/developer';
 import { DeveloperLinks } from '@/components/layout/DeveloperLinks';
 import { ONLINE_PAYMENTS_ENABLED } from '@/services/payments';
 import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon';

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import type { Provider, ProviderMode } from '@/types';
-import { PROVIDERS } from '@/data/providers';
+import { DEVELOPER_TEACHER_IDS, PROVIDERS } from '@/data/providers';
 import { DEFAULT_VILLAGE, VILLAGES, knownVillage, nearbyVillages } from '@/data/villages';
 import { isLocalProvider, localProviders, onlineProviders, villagesInReach, worksInPerson } from './reach';
 
@@ -67,8 +67,9 @@ describe('reach', () => {
 });
 
 describe('sample data', () => {
-  it('every provider has a village, most in منية سندوب', () => {
-    expect(PROVIDERS.every((p) => p.village)).toBe(true);
+  it('every sample provider has a village, most in منية سندوب', () => {
+    // The developer's own cards are online-only, with no village given yet
+    expect(PROVIDERS.every((p) => p.village || (DEVELOPER_TEACHER_IDS as readonly number[]).includes(p.id))).toBe(true);
     const home = PROVIDERS.filter((p) => p.village === 'منية سندوب').length;
     expect(home / PROVIDERS.length).toBeGreaterThan(0.5);
   });
