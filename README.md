@@ -64,6 +64,27 @@ pnpm run preview
 
 ---
 
+## 🗄️ البيانات و Supabase
+
+الصفحات مابتكلمش Supabase ولا البيانات التجريبية مباشرة. كل حاجة بتعدي من طبقة `src/repositories`:
+
+- `getServices()` و `getShops()` و `getProviders()` للكتالوج، و `createOrder()` للطلبات، و `authRepo` للدخول والتسجيل.
+- كل repository ليه نسختين بنفس الواجهة: `mock` (بيانات تجريبية في المتصفح) و `supabase` (الباك إند الحقيقي)، والاختيار بيحصل مرة واحدة في `src/repositories/index.ts`.
+
+**التشغيل بدون Supabase (الوضع التجريبي):** سيب المتغيرات فاضية، والتطبيق يشتغل على البيانات التجريبية زي ما هو.
+
+**التشغيل مع Supabase:**
+1. انسخ `.env.example` لـ `.env.local` وحط `VITE_SUPABASE_URL` و `VITE_SUPABASE_ANON_KEY`.
+2. شغّل `supabase/schema.sql` في SQL Editor، وبعده `supabase/seed.sql` (بيتعمل من `src/data` بالأمر `pnpm seed:sql`).
+3. من Authentication ← Providers ← Email اقفل **Confirm email** (الدخول بالموبايل وكلمة السر بيستخدم إيميل داخلي).
+
+**لو Supabase وقع أو المشروع اتعمله Pause:**
+- القراءة (الخدمات والمحلات والمدرسين) بترجع البيانات التجريبية، ويظهر شريط "الخدمة متوقفة مؤقتًا" فيه زرار "جرّب تاني".
+- الكتابة (الطلبات، الدخول، التسجيل) **مابتتحفظش على البيانات التجريبية**: بتفشل برسالة واضحة، والفورم بيفضل زي ما هو.
+- Circuit breaker: بعد 3 أخطاء ورا بعض التطبيق بيبطل يكلم Supabase لمدة 30 ثانية، وبعدها يجرب طلب واحد.
+
+---
+
 ## 📁 هيكل المشروع (Project Structure)
 
 ```text
@@ -77,6 +98,7 @@ qaryati-smart-village/
 │   │   └── ui/             # Button, Input, Modal, Badge, Skeleton, EmptyState, Toast
 │   ├── data/               # services.ts, shops.ts, categories.ts, features.ts
 │   ├── hooks/              # useLocalStorage, useModal, useCart, useOrders, useSplashScreen
+│   ├── repositories/       # طبقة البيانات: catalog / orders / auth (mock + supabase)، fallback و circuit breaker
 │   ├── pages/
 │   │   ├── Home/           # الصفحة الرئيسية بكافة أقسامها
 │   │   ├── Orders/         # صفحة سجل وتتبع الطلبات
@@ -89,6 +111,8 @@ qaryati-smart-village/
 │   ├── App.tsx             # التطبيق الرئيسي وتوزيع التبويبات والصفحات
 │   ├── main.tsx            # نقطة انطلاق التطبيق
 │   └── index.css           # ملف التنسيقات الأساسي والتصميم التجاوبي
+├── supabase/               # schema.sql (الجداول و RLS) و seed.sql (البيانات التجريبية)
+├── scripts/                # make-seed.ts: بيعمل seed.sql من src/data
 ├── index.html              # ملف الـ HTML الأساسي مع وسوم الـ SEO
 ├── package.json            # تعريف الحزم والتبعيات
 ├── tsconfig.json           # إعدادات TypeScript الصارمة
