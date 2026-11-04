@@ -39,7 +39,7 @@ describe('catalog data', () => {
     ['مكواه', 'غسيل ومكواة'],
     ['baby sitter', 'جليسة أطفال (Baby sitter)'],
     ['دكتور', 'دكتور (كشف في البيت أو العيادة)'],
-    ['نظافه', 'عاملة نظافة'],
+    ['نظافه', 'عامل / عاملة نظافة'],
   ])('search "%s" finds %s', (query, name) => {
     const names = SERVICES.filter((s) => matchesSearch(query, [s.name, s.desc])).map((s) => s.name);
     expect(names).toContain(name);
