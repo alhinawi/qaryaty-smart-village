@@ -7,6 +7,7 @@ import { useUIStore } from '@/stores/useUIStore';
 import { useGoToTab } from '@/hooks/useTabNavigation';
 import { useAuthStore } from '@/stores/useAuthStore';
 import type { OrderModalData } from '@/types';
+import { readPaymentReturn } from '@/services/payments';
 
 // Layout & Global Components
 import { Header } from '@/components/layout/Header';
@@ -20,6 +21,7 @@ import { OrderModal } from '@/components/orders/OrderModal';
 import { OrderSuccess } from '@/components/orders/OrderSuccess';
 import { RatingModal } from '@/components/shared/RatingModal';
 import { Toast } from '@/components/ui/Toast';
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 
 // ─── Lazy Loaded Pages
 const HomePage = lazy(() => import('@/pages/Home'));
@@ -47,6 +49,20 @@ export default function App() {
   // Re-check the saved session once (the user may have been blocked or removed)
   useEffect(() => {
     void useAuthStore.getState().refresh();
+  }, []);
+
+  // Back from Paymob: the query is only a hint; the webhook marks the order paid
+  useEffect(() => {
+    const result = readPaymentReturn(window.location.search);
+    if (!result) return;
+    useUIStore
+      .getState()
+      .showToast(
+        result === 'success'
+          ? '✅ الدفع اتبعت، وهنأكد طلبك أول ما Paymob يبلغنا'
+          : '⚠️ الدفع ماكملش. طلبك متسجل، وتقدر تدفع كاش عند الاستلام'
+      );
+    window.history.replaceState(null, '', window.location.pathname);
   }, []);
 
   const setActiveTab = useGoToTab();
@@ -133,6 +149,7 @@ export default function App() {
 
         {/* Global Cart Drawer */}
         <CartDrawer />
+        <ConfirmDialog />
 
         {/* Global Notifications Drawer */}
         <NotificationsDrawer />

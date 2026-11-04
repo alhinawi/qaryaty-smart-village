@@ -6,6 +6,7 @@ import type {
   PriceType,
   Provider,
   ProviderMode,
+  QuantityRule,
   Service,
   ServiceOption,
 } from '@/types';
@@ -82,11 +83,54 @@ export function resolvePriceType(data: {
   return data.priceType ?? 'fixed';
 }
 
+/** Options to ask now: one with `showWhen` appears only after its trigger answer. */
+export function visibleOptions(
+  options: ServiceOption[] | undefined,
+  selections: Record<string, string>
+): ServiceOption[] {
+  return (options ?? []).filter(
+    (option) => !option.showWhen || selections[option.showWhen.optionId] === option.showWhen.choice
+  );
+}
+
+/** The unit for the current answers (hours for a private lesson, months for a group), with its price. */
+export function resolveQuantity(
+  rule: QuantityRule | undefined,
+  selections: Record<string, string>
+): { unit: string; price?: number; priceLabel?: string } | null {
+  if (!rule) return null;
+  const variant = rule.byChoice && rule.byChoice.variants[selections[rule.byChoice.optionId] ?? ''];
+  return variant ?? { unit: rule.unit };
+}
+
+/**
+ * Price of one unit for the current answers: the unit's own price (group month)
+ * or the service price, plus what the picked choices add (the fish per kilo).
+ */
+export function unitPrice(
+  data: Pick<OrderModalData, 'numericPrice' | 'options' | 'quantity'>,
+  selections: Record<string, string>
+): number | null | undefined {
+  const base = resolveQuantity(data.quantity, selections)?.price ?? data.numericPrice;
+  if (base == null) return base;
+  const extra = visibleOptions(data.options, selections).reduce(
+    (sum, option) => sum + (option.choicePrices?.[selections[option.id] ?? ''] ?? 0),
+    0
+  );
+  return base + extra;
+}
+
 export function getOrderPricing(
-  data: Pick<OrderModalData, 'numericPrice' | 'priceType'>,
-  discountApplied: boolean
+  data: Pick<OrderModalData, 'numericPrice' | 'priceType'> &
+    Partial<Pick<OrderModalData, 'options' | 'quantity'>>,
+  discountApplied: boolean,
+  order: { selections?: Record<string, string>; quantity?: number } = {}
 ): OrderPricing {
-  const priceType = resolvePriceType(data);
+  const selections = order.selections ?? {};
+  const perUnit = unitPrice(data, selections);
+  const amount = data.quantity ? (order.quantity ?? data.quantity.min) : 1;
+  const priced = perUnit == null ? perUnit : Math.round(perUnit * amount * 100) / 100;
+  const priceType = resolvePriceType({ numericPrice: priced, priceType: data.priceType });
 
   if (priceType === 'quote') {
     return {
@@ -99,7 +143,7 @@ export function getOrderPricing(
     };
   }
 
-  const basePrice = data.numericPrice as number;
+  const basePrice = priced as number;
   const discountableAmount = priceType === 'fixed' ? basePrice : 0;
   const discountAmount = discountApplied ? discountableAmount : 0;
 
@@ -172,6 +216,7 @@ export function serviceToOrderModalData(service: Service): OrderModalData {
     numericPrice: service.numericPrice,
     priceType: service.priceType,
     options: service.options,
+    quantity: service.quantity,
     serviceId: service.id,
   };
 }
@@ -186,6 +231,7 @@ export function providerToOrderModalData(provider: Provider, service?: Service):
     numericPrice: provider.numericPrice,
     priceType: provider.priceType,
     options: service?.options && providerOptions(provider, service.options),
+    quantity: service?.quantity,
     serviceId: provider.serviceId,
     providerId: provider.id,
   };

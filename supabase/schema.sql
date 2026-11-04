@@ -224,7 +224,7 @@ create table if not exists public.orders (
   address         text not null check (length(address) >= 5),
   phone           text not null check (phone ~ '^01[0125][0-9]{8}$'),
   notes           text,
-  payment_method  text not null check (payment_method in ('cash','vodafone','instapay')),
+  payment_method  text not null,
   discount_code   text,
   discount_amount numeric not null default 0,
   total_amount    numeric not null default 0,
@@ -236,6 +236,58 @@ create table if not exists public.orders (
   provider_id     bigint references public.providers (id),
   created_at      timestamptz not null default now()
 );
+
+-- ─── Shops' products and cart orders ────────────────────────────────────────────────
+-- Every kind of shop has one default list (scope = the kind, e.g. 'fish');
+-- a restaurant has its own menu (scope = 'restaurant:<shop id>'). The rows
+-- come from supabase/seed_catalog.sql, generated with the app's list.
+alter table public.shops add column if not exists kind text not null default 'other';
+alter table public.shops add column if not exists food_types text[] not null default '{}';
+
+create table if not exists public.catalog_products (
+  scope      text not null,
+  product_id text not null,
+  name       text not null,
+  price      numeric not null check (price >= 0),
+  unit       text not null,
+  step       numeric not null default 1 check (step > 0),
+  grillable  boolean not null default false,
+  rx         boolean not null default false,
+  primary key (scope, product_id)
+);
+
+create or replace function public.shop_scope(s public.shops) returns text
+language sql immutable as $$
+  select case when s.kind = 'restaurant' then 'restaurant:' || s.id else s.kind end
+$$;
+
+-- A cart order is from one shop (shop_id) or for one service (service_id), never both
+alter table public.orders add column if not exists shop_id bigint references public.shops (id);
+alter table public.orders add column if not exists items jsonb;
+
+-- Online payment (Paymob). Only the server changes these: the app's key has no
+-- grant on them and the insert trigger resets them; the Paymob webhook sets
+-- them after it checks the HMAC.
+alter table public.orders add column if not exists payment_status text not null default 'unpaid';
+alter table public.orders add column if not exists paymob_order_id text;
+alter table public.orders add column if not exists paid_at timestamptz;
+
+alter table public.orders drop constraint if exists orders_payment_method_check;
+alter table public.orders drop constraint if exists orders_payment_method;
+alter table public.orders add constraint orders_payment_method
+  check (payment_method in ('cash','vodafone','instapay','card','wallet'));
+alter table public.orders drop constraint if exists orders_payment_status;
+alter table public.orders add constraint orders_payment_status
+  check (payment_status in ('unpaid','pending','paid','failed'));
+alter table public.orders drop constraint if exists orders_one_place;
+alter table public.orders add constraint orders_one_place check (
+  not (shop_id is not null and service_id is not null)
+  and (items is null or (shop_id is not null and jsonb_typeof(items) = 'array'
+                         and jsonb_array_length(items) between 1 and 60))
+  and (shop_id is null or items is not null)
+);
+create unique index if not exists orders_paymob_order_id_key
+  on public.orders (paymob_order_id) where paymob_order_id is not null;
 
 alter table public.orders drop constraint if exists orders_sane_values;
 alter table public.orders add constraint orders_sane_values check (
@@ -252,13 +304,80 @@ create unique index if not exists orders_one_promo_per_user
   on public.orders (user_id, discount_code)
   where user_id is not null and discount_code is not null;
 
--- Orders from the app always start as 'pending' with the server's clock
+-- Orders from the app always start as 'pending', unpaid, with the server's
+-- clock. A cart order is priced here from catalog_products: every item must
+-- be sold by that one shop, and the app's names, prices and total are replaced.
+-- Runs as the caller (not security definer): current_user must stay anon/authenticated.
 create or replace function public.orders_before_insert() returns trigger
-language plpgsql as $$
+language plpgsql set search_path = public as $$
+declare
+  shop      public.shops;
+  item      jsonb;
+  product   public.catalog_products;
+  qty       numeric;
+  grill     boolean;
+  unit_price numeric;
+  line      numeric;
+  subtotal  numeric := 0;
+  priced    jsonb := '[]'::jsonb;
+  names     text[] := '{}';
+  grill_per_kilo constant numeric := 40;  -- GRILL_PRICE_PER_KILO in src/data/catalog.ts
 begin
   if current_user in ('anon', 'authenticated') then
     new.status := 'pending';
     new.created_at := now();
+    new.payment_status := 'unpaid';
+    new.paymob_order_id := null;
+    new.paid_at := null;
+  end if;
+
+  if new.shop_id is not null then
+    select * into shop from public.shops where id = new.shop_id;
+    if not found then
+      raise exception 'unknown shop' using errcode = '23503';
+    end if;
+    if new.items is null or jsonb_typeof(new.items) <> 'array' or jsonb_array_length(new.items) = 0 then
+      raise exception 'a shop order needs items' using errcode = '22023';
+    end if;
+
+    for item in select * from jsonb_array_elements(new.items) loop
+      select * into product from public.catalog_products
+        where scope = public.shop_scope(shop) and product_id = item->>'product_id';
+      if not found then
+        -- also stops a cart that mixes two shops: the other shop's items aren't here
+        raise exception 'item % is not sold by this shop', item->>'product_id' using errcode = '22023';
+      end if;
+      qty := (item->>'quantity')::numeric;
+      grill := coalesce((item->>'grill')::boolean, false);
+      if qty is null or qty <= 0 or qty > 100 or mod(qty, product.step) <> 0 then
+        raise exception 'bad quantity for %', product.product_id using errcode = '22023';
+      end if;
+      if grill and not product.grillable then
+        raise exception '% can''t be grilled', product.product_id using errcode = '22023';
+      end if;
+      unit_price := product.price + case when grill then grill_per_kilo else 0 end;
+      line := round(unit_price * qty, 2);
+      subtotal := subtotal + line;
+      priced := priced || jsonb_build_object(
+        'product_id', product.product_id, 'name', product.name, 'unit', product.unit,
+        'quantity', qty, 'grill', grill, 'unit_price', unit_price, 'line_total', line);
+      names := names || (product.name || case when grill then ' مشوي' else '' end);
+    end loop;
+
+    new.items := priced;
+    new.service_id := null;
+    new.provider_id := null;
+    new.is_estimate := false;
+    -- Same rule as the app (utils/pricing.ts): QARYA1 takes the whole fixed total off
+    new.discount_amount := case when new.discount_code = 'QARYA1' then subtotal else 0 end;
+    new.total_amount := subtotal - new.discount_amount;
+    new.service_name := left(shop.name || ': ' || array_to_string(names, ' + '), 300);
+    new.service_emoji := left(coalesce(shop.emoji, ''), 40);
+  end if;
+
+  -- Card and wallet need a known amount to charge
+  if new.payment_method in ('card','wallet') and (new.is_estimate or new.total_amount <= 0) then
+    raise exception 'online payment needs a fixed price' using errcode = '22023';
   end if;
   return new;
 end $$;
@@ -270,11 +389,11 @@ create trigger orders_before_insert
 -- ─── Privileges (what the app's key may touch at all) ────────────────────────────────
 -- Supabase grants everything on new tables to anon/authenticated; start from
 -- nothing and give back only what the app uses. RLS below narrows it to rows.
-revoke all on public.services, public.shops, public.providers, public.profiles, public.orders
-  from anon, authenticated;
+revoke all on public.services, public.shops, public.providers, public.profiles, public.orders,
+  public.catalog_products from anon, authenticated;
 
-grant select on public.services, public.shops, public.providers to anon, authenticated;
-grant insert, update, delete on public.services, public.shops, public.providers to authenticated; -- admins only (RLS)
+grant select on public.services, public.shops, public.providers, public.catalog_products to anon, authenticated;
+grant insert, update, delete on public.services, public.shops, public.providers, public.catalog_products to authenticated; -- admins only (RLS)
 
 grant select on public.profiles to authenticated;
 grant update (name, village, address) on public.profiles to authenticated;
@@ -302,6 +421,13 @@ alter table public.shops     enable row level security;
 alter table public.providers enable row level security;
 alter table public.profiles  enable row level security;
 alter table public.orders    enable row level security;
+alter table public.catalog_products enable row level security;
+
+drop policy if exists "catalog: anyone reads products" on public.catalog_products;
+drop policy if exists "catalog: admins edit products"  on public.catalog_products;
+create policy "catalog: anyone reads products" on public.catalog_products for select using (true);
+create policy "catalog: admins edit products"  on public.catalog_products for all to authenticated
+  using (public.is_admin()) with check (public.is_admin());
 
 drop policy if exists "catalog: anyone reads services"  on public.services;
 drop policy if exists "catalog: anyone reads shops"     on public.shops;

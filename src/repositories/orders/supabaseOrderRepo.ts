@@ -32,6 +32,11 @@ export function orderToRow(id: string, input: NewOrder, userId: string | null) {
     options: input.options ?? null,
     service_id: input.serviceId ?? null,
     provider_id: input.providerId ?? null,
+    // The database prices these from its own product list (orders_before_insert)
+    shop_id: input.shopId ?? null,
+    items: input.items?.length
+      ? input.items.map((i) => ({ product_id: i.productId, quantity: i.quantity, grill: i.grill ?? false }))
+      : null,
   };
 }
 
