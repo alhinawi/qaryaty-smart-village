@@ -138,7 +138,7 @@ export function providersForService(service: Service, providers: Provider[]): Pr
 
 /** How many bookable people each section has (for the section tiles on the home page). */
 export function sectionCounts(providers: Provider[], services: Service[]): Record<ServiceCategory, number> {
-  const counts = { food: 0, delivery: 0, craft: 0, care: 0, edu: 0, health: 0, home: 0 };
+  const counts = { food: 0, delivery: 0, craft: 0, care: 0, edu: 0, health: 0, home: 0, finishing: 0 };
   for (const section of PEOPLE_SECTIONS) {
     counts[section.id] = filterProviders(providers, services, { kinds: section.kinds }).length;
   }

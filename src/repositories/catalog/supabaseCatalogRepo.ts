@@ -7,11 +7,13 @@ import type {
   Provider,
   ProviderKind,
   ProviderMode,
+  QuantityRule,
   SchoolStage,
   Service,
   ServiceCategory,
   ServiceOption,
   Shop,
+  TeacherGroup,
   TeacherSubject,
 } from '@/types';
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -33,6 +35,8 @@ export interface ServiceRow {
   subject: TeacherSubject | null;
   options: ServiceOption[] | null;
   hidden: boolean;
+  keywords?: string[] | null;
+  quantity?: QuantityRule | null;
 }
 
 export interface ShopRow {
@@ -69,6 +73,10 @@ export interface ProviderRow {
   bio: string;
   modes: ProviderMode[];
   active: boolean;
+  group_price?: number | null;
+  inspection_fee?: number | null;
+  delivery_fee?: number | null;
+  groups?: TeacherGroup[] | null;
 }
 
 export function serviceFromRow(row: ServiceRow): Service {
@@ -88,6 +96,8 @@ export function serviceFromRow(row: ServiceRow): Service {
     subject: row.subject ?? undefined,
     options: row.options?.length ? row.options : undefined,
     hidden: row.hidden,
+    keywords: row.keywords?.length ? row.keywords : undefined,
+    quantity: row.quantity ?? undefined,
   };
 }
 
@@ -128,6 +138,10 @@ export function providerFromRow(row: ProviderRow): Provider {
     bio: row.bio,
     modes: row.modes ?? [],
     active: row.active,
+    ...(row.group_price != null && { groupPrice: Number(row.group_price) }),
+    ...(row.inspection_fee != null && { inspectionFee: Number(row.inspection_fee) }),
+    ...(row.delivery_fee != null && { deliveryFee: Number(row.delivery_fee) }),
+    ...(row.groups?.length && { groups: row.groups }),
   };
 }
 

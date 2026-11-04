@@ -7,7 +7,8 @@ export type ServiceCategory =
   | 'care'
   | 'edu'
   | 'health'
-  | 'home';
+  | 'home'
+  | 'finishing';
 
 export type CategoryFilter = 'all' | ServiceCategory;
 
@@ -51,6 +52,17 @@ export interface ServiceOption {
   showWhen?: { optionId: string; choice: string };
   /** Added to the price per unit when this choice is picked (the fish's price per kilo). */
   choicePrices?: Record<string, number>;
+  /** Picking one of these choices sets the price instead (معاينة الأول, ابدأ الشغل). */
+  prices?: Record<string, ChoicePrice>;
+}
+
+/** What a choice costs when picking it replaces the price (معاينة 100 ج). */
+export interface ChoicePrice {
+  /** null: set after confirmation. */
+  price: number | null;
+  priceType?: PriceType;
+  /** Shown as the service price, e.g. "معاينة 100 ج". */
+  label?: string;
 }
 
 /**
@@ -107,6 +119,24 @@ export type ProviderMode = 'home' | 'teacher_home' | 'center' | 'online' | 'clin
 
 export type Gender = 'male' | 'female';
 
+/** A teacher's group class: who it is for, when it meets, where, and the monthly fee. */
+export interface TeacherGroup {
+  /** Unique for the teacher, e.g. "g1". */
+  id: string;
+  stage: SchoolStage;
+  /** Days it meets, e.g. ['السبت', 'التلات']. */
+  days: string[];
+  /** Start time as people say it, e.g. "5:00 م". */
+  time: string;
+  /** Length of one class in minutes. */
+  minutes: number;
+  mode: Extract<ProviderMode, 'center' | 'teacher_home' | 'online'>;
+  /** Places still free in the group. */
+  seatsLeft: number;
+  /** What one student pays per month. */
+  monthlyPrice: number;
+}
+
 export interface Provider {
   id: number;
   kind: ProviderKind;
@@ -135,6 +165,14 @@ export interface Provider {
   bio: string;
   modes: ProviderMode[];
   active: boolean;
+  /** Teachers: what each student pays in a group lesson (the private price is numericPrice). */
+  /** Teachers: the group classes you can join, each with its own schedule. */
+  groups?: TeacherGroup[];
+  groupPrice?: number;
+  /** What an inspection visit (معاينة) costs; 0 is free. Only trades that offer one. */
+  inspectionFee?: number;
+  /** Delivered goods (a gas cylinder): the delivery fee on top of the price. */
+  deliveryFee?: number;
 }
 
 export interface Service {
@@ -158,6 +196,8 @@ export interface Service {
   quantity?: QuantityRule;
   /** Hidden from customers (set from the admin panel). */
   hidden?: boolean;
+  /** Other words people search with (انبوبة، بوتاجاز، نقاشة). */
+  keywords?: string[];
 }
 
 /** What a shop does; shops with a product list open it instead of a free-text order. */
@@ -366,6 +406,10 @@ export interface OrderModalData {
   serviceId?: number;
   /** Provider booked, when ordering a specific teacher/nurse/doctor. */
   providerId?: number;
+  /** Added once on top of the price, e.g. delivering a gas cylinder. */
+  deliveryFee?: number;
+  /** Choices already made before the form opens (the group picked on the teacher's card). */
+  preselected?: Record<string, string>;
 }
 
 export interface OrderFormData {
