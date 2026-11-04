@@ -17,6 +17,7 @@ export const ROUTES = {
   admin: '/admin',
   about: '/about',
   groups: '/groups',
+  donate: '/donate',
 } as const;
 
 /** The bottom/top nav tab for a URL, or null for pages outside the tabs (login, admin…). */

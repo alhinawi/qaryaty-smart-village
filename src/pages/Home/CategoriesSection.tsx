@@ -1,5 +1,7 @@
 // ─── Imports
 import React from 'react';
+import { Link } from 'react-router';
+import { ROUTES } from '@/routes';
 import type { CategoryFilter, CategoryItem } from '@/types';
 import { CategoryChip } from '@/components/shared/CategoryChip';
 
@@ -44,6 +46,16 @@ export function CategoriesSection({
             onSelect={onSelectCategory}
           />
         ))}
+        {/* باب الخير has its own page, so this one opens it instead of filtering */}
+        <Link
+          to={ROUTES.donate}
+          className="flex flex-col items-center gap-[0.4rem] shrink-0 transition-transform duration-200 hover:translate-y-[-3px]"
+        >
+          <div className="w-[60px] h-[60px] rounded-2xl flex items-center justify-center text-[28px] shadow-[0_4px_12px_rgba(0,0,0,0.05)] border-2 bg-gold-light border-gold">
+            <span aria-hidden="true">🤲</span>
+          </div>
+          <div className="text-[0.8125rem] text-center whitespace-nowrap text-text-muted font-bold">باب الخير</div>
+        </Link>
       </div>
     </section>
   );
