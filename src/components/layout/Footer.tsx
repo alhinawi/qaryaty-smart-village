@@ -44,6 +44,12 @@ export function Footer() {
           >
             جروبات واتساب
           </Link>
+          <Link
+            to={ROUTES.donate}
+            className="text-sm font-bold text-white/90 px-3 py-2 rounded-xl transition-colors hover:bg-white/15 hover:text-gold-light"
+          >
+            باب الخير
+          </Link>
         </nav>
 
         {/* Developer + contact links */}
