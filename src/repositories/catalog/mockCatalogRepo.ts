@@ -1,4 +1,5 @@
 // ─── Catalog from the sample data in src/data (no network)
+import { productsForShop } from '@/data/catalog';
 import { PROVIDERS } from '@/data/providers';
 import { SERVICES } from '@/data/services';
 import { SHOPS } from '@/data/shops';
@@ -9,5 +10,6 @@ export function createMockCatalogRepo(): CatalogRepo {
     getServices: async () => SERVICES.filter((service) => !service.hidden),
     getShops: async () => SHOPS,
     getProviders: async () => PROVIDERS.filter((provider) => provider.active),
+    getProducts: async (shop) => productsForShop(shop),
   };
 }
