@@ -274,6 +274,17 @@ export default function ProfilePage() {
         )}
       </div>
 
+      {/* About the app: phones and tablets have no footer, so the link lives here too */}
+      <Link
+        to={ROUTES.about}
+        className="flex items-center justify-between bg-white rounded-2xl px-5 py-4 shadow-sm mb-5 min-h-[44px] font-extrabold text-sm text-green-dark transition-colors hover:bg-cream"
+      >
+        <span>
+          <span aria-hidden="true">🏡</span> عن قريتي
+        </span>
+        <span aria-hidden="true">⬅️</span>
+      </Link>
+
       {/* Share with village */}
       <div className="bg-linear-to-br from-[#1e3a8a] to-[#3b82f6] text-white rounded-2xl p-5 flex items-center justify-between">
         <div>
