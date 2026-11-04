@@ -1,0 +1,180 @@
+// ─── Medicines and pharmacy products sold in Egypt (shared base list, sample prices in ج)
+// Each pharmacy carries most of this list, with small differences in price and stock (see ./index.ts).
+// rx: prescription only (antibiotics, chronic medicines, injections…): the cart asks for the روشتة
+// and the pharmacist confirms before it goes out.
+import type { DrugForm } from '@/types';
+
+/** [key, Arabic name, English/brand name, section, form, strength, pack, price ج, rx, emoji] */
+export type DrugItem = [string, string, string, string, DrugForm, string, string, number, boolean, string];
+
+export const PHARMACY_SECTIONS = [
+  'مسكنات وخافض حرارة',
+  'برد وكحة',
+  'مضادات حيوية',
+  'معدة وهضم',
+  'ضغط وسكر',
+  'فيتامينات',
+  'أطفال ورضع',
+  'عناية بالبشرة',
+  'إسعافات أولية',
+  'مستلزمات طبية',
+] as const;
+
+const [PAIN, COLD, ABX, STOMACH, CHRONIC, VIT, KIDS, SKIN, FIRST_AID, SUPPLIES] = PHARMACY_SECTIONS;
+
+export const PHARMACY_ITEMS: DrugItem[] = [
+  // مسكنات وخافض حرارة
+  ['panadol', 'بنادول', 'Panadol', PAIN, 'أقراص', '500 مجم', '24 قرص', 48, false, '💊'],
+  ['panadol_extra', 'بنادول إكسترا', 'Panadol Extra', PAIN, 'أقراص', '500/65 مجم', '24 قرص', 62, false, '💊'],
+  ['panadol_night', 'بنادول نايت', 'Panadol Night', PAIN, 'أقراص', '500/25 مجم', '24 قرص', 66, false, '🌙'],
+  ['abimol', 'أبيمول', 'Abimol', PAIN, 'أقراص', '500 مجم', '20 قرص', 22, false, '💊'],
+  ['cetal', 'سيتال', 'Cetal', PAIN, 'أقراص', '500 مجم', '20 قرص', 20, false, '💊'],
+  ['cataflam', 'كتافلام', 'Cataflam', PAIN, 'أقراص', '50 مجم', '20 قرص', 75, false, '💊'],
+  ['cataflam_25', 'كتافلام', 'Cataflam', PAIN, 'أقراص', '25 مجم', '20 قرص', 52, false, '💊'],
+  ['brufen', 'بروفين', 'Brufen', PAIN, 'أقراص', '400 مجم', '30 قرص', 58, false, '💊'],
+  ['brufen_600', 'بروفين', 'Brufen', PAIN, 'أقراص', '600 مجم', '30 قرص', 72, false, '💊'],
+  ['voltaren', 'فولتارين', 'Voltaren', PAIN, 'أقراص', '50 مجم', '20 قرص', 68, false, '💊'],
+  ['voltaren_emulgel', 'فولتارين إملجيل', 'Voltaren Emulgel', PAIN, 'جل', '1%', 'أنبوبة 50 جم', 95, false, '🧴'],
+  ['aspocid', 'أسبوسيد', 'Aspocid', PAIN, 'أقراص', '75 مجم', '30 قرص', 18, false, '💊'],
+  ['migranil', 'ميجرانيل', 'Migranil', PAIN, 'أقراص', '1/100 مجم', '20 قرص', 40, false, '🤕'],
+  ['ketofan', 'كيتوفان', 'Ketofan', PAIN, 'كبسولات', '50 مجم', '20 كبسولة', 54, false, '💊'],
+  ['olfen', 'أولفين', 'Olfen', PAIN, 'حقن', '75 مجم', '6 أمبول', 70, true, '💉'],
+  ['moov', 'موف كريم', 'Moov', PAIN, 'كريم', '', 'أنبوبة 100 جم', 85, false, '🧴'],
+
+  // برد وكحة
+  ['congestal', 'كونجستال', 'Congestal', COLD, 'أقراص', '', '20 قرص', 42, false, '🤧'],
+  ['comtrex', 'كومتركس', 'Comtrex', COLD, 'أقراص', '', '20 قرص', 45, false, '🤧'],
+  ['cold_flu', 'كولد فلو', 'Cold & Flu', COLD, 'أقراص', '', '20 قرص', 38, false, '🤧'],
+  ['1_2_3', 'وان تو ثري', '1 2 3', COLD, 'أقراص', '', '20 قرص', 40, false, '🤧'],
+  ['otrivin', 'أوتريفين نقط أنف', 'Otrivin', COLD, 'نقط', '0.1%', 'زجاجة 10 مل', 48, false, '💧'],
+  ['otrivin_kids', 'أوتريفين أطفال', 'Otrivin Pediatric', COLD, 'نقط', '0.05%', 'زجاجة 10 مل', 42, false, '💧'],
+  ['sinecod', 'سينيكود شراب', 'Sinecod', COLD, 'شراب', '1.5 مجم/مل', 'زجاجة 120 مل', 50, false, '🧴'],
+  ['bronchicum', 'برونشيكم شراب', 'Bronchicum', COLD, 'شراب', '', 'زجاجة 100 مل', 65, false, '🧴'],
+  ['tusskan', 'توسكان شراب', 'Tusskan', COLD, 'شراب', '', 'زجاجة 120 مل', 38, false, '🧴'],
+  ['mucosolvan', 'ميوكوسولفان شراب', 'Mucosolvan', COLD, 'شراب', '15 مجم/5 مل', 'زجاجة 100 مل', 46, false, '🧴'],
+  ['prospan', 'بروسبان شراب', 'Prospan', COLD, 'شراب', '', 'زجاجة 100 مل', 95, false, '🌿'],
+  ['strepsils', 'استربسيلز أقراص مص', 'Strepsils', COLD, 'أقراص', '', '24 قرص', 70, false, '🍬'],
+  ['telfast', 'تلفاست', 'Telfast', COLD, 'أقراص', '120 مجم', '20 قرص', 120, false, '🌼'],
+  ['claritine', 'كلاريتين', 'Claritine', COLD, 'أقراص', '10 مجم', '20 قرص', 70, false, '🌼'],
+  ['zyrtec', 'زيرتك', 'Zyrtec', COLD, 'أقراص', '10 مجم', '20 قرص', 85, false, '🌼'],
+  ['ventolin', 'فنتولين بخاخ', 'Ventolin Inhaler', COLD, 'بخاخ', '100 مكجم', '200 بخة', 75, true, '🌬️'],
+
+  // مضادات حيوية (كلها بالروشتة)
+  ['augmentin_1g', 'أوجمنتين', 'Augmentin', ABX, 'أقراص', '1 جم', '14 قرص', 165, true, '💊'],
+  ['augmentin_625', 'أوجمنتين', 'Augmentin', ABX, 'أقراص', '625 مجم', '14 قرص', 120, true, '💊'],
+  ['augmentin_susp', 'أوجمنتين شراب', 'Augmentin Suspension', ABX, 'شراب', '457 مجم/5 مل', 'زجاجة 70 مل', 95, true, '🧴'],
+  ['hibiotic', 'هايبايوتك', 'Hibiotic', ABX, 'أقراص', '1 جم', '14 قرص', 110, true, '💊'],
+  ['megamox', 'ميجاموكس', 'Megamox', ABX, 'أقراص', '1 جم', '14 قرص', 105, true, '💊'],
+  ['flagyl', 'فلاجيل', 'Flagyl', ABX, 'أقراص', '500 مجم', '20 قرص', 34, true, '💊'],
+  ['flagyl_susp', 'فلاجيل شراب', 'Flagyl Suspension', ABX, 'شراب', '125 مجم/5 مل', 'زجاجة 100 مل', 28, true, '🧴'],
+  ['zithromax', 'زيثروماكس', 'Zithromax', ABX, 'أقراص', '500 مجم', '3 أقراص', 150, true, '💊'],
+  ['xithrone', 'زيثرون شراب', 'Xithrone Suspension', ABX, 'شراب', '200 مجم/5 مل', 'زجاجة 15 مل', 70, true, '🧴'],
+  ['ciprobay', 'سيبروباي', 'Ciprobay', ABX, 'أقراص', '500 مجم', '10 أقراص', 95, true, '💊'],
+  ['ceftriaxone', 'سيفترياكسون حقن', 'Ceftriaxone', ABX, 'حقن', '1 جم', 'فيال واحد', 45, true, '💉'],
+  ['ospamox', 'أوسباموكس', 'Ospamox', ABX, 'كبسولات', '500 مجم', '16 كبسولة', 60, true, '💊'],
+  ['fucidin', 'فيوسيدين كريم', 'Fucidin', ABX, 'كريم', '2%', 'أنبوبة 15 جم', 55, false, '🧴'],
+  ['tobradex', 'توبرادكس نقط عين', 'Tobradex', ABX, 'نقط', '', 'زجاجة 5 مل', 60, true, '👁️'],
+
+  // معدة وهضم
+  ['antinal', 'أنتينال', 'Antinal', STOMACH, 'كبسولات', '200 مجم', '24 كبسولة', 46, false, '💊'],
+  ['antinal_susp', 'أنتينال شراب', 'Antinal Suspension', STOMACH, 'شراب', '220 مجم/5 مل', 'زجاجة 60 مل', 32, false, '🧴'],
+  ['buscopan', 'بسكوبان', 'Buscopan', STOMACH, 'أقراص', '10 مجم', '20 قرص', 40, false, '💊'],
+  ['visceralgine', 'فيسيرالجين', 'Visceralgine', STOMACH, 'أقراص', '', '20 قرص', 30, false, '💊'],
+  ['spasmo_digestin', 'سبازمو ديجستين', 'Spasmo-Digestin', STOMACH, 'أقراص', '', '20 قرص', 38, false, '💊'],
+  ['motilium', 'موتيليوم', 'Motilium', STOMACH, 'أقراص', '10 مجم', '30 قرص', 55, false, '💊'],
+  ['gaviscon', 'جافيسكون شراب', 'Gaviscon', STOMACH, 'شراب', '', 'زجاجة 200 مل', 90, false, '🧴'],
+  ['maalox', 'مالوكس بلس', 'Maalox Plus', STOMACH, 'أقراص', '', '30 قرص مضغ', 45, false, '💊'],
+  ['nexium', 'نكسيوم', 'Nexium', STOMACH, 'أقراص', '40 مجم', '14 قرص', 150, true, '💊'],
+  ['controloc', 'كنترولوك', 'Controloc', STOMACH, 'أقراص', '40 مجم', '14 قرص', 130, true, '💊'],
+  ['omez', 'أوميز', 'Omez', STOMACH, 'كبسولات', '20 مجم', '14 كبسولة', 48, false, '💊'],
+  ['dulcolax', 'دلكولاكس', 'Dulcolax', STOMACH, 'أقراص', '5 مجم', '30 قرص', 35, false, '💊'],
+  ['rehydran', 'ريهيدران محلول جفاف', 'Rehydran', STOMACH, 'أكياس', '', '10 أكياس', 25, false, '🥤'],
+  ['simethicone', 'ديسفلاتيل أقراص', 'Disflatyl', STOMACH, 'أقراص', '40 مجم', '30 قرص مضغ', 36, false, '💊'],
+  ['eno', 'إينو فوار', 'ENO', STOMACH, 'فوار', '', 'علبة 150 جم', 70, false, '🫧'],
+
+  // ضغط وسكر (بالروشتة)
+  ['concor_5', 'كونكور', 'Concor', CHRONIC, 'أقراص', '5 مجم', '30 قرص', 95, true, '❤️'],
+  ['concor_2_5', 'كونكور', 'Concor', CHRONIC, 'أقراص', '2.5 مجم', '30 قرص', 78, true, '❤️'],
+  ['capoten', 'كابوتين', 'Capoten', CHRONIC, 'أقراص', '25 مجم', '20 قرص', 30, true, '❤️'],
+  ['norvasc', 'نورفاسك', 'Norvasc', CHRONIC, 'أقراص', '5 مجم', '30 قرص', 120, true, '❤️'],
+  ['ator', 'أتور', 'Ator', CHRONIC, 'أقراص', '20 مجم', '30 قرص', 110, true, '❤️'],
+  ['lasix', 'لازكس', 'Lasix', CHRONIC, 'أقراص', '40 مجم', '20 قرص', 24, true, '💧'],
+  ['glucophage_500', 'جلوكوفاج', 'Glucophage', CHRONIC, 'أقراص', '500 مجم', '50 قرص', 45, true, '🩸'],
+  ['glucophage_1000', 'جلوكوفاج', 'Glucophage', CHRONIC, 'أقراص', '1000 مجم', '30 قرص', 55, true, '🩸'],
+  ['amaryl', 'أماريل', 'Amaryl', CHRONIC, 'أقراص', '2 مجم', '30 قرص', 90, true, '🩸'],
+  ['galvus_met', 'جالفس ميت', 'Galvus Met', CHRONIC, 'أقراص', '50/1000 مجم', '30 قرص', 220, true, '🩸'],
+  ['mixtard', 'ميكستارد إنسولين', 'Mixtard 30', CHRONIC, 'حقن', '100 وحدة/مل', 'فيال 10 مل', 95, true, '💉'],
+  ['lantus', 'لانتوس قلم', 'Lantus SoloStar', CHRONIC, 'حقن', '100 وحدة/مل', 'قلم 3 مل', 380, true, '💉'],
+  ['eltroxin', 'إلتروكسين', 'Eltroxin', CHRONIC, 'أقراص', '50 مكجم', '50 قرص', 50, true, '🦋'],
+
+  // فيتامينات
+  ['centrum', 'سنتروم', 'Centrum', VIT, 'أقراص', '', '30 قرص', 320, false, '🍊'],
+  ['pharmaton', 'فارماتون', 'Pharmaton', VIT, 'كبسولات', '', '30 كبسولة', 290, false, '⚡'],
+  ['c_retard', 'سي ريتارد', 'C-Retard', VIT, 'كبسولات', '500 مجم', '20 كبسولة', 45, false, '🍊'],
+  ['vitacid_c', 'فيتاسيد سي فوار', 'Vitacid C', VIT, 'فوار', '1000 مجم', '10 أقراص', 40, false, '🍊'],
+  ['devarol', 'ديفارول إس', 'Devarol-S', VIT, 'حقن', '200000 وحدة', 'أمبول واحد', 30, false, '☀️'],
+  ['vidrop', 'فيدروب نقط', 'Vidrop', VIT, 'نقط', '2800 وحدة/مل', 'زجاجة 15 مل', 48, false, '☀️'],
+  ['ferrotron', 'فيروترون', 'Ferrotron', VIT, 'كبسولات', '', '20 كبسولة', 60, false, '🩸'],
+  ['ferose', 'فيروز شراب', 'Feroglobin', VIT, 'شراب', '', 'زجاجة 200 مل', 140, false, '🩸'],
+  ['neurobion', 'نيوروبيون', 'Neurobion', VIT, 'أقراص', '', '30 قرص', 75, false, '🧠'],
+  ['milga', 'ميلجا', 'Milga', VIT, 'أقراص', '', '20 قرص', 70, false, '🧠'],
+  ['omega3', 'أوميجا 3', 'Omega 3 Plus', VIT, 'كبسولات', '1000 مجم', '30 كبسولة', 130, false, '🐟'],
+  ['calcium_d', 'كالسيوم دي', 'Calcium + D3', VIT, 'أقراص', '600 مجم', '30 قرص', 85, false, '🦴'],
+  ['zinc', 'أوكتازن', 'Octozinc', VIT, 'كبسولات', '25 مجم', '20 كبسولة', 50, false, '🛡️'],
+
+  // أطفال ورضع
+  ['cetal_syrup', 'سيتال شراب', 'Cetal Syrup', KIDS, 'شراب', '250 مجم/5 مل', 'زجاجة 100 مل', 22, false, '🧴'],
+  ['abimol_syrup', 'أبيمول شراب', 'Abimol Syrup', KIDS, 'شراب', '160 مجم/5 مل', 'زجاجة 100 مل', 20, false, '🧴'],
+  ['brufen_syrup', 'بروفين شراب', 'Brufen Syrup', KIDS, 'شراب', '100 مجم/5 مل', 'زجاجة 100 مل', 30, false, '🧴'],
+  ['paracetamol_supp', 'باراسيتامول لبوس أطفال', 'Paracetamol Supp', KIDS, 'لبوس', '125 مجم', '10 لبوس', 18, false, '👶'],
+  ['cataflam_drops', 'كتافلام نقط', 'Cataflam Drops', KIDS, 'نقط', '15 مجم/مل', 'زجاجة 15 مل', 35, false, '💧'],
+  ['debrovos', 'ديبروفوس نقط مغص', 'Debrovos Drops', KIDS, 'نقط', '', 'زجاجة 30 مل', 36, false, '👶'],
+  ['colic_drops', 'كوليرينا نقط', 'Colirina Drops', KIDS, 'نقط', '', 'زجاجة 30 مل', 32, false, '👶'],
+  ['similac_1', 'سيميلاك 1 لبن رضع', 'Similac 1', KIDS, 'منتج', '0-6 شهور', 'علبة 400 جم', 260, false, '🍼'],
+  ['bebelac_1', 'بيبيلاك 1 لبن رضع', 'Bebelac 1', KIDS, 'منتج', '0-6 شهور', 'علبة 400 جم', 230, false, '🍼'],
+  ['cerelac', 'سيريلاك قمح باللبن', 'Cerelac', KIDS, 'منتج', '+6 شهور', 'علبة 250 جم', 95, false, '🥣'],
+  ['pampers_3', 'بامبرز مقاس 3', 'Pampers 3', KIDS, 'منتج', '6-10 كجم', 'كيس 44 حفاضة', 310, false, '👶'],
+  ['molfix_4', 'مولفكس مقاس 4', 'Molfix 4', KIDS, 'منتج', '7-14 كجم', 'كيس 40 حفاضة', 240, false, '👶'],
+  ['baby_wipes', 'مناديل مبللة أطفال', 'Baby Wipes', KIDS, 'منتج', '', '64 منديل', 55, false, '🧻'],
+  ['sudocrem', 'سودوكريم للتسلخات', 'Sudocrem', KIDS, 'كريم', '', 'علبة 125 جم', 180, false, '🧴'],
+  ['bepanthen', 'بيبانثين مرهم', 'Bepanthen', KIDS, 'مرهم', '5%', 'أنبوبة 30 جم', 90, false, '🧴'],
+
+  // عناية بالبشرة
+  ['nivea_cream', 'نيفيا كريم', 'Nivea Creme', SKIN, 'كريم', '', 'علبة 150 مل', 110, false, '🧴'],
+  ['vaseline', 'فازلين', 'Vaseline', SKIN, 'مرهم', '', 'علبة 100 مل', 60, false, '🧴'],
+  ['sunblock', 'صن بلوك SPF 50', 'Sunblock SPF50', SKIN, 'كريم', 'SPF 50', 'أنبوبة 50 مل', 280, false, '☀️'],
+  ['acne_gel', 'أكنيفار جل حب الشباب', 'Acnevar Gel', SKIN, 'جل', '', 'أنبوبة 30 جم', 65, false, '🧴'],
+  ['daktarin', 'داكتارين كريم', 'Daktarin', SKIN, 'كريم', '2%', 'أنبوبة 15 جم', 40, false, '🧴'],
+  ['canesten', 'كانيستين كريم', 'Canesten', SKIN, 'كريم', '1%', 'أنبوبة 20 جم', 55, false, '🧴'],
+  ['betaderm', 'بيتاديرم كريم', 'Betaderm', SKIN, 'كريم', '0.1%', 'أنبوبة 15 جم', 30, true, '🧴'],
+  ['mebo', 'ميبو للحروق', 'MEBO', SKIN, 'مرهم', '', 'أنبوبة 30 جم', 120, false, '🔥'],
+  ['lice_shampoo', 'شامبو قمل كويلادا', 'Quellada', SKIN, 'منتج', '', 'زجاجة 100 مل', 60, false, '🧴'],
+  ['hair_serum', 'سيروم تساقط الشعر', 'Hair Serum', SKIN, 'منتج', '', 'زجاجة 60 مل', 210, false, '💇'],
+  ['lip_balm', 'مرطب شفايف', 'Lip Balm', SKIN, 'منتج', '', 'قطعة', 45, false, '💄'],
+
+  // إسعافات أولية
+  ['betadine', 'بيتادين محلول', 'Betadine', FIRST_AID, 'منتج', '10%', 'زجاجة 120 مل', 55, false, '🧴'],
+  ['alcohol', 'كحول طبي 70%', 'Alcohol 70%', FIRST_AID, 'منتج', '70%', 'لتر', 60, false, '🧴'],
+  ['hydrogen', 'مياه أكسجينية', 'Hydrogen Peroxide', FIRST_AID, 'منتج', '', 'زجاجة 120 مل', 15, false, '🧴'],
+  ['plaster', 'بلاستر جروح', 'Band-Aid', FIRST_AID, 'منتج', '', 'علبة 20', 30, false, '🩹'],
+  ['gauze', 'شاش معقم', 'Sterile Gauze', FIRST_AID, 'منتج', '10×10 سم', 'علبة 10', 25, false, '🩹'],
+  ['bandage', 'رباط ضاغط', 'Elastic Bandage', FIRST_AID, 'منتج', '10 سم', 'قطعة', 35, false, '🩹'],
+  ['cotton', 'قطن طبي', 'Cotton', FIRST_AID, 'منتج', '', 'لفة 100 جم', 25, false, '☁️'],
+  ['tape', 'بلاستر لازق بكرة', 'Medical Tape', FIRST_AID, 'منتج', '', 'بكرة', 20, false, '🩹'],
+  ['ice_pack', 'كيس ثلج وميه ساخنة', 'Hot & Cold Pack', FIRST_AID, 'منتج', '', 'قطعة', 70, false, '🧊'],
+  ['first_aid_kit', 'شنطة إسعافات أولية', 'First Aid Kit', FIRST_AID, 'منتج', '', 'شنطة كاملة', 250, false, '🧰'],
+
+  // مستلزمات طبية
+  ['thermometer', 'ترمومتر ديجيتال', 'Digital Thermometer', SUPPLIES, 'منتج', '', 'قطعة', 90, false, '🌡️'],
+  ['bp_monitor', 'جهاز ضغط ديجيتال', 'BP Monitor', SUPPLIES, 'منتج', '', 'جهاز', 1450, false, '🩺'],
+  ['glucometer', 'جهاز قياس سكر', 'Glucometer', SUPPLIES, 'منتج', '', 'جهاز', 650, false, '🩸'],
+  ['strips', 'شرائط قياس سكر', 'Test Strips', SUPPLIES, 'منتج', '', '50 شريط', 380, false, '🩸'],
+  ['syringe_3', 'سرنجة 3 سم', 'Syringe 3ml', SUPPLIES, 'منتج', '3 مل', 'قطعة', 3, false, '💉'],
+  ['syringe_5', 'سرنجة 5 سم', 'Syringe 5ml', SUPPLIES, 'منتج', '5 مل', 'قطعة', 4, false, '💉'],
+  ['insulin_syringe', 'سرنجة إنسولين', 'Insulin Syringe', SUPPLIES, 'منتج', '1 مل', '10 سرنجات', 30, false, '💉'],
+  ['masks', 'كمامات طبية', 'Face Masks', SUPPLIES, 'منتج', '', 'علبة 50', 60, false, '😷'],
+  ['gloves', 'جوانتي طبي', 'Medical Gloves', SUPPLIES, 'منتج', '', 'علبة 100', 140, false, '🧤'],
+  ['nebulizer', 'جهاز بخار نيبولايزر', 'Nebulizer', SUPPLIES, 'منتج', '', 'جهاز', 1250, false, '🌬️'],
+  ['knee_brace', 'ركبة طبية', 'Knee Support', SUPPLIES, 'منتج', '', 'قطعة', 220, false, '🦵'],
+  ['pregnancy_test', 'اختبار حمل', 'Pregnancy Test', SUPPLIES, 'منتج', '', 'شريط', 25, false, '🧪'],
+];

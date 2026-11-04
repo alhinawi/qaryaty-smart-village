@@ -34,7 +34,7 @@ export const orderFormSchema = z.object({
     .min(5, { message: 'من فضلك أدخل عنوانك بالتفصيل داخل القرية' }),
   phone: egyptianPhoneSchema,
   notes: z.string().optional().default(''),
-  paymentMethod: z.enum(['cash', 'vodafone', 'instapay']),
+  paymentMethod: z.enum(['cash', 'card', 'wallet']),
   discountCode: z.string().optional().default(''),
 });
 

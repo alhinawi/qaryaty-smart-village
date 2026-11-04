@@ -15,6 +15,7 @@ import {
   describeTotal,
   getOrderPricing,
 } from '@/utils/pricing';
+import { PAYMENT_LABELS, isOnlinePayment, paymentChoices, startOnlinePayment } from '@/services/payments';
 
 // ─── Types
 interface OrderModalProps {
@@ -63,6 +64,9 @@ export function OrderModal({
 
   const pricing = getOrderPricing(data, discountApplied);
   const { basePrice, discountAmount, finalPrice, isEstimate } = pricing;
+  // Card and wallet charge a known amount, so they need a fixed price
+  const paymentOptions = paymentChoices(!isEstimate && (finalPrice ?? 0) > 0);
+  const payWith: PaymentMethod = paymentOptions.includes(paymentMethod) ? paymentMethod : 'cash';
   const servicePriceLabel =
     data.price ||
     (basePrice == null ? 'حسب الطلب' : formatCurrency(basePrice));
@@ -76,7 +80,7 @@ export function OrderModal({
       address,
       phone,
       notes,
-      paymentMethod,
+      paymentMethod: payWith,
       discountCode,
     });
 
@@ -141,7 +145,7 @@ export function OrderModal({
           address,
           phone,
           notes,
-          paymentMethod,
+          paymentMethod: payWith,
           discountCode: promoStillValid ? FIRST_ORDER_PROMO : undefined,
           discountAmount: appliedDiscount,
           totalAmount: total,
@@ -168,6 +172,13 @@ export function OrderModal({
     // +10 reward points per order, but not for an order that ends up free
     if (total !== 0) {
       addRewardPoints(10);
+    }
+
+    if (isOnlinePayment(payWith)) {
+      // Opens Paymob; the order turns paid only when Paymob's webhook confirms it
+      const problem = await startOnlinePayment(order.id);
+      if (!problem) return;
+      showToast(`⚠️ ${problem}`);
     }
 
     onClose();
@@ -331,14 +342,16 @@ export function OrderModal({
               <label htmlFor="modalPayment">💳 طريقة الدفع</label>
               <select
                 id="modalPayment"
-                value={paymentMethod}
+                value={payWith}
                 onChange={(e) =>
                   setPaymentMethod(e.target.value as PaymentMethod)
                 }
               >
-                <option value="cash">كاش عند الاستلام 💵</option>
-                <option value="vodafone">فودافون كاش 📱</option>
-                <option value="instapay">انستاباي ⚡</option>
+                {paymentOptions.map((method) => (
+                  <option key={method} value={method}>
+                    {PAYMENT_LABELS[method]}
+                  </option>
+                ))}
               </select>
             </div>
 
