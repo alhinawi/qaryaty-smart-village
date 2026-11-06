@@ -7,6 +7,7 @@ import type { AuthSession, AuthUser } from '@/types';
 import { AuthError, authRepo, type CompleteProfileInput } from '@/repositories';
 import type { LoginInput, RegisterInput } from '@/utils/validators';
 import { useUserStore } from './useUserStore';
+import { useOrderStore } from './useOrderStore';
 
 interface AuthState {
   session: AuthSession | null;
@@ -70,6 +71,7 @@ export const useAuthStore = create<AuthState>()(
           if (error instanceof AuthError && error.code === 'unavailable') return;
           throw error;
         }
+        if (get().session?.user.id !== session.user.id || get().session?.token !== session.token) return;
         if (!user || user.blocked) {
           await get().logout();
           return;
@@ -127,3 +129,25 @@ export const useAuthStore = create<AuthState>()(
 /** Selectors */
 export const selectUser = (state: AuthState) => state.session?.user ?? null;
 export const selectIsAdmin = (state: AuthState) => state.session?.user.role === 'admin';
+
+// Zustand's localStorage hydration is synchronous. Reconcile the restored owner
+// before any page renders, then clear private order state on every auth boundary.
+useOrderStore.getState().setOwner(useAuthStore.getState().session?.user.id ?? null);
+useAuthStore.subscribe((state) => {
+  useOrderStore.getState().setOwner(state.session?.user.id ?? null);
+});
+
+// Another tab can sign out or switch accounts. Reconcile this tab too, rather
+// than leaving the previous account's private order screen in memory.
+if (typeof window !== 'undefined') {
+  window.addEventListener('storage', (event) => {
+    if (event.key === 'qaryati_auth_session' || event.key === null) {
+      if (localStorage.getItem('qaryati_auth_session') === null) {
+        useAuthStore.setState({ session: null });
+        useUserStore.getState().resetToGuest();
+      } else {
+        void useAuthStore.persist.rehydrate();
+      }
+    }
+  });
+}
