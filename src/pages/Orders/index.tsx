@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { formatCurrency } from "@/utils/helpers";
 import { describeTotal } from "@/utils/pricing";
+import { googleMapsUrl } from "@/utils/address";
 import type { Order, OrderStatus } from "@/types";
 
 // ─── Component
@@ -111,7 +112,19 @@ export default function OrdersPage() {
                 ))}
                 <div className="flex gap-2 mb-1">
                   <span className="text-text-muted font-bold">📍 العنوان:</span>
-                  <span className="detail-val">{order.address}</span>
+                  <span className="detail-val">
+                    {order.address}
+                    {order.lat != null && order.lng != null && (
+                      <a
+                        href={googleMapsUrl({ lat: order.lat, lng: order.lng })}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ms-2 text-green font-bold whitespace-nowrap"
+                      >
+                        🗺️ افتح على الخريطة
+                      </a>
+                    )}
+                  </span>
                 </div>
                 <div className="flex gap-2 mb-1">
                   <span className="text-text-muted font-bold">
