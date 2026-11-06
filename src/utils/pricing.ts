@@ -61,7 +61,7 @@ export function checkPromoCode(
 
 /** What the order screens say about the code. */
 export const FIRST_ORDER_PROMO_TEXT = 'أول طلب من غير رسوم';
-export const FIRST_ORDER_PROMO_APPLIED = `🎉 كود ${FIRST_ORDER_PROMO} اتفعّل: أول طلب من غير رسوم، وبتدفع تمن الطلب بس`;
+export const FIRST_ORDER_PROMO_APPLIED = `🎉 كود ${FIRST_ORDER_PROMO} اتفعّل: أول طلب من غير عمولة التطبيق. رسوم التوصيل بتروح للمندوب، فبتتدفع عادي`;
 /** The line in the price breakdown when the fees are waived. */
 export const WAIVED_FEES_LABEL = `رسوم التطبيق (كود ${FIRST_ORDER_PROMO})`;
 
@@ -238,7 +238,9 @@ export interface CartPricing {
   hasQuoteItems: boolean;
   /** عمولة التطبيق charged, shown at checkout only (0 with the first-order code). */
   commission: number;
-  /** total plus the commission. null when nothing in the cart has a price yet. */
+  /** رسوم التوصيل: a shop cart only, never waived by the first-order code. */
+  deliveryFee: number;
+  /** total plus the commission and the delivery fee. null when nothing in the cart has a price yet. */
   totalToPay: number | null;
 }
 
@@ -247,7 +249,12 @@ export function getCartItemPriceType(item: CartItem): PriceType {
   return item.price > 0 ? 'fixed' : 'quote';
 }
 
-export function getCartPricing(items: CartItem[], discountApplied: boolean): CartPricing {
+/**
+ * The cart's breakdown. `deliveryFee` is رسوم التوصيل for a shop cart (0 for a
+ * service cart): it is added on top, the commission is on the items only, and the
+ * first-order code doesn't waive it. Same rule as orders_before_insert.
+ */
+export function getCartPricing(items: CartItem[], discountApplied: boolean, deliveryFee = 0): CartPricing {
   let subtotal = 0;
   let isEstimate = false;
   let hasQuoteItems = false;
@@ -265,6 +272,7 @@ export function getCartPricing(items: CartItem[], discountApplied: boolean): Car
 
   const total = subtotal;
   const unpriced = subtotal === 0 && hasQuoteItems;
+  deliveryFee = Number.isFinite(deliveryFee) && deliveryFee > 0 ? deliveryFee : 0;
   const fee = appCommission({ payable: unpriced ? null : total, isEstimate });
   const commission = discountApplied ? 0 : fee;
 
@@ -276,7 +284,8 @@ export function getCartPricing(items: CartItem[], discountApplied: boolean): Car
     isEstimate,
     hasQuoteItems,
     commission,
-    totalToPay: unpriced ? null : total + commission,
+    deliveryFee,
+    totalToPay: unpriced ? null : total + commission + deliveryFee,
   };
 }
 

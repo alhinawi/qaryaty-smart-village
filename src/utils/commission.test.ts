@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { DELIVERY_FEE_DEFAULT } from '@/config/delivery';
 import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import type { CartItem } from '@/types';
@@ -51,8 +52,37 @@ describe('عمولة التطبيق settings', () => {
     const sql = readFileSync(path.resolve(__dirname, '../../supabase/schema.sql'), 'utf8');
     expect(sql).toContain("new.commission_amount := case when new.discount_code = 'QARYA1' then 0 else fee end;");
     expect(sql).toContain("new.discount_amount := case when new.discount_code = 'QARYA1' then fee else 0 end;");
-    expect(sql).toContain('new.total_amount := subtotal + new.commission_amount;');
+    expect(sql).toContain('new.total_amount := subtotal + new.commission_amount + new.delivery_fee;');
     expect(sql).not.toMatch(/then subtotal else 0 end/);
+  });
+});
+
+describe('رسوم التوصيل on the server', () => {
+  const migration = readFileSync(
+    path.resolve(__dirname, '../../supabase/migrations/20261106210000_delivery_fee.sql'),
+    'utf8'
+  );
+  const schema = readFileSync(path.resolve(__dirname, '../../supabase/schema.sql'), 'utf8');
+
+  it('the default fee in the database is the app default', () => {
+    const match = migration.match(/values \('delivery_fee_default', ([\d.]+)\)/);
+    expect(Number(match?.[1])).toBe(DELIVERY_FEE_DEFAULT);
+  });
+
+  it('shop orders get the server fee on top; QARYA1 and the commission leave it alone', () => {
+    for (const sql of [migration, schema]) {
+      expect(sql).toContain('new.delivery_fee := public.delivery_fee_quote(new.shop_id);');
+      expect(sql).toContain('new.total_amount := subtotal + new.commission_amount + new.delivery_fee;');
+      // The commission is worked out on the items only
+      expect(sql).toContain('fee := public.order_commission(new.discount_code, subtotal, false);');
+    }
+  });
+
+  it('service orders never get one (the gas cylinder keeps its own fee in the price)', () => {
+    for (const sql of [migration, schema]) {
+      expect(sql).toContain('new.delivery_fee := 0;');
+    }
+    expect(migration).toContain('check (delivery_fee >= 0 and (delivery_fee = 0 or shop_id is not null))');
   });
 });
 

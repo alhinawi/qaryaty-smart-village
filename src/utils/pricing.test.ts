@@ -83,6 +83,36 @@ describe('getCartPricing (cart total)', () => {
     });
   });
 
+  it('adds رسوم التوصيل on top: no commission on it, and QARYA1 never waives it', () => {
+    const items = [item(53, 1, 'fixed')];
+    expect(getCartPricing(items, false, 10)).toMatchObject({
+      subtotal: 53,
+      commission: 3,
+      deliveryFee: 10,
+      totalToPay: 66,
+    });
+    // The screenshot case: 53 with QARYA1 is 53 + delivery, the app fee alone is waived
+    expect(getCartPricing(items, true, 10)).toMatchObject({
+      commission: 0,
+      discountAmount: 3,
+      deliveryFee: 10,
+      totalToPay: 63,
+      feesWaived: true,
+    });
+    // A farther village's fee
+    expect(getCartPricing([item(100, 1, 'fixed')], false, 15).totalToPay).toBe(120);
+  });
+
+  it('a cart without a delivery fee (a service cart) pays none', () => {
+    expect(getCartPricing([item(100, 1, 'fixed')], false)).toMatchObject({ deliveryFee: 0, totalToPay: 105 });
+    expect(getCartPricing([item(100, 1, 'fixed')], false, -5).deliveryFee).toBe(0);
+    expect(getCartPricing([item(100, 1, 'fixed')], false, Number.NaN).totalToPay).toBe(105);
+  });
+
+  it('a cart with no price yet stays without a total, delivery fee or not', () => {
+    expect(getCartPricing([item(0, 1, 'quote')], false, 10).totalToPay).toBeNull();
+  });
+
   it('treats old cart items without priceType by their price', () => {
     expect(getCartPricing([item(5, 3)], false)).toMatchObject({ total: 15, isEstimate: false });
   });

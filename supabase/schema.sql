@@ -527,11 +527,15 @@ begin
     new.provider_id := null;
     new.is_estimate := false;
     -- Same rule as the app (utils/pricing.ts): the items are paid in full and
-    -- QARYA1 waives the fees only. discount_amount records the waived commission.
+    -- QARYA1 waives the commission only. The commission is on the items only;
+    -- رسوم التوصيل comes on top, worked out here, and QARYA1 doesn't touch it.
+    -- delivery_fee_quote() and the delivery_fee columns come from
+    -- migrations/20261106210000_delivery_fee.sql (run after this file).
     fee := public.order_commission(new.discount_code, subtotal, false);
     new.discount_amount := case when new.discount_code = 'QARYA1' then fee else 0 end;
     new.commission_amount := case when new.discount_code = 'QARYA1' then 0 else fee end;
-    new.total_amount := subtotal + new.commission_amount;
+    new.delivery_fee := public.delivery_fee_quote(new.shop_id);
+    new.total_amount := subtotal + new.commission_amount + new.delivery_fee;
     new.service_name := left(shop.name || ': ' || array_to_string(names, ' + '), 300);
     new.service_emoji := left(coalesce(shop.emoji, ''), 40);
   else
@@ -542,6 +546,9 @@ begin
     -- set after confirmation) stays null with no commission; a QARYA1 order
     -- keeps its code, so the commission stays waived when the price is set.
     -- (greatest() skips nulls, so keep a null total null by hand)
+    -- Never a delivery fee of ours on a service (the gas cylinder's own fee is
+    -- inside the price the app sends).
+    new.delivery_fee := 0;
     price_part := case when new.total_amount is null then null
                        else greatest(new.total_amount - greatest(coalesce(new.commission_amount, 0), 0), 0) end;
     fee := public.order_commission(new.discount_code, price_part, new.is_estimate);
