@@ -69,7 +69,7 @@ describe('google sign-in', () => {
 
   it('completes the profile through complete_profile with clean values', async () => {
     const rpc = vi.fn(async (_fn: string, _args: object) => ({
-      data: { ...googleProfile, username: 'mo_10', phone: '01012345678', village: 'البركة' },
+      data: { ...googleProfile, username: 'mo_10', phone: '01012345678', village: 'البركة', address: 'شارع المدرسة' },
       error: null,
     }));
     const user = await createSupabaseAuthRepo(async () => clientWith({}, { rpc })).completeProfile('g1', {
@@ -77,14 +77,14 @@ describe('google sign-in', () => {
       username: 'Mo_10',
       phone: '+20 101 234 5678',
       village: 'البركة ',
-      address: '',
+      address: 'شارع المدرسة',
     });
     expect(rpc).toHaveBeenCalledWith('complete_profile', {
       p_name: 'محمد',
       p_username: 'mo_10',
       p_phone: '01012345678',
       p_village: 'البركة',
-      p_address: '',
+      p_address: 'شارع المدرسة',
     });
     expect(needsProfileCompletion(user)).toBe(false);
   });
@@ -104,8 +104,11 @@ describe('google sign-in', () => {
     expect(oauthErrorFrom('', '#access_token=abc')).toBe('');
   });
 
-  it('an email account with everything filled needs nothing more', () => {
-    expect(needsProfileCompletion({ username: 'ahmed', phone: '01012345678', village: 'البركة' })).toBe(false);
-    expect(needsProfileCompletion({ username: '', phone: '01012345678', village: 'البركة' })).toBe(true);
+  it('an account with phone, village and address needs nothing more before ordering', () => {
+    expect(needsProfileCompletion({ phone: '01012345678', village: 'البركة', address: 'شارع المدرسة' })).toBe(false);
+    // The username is made from the email, so it never blocks an order
+    expect(needsProfileCompletion({ phone: '01012345678', village: 'البركة', address: ' ' })).toBe(true);
+    expect(needsProfileCompletion({ phone: '', village: 'البركة', address: 'شارع المدرسة' })).toBe(true);
+    expect(needsProfileCompletion({ phone: '01012345678', village: '', address: 'شارع المدرسة' })).toBe(true);
   });
 });

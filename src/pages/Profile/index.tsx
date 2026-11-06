@@ -12,6 +12,8 @@ import { ROUTES } from '@/routes';
 import { useReach } from '@/hooks/useReach';
 import { VILLAGES, villageLabel } from '@/data/villages';
 import MyAddresses from '@/components/address/MyAddresses';
+import { PhoneInput } from '@/components/ui/PhoneInput';
+import { normalizeEgyptianPhone } from '@/utils/validators';
 
 // ─── Component
 export default function ProfilePage() {
@@ -50,7 +52,7 @@ export default function ProfilePage() {
       }
       updateProfile({ name, address });
     } else {
-      updateProfile({ name, phone, address });
+      updateProfile({ name, phone: normalizeEgyptianPhone(phone), address });
     }
     if (villageDraft !== village) setVillage(villageDraft);
     setIsEditing(false);
@@ -218,9 +220,8 @@ export default function ProfilePage() {
             </div>
             <div className="form-group">
               <label htmlFor="profilePhone">رقم الموبايل</label>
-              <input
+              <PhoneInput
                 id="profilePhone"
-                type="tel"
                 value={user ? user.phone : phone}
                 onChange={(e) => setPhone(e.target.value)}
                 disabled={Boolean(user)}

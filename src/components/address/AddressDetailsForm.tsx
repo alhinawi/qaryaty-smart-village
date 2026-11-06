@@ -6,6 +6,7 @@ import { addressDraftSchema, normalizeEgyptianPhone } from '@/utils/validators';
 import { ADDRESS_LABELS, labelEmoji } from '@/utils/address';
 import type { MapLayer } from '@/services/maps/config';
 import { BackIcon } from './LocationPicker';
+import { PhoneInput } from '@/components/ui/PhoneInput';
 
 const MapCanvas = lazy(() => import('@/services/maps/MapCanvas'));
 
@@ -166,19 +167,22 @@ export default function AddressDetailsForm({
           <Input label="الدور" placeholder="مثلاً: التاني" value={form.floor} onChange={set('floor')} maxLength={30} error={errors.floor} />
         </div>
         <Input label="علامة مميزة" placeholder="مثلاً: جنب المدرسة الابتدائي" value={form.landmark} onChange={set('landmark')} maxLength={150} error={errors.landmark} />
-        <Input
-          label="رقم الموبايل"
-          placeholder="01xxxxxxxxx"
-          type="tel"
-          inputMode="tel"
-          dir="ltr"
-          className="text-right"
-          value={form.phone}
-          onChange={set('phone')}
-          maxLength={16}
-          error={errors.phone}
-          autoComplete="tel"
-        />
+        <div className="form-group">
+          <label htmlFor="addrPhone">رقم الموبايل</label>
+          <PhoneInput
+            id="addrPhone"
+            className={`q-input ${errors.phone ? 'is-invalid' : ''}`}
+            value={form.phone}
+            onChange={set('phone')}
+            aria-invalid={errors.phone ? true : undefined}
+            aria-describedby={errors.phone ? 'addrPhoneError' : undefined}
+          />
+          {errors.phone && (
+            <span id="addrPhoneError" className="input-error-msg" role="alert">
+              {errors.phone}
+            </span>
+          )}
+        </div>
 
         {showDefaultToggle && (
           <label className="flex items-center gap-3 mt-1 mb-2 p-3 bg-white rounded-xl border border-gray-100 cursor-pointer">

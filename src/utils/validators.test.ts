@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { normalizeEgyptianPhone, normalizeUsername, orderFormSchema, usernameSchema } from './validators';
+import {
+  completeProfileSchema,
+  normalizeEgyptianPhone,
+  normalizeUsername,
+  orderFormSchema,
+  usernameSchema,
+} from './validators';
 
 const validOrder = {
   address: 'شارع الجامع الكبير',
@@ -18,6 +24,11 @@ describe('normalizeEgyptianPhone', () => {
     ['+٢٠١٠١٢٣٤٥٦٧٨', '01012345678'],
     ['00201112345678', '01112345678'],
     ['201212345678', '01212345678'],
+    // Typed after the +20 box, without its 0
+    ['1012345678', '01012345678'],
+    ['10 1234 5678', '01012345678'],
+    ['+20 01012345678', '01012345678'],
+    ['١٥٥١٢٣٤٥٦٧', '01551234567'],
     ['010-1234-5678', '01012345678'],
   ])('normalizes %s', (input, expected) => {
     expect(normalizeEgyptianPhone(input)).toBe(expected);
@@ -86,5 +97,20 @@ describe('usernameSchema', () => {
 
   it('normalizeUsername matches what the schema stores', () => {
     expect(normalizeUsername(' @Ahmed_10 ')).toBe('ahmed_10');
+  });
+});
+
+describe('completeProfileSchema (before a Google account\'s first order)', () => {
+  const ok = { name: 'محمد عاطف', phone: '1012345678', village: 'منية سندوب', address: 'شارع المدرسة، بيت 4' };
+
+  it('takes the phone without its 0 and stores 01xxxxxxxxx', () => {
+    const r = completeProfileSchema.safeParse(ok);
+    expect(r.success && r.data.phone).toBe('01012345678');
+  });
+
+  it('refuses an empty address', () => {
+    const r = completeProfileSchema.safeParse({ ...ok, address: '' });
+    expect(r.success).toBe(false);
+    expect(r.error?.issues[0].message).toContain('الخريطة');
   });
 });

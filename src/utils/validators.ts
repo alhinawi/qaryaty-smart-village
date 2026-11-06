@@ -3,16 +3,21 @@ import { z } from 'zod';
 
 // ─── Phone normalization
 // Accepts what people actually type on an Arabic keyboard:
-// ٠١٠١٢٣٤٥٦٧٨, Persian digits, spaces/dashes, and +20 / 0020 prefixes.
+// ٠١٠١٢٣٤٥٦٧٨, Persian digits, spaces/dashes, +20 / 0020 prefixes, and the
+// number without its 0 next to the +20 box (1012345678). Always stored as 01xxxxxxxxx.
 export function normalizeEgyptianPhone(value: string): string {
   let digits = value
     .replace(/[\u0660-\u0669]/g, (d) => String(d.charCodeAt(0) - 0x0660))
     .replace(/[\u06F0-\u06F9]/g, (d) => String(d.charCodeAt(0) - 0x06f0))
     .replace(/[\s\-().]/g, '');
 
-  if (digits.startsWith('+20')) digits = '0' + digits.slice(3);
-  else if (digits.startsWith('0020')) digits = '0' + digits.slice(4);
-  else if (/^201[0125]\d{8}$/.test(digits)) digits = '0' + digits.slice(2);
+  if (digits.startsWith('+20')) digits = digits.slice(3);
+  else if (digits.startsWith('0020')) digits = digits.slice(4);
+  else if (/^201[0125]\d{8}$/.test(digits)) digits = digits.slice(2);
+  else return /^1[0125]\d{8}$/.test(digits) ? '0' + digits : digits;
+
+  // After +20 the number may be typed with or without its 0 (+20 101… or +20 0101…)
+  if (/^1[0125]\d{8}$/.test(digits)) digits = '0' + digits;
 
   return digits;
 }
@@ -172,11 +177,14 @@ export function fieldErrorsFrom(issues: { path: PropertyKey[]; message: string }
   return errors;
 }
 
-/** /complete-profile after a Google sign-up. The address can wait for the first order. */
+/** /complete-profile before a Google account's first order. The username is made from the email. */
 export const completeProfileSchema = z.object({
   name: z.string().trim().min(3, { message: 'اكتب اسمك (3 حروف على الأقل)' }).max(40, { message: 'الاسم طويل أوي' }),
-  username: usernameSchema,
   phone: egyptianPhoneSchema,
   village: z.string().trim().min(2, { message: 'اكتب اسم قريتك' }).max(60),
-  address: z.string().trim().max(120),
+  address: z
+    .string()
+    .trim()
+    .min(5, { message: 'حدّد عنوانك على الخريطة علشان المندوب يوصلك' })
+    .max(120),
 });
