@@ -176,6 +176,32 @@ body {
     font-weight: 700;
   }
 
+  /* A form field outside .form-group (market filters and forms) */
+  .q-input {
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.625rem 0.875rem;
+    border: 2px solid rgba(26, 122, 74, 0.2);
+    border-radius: 12px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    line-height: 1.4;
+    outline: none;
+    background: var(--cream);
+    color: var(--text);
+    direction: rtl;
+  }
+  .q-input:focus {
+    border-color: var(--green);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(26, 122, 74, 0.12);
+  }
+  .q-input.is-invalid,
+  .q-input[aria-invalid='true'] {
+    border-color: var(--danger);
+    background: #fef2f2;
+  }
+
   .btn-cancel {
     width: 100%;
     background: none;

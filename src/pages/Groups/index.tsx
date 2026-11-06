@@ -40,10 +40,19 @@ function GroupCard({ group }: { group: WhatsAppGroup }) {
           <WhatsAppIcon className="w-5 h-5" />
           انضم للجروب
         </a>
-      ) : (
+      ) : group.sitePath ? null : (
         <span className="mt-auto inline-flex items-center justify-center gap-2 min-h-[44px] px-4 rounded-xl bg-gray-100 text-text-muted font-bold text-sm">
           <span aria-hidden="true">⏳</span> الرابط قريبًا
         </span>
+      )}
+      {group.sitePath && (
+        <Link
+          to={group.sitePath}
+          className={`${ready ? '' : 'mt-auto '}inline-flex items-center justify-center gap-2 min-h-[44px] px-4 rounded-xl bg-green text-white font-extrabold text-sm transition-transform duration-200 hover:scale-[1.03] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green`}
+        >
+          <span aria-hidden="true">{group.icon}</span>
+          {group.siteLabel ?? 'افتح الصفحة'}
+        </Link>
       )}
     </li>
   );

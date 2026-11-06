@@ -46,6 +46,12 @@ const JobDetailPage = lazy(() => import('@/pages/Jobs/JobDetailPage'));
 const JobFormPage = lazy(() => import('@/pages/Jobs/JobFormPage'));
 const MyJobsPage = lazy(() => import('@/pages/Jobs/MyJobsPage'));
 const JobsReviewPage = lazy(() => import('@/pages/Jobs/JobsReviewPage'));
+const MarketListPage = lazy(() => import('@/pages/Market/ListPage'));
+const MarketItemPage = lazy(() => import('@/pages/Market/ItemPage'));
+const MarketFormPage = lazy(() => import('@/pages/Market/FormPage'));
+const MarketMinePage = lazy(() => import('@/pages/Market/MinePage'));
+const MarketChatPage = lazy(() => import('@/pages/Market/ChatPage'));
+const MarketReviewPage = lazy(() => import('@/pages/Market/ReviewPage'));
 
 // ─── Page Loading Fallback
 function PageLoadingFallback() {
@@ -178,6 +184,14 @@ export default function App() {
                 <Route path={ROUTES.jobsReview} element={<JobsReviewPage />} />
                 <Route path={`${ROUTES.jobs}/:id`} element={<JobDetailPage />} />
                 <Route path={`${ROUTES.jobs}/:id/edit`} element={<JobFormPage />} />
+                <Route path={ROUTES.marketSale} element={<MarketListPage key="sale" kind="sale" />} />
+                <Route path={ROUTES.marketSwap} element={<MarketListPage key="swap" kind="swap" />} />
+                <Route path={ROUTES.marketNew} element={<MarketFormPage />} />
+                <Route path={ROUTES.marketMine} element={<MarketMinePage />} />
+                <Route path={ROUTES.marketReview} element={<MarketReviewPage />} />
+                <Route path="/market/item/:id" element={<MarketItemPage />} />
+                <Route path="/market/item/:id/edit" element={<MarketFormPage />} />
+                <Route path="/market/chat/:listingId/:buyerId" element={<MarketChatPage />} />
                 {/* Unknown URLs go home instead of a blank page */}
                 <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
               </Routes>

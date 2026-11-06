@@ -29,6 +29,8 @@ import { PeopleSectionsRow } from './PeopleSectionsRow';
 import { DonationsBanner } from './DonationsBanner';
 import { JobsBanner } from './JobsBanner';
 import { JOB_SEARCH_WORDS } from '@/config/jobs';
+import { MarketBanner } from './MarketBanner';
+import { MARKET_SEARCH_WORDS } from '@/config/market';
 import { DONATION_SEARCH_FIELDS } from '@/config/donations';
 import { ProviderPickerModal } from './ProviderPickerModal';
 import { FeaturesSection } from './FeaturesSection';
@@ -270,6 +272,9 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
 
       {/* وظائف: on الكل, or when the search is about work (وظيفة، شغل…) */}
       {selectedCategory === 'all' && (!isSearching || matchesSearch(searchQuery, JOB_SEARCH_WORDS)) && <JobsBanner />}
+
+      {/* بيع المستعمل وتبادل: on الكل, or when the search is about buying, selling or swapping */}
+      {selectedCategory === 'all' && (!isSearching || matchesSearch(searchQuery, MARKET_SEARCH_WORDS)) && <MarketBanner />}
 
       {/* Restaurants: near the top so they're easy to find */}
       {!isLoading && restaurantsOnTop && restaurantsSection}
