@@ -51,6 +51,9 @@ export interface ShopRow {
   kind?: string | null;
   food_types?: string[] | null;
   photo?: string | null;
+  rating?: number | string | null;
+  delivery_time?: string | null;
+  village?: string | null;
 }
 
 export interface CatalogProductRow {
@@ -150,6 +153,9 @@ export function shopFromRow(row: ShopRow): Shop {
     kind: (row.kind ?? 'other') as Shop['kind'],
     foodTypes: (row.food_types ?? []) as Shop['foodTypes'],
     photo: row.photo ?? undefined,
+    rating: row.rating == null ? undefined : Number(row.rating),
+    deliveryTime: row.delivery_time ?? undefined,
+    village: row.village ?? undefined,
   };
 }
 

@@ -102,6 +102,15 @@ export const ShopCard = React.memo(function ShopCard({
           {shop.open ? "🟢 مفتوح" : "🔴 مغلق"}
         </div>
         <div className="text-[11px] text-text-muted">{shop.time}</div>
+        {shop.kind === "restaurant" && (shop.rating || shop.deliveryTime) && (
+          <div className="text-[11px] text-text-muted mt-0.5 flex flex-wrap gap-x-2">
+            {shop.rating ? <span className="font-bold text-amber-600">⭐ {shop.rating.toFixed(1)}</span> : null}
+            {shop.deliveryTime ? <span>🛵 {shop.deliveryTime}</span> : null}
+          </div>
+        )}
+        {shop.kind === "restaurant" && shop.village && (
+          <div className="text-[11px] text-text-muted truncate">📍 {shop.village}</div>
+        )}
       </div>
     </div>
   );
