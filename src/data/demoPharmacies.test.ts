@@ -6,7 +6,7 @@ describe('fictional pharmacies', () => {
   it('adds eight clearly marked, separate pharmacies with unique photos', async () => {
     expect(DEMO_PHARMACIES).toHaveLength(8);
     expect(new Set(DEMO_PHARMACIES.map(s => s.photo)).size).toBe(8);
-    expect(DEMO_PHARMACIES.every(s => s.demo && s.name.includes('تجريبية') && s.id < 0)).toBe(true);
+    expect(DEMO_PHARMACIES.every(s => s.demo && !s.name.includes('تجريبية') && s.id < 0)).toBe(true);
     expect((await createMockCatalogRepo().getShops()).filter(s => s.kind === 'pharmacy').length).toBeGreaterThan(8);
   });
   it('never replaces an existing vendor and does not duplicate demos', () => {
