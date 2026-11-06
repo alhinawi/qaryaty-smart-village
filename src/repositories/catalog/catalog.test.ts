@@ -63,7 +63,7 @@ describe('shop menus through the repository', () => {
   });
 
   it('every restaurant has a cover photo and dish photos are https', () => {
-    for (const shop of RESTAURANTS) expect(shop.photo).toMatch(/^https:\/\//);
+    for (const shop of RESTAURANTS) expect(shop.photo).toMatch(/^\/img\/restaurants\//);
     for (const menu of Object.values(MENUS)) {
       for (const p of menu) if (p.photo) expect(p.photo).toMatch(/^https:\/\//);
     }
