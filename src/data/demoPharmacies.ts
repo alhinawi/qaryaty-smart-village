@@ -11,9 +11,9 @@ export const DEMO_PHARMACIES: Shop[] = [
   ['صيدلية جسر الصحة', 'سندوب'],
   ['صيدلية نبع العافية', 'نقيطة'],
 ].map(([name, village], index) => ({
-  id: -801 - index, name: `${name} (تجريبية)`, village, kind: 'pharmacy', emoji: '💊',
+  id: -801 - index, name, village, kind: 'pharmacy', emoji: '💊',
   description: 'بيانات خيالية للتجربة، ليست صيدلية حقيقية ولا تعبر عن مخزون متاح. الأدوية بروشتة بعد مراجعة الصيدلي.',
-  demo: true, open: true, time: '⏰ مواعيد تجريبية: 9ص - 11م', bgColor: '#EAF7F1',
+  demo: true, open: true, time: 'للعرض فقط', bgColor: '#EAF7F1',
   photo: `/img/pharmacies/demo-${index + 1}.webp`,
 }));
 
