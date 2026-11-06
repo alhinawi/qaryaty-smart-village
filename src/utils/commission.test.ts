@@ -22,8 +22,8 @@ const item = (price: number, quantity: number, priceType?: CartItem['priceType']
   quantity,
 });
 
-const on = (payable: number | null, extra: Partial<{ isEstimate: boolean; discounted: boolean }> = {}) =>
-  appCommission({ payable, isEstimate: false, discounted: false, ...extra });
+const on = (payable: number | null, extra: Partial<{ isEstimate: boolean }> = {}) =>
+  appCommission({ payable, isEstimate: false, ...extra });
 
 describe('عمولة التطبيق settings', () => {
   it('is 5% of the order, at least 1 EGP and at most 50 EGP', () => {
@@ -45,6 +45,14 @@ describe('عمولة التطبيق settings', () => {
     expect(value('app_commission_max')).toBe(APP_COMMISSION_MAX);
     // The old fixed fee is gone from the server
     expect(sql).not.toMatch(/create or replace function public\.app_commission\(\)/);
+  });
+
+  it('the server waives only the fee for QARYA1, never the price', () => {
+    const sql = readFileSync(path.resolve(__dirname, '../../supabase/schema.sql'), 'utf8');
+    expect(sql).toContain("new.commission_amount := case when new.discount_code = 'QARYA1' then 0 else fee end;");
+    expect(sql).toContain("new.discount_amount := case when new.discount_code = 'QARYA1' then fee else 0 end;");
+    expect(sql).toContain('new.total_amount := subtotal + new.commission_amount;');
+    expect(sql).not.toMatch(/then subtotal else 0 end/);
   });
 });
 
@@ -78,16 +86,14 @@ describe('عمولة التطبيق as a percentage', () => {
   });
 
   it('nothing to pay or no price yet: no commission', () => {
-    expect(on(0, { discounted: true })).toBe(0);
     expect(on(0)).toBe(0);
     expect(on(null)).toBe(0);
     expect(on(-10)).toBe(0);
     expect(on(Number.NaN)).toBe(0);
   });
 
-  it('a starting price pays on the starting price; a discounted order on what is left', () => {
+  it('a starting price pays on the starting price', () => {
     expect(on(80, { isEstimate: true })).toBe(4);
-    expect(on(80, { isEstimate: true, discounted: true })).toBe(4);
   });
 });
 
@@ -118,9 +124,18 @@ describe('single order with the commission', () => {
     expect(p).toMatchObject({ totalToPay: null, commission: 0 });
   });
 
-  it('a free first order pays nothing at all', () => {
+  it('the first order pays the price in full and no commission', () => {
     const p = getOrderPricing({ numericPrice: 15, priceType: 'fixed' }, true);
-    expect(p).toMatchObject({ finalPrice: 0, commission: 0, totalToPay: 0 });
+    expect(p).toMatchObject({ finalPrice: 15, commission: 0, discountAmount: 1, totalToPay: 15 });
+  });
+
+  it('the first order waives the commission on the gas delivery too, not the delivery fee', () => {
+    const p = getOrderPricing(
+      { numericPrice: 120, priceType: 'fixed', deliveryFee: 15, quantity: { unit: 'أنبوبة', min: 1, max: 5, step: 1 } },
+      true,
+      { quantity: 2 }
+    );
+    expect(p).toMatchObject({ basePrice: 255, finalPrice: 255, commission: 0, discountAmount: 13, totalToPay: 255 });
   });
 });
 
@@ -136,13 +151,23 @@ describe('cart with the commission', () => {
     expect(p).toMatchObject({ total: 1200, commission: 50, totalToPay: 1250 });
   });
 
-  it('a free first cart pays nothing', () => {
-    expect(getCartPricing([item(10, 2, 'fixed')], true)).toMatchObject({ total: 0, commission: 0, totalToPay: 0 });
+  it('the first cart pays the items in full and no commission', () => {
+    expect(getCartPricing([item(10, 2, 'fixed')], true)).toMatchObject({
+      total: 20,
+      commission: 0,
+      discountAmount: 1,
+      totalToPay: 20,
+    });
   });
 
-  it('the code on a cart with a starting price pays on what is left', () => {
+  it('the code on a big cart waives the capped commission', () => {
+    const p = getCartPricing([item(400, 3, 'fixed')], true);
+    expect(p).toMatchObject({ total: 1200, commission: 0, discountAmount: 50, totalToPay: 1200 });
+  });
+
+  it('the code on a cart with a starting price keeps the estimate, without the fee', () => {
     const p = getCartPricing([item(10, 2, 'fixed'), item(80, 1, 'from')], true);
-    expect(p).toMatchObject({ total: 80, commission: 4, totalToPay: 84, isEstimate: true });
+    expect(p).toMatchObject({ total: 100, commission: 0, discountAmount: 5, totalToPay: 100, isEstimate: true });
   });
 
   it('a cart with no price yet has no total and no commission yet', () => {

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { formatCurrency } from "@/utils/helpers";
-import { describeTotal } from "@/utils/pricing";
+import { FIRST_ORDER_PROMO, FIRST_ORDER_PROMO_TEXT, describeTotal } from "@/utils/pricing";
 import { googleMapsUrl } from "@/utils/address";
 import type { Order, OrderStatus } from "@/types";
 
@@ -144,11 +144,19 @@ export default function OrdersPage() {
                   <span className="text-text-muted font-bold">💰 المبلغ:</span>
                   <span className="font-extrabold text-green-dark">
                     {describeTotal(order.totalAmount, Boolean(order.isEstimate), formatCurrency)}
-                    {order.discountAmount > 0 && (
+                    {order.discountCode === FIRST_ORDER_PROMO ? (
                       <span className="text-success font-bold">
                         {" "}
-                        (خصم {order.discountAmount} ج)
+                        ({FIRST_ORDER_PROMO_TEXT}
+                        {order.discountAmount > 0 && `، وفّرت ${formatCurrency(order.discountAmount)}`})
                       </span>
+                    ) : (
+                      order.discountAmount > 0 && (
+                        <span className="text-success font-bold">
+                          {" "}
+                          (خصم {order.discountAmount} ج)
+                        </span>
+                      )
                     )}
                   </span>
                 </div>

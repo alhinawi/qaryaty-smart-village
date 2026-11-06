@@ -7,6 +7,7 @@ import { RepoError } from '../errors';
 import type { NewOrder, OrderRepo } from './types';
 
 const REJECTED_MESSAGE = 'الطلب اترفض، راجع البيانات وجرّب تاني';
+const PROMO_USED_MESSAGE = 'كود QARYA1 لأول طلب بس، واتستخدم قبل كده على حسابك. شيل الكود وجرّب تاني';
 
 /** Postgres said no (bad data, permission): a real answer, not an outage. */
 export function isRejectedByDatabase(code: string | undefined): boolean {
@@ -54,6 +55,10 @@ export function createSupabaseOrderRepo(getClient: () => Promise<SupabaseClient>
         .from('orders')
         .insert(orderToRow(id, input, sessionData.session?.user.id ?? null));
       if (error) {
+        // The first-order code once per account (index orders_one_promo_per_user)
+        if (error.code === '23505' && /one_promo/.test(error.message ?? '')) {
+          throw new RepoError('rejected', PROMO_USED_MESSAGE, { cause: error });
+        }
         if (isRejectedByDatabase(error.code)) throw new RepoError('rejected', REJECTED_MESSAGE, { cause: error });
         throw error;
       }
