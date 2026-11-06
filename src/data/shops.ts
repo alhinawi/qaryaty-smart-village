@@ -6,6 +6,7 @@ import { RESTAURANTS } from './catalog';
 export const SHOPS: Shop[] = [
   {
     id: 1,
+    photo: '/img/shops/shop-1.webp',
     emoji: '🛒',
     name: 'الحاج سيد',
     kind: 'grocery',
@@ -16,6 +17,7 @@ export const SHOPS: Shop[] = [
   },
   {
     id: 2,
+    photo: '/img/shops/shop-2.webp',
     emoji: '🥖',
     name: 'فرن الأصيل',
     kind: 'bakery',
@@ -26,6 +28,7 @@ export const SHOPS: Shop[] = [
   },
   {
     id: 3,
+    photo: '/img/shops/shop-3.webp',
     emoji: '🥬',
     name: 'خضار الفلاح',
     kind: 'veg',
@@ -36,6 +39,7 @@ export const SHOPS: Shop[] = [
   },
   {
     id: 4,
+    photo: '/img/shops/shop-4.webp',
     emoji: '💈',
     name: 'صالون أبو العز',
     kind: 'other',
@@ -46,6 +50,7 @@ export const SHOPS: Shop[] = [
   },
   {
     id: 5,
+    photo: '/img/shops/shop-5.webp',
     emoji: '🐟',
     name: 'عم صابر',
     kind: 'fish',
@@ -56,6 +61,7 @@ export const SHOPS: Shop[] = [
   },
   {
     id: 6,
+    photo: '/img/shops/shop-6.webp',
     emoji: '🔧',
     name: 'ورشة أبو خالد',
     kind: 'other',
@@ -66,6 +72,7 @@ export const SHOPS: Shop[] = [
   },
   {
     id: 7,
+    photo: '/img/shops/shop-7.webp',
     emoji: '🥩',
     name: 'جزارة الحاج عبده',
     kind: 'butcher',
@@ -76,6 +83,7 @@ export const SHOPS: Shop[] = [
   },
   {
     id: 8,
+    photo: '/img/shops/shop-8.webp',
     emoji: '👔',
     name: 'مغسلة ومكوجي النور',
     kind: 'other',
@@ -86,6 +94,7 @@ export const SHOPS: Shop[] = [
   },
   {
     id: 9,
+    photo: '/img/shops/shop-9.webp',
     emoji: '🐟',
     name: 'أسماك أبو حسن',
     kind: 'fish',
@@ -96,6 +105,7 @@ export const SHOPS: Shop[] = [
   },
   {
     id: 10,
+    photo: '/img/shops/shop-10.webp',
     emoji: '🍊',
     name: 'فاكهة البركة',
     kind: 'fruit',
@@ -106,6 +116,7 @@ export const SHOPS: Shop[] = [
   },
   {
     id: 11,
+    photo: '/img/shops/shop-11.webp',
     emoji: '🛒',
     name: 'سوبر ماركت الرحمة',
     kind: 'grocery',
@@ -116,6 +127,7 @@ export const SHOPS: Shop[] = [
   },
   {
     id: 12,
+    photo: '/img/shops/shop-12.webp',
     emoji: '🐔',
     name: 'فرارجي الأمانة',
     kind: 'poultry',
@@ -126,6 +138,7 @@ export const SHOPS: Shop[] = [
   },
   {
     id: 13,
+    photo: '/img/shops/shop-13.webp',
     emoji: '🍰',
     name: 'حلواني الملكة',
     kind: 'sweets',
@@ -136,6 +149,7 @@ export const SHOPS: Shop[] = [
   },
   {
     id: 14,
+    photo: '/img/shops/shop-14.webp',
     emoji: '🌿',
     name: 'عطارة الشيخ عبد الله',
     kind: 'attar',
@@ -146,6 +160,7 @@ export const SHOPS: Shop[] = [
   },
   {
     id: 15,
+    photo: '/img/shops/shop-15.webp',
     emoji: '☕',
     name: 'بن البرازيلي',
     kind: 'coffee',
@@ -156,6 +171,7 @@ export const SHOPS: Shop[] = [
   },
   {
     id: 16,
+    photo: '/img/shops/shop-16.webp',
     emoji: '🥛',
     name: 'ألبان المزرعة',
     kind: 'dairy',
@@ -166,6 +182,7 @@ export const SHOPS: Shop[] = [
   },
   {
     id: 17,
+    photo: '/img/shops/shop-17.webp',
     emoji: '📚',
     name: 'مكتبة النور',
     kind: 'stationery',
@@ -176,6 +193,7 @@ export const SHOPS: Shop[] = [
   },
   {
     id: 18,
+    photo: '/img/shops/shop-18.webp',
     emoji: '🍳',
     name: 'أدوات منزلية الأمل',
     kind: 'housewares',
@@ -186,6 +204,7 @@ export const SHOPS: Shop[] = [
   },
   {
     id: 19,
+    photo: '/img/shops/shop-19.webp',
     emoji: '💊',
     name: 'صيدلية الشفاء',
     kind: 'pharmacy',
