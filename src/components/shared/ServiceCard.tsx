@@ -108,7 +108,7 @@ export const ServiceCard = React.memo(function ServiceCard({
         }`}
         style={{ background: bg }}
       >
-        {!imageFailed ? (
+        {!imageFailed && imageForService(service) ? (
           <img
             src={imageForService(service)}
             alt=""

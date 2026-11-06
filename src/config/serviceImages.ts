@@ -1,28 +1,50 @@
-import type { Service, ServiceCategory } from '@/types';
+import type { Service } from '@/types';
 
-/** Original illustrations made for Qaryati, not photos of actual providers. */
-export const SERVICE_IMAGES: Record<ServiceCategory, string> = {
-  food: '/img/services/food.webp',
-  delivery: '/img/services/delivery.webp',
-  craft: '/img/services/craft.webp',
-  care: '/img/services/care.webp',
-  edu: '/img/services/edu.webp',
-  health: '/img/services/health.webp',
-  home: '/img/services/home.webp',
-  finishing: '/img/services/finishing.webp',
-};
-
-const SERVICE_SPECIFIC_IMAGES: Record<number, string> = {
+/** Original, distinct artwork per service. Unknown services keep their own emoji. */
+export const SERVICE_IMAGES: Record<number, string> = {
+  1: '/img/services/food.webp',
   2: '/img/services/fish.webp',
+  3: '/img/services/delivery.webp',
+  4: '/img/services/service-4.webp',
   5: '/img/services/waste.webp',
+  6: '/img/services/service-6.webp',
+  7: '/img/services/service-7.webp',
   8: '/img/services/barber.webp',
   9: '/img/services/produce.webp',
+  10: '/img/services/service-10.webp',
+  11: '/img/services/service-11.webp',
+  12: '/img/services/service-12.webp',
   13: '/img/services/cooking.webp',
-  14: '/img/services/butcher.webp',
+  14: '/img/services/service-14.webp',
+  15: '/img/services/service-15.webp',
+  16: '/img/services/service-16.webp',
+  17: '/img/services/service-17.webp',
+  18: '/img/services/service-18.webp',
+  19: '/img/services/service-19.webp',
+  20: '/img/services/service-20.webp',
+  21: '/img/services/service-21.webp',
+  22: '/img/services/service-22.webp',
+  23: '/img/services/service-23.webp',
+  24: '/img/services/service-24.webp',
+  25: '/img/services/service-25.webp',
+  26: '/img/services/service-26.webp',
+  27: '/img/services/service-27.webp',
+  28: '/img/services/service-28.webp',
+  29: '/img/services/service-29.webp',
+  30: '/img/services/service-30.webp',
   31: '/img/services/laundry.webp',
   32: '/img/services/butcher.webp',
+  33: '/img/services/service-33.webp',
+  34: '/img/services/service-34.webp',
+  35: '/img/services/service-35.webp',
+  36: '/img/services/service-36.webp',
+  37: '/img/services/service-37.webp',
+  38: '/img/services/service-38.webp',
+  39: '/img/services/service-39.webp',
+  40: '/img/services/service-40.webp',
+  41: '/img/services/service-41.webp',
   42: '/img/services/gas.webp',
 };
-export function imageForService(service: Pick<Service, 'id' | 'cat'>): string {
-  return SERVICE_SPECIFIC_IMAGES[service.id] ?? SERVICE_IMAGES[service.cat];
+export function imageForService(service: Pick<Service, 'id'>): string | undefined {
+  return SERVICE_IMAGES[service.id];
 }
