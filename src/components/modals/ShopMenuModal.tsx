@@ -38,6 +38,8 @@ function LineControl({ shop, product, grill, label }: { shop: Shop; product: Pro
   const updateQuantity = useCartStore((s) => s.updateQuantity);
   const addToCart = useAddToCart();
 
+  if (shop.demo) return <span className="text-[11px] text-gray-500 px-2">للعرض فقط</span>;
+
   if (!inCart) {
     return (
       <button
@@ -111,6 +113,9 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
   return (
     <Modal isOpen onClose={close} title={shop.name} emoji={shop.emoji} maxWidth="640px">
       <div dir="rtl" className="text-right">
+        {shop.demo && shop.kind === 'pharmacy' && (
+          <p className="text-[12px] text-gray-600 bg-amber-50 rounded-lg px-3 py-2 mb-2">بيانات خيالية للتجربة فقط، ليست صيدلية حقيقية ولا تعبر عن مخزون متاح. لا يمكن الطلب منها.</p>
+        )}
         <input
           type="search"
           value={query}
