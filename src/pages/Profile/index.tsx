@@ -11,6 +11,7 @@ import { AuthError } from '@/repositories';
 import { ROUTES } from '@/routes';
 import { useReach } from '@/hooks/useReach';
 import { VILLAGES, villageLabel } from '@/data/villages';
+import MyAddresses from '@/components/address/MyAddresses';
 
 // ─── Component
 export default function ProfilePage() {
@@ -291,6 +292,8 @@ export default function ProfilePage() {
           </div>
         )}
       </div>
+
+      <MyAddresses />
 
       {/* About the app: phones and tablets have no footer, so the link lives here too */}
       <Link
