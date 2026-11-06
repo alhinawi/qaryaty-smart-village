@@ -464,6 +464,9 @@ grant update (name, village, address) on public.profiles to authenticated;
 grant insert on public.orders to anon, authenticated;
 grant select on public.orders to authenticated;
 grant update (status) on public.orders to authenticated; -- admins only (RLS)
+-- The Paymob Edge Functions read orders and set the payment columns with the
+-- service-role key; some projects don't give service_role these by default.
+grant select, update on public.orders to service_role;
 
 revoke all on function public.handle_new_user() from public, anon, authenticated;
 revoke all on function public.orders_before_insert() from public, anon, authenticated;
