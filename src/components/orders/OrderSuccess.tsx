@@ -54,8 +54,8 @@ export function OrderSuccess({
       <div className="text-[72px] mb-4 animate-[splashPop_0.5s_cubic-bezier(0.34,1.56,0.64,1)_both]" role="img" aria-label="نجاح">
         ✅
       </div>
-      <h2 id="successTitle" className="text-[clamp(1.5rem,4vw,2rem)] font-black mb-2 font-['Tajawal',sans-serif]">تم تأكيد طلبك بنجاح!</h2>
-      <p className="text-base opacity-90 mb-6">جاري إيجاد أقرب مزود خدمة ليك داخل القرية</p>
+      <h2 id="successTitle" className="text-[clamp(1.5rem,4vw,2rem)] font-black mb-2 font-['Tajawal',sans-serif]">طلبك اتأكد!</h2>
+      <p className="text-base opacity-90 mb-6">بندور على أقرب حد يقدملك الخدمة في القرية</p>
 
       {/* Order Number Box */}
       <div className="bg-white/15 rounded-2xl py-4 px-8 mb-6">
@@ -67,11 +67,11 @@ export function OrderSuccess({
       <div className="bg-white/10 rounded-2xl p-4 w-full max-w-[340px] mb-6 text-right" aria-label="مراحل تتبع الطلب">
         <div className="flex items-center gap-2.5 py-2 text-sm">
           <div className="w-7 h-7 rounded-full flex items-center justify-center text-sm shrink-0 bg-gold text-black">✓</div>
-          <span>تم استلام الطلب</span>
+          <span>الطلب وصلنا</span>
         </div>
         <div className="flex items-center gap-2.5 py-2 text-sm">
           <div className="w-7 h-7 rounded-full flex items-center justify-center text-sm shrink-0 bg-gold text-black">🔍</div>
-          <span>جاري إيجاد مزود قريب</span>
+          <span>بندور على حد قريب</span>
         </div>
         <div className="flex items-center gap-2.5 py-2 text-sm">
           <div className="w-7 h-7 rounded-full flex items-center justify-center text-sm shrink-0 bg-white/20">🚗</div>
@@ -79,7 +79,7 @@ export function OrderSuccess({
         </div>
         <div className="flex items-center gap-2.5 py-2 text-sm">
           <div className="w-7 h-7 rounded-full flex items-center justify-center text-sm shrink-0 bg-white/20">🏠</div>
-          <span>تم التسليم</span>
+          <span>اتسلّم</span>
         </div>
       </div>
 
