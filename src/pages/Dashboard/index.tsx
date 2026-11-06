@@ -26,7 +26,7 @@ import { KIND_FILTER_LABELS } from '@/utils/peopleSections';
 import { formatCurrency } from '@/utils/helpers';
 import { formatOpeningHours, HOUR_OPTIONS, parseOpeningHours } from '@/utils/openingHours';
 import type { Product, Provider, Shop } from '@/types';
-import { Section, Toggle, Field, PhotoButton } from './parts';
+import { Section, Toggle, Field, PhotoButton, EmojiPickerField } from './parts';
 
 type Tab = 'merchant' | 'pro';
 
@@ -515,7 +515,7 @@ function AddProductForm({ shop, sections, onAdded }: { shop: Shop; sections: str
         <Field label="السعر (جنيه)" value={price} onChange={setPrice} type="number" inputMode="decimal" dir="ltr" placeholder="25" />
         <Field label="الوحدة" value={unit} onChange={setUnit} placeholder="كيلو، قطعة، علبة..." />
       </div>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 gap-2">
         <label className="block">
           <span className="block text-[12px] font-bold text-text-muted mb-1">القسم في القايمة</span>
           <input
@@ -532,7 +532,7 @@ function AddProductForm({ shop, sections, onAdded }: { shop: Shop; sections: str
             ))}
           </datalist>
         </label>
-        <Field label="إيموجي (اختياري)" value={emoji} onChange={setEmoji} placeholder="🧀" />
+        <EmojiPickerField label="إيموجي (اختياري)" value={emoji} onChange={setEmoji} />
       </div>
       <div className="flex items-center gap-2">
         {photo && <img src={photo} alt="" className="w-11 h-11 rounded-lg object-cover bg-white" />}
