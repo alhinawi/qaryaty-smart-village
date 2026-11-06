@@ -1,3 +1,5 @@
+import { PROVIDERS } from '@/data/providers';
+import { withProviderPortrait } from '@/config/providerImages';
 import { pharmacyProductPhoto } from '@/config/pharmacyImages';
 import { shopPresentation } from '@/config/shopPresentation';
 import { restaurantPresentation } from '@/config/restaurantPresentation';
@@ -164,7 +166,7 @@ export function shopFromRow(row: ShopRow): Shop {
 }
 
 export function providerFromRow(row: ProviderRow): Provider {
-  return {
+  return withProviderPortrait({
     id: row.id,
     kind: row.kind,
     serviceId: row.service_id,
@@ -190,7 +192,7 @@ export function providerFromRow(row: ProviderRow): Provider {
     ...(row.inspection_fee != null && { inspectionFee: Number(row.inspection_fee) }),
     ...(row.delivery_fee != null && { deliveryFee: Number(row.delivery_fee) }),
     ...(row.groups?.length && { groups: row.groups }),
-  };
+  });
 }
 
 export function createSupabaseCatalogRepo(getClient: () => Promise<SupabaseClient>): CatalogRepo {
@@ -211,7 +213,9 @@ export function createSupabaseCatalogRepo(getClient: () => Promise<SupabaseClien
       const supabase = await getClient();
       const { data, error } = await supabase.from('providers').select('*').eq('active', true).order('id');
       if (error) throw error;
-      return (data as ProviderRow[]).map(providerFromRow);
+      const providers = (data as ProviderRow[]).map(providerFromRow);
+      // Extra fictional demo caregivers are presentation-only; never overwrite live rows.
+      return [...providers, ...PROVIDERS.filter(p => p.id >= 145 && p.id <= 147 && !providers.some(row => row.id === p.id))];
     },
     async getProducts(shop) {
       const supabase = await getClient();
