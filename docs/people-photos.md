@@ -1,3 +1,11 @@
+# People category photo update, 2026-11-06
+
+The teacher, nurse, babysitter and cleaner WebP images (360/720 widths) are newly generated generic photoreal scenes, approved by the owner for the people-category cards. They are not photographs of actual providers and not stock photos. No third-party asset was used or purchased. Sources: qaryati-photo-teacher.png, qaryati-photo-nurse.png, qaryati-photo-babysitter.png, qaryati-photo-cleaner.png, generated for this project. They show anonymous adult hands/work objects, no children or recognizable faces. Inspected both sources and rendered mobile cards. WebP quality78.
+
+This release deliberately leaves the hero, services, restaurants, about and donation images unchanged.
+
+## Historical record for original assets (category rows superseded above)
+
 # صور الناس في قريتي
 
 All photos in `public/img/people/` were generated for قريتي with the Sesame Image app on 2026-11-06.
