@@ -142,12 +142,29 @@ $$;
 
 -- New account → profile. The email is the one Supabase verified, the phone must
 -- be an Egyptian mobile number, and the role is always 'customer'.
+-- Google sign-ups (any provider other than email/phone) arrive with no username
+-- or phone: their profile starts with username null and phone '', and the app
+-- sends them to /complete-profile, which fills both through complete_profile().
 create or replace function public.handle_new_user() returns trigger
 language plpgsql security definer set search_path = public as $$
 declare
   v_phone    text := btrim(coalesce(new.raw_user_meta_data ->> 'phone', ''));
   v_username text := lower(btrim(coalesce(new.raw_user_meta_data ->> 'username', '')));
+  v_provider text := coalesce(new.raw_app_meta_data ->> 'provider', 'email');
 begin
+  if v_provider not in ('email', 'phone') then
+    insert into public.profiles (id, name, username, email, phone, village, address)
+    values (
+      new.id,
+      left(btrim(coalesce(new.raw_user_meta_data ->> 'full_name', new.raw_user_meta_data ->> 'name', '')), 80),
+      null,
+      lower(new.email),
+      '',
+      '',
+      ''
+    );
+    return new;
+  end if;
   if v_phone !~ '^01[0125][0-9]{8}$' then
     raise exception 'a valid phone number is required' using errcode = '22023';
   end if;
@@ -172,6 +189,57 @@ end $$;
 drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users for each row execute function public.handle_new_user();
+
+-- After a Google sign-up: the customer picks a username and gives a phone once.
+-- username and phone are not updatable from the app, so this is the only way in,
+-- and it refuses to change a username or phone that is already set.
+create or replace function public.complete_profile(
+  p_name text, p_username text, p_phone text, p_village text, p_address text default ''
+) returns public.profiles
+language plpgsql security definer set search_path = public as $$
+declare
+  v_username text := lower(btrim(coalesce(p_username, '')));
+  v_phone    text := btrim(coalesce(p_phone, ''));
+  v_name     text := btrim(coalesce(p_name, ''));
+  v_village  text := btrim(coalesce(p_village, ''));
+  current_row public.profiles;
+  result public.profiles;
+begin
+  if auth.uid() is null then
+    raise exception 'not signed in' using errcode = '42501';
+  end if;
+  select * into current_row from public.profiles where id = auth.uid();
+  if not found then
+    raise exception 'no profile' using errcode = '42501';
+  end if;
+  if current_row.blocked then
+    raise exception 'blocked' using errcode = '42501';
+  end if;
+  if current_row.username is null and (
+       v_username !~ '^[a-z0-9_]{3,20}$' or v_username !~ '[a-z]'
+       or v_username = any (public.reserved_usernames())) then
+    raise exception 'a valid username is required' using errcode = '22023';
+  end if;
+  if current_row.phone = '' and v_phone !~ '^01[0125][0-9]{8}$' then
+    raise exception 'a valid phone number is required' using errcode = '22023';
+  end if;
+  if length(v_name) < 2 or length(v_village) < 2 then
+    raise exception 'name and village are required' using errcode = '22023';
+  end if;
+  -- A taken username fails on profiles_username_key (23505)
+  update public.profiles set
+    username = coalesce(username, v_username),
+    phone    = case when phone = '' then v_phone else phone end,
+    name     = left(v_name, 80),
+    village  = left(v_village, 120),
+    address  = left(btrim(coalesce(nullif(btrim(p_address), ''), address)), 300)
+  where id = auth.uid()
+  returning * into result;
+  return result;
+end $$;
+
+revoke all on function public.complete_profile(text, text, text, text, text) from public, anon;
+grant execute on function public.complete_profile(text, text, text, text, text) to authenticated;
 
 create or replace function public.is_admin() returns boolean
 language sql stable security definer set search_path = public as $$

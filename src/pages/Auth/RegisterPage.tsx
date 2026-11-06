@@ -8,6 +8,7 @@ import { AuthError, authRepo } from '@/repositories';
 import { fieldErrorsFrom, registerSchema, usernameSchema } from '@/utils/validators';
 import { ROUTES } from '@/routes';
 import { AuthField, AuthLayout, PasswordField } from './AuthLayout';
+import { GoogleAuthButton } from './GoogleAuthButton';
 import { useRedirectTarget } from '@/hooks/useRedirectTarget';
 import { VILLAGES } from '@/data/villages';
 
@@ -142,6 +143,7 @@ export default function RegisterPage() {
         </>
       }
     >
+      <GoogleAuthButton returnTo={target} />
       <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-3" aria-label="حساب جديد">
         <AuthField id="regName" label="الاسم بالكامل" autoComplete="name" value={values.name} onChange={set('name')} error={errors.name} />
         <AuthField
