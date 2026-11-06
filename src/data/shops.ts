@@ -1,3 +1,4 @@
+import { DEMO_PHARMACIES } from './demoPharmacies';
 // ─── Imports
 import type { Shop } from '@/types';
 import { RESTAURANTS } from './catalog';
@@ -213,5 +214,6 @@ export const SHOPS: Shop[] = [
     time: '⏰ 24 ساعة',
     bgColor: '#EAF7F1',
   },
+  ...DEMO_PHARMACIES,
   ...RESTAURANTS,
 ];

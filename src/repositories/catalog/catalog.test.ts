@@ -104,7 +104,7 @@ describe('shop menus through the repository', () => {
 
  describe('village shop photo presentation', () => {
   it('applies each known shop photo when production rows have no photo', () => {
-    const shops = SHOPS.filter(s => s.kind !== 'restaurant');
+    const shops = SHOPS.filter(s => s.kind !== 'restaurant' && !s.demo);
     expect(shops).toHaveLength(19);
     expect(new Set(shops.map(s => s.photo)).size).toBe(19);
     for (const s of shops) {

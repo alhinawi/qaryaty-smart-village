@@ -1,3 +1,5 @@
+import { appendDemoPharmacies, demoPharmacyMenu } from '@/data/demoPharmacies';
+import { PHARMACY } from '@/data/catalog';
 import { catalogProductPhoto } from '@/config/catalogImages';
 import { PROVIDERS } from '@/data/providers';
 import { withProviderPortrait } from '@/config/providerImages';
@@ -208,7 +210,7 @@ export function createSupabaseCatalogRepo(getClient: () => Promise<SupabaseClien
       const supabase = await getClient();
       const { data, error } = await supabase.from('shops').select('*').order('id');
       if (error) throw error;
-      return (data as ShopRow[]).map(shopFromRow);
+      return appendDemoPharmacies((data as ShopRow[]).map(shopFromRow));
     },
     async getProviders() {
       const supabase = await getClient();
@@ -219,6 +221,8 @@ export function createSupabaseCatalogRepo(getClient: () => Promise<SupabaseClien
       return [...providers, ...PROVIDERS.filter(p => p.id >= 145 && p.id <= 147 && !providers.some(row => row.id === p.id))];
     },
     async getProducts(shop) {
+      const demoMenu = demoPharmacyMenu(shop, PHARMACY);
+      if (demoMenu) return demoMenu;
       const supabase = await getClient();
       const { data, error } = await supabase
         .from('catalog_products')

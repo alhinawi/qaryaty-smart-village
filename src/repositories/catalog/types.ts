@@ -11,5 +11,5 @@ export interface CatalogRepo {
    * What a shop sells, in menu order: a restaurant's own menu, or its kind's
    * list (fish, butcher…). null when the shop has no list (a salon, a workshop).
    */
-  getProducts(shop: Pick<Shop, 'id' | 'kind'>): Promise<Product[] | null>;
+  getProducts(shop: Pick<Shop, 'id' | 'kind' | 'demo'>): Promise<Product[] | null>;
 }
