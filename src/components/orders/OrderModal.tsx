@@ -8,6 +8,8 @@ import { useOrderStore } from '@/stores/useOrderStore';
 import { useUserStore } from '@/stores/useUserStore';
 import { useUIStore } from '@/stores/useUIStore';
 import { createOrder } from '@/repositories';
+import AddressChooser from '@/components/address/AddressChooser';
+import type { LatLng } from '@/types';
 import { formatCurrency, generateOrderNumber } from '@/utils/helpers';
 import {
   FIRST_ORDER_PROMO,
@@ -47,6 +49,8 @@ export function OrderModal({
 
   const [step, setStep] = useState<1 | 2>(1);
   const [address, setAddress] = useState(profile.address || '');
+  const [mapPoint, setMapPoint] = useState<LatLng | null>(null);
+  const [addressId, setAddressId] = useState<string | null>(null);
   const [phone, setPhone] = useState(profile.phone || '');
   const [notes, setNotes] = useState('');
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('cash');
@@ -158,6 +162,7 @@ export function OrderModal({
           serviceEmoji: data.emoji,
           address,
           phone,
+          ...(mapPoint ? { lat: mapPoint.lat, lng: mapPoint.lng } : {}),
           notes,
           paymentMethod: payWith,
           discountCode: promoStillValid ? FIRST_ORDER_PROMO : undefined,
@@ -293,23 +298,18 @@ export function OrderModal({
               </div>
             )}
 
-            <div className="form-group">
-              <label htmlFor="modalAddress">📍 عنوانك داخل القرية *</label>
-              <input
+            <AddressChooser
                 id="modalAddress"
-                type="text"
-                placeholder="مثال: شارع الجامع الكبير، أمام المدرسة"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                className={errors.address ? 'is-invalid' : ''}
-                aria-invalid={Boolean(errors.address)}
-                aria-describedby={errors.address ? 'modalAddressError' : undefined}
-                autoComplete="street-address"
+                label="📍 عنوانك داخل القرية *"
+                value={{ address, point: mapPoint, addressId }}
+                onChange={(next) => {
+                  setAddress(next.address);
+                  setMapPoint(next.point);
+                  setAddressId(next.addressId);
+                }}
+                onPhone={setPhone}
+                error={errors.address}
               />
-              {errors.address && (
-                <span id="modalAddressError" className="input-error-msg">{errors.address}</span>
-              )}
-            </div>
 
             <div className="form-group">
               <label htmlFor="modalPhone">📱 رقم موبايلك للتواصل *</label>

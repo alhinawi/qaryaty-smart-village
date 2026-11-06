@@ -22,6 +22,8 @@ export function orderToRow(id: string, input: NewOrder, userId: string | null) {
     service_emoji: input.serviceEmoji,
     address: input.address,
     phone: input.phone,
+    // Where to deliver, picked on the map (orders.location_url opens it on Google Maps)
+    ...(Number.isFinite(input.lat) && Number.isFinite(input.lng) ? { lat: input.lat, lng: input.lng } : {}),
     notes: input.notes ?? null,
     payment_method: input.paymentMethod,
     discount_code: input.discountCode ?? null,
