@@ -104,13 +104,11 @@ describe('providers sample data', () => {
     }
   });
 
-  it('every sample person has a fixed DiceBear picture of their own', () => {
+  it('every sample person has a distinct generated portrait of their own', () => {
     const samples = PROVIDERS.filter((p) => !isReal(p));
     for (const p of samples) {
-      const url = new URL(p.photo);
-      expect(url.hostname).toBe('api.dicebear.com');
-      expect(url.searchParams.get('seed')).toBe(`qaryaty-provider-${p.id}`);
-      if (p.gender === 'female') expect(url.searchParams.get('top')).toBe('hijab');
+      expect(p.photo).toBe(`/img/providers/provider-${p.id}.webp`);
+      expect(existsSync(`public${p.photo}`)).toBe(true);
     }
     expect(new Set(samples.map((p) => p.photo)).size).toBe(samples.length);
     expect(new Set(PROVIDERS.map((p) => p.id)).size).toBe(PROVIDERS.length);
