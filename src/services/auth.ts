@@ -112,13 +112,13 @@ export interface AuthService {
 }
 
 // ─── Demo accounts (SAMPLE DATA, remove when a backend exists)
-/** DEMO ADMIN, for trying the control panel. Not a secret: it ships in the bundle. */
+/** DEMO OWNER, for trying the control panel. Not a secret: it ships in the bundle. */
 export const DEMO_ADMIN = {
   email: 'admin@qaryati.app',
   username: 'qaryati_admin',
   phone: '01000000000',
   password: 'admin1234',
-  name: 'مدير التجربة',
+  name: 'المالك',
 } as const;
 
 /** Sample customers so the admin users list isn't empty. They have no password and can't log in. */
@@ -126,6 +126,12 @@ const SAMPLE_CUSTOMERS: Array<Pick<AuthUser, 'name' | 'username' | 'email' | 'ph
   { name: 'أم أحمد عبد الرحمن', username: 'om_ahmed', email: 'om.ahmed@example.com', phone: '01011112222', village: 'منية سندوب - الدقهلية', address: 'شارع الجامع الكبير' },
   { name: 'حسن محمود الشافعي', username: 'hassan_mahmoud', email: 'hassan@example.com', phone: '01122223333', village: 'بدواي - الدقهلية', address: 'جنب المدرسة الابتدائي' },
   { name: 'سارة إبراهيم علي', username: 'sara_ibrahim', email: 'sara@example.com', phone: '01233334444', village: 'كفر الشيخ', address: 'عزبة النخل، بيت رقم 4' },
+];
+
+/** Sample staff so the supervisors list shows every tier. They have no password and can't log in. */
+const SAMPLE_STAFF: Array<Pick<AuthUser, 'name' | 'username' | 'email' | 'phone' | 'village' | 'address'> & { role: UserRole }> = [
+  { name: 'محمود عبد العال', username: 'mahmoud_abdelal', email: 'mahmoud@example.com', phone: '01544445555', village: 'منية سندوب - الدقهلية', address: 'شارع المحطة', role: 'content_admin' },
+  { name: 'رمضان السيد', username: 'ramadan_elsayed', email: 'ramadan@example.com', phone: '01655556666', village: 'بدواي - الدقهلية', address: 'عزبة النخل', role: 'orders_admin' },
 ];
 
 // ─── Password hashing (WebCrypto PBKDF2)
@@ -239,13 +245,17 @@ export function createMockAuthService(
         accounts[DEMO_ADMIN.email] = {
           user: newUser(
             { name: DEMO_ADMIN.name, username: DEMO_ADMIN.username, email: DEMO_ADMIN.email, phone: DEMO_ADMIN.phone, village: 'منية سندوب - الدقهلية', address: 'مكتب قريتي' },
-            'admin'
+            'owner'
           ),
           salt,
           passwordHash: await hashPassword(DEMO_ADMIN.password, salt),
         };
         for (const sample of SAMPLE_CUSTOMERS) {
           accounts[sample.email] = { user: newUser(sample, 'customer') };
+        }
+        for (const staff of SAMPLE_STAFF) {
+          const { role, ...data } = staff;
+          accounts[data.email] = { user: newUser(data, role) };
         }
         writeAccounts(accounts);
       })();

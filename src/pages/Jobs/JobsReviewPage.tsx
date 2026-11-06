@@ -4,14 +4,14 @@ import { Navigate } from 'react-router';
 import { ROUTES } from '@/routes';
 import { jobRepo } from '@/repositories';
 import { jobTypeLabel, postedAgo } from '@/config/jobs';
-import { useAuthStore, selectIsAdmin } from '@/stores/useAuthStore';
+import { useAuthStore, selectCanReview } from '@/stores/useAuthStore';
 import { useUIStore } from '@/stores/useUIStore';
 import type { Job } from '@/repositories/jobs/types';
 import { BackLink } from './parts';
 import { outlineBtn, primaryBtn } from './jobUi';
 
 export default function JobsReviewPage() {
-  const isAdmin = useAuthStore(selectIsAdmin);
+  const canReview = useAuthStore(selectCanReview);
   const showToast = useUIStore((s) => s.showToast);
   const [jobs, setJobs] = useState<Job[] | null>(null);
   const [error, setError] = useState('');
@@ -19,7 +19,7 @@ export default function JobsReviewPage() {
   const [reasons, setReasons] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    if (!isAdmin) return;
+    if (!canReview) return;
     let alive = true;
     jobRepo
       .listForReview()
@@ -32,9 +32,9 @@ export default function JobsReviewPage() {
     return () => {
       alive = false;
     };
-  }, [isAdmin]);
+  }, [canReview]);
 
-  if (!isAdmin) return <Navigate to={ROUTES.jobs} replace />;
+  if (!canReview) return <Navigate to={ROUTES.jobs} replace />;
 
   const review = async (job: Job, approve: boolean) => {
     setBusyId(job.id);
