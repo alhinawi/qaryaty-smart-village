@@ -19,7 +19,7 @@ export const ROUTES = {
   /** Google accounts pick a username and give a phone here before ordering. */
   completeProfile: '/complete-profile',
   admin: '/admin',
-  /** Provider dashboard preview (feature flag): merchants and professionals */
+  /** Provider dashboard: merchants and professionals (provider/staff tiers) */
   dashboard: '/dashboard',
   about: '/about',
   groups: '/groups',

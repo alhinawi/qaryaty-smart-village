@@ -59,6 +59,10 @@ body {
   direction: rtl;
   line-height: 1.5;
   font-size: 1rem;
+  /* Safety net: one wide element must never push the whole page sideways on
+     a phone. `clip` (not `hidden`) avoids a scroll container, so sticky and
+     fixed elements keep working. */
+  overflow-x: clip;
 }
 
 /* ===== FORM CONTROLS =====

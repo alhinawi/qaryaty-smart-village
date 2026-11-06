@@ -5,7 +5,7 @@ import { Link, useLocation } from 'react-router';
 import { ChevronLeft, X } from 'lucide-react';
 
 import { useBackButtonClose } from '@/hooks/useBackButtonClose';
-import { useAuthStore, selectIsAdmin, selectUser } from '@/stores/useAuthStore';
+import { useAuthStore, selectRole, selectUser } from '@/stores/useAuthStore';
 import { mobileMenuSections } from '@/config/mobileMenu';
 import { DEVELOPER_NAME } from '@/config/developer';
 import { ROUTES } from '@/routes';
@@ -33,8 +33,8 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const { pathname, hash } = useLocation();
 
   const user = useAuthStore(selectUser);
-  const isAdmin = useAuthStore(selectIsAdmin);
-  const sections = mobileMenuSections({ isAdmin });
+  const role = useAuthStore(selectRole);
+  const sections = mobileMenuSections({ role });
 
   // Android/browser back closes the menu instead of leaving the page
   useBackButtonClose(isOpen, onClose);
