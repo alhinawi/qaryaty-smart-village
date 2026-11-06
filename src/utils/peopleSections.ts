@@ -28,7 +28,7 @@ export interface PeopleSection {
 export const PEOPLE_SECTIONS: PeopleSection[] = [
   { id: 'edu', emoji: '👩‍🏫', title: 'المدرسين', kinds: ['teacher'], photo: 'teacher' },
   { id: 'health', emoji: '🩺', title: 'الدكاترة والتمريض', kinds: ['doctor', 'nurse'], photo: 'nurse' },
-  { id: 'care', emoji: '🍼', title: 'جليسات الأطفال', kinds: ['babysitter'], photo: 'babysitter' },
+  { id: 'care', emoji: '🍼', title: 'جليسات الأطفال وكبار السن', kinds: ['babysitter'], photo: 'babysitter' },
   { id: 'home', emoji: '🧹', title: 'عمال وعاملات النظافة', kinds: ['cleaner'], photo: 'cleaner' },
 ];
 
@@ -37,7 +37,7 @@ export const KIND_FILTER_LABELS: Record<ProviderKind, string> = {
   teacher: 'مدرسين',
   doctor: 'دكاترة',
   nurse: 'تمريض',
-  babysitter: 'جليسات أطفال',
+  babysitter: 'جليسات أطفال وكبار السن',
   cleaner: 'نظافة',
   worker: 'مقدمي خدمة',
 };
