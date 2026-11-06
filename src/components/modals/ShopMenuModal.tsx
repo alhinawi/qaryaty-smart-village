@@ -91,7 +91,6 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
   const isLoading = loaded === undefined || loaded === 'loading';
   const products = useMemo(() => (Array.isArray(loaded) ? loaded : []), [loaded]);
   const isRestaurant = shop?.kind === 'restaurant';
-  const hasPexels = products.some((p) => p.photo?.includes('pexels.com'));
   const sections = useMemo(() => sectionsOf(products).filter(Boolean), [products]);
   const count = useCartStore((s) => (shop && s.getVendor()?.key === `shop:${shop.id}` ? s.items.length : 0));
   const total = useCartStore((s) => (count ? s.getTotalAmount() : 0));
@@ -205,17 +204,6 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
           </ul>
         )}
 
-        {isRestaurant && products.some((p) => p.photo) && (
-          <p className="mt-2 text-[11px] text-gray-500 text-center">
-            الصور للتوضيح •{' '}
-            {hasPexels && (
-              <>
-                <a href="https://www.pexels.com" target="_blank" rel="noopener noreferrer" className="underline">
-                  Photos from Pexels
-                </a>{' '}
-                و{' '}
-              </>
-            )}
             <a href="https://commons.wikimedia.org" target="_blank" rel="noopener noreferrer" className="underline">
               Wikimedia Commons
             </a>
