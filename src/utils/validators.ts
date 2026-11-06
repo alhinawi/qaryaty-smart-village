@@ -40,6 +40,23 @@ export const orderFormSchema = z.object({
 
 export type OrderFormSchemaType = z.infer<typeof orderFormSchema>;
 
+// ─── Address picked on the map (عناويني)
+export const addressDraftSchema = z
+  .object({
+    lat: z.number().min(-90).max(90),
+    lng: z.number().min(-180).max(180),
+    label: z.string().trim().min(1, { message: 'اختار اسم للعنوان' }).max(40, { message: 'الاسم طويل أوي' }),
+    street: z.string().trim().max(150, { message: 'الكلام طويل أوي' }),
+    building: z.string().trim().max(80, { message: 'الكلام طويل أوي' }),
+    floor: z.string().trim().max(30, { message: 'الكلام طويل أوي' }),
+    landmark: z.string().trim().max(150, { message: 'الكلام طويل أوي' }),
+    phone: z.union([z.literal(''), egyptianPhoneSchema]),
+  })
+  .refine((a) => a.street.length + a.building.length + a.landmark.length >= 3, {
+    path: ['street'],
+    message: 'اكتب الشارع أو علامة مميزة عشان المندوب يوصلك',
+  });
+
 // ─── Cart Item Quantity Schema
 export const cartQuantitySchema = z
   .number()
@@ -133,6 +150,8 @@ export const registerSchema = z
       .trim()
       .min(5, { message: 'من فضلك أدخل عنوانك بالتفصيل داخل القرية' })
       .max(120),
+    /** The spot picked on the map, saved as the first address in عناويني. */
+    location: addressDraftSchema.optional(),
     password: passwordSchema,
     confirmPassword: z.string(),
   })

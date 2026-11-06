@@ -29,6 +29,9 @@ import { createMockDonationRepo } from './donations/mockDonationRepo';
 import { createSupabaseDonationRepo } from './donations/supabaseDonationRepo';
 import type { DonationRepo, NewDonationRequest } from './donations/types';
 import { AuthError, mockAuthService, type AuthService } from '@/services/auth';
+import { createLocalAddressRepo } from './addresses/localAddressRepo';
+import { createSupabaseAddressRepo } from './addresses/supabaseAddressRepo';
+import type { AddressRepo } from './addresses/types';
 
 const breaker = createCircuitBreaker({ failureThreshold: 3, cooldownMs: 30_000 });
 const resilience = createResilience({
@@ -140,6 +143,31 @@ export const donationRepo: DonationRepo = donationLive
 
 export const submitDonationRequest = (input: NewDonationRequest) => donationRepo.submitDonationRequest(input);
 export type { NewDonationRequest };
+
+// ─── Saved addresses (عناويني): Supabase for a signed-in customer, this device otherwise
+
+export const ADDRESS_UNAVAILABLE_MESSAGE = 'الخدمة متوقفة مؤقتًا، والعنوان ماتحفظش. جرّب تاني بعد شوية';
+const localAddresses = createLocalAddressRepo();
+const liveAddresses = isSupabaseConfigured ? createSupabaseAddressRepo(getSupabase) : null;
+const resilientAddresses: AddressRepo | null = liveAddresses
+  ? (() => {
+      const w = <T>(fn: () => Promise<T>) =>
+        resilience.write(fn, (cause) => new ServiceUnavailableError(ADDRESS_UNAVAILABLE_MESSAGE, { cause }));
+      return {
+        list: () => w(() => liveAddresses.list()),
+        add: (draft, makeDefault) => w(() => liveAddresses.add(draft, makeDefault)),
+        update: (id, draft) => w(() => liveAddresses.update(id, draft)),
+        remove: (id) => w(() => liveAddresses.remove(id)),
+        setDefault: (id) => w(() => liveAddresses.setDefault(id)),
+      };
+    })()
+  : null;
+
+/** Where this person's addresses live: their account when signed in to Supabase, else this device. */
+export function addressRepoFor(signedIn: boolean): AddressRepo {
+  return signedIn && resilientAddresses ? resilientAddresses : localAddresses;
+}
+export type { AddressRepo };
 
 // ─── Status
 export { isSupabaseConfigured };
