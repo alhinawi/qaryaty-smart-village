@@ -8,6 +8,7 @@ import { AuthError, authRepo, type CompleteProfileInput } from '@/repositories';
 import type { LoginInput, RegisterInput } from '@/utils/validators';
 import { useUserStore } from './useUserStore';
 import { useOrderStore } from './useOrderStore';
+import { isStaffRole, canReviewContent, canManageProviders } from '@/config/staffTiers';
 
 interface AuthState {
   session: AuthSession | null;
@@ -128,7 +129,11 @@ export const useAuthStore = create<AuthState>()(
 
 /** Selectors */
 export const selectUser = (state: AuthState) => state.session?.user ?? null;
-export const selectIsAdmin = (state: AuthState) => state.session?.user.role === 'admin';
+export const selectRole = (state: AuthState) => state.session?.user.role;
+export const selectIsStaff = (state: AuthState) => isStaffRole(state.session?.user.role);
+export const selectIsOwner = (state: AuthState) => state.session?.user.role === 'owner';
+export const selectCanReview = (state: AuthState) => canReviewContent(state.session?.user.role);
+export const selectCanManageProviders = (state: AuthState) => canManageProviders(state.session?.user.role);
 
 // Zustand's localStorage hydration is synchronous. Reconcile the restored owner
 // before any page renders, then clear private order state on every auth boundary.

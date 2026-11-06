@@ -388,7 +388,9 @@ export interface UserProfile {
 }
 
 // ─── Auth
-export type UserRole = 'customer' | 'admin';
+// Staff tiers, widest last: owner > admin > content_admin / orders_admin > customer.
+// Arabic labels and what each tier can do live in src/config/staffTiers.ts.
+export type UserRole = 'customer' | 'orders_admin' | 'content_admin' | 'admin' | 'owner';
 
 /** A signed-in user as the (mock) auth service returns it. Never holds a password. */
 export interface AuthUser {
