@@ -151,6 +151,7 @@ export function OrderModal({
 
     const orderNum = generateOrderNumber();
     setSubmitting(true);
+    const orderScope = useOrderStore.getState().scopeVersion;
     let order;
     try {
       order = await createOrder({
@@ -184,7 +185,11 @@ export function OrderModal({
       showToast(`⚠️ ${err instanceof Error ? err.message : 'حصلت مشكلة، والطلب ماتبعتش'}`);
       return;
     }
-    addOrder(order);
+    if (!addOrder(order, orderScope)) {
+      setSubmitting(false);
+      showToast('الطلب اتسجل، لكن الحساب اتغيّر. مش هنعرض بياناته في الحساب الحالي.');
+      return;
+    }
 
     if (promoStillValid) {
       markPromoUsed(FIRST_ORDER_PROMO);

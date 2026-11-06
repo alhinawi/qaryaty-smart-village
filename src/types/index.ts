@@ -15,7 +15,7 @@ export type CategoryFilter = 'all' | ServiceCategory | 'restaurants';
 
 export type BadgeType = 'popular' | 'new' | '';
 
-export type OrderStatus = 'pending' | 'confirmed' | 'onway' | 'done';
+export type OrderStatus = 'pending' | 'confirmed' | 'onway' | 'done' | 'cancelled';
 
 /**
  * cash: on delivery. card / wallet: online through Paymob (Visa, Meeza;

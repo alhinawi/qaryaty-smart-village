@@ -89,6 +89,10 @@ export const ORDER_UNAVAILABLE_MESSAGE = 'الخدمة متوقفة مؤقتًا
 
 function createResilientOrderRepo(live: OrderRepo): OrderRepo {
   return {
+    listMine: (ownerId, offset) => resilience.write(
+      () => live.listMine(ownerId, offset),
+      (cause) => new ServiceUnavailableError('مش قادرين نحمّل سجل الطلبات دلوقتي. جرّب تاني.', { cause })
+    ),
     createOrder: (input) =>
       resilience.write(
         () => live.createOrder(input),
