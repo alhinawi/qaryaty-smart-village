@@ -38,12 +38,23 @@ export const ROUTES = {
   marketMine: '/market/mine',
   /** Admin: hidden (reported) posts */
   marketReview: '/market/review',
+  /** شير مواصلة: the list; /rides/new posts one, /rides/mine is the poster's own and their requests */
+  rides: '/rides',
+  ridesNew: '/rides/new',
+  ridesMine: '/rides/mine',
+  /** Admin: trips hidden by reports */
+  ridesReview: '/rides/review',
 } as const;
 
 export const marketListPath = (kind: 'sale' | 'swap') => (kind === 'sale' ? ROUTES.marketSale : ROUTES.marketSwap);
 export const marketItemPath = (id: string) => `/market/item/${id}`;
 export const marketEditPath = (id: string) => `/market/item/${id}/edit`;
 export const marketChatPath = (listingId: string, buyerId: string) => `/market/chat/${listingId}/${buyerId}`;
+
+/** One shared trip's page */
+export const ridePath = (id: string) => `${ROUTES.rides}/${encodeURIComponent(id)}`;
+/** Edit one of your own trips */
+export const rideEditPath = (id: string) => `${ridePath(id)}/edit`;
 
 /** One job's page */
 export function jobPath(id: string): string {

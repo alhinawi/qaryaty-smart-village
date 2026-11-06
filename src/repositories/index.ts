@@ -39,6 +39,9 @@ import type { VillageOption, VillageRepo } from './villages/types';
 import { createMockJobRepo } from './jobs/mockJobRepo';
 import { createSupabaseJobRepo } from './jobs/supabaseJobRepo';
 import type { JobRepo } from './jobs/types';
+import { createMockRideRepo } from './rides/mockRideRepo';
+import { createSupabaseRideRepo } from './rides/supabaseRideRepo';
+import type { RideRepo } from './rides/types';
 import { createLocalMarketRepo } from './market/localMarketRepo';
 import { createSupabaseMarketRepo } from './market/supabaseMarketRepo';
 import type { MarketRepo } from './market/types';
@@ -211,6 +214,37 @@ export const jobRepo: JobRepo = liveJobs
     })()
   : createMockJobRepo();
 export type { JobRepo };
+
+// ─── شير مواصلة (shared trips). Reads never fall back to sample trips: a fake trip is worse than none.
+export const RIDE_UNAVAILABLE_MESSAGE = 'الخدمة متوقفة مؤقتًا، ومااتحفظش حاجة. جرّب تاني بعد شوية';
+const liveRides = isSupabaseConfigured ? createSupabaseRideRepo(getSupabase) : null;
+export const rideRepo: RideRepo = liveRides
+  ? (() => {
+      const w = <T>(fn: () => Promise<T>) =>
+        resilience.write(fn, (cause) => new ServiceUnavailableError(RIDE_UNAVAILABLE_MESSAGE, { cause }));
+      const r = <T>(fn: () => Promise<T>, empty: T) => resilience.read(fn, async () => empty);
+      return {
+        listPublic: () => r(() => liveRides.listPublic(), []),
+        get: (id) => r(() => liveRides.get(id), null),
+        listMine: (ownerId) => r(() => liveRides.listMine(ownerId), []),
+        create: (ownerId, draft) => w(() => liveRides.create(ownerId, draft)),
+        update: (id, draft) => w(() => liveRides.update(id, draft)),
+        setPaused: (id, paused) => w(() => liveRides.setPaused(id, paused)),
+        renew: (id) => w(() => liveRides.renew(id)),
+        remove: (id) => w(() => liveRides.remove(id)),
+        report: (id, reason, note) => w(() => liveRides.report(id, reason, note)),
+        requestJoin: (rideId, seats, phone, note) => w(() => liveRides.requestJoin(rideId, seats, phone, note)),
+        myRequest: (rideId, userId) => r(() => liveRides.myRequest(rideId, userId), null),
+        requestsOnMyRides: (ownerId) => r(() => liveRides.requestsOnMyRides(ownerId), []),
+        myRequests: (userId) => r(() => liveRides.myRequests(userId), []),
+        respond: (requestId, accept) => w(() => liveRides.respond(requestId, accept)),
+        cancelRequest: (requestId) => w(() => liveRides.cancelRequest(requestId)),
+        listHidden: () => w(() => liveRides.listHidden()),
+        restore: (id) => w(() => liveRides.restore(id)),
+      } satisfies RideRepo;
+    })()
+  : createMockRideRepo();
+export type { RideRepo };
 
 // ─── Status
 // ─── Villages of Egypt (the "القرية" picker): Supabase, the Mansoura villages in demo mode
