@@ -33,7 +33,7 @@ export const DEFAULT_ZOOM = 16;
 export const PICK_ZOOM = 18;
 
 export function villageCenter(village?: string): LatLng {
-  const key = (village ?? '').split(' - ')[0].trim().replace(/ى/g, 'ي');
+  const key = (village ?? '').split(' - ')[0].split('،')[0].trim().replace(/ى/g, 'ي');
   return VILLAGE_CENTERS[key] ?? VILLAGE_CENTERS[DEFAULT_VILLAGE];
 }
 
