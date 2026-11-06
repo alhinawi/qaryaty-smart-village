@@ -6,7 +6,7 @@
 import { ROUTES } from '@/routes';
 
 export interface MobileMenuLink {
-  id: 'messages' | 'jobs' | 'jobsReview' | 'marketSale' | 'marketSwap' | 'marketReview' | 'about' | 'groups' | 'donate' | 'advertise' | 'admin';
+  id: 'messages' | 'jobs' | 'jobsReview' | 'marketSale' | 'marketSwap' | 'marketReview' | 'rides' | 'ridesReview' | 'about' | 'groups' | 'donate' | 'advertise' | 'admin';
   label: string;
   /** Emoji shown in the item's icon tile */
   icon: string;
@@ -38,6 +38,7 @@ export function mobileMenuSections({ isAdmin }: MobileMenuOptions): MobileMenuSe
         { id: 'jobs', label: 'وظائف', icon: '💼', to: ROUTES.jobs, hint: 'شغل في قريتك والقرى اللي جنبك' },
         { id: 'marketSale', label: 'بيع المستعمل', icon: '🏷️', to: ROUTES.marketSale, hint: 'بيع واشتري حاجات مستعملة' },
         { id: 'marketSwap', label: 'تبادل', icon: '🔄', to: ROUTES.marketSwap, hint: 'بدّل حاجة بحاجة من غير فلوس' },
+        { id: 'rides', label: 'شير مواصلة', icon: '🚗', to: ROUTES.rides, hint: 'اقسم التاكسي أو شيّر كراسي عربيتك' },
       ],
     },
     {
@@ -71,6 +72,7 @@ export function mobileMenuSections({ isAdmin }: MobileMenuOptions): MobileMenuSe
       links: [
         { id: 'jobsReview', label: 'مراجعة الوظائف', icon: '🗂️', to: ROUTES.jobsReview },
         { id: 'marketReview', label: 'بلاغات المستعمل والتبادل', icon: '🚩', to: ROUTES.marketReview },
+        { id: 'ridesReview', label: 'بلاغات شير المواصلة', icon: '🚩', to: ROUTES.ridesReview },
         { id: 'admin', label: 'لوحة التحكم', icon: '⚙️', to: ROUTES.admin },
       ],
     });

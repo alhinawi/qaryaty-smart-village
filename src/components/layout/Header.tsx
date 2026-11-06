@@ -56,7 +56,8 @@ export function Header() {
   const isMenuPage =
     [ROUTES.messages, ROUTES.about, ROUTES.groups, ROUTES.donate, ROUTES.admin].some((path) => pathname === path) ||
     pathname.startsWith(ROUTES.jobs) ||
-    pathname.startsWith('/market/');
+    pathname.startsWith('/market/') ||
+    pathname.startsWith(ROUTES.rides);
 
   // Load the search screen's code while the phone is idle, so it opens at once
   useEffect(() => {
