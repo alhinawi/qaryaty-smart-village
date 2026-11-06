@@ -16,7 +16,7 @@ export function PromoBanner() {
     <section className="mb-6 bg-[linear-gradient(135deg,#92400e,#b45309)] rounded-2xl p-5 flex items-center justify-between text-white relative overflow-hidden" aria-label="عرض ترويجي">
       <div className="promo-text">
         <h4 className="text-[clamp(1rem,2.5vw,1.25rem)] font-black mb-1">🎉 أول طلب من غير رسوم!</h4>
-        <p className="text-[13px] opacity-90">اكتب الكود وإنت بتدفع، ومش هتدفع عمولة التطبيق على أول طلب. بتدفع تمن الطلب بس.</p>
+        <p className="text-[13px] opacity-90">اكتب الكود وإنت بتدفع، ومش هتدفع عمولة التطبيق على أول طلب. بتدفع تمن الطلب، ورسوم التوصيل لو طلبت من محل.</p>
       </div>
       <button
         type="button"
