@@ -11,13 +11,32 @@ import { DEFAULT_WORKING_DAYS } from '@/data/providerDashboard';
 export interface ProductOverride {
   available: boolean;
   price?: number;
+  /** Replaced photo (data URL while there is no backend). */
+  photo?: string;
+}
+
+/** A product the merchant added themselves, on top of the shared catalog. */
+export interface CustomProduct {
+  id: string;
+  name: string;
+  price: number;
+  unit: string;
+  /** Category inside the list ('ألبان وجبن'); a new name starts a new group. */
+  section: string;
+  emoji: string;
+  /** Optional photo (data URL while there is no backend). */
+  photo?: string;
+  available: boolean;
 }
 
 export interface MerchantOverrides {
   open?: boolean;
   hours?: string;
   description?: string;
+  /** Replaced shop photo (data URL while there is no backend). */
+  photo?: string;
   products: Record<string, ProductOverride>;
+  customProducts: CustomProduct[];
 }
 
 /** One service a professional offers, with its price as people say it. */
@@ -46,6 +65,13 @@ interface ProviderDashboardState {
   setShopDescription: (shopId: number, description: string) => void;
   setProductAvailable: (shopId: number, productId: string, available: boolean) => void;
   setProductPrice: (shopId: number, productId: string, price: number) => void;
+  setProductPhoto: (shopId: number, productId: string, photo: string) => void;
+  setShopPhoto: (shopId: number, photo: string) => void;
+  addCustomProduct: (shopId: number, input: Omit<CustomProduct, 'id' | 'available'>) => CustomProduct;
+  setCustomProductAvailable: (shopId: number, productId: string, available: boolean) => void;
+  setCustomProductPrice: (shopId: number, productId: string, price: number) => void;
+  setCustomProductPhoto: (shopId: number, productId: string, photo: string) => void;
+  removeCustomProduct: (shopId: number, productId: string) => void;
   setProBio: (providerId: number, bio: string) => void;
   setProVacation: (providerId: number, vacation: boolean) => void;
   setProAvailability: (providerId: number, days: string[], from: string, to: string) => void;
@@ -53,7 +79,7 @@ interface ProviderDashboardState {
   addProService: (providerId: number, name: string, price: string, defaults: ProService[]) => void;
 }
 
-const emptyMerchant = (): MerchantOverrides => ({ products: {} });
+const emptyMerchant = (): MerchantOverrides => ({ products: {}, customProducts: [] });
 
 const emptyProfessional = (): ProfessionalOverrides => ({
   vacation: false,
@@ -102,6 +128,83 @@ export const useProviderDashboardStore = create<ProviderDashboardState>()(
           merchants: {
             ...s.merchants,
             [shopId]: { ...merchant, products: { ...merchant.products, [productId]: { ...current, price } } },
+          },
+        }));
+      },
+
+      setProductPhoto: (shopId, productId, photo) => {
+        const merchant = { ...emptyMerchant(), ...get().merchants[shopId] };
+        const current = merchant.products[productId] ?? { available: true };
+        set((s) => ({
+          merchants: {
+            ...s.merchants,
+            [shopId]: { ...merchant, products: { ...merchant.products, [productId]: { ...current, photo } } },
+          },
+        }));
+      },
+
+      setShopPhoto: (shopId, photo) =>
+        set((s) => ({
+          merchants: { ...s.merchants, [shopId]: { ...emptyMerchant(), ...s.merchants[shopId], photo } },
+        })),
+
+      addCustomProduct: (shopId, input) => {
+        const merchant = { ...emptyMerchant(), ...get().merchants[shopId] };
+        const product: CustomProduct = { ...input, id: `custom-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`, available: true };
+        set((s) => ({
+          merchants: {
+            ...s.merchants,
+            [shopId]: { ...merchant, customProducts: [...merchant.customProducts, product] },
+          },
+        }));
+        return product;
+      },
+
+      setCustomProductAvailable: (shopId, productId, available) => {
+        const merchant = { ...emptyMerchant(), ...get().merchants[shopId] };
+        set((s) => ({
+          merchants: {
+            ...s.merchants,
+            [shopId]: {
+              ...merchant,
+              customProducts: merchant.customProducts.map((c) => (c.id === productId ? { ...c, available } : c)),
+            },
+          },
+        }));
+      },
+
+      setCustomProductPrice: (shopId, productId, price) => {
+        const merchant = { ...emptyMerchant(), ...get().merchants[shopId] };
+        set((s) => ({
+          merchants: {
+            ...s.merchants,
+            [shopId]: {
+              ...merchant,
+              customProducts: merchant.customProducts.map((c) => (c.id === productId ? { ...c, price } : c)),
+            },
+          },
+        }));
+      },
+
+      setCustomProductPhoto: (shopId, productId, photo) => {
+        const merchant = { ...emptyMerchant(), ...get().merchants[shopId] };
+        set((s) => ({
+          merchants: {
+            ...s.merchants,
+            [shopId]: {
+              ...merchant,
+              customProducts: merchant.customProducts.map((c) => (c.id === productId ? { ...c, photo } : c)),
+            },
+          },
+        }));
+      },
+
+      removeCustomProduct: (shopId, productId) => {
+        const merchant = { ...emptyMerchant(), ...get().merchants[shopId] };
+        set((s) => ({
+          merchants: {
+            ...s.merchants,
+            [shopId]: { ...merchant, customProducts: merchant.customProducts.filter((c) => c.id !== productId) },
           },
         }));
       },

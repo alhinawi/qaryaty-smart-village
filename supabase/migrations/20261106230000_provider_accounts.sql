@@ -24,6 +24,7 @@ create table if not exists public.shop_product_overrides (
   shop_id    bigint not null references public.shops (id) on delete cascade,
   product_id text   not null,
   price      numeric check (price is null or price >= 0),
+  photo_url  text,
   available  boolean not null default true,
   updated_at timestamptz not null default now(),
   primary key (shop_id, product_id)
@@ -42,3 +43,66 @@ grant select on public.shop_product_overrides to anon;
 --    working days/hours and the custom services list for professionals
 alter table public.providers add column if not exists availability jsonb;      -- {"days":["sat",...],"from":"09:00","to":"21:00"}
 alter table public.providers add column if not exists custom_services jsonb;   -- [{"id","name","price","active"}]
+
+-- 5) Products a merchant adds themselves (لوحة مقدم الخدمة → ضيف منتج)
+create table if not exists public.shop_custom_products (
+  id         uuid primary key default gen_random_uuid(),
+  shop_id    bigint not null references public.shops (id) on delete cascade,
+  name       text not null,
+  price      numeric not null check (price >= 0),
+  unit       text not null default 'قطعة',
+  section    text not null default '',
+  emoji      text not null default '📦',
+  photo_url  text,
+  available  boolean not null default true,
+  created_at timestamptz not null default now()
+);
+create index if not exists shop_custom_products_shop_idx on public.shop_custom_products (shop_id);
+alter table public.shop_custom_products enable row level security;
+create policy "custom products: anyone reads" on public.shop_custom_products for select using (true);
+create policy "custom products: shop owner edits" on public.shop_custom_products for all
+  using (exists (select 1 from public.shops s where s.id = shop_id and s.owner_profile_id = auth.uid()))
+  with check (exists (select 1 from public.shops s where s.id = shop_id and s.owner_profile_id = auth.uid()));
+create policy "custom products: staff edit" on public.shop_custom_products for all
+  using (public.is_admin()) with check (public.is_admin());
+grant select, insert, update, delete on public.shop_custom_products to authenticated;
+grant select on public.shop_custom_products to anon;
+
+-- 6) Shop and product photos: one public bucket, each shop writes only inside
+--    its own folder (shop-images/<shop_id>/…), 2 MB max, jpeg/png/webp only.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values ('shop-images', 'shop-images', true, 2097152, array['image/jpeg', 'image/png', 'image/webp'])
+on conflict (id) do nothing;
+
+create policy "shop images: anyone reads" on storage.objects for select
+  using (bucket_id = 'shop-images');
+create policy "shop images: shop owner writes own folder" on storage.objects for insert
+  with check (
+    bucket_id = 'shop-images'
+    and exists (
+      select 1 from public.shops s
+      where s.id = ((storage.foldername(name))[1])::bigint
+        and s.owner_profile_id = auth.uid()
+    )
+  );
+create policy "shop images: shop owner updates own folder" on storage.objects for update
+  using (
+    bucket_id = 'shop-images'
+    and exists (
+      select 1 from public.shops s
+      where s.id = ((storage.foldername(name))[1])::bigint
+        and s.owner_profile_id = auth.uid()
+    )
+  );
+create policy "shop images: shop owner deletes own folder" on storage.objects for delete
+  using (
+    bucket_id = 'shop-images'
+    and exists (
+      select 1 from public.shops s
+      where s.id = ((storage.foldername(name))[1])::bigint
+        and s.owner_profile_id = auth.uid()
+    )
+  );
+create policy "shop images: staff manage" on storage.objects for all
+  using (bucket_id = 'shop-images' and public.is_admin())
+  with check (bucket_id = 'shop-images' and public.is_admin());

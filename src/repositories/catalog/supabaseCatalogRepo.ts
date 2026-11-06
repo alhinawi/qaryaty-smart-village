@@ -26,7 +26,7 @@ import type {
   TeacherSubject,
 } from '@/types';
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { CatalogRepo } from './types';
+import type { CatalogRepo, NewProviderInput, NewShopInput } from './types';
 
 export interface ServiceRow {
   id: number;
@@ -233,6 +233,65 @@ export function createSupabaseCatalogRepo(getClient: () => Promise<SupabaseClien
       if (error) throw error;
       const rows = data as CatalogProductRow[];
       return rows.length > 0 ? rows.map(productFromRow) : null;
+    },
+
+    async addShop(input: NewShopInput) {
+      const supabase = await getClient();
+      // ids are assigned by the app (the column has no sequence)
+      const { data: maxRow } = await supabase.from('shops').select('id').order('id', { ascending: false }).limit(1);
+      const id = ((maxRow?.[0] as { id: number } | undefined)?.id ?? 0) + 1;
+      const base = {
+        id,
+        name: input.name,
+        kind: input.kind,
+        emoji: input.emoji || '🏪',
+        description: input.description,
+        time: input.time ?? '',
+        open: true,
+        bg_color: '#ffffff',
+      };
+      // The owner link column arrives with the provider-accounts migration;
+      // until then the insert retries without it.
+      let { data, error } = await supabase
+        .from('shops')
+        .insert({ ...base, owner_profile_id: input.ownerProfileId ?? null })
+        .select()
+        .single();
+      if (error && String(error.message).includes('owner_profile_id')) {
+        ({ data, error } = await supabase.from('shops').insert(base).select().single());
+      }
+      if (error) throw error;
+      return shopFromRow(data as ShopRow);
+    },
+
+    async addProvider(input: NewProviderInput) {
+      const supabase = await getClient();
+      const { data: maxRow } = await supabase.from('providers').select('id').order('id', { ascending: false }).limit(1);
+      const id = ((maxRow?.[0] as { id: number } | undefined)?.id ?? 0) + 1;
+      const base = {
+        id,
+        name: input.name,
+        kind: input.kind,
+        service_id: input.serviceId,
+        gender: input.gender,
+        role: input.role,
+        village: input.village,
+        area: input.area,
+        price: input.price,
+        price_type: 'quote',
+        bio: input.bio,
+        active: true,
+      };
+      let { data, error } = await supabase
+        .from('providers')
+        .insert({ ...base, owner_profile_id: input.ownerProfileId ?? null })
+        .select()
+        .single();
+      if (error && String(error.message).includes('owner_profile_id')) {
+        ({ data, error } = await supabase.from('providers').insert(base).select().single());
+      }
+      if (error) throw error;
+      return providerFromRow(data as ProviderRow);
     },
   };
 }
