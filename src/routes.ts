@@ -14,6 +14,10 @@ export const ROUTES = {
   ...TAB_PATHS,
   login: '/login',
   register: '/register',
+  /** Google sends the customer back here signed in. */
+  authCallback: '/auth/callback',
+  /** Google accounts pick a username and give a phone here before ordering. */
+  completeProfile: '/complete-profile',
   admin: '/admin',
   about: '/about',
   groups: '/groups',

@@ -152,3 +152,12 @@ export function fieldErrorsFrom(issues: { path: PropertyKey[]; message: string }
   }
   return errors;
 }
+
+/** /complete-profile after a Google sign-up. The address can wait for the first order. */
+export const completeProfileSchema = z.object({
+  name: z.string().trim().min(3, { message: 'اكتب اسمك (3 حروف على الأقل)' }).max(40, { message: 'الاسم طويل أوي' }),
+  username: usernameSchema,
+  phone: egyptianPhoneSchema,
+  village: z.string().trim().min(2, { message: 'اكتب اسم قريتك' }).max(60),
+  address: z.string().trim().max(120),
+});

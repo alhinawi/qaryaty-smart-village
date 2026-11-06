@@ -106,6 +106,11 @@ function createResilientAuthRepo(live: AuthService): AuthService {
     logout: guard(live.logout),
     getUser: guard(live.getUser),
     updateProfile: guard(live.updateProfile),
+    // Only decides whether the button shows; never trips the breaker
+    isGoogleEnabled: live.isGoogleEnabled,
+    signInWithGoogle: guard(live.signInWithGoogle),
+    restoreSession: guard(live.restoreSession),
+    completeProfile: guard(live.completeProfile),
     listUsers: guard(live.listUsers),
     setBlocked: guard(live.setBlocked),
     setRole: guard(live.setRole),
@@ -117,6 +122,7 @@ export const authRepo: AuthService = isSupabaseConfigured
   : mockAuthService;
 
 export { AuthError, type AuthService };
+export { needsProfileCompletion, type CompleteProfileInput } from '@/services/auth';
 
 // ─── Donation requests from /donate (writes never fall back to the sample data)
 export const DONATION_UNAVAILABLE_MESSAGE = 'الخدمة متوقفة مؤقتًا، وطلبك ماتبعتش. ابعتلنا على واتساب أو جرّب تاني بعد شوية';

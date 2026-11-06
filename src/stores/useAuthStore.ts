@@ -4,7 +4,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { AuthSession, AuthUser } from '@/types';
-import { AuthError, authRepo } from '@/repositories';
+import { AuthError, authRepo, type CompleteProfileInput } from '@/repositories';
 import type { LoginInput, RegisterInput } from '@/utils/validators';
 import { useUserStore } from './useUserStore';
 
@@ -17,6 +17,18 @@ interface AuthState {
   /** Re-read the user (role/blocked can change from the admin panel). */
   refresh: () => Promise<void>;
   updateUser: (data: Partial<Pick<AuthUser, 'name' | 'village' | 'address'>>) => Promise<void>;
+  /** Off to Google; `returnTo` is the page to open after coming back. */
+  signInWithGoogle: (returnTo: string) => Promise<void>;
+  /** Back from Google: pick up the session. The page to open next, saved before leaving. */
+  finishGoogleSignIn: () => Promise<{ user: AuthUser; returnTo: string } | null>;
+  completeProfile: (input: CompleteProfileInput) => Promise<AuthUser>;
+}
+
+/** Survives the trip to Google and back (same tab). */
+const GOOGLE_RETURN_KEY = 'qaryati_google_return_to';
+
+function googleCallbackUrl(): string {
+  return `${window.location.origin}/auth/callback`;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -70,6 +82,39 @@ export const useAuthStore = create<AuthState>()(
         if (!session) return;
         const user = await authRepo.updateProfile(session.user.id, data);
         set({ session: { ...session, user } });
+      },
+
+      signInWithGoogle: async (returnTo) => {
+        try {
+          sessionStorage.setItem(GOOGLE_RETURN_KEY, returnTo);
+        } catch {
+          // Private mode: the customer lands on the profile page instead
+        }
+        await authRepo.signInWithGoogle(googleCallbackUrl());
+      },
+
+      finishGoogleSignIn: async () => {
+        let returnTo = '';
+        try {
+          returnTo = sessionStorage.getItem(GOOGLE_RETURN_KEY) ?? '';
+          sessionStorage.removeItem(GOOGLE_RETURN_KEY);
+        } catch {
+          // ignore
+        }
+        const session = await authRepo.restoreSession();
+        if (!session) return null;
+        set({ session });
+        useUserStore.getState().applyAuthUser(session.user);
+        return { user: session.user, returnTo };
+      },
+
+      completeProfile: async (input) => {
+        const session = get().session;
+        if (!session) throw new AuthError('not_found', 'سجّل دخول الأول');
+        const user = await authRepo.completeProfile(session.user.id, input);
+        set({ session: { ...session, user } });
+        useUserStore.getState().applyAuthUser(user);
+        return user;
       },
     }),
     {

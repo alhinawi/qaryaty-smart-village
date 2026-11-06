@@ -9,6 +9,7 @@ import { fieldErrorsFrom, loginSchema } from '@/utils/validators';
 import { ROUTES } from '@/routes';
 import { useRedirectTarget } from '@/hooks/useRedirectTarget';
 import { AuthField, AuthLayout, PasswordField } from './AuthLayout';
+import { GoogleAuthButton } from './GoogleAuthButton';
 
 export default function LoginPage() {
   const session = useAuthStore((s) => s.session);
@@ -67,6 +68,7 @@ export default function LoginPage() {
         </>
       }
     >
+      <GoogleAuthButton returnTo={target} />
       <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-3" aria-label="تسجيل الدخول">
         <AuthField
           id="loginEmail"
