@@ -25,7 +25,8 @@ export type OrderStatus = 'pending' | 'confirmed' | 'onway' | 'done';
 export type PaymentMethod = 'cash' | 'card' | 'wallet' | 'vodafone' | 'instapay';
 
 /** Only the Paymob webhook moves this past 'pending', after it checks the HMAC. */
-export type PaymentStatus = 'unpaid' | 'pending' | 'paid' | 'failed';
+/** 'refunded': Paymob refunded or voided the payment of a paid order. */
+export type PaymentStatus = 'unpaid' | 'pending' | 'paid' | 'failed' | 'refunded';
 
 /** One cart line as the server needs it: it looks up the name and price itself. */
 export interface OrderItem {
