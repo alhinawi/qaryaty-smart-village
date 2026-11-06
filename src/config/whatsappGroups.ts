@@ -19,6 +19,10 @@ export interface WhatsAppGroup {
   description: string;
   /** Invite link https://chat.whatsapp.com/… — '' until the group is ready */
   url: string;
+  /** A page on the site that already does this group's job (the card links there too) */
+  sitePath?: string;
+  /** Button text for sitePath */
+  siteLabel?: string;
 }
 
 /** The "قريتي" community that holds all the groups. '' until it is ready. */
@@ -42,6 +46,8 @@ export const WHATSAPP_GROUPS: readonly WhatsAppGroup[] = [
     name: 'بيع وشراء',
     description: 'اعرض أي حاجة عايز تبيعها، أو دوّر على حاجة عايز تشتريها من أهل القرية.',
     url: '', // PLACEHOLDER
+    sitePath: '/market/sale',
+    siteLabel: 'افتح بيع المستعمل',
   },
   {
     id: 'jobs',
@@ -56,6 +62,8 @@ export const WHATSAPP_GROUPS: readonly WhatsAppGroup[] = [
     name: 'تبادل',
     description: 'بدّل حاجة عندك مش محتاجها بحاجة محتاجها.',
     url: '', // PLACEHOLDER
+    sitePath: '/market/swap',
+    siteLabel: 'افتح صفحة التبادل',
   },
   {
     id: 'restaurants',
