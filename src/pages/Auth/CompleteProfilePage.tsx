@@ -12,6 +12,11 @@ import { ROUTES } from '@/routes';
 import { useRedirectTarget } from '@/hooks/useRedirectTarget';
 import { VILLAGES } from '@/data/villages';
 import { AuthField, AuthLayout } from './AuthLayout';
+import AddressPickerField from '@/components/address/AddressPickerField';
+import LocationPicker from '@/components/address/LocationPicker';
+import { formatAddress } from '@/utils/address';
+import { useAddressStore } from '@/stores/useAddressStore';
+import type { AddressDraft } from '@/types';
 
 
 export default function CompleteProfilePage() {
@@ -34,6 +39,8 @@ export default function CompleteProfilePage() {
   const [formError, setFormError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [freeUsername, setFreeUsername] = useState('');
+  const [mapAddress, setMapAddress] = useState<AddressDraft | null>(null);
+  const [pickerOpen, setPickerOpen] = useState(false);
   const [checkingUsername, setCheckingUsername] = useState(false);
 
   if (!user) return <Navigate to={ROUTES.login} replace />;
@@ -89,6 +96,10 @@ export default function CompleteProfilePage() {
     setSubmitting(true);
     try {
       const saved = await completeProfile(parsed.data);
+      // The spot on the map becomes the first saved address (عناويني)
+      if (mapAddress) {
+        await useAddressStore.getState().save(mapAddress, undefined, true).catch(() => undefined);
+      }
       showToast(`🎉 أهلاً بيك في قريتي يا ${saved.name.split(' ')[0]}!`);
       navigate(target, { replace: true });
     } catch (err) {
@@ -174,15 +185,26 @@ export default function CompleteProfilePage() {
             <option key={v} value={v} />
           ))}
         </datalist>
-        <AuthField
+        <AddressPickerField
           id="cpAddress"
           label="العنوان في القرية (اختياري)"
-          autoComplete="street-address"
-          placeholder="الشارع، علامة مميزة"
-          hint="تقدر تكتبه بعدين مع أول طلب"
-          value={values.address}
-          onChange={set('address')}
+          value={mapAddress}
+          onOpen={() => setPickerOpen(true)}
           error={errors.address}
+        />
+        <LocationPicker
+          open={pickerOpen}
+          onClose={() => setPickerOpen(false)}
+          initial={mapAddress}
+          village={values.village}
+          defaultPhone={hasPhone ? user.phone : values.phone}
+          saveLabel="تمام، ده عنواني"
+          onSave={(draft) => {
+            setMapAddress(draft);
+            setValues((v) => ({ ...v, address: formatAddress(draft).slice(0, 120) }));
+            setErrors((er) => ({ ...er, address: '' }));
+            setPickerOpen(false);
+          }}
         />
 
         {formError && (
