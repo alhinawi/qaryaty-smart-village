@@ -42,6 +42,20 @@ export class AuthError extends Error {
   }
 }
 
+/** What /complete-profile sends after a Google sign-up (username and phone are set once). */
+export interface CompleteProfileInput {
+  name: string;
+  username: string;
+  phone: string;
+  village: string;
+  address: string;
+}
+
+/** Google accounts start without a username or phone: they fill them before ordering. */
+export function needsProfileCompletion(user: Pick<AuthUser, 'username' | 'phone' | 'village'>): boolean {
+  return !user.username || !user.phone || !user.village;
+}
+
 /** Signed in right away, or the account needs the activation email first. */
 export type RegisterResult =
   | { status: 'signed_in'; session: AuthSession }
@@ -59,6 +73,16 @@ export interface AuthService {
     userId: string,
     data: Partial<Pick<AuthUser, 'name' | 'village' | 'address'>>
   ): Promise<AuthUser>;
+
+  // Google sign-in
+  /** True when the Google provider is turned on in the backend. */
+  isGoogleEnabled(): Promise<boolean>;
+  /** Sends the browser to Google; it comes back to `redirectTo` signed in. */
+  signInWithGoogle(redirectTo: string): Promise<void>;
+  /** The session the Google redirect left behind, or null. */
+  restoreSession(): Promise<AuthSession | null>;
+  /** Sets username and phone once (after a Google sign-up), with name, village and address. */
+  completeProfile(userId: string, input: CompleteProfileInput): Promise<AuthUser>;
 
   // Admin: user management
   listUsers(): Promise<AuthUser[]>;
@@ -147,6 +171,7 @@ const MESSAGES = {
   usernameTaken: USERNAME_TAKEN_MESSAGE,
   blocked: 'الحساب ده موقوف، كلم إدارة قريتي',
   notFound: 'الحساب مش موجود',
+  googleOff: 'التسجيل عبر جوجل لسه مش متاح، سجّل بالإيميل دلوقتي',
 };
 
 export function createMockAuthService(
@@ -302,6 +327,42 @@ export function createMockAuthService(
       if (data.village !== undefined) clean.village = data.village.trim();
       if (data.address !== undefined) clean.address = data.address.trim();
       return patchUser(userId, clean);
+    },
+
+    // The demo has no Google: the button stays hidden
+    async isGoogleEnabled() {
+      return false;
+    },
+
+    async signInWithGoogle() {
+      throw new AuthError('rejected', MESSAGES.googleOff);
+    },
+
+    async restoreSession() {
+      return null;
+    },
+
+    async completeProfile(userId, input) {
+      await ensureSeeded();
+      const accounts = readAccounts();
+      const entry = Object.entries(accounts).find(([, acc]) => acc.user.id === userId);
+      if (!entry) throw new AuthError('not_found', MESSAGES.notFound);
+      const [email, account] = entry;
+      const username = account.user.username || normalizeUsername(input.username);
+      if (!account.user.username && usernameTaken(username)) {
+        throw new AuthError('username_taken', MESSAGES.usernameTaken);
+      }
+      const user: AuthUser = {
+        ...account.user,
+        username,
+        phone: account.user.phone || normalizeEgyptianPhone(input.phone),
+        name: input.name.trim(),
+        village: input.village.trim(),
+        address: input.address.trim() || account.user.address,
+      };
+      accounts[email] = { ...account, user };
+      writeAccounts(accounts);
+      return user;
     },
 
     async listUsers() {
