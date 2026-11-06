@@ -90,11 +90,14 @@ describe('searchEntries', () => {
     if (firstNonPrefix !== -1 && lastPrefix !== -1) expect(lastPrefix).toBeLessThan(firstNonPrefix);
   });
 
-  it('groups places before products, services and people', () => {
+  it('groups products before places, services and people', () => {
     const groups = groupResults(searchEntries(index, 'سمك'));
     const order = groups.map((g) => g.id);
     expect(order.length).toBeGreaterThan(1);
-    const all = ['restaurants', 'shops', 'products', 'services', 'edu', 'health', 'people', 'workers'];
+    expect(order[0]).toBe('products');
+    expect(order).toContain('restaurants');
+    expect(order).toContain('shops');
+    const all = ['products', 'restaurants', 'shops', 'services', 'edu', 'health', 'people', 'workers'];
     expect([...order].sort((a, b) => all.indexOf(a) - all.indexOf(b))).toEqual(order);
     expect(groups.every((g) => g.entries.length > 0)).toBe(true);
   });
