@@ -271,6 +271,12 @@ export interface Shop {
   foodTypes?: FoodType[];
   /** Restaurants: a photo of one of their dishes, for the card. */
   photo?: string;
+  /** Restaurants: average rating out of 5. */
+  rating?: number;
+  /** Restaurants: how long delivery takes, e.g. "20-30 دقيقة". */
+  deliveryTime?: string;
+  /** Restaurants: the village the kitchen is in. */
+  village?: string;
 }
 
 export interface CategoryItem {

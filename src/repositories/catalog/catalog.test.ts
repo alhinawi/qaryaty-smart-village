@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { SERVICES } from '@/data/services';
-import { MENUS, RESTAURANTS } from '@/data/catalog';
+import { FOOD_TYPE_LABELS, MENUS, RESTAURANTS } from '@/data/catalog';
+import type { FoodType } from '@/types';
 import { createMockCatalogRepo } from './mockCatalogRepo';
 import { productFromRow, productScope, providerFromRow, serviceFromRow, shopFromRow } from './supabaseCatalogRepo';
 
@@ -66,5 +67,35 @@ describe('shop menus through the repository', () => {
     for (const menu of Object.values(MENUS)) {
       for (const p of menu) if (p.photo) expect(p.photo).toMatch(/^https:\/\//);
     }
+  });
+
+  it('every food type has at least five restaurants, each with a priced menu', () => {
+    const ids = RESTAURANTS.map((s) => s.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    for (const type of Object.keys(FOOD_TYPE_LABELS)) {
+      const count = RESTAURANTS.filter((s) => s.foodTypes?.includes(type as FoodType)).length;
+      expect(count, type).toBeGreaterThanOrEqual(5);
+    }
+    for (const shop of RESTAURANTS) {
+      const menu = MENUS[shop.id];
+      expect(menu, shop.name).toBeDefined();
+      // The first fourteen keep their short menus; the added ones have full menus.
+      expect(menu.length).toBeGreaterThanOrEqual(shop.id >= 115 ? 6 : 3);
+      expect(new Set(menu.map((p) => p.id)).size).toBe(menu.length);
+      for (const p of menu) expect(p.price).toBeGreaterThan(0);
+      expect(shop.rating).toBeGreaterThan(0);
+      expect(shop.deliveryTime).toBeTruthy();
+      expect(shop.village).toBeTruthy();
+    }
+  });
+
+  it('maps rating, delivery time and village from a shop row', () => {
+    const shop = shopFromRow({
+      id: 115, emoji: '🧆', name: 'x', description: '', open: true, time: '', bg_color: '#fff',
+      kind: 'restaurant', food_types: ['fool'], rating: '4.7', delivery_time: '15-25 دقيقة', village: 'منية سندوب',
+    });
+    expect(shop.rating).toBe(4.7);
+    expect(shop.deliveryTime).toBe('15-25 دقيقة');
+    expect(shop.village).toBe('منية سندوب');
   });
 });
