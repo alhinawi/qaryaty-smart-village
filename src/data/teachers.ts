@@ -65,7 +65,7 @@ export const PROVIDER_KIND_LABELS: Record<ProviderKind, { male: string; female: 
   teacher: { male: 'مدرس', female: 'مدرسة' },
   nurse: { male: 'ممرض', female: 'ممرضة' },
   doctor: { male: 'دكتور', female: 'دكتورة' },
-  babysitter: { male: 'جليس أطفال', female: 'جليسة أطفال' },
+  babysitter: { male: 'جليس أطفال وكبار السن', female: 'جليسة أطفال وكبار السن' },
   cleaner: { male: 'عامل نظافة', female: 'عاملة نظافة' },
   worker: { male: 'مقدم خدمة', female: 'مقدمة خدمة' },
 };

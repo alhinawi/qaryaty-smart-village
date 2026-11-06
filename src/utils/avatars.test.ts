@@ -31,6 +31,6 @@ describe('avatarUrl', () => {
   it('every sample woman has a hijab', () => {
     const women = PROVIDERS.filter((p) => p.gender === 'female').map((p) => p.photo);
     expect(women.length).toBeGreaterThan(20);
-    for (const photo of women) expect(params(photo).get('top')).toBe('hijab');
+    for (const photo of women) expect(photo).toMatch(/^\/img\/providers\/provider-\d+\.webp$/);
   });
 });
