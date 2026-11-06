@@ -7,7 +7,7 @@
 // Profile data (name, phone, village, role, blocked) lives in the `profiles`
 // table, filled by a database trigger on sign-up.
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { AuthUser, UserRole } from '@/types';
+import type { AuthSession, AuthUser, UserRole } from '@/types';
 import { normalizeEgyptianPhone, normalizeUsername } from '@/utils/validators';
 import { AuthError, USERNAME_TAKEN_MESSAGE, type AuthService } from '@/services/auth';
 
@@ -54,6 +54,7 @@ const MESSAGES = {
   badEmail: 'الإيميل ده مش صحيح، راجعه وجرّب تاني',
   weakPassword: 'كلمة السر ضعيفة، خليها 8 حروف على الأقل فيهم حرف ورقم',
   signupsOff: 'التسجيل مقفول دلوقتي، كلم إدارة قريتي',
+  googleOff: 'التسجيل عبر جوجل لسه مش متاح، سجّل بالإيميل دلوقتي',
   rejected: 'الطلب اترفض، راجع البيانات وجرّب تاني',
 };
 
@@ -71,6 +72,9 @@ interface ErrorLike {
 export function mapAuthError(error: ErrorLike): unknown {
   const code = error.code ?? '';
   const status = error.status ?? 0;
+  if (code === 'provider_disabled' || /provider is not enabled/i.test(error.message ?? '')) {
+    return new AuthError('rejected', MESSAGES.googleOff);
+  }
   if (code === 'invalid_credentials') return new AuthError('invalid_credentials', MESSAGES.invalid);
   if (code === 'email_not_confirmed') return new AuthError('email_not_confirmed', MESSAGES.notConfirmed);
   if (code === 'user_already_exists' || code === 'email_exists' || /already registered/i.test(error.message ?? '')) {
@@ -97,7 +101,26 @@ function activationRedirect(): string | undefined {
   return typeof window === 'undefined' ? undefined : `${window.location.origin}/login?activated=1`;
 }
 
-export function createSupabaseAuthRepo(getClient: () => Promise<SupabaseClient>): AuthService {
+export interface SupabaseAuthOptions {
+  /** Reads GET /auth/v1/settings (public). Injected in tests. */
+  fetchSettings?: () => Promise<{ external?: Record<string, boolean> }>;
+}
+
+function defaultFetchSettings(): Promise<{ external?: Record<string, boolean> }> {
+  const url = import.meta.env.VITE_SUPABASE_URL?.trim() ?? '';
+  const key = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim() ?? '';
+  return fetch(`${url.replace(/\/+$/, '')}/auth/v1/settings`, { headers: { apikey: key } }).then((res) => {
+    if (!res.ok) throw new Error(`auth settings ${res.status}`);
+    return res.json();
+  });
+}
+
+export function createSupabaseAuthRepo(
+  getClient: () => Promise<SupabaseClient>,
+  options: SupabaseAuthOptions = {}
+): AuthService {
+  const fetchSettings = options.fetchSettings ?? defaultFetchSettings;
+
   async function fetchProfile(supabase: SupabaseClient, userId: string): Promise<AuthUser | null> {
     const { data, error } = await supabase.from('profiles').select('*').eq('id', userId).maybeSingle();
     if (error) throw mapDbError(error);
@@ -188,6 +211,59 @@ export function createSupabaseAuthRepo(getClient: () => Promise<SupabaseClient>)
         throw new AuthError('blocked', MESSAGES.blocked);
       }
       return { token: data.session.access_token, user };
+    },
+
+    async isGoogleEnabled() {
+      try {
+        const settings = await fetchSettings();
+        return settings.external?.google === true;
+      } catch {
+        return false; // can't tell: keep the button hidden rather than show a broken one
+      }
+    },
+
+    async signInWithGoogle(redirectTo) {
+      const supabase = await getClient();
+      const { error } = await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo } });
+      if (error) throw mapAuthError(error);
+    },
+
+    async restoreSession(): Promise<AuthSession | null> {
+      const supabase = await getClient();
+      // Waits for the client to read the tokens Google's redirect left in the address bar
+      const { data, error } = await supabase.auth.getSession();
+      if (error) throw mapAuthError(error);
+      const session = data.session;
+      if (!session) return null;
+      const user = await fetchProfile(supabase, session.user.id);
+      if (!user) {
+        await supabase.auth.signOut();
+        throw new AuthError('not_found', MESSAGES.notFound);
+      }
+      if (user.blocked) {
+        await supabase.auth.signOut();
+        throw new AuthError('blocked', MESSAGES.blocked);
+      }
+      return { token: session.access_token, user };
+    },
+
+    async completeProfile(_userId, input) {
+      const supabase = await getClient();
+      const username = normalizeUsername(input.username);
+      const { data, error } = await supabase.rpc('complete_profile', {
+        p_name: input.name.trim(),
+        p_username: username,
+        p_phone: normalizeEgyptianPhone(input.phone),
+        p_village: input.village.trim(),
+        p_address: input.address.trim(),
+      });
+      if (error) {
+        if (error.code === '23505') throw new AuthError('username_taken', USERNAME_TAKEN_MESSAGE);
+        throw mapDbError(error);
+      }
+      const row = data as ProfileRow | null;
+      if (!row?.id) throw new AuthError('not_found', MESSAGES.notFound);
+      return userFromProfile(row);
     },
 
     async logout() {

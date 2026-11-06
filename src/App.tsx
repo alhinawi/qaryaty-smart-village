@@ -1,6 +1,6 @@
 // ─── Imports
 import { Suspense, lazy, useEffect, useState } from 'react';
-import { Navigate, Route, Routes } from 'react-router';
+import { Navigate, Route, Routes, useNavigate } from 'react-router';
 import { ROUTES } from '@/routes';
 import { useSplashScreen } from '@/hooks/useSplashScreen';
 import { useUIStore } from '@/stores/useUIStore';
@@ -8,6 +8,7 @@ import { useGoToTab } from '@/hooks/useTabNavigation';
 import { useAuthStore } from '@/stores/useAuthStore';
 import type { OrderModalData } from '@/types';
 import { readPaymentReturn } from '@/services/payments';
+import { needsProfileCompletion } from '@/services/auth';
 
 // Layout & Global Components
 import { Header } from '@/components/layout/Header';
@@ -33,6 +34,8 @@ const MessagesPage = lazy(() => import('@/pages/Messages'));
 const ProfilePage = lazy(() => import('@/pages/Profile'));
 const LoginPage = lazy(() => import('@/pages/Auth/LoginPage'));
 const RegisterPage = lazy(() => import('@/pages/Auth/RegisterPage'));
+const AuthCallbackPage = lazy(() => import('@/pages/Auth/AuthCallbackPage'));
+const CompleteProfilePage = lazy(() => import('@/pages/Auth/CompleteProfilePage'));
 const AboutPage = lazy(() => import('@/pages/About'));
 const GroupsPage = lazy(() => import('@/pages/Groups'));
 const SearchScreen = lazy(() => preloadSearchScreen().then((m) => ({ default: m.SearchScreen })));
@@ -95,7 +98,16 @@ export default function App() {
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [successOrderNumber, setSuccessOrderNumber] = useState('');
 
+  const navigate = useNavigate();
+
   const handleOpenOrderModal = (data: OrderModalData) => {
+    // A Google account without a username, phone or village fills them first
+    const user = useAuthStore.getState().session?.user;
+    if (user && needsProfileCompletion(user)) {
+      useUIStore.getState().showToast('📝 كمّل بياناتك الأول علشان المندوب يوصلك');
+      navigate(ROUTES.completeProfile, { state: { from: window.location.pathname } });
+      return;
+    }
     setModalData(data);
     setOrderModalKey((key) => key + 1);
     setIsOrderModalOpen(true);
@@ -154,6 +166,8 @@ export default function App() {
                 <Route path={ROUTES.profile} element={<ProfilePage />} />
                 <Route path={ROUTES.login} element={<LoginPage />} />
                 <Route path={ROUTES.register} element={<RegisterPage />} />
+                <Route path={ROUTES.authCallback} element={<AuthCallbackPage />} />
+                <Route path={ROUTES.completeProfile} element={<CompleteProfilePage />} />
                 <Route path={ROUTES.about} element={<AboutPage />} />
                 <Route path={ROUTES.groups} element={<GroupsPage />} />
                 <Route path={ROUTES.donate} element={<DonatePage />} />
