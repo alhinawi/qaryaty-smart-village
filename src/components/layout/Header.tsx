@@ -85,11 +85,10 @@ export function Header() {
         {/* Top Section */}
         <div className="flex items-center justify-between gap-2 sm:gap-4">
           {/* Brand Logo & Village Name */}
-          <div
+          <a
             className="flex items-center gap-2 sm:gap-3 min-w-0 select-none cursor-pointer"
-            role="button"
-            tabIndex={0}
-            onClick={() => setActiveTab("home")}
+            href={ROUTES.home}
+            aria-label="قريتي - الرئيسية"
           >
             <div
               className="w-[44px] h-[44px] bg-gold rounded-xl flex items-center justify-center text-[24px] shrink-0"
@@ -109,7 +108,7 @@ export function Header() {
                 📍 {villageLabel(knownVillage(user?.village ?? profileVillage) ?? DEFAULT_VILLAGE)}
               </span>
             </div>
-          </div>
+          </a>
 
           {/* Desktop Navigation Links */}
           <nav
