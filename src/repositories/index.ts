@@ -35,6 +35,9 @@ import type { AddressRepo } from './addresses/types';
 import { createMockVillageRepo } from './villages/mockVillageRepo';
 import { createSupabaseVillageRepo } from './villages/supabaseVillageRepo';
 import type { VillageOption, VillageRepo } from './villages/types';
+import { createMockJobRepo } from './jobs/mockJobRepo';
+import { createSupabaseJobRepo } from './jobs/supabaseJobRepo';
+import type { JobRepo } from './jobs/types';
 
 const breaker = createCircuitBreaker({ failureThreshold: 3, cooldownMs: 30_000 });
 const resilience = createResilience({
@@ -171,6 +174,32 @@ export function addressRepoFor(signedIn: boolean): AddressRepo {
   return signedIn && resilientAddresses ? resilientAddresses : localAddresses;
 }
 export type { AddressRepo };
+
+// ─── وظائف (job posts). Reads never fall back to sample jobs: a fake job is worse than none.
+export const JOB_UNAVAILABLE_MESSAGE = 'الخدمة متوقفة مؤقتًا، ومااتحفظش حاجة. جرّب تاني بعد شوية';
+const liveJobs = isSupabaseConfigured ? createSupabaseJobRepo(getSupabase) : null;
+export const jobRepo: JobRepo = liveJobs
+  ? (() => {
+      const w = <T>(fn: () => Promise<T>) =>
+        resilience.write(fn, (cause) => new ServiceUnavailableError(JOB_UNAVAILABLE_MESSAGE, { cause }));
+      const r = <T>(fn: () => Promise<T>, empty: T) => resilience.read(fn, async () => empty);
+      return {
+        listPublic: () => r(() => liveJobs.listPublic(), []),
+        get: (id) => r(() => liveJobs.get(id), null),
+        listMine: (ownerId) => r(() => liveJobs.listMine(ownerId), []),
+        create: (ownerId, draft) => w(() => liveJobs.create(ownerId, draft)),
+        update: (id, draft) => w(() => liveJobs.update(id, draft)),
+        close: (id) => w(() => liveJobs.close(id)),
+        reopen: (id) => w(() => liveJobs.reopen(id)),
+        renew: (id) => w(() => liveJobs.renew(id)),
+        remove: (id) => w(() => liveJobs.remove(id)),
+        report: (id, reason, note) => w(() => liveJobs.report(id, reason, note)),
+        listForReview: () => w(() => liveJobs.listForReview()),
+        review: (id, approve, reason) => w(() => liveJobs.review(id, approve, reason)),
+      } satisfies JobRepo;
+    })()
+  : createMockJobRepo();
+export type { JobRepo };
 
 // ─── Status
 // ─── Villages of Egypt (the "القرية" picker): Supabase, the Mansoura villages in demo mode
