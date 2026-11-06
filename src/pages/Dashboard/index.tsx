@@ -228,7 +228,7 @@ function ProductsSection({ shop }: { shop: Shop }) {
       {sectionsOf(visible).map((section) => (
         <div key={section || 'main'} className="mb-3">
           {section && <p className="text-[12px] font-black text-green m-0 mb-2">{section}</p>}
-          <ul className="m-0 p-0 list-none grid gap-2">
+          <ul className="m-0 p-0 list-none grid grid-cols-1 gap-2">
             {visible
               .filter((p) => (p.section ?? '') === section)
               .map((p) => (
@@ -280,7 +280,7 @@ function ProductRow({
   };
 
   return (
-    <li className={`flex items-center gap-2.5 p-2 rounded-xl border ${available ? 'border-[rgba(26,122,74,0.12)] bg-cream/30' : 'border-gray-200 bg-gray-50 opacity-70'}`}>
+    <li className={`flex min-w-0 items-center gap-2.5 p-2 rounded-xl border ${available ? 'border-[rgba(26,122,74,0.12)] bg-cream/30' : 'border-gray-200 bg-gray-50 opacity-70'}`}>
       <ProductPhoto photo={product.photo} emoji={product.emoji} className="w-11 h-11 rounded-lg" />
       <div className="flex-1 min-w-0">
         <p className="text-[13px] font-extrabold text-text m-0 truncate">{product.name}</p>
@@ -356,7 +356,7 @@ function IncomingOrdersSection() {
 
   return (
     <Section icon="🧾" title="الطلبات الواردة" hint="دي لسه مش طلبات حقيقية، بس كده هيبقى شكلها أول ما توصل">
-      <ul className="m-0 p-0 list-none grid gap-2">
+      <ul className="m-0 p-0 list-none grid grid-cols-1 gap-2">
         {orders.map((o) => (
           <li key={o.id} className="p-3 rounded-xl border border-[rgba(26,122,74,0.12)] bg-cream/30">
             <div className="flex items-center justify-between gap-2 mb-1">
@@ -511,9 +511,9 @@ function ProServicesSection({ provider }: { provider: Provider }) {
 
   return (
     <Section icon="🛠️" title="خدماتي وأسعاري" hint="قفل خدمة مؤقتًا من غير ما تمسحها">
-      <ul className="m-0 p-0 list-none grid gap-2 mb-3">
+      <ul className="m-0 p-0 list-none grid grid-cols-1 gap-2 mb-3">
         {services.map((svc) => (
-          <li key={svc.id} className={`flex items-center gap-2.5 p-2 rounded-xl border ${svc.active ? 'border-[rgba(26,122,74,0.12)] bg-cream/30' : 'border-gray-200 bg-gray-50 opacity-70'}`}>
+          <li key={svc.id} className={`flex min-w-0 items-center gap-2.5 p-2 rounded-xl border ${svc.active ? 'border-[rgba(26,122,74,0.12)] bg-cream/30' : 'border-gray-200 bg-gray-50 opacity-70'}`}>
             <div className="flex-1 min-w-0">
               <p className="text-[13px] font-extrabold text-text m-0 truncate">{svc.name}</p>
               <p className="text-[11px] text-text-muted m-0">{svc.price}</p>
@@ -628,7 +628,7 @@ function BookingsSection() {
 
   return (
     <Section icon="📅" title="طلبات الحجز" hint="دي لسه مش حجوزات حقيقية، بس كده هيبقى شكلها أول ما توصل">
-      <ul className="m-0 p-0 list-none grid gap-2">
+      <ul className="m-0 p-0 list-none grid grid-cols-1 gap-2">
         {bookings.map((b) => (
           <li key={b.id} className="p-3 rounded-xl border border-[rgba(26,122,74,0.12)] bg-cream/30">
             <div className="flex items-center justify-between gap-2 mb-1">

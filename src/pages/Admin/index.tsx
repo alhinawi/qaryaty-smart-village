@@ -83,7 +83,7 @@ export default function AdminPage() {
       </div>
 
       <h2 className="text-[15px] font-black text-green-dark mb-2">طوابير المراجعة</h2>
-      <ul className="m-0 p-0 list-none grid gap-2 mb-5">
+      <ul className="m-0 p-0 list-none grid grid-cols-1 gap-2 mb-5">
         {queues.map((q) => (
           <li key={q.to}>
             <Link
@@ -191,9 +191,9 @@ function SupervisorsSection() {
       {error && <p role="alert" className="text-danger text-[13px]">{error}</p>}
       {users === null && !error && <p role="status" className="text-text-muted text-[13px]">بنحمّل المستخدمين...</p>}
       {users !== null && (
-        <ul className="m-0 p-0 list-none grid gap-2">
+        <ul className="m-0 p-0 list-none grid grid-cols-1 gap-2">
           {[...admins, ...customers].slice(0, 20).map((u) => (
-            <li key={u.id} className="flex items-center gap-2.5 p-2.5 rounded-xl border border-[rgba(26,122,74,0.12)] bg-cream/30">
+            <li key={u.id} className="flex min-w-0 items-center gap-2.5 p-2.5 rounded-xl border border-[rgba(26,122,74,0.12)] bg-cream/30">
               <div className="flex-1 min-w-0">
                 <p className="text-[13px] font-extrabold text-text m-0 truncate">
                   {u.name} {u.id === me?.id && <span className="text-text-muted font-bold">(انت)</span>}
