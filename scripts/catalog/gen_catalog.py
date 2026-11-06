@@ -296,7 +296,8 @@ cur = open(os.path.join(ROOT, 'src/data/catalog.ts')).read()
 end_mark = '/** The default list for each kind' if '/** The default list for each kind' in cur else '/** What a shop sells'
 rest_block = cur[cur.index('export const FOOD_TYPE_LABELS'):cur.index(end_mark)]
 
-header = """import { catalogProductPhoto } from '@/config/catalogImages';
+header = """import { demoPharmacyMenu } from './demoPharmacies';
+import { catalogProductPhoto } from '@/config/catalogImages';
 // ─── Products sold in shops and restaurants
 //
 // Every kind of shop has a full default list, in sections: every fish shop
@@ -320,7 +321,9 @@ export const CATALOG_BY_KIND: Partial<Record<ShopKind, Product[]>> = {
 """ + "".join(f"  {kind}: {const},\n" for const, _, kind in KINDS) + """};
 
 /** What a shop sells, or null when it takes a free-text order (a salon, a workshop). */
-export function productsForShop(shop: Pick<Shop, 'id' | 'kind'>): Product[] | null {
+export function productsForShop(shop: Pick<Shop, 'id' | 'kind' | 'demo'>): Product[] | null {
+  const demoMenu = demoPharmacyMenu(shop, PHARMACY);
+  if (demoMenu) return demoMenu;
   const products = shop.kind === 'restaurant' ? MENUS[shop.id] : (shop.kind && CATALOG_BY_KIND[shop.kind]);
   const scope = shop.kind === 'restaurant' ? `restaurant:${shop.id}` : (shop.kind ?? 'other');
   return products ? products.map((product) => catalogProductPhoto(scope, product)) : null;
