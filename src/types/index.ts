@@ -339,6 +339,33 @@ export interface Order {
   shopId?: number;
   items?: OrderItem[];
   paymentStatus?: PaymentStatus;
+  /** Where to deliver, picked on the map (optional: older orders and typed addresses have none). */
+  lat?: number;
+  lng?: number;
+}
+
+// ─── Saved addresses (picked on the map, like Talabat)
+export interface LatLng {
+  lat: number;
+  lng: number;
+}
+
+/** What the customer fills in for an address. */
+export interface AddressDraft extends LatLng {
+  /** البيت / الشغل / … */
+  label: string;
+  street: string;
+  /** رقم البيت أو اسمه */
+  building: string;
+  floor: string;
+  landmark: string;
+  phone: string;
+}
+
+export interface UserAddress extends AddressDraft {
+  id: string;
+  isDefault: boolean;
+  createdAt: string;
 }
 
 export interface UserProfile {
