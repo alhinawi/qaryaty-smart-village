@@ -16,8 +16,10 @@ import { APP_COMMISSION_MAX, APP_COMMISSION_MIN, APP_COMMISSION_PERCENT } from '
 import { teacherLessonOptions } from './teacherGroups';
 
 // ─── Promo code
-// NOTE: this check runs on the device only, so it is a UX guard, not real
-// protection. Once there is a backend it must validate the code once per phone.
+// The first-order code waives the fees only: عمولة التطبيق is not charged, and
+// the customer pays the price of the items or the service in full. The server
+// (orders_before_insert) waives it itself and allows the code once per account;
+// this check on the device is only a UX guard.
 export const FIRST_ORDER_PROMO = 'QARYA1';
 
 export function normalizePromoCode(code: string): string {
@@ -38,8 +40,6 @@ export function checkPromoCode(
   context: {
     orders: Order[];
     usedPromoCodes: string[];
-    /** Amount the code would apply to. 0 or null means nothing to discount. */
-    discountableAmount: number | null;
   }
 ): PromoCheck {
   const code = normalizePromoCode(rawCode);
@@ -56,28 +56,27 @@ export function checkPromoCode(
       message: `ℹ️ كود ${FIRST_ORDER_PROMO} لأول طلب بس، واتستخدم قبل كده`,
     };
   }
-  if (!context.discountableAmount) {
-    return {
-      ok: false,
-      message: `ℹ️ كود ${FIRST_ORDER_PROMO} بيتطبق على الخدمات اللي ليها سعر ثابت بس`,
-    };
-  }
   return { ok: true, code };
 }
 
+/** What the order screens say about the code. */
+export const FIRST_ORDER_PROMO_TEXT = 'أول طلب من غير رسوم';
+export const FIRST_ORDER_PROMO_APPLIED = `🎉 كود ${FIRST_ORDER_PROMO} اتفعّل: أول طلب من غير رسوم، وبتدفع تمن الطلب بس`;
+/** The line in the price breakdown when the fees are waived. */
+export const WAIVED_FEES_LABEL = `رسوم التطبيق (كود ${FIRST_ORDER_PROMO})`;
+
 // ─── App commission
 /**
- * The app's fee for one order: APP_COMMISSION_PERCENT of what the order costs
- * after the discount, rounded to the nearest pound, kept between
- * APP_COMMISSION_MIN and APP_COMMISSION_MAX. Nothing when there is nothing to
- * pay (a free first order) or no price yet (set after confirmation).
+ * The app's fee for one order: APP_COMMISSION_PERCENT of what the order costs,
+ * rounded to the nearest pound, kept between APP_COMMISSION_MIN and
+ * APP_COMMISSION_MAX. Nothing when there is nothing to pay or no price yet
+ * (set after confirmation). The first-order code waives it (see getOrderPricing).
  * Same rule as public.order_commission() in supabase/schema.sql.
  */
 export function appCommission(order: {
-  /** What the order costs after the discount; null when set after confirmation. */
+  /** What the order costs; null when set after confirmation. */
   payable: number | null;
   isEstimate: boolean;
-  discounted: boolean;
 }): number {
   const { payable } = order;
   if (payable == null || !Number.isFinite(payable) || payable <= 0) return 0;
@@ -92,10 +91,11 @@ export interface OrderPricing {
   priceType: PriceType;
   /** Price shown as the service price; null when it is set after confirmation. */
   basePrice: number | null;
-  /** Only fixed prices can be discounted. */
-  discountableAmount: number;
+  /** The fees the first-order code waived (the commission that isn't charged). */
   discountAmount: number;
-  /** null when the price is set after confirmation. */
+  /** true when the first-order code is on: no fees, now or when the price is set later. */
+  feesWaived: boolean;
+  /** The price of the order itself, paid in full. null when set after confirmation. */
   finalPrice: number | null;
   isEstimate: boolean;
   /** Price of one unit after the choices (null: set after confirmation). */
@@ -106,7 +106,7 @@ export interface OrderPricing {
   deliveryFee: number;
   /** What the picked choice says about the price, e.g. "معاينة 100 ج" or "360 ج/الشهر". */
   priceLabel?: string;
-  /** عمولة التطبيق, shown at the payment step only. */
+  /** عمولة التطبيق charged, shown at the payment step only (0 with the first-order code). */
   commission: number;
   /** finalPrice plus the commission: what the customer pays. null when set after confirmation. */
   totalToPay: number | null;
@@ -192,29 +192,28 @@ export function getOrderPricing(
     return {
       priceType,
       basePrice: null,
-      discountableAmount: 0,
       discountAmount: 0,
+      feesWaived: discountApplied,
       finalPrice: null,
       isEstimate: false,
       unitPrice: null,
-      commission: appCommission({ payable: null, isEstimate: false, discounted: false }),
+      commission: 0,
       totalToPay: null,
       ...extra,
     };
   }
 
   const basePrice = (priced as number) + deliveryFee;
-  const discountableAmount = priceType === 'fixed' ? basePrice : 0;
-  const discountAmount = discountApplied ? discountableAmount : 0;
-  const finalPrice = Math.max(0, basePrice - discountAmount);
+  const finalPrice = basePrice;
   const isEstimate = priceType === 'from';
-  const commission = appCommission({ payable: finalPrice, isEstimate, discounted: discountAmount > 0 });
+  const fee = appCommission({ payable: finalPrice, isEstimate });
+  const commission = discountApplied ? 0 : fee;
 
   return {
     priceType,
     basePrice,
-    discountableAmount,
-    discountAmount,
+    discountAmount: discountApplied ? fee : 0,
+    feesWaived: discountApplied,
     finalPrice,
     isEstimate,
     unitPrice: perUnit ?? null,
@@ -228,14 +227,16 @@ export function getOrderPricing(
 export interface CartPricing {
   /** Sum of items that have a price (fixed + starting prices). */
   subtotal: number;
-  /** Sum of fixed-price items only: what the promo can discount. */
-  discountableAmount: number;
+  /** The fees the first-order code waived (the commission that isn't charged). */
   discountAmount: number;
+  /** true when the first-order code is on. */
+  feesWaived: boolean;
+  /** What the items cost, paid in full (the first-order code doesn't touch it). */
   total: number;
   /** true when some items have a starting price or no price yet. */
   isEstimate: boolean;
   hasQuoteItems: boolean;
-  /** عمولة التطبيق, shown at checkout only. */
+  /** عمولة التطبيق charged, shown at checkout only (0 with the first-order code). */
   commission: number;
   /** total plus the commission. null when nothing in the cart has a price yet. */
   totalToPay: number | null;
@@ -248,7 +249,6 @@ export function getCartItemPriceType(item: CartItem): PriceType {
 
 export function getCartPricing(items: CartItem[], discountApplied: boolean): CartPricing {
   let subtotal = 0;
-  let discountableAmount = 0;
   let isEstimate = false;
   let hasQuoteItems = false;
 
@@ -259,25 +259,19 @@ export function getCartPricing(items: CartItem[], discountApplied: boolean): Car
       isEstimate = true;
       continue;
     }
-    const lineTotal = item.price * item.quantity;
-    subtotal += lineTotal;
-    if (type === 'fixed') discountableAmount += lineTotal;
-    else isEstimate = true;
+    subtotal += item.price * item.quantity;
+    if (type !== 'fixed') isEstimate = true;
   }
 
-  const discountAmount = discountApplied ? discountableAmount : 0;
-  const total = Math.max(0, subtotal - discountAmount);
+  const total = subtotal;
   const unpriced = subtotal === 0 && hasQuoteItems;
-  const commission = appCommission({
-    payable: unpriced ? null : total,
-    isEstimate,
-    discounted: discountAmount > 0,
-  });
+  const fee = appCommission({ payable: unpriced ? null : total, isEstimate });
+  const commission = discountApplied ? 0 : fee;
 
   return {
     subtotal,
-    discountableAmount,
-    discountAmount,
+    discountAmount: discountApplied ? fee : 0,
+    feesWaived: discountApplied,
     total,
     isEstimate,
     hasQuoteItems,

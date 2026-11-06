@@ -13,6 +13,9 @@ import type { LatLng } from '@/types';
 import { formatCurrency, generateOrderNumber } from '@/utils/helpers';
 import {
   FIRST_ORDER_PROMO,
+  FIRST_ORDER_PROMO_APPLIED,
+  FIRST_ORDER_PROMO_TEXT,
+  WAIVED_FEES_LABEL,
   checkPromoCode,
   describeTotal,
   getOrderPricing,
@@ -75,7 +78,7 @@ export function OrderModal({
   if (!isOpen || !data) return null;
 
   const pricing = getOrderPricing(data, discountApplied, { selections: selected, quantity });
-  const { basePrice, discountAmount, finalPrice, isEstimate, unitPrice, amount, deliveryFee, priceLabel, commission, totalToPay } =
+  const { basePrice, discountAmount, feesWaived, finalPrice, isEstimate, unitPrice, amount, deliveryFee, priceLabel, commission, totalToPay } =
     pricing;
   const unit = resolveQuantity(data.quantity, selected)?.unit;
   // Card and wallet charge a known amount, so they need a fixed price
@@ -123,14 +126,10 @@ export function OrderModal({
   };
 
   const handleApplyPromo = () => {
-    const result = checkPromoCode(discountCode, {
-      orders,
-      usedPromoCodes,
-      discountableAmount: pricing.discountableAmount,
-    });
+    const result = checkPromoCode(discountCode, { orders, usedPromoCodes });
     if (result.ok) {
       setDiscountApplied(true);
-      showToast(`🎉 كود ${FIRST_ORDER_PROMO} مفعّل: خصم 100% على أول طلب!`);
+      showToast(FIRST_ORDER_PROMO_APPLIED);
     } else {
       showToast(result.message);
     }
@@ -143,11 +142,7 @@ export function OrderModal({
     // Re-check at submit time in case another order was placed meanwhile
     const promoStillValid =
       discountApplied &&
-      checkPromoCode(discountCode, {
-        orders,
-        usedPromoCodes,
-        discountableAmount: pricing.discountableAmount,
-      }).ok;
+      checkPromoCode(discountCode, { orders, usedPromoCodes }).ok;
     const finalPricing = getOrderPricing(data, promoStillValid, { selections: selected, quantity });
     const appliedDiscount = finalPricing.discountAmount;
     // What the customer pays, عمولة التطبيق included (null: price set after confirmation)
@@ -358,7 +353,7 @@ export function OrderModal({
             {/* Promo Code Box */}
             <div className="form-group">
               <label htmlFor="modalPromo">
-                🎟️ كود الخصم (كود {FIRST_ORDER_PROMO} لأول طلب)
+                🎟️ كود الخصم (كود {FIRST_ORDER_PROMO}: {FIRST_ORDER_PROMO_TEXT})
               </label>
               <div className="flex gap-2">
                 <input
@@ -421,10 +416,15 @@ export function OrderModal({
                   <span>{formatCurrency(deliveryFee)}</span>
                 </div>
               )}
-              {discountApplied && discountAmount > 0 && (
+              {feesWaived && (
                 <div className="flex justify-between text-sm mb-1.5 text-success font-bold">
-                  <span>خصم كود {FIRST_ORDER_PROMO}:</span>
-                  <span>-{formatCurrency(discountAmount)} (100% مجاناً)</span>
+                  <span>{WAIVED_FEES_LABEL}:</span>
+                  <span>
+                    {discountAmount > 0 && (
+                      <s className="text-text-muted font-normal ml-1">{formatCurrency(discountAmount)}</s>
+                    )}
+                    ببلاش
+                  </span>
                 </div>
               )}
               {commission > 0 && (
@@ -441,11 +441,12 @@ export function OrderModal({
                       ? 'الإجمالي المبدئي:'
                       : 'الإجمالي النهائي:'}
                 </strong>
-                <strong>{describeTotal(totalToPay, isEstimate, formatCurrency, APP_COMMISSION_PERCENT)}</strong>
+                <strong>{describeTotal(totalToPay, isEstimate, formatCurrency, feesWaived ? 0 : APP_COMMISSION_PERCENT)}</strong>
               </div>
               {finalPrice == null && (
                 <p className="text-xs text-text-muted mt-1">
                   مقدم الخدمة هيكلمك يأكد السعر قبل التنفيذ.
+                  {feesWaived && ' وبما إنه أول طلب، مش هتدفع عمولة التطبيق عليه.'}
                 </p>
               )}
               {isEstimate && (

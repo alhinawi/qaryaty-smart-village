@@ -54,6 +54,16 @@ describe('order repositories', () => {
     expect((error as RepoError).code).toBe('rejected');
   });
 
+  it('a second use of the first-order code says so', async () => {
+    const { client } = fakeClient({
+      code: '23505',
+      message: 'duplicate key value violates unique constraint "orders_one_promo_per_user"',
+    });
+    const error = await createSupabaseOrderRepo(async () => client).createOrder(input).catch((e: unknown) => e);
+    expect(error).toBeInstanceOf(RepoError);
+    expect((error as RepoError).message).toContain('QARYA1');
+  });
+
   it('a server/network failure is passed up so the wrapper can report the outage', async () => {
     const { client } = fakeClient({ message: 'FetchError: failed to fetch' });
     const error = await createSupabaseOrderRepo(async () => client).createOrder(input).catch((e: unknown) => e);
