@@ -28,7 +28,7 @@ export function ServiceStatusBanner() {
       <div className="max-w-6xl mx-auto flex items-center gap-3 text-[13px] leading-relaxed">
         <span aria-hidden="true">⚠️</span>
         <p className="flex-1 m-0">
-          <strong className="font-extrabold">الخدمة متوقفة مؤقتًا.</strong> بنعرضلك بيانات تجريبية، والطلبات
+          <strong className="font-extrabold">الخدمة متوقفة مؤقتًا.</strong> بنعرضلك بيانات للعرض فقط، والطلبات
           وتسجيل الدخول مش هيشتغلوا لحد ما ترجع.
         </p>
         <button

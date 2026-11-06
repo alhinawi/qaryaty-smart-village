@@ -29,7 +29,7 @@ export function AuthLayout({ title, subtitle, children, footer }: AuthLayoutProp
 
       <p className="text-[11px] text-text-muted text-center mt-4 leading-relaxed" role={isSupabaseConfigured ? undefined : 'note'}>
         {/* Demo mode only: accounts live in this browser. Live accounts are saved on Supabase */}
-        {!isSupabaseConfigured && <>نسخة تجريبية: حسابك محفوظ على الجهاز ده بس. </>}
+        {!isSupabaseConfigured && <>حسابك محفوظ على الجهاز ده بس. </>}
         <Link to={ROUTES.home} className="text-green font-bold underline">
           رجوع للرئيسية
         </Link>
