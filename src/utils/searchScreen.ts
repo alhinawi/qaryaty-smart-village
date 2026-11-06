@@ -99,7 +99,7 @@ export const RESULT_GROUPS: { id: ResultGroupId; title: string; emoji: string }[
   { id: 'services', title: 'الخدمات', emoji: '⚡' },
   { id: 'edu', title: 'المدرسين', emoji: '👩‍🏫' },
   { id: 'health', title: 'الدكاترة والتمريض', emoji: '🩺' },
-  { id: 'people', title: 'جليسات ونظافة', emoji: '🧹' },
+  { id: 'people', title: 'رعاية أطفال وكبار السن ونظافة', emoji: '🧹' },
   { id: 'workers', title: 'الصنايعية والخدمات', emoji: '🔧' },
 ];
 
