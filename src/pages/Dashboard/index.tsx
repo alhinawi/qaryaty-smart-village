@@ -1,11 +1,10 @@
-// ─── Provider dashboard (preview): one place for a merchant or an independent
-// professional to run their side of Qaryati. Behind a feature flag
-// (src/config/providerDashboard.ts); edits stay on the device, nothing here is
-// live for customers yet.
+// ─── Provider dashboard: one place for a merchant or an independent
+// professional to run their side of Qaryati. Admins only (the owner appoints
+// them); edits stay on the device, nothing here is live for customers yet.
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Navigate } from 'react-router';
 import { ROUTES } from '@/routes';
-import { isProviderDashboardEnabled } from '@/config/providerDashboard';
+import { useAuthStore, selectIsAdmin } from '@/stores/useAuthStore';
 import { useCatalogStore } from '@/stores/useCatalogStore';
 import { useProviderDashboardStore, type ProService } from '@/stores/useProviderDashboardStore';
 import { useUIStore } from '@/stores/useUIStore';
@@ -30,7 +29,8 @@ import { Section, Toggle, Field } from './parts';
 type Tab = 'merchant' | 'pro';
 
 export default function ProviderDashboardPage() {
-  const enabled = isProviderDashboardEnabled();
+  // Open to the owner and the people he appoints as admins, nowhere else
+  const isAdmin = useAuthStore(selectIsAdmin);
   const loadCatalog = useCatalogStore((s) => s.load);
   const catalogState = useCatalogStore((s) => s.loadState);
   const [tab, setTab] = useState<Tab>('merchant');
@@ -39,7 +39,7 @@ export default function ProviderDashboardPage() {
     void loadCatalog();
   }, [loadCatalog]);
 
-  if (!enabled) return <Navigate to={ROUTES.home} replace />;
+  if (!isAdmin) return <Navigate to={ROUTES.home} replace />;
 
   return (
     <div className="max-w-[760px] mx-auto px-4 py-5" dir="rtl">
