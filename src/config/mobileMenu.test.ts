@@ -20,15 +20,9 @@ describe('mobile menu', () => {
     expect(allLinks(true).some((l) => l.to === ROUTES.ridesReview)).toBe(true);
   });
 
-  it('shows the provider dashboard link only when its preview flag is on', () => {
-    expect(allLinks(true).some((l) => l.to === ROUTES.dashboard)).toBe(false);
-    const store = new Map<string, string>();
-    (globalThis as Record<string, unknown>).window = {
-      localStorage: { getItem: (k: string) => store.get(k) ?? null },
-    };
-    store.set('qaryati_provider_dashboard', '1');
+  it('shows the provider dashboard to admins only', () => {
+    expect(allLinks(false).some((l) => l.to === ROUTES.dashboard)).toBe(false);
     expect(allLinks(true).some((l) => l.to === ROUTES.dashboard)).toBe(true);
-    delete (globalThis as Record<string, unknown>).window;
   });
 
   it('points only at routes the app has', () => {

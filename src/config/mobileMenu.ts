@@ -4,7 +4,6 @@
 // Desktop has these in its nav bar and footer instead.
 
 import { ROUTES } from '@/routes';
-import { isProviderDashboardEnabled } from '@/config/providerDashboard';
 
 export interface MobileMenuLink {
   id: 'messages' | 'jobs' | 'jobsReview' | 'marketSale' | 'marketSwap' | 'marketReview' | 'rides' | 'ridesReview' | 'about' | 'groups' | 'donate' | 'advertise' | 'admin' | 'dashboard';
@@ -66,16 +65,6 @@ export function mobileMenuSections({ isAdmin }: MobileMenuOptions): MobileMenuSe
     },
   ];
 
-  if (isProviderDashboardEnabled()) {
-    sections[1].links.push({
-      id: 'dashboard',
-      label: 'لوحة مقدم الخدمة',
-      icon: '⚙️',
-      to: ROUTES.dashboard,
-      hint: 'ظبط محلك أو خدماتك من مكان واحد',
-    });
-  }
-
   if (isAdmin) {
     sections.push({
       id: 'staff',
@@ -84,6 +73,7 @@ export function mobileMenuSections({ isAdmin }: MobileMenuOptions): MobileMenuSe
         { id: 'jobsReview', label: 'مراجعة الوظائف', icon: '🗂️', to: ROUTES.jobsReview },
         { id: 'marketReview', label: 'بلاغات المستعمل والتبادل', icon: '🚩', to: ROUTES.marketReview },
         { id: 'ridesReview', label: 'بلاغات شير المواصلة', icon: '🚩', to: ROUTES.ridesReview },
+        { id: 'dashboard', label: 'لوحة مقدم الخدمة', icon: '📊', to: ROUTES.dashboard, hint: 'المحلات ومقدمي الخدمة والطلبات' },
         { id: 'admin', label: 'لوحة التحكم', icon: '⚙️', to: ROUTES.admin },
       ],
     });

@@ -1,13 +1,17 @@
 // ─── Owner panel (/admin): the platform owner's home. Review queues live on
 // their own pages (jobs, market, rides); this page gathers them with a quick
 // overview. Admins only, like the review pages.
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router';
 import { ROUTES } from '@/routes';
-import { jobRepo, marketRepo, rideRepo } from '@/repositories';
-import { useAuthStore, selectIsAdmin } from '@/stores/useAuthStore';
+import { authRepo, jobRepo, marketRepo, rideRepo } from '@/repositories';
+import { useAuthStore, selectIsAdmin, selectUser } from '@/stores/useAuthStore';
 import { useCatalogStore } from '@/stores/useCatalogStore';
-import { isProviderDashboardEnabled } from '@/config/providerDashboard';
+import { useUIStore } from '@/stores/useUIStore';
+import { useConfirmStore } from '@/stores/useConfirmStore';
+import { Badge } from '@/components/ui/Badge';
+import { Button } from '@/components/ui/Button';
+import type { AuthUser } from '@/types';
 
 interface QueueLink {
   to: string;
@@ -101,15 +105,120 @@ export default function AdminPage() {
         ))}
       </ul>
 
-      {isProviderDashboardEnabled() && (
-        <p className="text-[13px] text-text-muted">
-          معاينة لوحة مقدم الخدمة شغالة في المتصفح ده: <Link to={ROUTES.dashboard} className="text-green font-bold">افتحها من هنا</Link>.
-        </p>
-      )}
+      <p className="text-[13px] text-text-muted mb-5">
+        لوحة مقدم الخدمة: <Link to={ROUTES.dashboard} className="text-green font-bold">افتحها من هنا</Link> (للمشرفين بس).
+      </p>
+
+      <SupervisorsSection />
 
       <p className="text-[12px] text-text-muted">
         إعدادات رسوم التوصيل والعمولة لسه بتتعدل من Supabase لحد ما تتضاف هنا.
       </p>
     </div>
+  );
+}
+
+// ─── Appointing admins: the only people who see /admin and /dashboard
+function SupervisorsSection() {
+  const me = useAuthStore(selectUser);
+  const showToast = useUIStore((s) => s.showToast);
+  const ask = useConfirmStore((s) => s.ask);
+  const [users, setUsers] = useState<AuthUser[] | null>(null);
+  const [error, setError] = useState('');
+  const [busyId, setBusyId] = useState('');
+  const [query, setQuery] = useState('');
+
+  const load = useCallback(() => {
+    authRepo
+      .listUsers()
+      .then((list) => {
+        setUsers(list);
+        setError('');
+      })
+      .catch((err: unknown) => {
+        setUsers([]);
+        setError(err instanceof Error ? err.message : 'ماقدرناش نجيب المستخدمين');
+      });
+  }, []);
+
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  const changeRole = async (user: AuthUser, makeAdmin: boolean) => {
+    if (!makeAdmin) {
+      const ok = await ask({
+        title: 'شيل الإشراف',
+        message: `تشيل صلاحيات المشرف من «${user.name}»؟ حسابه هيفضل شغال عادي، بس مش هيشوف لوحات التحكم.`,
+        confirmLabel: 'شيل الإشراف',
+        cancelLabel: 'رجوع',
+      });
+      if (!ok) return;
+    }
+    setBusyId(user.id);
+    try {
+      await authRepo.setRole(user.id, makeAdmin ? 'admin' : 'customer');
+      showToast(makeAdmin ? `✅ «${user.name}» بقى مشرف` : `«${user.name}» مابقاش مشرف`);
+      load();
+    } catch (err) {
+      showToast(`⚠️ ${err instanceof Error ? err.message : 'حصلت مشكلة'}`);
+    } finally {
+      setBusyId('');
+    }
+  };
+
+  const q = query.trim();
+  const visible = (users ?? []).filter(
+    (u) => !q || u.name.includes(q) || u.email.includes(q) || u.phone.includes(q) || u.username.includes(q)
+  );
+  const admins = visible.filter((u) => u.role === 'admin');
+  const customers = visible.filter((u) => u.role !== 'admin');
+
+  return (
+    <section className="bg-white rounded-2xl border border-[rgba(26,122,74,0.12)] p-4 mb-5">
+      <h2 className="text-[15px] font-black text-green-dark m-0 mb-1">🧑‍💼 المشرفين</h2>
+      <p className="text-[12px] text-text-muted mt-0 mb-3">
+        المشرف بيشوف لوحة التحكم ولوحة مقدم الخدمة. عيّن أي حد من هنا، وشيله في أي وقت.
+      </p>
+      <input
+        type="search"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="دوّر بالاسم أو الإيميل أو الموبايل..."
+        aria-label="دوّر على مستخدم"
+        className="w-full min-h-[42px] px-3 rounded-xl border border-[rgba(26,122,74,0.25)] bg-cream/40 text-[14px] font-bold text-text focus:outline-none focus:border-green mb-3"
+      />
+      {error && <p role="alert" className="text-danger text-[13px]">{error}</p>}
+      {users === null && !error && <p role="status" className="text-text-muted text-[13px]">بنحمّل المستخدمين...</p>}
+      {users !== null && (
+        <ul className="m-0 p-0 list-none grid gap-2">
+          {[...admins, ...customers].slice(0, 20).map((u) => (
+            <li key={u.id} className="flex items-center gap-2.5 p-2.5 rounded-xl border border-[rgba(26,122,74,0.12)] bg-cream/30">
+              <div className="flex-1 min-w-0">
+                <p className="text-[13px] font-extrabold text-text m-0 truncate">
+                  {u.name} {u.id === me?.id && <span className="text-text-muted font-bold">(انت)</span>}
+                </p>
+                <p className="text-[11px] text-text-muted m-0 truncate" dir="ltr">{u.email || u.phone}</p>
+              </div>
+              {u.role === 'admin' && <Badge variant="success">مشرف</Badge>}
+              {u.id !== me?.id && (
+                <Button
+                  size="sm"
+                  variant={u.role === 'admin' ? 'outline' : 'primary'}
+                  loading={busyId === u.id}
+                  onClick={() => void changeRole(u, u.role !== 'admin')}
+                >
+                  {u.role === 'admin' ? 'شيل الإشراف' : 'عيّن مشرف'}
+                </Button>
+              )}
+            </li>
+          ))}
+          {visible.length === 0 && <p className="text-[13px] text-text-muted">مفيش مستخدم بالاسم ده.</p>}
+          {visible.length > 20 && (
+            <p className="text-[12px] text-text-muted">أول 20 نتيجة بس — دوّر بالاسم عشان توصل لحد بعينه.</p>
+          )}
+        </ul>
+      )}
+    </section>
   );
 }
