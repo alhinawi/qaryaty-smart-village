@@ -55,8 +55,11 @@ export function createMockCatalogRepo(): CatalogRepo {
           available: edit.available,
         };
       });
+      // A custom product reaches customers only when it is available AND has
+      // a photo: the merchant may save the data now and add the photo later,
+      // and it shows itself the moment the photo lands.
       const customs = (merchant?.customProducts ?? [])
-        .filter((c) => c.available)
+        .filter((c) => c.available && c.photo)
         .map(
           (c): Product => ({
             id: c.id,
