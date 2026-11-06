@@ -31,6 +31,7 @@ Deno.serve(async (req) => {
     return json({ error: 'this order is not paid online' }, 409);
   }
   if (order.payment_status === 'paid') return json({ error: 'already paid' }, 409);
+  if (order.payment_status === 'refunded') return json({ error: 'payment was refunded' }, 409);
   if (order.is_estimate || order.total_amount === null || Number(order.total_amount) <= 0) {
     return json({ error: 'order has no fixed price' }, 409);
   }
