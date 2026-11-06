@@ -48,7 +48,7 @@ export function ShopsSection({
       onShowAll();
       return;
     }
-    showToast(isRestaurants ? '🍽️ كل مطاعم القرية قدامك' : '🏪 جميع محلات وسوبرماركت القرية متاحة أمامك');
+    showToast(isRestaurants ? '🍽️ كل مطاعم القرية قدامك' : '🏪 كل محلات القرية قدامك');
   };
 
   return (

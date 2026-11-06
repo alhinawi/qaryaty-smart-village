@@ -290,7 +290,7 @@ export function DonationForm({ cause, onCauseChange }: DonationFormProps) {
         disabled={sending}
         className="inline-flex items-center justify-center gap-2 min-h-[48px] px-6 rounded-xl bg-green text-white font-extrabold text-base cursor-pointer font-['Cairo',sans-serif] transition-transform duration-200 hover:scale-[1.02] disabled:opacity-70 disabled:cursor-wait"
       >
-        {sending ? "جاري الإرسال..." : "ابعت طلب التبرع 🤲"}
+        {sending ? "بنبعت..." : "ابعت طلب التبرع 🤲"}
       </button>
     </form>
   );

@@ -232,7 +232,7 @@ export default function JobFormPage() {
             </p>
           )}
           <button type="submit" disabled={saving} className={`${primaryBtn} w-full`}>
-            {saving ? 'جاري الحفظ…' : editing ? 'احفظ التعديل' : 'ابعت الإعلان للمراجعة'}
+            {saving ? 'بنحفظ…' : editing ? 'احفظ التعديل' : 'ابعت الإعلان للمراجعة'}
           </button>
         </form>
       )}

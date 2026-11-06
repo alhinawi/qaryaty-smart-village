@@ -360,7 +360,7 @@ function ReportModal({
           />
         </div>
         <button type="submit" disabled={sending} className={`${primaryBtn} w-full mt-2`}>
-          {sending ? 'جاري الإرسال…' : 'ابعت البلاغ'}
+          {sending ? 'بنبعت…' : 'ابعت البلاغ'}
         </button>
       </form>
     </Modal>

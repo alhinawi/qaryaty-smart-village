@@ -37,7 +37,7 @@ export default function MarketReviewPage() {
     try {
       await marketRepo.setStatus(l.id, 'active');
       setItems((list) => (list ?? []).filter((x) => x.id !== l.id));
-      showToast('الإعلان رجع منشور واتمسحت بلاغاته');
+      showToast('الإعلان اتنشر تاني والبلاغات اتمسحت');
     } catch (e) {
       showToast(e instanceof Error ? e.message : 'حصلت مشكلة');
     } finally {
@@ -61,11 +61,10 @@ export default function MarketReviewPage() {
   return (
     <section className="max-w-[720px] mx-auto pb-10">
       <BackBar title="بلاغات المستعمل والتبادل" />
-      <p className="text-[13px] text-text-muted mb-3">الإعلانات دي اتخبّت لوحدها بعد 3 بلاغات. رجّعها لو سليمة، أو امسحها.</p>
       {items === null ? (
         <p className="bg-white rounded-2xl p-6 text-center shadow-card">بيحمّل…</p>
       ) : items.length === 0 ? (
-        <EmptyState emoji="✅" title="مفيش بلاغات" description="مفيش إعلانات متخبّية دلوقتي." />
+        <EmptyState emoji="✅" title="مفيش بلاغات" description="مفيش إعلانات محتاجة مراجعة دلوقتي." />
       ) : (
         <ul className="flex flex-col gap-2">
           {items.map((l) => (
@@ -84,7 +83,7 @@ export default function MarketReviewPage() {
               </Link>
               <div className="grid grid-cols-2 gap-2 mt-2">
                 <Button type="button" variant="success" size="sm" disabled={busy === l.id} onClick={() => restore(l)}>
-                  رجّعه منشور
+                  انشره تاني
                 </Button>
                 <Button type="button" variant="danger" size="sm" disabled={busy === l.id} onClick={() => remove(l)}>
                   امسح
