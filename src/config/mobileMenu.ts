@@ -72,7 +72,7 @@ export function mobileMenuSections({ isAdmin }: MobileMenuOptions): MobileMenuSe
       label: 'لوحة مقدم الخدمة',
       icon: '⚙️',
       to: ROUTES.dashboard,
-      hint: 'معاينة تجريبية: ظبط محلك أو خدماتك',
+      hint: 'ظبط محلك أو خدماتك من مكان واحد',
     });
   }
 
