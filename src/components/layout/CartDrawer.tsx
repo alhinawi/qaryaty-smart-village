@@ -162,6 +162,7 @@ function CartDrawerContent() {
       .join(" ");
 
     setSubmitting(true);
+    const orderScope = useOrderStore.getState().scopeVersion;
     let newOrder;
     try {
       newOrder = await createOrder({
@@ -187,7 +188,11 @@ function CartDrawerContent() {
       showToast(`⚠️ ${err instanceof Error ? err.message : "حصلت مشكلة، والطلب ماتبعتش"}`);
       return;
     }
-    addOrder(newOrder);
+    if (!addOrder(newOrder, orderScope)) {
+      setSubmitting(false);
+      showToast('الطلب اتسجل، لكن الحساب اتغيّر. مش هنعرض بياناته في الحساب الحالي.');
+      return;
+    }
     setSubmitting(false);
 
     if (promoStillValid) {

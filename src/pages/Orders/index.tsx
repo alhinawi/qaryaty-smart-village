@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { isSupabaseConfigured } from '@/repositories';
 // ─── Imports
 import { useOrderStore } from "@/stores/useOrderStore";
 import { DELIVERY_FEE_LABEL } from "@/config/delivery";
@@ -13,6 +15,18 @@ import type { Order, OrderStatus } from "@/types";
 
 // ─── Component
 export default function OrdersPage() {
+  const ownerId = useOrderStore(state => state.ownerId);
+  const historyLoading = useOrderStore(state => state.historyLoading);
+  const historyError = useOrderStore(state => state.historyError);
+  const historyLoaded = useOrderStore(state => state.historyLoaded);
+  const historyHasMore = useOrderStore(state => state.historyHasMore);
+  const loadHistory = useOrderStore(state => state.loadHistory);
+  useEffect(() => {
+    void loadHistory();
+    const refresh = () => { void loadHistory(); };
+    window.addEventListener('focus', refresh);
+    return () => window.removeEventListener('focus', refresh);
+  }, [ownerId, loadHistory]);
   const orders = useOrderStore((state) => state.orders);
   const updateStatus = useOrderStore((state) => state.updateStatus);
   const deleteOrder = useOrderStore((state) => state.deleteOrder);
@@ -27,6 +41,7 @@ export default function OrdersPage() {
       confirmed: "onway",
       onway: "done",
       done: "done",
+      cancelled: "cancelled",
     };
 
     const next = nextStatus[order.status];
@@ -48,6 +63,8 @@ export default function OrdersPage() {
 
   const getStatusBadge = (status: OrderStatus) => {
     switch (status) {
+      case "cancelled":
+        return <Badge variant="danger">تم إلغاء الطلب</Badge>;
       case "pending":
         return <Badge variant="warning">⏳ قيد المراجعة</Badge>;
       case "confirmed":
@@ -71,11 +88,20 @@ export default function OrdersPage() {
         </p>
       </div>
 
-      {orders.length === 0 ? (
+      {isSupabaseConfigured && (
+        <div className="mb-4 rounded-xl bg-blue-50 p-4 text-sm">
+          <p>{ownerId ? 'ده سجل حسابك من الخادم. الحالة بتتحدث عند فتح الصفحة أو الضغط على تحديث، مش تتبع مباشر.' : 'طلبات الضيف الجديدة بتظهر في التبويب ده بس. سجّل دخول قبل الطلب عشان يرجع في سجل حسابك.'}</p>
+          <p className="mt-2 text-text-muted">أي سجل قديم على الجهاز من غير صاحب معروف محفوظ منفصل ومش بيتعرض هنا، حفاظًا على الخصوصية.</p>
+          {ownerId && <Button className="mt-2" variant="outline" size="sm" loading={historyLoading} onClick={() => void loadHistory()}>تحديث سجل الحساب</Button>}
+        </div>
+      )}
+      {historyLoading && <p role="status" className="mb-4">جاري تحميل سجل الطلبات...</p>}
+      {historyError && <p role="alert" className="mb-4 rounded-xl bg-red-50 p-4 text-danger">{historyError}</p>}
+      {orders.length === 0 && !historyLoading && !historyError && (!isSupabaseConfigured || !ownerId || historyLoaded) ? (
         <EmptyState
           emoji="📋"
-          title="مفيش طلبات سابقة!"
-          description="لم تقم بإجراء أي طلبات حتى الآن. اختر من مئات خدمات ومحلات القرية."
+          title={isSupabaseConfigured && !ownerId ? "مفيش طلبات في التبويب ده" : "مفيش طلبات في سجل حسابك"}
+          description="ابدأ طلب جديد من الخدمات والمحلات. طلبات الضيف والسجل القديم غير المرتبط بحساب مش بيظهروا في سجل الحساب."
           actionText="ابدأ الطلب الآن"
           onAction={() => setActiveTab("home")}
         />
@@ -172,6 +198,7 @@ export default function OrdersPage() {
               </div>
 
               {/* 4-Step Tracking Timeline */}
+              {order.status !== "cancelled" && (
               <div className="grid grid-cols-4 gap-1 bg-gray-50 rounded-xl py-2.5 px-1 mb-3.5 text-center">
                 <div
                   className={`flex flex-col items-center gap-1 text-[10px] font-bold ${order.status !== "pending" ? "text-text" : "text-text"}`}
@@ -227,8 +254,10 @@ export default function OrdersPage() {
                 </div>
               </div>
 
+              )}
+
               {/* Rating Section if Delivered */}
-              {order.status === "done" && (
+              {!isSupabaseConfigured && order.status === "done" && (
                 <div className="mb-3">
                   {order.rating ? (
                     <div className="text-[13px] bg-amber-50 rounded-xl py-1.5 px-2.5">
@@ -252,7 +281,7 @@ export default function OrdersPage() {
 
               {/* Action Buttons */}
               <div className="flex items-center justify-between gap-2 mt-3">
-                {order.status !== "done" && (
+                {!isSupabaseConfigured && order.status !== "done" && order.status !== "cancelled" && (
                   <Button
                     variant="primary"
                     size="sm"
@@ -262,19 +291,20 @@ export default function OrdersPage() {
                   </Button>
                 )}
 
-                <button
+                {!isSupabaseConfigured && <button
                   type="button"
                   className="bg-transparent border-none text-text-muted text-[13px] cursor-pointer font-['Cairo',sans-serif] font-bold hover:text-danger"
                   onClick={() => handleDelete(order.id, order.orderNumber)}
                   aria-label="حذف من السجل"
                 >
                   🗑️ حذف
-                </button>
+                </button>}
               </div>
             </div>
           ))}
         </div>
       )}
+      {historyHasMore && !historyError && <Button className="mt-4" loading={historyLoading} onClick={() => void loadHistory(true)}>عرض طلبات أقدم</Button>}
     </div>
   );
 }
