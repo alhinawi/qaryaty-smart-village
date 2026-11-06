@@ -14,6 +14,7 @@ import { Button } from '@/components/ui/Button';
 import { ProductPhoto } from '@/components/ui/ProductPhoto';
 import { sectionsOf } from '@/data/catalog';
 import {
+  DEFAULT_WORKING_DAYS,
   DEMO_BOOKING_REQUESTS,
   DEMO_INCOMING_ORDERS,
   PHARMACY_PACK_NOTE,
@@ -565,7 +566,7 @@ function ProAvailabilitySection({ provider }: { provider: Provider }) {
   const showToast = useUIStore((s) => s.showToast);
 
   // Keyed by provider id in the parent: switching providers remounts with their values
-  const [days, setDays] = useState<string[]>(overrides?.days ?? []);
+  const [days, setDays] = useState<string[]>(overrides?.days ?? [...DEFAULT_WORKING_DAYS]);
   const [from, setFrom] = useState(overrides?.from ?? '9:00 ص');
   const [to, setTo] = useState(overrides?.to ?? '9:00 م');
 
