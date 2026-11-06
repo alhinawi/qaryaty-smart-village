@@ -52,6 +52,11 @@ const MarketFormPage = lazy(() => import('@/pages/Market/FormPage'));
 const MarketMinePage = lazy(() => import('@/pages/Market/MinePage'));
 const MarketChatPage = lazy(() => import('@/pages/Market/ChatPage'));
 const MarketReviewPage = lazy(() => import('@/pages/Market/ReviewPage'));
+const RidesPage = lazy(() => import('@/pages/Rides'));
+const RideDetailPage = lazy(() => import('@/pages/Rides/RideDetailPage'));
+const RideFormPage = lazy(() => import('@/pages/Rides/RideFormPage'));
+const MyRidesPage = lazy(() => import('@/pages/Rides/MyRidesPage'));
+const RidesReviewPage = lazy(() => import('@/pages/Rides/RidesReviewPage'));
 
 // ─── Page Loading Fallback
 function PageLoadingFallback() {
@@ -192,6 +197,12 @@ export default function App() {
                 <Route path="/market/item/:id" element={<MarketItemPage />} />
                 <Route path="/market/item/:id/edit" element={<MarketFormPage />} />
                 <Route path="/market/chat/:listingId/:buyerId" element={<MarketChatPage />} />
+                <Route path={ROUTES.rides} element={<RidesPage />} />
+                <Route path={ROUTES.ridesNew} element={<RideFormPage key="new" />} />
+                <Route path={ROUTES.ridesMine} element={<MyRidesPage />} />
+                <Route path={ROUTES.ridesReview} element={<RidesReviewPage />} />
+                <Route path={`${ROUTES.rides}/:id`} element={<RideDetailPage />} />
+                <Route path={`${ROUTES.rides}/:id/edit`} element={<RideFormPage key="edit" />} />
                 {/* Unknown URLs go home instead of a blank page */}
                 <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
               </Routes>
