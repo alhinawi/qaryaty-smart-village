@@ -13,6 +13,7 @@ import { fieldErrorsFrom } from "@/utils/validators";
 import { RepoError, submitDonationRequest } from "@/repositories";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
+import { PhoneInput } from "@/components/ui/PhoneInput";
 
 interface DonationFormProps {
   cause: string;
@@ -155,15 +156,10 @@ export function DonationForm({ cause, onCauseChange }: DonationFormProps) {
         </div>
         <div className="form-group">
           <label htmlFor="donor-phone">رقم موبايلك</label>
-          <input
+          <PhoneInput
             id="donor-phone"
-            type="tel"
-            inputMode="tel"
-            autoComplete="tel"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            placeholder="01012345678"
-            maxLength={16}
             aria-invalid={!!errors.phone}
             aria-describedby={
               errors.phone ? "donor-phone-error" : "donor-phone-hint"

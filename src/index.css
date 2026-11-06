@@ -103,6 +103,42 @@ body {
     text-align: right;
   }
 
+  /* Country code box beside the phone number (PhoneInput), like Talabat */
+  .phone-field {
+    display: flex;
+    align-items: stretch;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .phone-field > input,
+  .form-group .phone-field > input[type='tel'] {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
+    direction: ltr;
+    text-align: left;
+    letter-spacing: 0.02em;
+  }
+
+  .phone-cc {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    flex-shrink: 0;
+    min-height: 2.75rem;
+    padding: 0 0.75rem;
+    border: 2px solid rgba(26, 122, 74, 0.2);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700;
+    font-size: 0.9375rem;
+    white-space: nowrap;
+    user-select: none;
+  }
+
   .form-group textarea {
     resize: vertical;
   }

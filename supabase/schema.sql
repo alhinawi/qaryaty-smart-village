@@ -142,9 +142,44 @@ $$;
 
 -- New account → profile. The email is the one Supabase verified, the phone must
 -- be an Egyptian mobile number, and the role is always 'customer'.
--- Google sign-ups (any provider other than email/phone) arrive with no username
--- or phone: their profile starts with username null and phone '', and the app
--- sends them to /complete-profile, which fills both through complete_profile().
+-- Google sign-ups (any provider other than email/phone) get a username made from
+-- their email and start with phone '', village '' and address ''. The app lets them
+-- in right away and asks for those at the first order, through complete_profile().
+-- A free username from any text (usually the part of the email before @)
+create or replace function public.make_username(seed text) returns text
+language plpgsql volatile security definer set search_path = public as $$
+declare
+  base      text := lower(coalesce(seed, ''));
+  candidate text;
+  tries     int := 0;
+begin
+  base := regexp_replace(base, '[^a-z0-9_]+', '_', 'g');
+  base := btrim(regexp_replace(base, '_{2,}', '_', 'g'), '_');
+  if base !~ '[a-z]' or length(base) < 3 then
+    base := 'user' || base;
+  end if;
+  base := rtrim(left(base, 14), '_');
+  candidate := base;
+  loop
+    if candidate ~ '^[a-z0-9_]{3,20}$' and candidate ~ '[a-z]'
+       and not (candidate = any (public.reserved_usernames()))
+       and not exists (select 1 from public.profiles where username = candidate) then
+      return candidate;
+    end if;
+    tries := tries + 1;
+    if tries > 50 then
+      raise exception 'could not make a username' using errcode = '23505';
+    elsif tries > 20 then
+      candidate := 'user_' || substr(md5(random()::text || clock_timestamp()::text), 1, 10);
+    else
+      candidate := base || '_' || (floor(random() * 9000) + 1000)::int;
+    end if;
+  end loop;
+end $$;
+
+revoke all on function public.make_username(text) from public, anon, authenticated;
+
+-- New account → profile. Email sign-ups as before; Google gets a username at once
 create or replace function public.handle_new_user() returns trigger
 language plpgsql security definer set search_path = public as $$
 declare
@@ -157,7 +192,7 @@ begin
     values (
       new.id,
       left(btrim(coalesce(new.raw_user_meta_data ->> 'full_name', new.raw_user_meta_data ->> 'name', '')), 80),
-      null,
+      public.make_username(split_part(coalesce(new.email, ''), '@', 1)),
       lower(new.email),
       '',
       '',
@@ -190,9 +225,7 @@ drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users for each row execute function public.handle_new_user();
 
--- After a Google sign-up: the customer picks a username and gives a phone once.
--- username and phone are not updatable from the app, so this is the only way in,
--- and it refuses to change a username or phone that is already set.
+-- Before the first order: phone (once), village and address. A missing username is made.
 create or replace function public.complete_profile(
   p_name text, p_username text, p_phone text, p_village text, p_address text default ''
 ) returns public.profiles
@@ -202,6 +235,7 @@ declare
   v_phone    text := btrim(coalesce(p_phone, ''));
   v_name     text := btrim(coalesce(p_name, ''));
   v_village  text := btrim(coalesce(p_village, ''));
+  v_address  text := btrim(coalesce(p_address, ''));
   current_row public.profiles;
   result public.profiles;
 begin
@@ -217,8 +251,9 @@ begin
   end if;
   if current_row.username is null and (
        v_username !~ '^[a-z0-9_]{3,20}$' or v_username !~ '[a-z]'
-       or v_username = any (public.reserved_usernames())) then
-    raise exception 'a valid username is required' using errcode = '22023';
+       or v_username = any (public.reserved_usernames())
+       or exists (select 1 from public.profiles where username = v_username)) then
+    v_username := public.make_username(split_part(coalesce(current_row.email, ''), '@', 1));
   end if;
   if current_row.phone = '' and v_phone !~ '^01[0125][0-9]{8}$' then
     raise exception 'a valid phone number is required' using errcode = '22023';
@@ -226,13 +261,15 @@ begin
   if length(v_name) < 2 or length(v_village) < 2 then
     raise exception 'name and village are required' using errcode = '22023';
   end if;
-  -- A taken username fails on profiles_username_key (23505)
+  if v_address = '' and btrim(current_row.address) = '' then
+    raise exception 'an address is required' using errcode = '22023';
+  end if;
   update public.profiles set
     username = coalesce(username, v_username),
     phone    = case when phone = '' then v_phone else phone end,
     name     = left(v_name, 80),
     village  = left(v_village, 120),
-    address  = left(btrim(coalesce(nullif(btrim(p_address), ''), address)), 300)
+    address  = left(coalesce(nullif(v_address, ''), address), 300)
   where id = auth.uid()
   returning * into result;
   return result;

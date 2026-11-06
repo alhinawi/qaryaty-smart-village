@@ -14,7 +14,7 @@
 // nothing else talks to the storage directly.
 
 import type { AuthSession, AuthUser, UserRole } from '@/types';
-import { normalizeEgyptianPhone, normalizeUsername } from '@/utils/validators';
+import { RESERVED_USERNAMES, normalizeEgyptianPhone, normalizeUsername } from '@/utils/validators';
 import type { LoginInput, RegisterInput } from '@/utils/validators';
 import { getBrowserStorage, readJson, writeJson, type KeyValueStorage } from './storage';
 
@@ -42,18 +42,39 @@ export class AuthError extends Error {
   }
 }
 
-/** What /complete-profile sends after a Google sign-up (username and phone are set once). */
+/** What /complete-profile sends before a Google account's first order (the phone is set once). */
 export interface CompleteProfileInput {
   name: string;
-  username: string;
+  /** Left empty: the backend makes one from the email. */
+  username?: string;
   phone: string;
   village: string;
   address: string;
 }
 
-/** Google accounts start without a username or phone: they fill them before ordering. */
-export function needsProfileCompletion(user: Pick<AuthUser, 'username' | 'phone' | 'village'>): boolean {
-  return !user.username || !user.phone || !user.village;
+/**
+ * Google accounts come in right away (like Talabat) without a phone, village or address:
+ * they give them before their first order. The username is made from the email.
+ */
+export function needsProfileCompletion(user: Pick<AuthUser, 'phone' | 'village' | 'address'>): boolean {
+  return !user.phone?.trim() || !user.village?.trim() || !user.address?.trim();
+}
+
+/** A username from the part of the email before @, like the backend's make_username(). */
+export function usernameFromEmail(email: string, isTaken: (name: string) => boolean): string {
+  let base = (email.split('@')[0] ?? '')
+    .toLowerCase()
+    .replace(/[^a-z0-9_]+/g, '_')
+    .replace(/_{2,}/g, '_')
+    .replace(/^_+|_+$/g, '');
+  if (!/[a-z]/.test(base) || base.length < 3) base = `user${base}`;
+  base = base.slice(0, 14).replace(/_+$/, '');
+  const reserved = RESERVED_USERNAMES as readonly string[];
+  let candidate = base;
+  for (let i = 0; reserved.includes(candidate) || isTaken(candidate); i++) {
+    candidate = i < 20 ? `${base}_${1000 + Math.floor(Math.random() * 9000)}` : `user_${Date.now().toString(36)}`;
+  }
+  return candidate;
 }
 
 /** Signed in right away, or the account needs the activation email first. */
@@ -81,7 +102,7 @@ export interface AuthService {
   signInWithGoogle(redirectTo: string): Promise<void>;
   /** The session the Google redirect left behind, or null. */
   restoreSession(): Promise<AuthSession | null>;
-  /** Sets username and phone once (after a Google sign-up), with name, village and address. */
+  /** Before a Google account's first order: phone (once), name, village and address; a missing username is made. */
   completeProfile(userId: string, input: CompleteProfileInput): Promise<AuthUser>;
 
   // Admin: user management
@@ -348,10 +369,10 @@ export function createMockAuthService(
       const entry = Object.entries(accounts).find(([, acc]) => acc.user.id === userId);
       if (!entry) throw new AuthError('not_found', MESSAGES.notFound);
       const [email, account] = entry;
-      const username = account.user.username || normalizeUsername(input.username);
-      if (!account.user.username && usernameTaken(username)) {
-        throw new AuthError('username_taken', MESSAGES.usernameTaken);
-      }
+      const wanted = normalizeUsername(input.username ?? '');
+      const username =
+        account.user.username ||
+        (wanted && !usernameTaken(wanted) ? wanted : usernameFromEmail(email, usernameTaken));
       const user: AuthUser = {
         ...account.user,
         username,

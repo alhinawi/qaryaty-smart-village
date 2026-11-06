@@ -10,6 +10,7 @@ import AddressChooser from "@/components/address/AddressChooser";
 import type { LatLng } from "@/types";
 import { PAYMENT_LABELS, isOnlinePayment, paymentChoices, startOnlinePayment } from "@/services/payments";
 import { useUIStore } from "@/stores/useUIStore";
+import { ensureProfileForOrder } from "@/stores/useProfilePromptStore";
 import { useGoToTab } from '@/hooks/useTabNavigation';
 import { useOrderStore } from "@/stores/useOrderStore";
 import { useUserStore } from "@/stores/useUserStore";
@@ -24,6 +25,7 @@ import {
 } from "@/utils/pricing";
 import type { CartItem, PaymentMethod } from "@/types";
 import { APP_COMMISSION_LABEL, APP_COMMISSION_PERCENT } from "@/config/commission";
+import { PhoneInput } from "@/components/ui/PhoneInput";
 
 // ─── Component
 // The content only mounts while the drawer is open, so the promo code,
@@ -116,6 +118,9 @@ function CartDrawerContent() {
   const handleCheckout = async () => {
     if (items.length === 0 || submitting) return;
     setErrors({});
+    // A Google account gives its phone, village and address first (a sheet over the
+    // cart); its default address and phone then fill in here, and one more tap orders
+    if (!ensureProfileForOrder()) return;
 
     // Same rules as the single-service order form (PRD section 12)
     const validation = orderFormSchema.safeParse({
@@ -317,17 +322,13 @@ function CartDrawerContent() {
               />
             <div className="form-group">
               <label htmlFor="cartPhone">📱 رقم الموبايل للتواصل *</label>
-              <input
+              <PhoneInput
                 id="cartPhone"
-                type="tel"
-                placeholder="01xxxxxxxxx"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 className={errors.phone ? "is-invalid" : ""}
                 aria-invalid={Boolean(errors.phone)}
                 aria-describedby={errors.phone ? "cartPhoneError" : undefined}
-                inputMode="tel"
-                autoComplete="tel"
               />
               {errors.phone && (
                 <span id="cartPhoneError" className="input-error-msg">

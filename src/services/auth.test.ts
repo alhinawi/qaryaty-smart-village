@@ -132,3 +132,13 @@ describe('auth form schemas', () => {
     expect(loginSchema.safeParse({ email: 'a@b.co', password: '' }).success).toBe(false);
   });
 });
+
+describe('usernameFromEmail (Google accounts get one made for them)', () => {
+  it('uses the part before @ in the username rules', async () => {
+    const { usernameFromEmail } = await import('./auth');
+    expect(usernameFromEmail('Ahmed.Ali@gmail.com', () => false)).toBe('ahmed_ali');
+    expect(usernameFromEmail('12@gmail.com', () => false)).toBe('user12');
+    expect(usernameFromEmail('admin@gmail.com', () => false)).toMatch(/^admin_\d{4}$/);
+    expect(usernameFromEmail('mo10@gmail.com', (n) => n === 'mo10')).toMatch(/^mo10_\d{4}$/);
+  });
+});
