@@ -24,6 +24,7 @@ import {
 } from '@/data/providerDashboard';
 import { KIND_FILTER_LABELS } from '@/utils/peopleSections';
 import { formatCurrency } from '@/utils/helpers';
+import { formatOpeningHours, HOUR_OPTIONS, parseOpeningHours } from '@/utils/openingHours';
 import type { Product, Provider, Shop } from '@/types';
 import { Section, Toggle, Field, PhotoButton } from './parts';
 
@@ -131,8 +132,12 @@ function ShopInfoSection({ shop }: { shop: Shop }) {
 
   // Keyed by shop id in the parent: switching shops remounts with that shop's values
   const open = overrides?.open ?? shop.open;
-  const [hours, setHours] = useState(overrides?.hours ?? shop.time);
+  const parsed = parseOpeningHours(overrides?.hours ?? shop.time);
+  const [allDay, setAllDay] = useState(parsed.allDay);
+  const [fromHour, setFromHour] = useState(parsed.from);
+  const [toHour, setToHour] = useState(parsed.to);
   const [description, setDescription] = useState(overrides?.description ?? shop.description);
+  const hoursText = formatOpeningHours({ allDay, from: fromHour, to: toHour });
 
   return (
     <Section icon="🏪" title="بيانات المحل" hint="الاسم والوصف ومواعيد الفتح زي ما العميل بيشوفهم">
@@ -160,13 +165,48 @@ function ShopInfoSection({ shop }: { shop: Shop }) {
         />
       </div>
       <div className="grid gap-3">
-        <Field label="مواعيد الفتح" value={hours} onChange={setHours} placeholder="⏰ 7ص - 12م" />
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[12px] font-bold text-text-muted">مواعيد الفتح</span>
+            <Toggle
+              checked={allDay}
+              onChange={setAllDay}
+              labelOn="24 ساعة"
+              labelOff="مواعيد محددة"
+              ariaLabel="مفتوح 24 ساعة"
+            />
+          </div>
+          {!allDay && (
+            <div className="grid grid-cols-2 gap-2">
+              {(
+                [
+                  { label: 'من', value: fromHour, set: setFromHour },
+                  { label: 'لحد', value: toHour, set: setToHour },
+                ] as const
+              ).map((f) => (
+                <label key={f.label} className="block">
+                  <span className="block text-[12px] font-bold text-text-muted mb-1">{f.label}</span>
+                  <select
+                    value={f.value}
+                    onChange={(e) => f.set(e.target.value)}
+                    aria-label={`مواعيد الفتح: ${f.label}`}
+                    className="w-full min-h-[42px] px-3 rounded-xl border border-[rgba(26,122,74,0.25)] bg-cream/40 text-[14px] font-bold text-text focus:outline-none focus:border-green"
+                  >
+                    {HOUR_OPTIONS.map((h) => (
+                      <option key={h} value={h}>{h}</option>
+                    ))}
+                  </select>
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
         <Field label="وصف المحل" value={description} onChange={setDescription} placeholder="بقالة ومواد غذائية متنوعة" />
         <div className="flex flex-wrap items-center gap-2">
           <Button
             size="sm"
             onClick={() => {
-              setShopHours(shop.id, hours.trim());
+              setShopHours(shop.id, hoursText);
               setShopDescription(shop.id, description.trim());
               showToast('✅ اتحفظت بيانات المحل (على جهازك في المعاينة)');
             }}
@@ -381,6 +421,9 @@ function ProductRow({
           <p className="text-[13px] font-extrabold text-text m-0 leading-snug">
             {product.name}
             {isCustom && <span className="text-[10px] font-bold text-green"> · ضفته بنفسك</span>}
+            {isCustom && !(photo ?? product.photo) && (
+              <span className="text-[10px] font-bold text-gold"> · مستني صورة علشان يظهر للزباين</span>
+            )}
           </p>
           <p className="text-[11px] text-text-muted m-0">{product.unit}{product.rx ? ' · بروشتة' : ''}</p>
         </div>
@@ -500,6 +543,7 @@ function AddProductForm({ shop, sections, onAdded }: { shop: Shop; sections: str
           onError={(message) => showToast(`⚠️ ${message}`)}
         />
       </div>
+      <p className="text-[11px] text-text-muted m-0">المنتج بيظهر للزباين أول ما تضيف صورته.</p>
       <div className="flex gap-2">
         <Button size="sm" onClick={submit}>ضيف المنتج</Button>
         <Button size="sm" variant="ghost" onClick={onAdded}>إلغاء</Button>

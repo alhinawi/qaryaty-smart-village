@@ -84,6 +84,16 @@ body {
     color: var(--green-dark);
   }
 
+  /* Phone browsers zoom the page on focus when an input is under 16px and
+     leave it shifted sideways afterwards; keep every field at 16px on phones. */
+  @media (max-width: 768px) {
+    input,
+    select,
+    textarea {
+      font-size: 16px !important;
+    }
+  }
+
   .form-group input,
   .form-group textarea,
   .form-group select {
