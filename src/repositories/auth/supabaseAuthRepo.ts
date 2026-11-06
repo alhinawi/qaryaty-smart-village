@@ -170,6 +170,19 @@ export function createSupabaseAuthRepo(
         phone: normalizeEgyptianPhone(input.phone),
         village: input.village.trim(),
         address: input.address.trim(),
+        // The spot on the map: a database trigger saves it in user_addresses
+        ...(input.location
+          ? {
+              address_lat: input.location.lat,
+              address_lng: input.location.lng,
+              address_label: input.location.label,
+              address_street: input.location.street,
+              address_building: input.location.building,
+              address_floor: input.location.floor,
+              address_landmark: input.location.landmark,
+              address_phone: input.location.phone ? normalizeEgyptianPhone(input.location.phone) : '',
+            }
+          : {}),
       };
       const { data, error } = await supabase.auth.signUp({
         email,
