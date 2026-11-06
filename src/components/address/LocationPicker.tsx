@@ -158,7 +158,7 @@ function PickerScreen({
     >
       {/* The map stays mounted under the form so going back is instant */}
       <div className={step === 'map' ? 'relative flex-1 min-h-0' : 'hidden'}>
-        <Suspense fallback={<div className="absolute inset-0 grid place-items-center text-text-muted">جاري تحميل الخريطة…</div>}>
+        <Suspense fallback={<div className="absolute inset-0 grid place-items-center text-text-muted">بنحمّل الخريطة…</div>}>
           <MapCanvas
             ref={mapRef}
             className="map-picker absolute inset-0 z-0 bg-[#e8eee9]"

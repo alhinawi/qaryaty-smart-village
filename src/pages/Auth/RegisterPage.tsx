@@ -67,7 +67,7 @@ export default function RegisterPage() {
           <p className="font-bold">بعتنالك إيميل تفعيل على</p>
           <p className="font-bold text-green" dir="ltr">{sentTo}</p>
           <p className="text-sm text-text-muted">
-            افتح الإيميل واضغط على لينك التفعيل، وبعدها سجّل دخول بالإيميل وكلمة السر. لو مش لاقيه، بص في الـ Spam.
+            افتح الإيميل واضغط على لينك التفعيل، وبعدها سجّل دخول بالإيميل وكلمة السر. لو مش لاقيه، بص في البريد المزعج (Spam).
           </p>
         </div>
       </AuthLayout>

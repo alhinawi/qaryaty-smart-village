@@ -431,7 +431,7 @@ export default function RideFormPage() {
             </p>
           )}
           <button type="submit" disabled={saving} className={`${primaryBtn} w-full`}>
-            {saving ? 'جاري الحفظ…' : editing ? 'احفظ التعديل' : 'نزّل المشوار'}
+            {saving ? 'بنحفظ…' : editing ? 'احفظ التعديل' : 'نزّل المشوار'}
           </button>
         </form>
       )}

@@ -62,7 +62,7 @@ export default function MyAddresses() {
 
       {!user && (
         <p className="text-[12px] text-text-muted mb-3 bg-cream rounded-xl p-2.5">
-          العناوين محفوظة على الموبايل ده بس. سجّل دخول علشان تلاقيها في أي مكان.
+          العناوين محفوظة على الموبايل ده بس. سجّل دخول علشان تلاقيها لو دخلت من جهاز تاني.
         </p>
       )}
 
