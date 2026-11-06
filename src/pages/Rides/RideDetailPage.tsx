@@ -19,7 +19,7 @@ import {
   timeLabel,
 } from '@/config/rides';
 import { egyptianPhoneSchema } from '@/utils/validators';
-import { useAuthStore, selectIsAdmin, selectUser } from '@/stores/useAuthStore';
+import { useAuthStore, selectCanReview, selectUser } from '@/stores/useAuthStore';
 import { useConfirmStore } from '@/stores/useConfirmStore';
 import { useUIStore } from '@/stores/useUIStore';
 import { PhoneField } from '@/pages/Auth/AuthLayout';
@@ -31,7 +31,7 @@ export default function RideDetailPage() {
   const { id = '' } = useParams();
   const navigate = useNavigate();
   const user = useAuthStore(selectUser);
-  const isAdmin = useAuthStore(selectIsAdmin);
+  const canReview = useAuthStore(selectCanReview);
   const showToast = useUIStore((s) => s.showToast);
   const signInFirst = useSignInFirst();
   const [loaded, setLoaded] = useState<{ id: string; ride: Ride | null } | null>(null);
@@ -144,7 +144,7 @@ export default function RideDetailPage() {
     try {
       await rideRepo.remove(ride.id);
       showToast('اتمسح المشوار');
-      navigate(isOwner ? ROUTES.ridesMine : isAdmin ? ROUTES.ridesReview : ROUTES.rides, { replace: true });
+      navigate(isOwner ? ROUTES.ridesMine : canReview ? ROUTES.ridesReview : ROUTES.rides, { replace: true });
     } catch (err) {
       showToast(`⚠️ ${errorText(err)}`);
       setBusy(false);
@@ -188,7 +188,7 @@ export default function RideDetailPage() {
     <div className="max-w-[760px] mx-auto px-4 py-5" dir="rtl">
       <BackLink to={isOwner && !live ? ROUTES.ridesMine : ROUTES.rides} label={isOwner && !live ? 'مشاويري' : 'شير مواصلة'} />
 
-      {(isOwner || isAdmin || mine) && banner && (
+      {(isOwner || canReview || mine) && banner && (
         <div className="bg-[#FFF8E1] border border-gold-light rounded-2xl p-3 text-[13px] mb-3 mt-1" role="status">
           {banner}
         </div>
@@ -198,7 +198,7 @@ export default function RideDetailPage() {
         <div className="flex flex-wrap items-center gap-2 mb-2">
           <KindBadge ride={ride} />
           <RidersBadge ride={ride} />
-          {(isOwner || isAdmin) && <RideStatusBadge ride={ride} />}
+          {(isOwner || canReview) && <RideStatusBadge ride={ride} />}
         </div>
         <h1 className="text-[clamp(1.2rem,4vw,1.5rem)] font-black text-text m-0 leading-snug">
           {ride.fromVillage} <span className="text-green" aria-label="إلى">←</span> {ride.toPlace}
@@ -381,7 +381,7 @@ export default function RideDetailPage() {
         </button>
       )}
 
-      {isAdmin && !isOwner && (
+      {canReview && !isOwner && (
         <section className="bg-white rounded-2xl p-4 shadow-sm mt-3 border-2 border-gold-light" aria-label="الإدارة">
           <p className="text-[13px] font-extrabold text-green-dark m-0 mb-2">
             ⚙️ الإدارة{ride.reportsCount > 0 && ` · اتبلّغ عنه ${ride.reportsCount} مرة`}

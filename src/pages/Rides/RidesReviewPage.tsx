@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router';
 import { ROUTES } from '@/routes';
 import { rideRepo } from '@/repositories';
-import { useAuthStore, selectIsAdmin } from '@/stores/useAuthStore';
+import { useAuthStore, selectCanReview } from '@/stores/useAuthStore';
 import { useConfirmStore } from '@/stores/useConfirmStore';
 import { useUIStore } from '@/stores/useUIStore';
 import type { Ride } from '@/repositories/rides/types';
@@ -11,7 +11,7 @@ import { dangerBtn, primaryBtn } from '@/pages/Jobs/jobUi';
 import { BackLink, RideCard, errorText } from './parts';
 
 export default function RidesReviewPage() {
-  const isAdmin = useAuthStore(selectIsAdmin);
+  const canReview = useAuthStore(selectCanReview);
   const showToast = useUIStore((s) => s.showToast);
   const [rides, setRides] = useState<Ride[] | null>(null);
   const [busy, setBusy] = useState('');
@@ -19,7 +19,7 @@ export default function RidesReviewPage() {
 
   useEffect(() => {
     document.title = 'بلاغات شير المواصلة | قريتي';
-    if (!isAdmin) return;
+    if (!canReview) return;
     rideRepo
       .listHidden()
       .then(setRides)
@@ -27,9 +27,9 @@ export default function RidesReviewPage() {
         setError(errorText(err));
         setRides([]);
       });
-  }, [isAdmin]);
+  }, [canReview]);
 
-  if (!isAdmin) return <Navigate to={ROUTES.rides} replace />;
+  if (!canReview) return <Navigate to={ROUTES.rides} replace />;
 
   const act = async (ride: Ride, restore: boolean) => {
     if (!restore) {
