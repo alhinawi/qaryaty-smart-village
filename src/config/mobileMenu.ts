@@ -4,9 +4,10 @@
 // Desktop has these in its nav bar and footer instead.
 
 import { ROUTES } from '@/routes';
+import { isProviderDashboardEnabled } from '@/config/providerDashboard';
 
 export interface MobileMenuLink {
-  id: 'messages' | 'jobs' | 'jobsReview' | 'marketSale' | 'marketSwap' | 'marketReview' | 'rides' | 'ridesReview' | 'about' | 'groups' | 'donate' | 'advertise' | 'admin';
+  id: 'messages' | 'jobs' | 'jobsReview' | 'marketSale' | 'marketSwap' | 'marketReview' | 'rides' | 'ridesReview' | 'about' | 'groups' | 'donate' | 'advertise' | 'admin' | 'dashboard';
   label: string;
   /** Emoji shown in the item's icon tile */
   icon: string;
@@ -64,6 +65,16 @@ export function mobileMenuSections({ isAdmin }: MobileMenuOptions): MobileMenuSe
       ],
     },
   ];
+
+  if (isProviderDashboardEnabled()) {
+    sections[1].links.push({
+      id: 'dashboard',
+      label: 'لوحة مقدم الخدمة',
+      icon: '⚙️',
+      to: ROUTES.dashboard,
+      hint: 'معاينة تجريبية: ظبط محلك أو خدماتك',
+    });
+  }
 
   if (isAdmin) {
     sections.push({
