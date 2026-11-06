@@ -1,5 +1,6 @@
 // ─── Imports
 import { useOrderStore } from "@/stores/useOrderStore";
+import { DELIVERY_FEE_LABEL } from "@/config/delivery";
 import { useUIStore } from "@/stores/useUIStore";
 import { useGoToTab } from '@/hooks/useTabNavigation';
 import { Button } from "@/components/ui/Button";
@@ -160,6 +161,14 @@ export default function OrdersPage() {
                     )}
                   </span>
                 </div>
+                {(order.deliveryFee ?? 0) > 0 && (
+                  <div className="flex gap-2 mb-1">
+                    <span className="text-text-muted font-bold">🛵 {DELIVERY_FEE_LABEL}:</span>
+                    <span className="detail-val">
+                      {formatCurrency(order.deliveryFee ?? 0)} (محسوبة في المبلغ)
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* 4-Step Tracking Timeline */}

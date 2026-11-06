@@ -325,6 +325,8 @@ export interface Order {
   totalAmount: number | null;
   /** عمولة التطبيق in this order (the server sets its own value). */
   commissionAmount?: number;
+  /** رسوم التوصيل: shop orders only, never waived by QARYA1 (the server sets its own value). */
+  deliveryFee?: number;
   /** true when totalAmount is a starting price, not the final amount. */
   isEstimate?: boolean;
   status: OrderStatus;

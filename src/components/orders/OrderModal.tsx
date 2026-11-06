@@ -24,6 +24,7 @@ import {
 } from '@/utils/pricing';
 import { PAYMENT_LABELS, isOnlinePayment, paymentChoices, startOnlinePayment } from '@/services/payments';
 import { APP_COMMISSION_LABEL, APP_COMMISSION_PERCENT } from '@/config/commission';
+import { DELIVERY_FEE_LABEL } from '@/config/delivery';
 import { PhoneInput } from '@/components/ui/PhoneInput';
 
 // ─── Types
@@ -412,7 +413,7 @@ export function OrderModal({
               </div>
               {deliveryFee > 0 && (
                 <div className="flex justify-between text-sm mb-1.5">
-                  <span>التوصيل:</span>
+                  <span>{DELIVERY_FEE_LABEL}:</span>
                   <span>{formatCurrency(deliveryFee)}</span>
                 </div>
               )}

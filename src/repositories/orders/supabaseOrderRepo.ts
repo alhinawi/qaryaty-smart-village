@@ -32,6 +32,8 @@ export function orderToRow(id: string, input: NewOrder, userId: string | null) {
     // The database sets the commission itself and adds it to the price (orders_before_insert)
     total_amount: input.totalAmount,
     commission_amount: input.commissionAmount ?? 0,
+    // رسوم التوصيل: the database sets its own value (orders_before_insert)
+    delivery_fee: input.deliveryFee ?? 0,
     is_estimate: input.isEstimate ?? false,
     status: input.status,
     options: input.options ?? null,
@@ -63,6 +65,14 @@ export function createSupabaseOrderRepo(getClient: () => Promise<SupabaseClient>
         throw error;
       }
       return { ...input, id, createdAt: getFormattedDate() };
+    },
+    async quoteDeliveryFee(shopId) {
+      const supabase = await getClient();
+      const { data, error } = await supabase.rpc('delivery_fee_quote', { p_shop_id: shopId });
+      if (error) throw error;
+      const fee = Number(data);
+      if (data == null || !Number.isFinite(fee) || fee < 0) throw new Error('bad delivery fee');
+      return fee;
     },
   };
 }
