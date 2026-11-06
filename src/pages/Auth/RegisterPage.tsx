@@ -11,6 +11,12 @@ import { AuthField, AuthLayout, PasswordField } from './AuthLayout';
 import { GoogleAuthButton } from './GoogleAuthButton';
 import { useRedirectTarget } from '@/hooks/useRedirectTarget';
 import { VILLAGES } from '@/data/villages';
+import AddressPickerField from '@/components/address/AddressPickerField';
+import LocationPicker from '@/components/address/LocationPicker';
+import { formatAddress } from '@/utils/address';
+import { isSupabaseConfigured } from '@/repositories';
+import { useAddressStore } from '@/stores/useAddressStore';
+import type { AddressDraft } from '@/types';
 
 const EMPTY = {
   name: '',
@@ -36,6 +42,8 @@ export default function RegisterPage() {
   const [formError, setFormError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [sentTo, setSentTo] = useState('');
+  const [mapAddress, setMapAddress] = useState<AddressDraft | null>(null);
+  const [pickerOpen, setPickerOpen] = useState(false);
   /** The username last confirmed free, so the hint shows only while it is still typed. */
   const [freeUsername, setFreeUsername] = useState('');
   const [checkingUsername, setCheckingUsername] = useState(false);
@@ -99,9 +107,11 @@ export default function RegisterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError('');
-    const parsed = registerSchema.safeParse(values);
+    const parsed = registerSchema.safeParse({ ...values, location: mapAddress ?? undefined });
     if (!parsed.success) {
-      setErrors(fieldErrorsFrom(parsed.error.issues));
+      const fieldErrors = fieldErrorsFrom(parsed.error.issues);
+      if (fieldErrors.address && !mapAddress) fieldErrors.address = 'حدّد عنوانك على الخريطة علشان المندوب يوصلك';
+      setErrors(fieldErrors);
       return;
     }
     setErrors({});
@@ -112,6 +122,10 @@ export default function RegisterPage() {
         setSentTo(result.confirmEmail);
         setSubmitting(false);
         return;
+      }
+      // Supabase saves the first address from the sign-up; the demo mode keeps it on this device
+      if (!isSupabaseConfigured && parsed.data.location) {
+        await useAddressStore.getState().save(parsed.data.location, undefined, true).catch(() => undefined);
       }
       showToast(`🎉 أهلاً بيك في قريتي يا ${result.user.name.split(' ')[0]}!`);
       navigate(target, { replace: true });
@@ -203,14 +217,26 @@ export default function RegisterPage() {
             <option key={v} value={v} />
           ))}
         </datalist>
-        <AuthField
+        <AddressPickerField
           id="regAddress"
           label="العنوان في القرية"
-          autoComplete="street-address"
-          placeholder="الشارع، علامة مميزة"
-          value={values.address}
-          onChange={set('address')}
+          value={mapAddress}
+          onOpen={() => setPickerOpen(true)}
           error={errors.address}
+        />
+        <LocationPicker
+          open={pickerOpen}
+          onClose={() => setPickerOpen(false)}
+          initial={mapAddress}
+          village={values.village}
+          defaultPhone={values.phone}
+          saveLabel="تمام، ده عنواني"
+          onSave={(draft) => {
+            setMapAddress(draft);
+            setValues((v) => ({ ...v, address: formatAddress(draft).slice(0, 120) }));
+            setErrors((er) => ({ ...er, address: '' }));
+            setPickerOpen(false);
+          }}
         />
         <PasswordField
           id="regPassword"
