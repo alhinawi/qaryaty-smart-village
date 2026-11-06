@@ -28,7 +28,22 @@ export const ROUTES = {
   jobsMine: '/jobs/mine',
   /** Admin: posts waiting for review */
   jobsReview: '/jobs/review',
+  /** بيع المستعمل */
+  marketSale: '/market/sale',
+  /** تبادل */
+  marketSwap: '/market/swap',
+  /** New post: ?kind=sale or ?kind=swap */
+  marketNew: '/market/new',
+  /** إعلاناتي */
+  marketMine: '/market/mine',
+  /** Admin: hidden (reported) posts */
+  marketReview: '/market/review',
 } as const;
+
+export const marketListPath = (kind: 'sale' | 'swap') => (kind === 'sale' ? ROUTES.marketSale : ROUTES.marketSwap);
+export const marketItemPath = (id: string) => `/market/item/${id}`;
+export const marketEditPath = (id: string) => `/market/item/${id}/edit`;
+export const marketChatPath = (listingId: string, buyerId: string) => `/market/chat/${listingId}/${buyerId}`;
 
 /** One job's page */
 export function jobPath(id: string): string {
