@@ -124,7 +124,7 @@ export default function OrdersPage() {
                   </div>
                 </div>
                 <div className="flex flex-col gap-1 items-end">
-                  {order.id.startsWith('ord_demo_') && <Badge variant="info">تجريبي</Badge>}
+                  {order.id.startsWith('ord_demo_') && <Badge variant="info">للعرض فقط</Badge>}
                   {getStatusBadge(order.status)}
                 </div>
               </div>
