@@ -252,6 +252,8 @@ export interface Product {
   step: number;
   /** Section inside a menu ('سندوتشات', 'أطباق'). */
   section?: string;
+  /** false = the merchant closed it, customers don't see it. Missing = available. */
+  available?: boolean;
   /** Fish: can also be grilled for an extra price per kilo. */
   grillable?: boolean;
   /** Medicine sold only with a prescription; the pharmacist checks it before delivery. */
