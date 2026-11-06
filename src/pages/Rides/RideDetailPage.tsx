@@ -505,7 +505,7 @@ function JoinForm({ ride, defaultPhone, onSent }: { ride: Ride; defaultPhone: st
         </p>
       )}
       <button type="submit" disabled={sending} className={`${primaryBtn} w-full`}>
-        {sending ? 'جاري الإرسال…' : 'ابعت الطلب'}
+        {sending ? 'بنبعت…' : 'ابعت الطلب'}
       </button>
     </form>
   );
@@ -554,7 +554,7 @@ function ReportModal({
           <textarea id="rideReportNote" rows={3} maxLength={300} value={note} onChange={(e) => setNote(e.target.value)} />
         </div>
         <button type="submit" disabled={sending} className={`${primaryBtn} w-full mt-2`}>
-          {sending ? 'جاري الإرسال…' : 'ابعت البلاغ'}
+          {sending ? 'بنبعت…' : 'ابعت البلاغ'}
         </button>
       </form>
     </Modal>

@@ -204,7 +204,7 @@ export default function AddressDetailsForm({
           disabled={saving}
           className="w-full min-h-[52px] rounded-2xl bg-green text-white font-black text-lg shadow-md active:scale-[0.98] transition disabled:opacity-60"
         >
-          {saving ? 'جاري الحفظ…' : saveLabel}
+          {saving ? 'بنحفظ…' : saveLabel}
         </button>
       </div>
     </form>
