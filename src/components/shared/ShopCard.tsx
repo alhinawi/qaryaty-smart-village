@@ -108,7 +108,7 @@ export const ShopCard = React.memo(function ShopCard({
             {shop.deliveryTime ? <span>🛵 {shop.deliveryTime}</span> : null}
           </div>
         )}
-        {shop.kind === "restaurant" && shop.village && (
+        {(shop.kind === "restaurant" || shop.demo) && shop.village && (
           <div className="text-[11px] text-text-muted truncate">📍 {shop.village}</div>
         )}
       </div>
