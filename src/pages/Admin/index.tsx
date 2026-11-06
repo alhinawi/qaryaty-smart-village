@@ -4,7 +4,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router';
 import { ROUTES } from '@/routes';
-import { authRepo, jobRepo, marketRepo, rideRepo } from '@/repositories';
+import { addProvider, addShop, authRepo, jobRepo, marketRepo, rideRepo } from '@/repositories';
 import { useAuthStore, selectIsStaff, selectRole, selectUser } from '@/stores/useAuthStore';
 import { useCatalogStore } from '@/stores/useCatalogStore';
 import { useUIStore } from '@/stores/useUIStore';
@@ -18,7 +18,10 @@ import {
   isStaffRole,
   type StaffRole,
 } from '@/config/staffTiers';
-import type { AuthUser, UserRole } from '@/types';
+import type { AuthUser, Gender, ProviderKind, ShopKind, UserRole } from '@/types';
+import { SHOP_KIND_LABELS } from '@/utils/searchScreen';
+import { PROVIDER_KIND_LABELS } from '@/data/teachers';
+import { Field } from '@/pages/Dashboard/parts';
 
 interface QueueLink {
   to: string;
@@ -138,6 +141,8 @@ export default function AdminPage() {
         </p>
       )}
 
+      {sections.providerDashboard && <AddProviderSection />}
+
       {sections.supervisors && <SupervisorsSection />}
 
       {sections.feesNote && (
@@ -146,6 +151,241 @@ export default function AdminPage() {
         </p>
       )}
     </div>
+  );
+}
+
+// ─── Add a shop or a professional (المحلات والمهنيين): the owner/admin creates
+// the record here and links it to the account that will manage it. New rows
+// show to customers immediately.
+function AddProviderSection() {
+  const showToast = useUIStore((s) => s.showToast);
+  const services = useCatalogStore((s) => s.services);
+  const loadCatalog = useCatalogStore((s) => s.load);
+  const [tab, setTab] = useState<'shop' | 'pro'>('shop');
+  const [busy, setBusy] = useState(false);
+  // Account linking: only staff who can read all profiles (owner/admin) get the picker
+  const [users, setUsers] = useState<AuthUser[] | null>(null);
+
+  useEffect(() => {
+    authRepo
+      .listUsers()
+      .then(setUsers)
+      .catch(() => setUsers(null));
+  }, []);
+
+  // shop form
+  const [shopName, setShopName] = useState('');
+  const [shopKind, setShopKind] = useState<ShopKind>('grocery');
+  const [shopEmoji, setShopEmoji] = useState('');
+  const [shopDesc, setShopDesc] = useState('');
+  const [shopTime, setShopTime] = useState('');
+  const [shopOwner, setShopOwner] = useState('');
+
+  // professional form
+  const [proName, setProName] = useState('');
+  const [proKind, setProKind] = useState<ProviderKind>('worker');
+  const [proGender, setProGender] = useState<Gender>('male');
+  const [proService, setProService] = useState('');
+  const [proVillage, setProVillage] = useState('');
+  const [proArea, setProArea] = useState('');
+  const [proPrice, setProPrice] = useState('');
+  const [proBio, setProBio] = useState('');
+  const [proOwner, setProOwner] = useState('');
+
+  const submitShop = async () => {
+    if (!shopName.trim() || !shopDesc.trim()) {
+      showToast('⚠️ اكتب اسم المحل ووصفه الأول');
+      return;
+    }
+    setBusy(true);
+    try {
+      await addShop({
+        name: shopName.trim(),
+        kind: shopKind,
+        emoji: shopEmoji.trim() || SHOP_KIND_LABELS[shopKind]?.emoji || '🏪',
+        description: shopDesc.trim(),
+        time: shopTime.trim(),
+        ...(shopOwner ? { ownerProfileId: shopOwner } : {}),
+      });
+      showToast(`✅ «${shopName.trim()}» اتضاف وبقى ظاهر للزباين`);
+      setShopName(''); setShopEmoji(''); setShopDesc(''); setShopTime(''); setShopOwner('');
+      void loadCatalog(true);
+    } catch (err) {
+      showToast(`⚠️ ${err instanceof Error ? err.message : 'حصلت مشكلة'}`);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const submitPro = async () => {
+    const serviceId = Number(proService);
+    if (!proName.trim() || !Number.isFinite(serviceId) || !proVillage.trim()) {
+      showToast('⚠️ اكتب الاسم والخدمة والقرية الأول');
+      return;
+    }
+    const service = services.find((svc) => svc.id === serviceId);
+    setBusy(true);
+    try {
+      await addProvider({
+        name: proName.trim(),
+        kind: proKind,
+        serviceId,
+        gender: proGender,
+        role: service?.name ?? PROVIDER_KIND_LABELS[proKind][proGender],
+        village: proVillage.trim(),
+        area: proArea.trim(),
+        price: proPrice.trim() || 'حسب الاتفاق',
+        bio: proBio.trim(),
+        ...(proOwner ? { ownerProfileId: proOwner } : {}),
+      });
+      showToast(`✅ «${proName.trim()}» اتضاف وبقى ظاهر للزباين`);
+      setProName(''); setProVillage(''); setProArea(''); setProPrice(''); setProBio(''); setProOwner('');
+      void loadCatalog(true);
+    } catch (err) {
+      showToast(`⚠️ ${err instanceof Error ? err.message : 'حصلت مشكلة'}`);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const selectCls =
+    'w-full min-h-[42px] px-3 rounded-xl border border-[rgba(26,122,74,0.25)] bg-cream/40 text-[14px] font-bold text-text focus:outline-none focus:border-green';
+  const ownerPicker = (value: string, setValue: (v: string) => void, label: string) =>
+    users && users.length > 0 ? (
+      <label className="block">
+        <span className="block text-[12px] font-bold text-text-muted mb-1">{label}</span>
+        <select value={value} onChange={(e) => setValue(e.target.value)} className={selectCls}>
+          <option value="">من غير ربط بحساب</option>
+          {users.map((u) => (
+            <option key={u.id} value={u.id}>
+              {u.name} — {u.email || u.phone}
+            </option>
+          ))}
+        </select>
+      </label>
+    ) : (
+      <p className="text-[11px] text-text-muted m-0">
+        ربط بحساب بيشتغل لما يكون معاك صلاحية قراية الحسابات (المالك).
+      </p>
+    );
+
+  return (
+    <section className="bg-white rounded-2xl border border-[rgba(26,122,74,0.12)] p-4 mb-5">
+      <h2 className="text-[15px] font-black text-green-dark m-0 mb-1">➕ ضيف محل أو مهني</h2>
+      <p className="text-[12px] text-text-muted mt-0 mb-3">
+        أي إضافة هنا بتظهر للزباين على طول. لو ربطتها بحساب، صاحب الحساب يديرها من لوحة مقدم الخدمة.
+      </p>
+      <div className="flex gap-2 mb-3" role="tablist" aria-label="نوع الإضافة">
+        {(
+          [
+            { id: 'shop', label: '🏪 محل' },
+            { id: 'pro', label: '🧑‍🔧 مهني' },
+          ] as { id: 'shop' | 'pro'; label: string }[]
+        ).map((t) => (
+          <button
+            key={t.id}
+            type="button"
+            role="tab"
+            aria-selected={tab === t.id}
+            onClick={() => setTab(t.id)}
+            className={`min-h-[40px] px-4 rounded-xl border text-[13px] font-extrabold cursor-pointer transition-colors ${
+              tab === t.id
+                ? 'bg-green text-white border-green'
+                : 'bg-white text-green-dark border-[rgba(26,122,74,0.25)] hover:bg-cream/60'
+            }`}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {tab === 'shop' ? (
+        <div className="grid gap-3">
+          <Field label="اسم المحل" value={shopName} onChange={setShopName} placeholder="مثال: سوبر ماركت البركة" />
+          <div className="grid grid-cols-2 gap-2">
+            <label className="block">
+              <span className="block text-[12px] font-bold text-text-muted mb-1">نوع المحل</span>
+              <select value={shopKind} onChange={(e) => setShopKind(e.target.value as ShopKind)} className={selectCls}>
+                {Object.entries(SHOP_KIND_LABELS)
+                  .filter(([kind]) => kind !== 'jewelry')
+                  .map(([kind, info]) => (
+                    <option key={kind} value={kind}>
+                      {info.emoji} {info.label}
+                    </option>
+                  ))}
+              </select>
+            </label>
+            <Field label="إيموجي (اختياري)" value={shopEmoji} onChange={setShopEmoji} placeholder="🛒" />
+          </div>
+          <Field label="وصف المحل" value={shopDesc} onChange={setShopDesc} placeholder="بقالة ومواد غذائية متنوعة" />
+          <Field label="مواعيد الفتح (اختياري)" value={shopTime} onChange={setShopTime} placeholder="⏰ 7ص - 12م" />
+          {ownerPicker(shopOwner, setShopOwner, 'اربطه بحساب يديره (اختياري)')}
+          <div>
+            <button
+              type="button"
+              disabled={busy}
+              onClick={() => void submitShop()}
+              className="min-h-[42px] px-5 rounded-xl bg-green text-white text-[14px] font-extrabold border-none cursor-pointer hover:bg-green-dark transition-colors disabled:opacity-60"
+            >
+              {busy ? 'بيضاف...' : 'ضيف المحل'}
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="grid gap-3">
+          <Field label="الاسم" value={proName} onChange={setProName} placeholder="مثال: عم محمود" />
+          <div className="grid grid-cols-2 gap-2">
+            <label className="block">
+              <span className="block text-[12px] font-bold text-text-muted mb-1">الخدمة</span>
+              <select value={proService} onChange={(e) => setProService(e.target.value)} className={selectCls}>
+                <option value="">اختار الخدمة...</option>
+                {services.map((svc) => (
+                  <option key={svc.id} value={svc.id}>
+                    {svc.emoji} {svc.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="block">
+              <span className="block text-[12px] font-bold text-text-muted mb-1">النوع</span>
+              <select value={proKind} onChange={(e) => setProKind(e.target.value as ProviderKind)} className={selectCls}>
+                {(Object.keys(PROVIDER_KIND_LABELS) as ProviderKind[]).map((kind) => (
+                  <option key={kind} value={kind}>
+                    {PROVIDER_KIND_LABELS[kind][proGender]}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <label className="block">
+              <span className="block text-[12px] font-bold text-text-muted mb-1">الجنس</span>
+              <select value={proGender} onChange={(e) => setProGender(e.target.value as Gender)} className={selectCls}>
+                <option value="male">راجل</option>
+                <option value="female">ست</option>
+              </select>
+            </label>
+            <Field label="القرية" value={proVillage} onChange={setProVillage} placeholder="ميت غمر" />
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <Field label="المنطقة (اختياري)" value={proArea} onChange={setProArea} placeholder="شارع الجمهورية" />
+            <Field label="السعر (اختياري)" value={proPrice} onChange={setProPrice} placeholder="من 50 جنيه" />
+          </div>
+          <Field label="نبذة (اختياري)" value={proBio} onChange={setProBio} placeholder="خبرة 15 سنة في السباكة" />
+          {ownerPicker(proOwner, setProOwner, 'اربطه بحساب يديره (اختياري)')}
+          <div>
+            <button
+              type="button"
+              disabled={busy}
+              onClick={() => void submitPro()}
+              className="min-h-[42px] px-5 rounded-xl bg-green text-white text-[14px] font-extrabold border-none cursor-pointer hover:bg-green-dark transition-colors disabled:opacity-60"
+            >
+              {busy ? 'بيضاف...' : 'ضيف المهني'}
+            </button>
+          </div>
+        </div>
+      )}
+    </section>
   );
 }
 
