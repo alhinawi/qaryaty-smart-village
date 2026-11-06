@@ -99,12 +99,12 @@ export default function ProfilePage() {
   return (
     <div className="profile-page-container">
       {/* Profile Header */}
-      <div className="bg-linear-to-br from-green-dark to-green text-white rounded-2xl p-6 flex items-center gap-5 mb-6">
-        <div className="w-16 h-16 bg-gold rounded-2xl flex items-center justify-center text-[32px]">👤</div>
-        <div>
-          <h2 className="text-[1.375rem] font-black font-['Tajawal',sans-serif]">{profile.name}</h2>
+      <div className="bg-linear-to-br from-green-dark to-green text-white rounded-2xl p-6 flex items-center gap-5 mb-6" dir="rtl">
+        <div className="w-16 h-16 shrink-0 bg-gold rounded-2xl flex items-center justify-center text-[32px]">👤</div>
+        <div className="min-w-0 flex-1 text-right">
+          <h2 dir="auto" className="text-[1.375rem] font-black font-['Tajawal',sans-serif] text-right break-words [overflow-wrap:anywhere]">{profile.name}</h2>
           {user?.username && (
-            <p className="text-[13px] opacity-90" dir="ltr">
+            <p className="text-[13px] opacity-90 text-right break-words [overflow-wrap:anywhere]" dir="ltr">
               @{user.username}
             </p>
           )}
