@@ -294,7 +294,8 @@ alter table public.orders add constraint orders_payment_method
   check (payment_method in ('cash','vodafone','instapay','card','wallet'));
 alter table public.orders drop constraint if exists orders_payment_status;
 alter table public.orders add constraint orders_payment_status
-  check (payment_status in ('unpaid','pending','paid','failed'));
+  check (payment_status in ('unpaid','pending','paid','failed','refunded'));
+-- 'refunded': Paymob refunded or voided a paid order (set by the webhook). Don't deliver it.
 alter table public.orders drop constraint if exists orders_one_place;
 alter table public.orders add constraint orders_one_place check (
   not (shop_id is not null and service_id is not null)
