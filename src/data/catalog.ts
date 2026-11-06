@@ -1,3 +1,4 @@
+import { catalogProductPhoto } from '@/config/catalogImages';
 import { pharmacyProductPhoto } from '@/config/pharmacyImages';
 import { restaurantPresentation } from '@/config/restaurantPresentation';
 // ─── Products sold in shops and restaurants
@@ -696,8 +697,9 @@ export const CATALOG_BY_KIND: Partial<Record<ShopKind, Product[]>> = {
 
 /** What a shop sells, or null when it takes a free-text order (a salon, a workshop). */
 export function productsForShop(shop: Pick<Shop, 'id' | 'kind'>): Product[] | null {
-  if (shop.kind === 'restaurant') return MENUS[shop.id] ?? null;
-  return (shop.kind && CATALOG_BY_KIND[shop.kind]) || null;
+  const products = shop.kind === 'restaurant' ? MENUS[shop.id] : (shop.kind && CATALOG_BY_KIND[shop.kind]);
+  const scope = shop.kind === 'restaurant' ? `restaurant:${shop.id}` : (shop.kind ?? 'other');
+  return products ? products.map((product) => catalogProductPhoto(scope, product)) : null;
 }
 
 /** The sections of a list, in the order they first appear. */
