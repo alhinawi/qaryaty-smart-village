@@ -10,7 +10,7 @@ import { ROUTES } from '@/routes';
 import { AuthField, AuthLayout, PasswordField, PhoneField } from './AuthLayout';
 import { GoogleAuthButton } from './GoogleAuthButton';
 import { useRedirectTarget } from '@/hooks/useRedirectTarget';
-import { VILLAGES } from '@/data/villages';
+import { VillagePicker } from '@/components/address/VillagePicker';
 import AddressPickerField from '@/components/address/AddressPickerField';
 import LocationPicker from '@/components/address/LocationPicker';
 import { formatAddress } from '@/utils/address';
@@ -44,6 +44,7 @@ export default function RegisterPage() {
   const [sentTo, setSentTo] = useState('');
   const [mapAddress, setMapAddress] = useState<AddressDraft | null>(null);
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [villageCenter, setVillageCenter] = useState<{ lat: number; lng: number } | null>(null);
   /** The username last confirmed free, so the hint shows only while it is still typed. */
   const [freeUsername, setFreeUsername] = useState('');
   const [checkingUsername, setCheckingUsername] = useState(false);
@@ -199,20 +200,25 @@ export default function RegisterPage() {
           onChange={set('phone')}
           error={errors.phone}
         />
-        <AuthField
+        <VillagePicker
+
           id="regVillage"
-          label="القرية"
-          placeholder="مثال: منية سندوب"
-          list="regVillageList"
+
           value={values.village}
-          onChange={set('village')}
+
+          onChange={(village, picked) => {
+
+            setValues((v) => ({ ...v, village }));
+
+            setVillageCenter(picked && picked.lat !== null && picked.lng !== null ? { lat: picked.lat, lng: picked.lng } : null);
+
+            setErrors((er) => ({ ...er, village: '' }));
+
+          }}
+
           error={errors.village}
+
         />
-        <datalist id="regVillageList">
-          {VILLAGES.map((v) => (
-            <option key={v} value={v} />
-          ))}
-        </datalist>
         <AddressPickerField
           id="regAddress"
           label="العنوان في القرية"
@@ -225,6 +231,7 @@ export default function RegisterPage() {
           onClose={() => setPickerOpen(false)}
           initial={mapAddress}
           village={values.village}
+          villageCenter={villageCenter}
           defaultPhone={normalizeEgyptianPhone(values.phone)}
           saveLabel="تمام، ده عنواني"
           onSave={(draft) => {

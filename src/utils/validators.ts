@@ -149,7 +149,7 @@ export const registerSchema = z
     username: usernameSchema,
     email: emailSchema,
     phone: egyptianPhoneSchema,
-    village: z.string().trim().min(2, { message: 'اكتب اسم قريتك' }).max(60),
+    village: z.string().trim().min(2, { message: 'اكتب اسم قريتك' }).max(120),
     address: z
       .string()
       .trim()
@@ -181,7 +181,7 @@ export function fieldErrorsFrom(issues: { path: PropertyKey[]; message: string }
 export const completeProfileSchema = z.object({
   name: z.string().trim().min(3, { message: 'اكتب اسمك (3 حروف على الأقل)' }).max(40, { message: 'الاسم طويل أوي' }),
   phone: egyptianPhoneSchema,
-  village: z.string().trim().min(2, { message: 'اكتب اسم قريتك' }).max(60),
+  village: z.string().trim().min(2, { message: 'اكتب اسم قريتك' }).max(120),
   address: z
     .string()
     .trim()
