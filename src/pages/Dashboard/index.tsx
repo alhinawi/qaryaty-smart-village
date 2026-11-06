@@ -43,10 +43,7 @@ export default function ProviderDashboardPage() {
 
   return (
     <div className="max-w-[760px] mx-auto px-4 py-5" dir="rtl">
-      <div className="flex items-center gap-2 flex-wrap mb-1">
-        <h1 className="text-[clamp(1.25rem,4vw,1.6rem)] font-black text-green-dark m-0">⚙️ لوحة مقدم الخدمة</h1>
-        <Badge variant="warning">نسخة تجريبية</Badge>
-      </div>
+      <h1 className="text-[clamp(1.25rem,4vw,1.6rem)] font-black text-green-dark m-0 mb-1">⚙️ لوحة مقدم الخدمة</h1>
       <p className="text-[13px] text-text-muted mt-1 mb-4">
         دي معاينة للوحة التحكم. أي تعديل بتعمله هنا بيتحفظ على جهازك بس، ومبيأثرش على اللي العملاء شايفينه.
       </p>
@@ -358,7 +355,7 @@ function IncomingOrdersSection() {
   };
 
   return (
-    <Section icon="🧾" title="الطلبات الواردة" hint="طلبات تجريبية للمعاينة، مش طلبات حقيقية">
+    <Section icon="🧾" title="الطلبات الواردة" hint="دي لسه مش طلبات حقيقية، بس كده هيبقى شكلها أول ما توصل">
       <ul className="m-0 p-0 list-none grid gap-2">
         {orders.map((o) => (
           <li key={o.id} className="p-3 rounded-xl border border-[rgba(26,122,74,0.12)] bg-cream/30">
@@ -630,7 +627,7 @@ function BookingsSection() {
   };
 
   return (
-    <Section icon="📅" title="طلبات الحجز" hint="حجوزات تجريبية للمعاينة، مش حجوزات حقيقية">
+    <Section icon="📅" title="طلبات الحجز" hint="دي لسه مش حجوزات حقيقية، بس كده هيبقى شكلها أول ما توصل">
       <ul className="m-0 p-0 list-none grid gap-2">
         {bookings.map((b) => (
           <li key={b.id} className="p-3 rounded-xl border border-[rgba(26,122,74,0.12)] bg-cream/30">
