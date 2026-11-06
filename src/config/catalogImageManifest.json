@@ -1,0 +1,2887 @@
+{
+  "restaurant:101|fool": {
+    "name": "ساندوتش فول",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-101-fool.webp"
+  },
+  "restaurant:101|taamia": {
+    "name": "ساندوتش طعمية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Falafels_2.jpg/330px-Falafels_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-101-taamia.webp"
+  },
+  "restaurant:101|egg": {
+    "name": "ساندوتش بيض",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Egg_Sandwich.jpg/330px-Egg_Sandwich.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-101-egg.webp"
+  },
+  "restaurant:101|cheese": {
+    "name": "ساندوتش جبنة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Cheddar_cheese_sandwich.jpg/330px-Cheddar_cheese_sandwich.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-101-cheese.webp"
+  },
+  "restaurant:101|foolplate": {
+    "name": "طبق فول",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-101-foolplate.webp"
+  },
+  "restaurant:101|fries": {
+    "name": "بطاطس محمرة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-101-fries.webp"
+  },
+  "restaurant:101|baba": {
+    "name": "بابا غنوج",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Baba_Ganoush_05of05_%288735238183%29.jpg/330px-Baba_Ganoush_05of05_%288735238183%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-101-baba.webp"
+  },
+  "restaurant:101|tahini": {
+    "name": "طحينة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Tahina.JPG/330px-Tahina.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-101-tahini.webp"
+  },
+  "restaurant:102|fool": {
+    "name": "ساندوتش فول",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-102-fool.webp"
+  },
+  "restaurant:102|taamia": {
+    "name": "ساندوتش طعمية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Falafels_2.jpg/330px-Falafels_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-102-taamia.webp"
+  },
+  "restaurant:102|shakshuka": {
+    "name": "شكشوكة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Shakshuka_by_Calliopejen1.jpg/330px-Shakshuka_by_Calliopejen1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-102-shakshuka.webp"
+  },
+  "restaurant:102|fries": {
+    "name": "ساندوتش بطاطس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-102-fries.webp"
+  },
+  "restaurant:103|hawawshi": {
+    "name": "حواوشي عادي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-103-hawawshi.webp"
+  },
+  "restaurant:103|hawawshi-cheese": {
+    "name": "حواوشي بالجبنة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-103-hawawshi-cheese.webp"
+  },
+  "restaurant:103|kofta": {
+    "name": "ساندوتش كفتة",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-103-kofta.webp"
+  },
+  "restaurant:103|kofta-kg": {
+    "name": "كفتة مشوية",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-103-kofta-kg.webp"
+  },
+  "restaurant:104|koshary-s": {
+    "name": "كشري صغير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-104-koshary-s.webp"
+  },
+  "restaurant:104|koshary-m": {
+    "name": "كشري وسط",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-104-koshary-m.webp"
+  },
+  "restaurant:104|koshary-l": {
+    "name": "كشري كبير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-104-koshary-l.webp"
+  },
+  "restaurant:104|macaroni": {
+    "name": "مكرونة بشاميل",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Pastitsio_homemade.jpg/330px-Pastitsio_homemade.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-104-macaroni.webp"
+  },
+  "restaurant:104|roz": {
+    "name": "أرز بلبن",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Kheer_with_condensed_milk..JPG/330px-Kheer_with_condensed_milk..JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-104-roz.webp"
+  },
+  "restaurant:105|pizza-margherita": {
+    "name": "بيتزا مارجريتا",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-105-pizza-margherita.webp"
+  },
+  "restaurant:105|pizza-mix": {
+    "name": "بيتزا ميكس لحوم",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-105-pizza-mix.webp"
+  },
+  "restaurant:105|crepe-chicken": {
+    "name": "كريب فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Crepes_dsc07085.jpg/330px-Crepes_dsc07085.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-105-crepe-chicken.webp"
+  },
+  "restaurant:105|crepe-nutella": {
+    "name": "كريب نوتيلا",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Crepes_dsc07085.jpg/330px-Crepes_dsc07085.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-105-crepe-nutella.webp"
+  },
+  "restaurant:106|fried-fish": {
+    "name": "سمك بلطي مقلي",
+    "originalPhoto": "https://images.pexels.com/photos/8934972/pexels-photo-8934972.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-106-fried-fish.webp"
+  },
+  "restaurant:106|grilled-fish": {
+    "name": "سمك بوري مشوي",
+    "originalPhoto": "https://images.pexels.com/photos/8250362/pexels-photo-8250362.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-106-grilled-fish.webp"
+  },
+  "restaurant:106|shrimp": {
+    "name": "جمبري مقلي",
+    "originalPhoto": "https://images.pexels.com/photos/17628581/pexels-photo-17628581.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-106-shrimp.webp"
+  },
+  "restaurant:106|calamari": {
+    "name": "كاليماري مقلي",
+    "originalPhoto": "https://images.pexels.com/photos/15801007/pexels-photo-15801007.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-106-calamari.webp"
+  },
+  "restaurant:106|fishchips": {
+    "name": "وجبة سمك وبطاطس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Fish_and_chips_blackpool.jpg/330px-Fish_and_chips_blackpool.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-106-fishchips.webp"
+  },
+  "restaurant:107|shawarma-chicken": {
+    "name": "شاورما فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-107-shawarma-chicken.webp"
+  },
+  "restaurant:107|shawarma-meat": {
+    "name": "شاورما لحمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-107-shawarma-meat.webp"
+  },
+  "restaurant:107|taouk": {
+    "name": "شيش طاووق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Tavuk_%C5%9Ei%C5%9F.jpg/330px-Tavuk_%C5%9Ei%C5%9F.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-107-taouk.webp"
+  },
+  "restaurant:107|fries": {
+    "name": "بطاطس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-107-fries.webp"
+  },
+  "restaurant:108|grilled-half": {
+    "name": "نص فرخة مشوية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg/330px-Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-108-grilled-half.webp"
+  },
+  "restaurant:108|grilled-whole": {
+    "name": "فرخة مشوية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg/330px-Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-108-grilled-whole.webp"
+  },
+  "restaurant:108|fried": {
+    "name": "وجبة فراخ مقلية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Fried-Chicken-Set.jpg/330px-Fried-Chicken-Set.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-108-fried.webp"
+  },
+  "restaurant:108|nuggets": {
+    "name": "ناجتس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Chicken_Nuggets.jpg/330px-Chicken_Nuggets.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-108-nuggets.webp"
+  },
+  "restaurant:109|sausage": {
+    "name": "ساندوتش سجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Sucuk-1.jpg/330px-Sucuk-1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-109-sausage.webp"
+  },
+  "restaurant:110|meshaltet": {
+    "name": "فطير مشلتت",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Egyptian-food-16.jpg/330px-Egyptian-food-16.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-110-meshaltet.webp"
+  },
+  "restaurant:110|feteer-mix": {
+    "name": "فطير ميكس جبن",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Egyptian-feteer.jpg/330px-Egyptian-feteer.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-110-feteer-mix.webp"
+  },
+  "restaurant:110|feteer-sweet": {
+    "name": "فطير بالسكر والقشطة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Egyptian-feteer.jpg/330px-Egyptian-feteer.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-110-feteer-sweet.webp"
+  },
+  "restaurant:110|omali": {
+    "name": "أم علي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Umm_Ali.JPG/330px-Umm_Ali.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-110-omali.webp"
+  },
+  "restaurant:111|kebab": {
+    "name": "كباب",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Lula_kebab_2.jpg/330px-Lula_kebab_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-111-kebab.webp"
+  },
+  "restaurant:111|kofta": {
+    "name": "كفتة",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-111-kofta.webp"
+  },
+  "restaurant:111|mix": {
+    "name": "وجبة مشكل",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-111-mix.webp"
+  },
+  "restaurant:111|fattah": {
+    "name": "فتة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg/330px-%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-111-fattah.webp"
+  },
+  "restaurant:112|duck": {
+    "name": "بطة محمرة",
+    "originalPhoto": "https://images.pexels.com/photos/24038062/pexels-photo-24038062.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-112-duck.webp"
+  },
+  "restaurant:112|goose": {
+    "name": "وزة محمرة",
+    "originalPhoto": "https://images.pexels.com/photos/24038062/pexels-photo-24038062.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-112-goose.webp"
+  },
+  "restaurant:112|mahshi": {
+    "name": "محشي مشكل",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Speca_te_mbushura_me_mish.JPG/330px-Speca_te_mbushura_me_mish.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-112-mahshi.webp"
+  },
+  "restaurant:112|molokhia": {
+    "name": "ملوخية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/Molokheya_Egypt%2C_2012.JPG/330px-Molokheya_Egypt%2C_2012.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-112-molokhia.webp"
+  },
+  "restaurant:113|basbousa": {
+    "name": "بسبوسة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/Basboosa.jpg/330px-Basboosa.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-113-basbousa.webp"
+  },
+  "restaurant:113|kunafa": {
+    "name": "كنافة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/K%C3%BCnefe.jpg/330px-K%C3%BCnefe.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-113-kunafa.webp"
+  },
+  "restaurant:113|qatayef": {
+    "name": "قطايف",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/%D9%82%D8%B7%D8%A7%D9%8A%D9%81_%D8%B9%D8%B5%D8%A7%D9%81%D9%8A%D8%B1%D9%8A2.jpg/330px-%D9%82%D8%B7%D8%A7%D9%8A%D9%81_%D8%B9%D8%B5%D8%A7%D9%81%D9%8A%D8%B1%D9%8A2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-113-qatayef.webp"
+  },
+  "restaurant:113|roz": {
+    "name": "أرز بلبن",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Kheer_with_condensed_milk..JPG/330px-Kheer_with_condensed_milk..JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-113-roz.webp"
+  },
+  "restaurant:114|cane": {
+    "name": "عصير قصب",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Sugarcanejuice.jpg/330px-Sugarcanejuice.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-114-cane.webp"
+  },
+  "restaurant:114|mango": {
+    "name": "عصير مانجو",
+    "originalPhoto": "https://images.pexels.com/photos/17612829/pexels-photo-17612829.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-114-mango.webp"
+  },
+  "restaurant:114|strawberry": {
+    "name": "عصير فراولة",
+    "originalPhoto": "https://images.pexels.com/photos/5668177/pexels-photo-5668177.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-114-strawberry.webp"
+  },
+  "restaurant:114|orange": {
+    "name": "عصير برتقال",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Orangejuice.jpg/330px-Orangejuice.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-114-orange.webp"
+  },
+  "restaurant:114|lemon": {
+    "name": "ليمون نعناع",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Lemonade_-_27682817724.jpg/330px-Lemonade_-_27682817724.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-114-lemon.webp"
+  },
+  "restaurant:114|karkade": {
+    "name": "كركديه",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Hibiscus_tea.jpg/330px-Hibiscus_tea.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-114-karkade.webp"
+  },
+  "restaurant:115|fool-sand": {
+    "name": "ساندوتش فول",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-115-fool-sand.webp"
+  },
+  "restaurant:115|taamia-sand": {
+    "name": "ساندوتش طعمية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Falafels_2.jpg/330px-Falafels_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-115-taamia-sand.webp"
+  },
+  "restaurant:115|fool-egg-sand": {
+    "name": "ساندوتش فول بالبيض",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-115-fool-egg-sand.webp"
+  },
+  "restaurant:115|taamia-mahshi": {
+    "name": "ساندوتش طعمية محشية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Falafels_2.jpg/330px-Falafels_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-115-taamia-mahshi.webp"
+  },
+  "restaurant:115|eggplant-sand": {
+    "name": "ساندوتش بتنجان مقلي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Baba_Ganoush_05of05_%288735238183%29.jpg/330px-Baba_Ganoush_05of05_%288735238183%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-115-eggplant-sand.webp"
+  },
+  "restaurant:115|fool-plate": {
+    "name": "طبق فول",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-115-fool-plate.webp"
+  },
+  "restaurant:115|fool-alex": {
+    "name": "فول إسكندراني",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-115-fool-alex.webp"
+  },
+  "restaurant:115|taamia-plate": {
+    "name": "طبق طعمية (10 أقراص)",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Falafels_2.jpg/330px-Falafels_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-115-taamia-plate.webp"
+  },
+  "restaurant:115|egg-sand": {
+    "name": "ساندوتش بيض",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Egg_Sandwich.jpg/330px-Egg_Sandwich.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-115-egg-sand.webp"
+  },
+  "restaurant:115|cheese-sand": {
+    "name": "ساندوتش جبنة بالطماطم",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Cheddar_cheese_sandwich.jpg/330px-Cheddar_cheese_sandwich.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-115-cheese-sand.webp"
+  },
+  "restaurant:115|potato-sand": {
+    "name": "ساندوتش بطاطس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-115-potato-sand.webp"
+  },
+  "restaurant:115|shakshuka": {
+    "name": "شكشوكة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Shakshuka_by_Calliopejen1.jpg/330px-Shakshuka_by_Calliopejen1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-115-shakshuka.webp"
+  },
+  "restaurant:116|fool-sand": {
+    "name": "ساندوتش فول",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-116-fool-sand.webp"
+  },
+  "restaurant:116|taamia-sand": {
+    "name": "ساندوتش طعمية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Falafels_2.jpg/330px-Falafels_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-116-taamia-sand.webp"
+  },
+  "restaurant:116|fool-egg-sand": {
+    "name": "ساندوتش فول بالبيض",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-116-fool-egg-sand.webp"
+  },
+  "restaurant:116|taamia-mahshi": {
+    "name": "ساندوتش طعمية محشية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Falafels_2.jpg/330px-Falafels_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-116-taamia-mahshi.webp"
+  },
+  "restaurant:116|potato-sand": {
+    "name": "ساندوتش بطاطس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-116-potato-sand.webp"
+  },
+  "restaurant:116|eggplant-sand": {
+    "name": "ساندوتش بتنجان مقلي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Baba_Ganoush_05of05_%288735238183%29.jpg/330px-Baba_Ganoush_05of05_%288735238183%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-116-eggplant-sand.webp"
+  },
+  "restaurant:116|fool-plate": {
+    "name": "طبق فول",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-116-fool-plate.webp"
+  },
+  "restaurant:116|fool-alex": {
+    "name": "فول إسكندراني",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-116-fool-alex.webp"
+  },
+  "restaurant:116|tahini": {
+    "name": "طحينة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Tahina.JPG/330px-Tahina.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-116-tahini.webp"
+  },
+  "restaurant:116|bread": {
+    "name": "رغيف عيش بلدي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Bread_mohanad.JPG/330px-Bread_mohanad.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-116-bread.webp"
+  },
+  "restaurant:117|fool-sand": {
+    "name": "ساندوتش فول",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-117-fool-sand.webp"
+  },
+  "restaurant:117|taamia-sand": {
+    "name": "ساندوتش طعمية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Falafels_2.jpg/330px-Falafels_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-117-taamia-sand.webp"
+  },
+  "restaurant:117|fool-egg-sand": {
+    "name": "ساندوتش فول بالبيض",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-117-fool-egg-sand.webp"
+  },
+  "restaurant:117|taamia-mahshi": {
+    "name": "ساندوتش طعمية محشية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Falafels_2.jpg/330px-Falafels_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-117-taamia-mahshi.webp"
+  },
+  "restaurant:117|potato-sand": {
+    "name": "ساندوتش بطاطس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-117-potato-sand.webp"
+  },
+  "restaurant:117|eggplant-sand": {
+    "name": "ساندوتش بتنجان مقلي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Baba_Ganoush_05of05_%288735238183%29.jpg/330px-Baba_Ganoush_05of05_%288735238183%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-117-eggplant-sand.webp"
+  },
+  "restaurant:117|fool-plate": {
+    "name": "طبق فول",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-117-fool-plate.webp"
+  },
+  "restaurant:117|taamia-plate": {
+    "name": "طبق طعمية (10 أقراص)",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Falafels_2.jpg/330px-Falafels_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-117-taamia-plate.webp"
+  },
+  "restaurant:117|tahini": {
+    "name": "طحينة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Tahina.JPG/330px-Tahina.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-117-tahini.webp"
+  },
+  "restaurant:118|fool-sand": {
+    "name": "ساندوتش فول",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-118-fool-sand.webp"
+  },
+  "restaurant:118|taamia-sand": {
+    "name": "ساندوتش طعمية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Falafels_2.jpg/330px-Falafels_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-118-taamia-sand.webp"
+  },
+  "restaurant:118|fool-egg-sand": {
+    "name": "ساندوتش فول بالبيض",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-118-fool-egg-sand.webp"
+  },
+  "restaurant:118|taamia-mahshi": {
+    "name": "ساندوتش طعمية محشية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Falafels_2.jpg/330px-Falafels_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-118-taamia-mahshi.webp"
+  },
+  "restaurant:118|eggplant-sand": {
+    "name": "ساندوتش بتنجان مقلي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Baba_Ganoush_05of05_%288735238183%29.jpg/330px-Baba_Ganoush_05of05_%288735238183%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-118-eggplant-sand.webp"
+  },
+  "restaurant:118|fool-alex": {
+    "name": "فول إسكندراني",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-118-fool-alex.webp"
+  },
+  "restaurant:118|taamia-plate": {
+    "name": "طبق طعمية (10 أقراص)",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Falafels_2.jpg/330px-Falafels_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-118-taamia-plate.webp"
+  },
+  "restaurant:118|tahini": {
+    "name": "طحينة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Tahina.JPG/330px-Tahina.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-118-tahini.webp"
+  },
+  "restaurant:118|egg-sand": {
+    "name": "ساندوتش بيض",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Egg_Sandwich.jpg/330px-Egg_Sandwich.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-118-egg-sand.webp"
+  },
+  "restaurant:118|cheese-sand": {
+    "name": "ساندوتش جبنة بالطماطم",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Cheddar_cheese_sandwich.jpg/330px-Cheddar_cheese_sandwich.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-118-cheese-sand.webp"
+  },
+  "restaurant:118|potato-sand": {
+    "name": "ساندوتش بطاطس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-118-potato-sand.webp"
+  },
+  "restaurant:118|shakshuka": {
+    "name": "شكشوكة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Shakshuka_by_Calliopejen1.jpg/330px-Shakshuka_by_Calliopejen1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-118-shakshuka.webp"
+  },
+  "restaurant:119|fool-sand": {
+    "name": "ساندوتش فول",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-119-fool-sand.webp"
+  },
+  "restaurant:119|taamia-sand": {
+    "name": "ساندوتش طعمية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Falafels_2.jpg/330px-Falafels_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-119-taamia-sand.webp"
+  },
+  "restaurant:119|fool-egg-sand": {
+    "name": "ساندوتش فول بالبيض",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-119-fool-egg-sand.webp"
+  },
+  "restaurant:119|taamia-mahshi": {
+    "name": "ساندوتش طعمية محشية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Falafels_2.jpg/330px-Falafels_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-119-taamia-mahshi.webp"
+  },
+  "restaurant:119|potato-sand": {
+    "name": "ساندوتش بطاطس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-119-potato-sand.webp"
+  },
+  "restaurant:119|fool-plate": {
+    "name": "طبق فول",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-119-fool-plate.webp"
+  },
+  "restaurant:119|fool-alex": {
+    "name": "فول إسكندراني",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-119-fool-alex.webp"
+  },
+  "restaurant:119|tahini": {
+    "name": "طحينة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Tahina.JPG/330px-Tahina.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-119-tahini.webp"
+  },
+  "restaurant:120|fool-sand": {
+    "name": "ساندوتش فول",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-120-fool-sand.webp"
+  },
+  "restaurant:120|taamia-sand": {
+    "name": "ساندوتش طعمية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Falafels_2.jpg/330px-Falafels_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-120-taamia-sand.webp"
+  },
+  "restaurant:120|egg-sand": {
+    "name": "ساندوتش بيض",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Egg_Sandwich.jpg/330px-Egg_Sandwich.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-120-egg-sand.webp"
+  },
+  "restaurant:120|cheese-sand": {
+    "name": "ساندوتش جبنة بالطماطم",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Cheddar_cheese_sandwich.jpg/330px-Cheddar_cheese_sandwich.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-120-cheese-sand.webp"
+  },
+  "restaurant:120|potato-sand": {
+    "name": "ساندوتش بطاطس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-120-potato-sand.webp"
+  },
+  "restaurant:120|shakshuka": {
+    "name": "شكشوكة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Shakshuka_by_Calliopejen1.jpg/330px-Shakshuka_by_Calliopejen1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-120-shakshuka.webp"
+  },
+  "restaurant:120|omelette": {
+    "name": "طبق بيض أومليت",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Egg_Sandwich.jpg/330px-Egg_Sandwich.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-120-omelette.webp"
+  },
+  "restaurant:120|fool-plate": {
+    "name": "طبق فول",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-120-fool-plate.webp"
+  },
+  "restaurant:120|cream-honey": {
+    "name": "قشطة بالعسل",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Kaymak_in_Turkey.jpg/330px-Kaymak_in_Turkey.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-120-cream-honey.webp"
+  },
+  "restaurant:121|fool-sand": {
+    "name": "ساندوتش فول",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-121-fool-sand.webp"
+  },
+  "restaurant:121|taamia-sand": {
+    "name": "ساندوتش طعمية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Falafels_2.jpg/330px-Falafels_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-121-taamia-sand.webp"
+  },
+  "restaurant:121|egg-sand": {
+    "name": "ساندوتش بيض",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Egg_Sandwich.jpg/330px-Egg_Sandwich.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-121-egg-sand.webp"
+  },
+  "restaurant:121|cheese-sand": {
+    "name": "ساندوتش جبنة بالطماطم",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Cheddar_cheese_sandwich.jpg/330px-Cheddar_cheese_sandwich.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-121-cheese-sand.webp"
+  },
+  "restaurant:121|potato-sand": {
+    "name": "ساندوتش بطاطس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-121-potato-sand.webp"
+  },
+  "restaurant:121|shakshuka": {
+    "name": "شكشوكة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/18/Shakshuka_by_Calliopejen1.jpg/330px-Shakshuka_by_Calliopejen1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-121-shakshuka.webp"
+  },
+  "restaurant:121|omelette": {
+    "name": "طبق بيض أومليت",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Egg_Sandwich.jpg/330px-Egg_Sandwich.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-121-omelette.webp"
+  },
+  "restaurant:121|cream-honey": {
+    "name": "قشطة بالعسل",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Kaymak_in_Turkey.jpg/330px-Kaymak_in_Turkey.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-121-cream-honey.webp"
+  },
+  "restaurant:121|meshaltet": {
+    "name": "فطير مشلتت",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Egyptian-food-16.jpg/330px-Egyptian-food-16.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-121-meshaltet.webp"
+  },
+  "restaurant:121|meshaltet-small": {
+    "name": "فطير مشلتت صغير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Egyptian-food-16.jpg/330px-Egyptian-food-16.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-121-meshaltet-small.webp"
+  },
+  "restaurant:121|feteer-mix": {
+    "name": "فطير ميكس جبن",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Egyptian-feteer.jpg/330px-Egyptian-feteer.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-121-feteer-mix.webp"
+  },
+  "restaurant:122|hawawshi": {
+    "name": "حواوشي عادي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-122-hawawshi.webp"
+  },
+  "restaurant:122|hawawshi-cheese": {
+    "name": "حواوشي بالجبنة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-122-hawawshi-cheese.webp"
+  },
+  "restaurant:122|hawawshi-sausage": {
+    "name": "حواوشي سجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-122-hawawshi-sausage.webp"
+  },
+  "restaurant:122|hawawshi-basterma": {
+    "name": "حواوشي بسطرمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-122-hawawshi-basterma.webp"
+  },
+  "restaurant:122|hawawshi-mix": {
+    "name": "حواوشي ميكس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-122-hawawshi-mix.webp"
+  },
+  "restaurant:122|hawawshi-chicken": {
+    "name": "حواوشي فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-122-hawawshi-chicken.webp"
+  },
+  "restaurant:122|hawawshi-half": {
+    "name": "حواوشي صغير (نص رغيف)",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-122-hawawshi-half.webp"
+  },
+  "restaurant:122|fries": {
+    "name": "بطاطس محمرة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-122-fries.webp"
+  },
+  "restaurant:122|tahini": {
+    "name": "طحينة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Tahina.JPG/330px-Tahina.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-122-tahini.webp"
+  },
+  "restaurant:123|hawawshi": {
+    "name": "حواوشي عادي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-123-hawawshi.webp"
+  },
+  "restaurant:123|hawawshi-cheese": {
+    "name": "حواوشي بالجبنة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-123-hawawshi-cheese.webp"
+  },
+  "restaurant:123|hawawshi-sausage": {
+    "name": "حواوشي سجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-123-hawawshi-sausage.webp"
+  },
+  "restaurant:123|hawawshi-mix": {
+    "name": "حواوشي ميكس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-123-hawawshi-mix.webp"
+  },
+  "restaurant:123|hawawshi-chicken": {
+    "name": "حواوشي فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-123-hawawshi-chicken.webp"
+  },
+  "restaurant:123|kofta-kg": {
+    "name": "كفتة مشوية",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-123-kofta-kg.webp"
+  },
+  "restaurant:123|tarb-kg": {
+    "name": "طرب",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-123-tarb-kg.webp"
+  },
+  "restaurant:123|kofta-meal": {
+    "name": "وجبة كفتة (ربع كيلو)",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-123-kofta-meal.webp"
+  },
+  "restaurant:123|kofta-sand": {
+    "name": "ساندوتش كفتة",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-123-kofta-sand.webp"
+  },
+  "restaurant:124|hawawshi": {
+    "name": "حواوشي عادي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-124-hawawshi.webp"
+  },
+  "restaurant:124|hawawshi-cheese": {
+    "name": "حواوشي بالجبنة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-124-hawawshi-cheese.webp"
+  },
+  "restaurant:124|hawawshi-sausage": {
+    "name": "حواوشي سجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-124-hawawshi-sausage.webp"
+  },
+  "restaurant:124|hawawshi-basterma": {
+    "name": "حواوشي بسطرمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-124-hawawshi-basterma.webp"
+  },
+  "restaurant:124|hawawshi-mix": {
+    "name": "حواوشي ميكس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-124-hawawshi-mix.webp"
+  },
+  "restaurant:124|hawawshi-half": {
+    "name": "حواوشي صغير (نص رغيف)",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-124-hawawshi-half.webp"
+  },
+  "restaurant:124|tahini": {
+    "name": "طحينة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Tahina.JPG/330px-Tahina.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-124-tahini.webp"
+  },
+  "restaurant:124|kofta-kg": {
+    "name": "كفتة مشوية",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-124-kofta-kg.webp"
+  },
+  "restaurant:124|tarb-kg": {
+    "name": "طرب",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-124-tarb-kg.webp"
+  },
+  "restaurant:124|kofta-meal": {
+    "name": "وجبة كفتة (ربع كيلو)",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-124-kofta-meal.webp"
+  },
+  "restaurant:124|kofta-sand": {
+    "name": "ساندوتش كفتة",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-124-kofta-sand.webp"
+  },
+  "restaurant:125|hawawshi": {
+    "name": "حواوشي عادي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-125-hawawshi.webp"
+  },
+  "restaurant:125|hawawshi-cheese": {
+    "name": "حواوشي بالجبنة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-125-hawawshi-cheese.webp"
+  },
+  "restaurant:125|hawawshi-sausage": {
+    "name": "حواوشي سجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-125-hawawshi-sausage.webp"
+  },
+  "restaurant:125|hawawshi-basterma": {
+    "name": "حواوشي بسطرمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-125-hawawshi-basterma.webp"
+  },
+  "restaurant:125|hawawshi-mix": {
+    "name": "حواوشي ميكس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-125-hawawshi-mix.webp"
+  },
+  "restaurant:125|fries": {
+    "name": "بطاطس محمرة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-125-fries.webp"
+  },
+  "restaurant:125|tahini": {
+    "name": "طحينة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Tahina.JPG/330px-Tahina.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-125-tahini.webp"
+  },
+  "restaurant:125|sausage-sand": {
+    "name": "ساندوتش سجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Sucuk-1.jpg/330px-Sucuk-1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-125-sausage-sand.webp"
+  },
+  "restaurant:125|mix-sand": {
+    "name": "ساندوتش ميكس كبدة وسجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Sucuk-1.jpg/330px-Sucuk-1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-125-mix-sand.webp"
+  },
+  "restaurant:126|hawawshi": {
+    "name": "حواوشي عادي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-126-hawawshi.webp"
+  },
+  "restaurant:126|hawawshi-cheese": {
+    "name": "حواوشي بالجبنة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-126-hawawshi-cheese.webp"
+  },
+  "restaurant:126|hawawshi-sausage": {
+    "name": "حواوشي سجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-126-hawawshi-sausage.webp"
+  },
+  "restaurant:126|hawawshi-basterma": {
+    "name": "حواوشي بسطرمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-126-hawawshi-basterma.webp"
+  },
+  "restaurant:126|hawawshi-mix": {
+    "name": "حواوشي ميكس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-126-hawawshi-mix.webp"
+  },
+  "restaurant:126|hawawshi-chicken": {
+    "name": "حواوشي فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Egyptian_meatloaf.jpg/330px-Egyptian_meatloaf.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-126-hawawshi-chicken.webp"
+  },
+  "restaurant:126|fries": {
+    "name": "بطاطس محمرة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-126-fries.webp"
+  },
+  "restaurant:126|tahini": {
+    "name": "طحينة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Tahina.JPG/330px-Tahina.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-126-tahini.webp"
+  },
+  "restaurant:127|kofta-kg": {
+    "name": "كفتة مشوية",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-127-kofta-kg.webp"
+  },
+  "restaurant:127|tarb-kg": {
+    "name": "طرب",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-127-tarb-kg.webp"
+  },
+  "restaurant:127|kofta-meal": {
+    "name": "وجبة كفتة (ربع كيلو)",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-127-kofta-meal.webp"
+  },
+  "restaurant:127|kofta-sand": {
+    "name": "ساندوتش كفتة",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-127-kofta-sand.webp"
+  },
+  "restaurant:127|tahini": {
+    "name": "طحينة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Tahina.JPG/330px-Tahina.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-127-tahini.webp"
+  },
+  "restaurant:127|kebab-kg": {
+    "name": "كباب",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Lula_kebab_2.jpg/330px-Lula_kebab_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-127-kebab-kg.webp"
+  },
+  "restaurant:127|ribs-kg": {
+    "name": "ريش ضاني",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Rack_Carr%C3%A9_d%27agneau.JPG/330px-Rack_Carr%C3%A9_d%27agneau.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-127-ribs-kg.webp"
+  },
+  "restaurant:127|mix-meal": {
+    "name": "وجبة مشكل",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-127-mix-meal.webp"
+  },
+  "restaurant:127|chicken-half": {
+    "name": "نص فرخة على الفحم",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg/330px-Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-127-chicken-half.webp"
+  },
+  "restaurant:128|kofta-kg": {
+    "name": "كفتة مشوية",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-128-kofta-kg.webp"
+  },
+  "restaurant:128|kebab-kg": {
+    "name": "كباب",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Lula_kebab_2.jpg/330px-Lula_kebab_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-128-kebab-kg.webp"
+  },
+  "restaurant:128|tarb-kg": {
+    "name": "طرب",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-128-tarb-kg.webp"
+  },
+  "restaurant:128|mix-meal": {
+    "name": "وجبة مشكل",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-128-mix-meal.webp"
+  },
+  "restaurant:128|kofta-meal": {
+    "name": "وجبة كفتة (ربع كيلو)",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-128-kofta-meal.webp"
+  },
+  "restaurant:128|chicken-half": {
+    "name": "نص فرخة على الفحم",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg/330px-Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-128-chicken-half.webp"
+  },
+  "restaurant:128|baba": {
+    "name": "بابا غنوج",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Baba_Ganoush_05of05_%288735238183%29.jpg/330px-Baba_Ganoush_05of05_%288735238183%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-128-baba.webp"
+  },
+  "restaurant:128|kofta-sand": {
+    "name": "ساندوتش كفتة",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-128-kofta-sand.webp"
+  },
+  "restaurant:128|tahini": {
+    "name": "طحينة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Tahina.JPG/330px-Tahina.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-128-tahini.webp"
+  },
+  "restaurant:129|kofta-kg": {
+    "name": "كفتة مشوية",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-129-kofta-kg.webp"
+  },
+  "restaurant:129|kebab-kg": {
+    "name": "كباب",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Lula_kebab_2.jpg/330px-Lula_kebab_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-129-kebab-kg.webp"
+  },
+  "restaurant:129|tarb-kg": {
+    "name": "طرب",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-129-tarb-kg.webp"
+  },
+  "restaurant:129|ribs-kg": {
+    "name": "ريش ضاني",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Rack_Carr%C3%A9_d%27agneau.JPG/330px-Rack_Carr%C3%A9_d%27agneau.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-129-ribs-kg.webp"
+  },
+  "restaurant:129|mix-meal": {
+    "name": "وجبة مشكل",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-129-mix-meal.webp"
+  },
+  "restaurant:129|kofta-meal": {
+    "name": "وجبة كفتة (ربع كيلو)",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-129-kofta-meal.webp"
+  },
+  "restaurant:129|taouk": {
+    "name": "شيش طاووق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Tavuk_%C5%9Ei%C5%9F.jpg/330px-Tavuk_%C5%9Ei%C5%9F.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-129-taouk.webp"
+  },
+  "restaurant:129|fattah": {
+    "name": "فتة باللحمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg/330px-%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-129-fattah.webp"
+  },
+  "restaurant:129|tahini": {
+    "name": "طحينة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Tahina.JPG/330px-Tahina.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-129-tahini.webp"
+  },
+  "restaurant:129|baba": {
+    "name": "بابا غنوج",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Baba_Ganoush_05of05_%288735238183%29.jpg/330px-Baba_Ganoush_05of05_%288735238183%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-129-baba.webp"
+  },
+  "restaurant:130|kofta-kg": {
+    "name": "كفتة مشوية",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-130-kofta-kg.webp"
+  },
+  "restaurant:130|kebab-kg": {
+    "name": "كباب",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Lula_kebab_2.jpg/330px-Lula_kebab_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-130-kebab-kg.webp"
+  },
+  "restaurant:130|tarb-kg": {
+    "name": "طرب",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-130-tarb-kg.webp"
+  },
+  "restaurant:130|ribs-kg": {
+    "name": "ريش ضاني",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/59/Rack_Carr%C3%A9_d%27agneau.JPG/330px-Rack_Carr%C3%A9_d%27agneau.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-130-ribs-kg.webp"
+  },
+  "restaurant:130|kofta-sand": {
+    "name": "ساندوتش كفتة",
+    "originalPhoto": "https://images.pexels.com/photos/32986492/pexels-photo-32986492.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-130-kofta-sand.webp"
+  },
+  "restaurant:130|chicken-half": {
+    "name": "نص فرخة على الفحم",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg/330px-Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-130-chicken-half.webp"
+  },
+  "restaurant:130|tahini": {
+    "name": "طحينة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Tahina.JPG/330px-Tahina.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-130-tahini.webp"
+  },
+  "restaurant:130|grilled-half": {
+    "name": "نص فرخة مشوية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg/330px-Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-130-grilled-half.webp"
+  },
+  "restaurant:130|grilled-whole": {
+    "name": "فرخة مشوية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg/330px-Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-130-grilled-whole.webp"
+  },
+  "restaurant:130|fried-meal": {
+    "name": "وجبة فراخ مقلية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Fried-Chicken-Set.jpg/330px-Fried-Chicken-Set.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-130-fried-meal.webp"
+  },
+  "restaurant:130|broasted-4": {
+    "name": "بروستد 4 قطع",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Fried-Chicken-Set.jpg/330px-Fried-Chicken-Set.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-130-broasted-4.webp"
+  },
+  "restaurant:131|koshary-s": {
+    "name": "كشري صغير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-131-koshary-s.webp"
+  },
+  "restaurant:131|koshary-m": {
+    "name": "كشري وسط",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-131-koshary-m.webp"
+  },
+  "restaurant:131|koshary-l": {
+    "name": "كشري كبير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-131-koshary-l.webp"
+  },
+  "restaurant:131|koshary-super": {
+    "name": "كشري سوبر بالتقلية الزيادة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-131-koshary-super.webp"
+  },
+  "restaurant:131|koshary-family": {
+    "name": "كشري عيلة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-131-koshary-family.webp"
+  },
+  "restaurant:131|tagen-macaroni": {
+    "name": "طاجن مكرونة باللحمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Pastitsio_homemade.jpg/330px-Pastitsio_homemade.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-131-tagen-macaroni.webp"
+  },
+  "restaurant:131|roz": {
+    "name": "أرز بلبن",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Kheer_with_condensed_milk..JPG/330px-Kheer_with_condensed_milk..JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-131-roz.webp"
+  },
+  "restaurant:131|mahalabia": {
+    "name": "مهلبية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/Mhallabiyyeh_%28Arabic_milk_pudding%29.jpg/330px-Mhallabiyyeh_%28Arabic_milk_pudding%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-131-mahalabia.webp"
+  },
+  "restaurant:131|omali": {
+    "name": "أم علي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Umm_Ali.JPG/330px-Umm_Ali.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-131-omali.webp"
+  },
+  "restaurant:132|koshary-s": {
+    "name": "كشري صغير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-132-koshary-s.webp"
+  },
+  "restaurant:132|koshary-m": {
+    "name": "كشري وسط",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-132-koshary-m.webp"
+  },
+  "restaurant:132|koshary-l": {
+    "name": "كشري كبير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-132-koshary-l.webp"
+  },
+  "restaurant:132|koshary-super": {
+    "name": "كشري سوبر بالتقلية الزيادة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-132-koshary-super.webp"
+  },
+  "restaurant:132|koshary-family": {
+    "name": "كشري عيلة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-132-koshary-family.webp"
+  },
+  "restaurant:132|tagen-macaroni": {
+    "name": "طاجن مكرونة باللحمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Pastitsio_homemade.jpg/330px-Pastitsio_homemade.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-132-tagen-macaroni.webp"
+  },
+  "restaurant:132|mahalabia": {
+    "name": "مهلبية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/Mhallabiyyeh_%28Arabic_milk_pudding%29.jpg/330px-Mhallabiyyeh_%28Arabic_milk_pudding%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-132-mahalabia.webp"
+  },
+  "restaurant:132|omali": {
+    "name": "أم علي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Umm_Ali.JPG/330px-Umm_Ali.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-132-omali.webp"
+  },
+  "restaurant:133|koshary-s": {
+    "name": "كشري صغير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-133-koshary-s.webp"
+  },
+  "restaurant:133|koshary-m": {
+    "name": "كشري وسط",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-133-koshary-m.webp"
+  },
+  "restaurant:133|koshary-l": {
+    "name": "كشري كبير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-133-koshary-l.webp"
+  },
+  "restaurant:133|koshary-super": {
+    "name": "كشري سوبر بالتقلية الزيادة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-133-koshary-super.webp"
+  },
+  "restaurant:133|koshary-family": {
+    "name": "كشري عيلة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-133-koshary-family.webp"
+  },
+  "restaurant:133|macaroni": {
+    "name": "مكرونة بشاميل",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Pastitsio_homemade.jpg/330px-Pastitsio_homemade.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-133-macaroni.webp"
+  },
+  "restaurant:133|tagen-macaroni": {
+    "name": "طاجن مكرونة باللحمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Pastitsio_homemade.jpg/330px-Pastitsio_homemade.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-133-tagen-macaroni.webp"
+  },
+  "restaurant:133|roz": {
+    "name": "أرز بلبن",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Kheer_with_condensed_milk..JPG/330px-Kheer_with_condensed_milk..JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-133-roz.webp"
+  },
+  "restaurant:133|mahalabia": {
+    "name": "مهلبية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/Mhallabiyyeh_%28Arabic_milk_pudding%29.jpg/330px-Mhallabiyyeh_%28Arabic_milk_pudding%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-133-mahalabia.webp"
+  },
+  "restaurant:133|omali": {
+    "name": "أم علي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Umm_Ali.JPG/330px-Umm_Ali.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-133-omali.webp"
+  },
+  "restaurant:134|koshary-s": {
+    "name": "كشري صغير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-134-koshary-s.webp"
+  },
+  "restaurant:134|koshary-m": {
+    "name": "كشري وسط",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-134-koshary-m.webp"
+  },
+  "restaurant:134|koshary-l": {
+    "name": "كشري كبير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-134-koshary-l.webp"
+  },
+  "restaurant:134|koshary-super": {
+    "name": "كشري سوبر بالتقلية الزيادة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-134-koshary-super.webp"
+  },
+  "restaurant:134|koshary-family": {
+    "name": "كشري عيلة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-134-koshary-family.webp"
+  },
+  "restaurant:134|macaroni": {
+    "name": "مكرونة بشاميل",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Pastitsio_homemade.jpg/330px-Pastitsio_homemade.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-134-macaroni.webp"
+  },
+  "restaurant:134|tagen-macaroni": {
+    "name": "طاجن مكرونة باللحمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Pastitsio_homemade.jpg/330px-Pastitsio_homemade.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-134-tagen-macaroni.webp"
+  },
+  "restaurant:134|roz": {
+    "name": "أرز بلبن",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Kheer_with_condensed_milk..JPG/330px-Kheer_with_condensed_milk..JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-134-roz.webp"
+  },
+  "restaurant:134|mahalabia": {
+    "name": "مهلبية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/Mhallabiyyeh_%28Arabic_milk_pudding%29.jpg/330px-Mhallabiyyeh_%28Arabic_milk_pudding%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-134-mahalabia.webp"
+  },
+  "restaurant:134|omali": {
+    "name": "أم علي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Umm_Ali.JPG/330px-Umm_Ali.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-134-omali.webp"
+  },
+  "restaurant:135|koshary-s": {
+    "name": "كشري صغير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-135-koshary-s.webp"
+  },
+  "restaurant:135|koshary-m": {
+    "name": "كشري وسط",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-135-koshary-m.webp"
+  },
+  "restaurant:135|koshary-l": {
+    "name": "كشري كبير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-135-koshary-l.webp"
+  },
+  "restaurant:135|koshary-super": {
+    "name": "كشري سوبر بالتقلية الزيادة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-135-koshary-super.webp"
+  },
+  "restaurant:135|koshary-family": {
+    "name": "كشري عيلة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-135-koshary-family.webp"
+  },
+  "restaurant:135|macaroni": {
+    "name": "مكرونة بشاميل",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Pastitsio_homemade.jpg/330px-Pastitsio_homemade.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-135-macaroni.webp"
+  },
+  "restaurant:135|tagen-macaroni": {
+    "name": "طاجن مكرونة باللحمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Pastitsio_homemade.jpg/330px-Pastitsio_homemade.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-135-tagen-macaroni.webp"
+  },
+  "restaurant:135|roz": {
+    "name": "أرز بلبن",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Kheer_with_condensed_milk..JPG/330px-Kheer_with_condensed_milk..JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-135-roz.webp"
+  },
+  "restaurant:135|mahalabia": {
+    "name": "مهلبية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/Mhallabiyyeh_%28Arabic_milk_pudding%29.jpg/330px-Mhallabiyyeh_%28Arabic_milk_pudding%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-135-mahalabia.webp"
+  },
+  "restaurant:135|omali": {
+    "name": "أم علي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Umm_Ali.JPG/330px-Umm_Ali.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-135-omali.webp"
+  },
+  "restaurant:136|pizza-margherita": {
+    "name": "بيتزا مارجريتا",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-136-pizza-margherita.webp"
+  },
+  "restaurant:136|pizza-mix": {
+    "name": "بيتزا ميكس لحوم",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-136-pizza-mix.webp"
+  },
+  "restaurant:136|pizza-chicken": {
+    "name": "بيتزا فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-136-pizza-chicken.webp"
+  },
+  "restaurant:136|pizza-sausage": {
+    "name": "بيتزا سجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-136-pizza-sausage.webp"
+  },
+  "restaurant:136|crepe-pane": {
+    "name": "كريب بانيه",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Crepes_dsc07085.jpg/330px-Crepes_dsc07085.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-136-crepe-pane.webp"
+  },
+  "restaurant:136|crepe-lotus": {
+    "name": "كريب لوتس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Crepes_dsc07085.jpg/330px-Crepes_dsc07085.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-136-crepe-lotus.webp"
+  },
+  "restaurant:136|fries": {
+    "name": "بطاطس محمرة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-136-fries.webp"
+  },
+  "restaurant:136|meshaltet": {
+    "name": "فطير مشلتت",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Egyptian-food-16.jpg/330px-Egyptian-food-16.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-136-meshaltet.webp"
+  },
+  "restaurant:136|meshaltet-small": {
+    "name": "فطير مشلتت صغير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Egyptian-food-16.jpg/330px-Egyptian-food-16.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-136-meshaltet-small.webp"
+  },
+  "restaurant:136|feteer-mix": {
+    "name": "فطير ميكس جبن",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Egyptian-feteer.jpg/330px-Egyptian-feteer.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-136-feteer-mix.webp"
+  },
+  "restaurant:137|pizza-margherita": {
+    "name": "بيتزا مارجريتا",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-137-pizza-margherita.webp"
+  },
+  "restaurant:137|pizza-mix": {
+    "name": "بيتزا ميكس لحوم",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-137-pizza-mix.webp"
+  },
+  "restaurant:137|pizza-chicken": {
+    "name": "بيتزا فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-137-pizza-chicken.webp"
+  },
+  "restaurant:137|pizza-tuna": {
+    "name": "بيتزا تونة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-137-pizza-tuna.webp"
+  },
+  "restaurant:137|pizza-sea": {
+    "name": "بيتزا سي فود",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-137-pizza-sea.webp"
+  },
+  "restaurant:137|crepe-kofta": {
+    "name": "كريب كفتة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Crepes_dsc07085.jpg/330px-Crepes_dsc07085.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-137-crepe-kofta.webp"
+  },
+  "restaurant:137|crepe-nutella": {
+    "name": "كريب نوتيلا",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Crepes_dsc07085.jpg/330px-Crepes_dsc07085.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-137-crepe-nutella.webp"
+  },
+  "restaurant:137|crepe-lotus": {
+    "name": "كريب لوتس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Crepes_dsc07085.jpg/330px-Crepes_dsc07085.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-137-crepe-lotus.webp"
+  },
+  "restaurant:137|fries": {
+    "name": "بطاطس محمرة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-137-fries.webp"
+  },
+  "restaurant:138|pizza-margherita": {
+    "name": "بيتزا مارجريتا",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-138-pizza-margherita.webp"
+  },
+  "restaurant:138|pizza-mix": {
+    "name": "بيتزا ميكس لحوم",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-138-pizza-mix.webp"
+  },
+  "restaurant:138|pizza-chicken": {
+    "name": "بيتزا فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-138-pizza-chicken.webp"
+  },
+  "restaurant:138|pizza-sausage": {
+    "name": "بيتزا سجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-138-pizza-sausage.webp"
+  },
+  "restaurant:138|pizza-tuna": {
+    "name": "بيتزا تونة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-138-pizza-tuna.webp"
+  },
+  "restaurant:138|pizza-veg": {
+    "name": "بيتزا خضار",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-138-pizza-veg.webp"
+  },
+  "restaurant:138|pizza-sea": {
+    "name": "بيتزا سي فود",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-138-pizza-sea.webp"
+  },
+  "restaurant:138|crepe-chicken": {
+    "name": "كريب فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Crepes_dsc07085.jpg/330px-Crepes_dsc07085.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-138-crepe-chicken.webp"
+  },
+  "restaurant:138|crepe-pane": {
+    "name": "كريب بانيه",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Crepes_dsc07085.jpg/330px-Crepes_dsc07085.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-138-crepe-pane.webp"
+  },
+  "restaurant:138|crepe-nutella": {
+    "name": "كريب نوتيلا",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Crepes_dsc07085.jpg/330px-Crepes_dsc07085.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-138-crepe-nutella.webp"
+  },
+  "restaurant:138|crepe-lotus": {
+    "name": "كريب لوتس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Crepes_dsc07085.jpg/330px-Crepes_dsc07085.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-138-crepe-lotus.webp"
+  },
+  "restaurant:138|fries": {
+    "name": "بطاطس محمرة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-138-fries.webp"
+  },
+  "restaurant:139|pizza-margherita": {
+    "name": "بيتزا مارجريتا",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-139-pizza-margherita.webp"
+  },
+  "restaurant:139|pizza-mix": {
+    "name": "بيتزا ميكس لحوم",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-139-pizza-mix.webp"
+  },
+  "restaurant:139|pizza-chicken": {
+    "name": "بيتزا فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-139-pizza-chicken.webp"
+  },
+  "restaurant:139|pizza-sausage": {
+    "name": "بيتزا سجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-139-pizza-sausage.webp"
+  },
+  "restaurant:139|pizza-tuna": {
+    "name": "بيتزا تونة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-139-pizza-tuna.webp"
+  },
+  "restaurant:139|pizza-veg": {
+    "name": "بيتزا خضار",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-139-pizza-veg.webp"
+  },
+  "restaurant:139|pizza-sea": {
+    "name": "بيتزا سي فود",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-139-pizza-sea.webp"
+  },
+  "restaurant:139|crepe-chicken": {
+    "name": "كريب فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Crepes_dsc07085.jpg/330px-Crepes_dsc07085.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-139-crepe-chicken.webp"
+  },
+  "restaurant:139|crepe-pane": {
+    "name": "كريب بانيه",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Crepes_dsc07085.jpg/330px-Crepes_dsc07085.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-139-crepe-pane.webp"
+  },
+  "restaurant:139|fries": {
+    "name": "بطاطس محمرة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-139-fries.webp"
+  },
+  "restaurant:140|pizza-margherita": {
+    "name": "بيتزا مارجريتا",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-140-pizza-margherita.webp"
+  },
+  "restaurant:140|pizza-mix": {
+    "name": "بيتزا ميكس لحوم",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-140-pizza-mix.webp"
+  },
+  "restaurant:140|pizza-chicken": {
+    "name": "بيتزا فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-140-pizza-chicken.webp"
+  },
+  "restaurant:140|pizza-sausage": {
+    "name": "بيتزا سجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-140-pizza-sausage.webp"
+  },
+  "restaurant:140|pizza-tuna": {
+    "name": "بيتزا تونة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Pizza-3007395.jpg/330px-Pizza-3007395.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-140-pizza-tuna.webp"
+  },
+  "restaurant:140|crepe-kofta": {
+    "name": "كريب كفتة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Crepes_dsc07085.jpg/330px-Crepes_dsc07085.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-140-crepe-kofta.webp"
+  },
+  "restaurant:140|crepe-nutella": {
+    "name": "كريب نوتيلا",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Crepes_dsc07085.jpg/330px-Crepes_dsc07085.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-140-crepe-nutella.webp"
+  },
+  "restaurant:140|meshaltet": {
+    "name": "فطير مشلتت",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Egyptian-food-16.jpg/330px-Egyptian-food-16.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-140-meshaltet.webp"
+  },
+  "restaurant:140|meshaltet-small": {
+    "name": "فطير مشلتت صغير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Egyptian-food-16.jpg/330px-Egyptian-food-16.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-140-meshaltet-small.webp"
+  },
+  "restaurant:140|feteer-mix": {
+    "name": "فطير ميكس جبن",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Egyptian-feteer.jpg/330px-Egyptian-feteer.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-140-feteer-mix.webp"
+  },
+  "restaurant:141|meshaltet": {
+    "name": "فطير مشلتت",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Egyptian-food-16.jpg/330px-Egyptian-food-16.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-141-meshaltet.webp"
+  },
+  "restaurant:141|meshaltet-small": {
+    "name": "فطير مشلتت صغير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Egyptian-food-16.jpg/330px-Egyptian-food-16.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-141-meshaltet-small.webp"
+  },
+  "restaurant:141|feteer-sausage": {
+    "name": "فطير سجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Egyptian-feteer.jpg/330px-Egyptian-feteer.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-141-feteer-sausage.webp"
+  },
+  "restaurant:141|feteer-meat": {
+    "name": "فطير لحمة مفرومة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Egyptian-feteer.jpg/330px-Egyptian-feteer.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-141-feteer-meat.webp"
+  },
+  "restaurant:141|feteer-basterma": {
+    "name": "فطير بسطرمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Egyptian-feteer.jpg/330px-Egyptian-feteer.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-141-feteer-basterma.webp"
+  },
+  "restaurant:141|feteer-chicken": {
+    "name": "فطير فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Egyptian-feteer.jpg/330px-Egyptian-feteer.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-141-feteer-chicken.webp"
+  },
+  "restaurant:141|feteer-nutella": {
+    "name": "فطير نوتيلا",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Egyptian-feteer.jpg/330px-Egyptian-feteer.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-141-feteer-nutella.webp"
+  },
+  "restaurant:141|basbousa": {
+    "name": "بسبوسة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/Basboosa.jpg/330px-Basboosa.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-141-basbousa.webp"
+  },
+  "restaurant:141|kunafa": {
+    "name": "كنافة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/K%C3%BCnefe.jpg/330px-K%C3%BCnefe.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-141-kunafa.webp"
+  },
+  "restaurant:141|kunafa-nutella": {
+    "name": "كنافة نوتيلا",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/K%C3%BCnefe.jpg/330px-K%C3%BCnefe.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-141-kunafa-nutella.webp"
+  },
+  "restaurant:141|baklava": {
+    "name": "بقلاوة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Baklava%281%29.png/330px-Baklava%281%29.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-141-baklava.webp"
+  },
+  "restaurant:142|meshaltet": {
+    "name": "فطير مشلتت",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Egyptian-food-16.jpg/330px-Egyptian-food-16.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-142-meshaltet.webp"
+  },
+  "restaurant:142|meshaltet-small": {
+    "name": "فطير مشلتت صغير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/26/Egyptian-food-16.jpg/330px-Egyptian-food-16.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-142-meshaltet-small.webp"
+  },
+  "restaurant:142|feteer-sausage": {
+    "name": "فطير سجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Egyptian-feteer.jpg/330px-Egyptian-feteer.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-142-feteer-sausage.webp"
+  },
+  "restaurant:142|feteer-basterma": {
+    "name": "فطير بسطرمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Egyptian-feteer.jpg/330px-Egyptian-feteer.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-142-feteer-basterma.webp"
+  },
+  "restaurant:142|feteer-chicken": {
+    "name": "فطير فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Egyptian-feteer.jpg/330px-Egyptian-feteer.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-142-feteer-chicken.webp"
+  },
+  "restaurant:142|feteer-nutella": {
+    "name": "فطير نوتيلا",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Egyptian-feteer.jpg/330px-Egyptian-feteer.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-142-feteer-nutella.webp"
+  },
+  "restaurant:142|omali": {
+    "name": "أم علي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Umm_Ali.JPG/330px-Umm_Ali.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-142-omali.webp"
+  },
+  "restaurant:142|fool-sand": {
+    "name": "ساندوتش فول",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Ful_medames_%28arabic_meal%29.jpg/330px-Ful_medames_%28arabic_meal%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-142-fool-sand.webp"
+  },
+  "restaurant:142|taamia-sand": {
+    "name": "ساندوتش طعمية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/Falafels_2.jpg/330px-Falafels_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-142-taamia-sand.webp"
+  },
+  "restaurant:142|egg-sand": {
+    "name": "ساندوتش بيض",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Egg_Sandwich.jpg/330px-Egg_Sandwich.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-142-egg-sand.webp"
+  },
+  "restaurant:142|cheese-sand": {
+    "name": "ساندوتش جبنة بالطماطم",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Cheddar_cheese_sandwich.jpg/330px-Cheddar_cheese_sandwich.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-142-cheese-sand.webp"
+  },
+  "restaurant:143|fried-tilapia": {
+    "name": "بلطي مقلي",
+    "originalPhoto": "https://images.pexels.com/photos/8934972/pexels-photo-8934972.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-143-fried-tilapia.webp"
+  },
+  "restaurant:143|grilled-mullet": {
+    "name": "بوري مشوي",
+    "originalPhoto": "https://images.pexels.com/photos/8250362/pexels-photo-8250362.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-143-grilled-mullet.webp"
+  },
+  "restaurant:143|grilled-bream": {
+    "name": "دنيس مشوي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Sparus_aurata%2C_Alpes-Maritimes%2C_Provence-Alpes-C%C3%B4te_d%27Azur%2C_FR_imported_from_iNaturalist_photo_207799710.jpg/330px-Sparus_aurata%2C_Alpes-Maritimes%2C_Provence-Alpes-C%C3%B4te_d%27Azur%2C_FR_imported_from_iNaturalist_photo_207799710.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-143-grilled-bream.webp"
+  },
+  "restaurant:143|fried-sardine": {
+    "name": "سردين مقلي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/Sardines_-_%E9%B0%AF%28%E3%81%84%E3%82%8F%E3%81%97%29.jpg/330px-Sardines_-_%E9%B0%AF%28%E3%81%84%E3%82%8F%E3%81%97%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-143-fried-sardine.webp"
+  },
+  "restaurant:143|shrimp": {
+    "name": "جمبري مقلي",
+    "originalPhoto": "https://images.pexels.com/photos/17628581/pexels-photo-17628581.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-143-shrimp.webp"
+  },
+  "restaurant:143|calamari": {
+    "name": "كاليماري مقلي",
+    "originalPhoto": "https://images.pexels.com/photos/15801007/pexels-photo-15801007.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-143-calamari.webp"
+  },
+  "restaurant:143|shrimp-tagen": {
+    "name": "طاجن جمبري",
+    "originalPhoto": "https://images.pexels.com/photos/17628581/pexels-photo-17628581.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-143-shrimp-tagen.webp"
+  },
+  "restaurant:143|fishchips": {
+    "name": "وجبة سمك وبطاطس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Fish_and_chips_blackpool.jpg/330px-Fish_and_chips_blackpool.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-143-fishchips.webp"
+  },
+  "restaurant:143|tahini": {
+    "name": "سلطة طحينة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Tahina.JPG/330px-Tahina.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-143-tahini.webp"
+  },
+  "restaurant:143|baba": {
+    "name": "بابا غنوج",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Baba_Ganoush_05of05_%288735238183%29.jpg/330px-Baba_Ganoush_05of05_%288735238183%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-143-baba.webp"
+  },
+  "restaurant:144|fried-tilapia": {
+    "name": "بلطي مقلي",
+    "originalPhoto": "https://images.pexels.com/photos/8934972/pexels-photo-8934972.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-144-fried-tilapia.webp"
+  },
+  "restaurant:144|grilled-mullet": {
+    "name": "بوري مشوي",
+    "originalPhoto": "https://images.pexels.com/photos/8250362/pexels-photo-8250362.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-144-grilled-mullet.webp"
+  },
+  "restaurant:144|grilled-bream": {
+    "name": "دنيس مشوي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Sparus_aurata%2C_Alpes-Maritimes%2C_Provence-Alpes-C%C3%B4te_d%27Azur%2C_FR_imported_from_iNaturalist_photo_207799710.jpg/330px-Sparus_aurata%2C_Alpes-Maritimes%2C_Provence-Alpes-C%C3%B4te_d%27Azur%2C_FR_imported_from_iNaturalist_photo_207799710.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-144-grilled-bream.webp"
+  },
+  "restaurant:144|fried-fillet": {
+    "name": "فيليه مقلي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/60/Pangasius_meat.jpg/330px-Pangasius_meat.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-144-fried-fillet.webp"
+  },
+  "restaurant:144|shrimp": {
+    "name": "جمبري مقلي",
+    "originalPhoto": "https://images.pexels.com/photos/17628581/pexels-photo-17628581.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-144-shrimp.webp"
+  },
+  "restaurant:144|calamari": {
+    "name": "كاليماري مقلي",
+    "originalPhoto": "https://images.pexels.com/photos/15801007/pexels-photo-15801007.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-144-calamari.webp"
+  },
+  "restaurant:144|crab": {
+    "name": "كابوريا",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/Portunus_pelagicus_male.jpg/330px-Portunus_pelagicus_male.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-144-crab.webp"
+  },
+  "restaurant:144|shrimp-tagen": {
+    "name": "طاجن جمبري",
+    "originalPhoto": "https://images.pexels.com/photos/17628581/pexels-photo-17628581.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-144-shrimp-tagen.webp"
+  },
+  "restaurant:144|tahini": {
+    "name": "سلطة طحينة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Tahina.JPG/330px-Tahina.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-144-tahini.webp"
+  },
+  "restaurant:144|baba": {
+    "name": "بابا غنوج",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Baba_Ganoush_05of05_%288735238183%29.jpg/330px-Baba_Ganoush_05of05_%288735238183%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-144-baba.webp"
+  },
+  "restaurant:145|fried-tilapia": {
+    "name": "بلطي مقلي",
+    "originalPhoto": "https://images.pexels.com/photos/8934972/pexels-photo-8934972.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-145-fried-tilapia.webp"
+  },
+  "restaurant:145|grilled-mullet": {
+    "name": "بوري مشوي",
+    "originalPhoto": "https://images.pexels.com/photos/8250362/pexels-photo-8250362.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-145-grilled-mullet.webp"
+  },
+  "restaurant:145|grilled-bream": {
+    "name": "دنيس مشوي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Sparus_aurata%2C_Alpes-Maritimes%2C_Provence-Alpes-C%C3%B4te_d%27Azur%2C_FR_imported_from_iNaturalist_photo_207799710.jpg/330px-Sparus_aurata%2C_Alpes-Maritimes%2C_Provence-Alpes-C%C3%B4te_d%27Azur%2C_FR_imported_from_iNaturalist_photo_207799710.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-145-grilled-bream.webp"
+  },
+  "restaurant:145|fried-sardine": {
+    "name": "سردين مقلي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/Sardines_-_%E9%B0%AF%28%E3%81%84%E3%82%8F%E3%81%97%29.jpg/330px-Sardines_-_%E9%B0%AF%28%E3%81%84%E3%82%8F%E3%81%97%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-145-fried-sardine.webp"
+  },
+  "restaurant:145|shrimp": {
+    "name": "جمبري مقلي",
+    "originalPhoto": "https://images.pexels.com/photos/17628581/pexels-photo-17628581.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-145-shrimp.webp"
+  },
+  "restaurant:145|calamari": {
+    "name": "كاليماري مقلي",
+    "originalPhoto": "https://images.pexels.com/photos/15801007/pexels-photo-15801007.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-145-calamari.webp"
+  },
+  "restaurant:145|shrimp-tagen": {
+    "name": "طاجن جمبري",
+    "originalPhoto": "https://images.pexels.com/photos/17628581/pexels-photo-17628581.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-145-shrimp-tagen.webp"
+  },
+  "restaurant:145|fishchips": {
+    "name": "وجبة سمك وبطاطس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Fish_and_chips_blackpool.jpg/330px-Fish_and_chips_blackpool.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-145-fishchips.webp"
+  },
+  "restaurant:145|baba": {
+    "name": "بابا غنوج",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Baba_Ganoush_05of05_%288735238183%29.jpg/330px-Baba_Ganoush_05of05_%288735238183%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-145-baba.webp"
+  },
+  "restaurant:146|fried-tilapia": {
+    "name": "بلطي مقلي",
+    "originalPhoto": "https://images.pexels.com/photos/8934972/pexels-photo-8934972.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-146-fried-tilapia.webp"
+  },
+  "restaurant:146|grilled-mullet": {
+    "name": "بوري مشوي",
+    "originalPhoto": "https://images.pexels.com/photos/8250362/pexels-photo-8250362.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-146-grilled-mullet.webp"
+  },
+  "restaurant:146|grilled-bream": {
+    "name": "دنيس مشوي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Sparus_aurata%2C_Alpes-Maritimes%2C_Provence-Alpes-C%C3%B4te_d%27Azur%2C_FR_imported_from_iNaturalist_photo_207799710.jpg/330px-Sparus_aurata%2C_Alpes-Maritimes%2C_Provence-Alpes-C%C3%B4te_d%27Azur%2C_FR_imported_from_iNaturalist_photo_207799710.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-146-grilled-bream.webp"
+  },
+  "restaurant:146|fried-sardine": {
+    "name": "سردين مقلي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/Sardines_-_%E9%B0%AF%28%E3%81%84%E3%82%8F%E3%81%97%29.jpg/330px-Sardines_-_%E9%B0%AF%28%E3%81%84%E3%82%8F%E3%81%97%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-146-fried-sardine.webp"
+  },
+  "restaurant:146|shrimp": {
+    "name": "جمبري مقلي",
+    "originalPhoto": "https://images.pexels.com/photos/17628581/pexels-photo-17628581.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-146-shrimp.webp"
+  },
+  "restaurant:146|calamari": {
+    "name": "كاليماري مقلي",
+    "originalPhoto": "https://images.pexels.com/photos/15801007/pexels-photo-15801007.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-146-calamari.webp"
+  },
+  "restaurant:146|crab": {
+    "name": "كابوريا",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/Portunus_pelagicus_male.jpg/330px-Portunus_pelagicus_male.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-146-crab.webp"
+  },
+  "restaurant:146|fishchips": {
+    "name": "وجبة سمك وبطاطس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Fish_and_chips_blackpool.jpg/330px-Fish_and_chips_blackpool.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-146-fishchips.webp"
+  },
+  "restaurant:146|tahini": {
+    "name": "سلطة طحينة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Tahina.JPG/330px-Tahina.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-146-tahini.webp"
+  },
+  "restaurant:147|fried-tilapia": {
+    "name": "بلطي مقلي",
+    "originalPhoto": "https://images.pexels.com/photos/8934972/pexels-photo-8934972.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-147-fried-tilapia.webp"
+  },
+  "restaurant:147|grilled-mullet": {
+    "name": "بوري مشوي",
+    "originalPhoto": "https://images.pexels.com/photos/8250362/pexels-photo-8250362.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-147-grilled-mullet.webp"
+  },
+  "restaurant:147|grilled-bream": {
+    "name": "دنيس مشوي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Sparus_aurata%2C_Alpes-Maritimes%2C_Provence-Alpes-C%C3%B4te_d%27Azur%2C_FR_imported_from_iNaturalist_photo_207799710.jpg/330px-Sparus_aurata%2C_Alpes-Maritimes%2C_Provence-Alpes-C%C3%B4te_d%27Azur%2C_FR_imported_from_iNaturalist_photo_207799710.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-147-grilled-bream.webp"
+  },
+  "restaurant:147|calamari": {
+    "name": "كاليماري مقلي",
+    "originalPhoto": "https://images.pexels.com/photos/15801007/pexels-photo-15801007.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-147-calamari.webp"
+  },
+  "restaurant:147|crab": {
+    "name": "كابوريا",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/Portunus_pelagicus_male.jpg/330px-Portunus_pelagicus_male.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-147-crab.webp"
+  },
+  "restaurant:147|shrimp-tagen": {
+    "name": "طاجن جمبري",
+    "originalPhoto": "https://images.pexels.com/photos/17628581/pexels-photo-17628581.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-147-shrimp-tagen.webp"
+  },
+  "restaurant:147|fishchips": {
+    "name": "وجبة سمك وبطاطس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Fish_and_chips_blackpool.jpg/330px-Fish_and_chips_blackpool.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-147-fishchips.webp"
+  },
+  "restaurant:147|tahini": {
+    "name": "سلطة طحينة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Tahina.JPG/330px-Tahina.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-147-tahini.webp"
+  },
+  "restaurant:147|baba": {
+    "name": "بابا غنوج",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Baba_Ganoush_05of05_%288735238183%29.jpg/330px-Baba_Ganoush_05of05_%288735238183%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-147-baba.webp"
+  },
+  "restaurant:148|shawarma-chicken": {
+    "name": "شاورما فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-148-shawarma-chicken.webp"
+  },
+  "restaurant:148|shawarma-meat": {
+    "name": "شاورما لحمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-148-shawarma-meat.webp"
+  },
+  "restaurant:148|syrian-chicken": {
+    "name": "سوري فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-148-syrian-chicken.webp"
+  },
+  "restaurant:148|chicken-meal": {
+    "name": "وجبة شاورما فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-148-chicken-meal.webp"
+  },
+  "restaurant:148|meat-meal": {
+    "name": "وجبة شاورما لحمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-148-meat-meal.webp"
+  },
+  "restaurant:148|taouk": {
+    "name": "شيش طاووق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Tavuk_%C5%9Ei%C5%9F.jpg/330px-Tavuk_%C5%9Ei%C5%9F.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-148-taouk.webp"
+  },
+  "restaurant:148|shawarma-kg": {
+    "name": "شاورما فراخ بالكيلو",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-148-shawarma-kg.webp"
+  },
+  "restaurant:149|shawarma-chicken": {
+    "name": "شاورما فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-149-shawarma-chicken.webp"
+  },
+  "restaurant:149|shawarma-meat": {
+    "name": "شاورما لحمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-149-shawarma-meat.webp"
+  },
+  "restaurant:149|syrian-chicken": {
+    "name": "سوري فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-149-syrian-chicken.webp"
+  },
+  "restaurant:149|fattah-shawarma": {
+    "name": "فتة شاورما",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg/330px-%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-149-fattah-shawarma.webp"
+  },
+  "restaurant:149|taouk": {
+    "name": "شيش طاووق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Tavuk_%C5%9Ei%C5%9F.jpg/330px-Tavuk_%C5%9Ei%C5%9F.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-149-taouk.webp"
+  },
+  "restaurant:149|shawarma-kg": {
+    "name": "شاورما فراخ بالكيلو",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-149-shawarma-kg.webp"
+  },
+  "restaurant:149|fries": {
+    "name": "بطاطس محمرة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-149-fries.webp"
+  },
+  "restaurant:149|grilled-half": {
+    "name": "نص فرخة مشوية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg/330px-Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-149-grilled-half.webp"
+  },
+  "restaurant:149|grilled-whole": {
+    "name": "فرخة مشوية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg/330px-Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-149-grilled-whole.webp"
+  },
+  "restaurant:149|fried-meal": {
+    "name": "وجبة فراخ مقلية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Fried-Chicken-Set.jpg/330px-Fried-Chicken-Set.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-149-fried-meal.webp"
+  },
+  "restaurant:149|broasted-4": {
+    "name": "بروستد 4 قطع",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Fried-Chicken-Set.jpg/330px-Fried-Chicken-Set.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-149-broasted-4.webp"
+  },
+  "restaurant:150|shawarma-chicken": {
+    "name": "شاورما فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-150-shawarma-chicken.webp"
+  },
+  "restaurant:150|shawarma-meat": {
+    "name": "شاورما لحمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-150-shawarma-meat.webp"
+  },
+  "restaurant:150|syrian-chicken": {
+    "name": "سوري فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-150-syrian-chicken.webp"
+  },
+  "restaurant:150|chicken-meal": {
+    "name": "وجبة شاورما فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-150-chicken-meal.webp"
+  },
+  "restaurant:150|meat-meal": {
+    "name": "وجبة شاورما لحمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-150-meat-meal.webp"
+  },
+  "restaurant:150|fattah-shawarma": {
+    "name": "فتة شاورما",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg/330px-%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-150-fattah-shawarma.webp"
+  },
+  "restaurant:150|taouk": {
+    "name": "شيش طاووق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Tavuk_%C5%9Ei%C5%9F.jpg/330px-Tavuk_%C5%9Ei%C5%9F.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-150-taouk.webp"
+  },
+  "restaurant:150|shawarma-kg": {
+    "name": "شاورما فراخ بالكيلو",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-150-shawarma-kg.webp"
+  },
+  "restaurant:150|fries": {
+    "name": "بطاطس محمرة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-150-fries.webp"
+  },
+  "restaurant:151|shawarma-chicken": {
+    "name": "شاورما فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-151-shawarma-chicken.webp"
+  },
+  "restaurant:151|shawarma-meat": {
+    "name": "شاورما لحمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-151-shawarma-meat.webp"
+  },
+  "restaurant:151|syrian-chicken": {
+    "name": "سوري فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-151-syrian-chicken.webp"
+  },
+  "restaurant:151|chicken-meal": {
+    "name": "وجبة شاورما فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-151-chicken-meal.webp"
+  },
+  "restaurant:151|meat-meal": {
+    "name": "وجبة شاورما لحمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-151-meat-meal.webp"
+  },
+  "restaurant:151|fattah-shawarma": {
+    "name": "فتة شاورما",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg/330px-%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-151-fattah-shawarma.webp"
+  },
+  "restaurant:151|taouk": {
+    "name": "شيش طاووق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Tavuk_%C5%9Ei%C5%9F.jpg/330px-Tavuk_%C5%9Ei%C5%9F.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-151-taouk.webp"
+  },
+  "restaurant:151|shawarma-kg": {
+    "name": "شاورما فراخ بالكيلو",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-151-shawarma-kg.webp"
+  },
+  "restaurant:151|fries": {
+    "name": "بطاطس محمرة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-151-fries.webp"
+  },
+  "restaurant:152|shawarma-chicken": {
+    "name": "شاورما فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-152-shawarma-chicken.webp"
+  },
+  "restaurant:152|shawarma-meat": {
+    "name": "شاورما لحمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-152-shawarma-meat.webp"
+  },
+  "restaurant:152|syrian-chicken": {
+    "name": "سوري فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-152-syrian-chicken.webp"
+  },
+  "restaurant:152|chicken-meal": {
+    "name": "وجبة شاورما فراخ",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-152-chicken-meal.webp"
+  },
+  "restaurant:152|meat-meal": {
+    "name": "وجبة شاورما لحمة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-152-meat-meal.webp"
+  },
+  "restaurant:152|fattah-shawarma": {
+    "name": "فتة شاورما",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg/330px-%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-152-fattah-shawarma.webp"
+  },
+  "restaurant:152|taouk": {
+    "name": "شيش طاووق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Tavuk_%C5%9Ei%C5%9F.jpg/330px-Tavuk_%C5%9Ei%C5%9F.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-152-taouk.webp"
+  },
+  "restaurant:152|shawarma-kg": {
+    "name": "شاورما فراخ بالكيلو",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/00/Shawarma_2.jpg/330px-Shawarma_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-152-shawarma-kg.webp"
+  },
+  "restaurant:152|fries": {
+    "name": "بطاطس محمرة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-152-fries.webp"
+  },
+  "restaurant:153|grilled-half": {
+    "name": "نص فرخة مشوية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg/330px-Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-153-grilled-half.webp"
+  },
+  "restaurant:153|grilled-whole": {
+    "name": "فرخة مشوية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg/330px-Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-153-grilled-whole.webp"
+  },
+  "restaurant:153|fried-meal": {
+    "name": "وجبة فراخ مقلية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Fried-Chicken-Set.jpg/330px-Fried-Chicken-Set.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-153-fried-meal.webp"
+  },
+  "restaurant:153|broasted-8": {
+    "name": "بروستد 8 قطع",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Fried-Chicken-Set.jpg/330px-Fried-Chicken-Set.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-153-broasted-8.webp"
+  },
+  "restaurant:153|nuggets": {
+    "name": "ناجتس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Chicken_Nuggets.jpg/330px-Chicken_Nuggets.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-153-nuggets.webp"
+  },
+  "restaurant:153|wings": {
+    "name": "أجنحة مقلية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/Raw_chicken_wings.jpg/330px-Raw_chicken_wings.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-153-wings.webp"
+  },
+  "restaurant:153|strips": {
+    "name": "استربس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/Crispy_Chicken_Strips_-_FotoosVanRobin.jpg/330px-Crispy_Chicken_Strips_-_FotoosVanRobin.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-153-strips.webp"
+  },
+  "restaurant:153|molokhia": {
+    "name": "ملوخية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/Molokheya_Egypt%2C_2012.JPG/330px-Molokheya_Egypt%2C_2012.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-153-molokhia.webp"
+  },
+  "restaurant:154|grilled-half": {
+    "name": "نص فرخة مشوية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg/330px-Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-154-grilled-half.webp"
+  },
+  "restaurant:154|grilled-whole": {
+    "name": "فرخة مشوية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg/330px-Max%27s_Roasted_Chicken_-_Evan_Swigart.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-154-grilled-whole.webp"
+  },
+  "restaurant:154|fried-meal": {
+    "name": "وجبة فراخ مقلية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Fried-Chicken-Set.jpg/330px-Fried-Chicken-Set.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-154-fried-meal.webp"
+  },
+  "restaurant:154|broasted-4": {
+    "name": "بروستد 4 قطع",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Fried-Chicken-Set.jpg/330px-Fried-Chicken-Set.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-154-broasted-4.webp"
+  },
+  "restaurant:154|broasted-8": {
+    "name": "بروستد 8 قطع",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Fried-Chicken-Set.jpg/330px-Fried-Chicken-Set.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-154-broasted-8.webp"
+  },
+  "restaurant:154|nuggets": {
+    "name": "ناجتس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Chicken_Nuggets.jpg/330px-Chicken_Nuggets.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-154-nuggets.webp"
+  },
+  "restaurant:154|pane-meal": {
+    "name": "وجبة بانيه",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/Breitenlesau_Krug_Br%C3%A4u_Schnitzel.JPG/330px-Breitenlesau_Krug_Br%C3%A4u_Schnitzel.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-154-pane-meal.webp"
+  },
+  "restaurant:154|strips": {
+    "name": "استربس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/Crispy_Chicken_Strips_-_FotoosVanRobin.jpg/330px-Crispy_Chicken_Strips_-_FotoosVanRobin.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-154-strips.webp"
+  },
+  "restaurant:154|molokhia": {
+    "name": "ملوخية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/Molokheya_Egypt%2C_2012.JPG/330px-Molokheya_Egypt%2C_2012.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-154-molokhia.webp"
+  },
+  "restaurant:154|fries": {
+    "name": "بطاطس محمرة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-154-fries.webp"
+  },
+  "restaurant:155|sausage-sand": {
+    "name": "ساندوتش سجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Sucuk-1.jpg/330px-Sucuk-1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-155-sausage-sand.webp"
+  },
+  "restaurant:155|mix-sand": {
+    "name": "ساندوتش ميكس كبدة وسجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Sucuk-1.jpg/330px-Sucuk-1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-155-mix-sand.webp"
+  },
+  "restaurant:155|sausage-kg": {
+    "name": "سجق شرقي بالكيلو",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Sucuk-1.jpg/330px-Sucuk-1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-155-sausage-kg.webp"
+  },
+  "restaurant:155|gizzard-tagen": {
+    "name": "طاجن قوانص",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/Gizzard_of_Chicken.JPG/330px-Gizzard_of_Chicken.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-155-gizzard-tagen.webp"
+  },
+  "restaurant:155|mombar": {
+    "name": "ممبار محشي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/Egyptian_Mumbaar.jpg/330px-Egyptian_Mumbaar.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-155-mombar.webp"
+  },
+  "restaurant:155|potato-sand": {
+    "name": "ساندوتش بطاطس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-155-potato-sand.webp"
+  },
+  "restaurant:155|fries": {
+    "name": "بطاطس محمرة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-155-fries.webp"
+  },
+  "restaurant:155|tahini": {
+    "name": "طحينة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Tahina.JPG/330px-Tahina.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-155-tahini.webp"
+  },
+  "restaurant:156|sausage-sand": {
+    "name": "ساندوتش سجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Sucuk-1.jpg/330px-Sucuk-1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-156-sausage-sand.webp"
+  },
+  "restaurant:156|mix-sand": {
+    "name": "ساندوتش ميكس كبدة وسجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Sucuk-1.jpg/330px-Sucuk-1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-156-mix-sand.webp"
+  },
+  "restaurant:156|sausage-kg": {
+    "name": "سجق شرقي بالكيلو",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Sucuk-1.jpg/330px-Sucuk-1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-156-sausage-kg.webp"
+  },
+  "restaurant:156|mombar": {
+    "name": "ممبار محشي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/Egyptian_Mumbaar.jpg/330px-Egyptian_Mumbaar.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-156-mombar.webp"
+  },
+  "restaurant:156|potato-sand": {
+    "name": "ساندوتش بطاطس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-156-potato-sand.webp"
+  },
+  "restaurant:156|fries": {
+    "name": "بطاطس محمرة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-156-fries.webp"
+  },
+  "restaurant:156|tahini": {
+    "name": "طحينة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Tahina.JPG/330px-Tahina.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-156-tahini.webp"
+  },
+  "restaurant:157|sausage-sand": {
+    "name": "ساندوتش سجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Sucuk-1.jpg/330px-Sucuk-1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-157-sausage-sand.webp"
+  },
+  "restaurant:157|mix-sand": {
+    "name": "ساندوتش ميكس كبدة وسجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Sucuk-1.jpg/330px-Sucuk-1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-157-mix-sand.webp"
+  },
+  "restaurant:157|sausage-kg": {
+    "name": "سجق شرقي بالكيلو",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Sucuk-1.jpg/330px-Sucuk-1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-157-sausage-kg.webp"
+  },
+  "restaurant:157|gizzard-tagen": {
+    "name": "طاجن قوانص",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/Gizzard_of_Chicken.JPG/330px-Gizzard_of_Chicken.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-157-gizzard-tagen.webp"
+  },
+  "restaurant:157|mombar": {
+    "name": "ممبار محشي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/Egyptian_Mumbaar.jpg/330px-Egyptian_Mumbaar.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-157-mombar.webp"
+  },
+  "restaurant:157|potato-sand": {
+    "name": "ساندوتش بطاطس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-157-potato-sand.webp"
+  },
+  "restaurant:157|fries": {
+    "name": "بطاطس محمرة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-157-fries.webp"
+  },
+  "restaurant:157|tahini": {
+    "name": "طحينة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Tahina.JPG/330px-Tahina.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-157-tahini.webp"
+  },
+  "restaurant:158|sausage-sand": {
+    "name": "ساندوتش سجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Sucuk-1.jpg/330px-Sucuk-1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-158-sausage-sand.webp"
+  },
+  "restaurant:158|mix-sand": {
+    "name": "ساندوتش ميكس كبدة وسجق",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Sucuk-1.jpg/330px-Sucuk-1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-158-mix-sand.webp"
+  },
+  "restaurant:158|sausage-kg": {
+    "name": "سجق شرقي بالكيلو",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Sucuk-1.jpg/330px-Sucuk-1.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-158-sausage-kg.webp"
+  },
+  "restaurant:158|gizzard-tagen": {
+    "name": "طاجن قوانص",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/Gizzard_of_Chicken.JPG/330px-Gizzard_of_Chicken.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-158-gizzard-tagen.webp"
+  },
+  "restaurant:158|potato-sand": {
+    "name": "ساندوتش بطاطس",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-158-potato-sand.webp"
+  },
+  "restaurant:158|fries": {
+    "name": "بطاطس محمرة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/French_Fries.JPG/330px-French_Fries.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-158-fries.webp"
+  },
+  "restaurant:158|tahini": {
+    "name": "طحينة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/39/Tahina.JPG/330px-Tahina.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-158-tahini.webp"
+  },
+  "restaurant:159|duck": {
+    "name": "بطة محمرة",
+    "originalPhoto": "https://images.pexels.com/photos/24038062/pexels-photo-24038062.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-159-duck.webp"
+  },
+  "restaurant:159|duck-half": {
+    "name": "نص بطة محمرة",
+    "originalPhoto": "https://images.pexels.com/photos/24038062/pexels-photo-24038062.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-159-duck-half.webp"
+  },
+  "restaurant:159|goose": {
+    "name": "وزة محمرة",
+    "originalPhoto": "https://images.pexels.com/photos/24038062/pexels-photo-24038062.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-159-goose.webp"
+  },
+  "restaurant:159|pigeon": {
+    "name": "جوز حمام محشي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Hamam_mahshi.jpg/330px-Hamam_mahshi.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-159-pigeon.webp"
+  },
+  "restaurant:159|quail": {
+    "name": "سمان محمر (جوز)",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/Quail_Saltimbocca_with_Polenta_Fritter_-_King_River_Cafe_%2865050203%29.jpg/330px-Quail_Saltimbocca_with_Polenta_Fritter_-_King_River_Cafe_%2865050203%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-159-quail.webp"
+  },
+  "restaurant:159|mahshi": {
+    "name": "محشي مشكل",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Speca_te_mbushura_me_mish.JPG/330px-Speca_te_mbushura_me_mish.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-159-mahshi.webp"
+  },
+  "restaurant:159|fattah": {
+    "name": "فتة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg/330px-%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-159-fattah.webp"
+  },
+  "restaurant:159|molokhia": {
+    "name": "ملوخية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/Molokheya_Egypt%2C_2012.JPG/330px-Molokheya_Egypt%2C_2012.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-159-molokhia.webp"
+  },
+  "restaurant:160|duck": {
+    "name": "بطة محمرة",
+    "originalPhoto": "https://images.pexels.com/photos/24038062/pexels-photo-24038062.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-160-duck.webp"
+  },
+  "restaurant:160|duck-half": {
+    "name": "نص بطة محمرة",
+    "originalPhoto": "https://images.pexels.com/photos/24038062/pexels-photo-24038062.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-160-duck-half.webp"
+  },
+  "restaurant:160|goose": {
+    "name": "وزة محمرة",
+    "originalPhoto": "https://images.pexels.com/photos/24038062/pexels-photo-24038062.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-160-goose.webp"
+  },
+  "restaurant:160|pigeon": {
+    "name": "جوز حمام محشي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Hamam_mahshi.jpg/330px-Hamam_mahshi.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-160-pigeon.webp"
+  },
+  "restaurant:160|mahshi": {
+    "name": "محشي مشكل",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Speca_te_mbushura_me_mish.JPG/330px-Speca_te_mbushura_me_mish.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-160-mahshi.webp"
+  },
+  "restaurant:160|fattah": {
+    "name": "فتة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg/330px-%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-160-fattah.webp"
+  },
+  "restaurant:160|molokhia": {
+    "name": "ملوخية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/Molokheya_Egypt%2C_2012.JPG/330px-Molokheya_Egypt%2C_2012.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-160-molokhia.webp"
+  },
+  "restaurant:161|duck": {
+    "name": "بطة محمرة",
+    "originalPhoto": "https://images.pexels.com/photos/24038062/pexels-photo-24038062.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-161-duck.webp"
+  },
+  "restaurant:161|duck-half": {
+    "name": "نص بطة محمرة",
+    "originalPhoto": "https://images.pexels.com/photos/24038062/pexels-photo-24038062.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-161-duck-half.webp"
+  },
+  "restaurant:161|goose": {
+    "name": "وزة محمرة",
+    "originalPhoto": "https://images.pexels.com/photos/24038062/pexels-photo-24038062.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-161-goose.webp"
+  },
+  "restaurant:161|pigeon": {
+    "name": "جوز حمام محشي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Hamam_mahshi.jpg/330px-Hamam_mahshi.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-161-pigeon.webp"
+  },
+  "restaurant:161|quail": {
+    "name": "سمان محمر (جوز)",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/Quail_Saltimbocca_with_Polenta_Fritter_-_King_River_Cafe_%2865050203%29.jpg/330px-Quail_Saltimbocca_with_Polenta_Fritter_-_King_River_Cafe_%2865050203%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-161-quail.webp"
+  },
+  "restaurant:161|mahshi": {
+    "name": "محشي مشكل",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Speca_te_mbushura_me_mish.JPG/330px-Speca_te_mbushura_me_mish.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-161-mahshi.webp"
+  },
+  "restaurant:161|fattah": {
+    "name": "فتة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg/330px-%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-161-fattah.webp"
+  },
+  "restaurant:161|molokhia": {
+    "name": "ملوخية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/Molokheya_Egypt%2C_2012.JPG/330px-Molokheya_Egypt%2C_2012.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-161-molokhia.webp"
+  },
+  "restaurant:162|duck": {
+    "name": "بطة محمرة",
+    "originalPhoto": "https://images.pexels.com/photos/24038062/pexels-photo-24038062.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-162-duck.webp"
+  },
+  "restaurant:162|duck-half": {
+    "name": "نص بطة محمرة",
+    "originalPhoto": "https://images.pexels.com/photos/24038062/pexels-photo-24038062.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-162-duck-half.webp"
+  },
+  "restaurant:162|goose": {
+    "name": "وزة محمرة",
+    "originalPhoto": "https://images.pexels.com/photos/24038062/pexels-photo-24038062.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-162-goose.webp"
+  },
+  "restaurant:162|pigeon": {
+    "name": "جوز حمام محشي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Hamam_mahshi.jpg/330px-Hamam_mahshi.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-162-pigeon.webp"
+  },
+  "restaurant:162|quail": {
+    "name": "سمان محمر (جوز)",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/Quail_Saltimbocca_with_Polenta_Fritter_-_King_River_Cafe_%2865050203%29.jpg/330px-Quail_Saltimbocca_with_Polenta_Fritter_-_King_River_Cafe_%2865050203%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-162-quail.webp"
+  },
+  "restaurant:162|mahshi": {
+    "name": "محشي مشكل",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Speca_te_mbushura_me_mish.JPG/330px-Speca_te_mbushura_me_mish.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-162-mahshi.webp"
+  },
+  "restaurant:162|fattah": {
+    "name": "فتة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg/330px-%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-162-fattah.webp"
+  },
+  "restaurant:162|molokhia": {
+    "name": "ملوخية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/Molokheya_Egypt%2C_2012.JPG/330px-Molokheya_Egypt%2C_2012.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-162-molokhia.webp"
+  },
+  "restaurant:163|duck": {
+    "name": "بطة محمرة",
+    "originalPhoto": "https://images.pexels.com/photos/24038062/pexels-photo-24038062.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-163-duck.webp"
+  },
+  "restaurant:163|duck-half": {
+    "name": "نص بطة محمرة",
+    "originalPhoto": "https://images.pexels.com/photos/24038062/pexels-photo-24038062.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-163-duck-half.webp"
+  },
+  "restaurant:163|goose": {
+    "name": "وزة محمرة",
+    "originalPhoto": "https://images.pexels.com/photos/24038062/pexels-photo-24038062.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-163-goose.webp"
+  },
+  "restaurant:163|pigeon": {
+    "name": "جوز حمام محشي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f2/Hamam_mahshi.jpg/330px-Hamam_mahshi.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-163-pigeon.webp"
+  },
+  "restaurant:163|quail": {
+    "name": "سمان محمر (جوز)",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/Quail_Saltimbocca_with_Polenta_Fritter_-_King_River_Cafe_%2865050203%29.jpg/330px-Quail_Saltimbocca_with_Polenta_Fritter_-_King_River_Cafe_%2865050203%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-163-quail.webp"
+  },
+  "restaurant:163|mahshi": {
+    "name": "محشي مشكل",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Speca_te_mbushura_me_mish.JPG/330px-Speca_te_mbushura_me_mish.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-163-mahshi.webp"
+  },
+  "restaurant:163|fattah": {
+    "name": "فتة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg/330px-%D9%81%D8%AA%D9%91%D8%A9_%D8%A8%D8%A7%D9%84%D9%84%D9%88%D8%B2_%D9%88_%D8%A7%D9%84%D8%B3%D9%91%D9%85%D9%86.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-163-fattah.webp"
+  },
+  "restaurant:163|molokhia": {
+    "name": "ملوخية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/Molokheya_Egypt%2C_2012.JPG/330px-Molokheya_Egypt%2C_2012.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-163-molokhia.webp"
+  },
+  "restaurant:164|basbousa": {
+    "name": "بسبوسة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/Basboosa.jpg/330px-Basboosa.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-164-basbousa.webp"
+  },
+  "restaurant:164|kunafa": {
+    "name": "كنافة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/K%C3%BCnefe.jpg/330px-K%C3%BCnefe.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-164-kunafa.webp"
+  },
+  "restaurant:164|kunafa-nutella": {
+    "name": "كنافة نوتيلا",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/K%C3%BCnefe.jpg/330px-K%C3%BCnefe.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-164-kunafa-nutella.webp"
+  },
+  "restaurant:164|baklava": {
+    "name": "بقلاوة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Baklava%281%29.png/330px-Baklava%281%29.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-164-baklava.webp"
+  },
+  "restaurant:164|ghorayeba": {
+    "name": "غريبة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/Gurabija_%28%D0%B3%D1%83%D1%80%D0%B0%D0%B1%D0%B8%D1%98%D0%B0%2CQurabiya%3B_Cuisine_of_Serbia%29.jpg/330px-Gurabija_%28%D0%B3%D1%83%D1%80%D0%B0%D0%B1%D0%B8%D1%98%D0%B0%2CQurabiya%3B_Cuisine_of_Serbia%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-164-ghorayeba.webp"
+  },
+  "restaurant:164|gateau": {
+    "name": "جاتوه",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Pound_layer_cake.jpg/330px-Pound_layer_cake.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-164-gateau.webp"
+  },
+  "restaurant:164|eclair": {
+    "name": "إكلير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/Two_Safeway_Chocolate_Eclairs_%2819043880936%29.jpg/330px-Two_Safeway_Chocolate_Eclairs_%2819043880936%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-164-eclair.webp"
+  },
+  "restaurant:164|torta": {
+    "name": "تورتة شوكولاتة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/55/Chocolate_fudge_cake.jpg/330px-Chocolate_fudge_cake.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-164-torta.webp"
+  },
+  "restaurant:164|roz": {
+    "name": "أرز بلبن",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Kheer_with_condensed_milk..JPG/330px-Kheer_with_condensed_milk..JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-164-roz.webp"
+  },
+  "restaurant:164|omali": {
+    "name": "أم علي",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Umm_Ali.JPG/330px-Umm_Ali.JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-164-omali.webp"
+  },
+  "restaurant:165|basbousa": {
+    "name": "بسبوسة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/Basboosa.jpg/330px-Basboosa.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-165-basbousa.webp"
+  },
+  "restaurant:165|kunafa": {
+    "name": "كنافة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/K%C3%BCnefe.jpg/330px-K%C3%BCnefe.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-165-kunafa.webp"
+  },
+  "restaurant:165|kunafa-nutella": {
+    "name": "كنافة نوتيلا",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/K%C3%BCnefe.jpg/330px-K%C3%BCnefe.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-165-kunafa-nutella.webp"
+  },
+  "restaurant:165|baklava": {
+    "name": "بقلاوة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Baklava%281%29.png/330px-Baklava%281%29.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-165-baklava.webp"
+  },
+  "restaurant:165|ghorayeba": {
+    "name": "غريبة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/Gurabija_%28%D0%B3%D1%83%D1%80%D0%B0%D0%B1%D0%B8%D1%98%D0%B0%2CQurabiya%3B_Cuisine_of_Serbia%29.jpg/330px-Gurabija_%28%D0%B3%D1%83%D1%80%D0%B0%D0%B1%D0%B8%D1%98%D0%B0%2CQurabiya%3B_Cuisine_of_Serbia%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-165-ghorayeba.webp"
+  },
+  "restaurant:165|eclair": {
+    "name": "إكلير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/Two_Safeway_Chocolate_Eclairs_%2819043880936%29.jpg/330px-Two_Safeway_Chocolate_Eclairs_%2819043880936%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-165-eclair.webp"
+  },
+  "restaurant:165|mahalabia": {
+    "name": "مهلبية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/Mhallabiyyeh_%28Arabic_milk_pudding%29.jpg/330px-Mhallabiyyeh_%28Arabic_milk_pudding%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-165-mahalabia.webp"
+  },
+  "restaurant:165|icecream": {
+    "name": "آيس كريم",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/Vanilla_Ice_Cream_Cone_at_Camp_Manitoulin.jpg/330px-Vanilla_Ice_Cream_Cone_at_Camp_Manitoulin.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-165-icecream.webp"
+  },
+  "restaurant:165|cane": {
+    "name": "عصير قصب",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Sugarcanejuice.jpg/330px-Sugarcanejuice.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-165-cane.webp"
+  },
+  "restaurant:165|cane-large": {
+    "name": "قصب كبير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Sugarcanejuice.jpg/330px-Sugarcanejuice.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-165-cane-large.webp"
+  },
+  "restaurant:165|mango": {
+    "name": "عصير مانجو",
+    "originalPhoto": "https://images.pexels.com/photos/17612829/pexels-photo-17612829.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-165-mango.webp"
+  },
+  "restaurant:165|strawberry": {
+    "name": "عصير فراولة",
+    "originalPhoto": "https://images.pexels.com/photos/5668177/pexels-photo-5668177.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-165-strawberry.webp"
+  },
+  "restaurant:166|basbousa": {
+    "name": "بسبوسة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/Basboosa.jpg/330px-Basboosa.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-166-basbousa.webp"
+  },
+  "restaurant:166|kunafa": {
+    "name": "كنافة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/K%C3%BCnefe.jpg/330px-K%C3%BCnefe.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-166-kunafa.webp"
+  },
+  "restaurant:166|kunafa-nutella": {
+    "name": "كنافة نوتيلا",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/K%C3%BCnefe.jpg/330px-K%C3%BCnefe.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-166-kunafa-nutella.webp"
+  },
+  "restaurant:166|qatayef": {
+    "name": "قطايف",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fd/%D9%82%D8%B7%D8%A7%D9%8A%D9%81_%D8%B9%D8%B5%D8%A7%D9%81%D9%8A%D8%B1%D9%8A2.jpg/330px-%D9%82%D8%B7%D8%A7%D9%8A%D9%81_%D8%B9%D8%B5%D8%A7%D9%81%D9%8A%D8%B1%D9%8A2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-166-qatayef.webp"
+  },
+  "restaurant:166|zalabia": {
+    "name": "زلابية (لقمة القاضي)",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/Sam%27dan_lokma_tatlisi.jpg/330px-Sam%27dan_lokma_tatlisi.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-166-zalabia.webp"
+  },
+  "restaurant:166|eclair": {
+    "name": "إكلير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/Two_Safeway_Chocolate_Eclairs_%2819043880936%29.jpg/330px-Two_Safeway_Chocolate_Eclairs_%2819043880936%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-166-eclair.webp"
+  },
+  "restaurant:166|torta": {
+    "name": "تورتة شوكولاتة",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/55/Chocolate_fudge_cake.jpg/330px-Chocolate_fudge_cake.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-166-torta.webp"
+  },
+  "restaurant:166|roz": {
+    "name": "أرز بلبن",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/Kheer_with_condensed_milk..JPG/330px-Kheer_with_condensed_milk..JPG?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-166-roz.webp"
+  },
+  "restaurant:166|mahalabia": {
+    "name": "مهلبية",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/Mhallabiyyeh_%28Arabic_milk_pudding%29.jpg/330px-Mhallabiyyeh_%28Arabic_milk_pudding%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-166-mahalabia.webp"
+  },
+  "restaurant:167|cane": {
+    "name": "عصير قصب",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Sugarcanejuice.jpg/330px-Sugarcanejuice.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-167-cane.webp"
+  },
+  "restaurant:167|cane-large": {
+    "name": "قصب كبير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Sugarcanejuice.jpg/330px-Sugarcanejuice.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-167-cane-large.webp"
+  },
+  "restaurant:167|mango": {
+    "name": "عصير مانجو",
+    "originalPhoto": "https://images.pexels.com/photos/17612829/pexels-photo-17612829.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-167-mango.webp"
+  },
+  "restaurant:167|strawberry": {
+    "name": "عصير فراولة",
+    "originalPhoto": "https://images.pexels.com/photos/5668177/pexels-photo-5668177.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-167-strawberry.webp"
+  },
+  "restaurant:167|orange": {
+    "name": "عصير برتقال",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Orangejuice.jpg/330px-Orangejuice.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-167-orange.webp"
+  },
+  "restaurant:167|lemon": {
+    "name": "ليمون نعناع",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Lemonade_-_27682817724.jpg/330px-Lemonade_-_27682817724.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-167-lemon.webp"
+  },
+  "restaurant:167|karkade": {
+    "name": "كركديه",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Hibiscus_tea.jpg/330px-Hibiscus_tea.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-167-karkade.webp"
+  },
+  "restaurant:167|sahlab": {
+    "name": "سحلب",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/Salep_drink.jpg/330px-Salep_drink.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-167-sahlab.webp"
+  },
+  "restaurant:168|cane": {
+    "name": "عصير قصب",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Sugarcanejuice.jpg/330px-Sugarcanejuice.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-168-cane.webp"
+  },
+  "restaurant:168|cane-large": {
+    "name": "قصب كبير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Sugarcanejuice.jpg/330px-Sugarcanejuice.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-168-cane-large.webp"
+  },
+  "restaurant:168|mango": {
+    "name": "عصير مانجو",
+    "originalPhoto": "https://images.pexels.com/photos/17612829/pexels-photo-17612829.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-168-mango.webp"
+  },
+  "restaurant:168|strawberry": {
+    "name": "عصير فراولة",
+    "originalPhoto": "https://images.pexels.com/photos/5668177/pexels-photo-5668177.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-168-strawberry.webp"
+  },
+  "restaurant:168|lemon": {
+    "name": "ليمون نعناع",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Lemonade_-_27682817724.jpg/330px-Lemonade_-_27682817724.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-168-lemon.webp"
+  },
+  "restaurant:168|sahlab": {
+    "name": "سحلب",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/Salep_drink.jpg/330px-Salep_drink.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-168-sahlab.webp"
+  },
+  "restaurant:169|cane": {
+    "name": "عصير قصب",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Sugarcanejuice.jpg/330px-Sugarcanejuice.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-169-cane.webp"
+  },
+  "restaurant:169|cane-large": {
+    "name": "قصب كبير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Sugarcanejuice.jpg/330px-Sugarcanejuice.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-169-cane-large.webp"
+  },
+  "restaurant:169|mango": {
+    "name": "عصير مانجو",
+    "originalPhoto": "https://images.pexels.com/photos/17612829/pexels-photo-17612829.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-169-mango.webp"
+  },
+  "restaurant:169|strawberry": {
+    "name": "عصير فراولة",
+    "originalPhoto": "https://images.pexels.com/photos/5668177/pexels-photo-5668177.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-169-strawberry.webp"
+  },
+  "restaurant:169|orange": {
+    "name": "عصير برتقال",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Orangejuice.jpg/330px-Orangejuice.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-169-orange.webp"
+  },
+  "restaurant:169|lemon": {
+    "name": "ليمون نعناع",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Lemonade_-_27682817724.jpg/330px-Lemonade_-_27682817724.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-169-lemon.webp"
+  },
+  "restaurant:169|cocktail": {
+    "name": "كوكتيل فواكه",
+    "originalPhoto": "https://images.pexels.com/photos/17612829/pexels-photo-17612829.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-169-cocktail.webp"
+  },
+  "restaurant:169|sahlab": {
+    "name": "سحلب",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/Salep_drink.jpg/330px-Salep_drink.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-169-sahlab.webp"
+  },
+  "restaurant:170|cane": {
+    "name": "عصير قصب",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Sugarcanejuice.jpg/330px-Sugarcanejuice.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-170-cane.webp"
+  },
+  "restaurant:170|cane-large": {
+    "name": "قصب كبير",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Sugarcanejuice.jpg/330px-Sugarcanejuice.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-170-cane-large.webp"
+  },
+  "restaurant:170|mango": {
+    "name": "عصير مانجو",
+    "originalPhoto": "https://images.pexels.com/photos/17612829/pexels-photo-17612829.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-170-mango.webp"
+  },
+  "restaurant:170|strawberry": {
+    "name": "عصير فراولة",
+    "originalPhoto": "https://images.pexels.com/photos/5668177/pexels-photo-5668177.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-170-strawberry.webp"
+  },
+  "restaurant:170|orange": {
+    "name": "عصير برتقال",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Orangejuice.jpg/330px-Orangejuice.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-170-orange.webp"
+  },
+  "restaurant:170|lemon": {
+    "name": "ليمون نعناع",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Lemonade_-_27682817724.jpg/330px-Lemonade_-_27682817724.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-170-lemon.webp"
+  },
+  "restaurant:170|cocktail": {
+    "name": "كوكتيل فواكه",
+    "originalPhoto": "https://images.pexels.com/photos/17612829/pexels-photo-17612829.jpeg?auto=compress&cs=tinysrgb&w=330",
+    "photo": "/img/catalog-original/menu-170-cocktail.webp"
+  },
+  "restaurant:170|sahlab": {
+    "name": "سحلب",
+    "originalPhoto": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/Salep_drink.jpg/330px-Salep_drink.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+    "photo": "/img/catalog-original/menu-170-sahlab.webp"
+  }
+}
