@@ -76,7 +76,7 @@ export default function ProfilePage() {
       navigator
         .share({
           title: 'تطبيق قريتي - القرية الذكية',
-          text: 'جرب تطبيق قريتي لخدمات وتوصيل القرية واستخدم كود QARYA1 لأول طلب مجاني!',
+          text: 'جرب تطبيق قريتي لخدمات وتوصيل القرية واستخدم كود QARYA1 وأول طلب ليك من غير رسوم!',
           url: window.location.href,
         })
         .catch(() => {});

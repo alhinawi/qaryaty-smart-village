@@ -716,10 +716,10 @@ function Explore({
           <div className="rounded-2xl p-4 bg-[linear-gradient(135deg,#0f4f2e,#1a7a4a)] text-white flex items-center justify-between gap-3 shadow-card">
             <div className="min-w-0">
               <p className="font-black text-[1rem] mb-0.5">
-                🎉 كود خصم لأول طلب
+                🎉 أول طلب من غير رسوم
               </p>
               <p className="text-[0.8125rem] text-white/85">
-                اكتبه في خانة كود الخصم وإنت بتطلب، للخدمات اللي ليها سعر ثابت.
+                اكتبه في خانة كود الخصم وإنت بتطلب، ومش هتدفع عمولة التطبيق على أول طلب.
               </p>
             </div>
             <button

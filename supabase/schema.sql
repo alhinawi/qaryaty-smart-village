@@ -411,8 +411,8 @@ alter table public.orders add constraint orders_one_place check (
 create unique index if not exists orders_paymob_order_id_key
   on public.orders (paymob_order_id) where paymob_order_id is not null;
 
--- عمولة التطبيق: a percentage of what the order costs (after the discount),
--- set and added to total_amount by orders_before_insert. total_amount is what
+-- عمولة التطبيق: a percentage of what the order costs, set and added to
+-- total_amount by orders_before_insert. The first-order code QARYA1 waives it. total_amount is what
 -- the customer pays, the commission included.
 -- Old projects: a price set after confirmation is null, not 0 (the app sends null).
 alter table public.orders add column if not exists commission_amount numeric not null default 0;
@@ -431,9 +431,10 @@ create or replace function public.app_commission_max() returns numeric
 language sql immutable as $$ select 50::numeric $$;
 
 -- Same rule as appCommission() in src/utils/pricing.ts: the percentage of what
--- is left to pay, rounded to the nearest pound, kept between the min and max.
--- Nothing when there is nothing to pay (a free first order) or no price yet
--- (set after confirmation). code and estimate stay for the callers' sake.
+-- the order costs, rounded to the nearest pound, kept between the min and max.
+-- Nothing when there is nothing to pay or no price yet (set after
+-- confirmation). code and estimate stay for the callers' sake: the QARYA1
+-- waiver is applied by orders_before_insert, which records the waived fee.
 create or replace function public.order_commission(code text, payable numeric, estimate boolean)
 returns numeric language sql immutable set search_path = public as $$
   select case when payable is null or payable <= 0 then 0
@@ -477,6 +478,7 @@ declare
   priced    jsonb := '[]'::jsonb;
   names     text[] := '{}';
   price_part numeric;
+  fee       numeric;  -- عمولة التطبيق before the QARYA1 waiver
   grill_per_kilo constant numeric := 40;  -- GRILL_PRICE_PER_KILO in src/data/catalog.ts
 begin
   if current_user in ('anon', 'authenticated') then
@@ -524,21 +526,27 @@ begin
     new.service_id := null;
     new.provider_id := null;
     new.is_estimate := false;
-    -- Same rule as the app (utils/pricing.ts): QARYA1 takes the whole fixed total off
-    new.discount_amount := case when new.discount_code = 'QARYA1' then subtotal else 0 end;
-    new.commission_amount := public.order_commission(new.discount_code, subtotal - new.discount_amount, false);
-    new.total_amount := subtotal - new.discount_amount + new.commission_amount;
+    -- Same rule as the app (utils/pricing.ts): the items are paid in full and
+    -- QARYA1 waives the fees only. discount_amount records the waived commission.
+    fee := public.order_commission(new.discount_code, subtotal, false);
+    new.discount_amount := case when new.discount_code = 'QARYA1' then fee else 0 end;
+    new.commission_amount := case when new.discount_code = 'QARYA1' then 0 else fee end;
+    new.total_amount := subtotal + new.commission_amount;
     new.service_name := left(shop.name || ': ' || array_to_string(names, ' + '), 300);
     new.service_emoji := left(coalesce(shop.emoji, ''), 40);
   else
     -- A service order: the app's total holds the price and the commission it
     -- showed. Take the app's commission out and add the server's own instead,
-    -- so it can't be dropped or lowered. A null total (price set after
-    -- confirmation) stays null and the commission is still recorded.
+    -- so it can't be dropped or lowered. QARYA1 waives it (discount_amount
+    -- records how much); the price itself is paid in full. A null total (price
+    -- set after confirmation) stays null with no commission; a QARYA1 order
+    -- keeps its code, so the commission stays waived when the price is set.
     -- (greatest() skips nulls, so keep a null total null by hand)
     price_part := case when new.total_amount is null then null
                        else greatest(new.total_amount - greatest(coalesce(new.commission_amount, 0), 0), 0) end;
-    new.commission_amount := public.order_commission(new.discount_code, price_part, new.is_estimate);
+    fee := public.order_commission(new.discount_code, price_part, new.is_estimate);
+    new.discount_amount := case when new.discount_code = 'QARYA1' then fee else 0 end;
+    new.commission_amount := case when new.discount_code = 'QARYA1' then 0 else fee end;
     new.total_amount := price_part + new.commission_amount;
   end if;
 
