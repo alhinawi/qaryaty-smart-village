@@ -1,8 +1,7 @@
 // ─── Providers: teachers, nurses, doctors, babysitters, cleaners
 //
-// ⚠️ SAMPLE DATA. These people are made up for the demo. Pictures are illustrated
-// avatars from the free DiceBear API (see utils/avatars.ts), one fixed seed per person
-// so they don't change between loads. Replace with real, consented providers and photos.
+// ⚠️ SAMPLE DATA. These people are made up for the demo. Pictures are generated fictional portraits, not actual provider identities. Replace with real, consented providers and photos.
+import { withProviderPortrait } from '@/config/providerImages';
 import type { Provider } from '@/types';
 import { providerPhoto } from '@/utils/avatars';
 import { WORKERS } from './workers';
@@ -1461,11 +1460,14 @@ const PEOPLE: Provider[] = [
       active: true,
     }),
   ),
+  {"id": 145, "kind": "babysitter", "serviceId": 29, "name": "أمينة عبد الرحمن", "gender": "female", "photo": "", "experienceYears": 0, "rating": 0, "reviews": 0, "price": "السعر بالاتفاق", "numericPrice": null, "priceType": "quote", "area": "", "village": "منية سندوب", "bio": "جليسة لكبار السن: صحبة ومساعدة في الأكل والحركة اليومية، بدون إجراءات تمريضية", "modes": ["home"], "active": true},
+  {"id": 146, "kind": "babysitter", "serviceId": 29, "name": "محمود عبد الحميد", "gender": "male", "photo": "", "experienceYears": 0, "rating": 0, "reviews": 0, "price": "السعر بالاتفاق", "numericPrice": null, "priceType": "quote", "area": "", "village": "منية سندوب", "bio": "جليس لكبار السن: صحبة ومرافقة داخل البيت ومساعدة في الاحتياجات اليومية، بدون علاج أو تمريض", "modes": ["home"], "active": true},
+  {"id": 147, "kind": "babysitter", "serviceId": 29, "name": "سعاد إبراهيم", "gender": "female", "photo": "", "experienceYears": 0, "rating": 0, "reviews": 0, "price": "السعر بالاتفاق", "numericPrice": null, "priceType": "quote", "area": "", "village": "منية سندوب", "bio": "رعاية أطفال وكبار سن ومساعدة الأسرة في الروتين اليومي، حسب احتياج كل بيت", "modes": ["home"], "active": true},
   ...WORKERS,
 ];
 
 /** Every teacher who teaches groups gets their group classes with days and times. */
 export const PROVIDERS: Provider[] = PEOPLE.map((person) => {
   const groups = sampleTeacherGroups(person);
-  return groups.length ? { ...person, groups } : person;
+  return withProviderPortrait(groups.length ? { ...person, groups } : person);
 });
