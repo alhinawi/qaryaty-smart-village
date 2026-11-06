@@ -125,9 +125,9 @@ export default function GroupsPage() {
       <section className="bg-white rounded-2xl p-5 md:p-6 shadow-card border-2 border-gold-light flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h3 className="text-base font-extrabold mb-1">
-            <span aria-hidden="true">🏪</span> عندك محل وعايز تعلن عنه؟
+            <span aria-hidden="true">🏪</span> عندك محل أو خدمة وعايز تعلن عنها؟
           </h3>
-          <p className="text-[13px] text-text-muted leading-relaxed">كلمنا ونضيف محلك في الجروبات وفي المنصة.</p>
+          <p className="text-[13px] text-text-muted leading-relaxed">كلمنا ونضيف محلك أو خدمتك في الجروبات وفي المنصة.</p>
         </div>
         <Link
           to={`${ROUTES.about}#advertise`}
