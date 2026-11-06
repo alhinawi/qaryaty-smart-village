@@ -13,6 +13,7 @@ import { whatsappChatLink } from "@/config/developer";
 import { WhatsAppIcon } from "@/components/ui/WhatsAppIcon";
 import { useUIStore } from "@/stores/useUIStore";
 import { DonationForm } from "./DonationForm";
+import { PeoplePhoto } from "@/components/ui/PeoplePhoto";
 
 const SUGGEST_MESSAGE =
   'السلام عليكم، أعرف جهة خير في القرية وعايزها تظهر في "باب الخير" في قريتي.\nاسم الجهة: \nالقرية: \nرقم المسؤول: ';
@@ -211,6 +212,12 @@ export default function DonatePage() {
     <article className="max-w-[960px] mx-auto" aria-labelledby="donate-title">
       {/* Intro */}
       <header className="bg-linear-to-br from-green to-green-dark rounded-2xl p-6 md:p-10 text-white mb-6 relative overflow-hidden">
+        <PeoplePhoto
+          id="volunteers"
+          priority
+          sizes="(min-width: 960px) 960px, calc(100vw - 32px)"
+          className="block w-[calc(100%+3rem)] md:w-[calc(100%+5rem)] max-w-none -mx-6 -mt-6 mb-5 md:-mx-10 md:-mt-10 md:mb-8 aspect-[16/9] md:aspect-[21/8]"
+        />
         <div className="relative z-1 flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
           <div
             className="w-[60px] h-[60px] md:w-[76px] md:h-[76px] bg-gold rounded-2xl flex items-center justify-center text-[32px] md:text-[40px] shrink-0"

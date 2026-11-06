@@ -25,6 +25,16 @@ export default defineConfig({
               cacheableResponse: { statuses: [0, 200] },
             },
           },
+          {
+            // Photos of people (/img/people): not precached, kept once seen.
+            urlPattern: ({ url }) => url.pathname.startsWith('/img/people/'),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'people-photos',
+              expiration: { maxEntries: 40, maxAgeSeconds: 60 * 60 * 24 * 90 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
         ],
       },
       manifest: {

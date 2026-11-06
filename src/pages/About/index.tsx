@@ -7,6 +7,7 @@ import { DeveloperLinks } from '@/components/layout/DeveloperLinks';
 import { ONLINE_PAYMENTS_ENABLED } from '@/services/payments';
 import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon';
 import { ADVERTISE_MESSAGE, DEVELOPER_PHONE_LINK, whatsappChatLink } from '@/config/developer';
+import { PeoplePhoto } from '@/components/ui/PeoplePhoto';
 
 // ─── Content
 // Everything here describes what the app really has today. No made-up numbers.
@@ -110,6 +111,12 @@ export default function AboutPage() {
     <article className="max-w-[960px] mx-auto" aria-labelledby="about-title">
       {/* Intro */}
       <header className="bg-linear-to-br from-green to-green-dark rounded-2xl p-6 md:p-10 text-white mb-6 relative overflow-hidden">
+        <PeoplePhoto
+          id="village-market"
+          priority
+          sizes="(min-width: 960px) 960px, calc(100vw - 32px)"
+          className="block w-[calc(100%+3rem)] md:w-[calc(100%+5rem)] max-w-none -mx-6 -mt-6 mb-5 md:-mx-10 md:-mt-10 md:mb-8 aspect-[16/9] md:aspect-[21/8]"
+        />
         <div className="relative z-1 flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
           <div
             className="w-[60px] h-[60px] md:w-[76px] md:h-[76px] bg-gold rounded-2xl flex items-center justify-center text-[32px] md:text-[40px] shrink-0"
@@ -213,33 +220,40 @@ export default function AboutPage() {
       {/* Shop owners: list or advertise your shop */}
       <section
         id="advertise"
-        className="scroll-mt-24 bg-cream rounded-2xl p-5 md:p-6 border-2 border-gold mb-6"
+        className="scroll-mt-24 bg-cream rounded-2xl p-5 md:p-6 border-2 border-gold mb-6 md:flex md:items-center md:gap-6"
         aria-labelledby="about-advertise"
       >
-        <h3 id="about-advertise" className="text-[clamp(1.125rem,2.5vw,1.375rem)] font-black mb-2 text-green-dark">
-          <span aria-hidden="true">🏪</span> عندك محل أو خدمة وعايز تعلن عنها في قريتي؟
-        </h3>
-        <p className="text-sm text-text-muted leading-relaxed max-w-[640px]">
-          لو عندك محل أو مطعم أو صيدلية، أو بتقدّم خدمة في القرية، وعايز أهل القرية يشوفوك ويطلبوا منك،
-          تواصل معانا ونضيف محلك أو خدمتك. ابعتلنا الاسم ونوعه والقرية.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-2.5 mt-4">
-          <a
-            href={whatsappChatLink(ADVERTISE_MESSAGE)}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="كلمنا على واتساب (بيفتح في صفحة جديدة)"
-            className="inline-flex items-center justify-center gap-2 min-h-[44px] px-5 rounded-xl bg-[#25D366] text-white font-extrabold text-[0.9375rem] transition-transform duration-200 hover:scale-105"
-          >
-            <WhatsAppIcon className="w-5 h-5" />
-            كلمنا على واتساب
-          </a>
-          <a
-            href={DEVELOPER_PHONE_LINK}
-            className="inline-flex items-center justify-center gap-2 min-h-[44px] px-5 rounded-xl bg-white text-green-dark border-2 border-green font-extrabold text-[0.9375rem] transition-transform duration-200 hover:scale-105"
-          >
-            <span aria-hidden="true">📞</span> اتصل بينا
-          </a>
+        <PeoplePhoto
+          id="shop-owner"
+          sizes="(min-width: 768px) 280px, calc(100vw - 72px)"
+          className="w-full md:w-[280px] md:order-last shrink-0 aspect-[16/10] md:aspect-[4/3] rounded-xl mb-4 md:mb-0"
+        />
+        <div className="min-w-0">
+          <h3 id="about-advertise" className="text-[clamp(1.125rem,2.5vw,1.375rem)] font-black mb-2 text-green-dark">
+            <span aria-hidden="true">🏪</span> عندك محل أو خدمة وعايز تعلن عنها في قريتي؟
+          </h3>
+          <p className="text-sm text-text-muted leading-relaxed max-w-[640px]">
+            لو عندك محل أو مطعم أو صيدلية، أو بتقدّم خدمة في القرية، وعايز أهل القرية يشوفوك ويطلبوا منك،
+            تواصل معانا ونضيف محلك أو خدمتك. ابعتلنا الاسم ونوعه والقرية.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-2.5 mt-4">
+            <a
+              href={whatsappChatLink(ADVERTISE_MESSAGE)}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="كلمنا على واتساب (بيفتح في صفحة جديدة)"
+              className="inline-flex items-center justify-center gap-2 min-h-[44px] px-5 rounded-xl bg-[#25D366] text-white font-extrabold text-[0.9375rem] transition-transform duration-200 hover:scale-105"
+            >
+              <WhatsAppIcon className="w-5 h-5" />
+              كلمنا على واتساب
+            </a>
+            <a
+              href={DEVELOPER_PHONE_LINK}
+              className="inline-flex items-center justify-center gap-2 min-h-[44px] px-5 rounded-xl bg-white text-green-dark border-2 border-green font-extrabold text-[0.9375rem] transition-transform duration-200 hover:scale-105"
+            >
+              <span aria-hidden="true">📞</span> اتصل بينا
+            </a>
+          </div>
         </div>
       </section>
 

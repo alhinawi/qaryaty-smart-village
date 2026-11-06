@@ -1,0 +1,25 @@
+# صور الناس في قريتي
+
+All photos in `public/img/people/` were generated for قريتي with the Sesame Image app on 2026-11-06.
+They are not stock photos and do not show real people, so no third-party license or credit applies.
+
+Rules they follow: realistic photo style, Egyptian Delta village setting, Egyptian-looking people,
+modest clothes, and every woman wears a hijab that fully covers her hair.
+
+Each image was checked with image analysis (objects, scene, text) for: hijab with hair covered,
+no distorted faces or hands, no text or watermarks, fits where it is used. Rejected images were
+regenerated or edited (for example, product labels removed from the volunteers photo).
+
+Files are WebP, quality 72, in two widths each (1x and 2x), loaded with `srcset`, lazily except
+the first photo on a page.
+
+| File | Where | Shows | Source |
+| --- | --- | --- | --- |
+| delivery-480/960.webp | Home hero | Delivery rider on a motorbike, village road | Sesame Image, generated |
+| teacher-360/720.webp | Home, المدرسين tile | Teacher in hijab with two kids | Sesame Image, generated |
+| nurse-360/720.webp | Home, الدكاترة والتمريض tile | Nurse in hijab, elderly man | Sesame Image, generated |
+| babysitter-360/720.webp | Home, جليسات الأطفال tile | Babysitter in hijab reading to a girl | Sesame Image, generated |
+| cleaner-360/720.webp | Home, عمال وعاملات النظافة tile | Cleaner in hijab wiping a counter | Sesame Image, generated |
+| village-market-640/1200.webp | About page header | Woman in hijab buying vegetables | Sesame Image, generated |
+| shop-owner-480/960.webp | About page, advertise section | Grocery shop owner | Sesame Image, generated |
+| volunteers-480/960.webp | Donate page header | Volunteers packing Ramadan boxes | Sesame Image, generated |
