@@ -19,3 +19,22 @@ createRoot(rootElement).render(
     </BrowserRouter>
   </StrictMode>
 );
+
+// Check the current release on entry and when returning to an old browser tab.
+if ('serviceWorker' in navigator && import.meta.env.PROD) {
+  let reloading = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (reloading) return;
+    reloading = true;
+    window.location.reload();
+  });
+  void navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' }).then(registration => {
+    const update = () => { if (navigator.onLine) void registration.update().catch(() => {}); };
+    // Old releases cached these stable image URLs for90days. Stop using that cache.
+    void navigator.serviceWorker.ready.then(() => caches.delete('people-photos')).catch(() => {});
+    update();
+    window.setInterval(update, 60 * 60 * 1000);
+    window.addEventListener('online', update);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) update(); });
+  }).catch(() => {});
+}
