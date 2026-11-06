@@ -114,8 +114,8 @@ function MerchantPanel() {
           ))}
         </select>
       </label>
-      <ShopInfoSection key={shop.id} shop={shop} />
-      <ProductsSection key={shop.id} shop={shop} />
+      <ShopInfoSection key={`info-${shop.id}`} shop={shop} />
+      <ProductsSection key={`products-${shop.id}`} shop={shop} />
       {shop.kind === 'pharmacy' && <MedicinePacksSection shop={shop} />}
       <IncomingOrdersSection />
     </>
@@ -409,9 +409,9 @@ function ProfessionalPanel() {
           ))}
         </select>
       </label>
-      <ProProfileSection key={provider.id} provider={provider} />
-      <ProServicesSection key={provider.id} provider={provider} />
-      <ProAvailabilitySection key={provider.id} provider={provider} />
+      <ProProfileSection key={`profile-${provider.id}`} provider={provider} />
+      <ProServicesSection key={`services-${provider.id}`} provider={provider} />
+      <ProAvailabilitySection key={`availability-${provider.id}`} provider={provider} />
       <BookingsSection />
     </>
   );
