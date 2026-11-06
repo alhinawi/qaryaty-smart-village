@@ -72,6 +72,10 @@ function createResilientCatalogRepo(live: CatalogRepo, fallback: CatalogRepo): C
         () => live.getProducts(shop),
         () => fallback.getProducts(shop)
       ),
+    // Writes never fall back silently: the admin sees the error instead of
+    // thinking a record was added when it only landed on this device.
+    addShop: (input) => live.addShop(input),
+    addProvider: (input) => live.addProvider(input),
   };
 }
 
@@ -83,6 +87,8 @@ export const getServices = () => catalogRepo.getServices();
 export const getShops = () => catalogRepo.getShops();
 export const getProviders = () => catalogRepo.getProviders();
 export const getProducts = (shop: Pick<Shop, 'id' | 'kind'>) => catalogRepo.getProducts(shop);
+export const addShop = (input: Parameters<CatalogRepo['addShop']>[0]) => catalogRepo.addShop(input);
+export const addProvider = (input: Parameters<CatalogRepo['addProvider']>[0]) => catalogRepo.addProvider(input);
 
 // ─── Orders (writes never fall back to the sample data)
 export const ORDER_UNAVAILABLE_MESSAGE = 'الخدمة متوقفة مؤقتًا، وطلبك ماتبعتش. جرّب تاني بعد شوية';

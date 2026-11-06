@@ -4,6 +4,8 @@
 // Desktop has these in its nav bar and footer instead.
 
 import { ROUTES } from '@/routes';
+import { isStaffRole, canReviewContent, canManageProviders } from '@/config/staffTiers';
+import type { UserRole } from '@/types';
 
 export interface MobileMenuLink {
   id: 'messages' | 'jobs' | 'jobsReview' | 'marketSale' | 'marketSwap' | 'marketReview' | 'rides' | 'ridesReview' | 'about' | 'groups' | 'donate' | 'advertise' | 'admin' | 'dashboard';
@@ -24,11 +26,12 @@ export interface MobileMenuSection {
 }
 
 interface MobileMenuOptions {
-  isAdmin: boolean;
+  role: UserRole | null | undefined;
 }
 
-/** The menu's sections, in order. The admin panel only shows for admins. */
-export function mobileMenuSections({ isAdmin }: MobileMenuOptions): MobileMenuSection[] {
+/** The menu's sections, in order. Staff links follow the tier: review queues
+// for reviewers, the provider dashboard for orders/shops supervisors, /admin for all staff. */
+export function mobileMenuSections({ role }: MobileMenuOptions): MobileMenuSection[] {
   const sections: MobileMenuSection[] = [
     {
       id: 'app',
@@ -65,18 +68,22 @@ export function mobileMenuSections({ isAdmin }: MobileMenuOptions): MobileMenuSe
     },
   ];
 
-  if (isAdmin) {
-    sections.push({
-      id: 'staff',
-      title: 'الإدارة',
-      links: [
-        { id: 'jobsReview', label: 'مراجعة الوظائف', icon: '🗂️', to: ROUTES.jobsReview },
-        { id: 'marketReview', label: 'بلاغات المستعمل والتبادل', icon: '🚩', to: ROUTES.marketReview },
-        { id: 'ridesReview', label: 'بلاغات شير المواصلة', icon: '🚩', to: ROUTES.ridesReview },
-        { id: 'dashboard', label: 'لوحة مقدم الخدمة', icon: '📊', to: ROUTES.dashboard, hint: 'المحلات ومقدمي الخدمة والطلبات' },
-        { id: 'admin', label: 'لوحة التحكم', icon: '⚙️', to: ROUTES.admin },
-      ],
-    });
+  const staffLinks: MobileMenuLink[] = [];
+  if (canReviewContent(role)) {
+    staffLinks.push(
+      { id: 'jobsReview', label: 'مراجعة الوظائف', icon: '🗂️', to: ROUTES.jobsReview },
+      { id: 'marketReview', label: 'بلاغات المستعمل والتبادل', icon: '🚩', to: ROUTES.marketReview },
+      { id: 'ridesReview', label: 'بلاغات شير المواصلة', icon: '🚩', to: ROUTES.ridesReview },
+    );
+  }
+  if (canManageProviders(role)) {
+    staffLinks.push({ id: 'dashboard', label: 'لوحة مقدم الخدمة', icon: '📊', to: ROUTES.dashboard, hint: 'المحلات ومقدمي الخدمة والطلبات' });
+  }
+  if (isStaffRole(role)) {
+    staffLinks.push({ id: 'admin', label: 'لوحة التحكم', icon: '⚙️', to: ROUTES.admin });
+  }
+  if (staffLinks.length) {
+    sections.push({ id: 'staff', title: 'الإدارة', links: staffLinks });
   }
 
   return sections;

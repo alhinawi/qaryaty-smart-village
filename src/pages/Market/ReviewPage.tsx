@@ -4,7 +4,7 @@ import { Link, Navigate } from 'react-router';
 import { marketRepo, type MarketListing } from '@/repositories';
 import { KIND_INFO, categoryIcon, timeAgo } from '@/config/market';
 import { ROUTES, marketItemPath } from '@/routes';
-import { useAuthStore, selectIsAdmin } from '@/stores/useAuthStore';
+import { useAuthStore, selectCanReview } from '@/stores/useAuthStore';
 import { useUIStore } from '@/stores/useUIStore';
 import { useConfirmStore } from '@/stores/useConfirmStore';
 import { Button } from '@/components/ui/Button';
@@ -12,7 +12,7 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { BackBar, PhotoBox, PriceLine, usePageTitle } from './shared';
 
 export default function MarketReviewPage() {
-  const isAdmin = useAuthStore(selectIsAdmin);
+  const canReview = useAuthStore(selectCanReview);
   const showToast = useUIStore((s) => s.showToast);
   const ask = useConfirmStore((s) => s.ask);
   usePageTitle('بلاغات المستعمل والتبادل • قريتي');
@@ -20,7 +20,7 @@ export default function MarketReviewPage() {
   const [busy, setBusy] = useState('');
 
   useEffect(() => {
-    if (!isAdmin) return;
+    if (!canReview) return;
     let alive = true;
     Promise.all([marketRepo.list('sale', { hidden: true }), marketRepo.list('swap', { hidden: true })])
       .then(([a, b]) => alive && setItems([...a, ...b].sort((x, y) => y.createdAt.localeCompare(x.createdAt))))
@@ -28,9 +28,9 @@ export default function MarketReviewPage() {
     return () => {
       alive = false;
     };
-  }, [isAdmin]);
+  }, [canReview]);
 
-  if (!isAdmin) return <Navigate to={ROUTES.home} replace />;
+  if (!canReview) return <Navigate to={ROUTES.home} replace />;
 
   const restore = async (l: MarketListing) => {
     setBusy(l.id);

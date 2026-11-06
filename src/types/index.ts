@@ -252,6 +252,8 @@ export interface Product {
   step: number;
   /** Section inside a menu ('سندوتشات', 'أطباق'). */
   section?: string;
+  /** false = the merchant closed it, customers don't see it. Missing = available. */
+  available?: boolean;
   /** Fish: can also be grilled for an extra price per kilo. */
   grillable?: boolean;
   /** Medicine sold only with a prescription; the pharmacist checks it before delivery. */
@@ -388,7 +390,9 @@ export interface UserProfile {
 }
 
 // ─── Auth
-export type UserRole = 'customer' | 'admin';
+// Staff tiers, widest last: owner > admin > content_admin / orders_admin > customer.
+// Arabic labels and what each tier can do live in src/config/staffTiers.ts.
+export type UserRole = 'customer' | 'orders_admin' | 'content_admin' | 'admin' | 'owner';
 
 /** A signed-in user as the (mock) auth service returns it. Never holds a password. */
 export interface AuthUser {
