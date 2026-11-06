@@ -1,15 +1,118 @@
 // ─── Catalog from the sample data in src/data (no network)
+// Demo mode also reflects the provider dashboard's localStorage edits, so what
+// a merchant changes on this device shows to customers on this device: closed
+// products hide, price/photo changes show, and custom products join the list.
 import { productsForShop } from '@/data/catalog';
 import { PROVIDERS } from '@/data/providers';
 import { SERVICES } from '@/data/services';
 import { SHOPS } from '@/data/shops';
-import type { CatalogRepo } from './types';
+import { useProviderDashboardStore } from '@/stores/useProviderDashboardStore';
+import type { Product, Provider, Shop } from '@/types';
+import type { CatalogRepo, NewProviderInput, NewShopInput } from './types';
+
+const ADDED_SHOPS_KEY = 'qaryati_mock_added_shops';
+const ADDED_PROVIDERS_KEY = 'qaryati_mock_added_providers';
+
+const readAdded = <T>(key: string): T[] => {
+  try {
+    return JSON.parse(localStorage.getItem(key) ?? '[]') as T[];
+  } catch {
+    return [];
+  }
+};
+const writeAdded = <T>(key: string, list: T[]) => localStorage.setItem(key, JSON.stringify(list));
+
+/** Ids of records added from the admin panel start far away from sample data. */
+const nextAddedId = (existing: Array<{ id: number }>) =>
+  Math.max(900_000, ...existing.map((r) => r.id + 1), 900_000);
 
 export function createMockCatalogRepo(): CatalogRepo {
   return {
     getServices: async () => SERVICES.filter((service) => !service.hidden),
-    getShops: async () => SHOPS,
-    getProviders: async () => PROVIDERS.filter((provider) => provider.active),
-    getProducts: async (shop) => productsForShop(shop),
+
+    getShops: async () => {
+      const merchants = useProviderDashboardStore.getState().merchants;
+      const withPhoto = (shop: Shop) =>
+        merchants[shop.id]?.photo ? { ...shop, photo: merchants[shop.id].photo } : shop;
+      return [...SHOPS.map(withPhoto), ...readAdded<Shop>(ADDED_SHOPS_KEY).map(withPhoto)];
+    },
+
+    getProviders: async () => [
+      ...PROVIDERS.filter((provider) => provider.active),
+      ...readAdded<Provider>(ADDED_PROVIDERS_KEY),
+    ],
+
+    getProducts: async (shop) => {
+      const base = productsForShop(shop) ?? [];
+      const merchant = useProviderDashboardStore.getState().merchants[shop.id];
+      const overridden = base.map((product) => {
+        const edit = merchant?.products[product.id];
+        if (!edit) return product;
+        return {
+          ...product,
+          price: edit.price ?? product.price,
+          photo: edit.photo ?? product.photo,
+          available: edit.available,
+        };
+      });
+      const customs = (merchant?.customProducts ?? [])
+        .filter((c) => c.available)
+        .map(
+          (c): Product => ({
+            id: c.id,
+            name: c.name,
+            emoji: c.emoji,
+            photo: c.photo,
+            price: c.price,
+            unit: c.unit,
+            step: 1,
+            section: c.section,
+          })
+        );
+      const merged = [...overridden, ...customs];
+      return merged.length ? merged : null;
+    },
+
+    addShop: async (input: NewShopInput) => {
+      const added = readAdded<Shop>(ADDED_SHOPS_KEY);
+      const shop: Shop = {
+        id: nextAddedId(added),
+        name: input.name,
+        kind: input.kind,
+        emoji: input.emoji || '🏪',
+        description: input.description,
+        open: true,
+        time: input.time || '',
+        bgColor: '#ffffff',
+      };
+      writeAdded(ADDED_SHOPS_KEY, [...added, shop]);
+      return shop;
+    },
+
+    addProvider: async (input: NewProviderInput) => {
+      const added = readAdded<Provider>(ADDED_PROVIDERS_KEY);
+      const provider: Provider = {
+        id: nextAddedId(added),
+        kind: input.kind,
+        serviceId: input.serviceId,
+        name: input.name,
+        gender: input.gender,
+        photo: '',
+        role: input.role,
+        experienceYears: 0,
+        rating: 5.0,
+        reviews: 0,
+        price: input.price,
+        numericPrice: null,
+        priceType: 'quote',
+        area: input.area,
+        village: input.village,
+        bio: input.bio,
+        modes: ['home'],
+        active: true,
+      };
+      writeAdded(ADDED_PROVIDERS_KEY, [...added, provider]);
+      return provider;
+    },
   };
 }
