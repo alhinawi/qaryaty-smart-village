@@ -14,7 +14,7 @@ import {
   jobWhatsappLink,
   postedAgo,
 } from '@/config/jobs';
-import { useAuthStore, selectIsAdmin, selectUser } from '@/stores/useAuthStore';
+import { useAuthStore, selectCanReview, selectUser } from '@/stores/useAuthStore';
 import { useConfirmStore } from '@/stores/useConfirmStore';
 import { useUIStore } from '@/stores/useUIStore';
 import type { Job, JobReportReason } from '@/repositories/jobs/types';
@@ -29,7 +29,7 @@ export default function JobDetailPage() {
   const { id = '' } = useParams();
   const navigate = useNavigate();
   const user = useAuthStore(selectUser);
-  const isAdmin = useAuthStore(selectIsAdmin);
+  const canReview = useAuthStore(selectCanReview);
   const showToast = useUIStore((s) => s.showToast);
   const signInFirst = useSignInFirst();
   // The job loaded for this id; undefined while another id's is still showing
@@ -126,7 +126,7 @@ export default function JobDetailPage() {
     <div className="max-w-[760px] mx-auto px-4 py-5" dir="rtl">
       <BackLink to={isOwner && !live ? ROUTES.jobsMine : ROUTES.jobs} label={isOwner && !live ? 'إعلاناتي' : 'الوظائف'} />
 
-      {(isOwner || isAdmin) && !live && (
+      {(isOwner || canReview) && !live && (
         <div className="bg-[#FFF8E1] border border-gold-light rounded-2xl p-3 text-[13px] mb-3 mt-1" role="status">
           {job.status === 'pending' && '⏳ الإعلان مستني مراجعة الإدارة، ومحدش شايفه غيرك دلوقتي.'}
           {job.status === 'rejected' &&
@@ -139,7 +139,7 @@ export default function JobDetailPage() {
       <article className="bg-white rounded-2xl p-5 shadow-sm mt-1">
         <div className="flex items-start justify-between gap-3">
           <h1 className="text-[clamp(1.2rem,4vw,1.5rem)] font-black text-text m-0 leading-snug">{job.title}</h1>
-          {isOwner || isAdmin ? <StatusBadge job={job} /> : <JobTypeBadge job={job} />}
+          {isOwner || canReview ? <StatusBadge job={job} /> : <JobTypeBadge job={job} />}
         </div>
         <p className="text-[14px] text-text-muted m-0 mt-1">
           🏪 {job.employer} · 📍 {job.village}
@@ -254,7 +254,7 @@ export default function JobDetailPage() {
       )}
 
       {/* Admin */}
-      {isAdmin && !isOwner && (
+      {canReview && !isOwner && (
         <section className="bg-white rounded-2xl p-4 shadow-sm mt-3 border-2 border-gold-light" aria-label="الإدارة">
           <p className="text-[13px] font-extrabold text-green-dark m-0 mb-2">
             ⚙️ الإدارة{job.reportsCount > 0 && ` · اتبلّغ عنه ${job.reportsCount} مرة`}

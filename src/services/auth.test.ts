@@ -73,9 +73,15 @@ describe('mock auth service', () => {
     expect((await auth.getUser('usr_old'))?.username).toBe('');
   });
 
-  it('seeds the demo admin, who can log in', async () => {
+  it('seeds the demo owner, who can log in', async () => {
     const session = await auth.login({ email: DEMO_ADMIN.email, password: DEMO_ADMIN.password });
-    expect(session.user.role).toBe('admin');
+    expect(session.user.role).toBe('owner');
+  });
+
+  it('seeds a sample supervisor for each staff tier', async () => {
+    const users = await auth.listUsers();
+    expect(users.some((u) => u.role === 'content_admin')).toBe(true);
+    expect(users.some((u) => u.role === 'orders_admin')).toBe(true);
   });
 
   it('sample customers cannot log in', async () => {

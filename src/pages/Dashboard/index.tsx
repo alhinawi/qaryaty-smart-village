@@ -4,7 +4,7 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Navigate } from 'react-router';
 import { ROUTES } from '@/routes';
-import { useAuthStore, selectIsAdmin } from '@/stores/useAuthStore';
+import { useAuthStore, selectCanManageProviders } from '@/stores/useAuthStore';
 import { useCatalogStore } from '@/stores/useCatalogStore';
 import { useProviderDashboardStore, type ProService } from '@/stores/useProviderDashboardStore';
 import { useUIStore } from '@/stores/useUIStore';
@@ -30,7 +30,7 @@ type Tab = 'merchant' | 'pro';
 
 export default function ProviderDashboardPage() {
   // Open to the owner and the people he appoints as admins, nowhere else
-  const isAdmin = useAuthStore(selectIsAdmin);
+  const allowed = useAuthStore(selectCanManageProviders);
   const loadCatalog = useCatalogStore((s) => s.load);
   const catalogState = useCatalogStore((s) => s.loadState);
   const [tab, setTab] = useState<Tab>('merchant');
@@ -39,7 +39,7 @@ export default function ProviderDashboardPage() {
     void loadCatalog();
   }, [loadCatalog]);
 
-  if (!isAdmin) return <Navigate to={ROUTES.home} replace />;
+  if (!allowed) return <Navigate to={ROUTES.home} replace />;
 
   return (
     <div className="max-w-[760px] mx-auto px-4 py-5" dir="rtl">
@@ -280,33 +280,38 @@ function ProductRow({
   };
 
   return (
-    <li className={`flex min-w-0 items-center gap-2.5 p-2 rounded-xl border ${available ? 'border-[rgba(26,122,74,0.12)] bg-cream/30' : 'border-gray-200 bg-gray-50 opacity-70'}`}>
-      <ProductPhoto photo={product.photo} emoji={product.emoji} className="w-11 h-11 rounded-lg" />
-      <div className="flex-1 min-w-0">
-        <p className="text-[13px] font-extrabold text-text m-0 truncate">{product.name}</p>
-        <p className="text-[11px] text-text-muted m-0">{product.unit}{product.rx ? ' · بروشتة' : ''}</p>
+    <li className={`min-w-0 p-2.5 rounded-xl border ${available ? 'border-[rgba(26,122,74,0.12)] bg-cream/30' : 'border-gray-200 bg-gray-50 opacity-70'}`}>
+      <div className="flex items-start gap-2.5">
+        <ProductPhoto photo={product.photo} emoji={product.emoji} className="w-11 h-11 rounded-lg shrink-0" />
+        <div className="flex-1 min-w-0">
+          <p className="text-[13px] font-extrabold text-text m-0 leading-snug">{product.name}</p>
+          <p className="text-[11px] text-text-muted m-0">{product.unit}{product.rx ? ' · بروشتة' : ''}</p>
+        </div>
       </div>
-      <div className="flex items-center gap-1" dir="ltr">
-        <input
-          type="number"
-          inputMode="decimal"
-          min={0}
-          value={draft}
-          aria-label={`سعر ${product.name}`}
-          onChange={(e) => setDraft(e.target.value)}
-          onBlur={commit}
-          onKeyDown={(e) => e.key === 'Enter' && (e.target as HTMLInputElement).blur()}
-          className="w-[68px] min-h-[38px] px-2 rounded-lg border border-[rgba(26,122,74,0.25)] bg-white text-[13px] font-bold text-text text-center"
+      <div className="flex items-center justify-between gap-2 mt-2">
+        <div className="flex items-center rounded-lg border border-[rgba(26,122,74,0.25)] bg-white min-h-[38px] px-1.5">
+          <input
+            type="number"
+            inputMode="decimal"
+            min={0}
+            value={draft}
+            aria-label={`سعر ${product.name}`}
+            onChange={(e) => setDraft(e.target.value)}
+            onBlur={commit}
+            onKeyDown={(e) => e.key === 'Enter' && (e.target as HTMLInputElement).blur()}
+            dir="ltr"
+            className="w-[52px] border-0 bg-transparent p-0 text-center text-[13px] font-bold text-text focus:outline-none"
+          />
+          <span className="text-[11px] text-text-muted font-bold">ج</span>
+        </div>
+        <Toggle
+          checked={available}
+          onChange={onToggle}
+          labelOn="متاح"
+          labelOff="خلص"
+          ariaLabel={`توفر ${product.name}`}
         />
-        <span className="text-[11px] text-text-muted font-bold">ج</span>
       </div>
-      <Toggle
-        checked={available}
-        onChange={onToggle}
-        labelOn="متاح"
-        labelOff="خلص"
-        ariaLabel={`توفر ${product.name}`}
-      />
     </li>
   );
 }
@@ -513,9 +518,9 @@ function ProServicesSection({ provider }: { provider: Provider }) {
     <Section icon="🛠️" title="خدماتي وأسعاري" hint="قفل خدمة مؤقتًا من غير ما تمسحها">
       <ul className="m-0 p-0 list-none grid grid-cols-1 gap-2 mb-3">
         {services.map((svc) => (
-          <li key={svc.id} className={`flex min-w-0 items-center gap-2.5 p-2 rounded-xl border ${svc.active ? 'border-[rgba(26,122,74,0.12)] bg-cream/30' : 'border-gray-200 bg-gray-50 opacity-70'}`}>
+          <li key={svc.id} className={`flex min-w-0 items-center gap-2.5 p-2.5 rounded-xl border ${svc.active ? 'border-[rgba(26,122,74,0.12)] bg-cream/30' : 'border-gray-200 bg-gray-50 opacity-70'}`}>
             <div className="flex-1 min-w-0">
-              <p className="text-[13px] font-extrabold text-text m-0 truncate">{svc.name}</p>
+              <p className="text-[13px] font-extrabold text-text m-0 leading-snug">{svc.name}</p>
               <p className="text-[11px] text-text-muted m-0">{svc.price}</p>
             </div>
             <Toggle
