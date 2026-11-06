@@ -20,6 +20,8 @@ export interface LocationPickerProps {
   initial?: Partial<AddressDraft> | null;
   /** The customer's village: the map opens there when we don't know more. */
   village?: string;
+  /** Where that village is on the map (from the village list), when we know it. */
+  villageCenter?: LatLng | null;
   /** Fills رقم الموبايل when the address has none. */
   defaultPhone?: string;
   /** Show "خلّيه العنوان الأساسي" in the form. */
@@ -46,6 +48,7 @@ function PickerScreen({
   onClose,
   initial,
   village,
+  villageCenter: knownCenter,
   defaultPhone = '',
   showDefaultToggle = false,
   defaultChecked = false,
@@ -54,7 +57,7 @@ function PickerScreen({
 }: LocationPickerProps) {
   const hasInitialPoint = typeof initial?.lat === 'number' && typeof initial?.lng === 'number';
   const [startCenter] = useState<LatLng>(() =>
-    hasInitialPoint ? { lat: initial!.lat!, lng: initial!.lng! } : villageCenter(village)
+    hasInitialPoint ? { lat: initial!.lat!, lng: initial!.lng! } : (knownCenter ?? villageCenter(village))
   );
   const [step, setStep] = useState<Step>('map');
   const [center, setCenter] = useState<LatLng>(startCenter);

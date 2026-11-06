@@ -32,6 +32,9 @@ import { AuthError, mockAuthService, type AuthService } from '@/services/auth';
 import { createLocalAddressRepo } from './addresses/localAddressRepo';
 import { createSupabaseAddressRepo } from './addresses/supabaseAddressRepo';
 import type { AddressRepo } from './addresses/types';
+import { createMockVillageRepo } from './villages/mockVillageRepo';
+import { createSupabaseVillageRepo } from './villages/supabaseVillageRepo';
+import type { VillageOption, VillageRepo } from './villages/types';
 
 const breaker = createCircuitBreaker({ failureThreshold: 3, cooldownMs: 30_000 });
 const resilience = createResilience({
@@ -170,6 +173,15 @@ export function addressRepoFor(signedIn: boolean): AddressRepo {
 export type { AddressRepo };
 
 // ─── Status
+// ─── Villages of Egypt (the "القرية" picker): Supabase, the Mansoura villages in demo mode
+const mockVillages = createMockVillageRepo();
+const villageLive = isSupabaseConfigured ? createSupabaseVillageRepo(getSupabase) : null;
+export const villageRepo: VillageRepo = villageLive
+  ? { search: (q, limit) => resilience.read(() => villageLive.search(q, limit), () => mockVillages.search(q, limit)) }
+  : mockVillages;
+export type { VillageOption, VillageRepo };
+export { normalizeArabic, villageOptionLabel } from './villages/types';
+
 export { isSupabaseConfigured };
 export { useBackendStatus, type BackendMode } from './status';
 export { RepoError, ServiceUnavailableError, UNAVAILABLE_MESSAGE };

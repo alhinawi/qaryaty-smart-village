@@ -9,8 +9,8 @@ import { Link, useNavigate } from 'react-router';
 import { useAuthStore, selectUser } from '@/stores/useAuthStore';
 import { AuthError } from '@/repositories';
 import { ROUTES } from '@/routes';
-import { useReach } from '@/hooks/useReach';
-import { VILLAGES, villageLabel } from '@/data/villages';
+import { useVillageStore } from '@/stores/useVillageStore';
+import { VillagePicker } from '@/components/address/VillagePicker';
 import MyAddresses from '@/components/address/MyAddresses';
 import { PhoneInput } from '@/components/ui/PhoneInput';
 import { normalizeEgyptianPhone } from '@/utils/validators';
@@ -32,29 +32,35 @@ export default function ProfilePage() {
   const [name, setName] = useState(profile.name);
   const [phone, setPhone] = useState(profile.phone);
   const [address, setAddress] = useState(profile.address);
-  const { village, setVillage } = useReach();
-  const [villageDraft, setVillageDraft] = useState(village);
+  const markVillageChosen = useVillageStore((state) => state.markChosen);
+  const savedVillage = user?.village || profile.village;
+  const [villageDraft, setVillageDraft] = useState(savedVillage);
 
   const [saving, setSaving] = useState(false);
 
   const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (villageDraft.trim().length < 2) {
+      showToast('⚠️ اختار قريتك من القايمة، أو اكتبها بنفسك');
+      return;
+    }
+    const villageChanged = villageDraft.trim() !== savedVillage;
     if (user) {
       // Signed in: saved to the account first; the phone can't change from here
       setSaving(true);
       try {
-        await updateAuthUser({ name, address });
+        await updateAuthUser({ name, address, ...(villageChanged ? { village: villageDraft } : {}) });
       } catch (error) {
         showToast(error instanceof AuthError ? `⚠️ ${error.message}` : '⚠️ ماقدرناش نحفظ التعديل، جرّب تاني');
         return;
       } finally {
         setSaving(false);
       }
-      updateProfile({ name, address });
+      updateProfile({ name, address, ...(villageChanged ? { village: villageDraft } : {}) });
     } else {
-      updateProfile({ name, phone: normalizeEgyptianPhone(phone), address });
+      updateProfile({ name, phone: normalizeEgyptianPhone(phone), address, ...(villageChanged ? { village: villageDraft } : {}) });
     }
-    if (villageDraft !== village) setVillage(villageDraft);
+    if (villageChanged) markVillageChosen();
     setIsEditing(false);
     showToast('✅ تم حفظ بيانات الحساب بنجاح!');
   };
@@ -197,7 +203,7 @@ export default function ProfilePage() {
                 setName(profile.name);
                 setPhone(profile.phone);
                 setAddress(profile.address);
-                setVillageDraft(village);
+                setVillageDraft(savedVillage);
                 setIsEditing(true);
               }}
             >
@@ -234,17 +240,17 @@ export default function ProfilePage() {
                 </span>
               )}
             </div>
-            <div className="form-group">
-              <label htmlFor="profileVillage">القرية</label>
-              <select id="profileVillage" value={villageDraft} onChange={(e) => setVillageDraft(e.target.value)}>
-                {VILLAGES.map((v) => (
-                  <option key={v} value={v}>
-                    {villageLabel(v)}
-                  </option>
-                ))}
-              </select>
-              <span className="text-[11px] text-text-muted">بنعرضلك المدرسين والصنايعية من قريتك</span>
-            </div>
+            <VillagePicker
+
+              id="profileVillage"
+
+              value={villageDraft}
+
+              onChange={(next) => setVillageDraft(next)}
+
+              hint="بنعرضلك المدرسين والصنايعية من قريتك"
+
+            />
             <div className="form-group">
               <label htmlFor="profileAddress">العنوان في القرية</label>
               <input

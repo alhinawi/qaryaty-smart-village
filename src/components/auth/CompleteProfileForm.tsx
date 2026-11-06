@@ -8,7 +8,7 @@ import { useAuthStore } from '@/stores/useAuthStore';
 import { useAddressStore } from '@/stores/useAddressStore';
 import { AuthError } from '@/repositories';
 import { completeProfileSchema, fieldErrorsFrom, normalizeEgyptianPhone } from '@/utils/validators';
-import { VILLAGES } from '@/data/villages';
+import { VillagePicker } from '@/components/address/VillagePicker';
 import { AuthField, PhoneField } from '@/pages/Auth/AuthLayout';
 import AddressPickerField from '@/components/address/AddressPickerField';
 import LocationPicker from '@/components/address/LocationPicker';
@@ -34,6 +34,7 @@ export default function CompleteProfileForm({ user, onDone, submitLabel = 'حف�
     village: user.village ?? '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [villageCenter, setVillageCenter] = useState<{ lat: number; lng: number } | null>(null);
   const [formError, setFormError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   // Picked on the map here; until then the default in عناويني (if any) is offered
@@ -98,20 +99,25 @@ export default function CompleteProfileForm({ user, onDone, submitLabel = 'حف�
       {!hasPhone && (
         <PhoneField id="cpPhone" label="رقم الموبايل" value={values.phone} onChange={set('phone')} error={errors.phone} />
       )}
-      <AuthField
+      <VillagePicker
+
         id="cpVillage"
-        label="القرية"
-        placeholder="مثال: منية سندوب"
-        list="cpVillageList"
+
         value={values.village}
-        onChange={set('village')}
+
+        onChange={(village, picked) => {
+
+          setValues((v) => ({ ...v, village }));
+
+          setVillageCenter(picked && picked.lat !== null && picked.lng !== null ? { lat: picked.lat, lng: picked.lng } : null);
+
+          setErrors(({ village: _old, ...rest }) => rest);
+
+        }}
+
         error={errors.village}
+
       />
-      <datalist id="cpVillageList">
-        {VILLAGES.map((v) => (
-          <option key={v} value={v} />
-        ))}
-      </datalist>
       <AddressPickerField
         id="cpAddress"
         label="العنوان في القرية"
@@ -124,6 +130,7 @@ export default function CompleteProfileForm({ user, onDone, submitLabel = 'حف�
         onClose={() => setPickerOpen(false)}
         initial={mapAddress}
         village={values.village}
+          villageCenter={villageCenter}
         defaultPhone={normalizeEgyptianPhone(hasPhone ? user.phone : values.phone)}
         saveLabel="تمام، ده عنواني"
         onSave={(draft) => {

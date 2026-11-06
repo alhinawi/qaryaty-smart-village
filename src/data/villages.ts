@@ -51,7 +51,10 @@ const normalize = (text: string) =>
  */
 export function knownVillage(text: string | undefined | null): string | null {
   if (!text) return null;
-  const typed = normalize(text);
+  // "تلبانة، مركز إيتاى البارود - البحيرة" (from the list of all villages) is not ours
+  const governorate = text.split(' - ')[1];
+  if (governorate && normalize(governorate) !== normalize(GOVERNORATE)) return null;
+  const typed = normalize(text.split(' - ')[0].split('،')[0]);
   const exact = VILLAGES.find((v) => normalize(v) === typed);
   if (exact) return exact;
   // Longest first, so "منية بدواي" wins over "بدواي"
