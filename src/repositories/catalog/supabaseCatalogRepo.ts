@@ -1,3 +1,4 @@
+import { pharmacyProductPhoto } from '@/config/pharmacyImages';
 import { shopPresentation } from '@/config/shopPresentation';
 import { restaurantPresentation } from '@/config/restaurantPresentation';
 // ─── Catalog from Supabase tables (see supabase/schema.sql)
@@ -79,7 +80,7 @@ export function productScope(shop: Pick<Shop, 'id' | 'kind'>): string {
 }
 
 export function productFromRow(row: CatalogProductRow): Product {
-  return {
+  const product: Product = {
     id: row.product_id,
     name: row.name,
     emoji: row.emoji || '🛍️',
@@ -91,6 +92,7 @@ export function productFromRow(row: CatalogProductRow): Product {
     grillable: row.grillable || undefined,
     rx: row.rx || undefined,
   };
+  return row.scope === 'pharmacy' ? pharmacyProductPhoto(product) : product;
 }
 
 export interface ProviderRow {
