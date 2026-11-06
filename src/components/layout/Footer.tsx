@@ -68,6 +68,12 @@ export function Footer() {
           >
             تبادل
           </Link>
+          <Link
+            to={ROUTES.rides}
+            className="text-sm font-bold text-white/90 px-3 py-2 rounded-xl transition-colors hover:bg-white/15 hover:text-gold-light"
+          >
+            شير مواصلة
+          </Link>
         </nav>
 
         {/* Developer + contact links */}
