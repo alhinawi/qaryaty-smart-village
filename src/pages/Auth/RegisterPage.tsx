@@ -5,9 +5,9 @@ import { Button } from '@/components/ui/Button';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useUIStore } from '@/stores/useUIStore';
 import { AuthError, authRepo } from '@/repositories';
-import { fieldErrorsFrom, registerSchema, usernameSchema } from '@/utils/validators';
+import { fieldErrorsFrom, normalizeEgyptianPhone, registerSchema, usernameSchema } from '@/utils/validators';
 import { ROUTES } from '@/routes';
-import { AuthField, AuthLayout, PasswordField } from './AuthLayout';
+import { AuthField, AuthLayout, PasswordField, PhoneField } from './AuthLayout';
 import { GoogleAuthButton } from './GoogleAuthButton';
 import { useRedirectTarget } from '@/hooks/useRedirectTarget';
 import { VILLAGES } from '@/data/villages';
@@ -108,9 +108,9 @@ export default function RegisterPage() {
     e.preventDefault();
     setFormError('');
     const parsed = registerSchema.safeParse({ ...values, location: mapAddress ?? undefined });
-    if (!parsed.success) {
-      const fieldErrors = fieldErrorsFrom(parsed.error.issues);
-      if (fieldErrors.address && !mapAddress) fieldErrors.address = 'حدّد عنوانك على الخريطة علشان المندوب يوصلك';
+    if (!parsed.success || !mapAddress) {
+      const fieldErrors = parsed.success ? {} : fieldErrorsFrom(parsed.error.issues);
+      if (!mapAddress) fieldErrors.address = 'حدّد عنوانك على الخريطة علشان المندوب يوصلك';
       setErrors(fieldErrors);
       return;
     }
@@ -192,13 +192,9 @@ export default function RegisterPage() {
           onChange={set('email')}
           error={errors.email}
         />
-        <AuthField
+        <PhoneField
           id="regPhone"
           label="رقم الموبايل"
-          type="tel"
-          inputMode="tel"
-          autoComplete="tel"
-          placeholder="01012345678"
           value={values.phone}
           onChange={set('phone')}
           error={errors.phone}
@@ -229,7 +225,7 @@ export default function RegisterPage() {
           onClose={() => setPickerOpen(false)}
           initial={mapAddress}
           village={values.village}
-          defaultPhone={values.phone}
+          defaultPhone={normalizeEgyptianPhone(values.phone)}
           saveLabel="تمام، ده عنواني"
           onSave={(draft) => {
             setMapAddress(draft);

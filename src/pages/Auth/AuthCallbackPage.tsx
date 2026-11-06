@@ -1,11 +1,12 @@
 // ─── /auth/callback: Google sends the customer back here
-// The Supabase client reads the tokens from the address bar (and removes them);
-// a first-time Google account goes on to /complete-profile.
+// The Supabase client reads the tokens from the address bar (and removes them).
+// Like Talabat, everyone goes straight in: a new Google account gives its phone,
+// village and address only when it places its first order.
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useUIStore } from '@/stores/useUIStore';
-import { AuthError, needsProfileCompletion } from '@/repositories';
+import { AuthError } from '@/repositories';
 import { ROUTES } from '@/routes';
 import { AuthLayout } from './AuthLayout';
 import { oauthErrorFrom } from './oauthError';
@@ -38,10 +39,6 @@ export default function AuthCallbackPage() {
           return;
         }
         const returnTo = safeReturn(result.returnTo);
-        if (needsProfileCompletion(result.user)) {
-          navigate(ROUTES.completeProfile, { replace: true, state: { from: returnTo } });
-          return;
-        }
         showToast(`👋 أهلاً يا ${result.user.name.split(' ')[0]}!`);
         navigate(returnTo, { replace: true });
       } catch (err) {

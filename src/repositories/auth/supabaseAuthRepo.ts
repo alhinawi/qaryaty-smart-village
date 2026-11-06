@@ -262,7 +262,8 @@ export function createSupabaseAuthRepo(
 
     async completeProfile(_userId, input) {
       const supabase = await getClient();
-      const username = normalizeUsername(input.username);
+      // Empty: the backend makes one from the email
+      const username = normalizeUsername(input.username ?? '');
       const { data, error } = await supabase.rpc('complete_profile', {
         p_name: input.name.trim(),
         p_username: username,
