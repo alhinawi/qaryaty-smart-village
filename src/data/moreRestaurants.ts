@@ -1,5 +1,5 @@
 // More restaurants for every food type, with their menus. The same rows are
-// in supabase/migrations/20261106200000_more_restaurants.sql.
+// in supabase/migrations/20261106201500_more_restaurants.sql.
 import type { Product, Shop } from '@/types';
 
 /** Rating, delivery time and village of the restaurants in RESTAURANTS (101-114). */
