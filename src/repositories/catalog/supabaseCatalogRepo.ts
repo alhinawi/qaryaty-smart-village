@@ -1,3 +1,4 @@
+import { shopPresentation } from '@/config/shopPresentation';
 import { restaurantPresentation } from '@/config/restaurantPresentation';
 // ─── Catalog from Supabase tables (see supabase/schema.sql)
 // Columns are snake_case in the database and mapped to the app types here.
@@ -143,7 +144,7 @@ export function serviceFromRow(row: ServiceRow): Service {
 }
 
 export function shopFromRow(row: ShopRow): Shop {
-  return restaurantPresentation({
+  return shopPresentation(restaurantPresentation({
     id: row.id,
     emoji: row.emoji,
     name: row.name,
@@ -157,7 +158,7 @@ export function shopFromRow(row: ShopRow): Shop {
     rating: row.rating == null ? undefined : Number(row.rating),
     deliveryTime: row.delivery_time ?? undefined,
     village: row.village ?? undefined,
-  });
+  }));
 }
 
 export function providerFromRow(row: ProviderRow): Provider {
