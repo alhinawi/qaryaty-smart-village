@@ -62,12 +62,12 @@ export default function ProfilePage() {
     }
     if (villageChanged) markVillageChosen();
     setIsEditing(false);
-    showToast('✅ تم حفظ بيانات الحساب بنجاح!');
+    showToast('✅ بيانات حسابك اتحفظت');
   };
 
   const handleLogout = async () => {
     await logout();
-    showToast('👋 تم تسجيل الخروج');
+    showToast('👋 خرجت من حسابك');
     navigate(ROUTES.home);
   };
 
@@ -83,7 +83,7 @@ export default function ProfilePage() {
     } else if (navigator.clipboard?.writeText) {
       navigator.clipboard
         .writeText(window.location.origin)
-        .then(() => showToast('🔗 تم نسخ رابط دعوة أهالي القرية!'))
+        .then(() => showToast('🔗 لينك الدعوة اتنسخ'))
         .catch(() => showToast(`🔗 ابعت الرابط ده لأهل القرية: ${window.location.origin}`));
     } else {
       showToast(`🔗 ابعت الرابط ده لأهل القرية: ${window.location.origin}`);

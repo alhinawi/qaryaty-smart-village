@@ -24,7 +24,7 @@ export function SkeletonCard() {
 
 export function SkeletonList({ count = 4 }: { count?: number }) {
   return (
-    <div className="services-grid" aria-label="جاري التحميل...">
+    <div className="services-grid" aria-label="بنحمّل الصفحة...">
       {Array.from({ length: count }).map((_, index) => (
         <SkeletonCard key={index} />
       ))}

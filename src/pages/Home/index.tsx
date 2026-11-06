@@ -238,7 +238,7 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
           aria-label="تحديث الخدمات"
         >
           <span className={isRefreshing ? 'animate-[spin_0.8s_linear_infinite]' : ''}>🔄</span>
-          <span>{isRefreshing ? 'جاري التحديث...' : 'سحب للتحديث'}</span>
+          <span>{isRefreshing ? 'بنحدّث الصفحة...' : 'سحب للتحديث'}</span>
         </button>
       </div>
 
@@ -261,7 +261,7 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
       {isLoading && (
         <section className="services-section">
           <div className="section-header">
-            <h3>⚡ {isRefreshing ? 'جاري تحديث الخدمات...' : 'جاري تحميل الخدمات...'}</h3>
+            <h3>⚡ {isRefreshing ? 'بنحدّث الخدمات...' : 'بنحمّل الخدمات...'}</h3>
           </div>
           <SkeletonList count={4} />
         </section>

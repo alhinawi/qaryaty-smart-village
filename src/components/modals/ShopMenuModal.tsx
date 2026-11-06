@@ -146,7 +146,7 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
         )}
 
         {isLoading && (
-          <ul className="flex flex-col gap-2" aria-label="جاري تحميل المنيو">
+          <ul className="flex flex-col gap-2" aria-label="بنحمّل المنيو">
             {[0, 1, 2].map((i) => (
               <li key={i} className="h-[76px] rounded-xl bg-gray-100 animate-pulse" />
             ))}
