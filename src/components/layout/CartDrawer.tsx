@@ -6,6 +6,8 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { ProductPhoto } from "@/components/ui/ProductPhoto";
 import { useCartStore } from "@/stores/useCartStore";
 import { createOrder } from "@/repositories";
+import AddressChooser from "@/components/address/AddressChooser";
+import type { LatLng } from "@/types";
 import { PAYMENT_LABELS, isOnlinePayment, paymentChoices, startOnlinePayment } from "@/services/payments";
 import { useUIStore } from "@/stores/useUIStore";
 import { useGoToTab } from '@/hooks/useTabNavigation';
@@ -68,6 +70,8 @@ function CartDrawerContent() {
   const [submitting, setSubmitting] = useState(false);
   const [discountApplied, setDiscountApplied] = useState(false);
   const [address, setAddress] = useState(profile.address || "");
+  const [mapPoint, setMapPoint] = useState<LatLng | null>(null);
+  const [addressId, setAddressId] = useState<string | null>(null);
   const [phone, setPhone] = useState(profile.phone || "");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("cash");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -158,6 +162,7 @@ function CartDrawerContent() {
         serviceEmoji: emojis || "🛒",
         address: validation.data.address,
         phone: validation.data.phone,
+        ...(mapPoint ? { lat: mapPoint.lat, lng: mapPoint.lng } : {}),
         paymentMethod: validation.data.paymentMethod,
         discountCode: promoStillValid ? FIRST_ORDER_PROMO : undefined,
         discountAmount: finalPricing.discountAmount,
@@ -298,25 +303,18 @@ function CartDrawerContent() {
 
           {/* Delivery Details (prefilled from the profile) */}
           <div className="flex flex-col gap-3 mb-4">
-            <div className="form-group">
-              <label htmlFor="cartAddress">📍 عنوان التوصيل *</label>
-              <input
+            <AddressChooser
                 id="cartAddress"
-                type="text"
-                placeholder="مثال: شارع الجامع الكبير، أمام المدرسة"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                className={errors.address ? "is-invalid" : ""}
-                aria-invalid={Boolean(errors.address)}
-                aria-describedby={errors.address ? "cartAddressError" : undefined}
-                autoComplete="street-address"
+                label="📍 عنوان التوصيل *"
+                value={{ address, point: mapPoint, addressId }}
+                onChange={(next) => {
+                  setAddress(next.address);
+                  setMapPoint(next.point);
+                  setAddressId(next.addressId);
+                }}
+                onPhone={setPhone}
+                error={errors.address}
               />
-              {errors.address && (
-                <span id="cartAddressError" className="input-error-msg">
-                  {errors.address}
-                </span>
-              )}
-            </div>
             <div className="form-group">
               <label htmlFor="cartPhone">📱 رقم الموبايل للتواصل *</label>
               <input
