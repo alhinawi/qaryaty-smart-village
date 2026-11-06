@@ -141,7 +141,7 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
 
         {shop.kind === 'pharmacy' && (
           <p className="text-[12px] text-gray-600 bg-blue-50 rounded-lg px-3 py-2 mb-2">
-            الأدوية اللي عليها «بروشتة» الصيدلي بيراجع الروشتة قبل التوصيل. الأسعار تقريبية.
+            الأدوية اللي عليها «بروشتة» الصيدلي بيراجع الروشتة قبل التوصيل. الأسعار تقريبية. الصور توضيحية مولدة، مش صورة العبوة الفعلية؛ اعتمد على الاسم والتركيز ومراجعة الصيدلي، مش الصورة.
           </p>
         )}
 
@@ -167,7 +167,7 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
         )}
 
         {!isLoading && loaded !== 'error' && (
-          <ul className="flex flex-col gap-2 max-h-[55vh] overflow-y-auto">
+          <ul className="flex flex-col gap-2 max-h-[55vh] overflow-y-auto overscroll-none touch-pan-y">
             {visible.map((p) => (
               <li key={p.id} className="flex items-center gap-3 p-2.5 rounded-xl bg-gray-50">
                 <ProductPhoto photo={p.photo} emoji={p.emoji} className="w-14 h-14 rounded-lg" />

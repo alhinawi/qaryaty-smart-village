@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { SHOPS } from '@/data/shops';
 import { SERVICES } from '@/data/services';
-import { FOOD_TYPE_LABELS, MENUS, RESTAURANTS } from '@/data/catalog';
+import { FOOD_TYPE_LABELS, MENUS, PHARMACY, RESTAURANTS } from '@/data/catalog';
 import type { FoodType } from '@/types';
 import { createMockCatalogRepo } from './mockCatalogRepo';
 import { productFromRow, productScope, providerFromRow, serviceFromRow, shopFromRow } from './supabaseCatalogRepo';
@@ -111,6 +111,16 @@ describe('shop menus through the repository', () => {
       expect(shopFromRow(row).photo).toBe(s.photo);
       expect(shopFromRow({ ...row, photo: 'https://example.com/merchant.webp' }).photo).toBe('https://example.com/merchant.webp');
       expect(shopFromRow({ ...row, name: 'new merchant' }).photo).toBeUndefined();
+    }
+  });
+});
+
+describe('pharmacy illustration mapping', () => {
+  it('gives all135known items a distinct generic illustration in mock and live catalogs', () => {
+    expect(PHARMACY).toHaveLength(135);
+    expect(new Set(PHARMACY.map(p => p.photo)).size).toBe(135);
+    for (const p of PHARMACY) {
+      expect(productFromRow({ scope: 'pharmacy', product_id: p.id, name: p.name, price: p.price, unit: p.unit, step: 1, grillable: false, rx: !!p.rx, photo: null }).photo).toBe(p.photo);
     }
   });
 });
