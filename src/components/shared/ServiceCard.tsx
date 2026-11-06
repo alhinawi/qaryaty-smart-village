@@ -1,6 +1,7 @@
 // ─── Imports
 
-import React from "react";
+import React, { useState } from "react";
+import { imageForService } from "@/config/serviceImages";
 
 import type { Service, ServiceCategory } from "@/types";
 
@@ -50,6 +51,7 @@ export const ServiceCard = React.memo(function ServiceCard({
 
   const showToast = useUIStore((state) => state.showToast);
 
+  const [imageFailed, setImageFailed] = useState(false);
   const bg = CATEGORY_BACKGROUNDS[service.cat] || "#f9fafb";
 
   const isFeatured = service.featured && !disableFeaturedLayout;
@@ -106,9 +108,20 @@ export const ServiceCard = React.memo(function ServiceCard({
         }`}
         style={{ background: bg }}
       >
-        <span role="img" aria-hidden="true">
-          {service.emoji}
-        </span>
+        {!imageFailed ? (
+          <img
+            src={imageForService(service)}
+            alt=""
+            width={480}
+            height={540}
+            loading="lazy"
+            decoding="async"
+            onError={() => setImageFailed(true)}
+            className="w-full h-full object-cover object-center"
+          />
+        ) : (
+          <span role="img" aria-hidden="true">{service.emoji}</span>
+        )}
 
         {/* Favorite Heart Button */}
         <button
