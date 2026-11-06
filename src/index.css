@@ -253,3 +253,12 @@ body {
 }
 
 
+
+/* Map picker: keep the map credits above the bottom sheet */
+.map-picker .leaflet-bottom {
+  bottom: calc(9.75rem + env(safe-area-inset-bottom));
+}
+.map-picker .leaflet-control-attribution {
+  font-size: 10px;
+  border-radius: 6px 0 0 6px;
+}
