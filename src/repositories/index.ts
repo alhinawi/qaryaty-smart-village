@@ -15,7 +15,7 @@
 import { createCircuitBreaker } from './circuitBreaker';
 import { createResilience } from './resilient';
 import { backendStatus } from './status';
-import { getSupabase, isSupabaseConfigured } from './supabaseClient';
+import { getSupabase, isSupabaseConfigured, supabaseUrl } from './supabaseClient';
 import { createMockCatalogRepo } from './catalog/mockCatalogRepo';
 import { createSupabaseCatalogRepo } from './catalog/supabaseCatalogRepo';
 import type { CatalogRepo } from './catalog/types';
@@ -38,6 +38,9 @@ import type { VillageOption, VillageRepo } from './villages/types';
 import { createMockJobRepo } from './jobs/mockJobRepo';
 import { createSupabaseJobRepo } from './jobs/supabaseJobRepo';
 import type { JobRepo } from './jobs/types';
+import { createLocalMarketRepo } from './market/localMarketRepo';
+import { createSupabaseMarketRepo } from './market/supabaseMarketRepo';
+import type { MarketRepo } from './market/types';
 
 const breaker = createCircuitBreaker({ failureThreshold: 3, cooldownMs: 30_000 });
 const resilience = createResilience({
@@ -210,6 +213,42 @@ export const villageRepo: VillageRepo = villageLive
   : mockVillages;
 export type { VillageOption, VillageRepo };
 export { normalizeArabic, villageOptionLabel } from './villages/types';
+
+// ─── بيع المستعمل وتبادل: Supabase, or this device in demo mode
+export const MARKET_UNAVAILABLE_MESSAGE = 'الخدمة متوقفة مؤقتًا، جرّب تاني بعد شوية';
+let marketUser: { id: string; name: string } | null = null;
+/** Demo mode only: who is signed in (the pages call it with the session user). */
+export function setMarketUser(user: { id: string; name: string } | null): void {
+  marketUser = user;
+}
+const marketLive = isSupabaseConfigured ? createSupabaseMarketRepo(getSupabase, supabaseUrl) : null;
+export const marketRepo: MarketRepo = marketLive
+  ? (() => {
+      const w = <T>(fn: () => Promise<T>) =>
+        resilience.write(fn, (cause) => new ServiceUnavailableError(MARKET_UNAVAILABLE_MESSAGE, { cause }));
+      const m = marketLive;
+      return {
+        photoUrl: m.photoUrl,
+        list: (kind, opts) => w(() => m.list(kind, opts)),
+        get: (id) => w(() => m.get(id)),
+        mine: () => w(() => m.mine()),
+        create: (d) => w(() => m.create(d)),
+        update: (id, d) => w(() => m.update(id, d)),
+        setStatus: (id, s) => w(() => m.setStatus(id, s)),
+        remove: (l) => w(() => m.remove(l)),
+        renew: (id) => w(() => m.renew(id)),
+        report: (id, r, n) => w(() => m.report(id, r, n)),
+        // Uploads can take longer than the read/write timeout on a slow phone
+        uploadPhoto: (u, f) => m.uploadPhoto(u, f),
+        deletePhotos: (p) => m.deletePhotos(p),
+        thread: (l, b) => w(() => m.thread(l, b)),
+        send: (l, b, t) => w(() => m.send(l, b, t)),
+        markRead: (l, b) => w(() => m.markRead(l, b)),
+        conversations: () => w(() => m.conversations()),
+      } satisfies MarketRepo;
+    })()
+  : createLocalMarketRepo(() => marketUser);
+export type * from './market/types';
 
 export { isSupabaseConfigured };
 export { useBackendStatus, type BackendMode } from './status';

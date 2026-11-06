@@ -56,6 +56,18 @@ export function Footer() {
           >
             وظائف
           </Link>
+          <Link
+            to={ROUTES.marketSale}
+            className="text-sm font-bold text-white/90 px-3 py-2 rounded-xl transition-colors hover:bg-white/15 hover:text-gold-light"
+          >
+            بيع المستعمل
+          </Link>
+          <Link
+            to={ROUTES.marketSwap}
+            className="text-sm font-bold text-white/90 px-3 py-2 rounded-xl transition-colors hover:bg-white/15 hover:text-gold-light"
+          >
+            تبادل
+          </Link>
         </nav>
 
         {/* Developer + contact links */}

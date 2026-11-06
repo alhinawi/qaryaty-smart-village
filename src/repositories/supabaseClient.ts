@@ -9,6 +9,9 @@ const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim() ?? '';
 export const isSupabaseConfigured =
   import.meta.env.VITE_DATA_SOURCE !== 'mock' && url.length > 0 && anonKey.length > 0;
 
+/** Project URL (public photo links are built from it). */
+export const supabaseUrl = url;
+
 let clientPromise: Promise<SupabaseClient> | null = null;
 
 /** Lazily imports supabase-js so the demo build doesn't download it. */
