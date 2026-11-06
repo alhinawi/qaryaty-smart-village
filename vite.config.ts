@@ -11,8 +11,12 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
+      injectRegister: false,
       includeAssets: ['favicon.ico', 'favicon.svg', 'apple-touch-icon.png'],
       workbox: {
+        skipWaiting: true,
+        clientsClaim: true,
+        cleanupOutdatedCaches: true,
         // People's pictures come from the DiceBear API: keep them once loaded,
         // so they show on slow connections and offline.
         runtimeCaching: [
@@ -26,12 +30,13 @@ export default defineConfig({
             },
           },
           {
-            // Photos of people (/img/people): not precached, kept once seen.
-            urlPattern: ({ url }) => url.pathname.startsWith('/img/people/'),
-            handler: 'CacheFirst',
+            // Stable image URLs must revalidate after each release; cache only as offline fallback.
+            urlPattern: ({ url }) => url.pathname.startsWith('/img/'),
+            handler: 'NetworkFirst',
             options: {
-              cacheName: 'people-photos',
-              expiration: { maxEntries: 40, maxAgeSeconds: 60 * 60 * 24 * 90 },
+              cacheName: 'qaryati-images-network-v2',
+              networkTimeoutSeconds: 4,
+              expiration: { maxEntries: 400, maxAgeSeconds: 60 * 60 * 24 * 30 },
               cacheableResponse: { statuses: [0, 200] },
             },
           },
