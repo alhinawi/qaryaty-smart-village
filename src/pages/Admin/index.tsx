@@ -1,17 +1,27 @@
-// ─── Owner panel (/admin): the platform owner's home. Review queues live on
-// their own pages (jobs, market, rides); this page gathers them with a quick
-// overview. Admins only, like the review pages.
+// ─── Staff panel (/admin): one panel, and every staff tier sees its own
+// sections (src/config/staffTiers.ts). The owner is the only one who appoints
+// supervisors or changes their tiers; review queues live on their own pages.
 import { useCallback, useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router';
 import { ROUTES } from '@/routes';
-import { authRepo, jobRepo, marketRepo, rideRepo } from '@/repositories';
-import { useAuthStore, selectIsAdmin, selectUser } from '@/stores/useAuthStore';
+import { addProvider, addShop, authRepo, jobRepo, marketRepo, rideRepo } from '@/repositories';
+import { useAuthStore, selectIsStaff, selectRole, selectUser } from '@/stores/useAuthStore';
 import { useCatalogStore } from '@/stores/useCatalogStore';
 import { useUIStore } from '@/stores/useUIStore';
 import { useConfirmStore } from '@/stores/useConfirmStore';
 import { Badge } from '@/components/ui/Badge';
-import { Button } from '@/components/ui/Button';
-import type { AuthUser } from '@/types';
+import {
+  APPOINTABLE_ROLES,
+  STAFF_ROLE_HINTS,
+  STAFF_ROLE_LABELS,
+  adminSectionsFor,
+  isStaffRole,
+  type StaffRole,
+} from '@/config/staffTiers';
+import type { AuthUser, Gender, ProviderKind, ShopKind, UserRole } from '@/types';
+import { SHOP_KIND_LABELS } from '@/utils/searchScreen';
+import { PROVIDER_KIND_LABELS } from '@/data/teachers';
+import { Field } from '@/pages/Dashboard/parts';
 
 interface QueueLink {
   to: string;
@@ -21,8 +31,17 @@ interface QueueLink {
   count: number | null;
 }
 
+const TIER_BADGE: Record<StaffRole, 'warning' | 'success' | 'info'> = {
+  owner: 'warning',
+  admin: 'success',
+  content_admin: 'info',
+  orders_admin: 'info',
+};
+
 export default function AdminPage() {
-  const isAdmin = useAuthStore(selectIsAdmin);
+  const role = useAuthStore(selectRole);
+  const isStaff = useAuthStore(selectIsStaff);
+  const sections = adminSectionsFor(role);
   const loadCatalog = useCatalogStore((s) => s.load);
   const catalogState = useCatalogStore((s) => s.loadState);
   const services = useCatalogStore((s) => s.services);
@@ -39,7 +58,7 @@ export default function AdminPage() {
   }, [loadCatalog]);
 
   useEffect(() => {
-    if (!isAdmin) return;
+    if (!sections.reviewQueues) return;
     let alive = true;
     const safeCount = (p: Promise<unknown[]>) => p.then((list) => list.length).catch(() => null);
     Promise.all([
@@ -57,9 +76,9 @@ export default function AdminPage() {
     return () => {
       alive = false;
     };
-  }, [isAdmin]);
+  }, [sections.reviewQueues]);
 
-  if (!isAdmin) return <Navigate to={ROUTES.home} replace />;
+  if (!isStaff) return <Navigate to={ROUTES.home} replace />;
 
   const stats = [
     { icon: '🧰', label: 'الخدمات', value: catalogState === 'ready' ? services.length : '…' },
@@ -69,56 +88,308 @@ export default function AdminPage() {
 
   return (
     <div className="max-w-[760px] mx-auto px-4 py-5" dir="rtl">
-      <h1 className="text-[clamp(1.25rem,4vw,1.6rem)] font-black text-green-dark m-0 mb-1">🛡️ لوحة تحكم المالك</h1>
-      <p className="text-[13px] text-text-muted mt-1 mb-4">نظرة سريعة على التطبيق وطوابير المراجعة.</p>
-
-      <div className="grid grid-cols-3 gap-2 mb-5">
-        {stats.map((s) => (
-          <div key={s.label} className="bg-white rounded-2xl border border-[rgba(26,122,74,0.12)] p-3 text-center">
-            <p className="text-[22px] m-0" aria-hidden="true">{s.icon}</p>
-            <p className="text-[20px] font-black text-green-dark m-0">{s.value}</p>
-            <p className="text-[11px] font-bold text-text-muted m-0">{s.label}</p>
-          </div>
-        ))}
-      </div>
-
-      <h2 className="text-[15px] font-black text-green-dark mb-2">طوابير المراجعة</h2>
-      <ul className="m-0 p-0 list-none grid grid-cols-1 gap-2 mb-5">
-        {queues.map((q) => (
-          <li key={q.to}>
-            <Link
-              to={q.to}
-              className="flex items-center gap-3 p-3 rounded-2xl bg-white border border-[rgba(26,122,74,0.12)] no-underline hover:bg-cream/50 transition-colors"
-            >
-              <span className="text-[22px]" aria-hidden="true">{q.icon}</span>
-              <span className="flex-1">
-                <span className="block text-[14px] font-extrabold text-text">{q.label}</span>
-                <span className="block text-[11px] text-text-muted">{q.hint}</span>
-              </span>
-              {q.count !== null && (
-                <span className={`min-w-[28px] h-[28px] px-1.5 rounded-full flex items-center justify-center text-[13px] font-black ${q.count ? 'bg-gold text-black' : 'bg-gray-100 text-text-muted'}`}>
-                  {q.count}
-                </span>
-              )}
-            </Link>
-          </li>
-        ))}
-      </ul>
-
-      <p className="text-[13px] text-text-muted mb-5">
-        لوحة مقدم الخدمة: <Link to={ROUTES.dashboard} className="text-green font-bold">افتحها من هنا</Link> (للمشرفين بس).
+      <h1 className="text-[clamp(1.25rem,4vw,1.6rem)] font-black text-green-dark m-0 mb-1">
+        🛡️ لوحة التحكم{' '}
+        {isStaffRole(role) && <Badge variant={TIER_BADGE[role]}>{STAFF_ROLE_LABELS[role]}</Badge>}
+      </h1>
+      <p className="text-[13px] text-text-muted mt-1 mb-4">
+        {isStaffRole(role) ? STAFF_ROLE_HINTS[role] : ''}
       </p>
 
-      <SupervisorsSection />
+      {sections.overview && (
+        <div className="grid grid-cols-3 gap-2 mb-5">
+          {stats.map((s) => (
+            <div key={s.label} className="bg-white rounded-2xl border border-[rgba(26,122,74,0.12)] p-3 text-center">
+              <p className="text-[22px] m-0" aria-hidden="true">{s.icon}</p>
+              <p className="text-[20px] font-black text-green-dark m-0">{s.value}</p>
+              <p className="text-[11px] font-bold text-text-muted m-0">{s.label}</p>
+            </div>
+          ))}
+        </div>
+      )}
 
-      <p className="text-[12px] text-text-muted">
-        إعدادات رسوم التوصيل والعمولة لسه بتتعدل من Supabase لحد ما تتضاف هنا.
-      </p>
+      {sections.reviewQueues && (
+        <>
+          <h2 className="text-[15px] font-black text-green-dark mb-2">طوابير المراجعة</h2>
+          <ul className="m-0 p-0 list-none grid grid-cols-1 gap-2 mb-5">
+            {queues.map((q) => (
+              <li key={q.to}>
+                <Link
+                  to={q.to}
+                  className="flex items-center gap-3 p-3 rounded-2xl bg-white border border-[rgba(26,122,74,0.12)] no-underline hover:bg-cream/50 transition-colors"
+                >
+                  <span className="text-[22px]" aria-hidden="true">{q.icon}</span>
+                  <span className="flex-1 min-w-0">
+                    <span className="block text-[14px] font-extrabold text-text">{q.label}</span>
+                    <span className="block text-[11px] text-text-muted">{q.hint}</span>
+                  </span>
+                  {q.count !== null && (
+                    <span className={`min-w-[28px] h-[28px] px-1.5 rounded-full flex items-center justify-center text-[13px] font-black ${q.count ? 'bg-gold text-black' : 'bg-gray-100 text-text-muted'}`}>
+                      {q.count}
+                    </span>
+                  )}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+
+      {sections.providerDashboard && (
+        <p className="text-[13px] text-text-muted mb-5">
+          لوحة مقدم الخدمة: <Link to={ROUTES.dashboard} className="text-green font-bold">افتحها من هنا</Link> (المحلات ومقدمي الخدمة والطلبات).
+        </p>
+      )}
+
+      {sections.providerDashboard && <AddProviderSection />}
+
+      {sections.supervisors && <SupervisorsSection />}
+
+      {sections.feesNote && (
+        <p className="text-[12px] text-text-muted">
+          إعدادات رسوم التوصيل والعمولة لسه بتتعدل من Supabase لحد ما تتضاف هنا.
+        </p>
+      )}
     </div>
   );
 }
 
-// ─── Appointing admins: the only people who see /admin and /dashboard
+// ─── Add a shop or a professional (المحلات والمهنيين): the owner/admin creates
+// the record here and links it to the account that will manage it. New rows
+// show to customers immediately.
+function AddProviderSection() {
+  const showToast = useUIStore((s) => s.showToast);
+  const services = useCatalogStore((s) => s.services);
+  const loadCatalog = useCatalogStore((s) => s.load);
+  const [tab, setTab] = useState<'shop' | 'pro'>('shop');
+  const [busy, setBusy] = useState(false);
+  // Account linking: only staff who can read all profiles (owner/admin) get the picker
+  const [users, setUsers] = useState<AuthUser[] | null>(null);
+
+  useEffect(() => {
+    authRepo
+      .listUsers()
+      .then(setUsers)
+      .catch(() => setUsers(null));
+  }, []);
+
+  // shop form
+  const [shopName, setShopName] = useState('');
+  const [shopKind, setShopKind] = useState<ShopKind>('grocery');
+  const [shopEmoji, setShopEmoji] = useState('');
+  const [shopDesc, setShopDesc] = useState('');
+  const [shopTime, setShopTime] = useState('');
+  const [shopOwner, setShopOwner] = useState('');
+
+  // professional form
+  const [proName, setProName] = useState('');
+  const [proKind, setProKind] = useState<ProviderKind>('worker');
+  const [proGender, setProGender] = useState<Gender>('male');
+  const [proService, setProService] = useState('');
+  const [proVillage, setProVillage] = useState('');
+  const [proArea, setProArea] = useState('');
+  const [proPrice, setProPrice] = useState('');
+  const [proBio, setProBio] = useState('');
+  const [proOwner, setProOwner] = useState('');
+
+  const submitShop = async () => {
+    if (!shopName.trim() || !shopDesc.trim()) {
+      showToast('⚠️ اكتب اسم المحل ووصفه الأول');
+      return;
+    }
+    setBusy(true);
+    try {
+      await addShop({
+        name: shopName.trim(),
+        kind: shopKind,
+        emoji: shopEmoji.trim() || SHOP_KIND_LABELS[shopKind]?.emoji || '🏪',
+        description: shopDesc.trim(),
+        time: shopTime.trim(),
+        ...(shopOwner ? { ownerProfileId: shopOwner } : {}),
+      });
+      showToast(`✅ «${shopName.trim()}» اتضاف وبقى ظاهر للزباين`);
+      setShopName(''); setShopEmoji(''); setShopDesc(''); setShopTime(''); setShopOwner('');
+      void loadCatalog(true);
+    } catch (err) {
+      showToast(`⚠️ ${err instanceof Error ? err.message : 'حصلت مشكلة'}`);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const submitPro = async () => {
+    const serviceId = Number(proService);
+    if (!proName.trim() || !Number.isFinite(serviceId) || !proVillage.trim()) {
+      showToast('⚠️ اكتب الاسم والخدمة والقرية الأول');
+      return;
+    }
+    const service = services.find((svc) => svc.id === serviceId);
+    setBusy(true);
+    try {
+      await addProvider({
+        name: proName.trim(),
+        kind: proKind,
+        serviceId,
+        gender: proGender,
+        role: service?.name ?? PROVIDER_KIND_LABELS[proKind][proGender],
+        village: proVillage.trim(),
+        area: proArea.trim(),
+        price: proPrice.trim() || 'حسب الاتفاق',
+        bio: proBio.trim(),
+        ...(proOwner ? { ownerProfileId: proOwner } : {}),
+      });
+      showToast(`✅ «${proName.trim()}» اتضاف وبقى ظاهر للزباين`);
+      setProName(''); setProVillage(''); setProArea(''); setProPrice(''); setProBio(''); setProOwner('');
+      void loadCatalog(true);
+    } catch (err) {
+      showToast(`⚠️ ${err instanceof Error ? err.message : 'حصلت مشكلة'}`);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const selectCls =
+    'w-full min-h-[42px] px-3 rounded-xl border border-[rgba(26,122,74,0.25)] bg-cream/40 text-[14px] font-bold text-text focus:outline-none focus:border-green';
+  const ownerPicker = (value: string, setValue: (v: string) => void, label: string) =>
+    users && users.length > 0 ? (
+      <label className="block">
+        <span className="block text-[12px] font-bold text-text-muted mb-1">{label}</span>
+        <select value={value} onChange={(e) => setValue(e.target.value)} className={selectCls}>
+          <option value="">من غير ربط بحساب</option>
+          {users.map((u) => (
+            <option key={u.id} value={u.id}>
+              {u.name} — {u.email || u.phone}
+            </option>
+          ))}
+        </select>
+      </label>
+    ) : (
+      <p className="text-[11px] text-text-muted m-0">
+        ربط بحساب بيشتغل لما يكون معاك صلاحية قراية الحسابات (المالك).
+      </p>
+    );
+
+  return (
+    <section className="bg-white rounded-2xl border border-[rgba(26,122,74,0.12)] p-4 mb-5">
+      <h2 className="text-[15px] font-black text-green-dark m-0 mb-1">➕ ضيف محل أو مهني</h2>
+      <p className="text-[12px] text-text-muted mt-0 mb-3">
+        أي إضافة هنا بتظهر للزباين على طول. لو ربطتها بحساب، صاحب الحساب يديرها من لوحة مقدم الخدمة.
+      </p>
+      <div className="flex gap-2 mb-3" role="tablist" aria-label="نوع الإضافة">
+        {(
+          [
+            { id: 'shop', label: '🏪 محل' },
+            { id: 'pro', label: '🧑‍🔧 مهني' },
+          ] as { id: 'shop' | 'pro'; label: string }[]
+        ).map((t) => (
+          <button
+            key={t.id}
+            type="button"
+            role="tab"
+            aria-selected={tab === t.id}
+            onClick={() => setTab(t.id)}
+            className={`min-h-[40px] px-4 rounded-xl border text-[13px] font-extrabold cursor-pointer transition-colors ${
+              tab === t.id
+                ? 'bg-green text-white border-green'
+                : 'bg-white text-green-dark border-[rgba(26,122,74,0.25)] hover:bg-cream/60'
+            }`}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {tab === 'shop' ? (
+        <div className="grid gap-3">
+          <Field label="اسم المحل" value={shopName} onChange={setShopName} placeholder="مثال: سوبر ماركت البركة" />
+          <div className="grid grid-cols-2 gap-2">
+            <label className="block">
+              <span className="block text-[12px] font-bold text-text-muted mb-1">نوع المحل</span>
+              <select value={shopKind} onChange={(e) => setShopKind(e.target.value as ShopKind)} className={selectCls}>
+                {Object.entries(SHOP_KIND_LABELS)
+                  .filter(([kind]) => kind !== 'jewelry')
+                  .map(([kind, info]) => (
+                    <option key={kind} value={kind}>
+                      {info.emoji} {info.label}
+                    </option>
+                  ))}
+              </select>
+            </label>
+            <Field label="إيموجي (اختياري)" value={shopEmoji} onChange={setShopEmoji} placeholder="🛒" />
+          </div>
+          <Field label="وصف المحل" value={shopDesc} onChange={setShopDesc} placeholder="بقالة ومواد غذائية متنوعة" />
+          <Field label="مواعيد الفتح (اختياري)" value={shopTime} onChange={setShopTime} placeholder="⏰ 7ص - 12م" />
+          {ownerPicker(shopOwner, setShopOwner, 'اربطه بحساب يديره (اختياري)')}
+          <div>
+            <button
+              type="button"
+              disabled={busy}
+              onClick={() => void submitShop()}
+              className="min-h-[42px] px-5 rounded-xl bg-green text-white text-[14px] font-extrabold border-none cursor-pointer hover:bg-green-dark transition-colors disabled:opacity-60"
+            >
+              {busy ? 'بيضاف...' : 'ضيف المحل'}
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="grid gap-3">
+          <Field label="الاسم" value={proName} onChange={setProName} placeholder="مثال: عم محمود" />
+          <div className="grid grid-cols-2 gap-2">
+            <label className="block">
+              <span className="block text-[12px] font-bold text-text-muted mb-1">الخدمة</span>
+              <select value={proService} onChange={(e) => setProService(e.target.value)} className={selectCls}>
+                <option value="">اختار الخدمة...</option>
+                {services.map((svc) => (
+                  <option key={svc.id} value={svc.id}>
+                    {svc.emoji} {svc.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="block">
+              <span className="block text-[12px] font-bold text-text-muted mb-1">النوع</span>
+              <select value={proKind} onChange={(e) => setProKind(e.target.value as ProviderKind)} className={selectCls}>
+                {(Object.keys(PROVIDER_KIND_LABELS) as ProviderKind[]).map((kind) => (
+                  <option key={kind} value={kind}>
+                    {PROVIDER_KIND_LABELS[kind][proGender]}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <label className="block">
+              <span className="block text-[12px] font-bold text-text-muted mb-1">الجنس</span>
+              <select value={proGender} onChange={(e) => setProGender(e.target.value as Gender)} className={selectCls}>
+                <option value="male">راجل</option>
+                <option value="female">ست</option>
+              </select>
+            </label>
+            <Field label="القرية" value={proVillage} onChange={setProVillage} placeholder="ميت غمر" />
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <Field label="المنطقة (اختياري)" value={proArea} onChange={setProArea} placeholder="شارع الجمهورية" />
+            <Field label="السعر (اختياري)" value={proPrice} onChange={setProPrice} placeholder="من 50 جنيه" />
+          </div>
+          <Field label="نبذة (اختياري)" value={proBio} onChange={setProBio} placeholder="خبرة 15 سنة في السباكة" />
+          {ownerPicker(proOwner, setProOwner, 'اربطه بحساب يديره (اختياري)')}
+          <div>
+            <button
+              type="button"
+              disabled={busy}
+              onClick={() => void submitPro()}
+              className="min-h-[42px] px-5 rounded-xl bg-green text-white text-[14px] font-extrabold border-none cursor-pointer hover:bg-green-dark transition-colors disabled:opacity-60"
+            >
+              {busy ? 'بيضاف...' : 'ضيف المهني'}
+            </button>
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
+
+// ─── Supervisors (owner only): appoint a tier, change it, or revoke it
 function SupervisorsSection() {
   const me = useAuthStore(selectUser);
   const showToast = useUIStore((s) => s.showToast);
@@ -145,8 +416,9 @@ function SupervisorsSection() {
     load();
   }, [load]);
 
-  const changeRole = async (user: AuthUser, makeAdmin: boolean) => {
-    if (!makeAdmin) {
+  const changeRole = async (user: AuthUser, next: UserRole) => {
+    if (next === user.role) return;
+    if (next === 'customer') {
       const ok = await ask({
         title: 'شيل الإشراف',
         message: `تشيل صلاحيات المشرف من «${user.name}»؟ حسابه هيفضل شغال عادي، بس مش هيشوف لوحات التحكم.`,
@@ -157,8 +429,12 @@ function SupervisorsSection() {
     }
     setBusyId(user.id);
     try {
-      await authRepo.setRole(user.id, makeAdmin ? 'admin' : 'customer');
-      showToast(makeAdmin ? `✅ «${user.name}» بقى مشرف` : `«${user.name}» مابقاش مشرف`);
+      await authRepo.setRole(user.id, next);
+      showToast(
+        next === 'customer'
+          ? `«${user.name}» مابقاش مشرف`
+          : `✅ «${user.name}» بقى ${STAFF_ROLE_LABELS[next as StaffRole]}`
+      );
       load();
     } catch (err) {
       showToast(`⚠️ ${err instanceof Error ? err.message : 'حصلت مشكلة'}`);
@@ -171,15 +447,22 @@ function SupervisorsSection() {
   const visible = (users ?? []).filter(
     (u) => !q || u.name.includes(q) || u.email.includes(q) || u.phone.includes(q) || u.username.includes(q)
   );
-  const admins = visible.filter((u) => u.role === 'admin');
-  const customers = visible.filter((u) => u.role !== 'admin');
+  const staff = visible.filter((u) => isStaffRole(u.role));
+  const customers = visible.filter((u) => !isStaffRole(u.role));
 
   return (
     <section className="bg-white rounded-2xl border border-[rgba(26,122,74,0.12)] p-4 mb-5">
       <h2 className="text-[15px] font-black text-green-dark m-0 mb-1">🧑‍💼 المشرفين</h2>
-      <p className="text-[12px] text-text-muted mt-0 mb-3">
-        المشرف بيشوف لوحة التحكم ولوحة مقدم الخدمة. عيّن أي حد من هنا، وشيله في أي وقت.
+      <p className="text-[12px] text-text-muted mt-0 mb-1">
+        عيّن أي حد وحدّد درجته، وشيله في أي وقت. الدرجات:
       </p>
+      <ul className="m-0 mb-3 p-0 list-none grid grid-cols-1 gap-1">
+        {APPOINTABLE_ROLES.map((r) => (
+          <li key={r} className="text-[11px] text-text-muted">
+            <span className="font-extrabold text-text">{STAFF_ROLE_LABELS[r]}:</span> {STAFF_ROLE_HINTS[r]}
+          </li>
+        ))}
+      </ul>
       <input
         type="search"
         value={query}
@@ -192,7 +475,7 @@ function SupervisorsSection() {
       {users === null && !error && <p role="status" className="text-text-muted text-[13px]">بنحمّل المستخدمين...</p>}
       {users !== null && (
         <ul className="m-0 p-0 list-none grid grid-cols-1 gap-2">
-          {[...admins, ...customers].slice(0, 20).map((u) => (
+          {[...staff, ...customers].slice(0, 20).map((u) => (
             <li key={u.id} className="flex min-w-0 items-center gap-2.5 p-2.5 rounded-xl border border-[rgba(26,122,74,0.12)] bg-cream/30">
               <div className="flex-1 min-w-0">
                 <p className="text-[13px] font-extrabold text-text m-0 truncate">
@@ -200,16 +483,20 @@ function SupervisorsSection() {
                 </p>
                 <p className="text-[11px] text-text-muted m-0 truncate" dir="ltr">{u.email || u.phone}</p>
               </div>
-              {u.role === 'admin' && <Badge variant="success">مشرف</Badge>}
-              {u.id !== me?.id && (
-                <Button
-                  size="sm"
-                  variant={u.role === 'admin' ? 'outline' : 'primary'}
-                  loading={busyId === u.id}
-                  onClick={() => void changeRole(u, u.role !== 'admin')}
+              {isStaffRole(u.role) && <Badge variant={TIER_BADGE[u.role]}>{STAFF_ROLE_LABELS[u.role]}</Badge>}
+              {u.id !== me?.id && u.role !== 'owner' && (
+                <select
+                  aria-label={`درجة ${u.name}`}
+                  value={u.role}
+                  disabled={busyId === u.id}
+                  onChange={(e) => void changeRole(u, e.target.value as UserRole)}
+                  className="min-h-[38px] max-w-[132px] px-2 rounded-lg border border-[rgba(26,122,74,0.25)] bg-white text-[12px] font-bold text-text focus:outline-none focus:border-green"
                 >
-                  {u.role === 'admin' ? 'شيل الإشراف' : 'عيّن مشرف'}
-                </Button>
+                  <option value="customer">عميل</option>
+                  {APPOINTABLE_ROLES.map((r) => (
+                    <option key={r} value={r}>{STAFF_ROLE_LABELS[r]}</option>
+                  ))}
+                </select>
               )}
             </li>
           ))}

@@ -1,5 +1,6 @@
 // ─── Small shared pieces for the provider dashboard pages
-import type { ReactNode } from 'react';
+import { useRef, useState, type ReactNode } from 'react';
+import { ACCEPTED_IMAGE_TYPES, fileToDataUrl } from '@/utils/imageFile';
 
 /** A titled card, the dashboard's building block. */
 export function Section({ icon, title, hint, children }: { icon: string; title: string; hint?: string; children: ReactNode }) {
@@ -80,5 +81,52 @@ export function Field({
         className="w-full min-h-[42px] px-3 rounded-xl border border-[rgba(26,122,74,0.25)] bg-cream/40 text-[14px] font-bold text-text focus:outline-none focus:border-green"
       />
     </label>
+  );
+}
+
+/** Pick an image from the device; onPick gets a downscaled data URL. */
+export function PhotoButton({
+  onPick,
+  onError,
+  label = '📷 غيّر الصورة',
+  ariaLabel,
+}: {
+  onPick: (dataUrl: string) => void;
+  onError: (message: string) => void;
+  label?: string;
+  ariaLabel?: string;
+}) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [busy, setBusy] = useState(false);
+  return (
+    <>
+      <input
+        ref={inputRef}
+        type="file"
+        accept={ACCEPTED_IMAGE_TYPES}
+        className="hidden"
+        aria-hidden="true"
+        tabIndex={-1}
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          e.target.value = '';
+          if (!file) return;
+          setBusy(true);
+          fileToDataUrl(file)
+            .then(onPick)
+            .catch((err: unknown) => onError(err instanceof Error ? err.message : 'ماقدرناش نقرأ الصورة'))
+            .finally(() => setBusy(false));
+        }}
+      />
+      <button
+        type="button"
+        disabled={busy}
+        aria-label={ariaLabel}
+        onClick={() => inputRef.current?.click()}
+        className="min-h-[38px] px-2.5 rounded-lg border border-[rgba(26,122,74,0.25)] bg-white text-[12px] font-bold text-green-dark cursor-pointer hover:bg-cream/60 transition-colors disabled:opacity-60"
+      >
+        {busy ? 'بنجهّز الصورة...' : label}
+      </button>
+    </>
   );
 }

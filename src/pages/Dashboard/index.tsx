@@ -4,10 +4,11 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Navigate } from 'react-router';
 import { ROUTES } from '@/routes';
-import { useAuthStore, selectIsAdmin } from '@/stores/useAuthStore';
+import { useAuthStore, selectCanManageProviders } from '@/stores/useAuthStore';
 import { useCatalogStore } from '@/stores/useCatalogStore';
 import { useProviderDashboardStore, type ProService } from '@/stores/useProviderDashboardStore';
 import { useUIStore } from '@/stores/useUIStore';
+import { useConfirmStore } from '@/stores/useConfirmStore';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { ProductPhoto } from '@/components/ui/ProductPhoto';
@@ -24,13 +25,13 @@ import {
 import { KIND_FILTER_LABELS } from '@/utils/peopleSections';
 import { formatCurrency } from '@/utils/helpers';
 import type { Product, Provider, Shop } from '@/types';
-import { Section, Toggle, Field } from './parts';
+import { Section, Toggle, Field, PhotoButton } from './parts';
 
 type Tab = 'merchant' | 'pro';
 
 export default function ProviderDashboardPage() {
   // Open to the owner and the people he appoints as admins, nowhere else
-  const isAdmin = useAuthStore(selectIsAdmin);
+  const allowed = useAuthStore(selectCanManageProviders);
   const loadCatalog = useCatalogStore((s) => s.load);
   const catalogState = useCatalogStore((s) => s.loadState);
   const [tab, setTab] = useState<Tab>('merchant');
@@ -39,7 +40,7 @@ export default function ProviderDashboardPage() {
     void loadCatalog();
   }, [loadCatalog]);
 
-  if (!isAdmin) return <Navigate to={ROUTES.home} replace />;
+  if (!allowed) return <Navigate to={ROUTES.home} replace />;
 
   return (
     <div className="max-w-[760px] mx-auto px-4 py-5" dir="rtl">
@@ -125,6 +126,7 @@ function ShopInfoSection({ shop }: { shop: Shop }) {
   const setShopOpen = useProviderDashboardStore((s) => s.setShopOpen);
   const setShopHours = useProviderDashboardStore((s) => s.setShopHours);
   const setShopDescription = useProviderDashboardStore((s) => s.setShopDescription);
+  const setShopPhoto = useProviderDashboardStore((s) => s.setShopPhoto);
   const showToast = useUIStore((s) => s.showToast);
 
   // Keyed by shop id in the parent: switching shops remounts with that shop's values
@@ -135,8 +137,8 @@ function ShopInfoSection({ shop }: { shop: Shop }) {
   return (
     <Section icon="🏪" title="بيانات المحل" hint="الاسم والوصف ومواعيد الفتح زي ما العميل بيشوفهم">
       <div className="flex items-center gap-3 mb-3">
-        {shop.photo ? (
-          <img src={shop.photo} alt={shop.name} className="w-14 h-14 rounded-xl object-cover bg-cream" />
+        {(overrides?.photo ?? shop.photo) ? (
+          <img src={overrides?.photo ?? shop.photo} alt={shop.name} className="w-14 h-14 rounded-xl object-cover bg-cream" />
         ) : (
           <span className="w-14 h-14 rounded-xl bg-cream flex items-center justify-center text-[30px]" aria-hidden="true">
             {shop.emoji}
@@ -160,7 +162,7 @@ function ShopInfoSection({ shop }: { shop: Shop }) {
       <div className="grid gap-3">
         <Field label="مواعيد الفتح" value={hours} onChange={setHours} placeholder="⏰ 7ص - 12م" />
         <Field label="وصف المحل" value={description} onChange={setDescription} placeholder="بقالة ومواد غذائية متنوعة" />
-        <div>
+        <div className="flex flex-wrap items-center gap-2">
           <Button
             size="sm"
             onClick={() => {
@@ -171,6 +173,15 @@ function ShopInfoSection({ shop }: { shop: Shop }) {
           >
             احفظ البيانات
           </Button>
+          <PhotoButton
+            label="📷 غيّر صورة المحل"
+            ariaLabel={`غيّر صورة ${shop.name}`}
+            onPick={(dataUrl) => {
+              setShopPhoto(shop.id, dataUrl);
+              showToast('✅ صورة المحل اتغيّرت (في المعاينة)');
+            }}
+            onError={(message) => showToast(`⚠️ ${message}`)}
+          />
         </div>
       </div>
     </Section>
@@ -183,8 +194,15 @@ function ProductsSection({ shop }: { shop: Shop }) {
   const overrides = useProviderDashboardStore((s) => s.merchants[shop.id]);
   const setProductAvailable = useProviderDashboardStore((s) => s.setProductAvailable);
   const setProductPrice = useProviderDashboardStore((s) => s.setProductPrice);
+  const setProductPhoto = useProviderDashboardStore((s) => s.setProductPhoto);
+  const setCustomProductAvailable = useProviderDashboardStore((s) => s.setCustomProductAvailable);
+  const setCustomProductPrice = useProviderDashboardStore((s) => s.setCustomProductPrice);
+  const setCustomProductPhoto = useProviderDashboardStore((s) => s.setCustomProductPhoto);
+  const removeCustomProduct = useProviderDashboardStore((s) => s.removeCustomProduct);
   const showToast = useUIStore((s) => s.showToast);
+  const ask = useConfirmStore((s) => s.ask);
   const [query, setQuery] = useState('');
+  const [showAdd, setShowAdd] = useState(false);
 
   useEffect(() => {
     void loadProducts(shop);
@@ -204,24 +222,47 @@ function ProductsSection({ shop }: { shop: Shop }) {
       </Section>
     );
   }
-  if (productsState === null) {
+
+  const catalogList = productsState ?? [];
+  const customs = overrides?.customProducts ?? [];
+  // Custom products already come back with the list; the unavailable ones the
+  // catalog hides from customers get merged back here so the merchant can
+  // still manage them.
+  const knownIds = new Set(catalogList.map((p) => p.id));
+  const hiddenCustoms: Product[] = customs
+    .filter((c) => !knownIds.has(c.id))
+    .map((c) => ({ id: c.id, name: c.name, emoji: c.emoji, photo: c.photo, price: c.price, unit: c.unit, step: 1, section: c.section }));
+  const all = [...catalogList, ...hiddenCustoms];
+
+  const addForm = showAdd ? (
+    <AddProductForm shop={shop} sections={sectionsOf(all)} onAdded={() => setShowAdd(false)} />
+  ) : (
+    <button
+      type="button"
+      onClick={() => setShowAdd(true)}
+      className="w-full min-h-[44px] mb-3 rounded-xl border-2 border-dashed border-[rgba(26,122,74,0.35)] bg-cream/40 text-[14px] font-extrabold text-green-dark cursor-pointer hover:bg-cream/70 transition-colors"
+    >
+      ＋ ضيف منتج جديد
+    </button>
+  );
+
+  if (productsState === null && all.length === 0) {
     return (
-      <Section icon="📦" title="المنتجات والأسعار" hint="المحل ده مالوش قايمة منتجات ثابتة، الطلب بيتكتب حر">
-        <p className="text-[13px] text-text-muted m-0">لو حابب تضيف قايمة لمحلك، كلّمنا من «أعلن عن محلك أو خدمتك».</p>
+      <Section icon="📦" title="المنتجات والأسعار" hint="المحل ده مالوش قايمة منتجات ثابتة، الطلب بيتكتب حر. تقدر تبدأ قايمة من هنا">
+        {addForm}
       </Section>
     );
   }
 
-  const visible = query.trim()
-    ? productsState.filter((p) => p.name.includes(query.trim()))
-    : productsState;
+  const visible = query.trim() ? all.filter((p) => p.name.includes(query.trim())) : all;
 
   return (
     <Section
       icon="📦"
-      title={`المنتجات والأسعار (${productsState.length})`}
-      hint="قفل أي صنف خلص من عندك، وظبط سعره. التغيير للمعاينة بس"
+      title={`المنتجات والأسعار (${all.length})`}
+      hint="ضيف منتج، غيّر سعره أو صورته، وقفله لو خلص. أي تعديل يسمع عند الزباين على نفس الجهاز"
     >
+      {addForm}
       <div className="mb-3">
         <Field label="دوّر على صنف" value={query} onChange={setQuery} placeholder="اكتب اسم الصنف..." />
       </div>
@@ -231,22 +272,65 @@ function ProductsSection({ shop }: { shop: Shop }) {
           <ul className="m-0 p-0 list-none grid grid-cols-1 gap-2">
             {visible
               .filter((p) => (p.section ?? '') === section)
-              .map((p) => (
-                <ProductRow
-                  key={p.id}
-                  product={p}
-                  available={overrides?.products[p.id]?.available ?? true}
-                  price={overrides?.products[p.id]?.price ?? p.price}
-                  onToggle={(next) => {
-                    setProductAvailable(shop.id, p.id, next);
-                    showToast(next ? `✅ «${p.name}» رجع متاح` : `⏸️ «${p.name}» اتقفل مؤقتًا`);
-                  }}
-                  onPrice={(price) => {
-                    setProductPrice(shop.id, p.id, price);
-                    showToast(`💰 سعر «${p.name}» بقى ${formatCurrency(price)}`);
-                  }}
-                />
-              ))}
+              .map((p) => {
+                const custom = customs.find((c) => c.id === p.id);
+                if (custom) {
+                  return (
+                    <ProductRow
+                      key={p.id}
+                      product={p}
+                      photo={custom.photo}
+                      available={custom.available}
+                      price={custom.price}
+                      isCustom
+                      onToggle={(next) => {
+                        setCustomProductAvailable(shop.id, p.id, next);
+                        showToast(next ? `✅ «${p.name}» رجع متاح` : `⏸️ «${p.name}» اتقفل مؤقتًا`);
+                      }}
+                      onPrice={(price) => {
+                        setCustomProductPrice(shop.id, p.id, price);
+                        showToast(`💰 سعر «${p.name}» بقى ${formatCurrency(price)}`);
+                      }}
+                      onPhoto={(dataUrl) => {
+                        setCustomProductPhoto(shop.id, p.id, dataUrl);
+                        showToast(`✅ صورة «${p.name}» اتغيّرت`);
+                      }}
+                      onRemove={async () => {
+                        const ok = await ask({
+                          title: 'امسح المنتج',
+                          message: `تمسح «${p.name}» من قايمتك؟`,
+                          confirmLabel: 'امسحه',
+                          cancelLabel: 'رجوع',
+                        });
+                        if (!ok) return;
+                        removeCustomProduct(shop.id, p.id);
+                        showToast(`🗑️ «${p.name}» اتمسح من القايمة`);
+                      }}
+                    />
+                  );
+                }
+                return (
+                  <ProductRow
+                    key={p.id}
+                    product={p}
+                    photo={overrides?.products[p.id]?.photo}
+                    available={overrides?.products[p.id]?.available ?? true}
+                    price={overrides?.products[p.id]?.price ?? p.price}
+                    onToggle={(next) => {
+                      setProductAvailable(shop.id, p.id, next);
+                      showToast(next ? `✅ «${p.name}» رجع متاح` : `⏸️ «${p.name}» اتقفل مؤقتًا`);
+                    }}
+                    onPrice={(price) => {
+                      setProductPrice(shop.id, p.id, price);
+                      showToast(`💰 سعر «${p.name}» بقى ${formatCurrency(price)}`);
+                    }}
+                    onPhoto={(dataUrl) => {
+                      setProductPhoto(shop.id, p.id, dataUrl);
+                      showToast(`✅ صورة «${p.name}» اتغيّرت`);
+                    }}
+                  />
+                );
+              })}
           </ul>
         </div>
       ))}
@@ -257,17 +341,27 @@ function ProductsSection({ shop }: { shop: Shop }) {
 
 function ProductRow({
   product,
+  photo,
   available,
   price,
+  isCustom = false,
   onToggle,
   onPrice,
+  onPhoto,
+  onRemove,
 }: {
   product: Product;
+  photo?: string;
   available: boolean;
   price: number;
+  /** A product the merchant added themselves (gets a remove button). */
+  isCustom?: boolean;
   onToggle: (next: boolean) => void;
   onPrice: (price: number) => void;
+  onPhoto: (dataUrl: string) => void;
+  onRemove?: () => void;
 }) {
+  const showToast = useUIStore((s) => s.showToast);
   const [draft, setDraft] = useState(String(price));
 
   const commit = () => {
@@ -280,34 +374,137 @@ function ProductRow({
   };
 
   return (
-    <li className={`flex min-w-0 items-center gap-2.5 p-2 rounded-xl border ${available ? 'border-[rgba(26,122,74,0.12)] bg-cream/30' : 'border-gray-200 bg-gray-50 opacity-70'}`}>
-      <ProductPhoto photo={product.photo} emoji={product.emoji} className="w-11 h-11 rounded-lg" />
-      <div className="flex-1 min-w-0">
-        <p className="text-[13px] font-extrabold text-text m-0 truncate">{product.name}</p>
-        <p className="text-[11px] text-text-muted m-0">{product.unit}{product.rx ? ' · بروشتة' : ''}</p>
+    <li className={`min-w-0 p-2.5 rounded-xl border ${available ? 'border-[rgba(26,122,74,0.12)] bg-cream/30' : 'border-gray-200 bg-gray-50 opacity-70'}`}>
+      <div className="flex items-start gap-2.5">
+        <ProductPhoto photo={photo ?? product.photo} emoji={product.emoji} className="w-11 h-11 rounded-lg shrink-0" />
+        <div className="flex-1 min-w-0">
+          <p className="text-[13px] font-extrabold text-text m-0 leading-snug">
+            {product.name}
+            {isCustom && <span className="text-[10px] font-bold text-green"> · ضفته بنفسك</span>}
+          </p>
+          <p className="text-[11px] text-text-muted m-0">{product.unit}{product.rx ? ' · بروشتة' : ''}</p>
+        </div>
+        {onRemove && (
+          <button
+            type="button"
+            onClick={onRemove}
+            aria-label={`امسح ${product.name}`}
+            className="shrink-0 min-w-[38px] min-h-[38px] rounded-lg border border-gray-200 bg-white text-[14px] cursor-pointer hover:bg-red-50 transition-colors"
+          >
+            🗑️
+          </button>
+        )}
       </div>
-      <div className="flex items-center gap-1" dir="ltr">
-        <input
-          type="number"
-          inputMode="decimal"
-          min={0}
-          value={draft}
-          aria-label={`سعر ${product.name}`}
-          onChange={(e) => setDraft(e.target.value)}
-          onBlur={commit}
-          onKeyDown={(e) => e.key === 'Enter' && (e.target as HTMLInputElement).blur()}
-          className="w-[68px] min-h-[38px] px-2 rounded-lg border border-[rgba(26,122,74,0.25)] bg-white text-[13px] font-bold text-text text-center"
+      <div className="flex items-center justify-between gap-2 mt-2">
+        <div className="flex items-center gap-1.5">
+          <div className="flex items-center rounded-lg border border-[rgba(26,122,74,0.25)] bg-white min-h-[38px] px-1.5">
+            <input
+              type="number"
+              inputMode="decimal"
+              min={0}
+              value={draft}
+              aria-label={`سعر ${product.name}`}
+              onChange={(e) => setDraft(e.target.value)}
+              onBlur={commit}
+              onKeyDown={(e) => e.key === 'Enter' && (e.target as HTMLInputElement).blur()}
+              dir="ltr"
+              className="w-[52px] border-0 bg-transparent p-0 text-center text-[13px] font-bold text-text focus:outline-none"
+            />
+            <span className="text-[11px] text-text-muted font-bold">ج</span>
+          </div>
+          <PhotoButton
+            ariaLabel={`غيّر صورة ${product.name}`}
+            onPick={onPhoto}
+            onError={(message) => showToast(`⚠️ ${message}`)}
+          />
+        </div>
+        <Toggle
+          checked={available}
+          onChange={onToggle}
+          labelOn="متاح"
+          labelOff="خلص"
+          ariaLabel={`توفر ${product.name}`}
         />
-        <span className="text-[11px] text-text-muted font-bold">ج</span>
       </div>
-      <Toggle
-        checked={available}
-        onChange={onToggle}
-        labelOn="متاح"
-        labelOff="خلص"
-        ariaLabel={`توفر ${product.name}`}
-      />
     </li>
+  );
+}
+
+function AddProductForm({ shop, sections, onAdded }: { shop: Shop; sections: string[]; onAdded: () => void }) {
+  const addCustomProduct = useProviderDashboardStore((s) => s.addCustomProduct);
+  const loadProducts = useCatalogStore((s) => s.loadProducts);
+  const showToast = useUIStore((s) => s.showToast);
+  const [name, setName] = useState('');
+  const [price, setPrice] = useState('');
+  const [unit, setUnit] = useState('');
+  const [section, setSection] = useState('');
+  const [emoji, setEmoji] = useState('');
+  const [photo, setPhoto] = useState('');
+
+  const submit = () => {
+    const value = Number(price);
+    if (!name.trim()) {
+      showToast('⚠️ اكتب اسم المنتج الأول');
+      return;
+    }
+    if (!Number.isFinite(value) || value <= 0) {
+      showToast('⚠️ اكتب سعر صحيح أكبر من صفر');
+      return;
+    }
+    addCustomProduct(shop.id, {
+      name: name.trim(),
+      price: value,
+      unit: unit.trim() || 'قطعة',
+      section: section.trim() || sections[0] || '',
+      emoji: emoji.trim() || '📦',
+      ...(photo ? { photo } : {}),
+    });
+    void loadProducts(shop, true);
+    showToast(`✅ «${name.trim()}» اتضاف لقايمة «${shop.name}»`);
+    onAdded();
+  };
+
+  return (
+    <div className="mb-3 p-3 rounded-xl border border-[rgba(26,122,74,0.25)] bg-cream/40 grid gap-3">
+      <p className="text-[13px] font-black text-green-dark m-0">منتج جديد في «{shop.name}»</p>
+      <Field label="اسم المنتج" value={name} onChange={setName} placeholder="مثال: جبنة قريش بلدي" />
+      <div className="grid grid-cols-2 gap-2">
+        <Field label="السعر (جنيه)" value={price} onChange={setPrice} type="number" inputMode="decimal" dir="ltr" placeholder="25" />
+        <Field label="الوحدة" value={unit} onChange={setUnit} placeholder="كيلو، قطعة، علبة..." />
+      </div>
+      <div className="grid grid-cols-2 gap-2">
+        <label className="block">
+          <span className="block text-[12px] font-bold text-text-muted mb-1">القسم في القايمة</span>
+          <input
+            type="text"
+            list={`sections-${shop.id}`}
+            value={section}
+            onChange={(e) => setSection(e.target.value)}
+            placeholder="ألبان وجبن، منظفات..."
+            className="w-full min-h-[42px] px-3 rounded-xl border border-[rgba(26,122,74,0.25)] bg-cream/40 text-[14px] font-bold text-text focus:outline-none focus:border-green"
+          />
+          <datalist id={`sections-${shop.id}`}>
+            {sections.filter(Boolean).map((sec) => (
+              <option key={sec} value={sec} />
+            ))}
+          </datalist>
+        </label>
+        <Field label="إيموجي (اختياري)" value={emoji} onChange={setEmoji} placeholder="🧀" />
+      </div>
+      <div className="flex items-center gap-2">
+        {photo && <img src={photo} alt="" className="w-11 h-11 rounded-lg object-cover bg-white" />}
+        <PhotoButton
+          label={photo ? '📷 غيّر الصورة' : '📷 ضيف صورة (اختياري)'}
+          ariaLabel="صورة المنتج الجديد"
+          onPick={setPhoto}
+          onError={(message) => showToast(`⚠️ ${message}`)}
+        />
+      </div>
+      <div className="flex gap-2">
+        <Button size="sm" onClick={submit}>ضيف المنتج</Button>
+        <Button size="sm" variant="ghost" onClick={onAdded}>إلغاء</Button>
+      </div>
+    </div>
   );
 }
 
@@ -513,9 +710,9 @@ function ProServicesSection({ provider }: { provider: Provider }) {
     <Section icon="🛠️" title="خدماتي وأسعاري" hint="قفل خدمة مؤقتًا من غير ما تمسحها">
       <ul className="m-0 p-0 list-none grid grid-cols-1 gap-2 mb-3">
         {services.map((svc) => (
-          <li key={svc.id} className={`flex min-w-0 items-center gap-2.5 p-2 rounded-xl border ${svc.active ? 'border-[rgba(26,122,74,0.12)] bg-cream/30' : 'border-gray-200 bg-gray-50 opacity-70'}`}>
+          <li key={svc.id} className={`flex min-w-0 items-center gap-2.5 p-2.5 rounded-xl border ${svc.active ? 'border-[rgba(26,122,74,0.12)] bg-cream/30' : 'border-gray-200 bg-gray-50 opacity-70'}`}>
             <div className="flex-1 min-w-0">
-              <p className="text-[13px] font-extrabold text-text m-0 truncate">{svc.name}</p>
+              <p className="text-[13px] font-extrabold text-text m-0 leading-snug">{svc.name}</p>
               <p className="text-[11px] text-text-muted m-0">{svc.price}</p>
             </div>
             <Toggle

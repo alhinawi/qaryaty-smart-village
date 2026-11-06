@@ -91,7 +91,8 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
     if (shop) void loadProducts(shop);
   }, [shop, loadProducts]);
   const isLoading = loaded === undefined || loaded === 'loading';
-  const products = useMemo(() => (Array.isArray(loaded) ? loaded : []), [loaded]);
+  // Products the merchant marked as sold out never show to customers
+  const products = useMemo(() => (Array.isArray(loaded) ? loaded.filter((p) => p.available !== false) : []), [loaded]);
   const sections = useMemo(() => sectionsOf(products).filter(Boolean), [products]);
   const count = useCartStore((s) => (shop && s.getVendor()?.key === `shop:${shop.id}` ? s.items.length : 0));
   const total = useCartStore((s) => (count ? s.getTotalAmount() : 0));
