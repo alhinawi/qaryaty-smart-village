@@ -146,6 +146,20 @@ const DEMO_NAMES: Record<number, string> = {
   145: "أمينة عبد الرحمن",
   146: "محمود عبد الحميد",
   147: "سعاد إبراهيم",
+  148: "عم رمضان عبد الله",
+  149: "محمود الطيب",
+  150: "سيد أبو الدهب",
+  151: "كريم عبد النبي",
+  152: "عم فتحي سلامة",
+  153: "إسلام البحيري",
+  154: "عم صابر النجار",
+  155: "حسن عبد العال",
+  156: "مصطفى قنديل",
+  157: "عم جابر حسانين",
+  158: "شعبان رزق",
+  159: "أحمد الشحات",
+  160: "عم زكي عوض",
+  161: "ياسر عبد الحميد",
 };
 export function isIllustratedProvider(p: Pick<Provider, 'id' | 'name'>): boolean { return DEMO_NAMES[p.id] === p.name; }
 export function withProviderPortrait<T extends Pick<Provider, 'id' | 'name' | 'photo'>>(p: T): T {
