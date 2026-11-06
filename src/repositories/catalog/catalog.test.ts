@@ -1,3 +1,4 @@
+import { catalogProductPhoto } from '@/config/catalogImages';
 import { describe, expect, it } from 'vitest';
 import { SHOPS } from '@/data/shops';
 import { SERVICES } from '@/data/services';
@@ -40,7 +41,7 @@ describe('shop menus through the repository', () => {
   it('mock repo returns each restaurant menu and nothing for shops without a list', async () => {
     const repo = createMockCatalogRepo();
     for (const shop of RESTAURANTS) {
-      expect(await repo.getProducts(shop)).toEqual(MENUS[shop.id]);
+      expect(await repo.getProducts(shop)).toEqual(MENUS[shop.id].map((p) => catalogProductPhoto(`restaurant:${shop.id}`, p)));
     }
     expect(await repo.getProducts({ id: 999, kind: 'other' })).toBeNull();
   });
@@ -58,7 +59,7 @@ describe('shop menus through the repository', () => {
           step: String(p.step ?? 1), grillable: p.grillable ?? false, rx: p.rx ?? false, emoji: p.emoji,
           section: p.section ?? '', photo: p.photo ?? null, position,
         };
-        expect(productFromRow(row)).toEqual(p);
+        expect(productFromRow(row)).toEqual(catalogProductPhoto(row.scope, p));
       });
     }
   });
