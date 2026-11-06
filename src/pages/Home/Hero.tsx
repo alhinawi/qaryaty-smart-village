@@ -1,5 +1,6 @@
 // ─── Imports
 import { Button } from '@/components/ui/Button';
+import { PeoplePhoto } from '@/components/ui/PeoplePhoto';
 import type { OrderModalData } from '@/types';
 
 // ─── Types
@@ -32,10 +33,15 @@ export function Hero({ onOpenOrder }: HeroProps) {
         </Button>
       </div>
 
-      <div className="relative flex items-center justify-center mt-4 md:mt-0 md:mr-8" aria-hidden="true">
-        <span className="text-[clamp(4rem,8vw,6.5rem)] relative z-2 animate-[floatEmoji_3s_ease-in-out_infinite]">🛵</span>
-        <div className="absolute rounded-full pointer-events-none w-[140px] h-[140px] bg-white/8 -top-5 -left-5" />
-        <div className="absolute rounded-full pointer-events-none w-[180px] h-[180px] bg-[rgba(240,165,0,0.12)] bottom-[-30px] right-[-30px]" />
+      <div className="relative mt-5 md:mt-0 md:mr-8 md:w-[320px] shrink-0">
+        <div className="absolute rounded-full pointer-events-none w-[140px] h-[140px] bg-white/8 -top-5 -left-5" aria-hidden="true" />
+        <div className="absolute rounded-full pointer-events-none w-[180px] h-[180px] bg-[rgba(240,165,0,0.12)] bottom-[-30px] right-[-30px]" aria-hidden="true" />
+        <PeoplePhoto
+          id="delivery"
+          priority
+          sizes="(min-width: 768px) 320px, calc(100vw - 80px)"
+          className="relative z-2 w-full aspect-[16/10] md:aspect-[4/3] rounded-xl border-2 border-white/25 shadow-lg"
+        />
       </div>
     </section>
   );
