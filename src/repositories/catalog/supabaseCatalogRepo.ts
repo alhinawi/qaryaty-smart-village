@@ -1,3 +1,4 @@
+import { catalogProductPhoto } from '@/config/catalogImages';
 import { PROVIDERS } from '@/data/providers';
 import { withProviderPortrait } from '@/config/providerImages';
 import { pharmacyProductPhoto } from '@/config/pharmacyImages';
@@ -94,7 +95,7 @@ export function productFromRow(row: CatalogProductRow): Product {
     grillable: row.grillable || undefined,
     rx: row.rx || undefined,
   };
-  return row.scope === 'pharmacy' ? pharmacyProductPhoto(product) : product;
+  return row.scope === 'pharmacy' ? pharmacyProductPhoto(product) : catalogProductPhoto(row.scope, product);
 }
 
 export interface ProviderRow {
