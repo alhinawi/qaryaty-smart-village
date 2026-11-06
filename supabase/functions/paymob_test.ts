@@ -1,4 +1,4 @@
-// cd supabase/functions && deno test --allow-env --allow-read paymob_test.ts
+// cd supabase/functions && DENO_NO_PACKAGE_JSON=1 deno test --allow-env --allow-read --node-modules-dir=none paymob_test.ts
 // Runs both functions with Paymob and the database faked through fetch.
 import { assert, assertEquals } from 'jsr:@std/assert@1';
 import { verifyTransactionHmac } from './_shared/paymob.ts';
@@ -142,6 +142,28 @@ Deno.test('webhook marks the order paid on a signed, matching success', async ()
   // A later failure for the same order doesn't undo it
   assertEquals(await callWebhook(transaction({ success: false })), 200);
   assertEquals(row.payment_status, 'paid');
+});
+
+Deno.test('webhook marks a paid order refunded on a signed refund or void', async () => {
+  for (const flag of ['is_refunded', 'is_voided']) {
+    row = { ...row, payment_status: 'paid' };
+    // A refund for another amount, or an unsigned flag, changes nothing
+    assertEquals(await callWebhook(transaction({ [flag]: true, amount_cents: 100 })), 200);
+    assertEquals(row.payment_status, 'paid', flag);
+    const forged = transaction();
+    assertEquals(await callWebhook({ ...forged, [flag]: true }, await sign(forged)), 401);
+    assertEquals(row.payment_status, 'paid', flag);
+    // The signed refund/void of the paid amount is recorded
+    assertEquals(await callWebhook(transaction({ [flag]: true })), 200);
+    assertEquals(row.payment_status, 'refunded', flag);
+    // A repeated success callback afterwards doesn't make it paid again
+    assertEquals(await callWebhook(transaction()), 200);
+    assertEquals(row.payment_status, 'refunded', flag);
+  }
+  // and checkout won't take a new payment for it
+  const res = await checkout(new Request('https://x/', { method: 'POST', body: JSON.stringify({ orderId: ORDER_ID }) }));
+  await res.body?.cancel();
+  assertEquals(res.status, 409);
 });
 
 Deno.test('hmac helper matches an independent signature', async () => {

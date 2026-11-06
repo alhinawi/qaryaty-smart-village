@@ -42,9 +42,27 @@ Deno.serve(async (req) => {
     console.warn('paymob webhook: reference mismatch', paymobOrderId, merchantRef);
     return ok();
   }
-  if (order.payment_status === 'paid') return ok(); // already settled; repeats are normal
-
   const amountMatches = Number(tx.amount_cents) === toCents(order.total_amount) && tx.currency === 'EGP';
+  // is_refunded / is_voided are among the HMAC-signed fields, so they can be trusted here
+  const reversed = tx.is_refunded === true || tx.is_voided === true;
+
+  if (order.payment_status === 'refunded') return ok(); // final
+  if (order.payment_status === 'paid') {
+    // Repeats of the payment are normal and change nothing. A refund or void of
+    // the paid amount must not be dropped: the shop would deliver an order whose
+    // money went back to the customer.
+    if (reversed && amountMatches) {
+      const { error: refundError } = await db
+        .from('orders')
+        .update({ payment_status: 'refunded' })
+        .eq('id', order.id)
+        .eq('payment_status', 'paid');
+      if (refundError) return new Response('database error', { status: 500 }); // Paymob retries
+    } else if (reversed) {
+      console.warn('paymob webhook: refund amount mismatch', order.id, tx.amount_cents);
+    }
+    return ok();
+  }
   const settled =
     tx.success === true && tx.pending === false && tx.is_voided !== true && tx.is_refunded !== true;
 
