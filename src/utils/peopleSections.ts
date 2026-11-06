@@ -13,6 +13,7 @@ import type {
 import { SUBJECT_LABELS } from '@/data/teachers';
 import { providerRoleLabel } from '@/utils/people';
 import { matchesSearch } from '@/utils/arabicSearch';
+import type { PeoplePhotoId } from '@/data/peoplePhotos';
 
 export interface PeopleSection {
   /** The category this section belongs to (one section per category). */
@@ -20,13 +21,15 @@ export interface PeopleSection {
   emoji: string;
   title: string;
   kinds: ProviderKind[];
+  /** Photo on the home page tile. */
+  photo: PeoplePhotoId;
 }
 
 export const PEOPLE_SECTIONS: PeopleSection[] = [
-  { id: 'edu', emoji: '👩‍🏫', title: 'المدرسين', kinds: ['teacher'] },
-  { id: 'health', emoji: '🩺', title: 'الدكاترة والتمريض', kinds: ['doctor', 'nurse'] },
-  { id: 'care', emoji: '🍼', title: 'جليسات الأطفال', kinds: ['babysitter'] },
-  { id: 'home', emoji: '🧹', title: 'عمال وعاملات النظافة', kinds: ['cleaner'] },
+  { id: 'edu', emoji: '👩‍🏫', title: 'المدرسين', kinds: ['teacher'], photo: 'teacher' },
+  { id: 'health', emoji: '🩺', title: 'الدكاترة والتمريض', kinds: ['doctor', 'nurse'], photo: 'nurse' },
+  { id: 'care', emoji: '🍼', title: 'جليسات الأطفال', kinds: ['babysitter'], photo: 'babysitter' },
+  { id: 'home', emoji: '🧹', title: 'عمال وعاملات النظافة', kinds: ['cleaner'], photo: 'cleaner' },
 ];
 
 /** Chip labels when a section has more than one kind (الدكاترة والتمريض). */
