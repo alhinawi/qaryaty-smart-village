@@ -28,6 +28,8 @@ import {
 } from "@/utils/pricing";
 import type { CartItem, PaymentMethod } from "@/types";
 import { APP_COMMISSION_LABEL, APP_COMMISSION_PERCENT } from "@/config/commission";
+import { DELIVERY_FEE_LABEL } from "@/config/delivery";
+import { useDeliveryFee } from "@/hooks/useDeliveryFee";
 import { PhoneInput } from "@/components/ui/PhoneInput";
 
 // ─── Component
@@ -83,13 +85,15 @@ function CartDrawerContent() {
 
   const close = () => setIsOpen(false);
 
-  const pricing = getCartPricing(items, discountApplied);
   // A shop cart is priced by the server from its product list; a service cart as before
   const shopId = items[0]?.shopId;
   const shopItems =
     shopId !== undefined && items.every((i) => i.shopId === shopId && i.productId)
       ? items.map((i) => ({ productId: i.productId as string, quantity: i.quantity, grill: i.grill }))
       : undefined;
+  // رسوم التوصيل: a shop cart is brought to the door; a service cart never pays it
+  const deliveryFee = useDeliveryFee(shopItems ? shopId : undefined);
+  const pricing = getCartPricing(items, discountApplied, deliveryFee);
   // Card and wallet charge a known amount, so they need a fixed total
   const paymentOptions = paymentChoices(!pricing.isEstimate && (pricing.totalToPay ?? 0) > 0);
   const payWith: PaymentMethod = paymentOptions.includes(paymentMethod) ? paymentMethod : "cash";
@@ -145,7 +149,7 @@ function CartDrawerContent() {
     // Re-check the promo in case it was used elsewhere meanwhile
     const promoStillValid =
       discountApplied && checkPromoCode(promoCode, promoContext).ok;
-    const finalPricing = getCartPricing(items, promoStillValid);
+    const finalPricing = getCartPricing(items, promoStillValid, deliveryFee);
     const total = finalPricing.totalToPay;
 
     const vendor = useCartStore.getState().getVendor();
@@ -172,6 +176,7 @@ function CartDrawerContent() {
         discountAmount: finalPricing.discountAmount,
         totalAmount: total,
         commissionAmount: finalPricing.commission,
+        deliveryFee: finalPricing.deliveryFee,
         isEstimate: finalPricing.isEstimate,
         status: "pending",
         ...(shopItems ? { shopId, items: shopItems } : {}),
@@ -374,6 +379,12 @@ function CartDrawerContent() {
               <div className="flex justify-between text-sm mb-1.5">
                 <span>{APP_COMMISSION_LABEL}:</span>
                 <span>{formatCurrency(pricing.commission)}</span>
+              </div>
+            )}
+            {pricing.deliveryFee > 0 && (
+              <div className="flex justify-between text-sm mb-1.5">
+                <span>{DELIVERY_FEE_LABEL}:</span>
+                <span>{formatCurrency(pricing.deliveryFee)}</span>
               </div>
             )}
             <div className="flex justify-between text-base border-t border-gray-200 pt-2 mt-2">

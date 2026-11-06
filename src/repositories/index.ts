@@ -23,6 +23,7 @@ import type { Shop } from '@/types';
 import { createMockOrderRepo } from './orders/mockOrderRepo';
 import { createSupabaseOrderRepo } from './orders/supabaseOrderRepo';
 import type { NewOrder, OrderRepo } from './orders/types';
+import { DELIVERY_FEE_DEFAULT } from '@/config/delivery';
 import { RepoError, ServiceUnavailableError, UNAVAILABLE_MESSAGE } from './errors';
 import { createSupabaseAuthRepo } from './auth/supabaseAuthRepo';
 import { createMockDonationRepo } from './donations/mockDonationRepo';
@@ -90,6 +91,12 @@ function createResilientOrderRepo(live: OrderRepo): OrderRepo {
         () => live.createOrder(input),
         (cause) => new ServiceUnavailableError(ORDER_UNAVAILABLE_MESSAGE, { cause })
       ),
+    // Shows the default when the server can't answer; the order trigger charges its own anyway
+    quoteDeliveryFee: (shopId) =>
+      resilience.read(
+        () => live.quoteDeliveryFee(shopId),
+        async () => DELIVERY_FEE_DEFAULT
+      ),
   };
 }
 
@@ -98,6 +105,7 @@ export const orderRepo: OrderRepo = isSupabaseConfigured
   : createMockOrderRepo();
 
 export const createOrder = (input: NewOrder) => orderRepo.createOrder(input);
+export const quoteDeliveryFee = (shopId: number) => orderRepo.quoteDeliveryFee(shopId);
 export type { NewOrder };
 
 // ─── Auth (login/register never fall back to the demo accounts)
