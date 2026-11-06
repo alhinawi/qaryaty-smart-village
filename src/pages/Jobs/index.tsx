@@ -111,7 +111,7 @@ export default function JobsPage() {
       </div>
 
       {jobs === null ? (
-        <div className="flex flex-col gap-3" aria-busy="true" aria-label="جاري تحميل الوظائف">
+        <div className="flex flex-col gap-3" aria-busy="true" aria-label="بنحمّل الوظائف">
           {[0, 1, 2].map((i) => (
             <div key={i} className="h-[96px] bg-white rounded-2xl animate-pulse" />
           ))}

@@ -270,7 +270,7 @@ export default function MarketItemPage() {
         <section className="bg-white rounded-2xl p-4 shadow-card mb-3 flex flex-col gap-2" aria-label="إدارة إعلانك">
           <p className="text-sm font-extrabold text-green-dark">ده إعلانك • {ownerStatusLabel(listing)}</p>
           {listing.status === 'hidden' && (
-            <p className="text-[13px] text-text-muted">ناس بلّغوا عن الإعلان ده، فاتخبّى لحد ما الإدارة تراجعه.</p>
+            <p className="text-[13px] text-text-muted">الإعلان مش ظاهر للناس بسبب البلاغات، والإدارة هتراجعه.</p>
           )}
           <div className="grid grid-cols-2 gap-2">
             {listing.status === 'active' && (
