@@ -1,3 +1,4 @@
+import { restaurantPresentation } from '@/config/restaurantPresentation';
 // ─── Products sold in shops and restaurants
 //
 // Every kind of shop has a full default list, in sections: every fish shop
@@ -548,7 +549,7 @@ export const FOOD_TYPE_LABELS: Record<FoodType, { label: string; emoji: string }
   liver: { label: 'كبدة وسجق', emoji: '🌭' },
   feteer: { label: 'فطير', emoji: '🥞' },
   grills: { label: 'مشويات', emoji: '🔥' },
-  duck: { label: 'بط ووز', emoji: '🦆' },
+  duck: { label: 'أكل بيتي', emoji: '🍲' },
   sweets: { label: 'حلويات', emoji: '🍰' },
   juice: { label: 'عصاير', emoji: '🥤' },
   breakfast: { label: 'عربية فطار', emoji: '🛒' },
@@ -670,7 +671,7 @@ const BASE_MENUS: Record<number, Product[]> = {
 export const RESTAURANTS: Shop[] = [
   ...BASE_RESTAURANTS.map((shop) => ({ ...shop, ...RESTAURANT_INFO[shop.id] })),
   ...MORE_RESTAURANTS,
-];
+].map(restaurantPresentation);
 
 export const MENUS: Record<number, Product[]> = { ...BASE_MENUS, ...MORE_MENUS };
 
