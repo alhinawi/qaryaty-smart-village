@@ -50,10 +50,10 @@ export function mobileMenuSections({ isAdmin }: MobileMenuOptions): MobileMenuSe
         },
         {
           id: 'advertise',
-          label: 'أعلن عن محلك',
+          label: 'أعلن عن محلك أو خدمتك',
           icon: '📢',
           to: `${ROUTES.about}#advertise`,
-          hint: 'عندك محل وعايز تظهر في قريتي؟',
+          hint: 'عندك محل أو خدمة وعايز تظهر في قريتي؟',
         },
       ],
     },

@@ -217,11 +217,11 @@ export default function AboutPage() {
         aria-labelledby="about-advertise"
       >
         <h3 id="about-advertise" className="text-[clamp(1.125rem,2.5vw,1.375rem)] font-black mb-2 text-green-dark">
-          <span aria-hidden="true">🏪</span> عندك محل وعايز تعلن عنه في قريتي؟
+          <span aria-hidden="true">🏪</span> عندك محل أو خدمة وعايز تعلن عنها في قريتي؟
         </h3>
         <p className="text-sm text-text-muted leading-relaxed max-w-[640px]">
           لو عندك محل أو مطعم أو صيدلية، أو بتقدّم خدمة في القرية، وعايز أهل القرية يشوفوك ويطلبوا منك،
-          تواصل معانا ونضيف محلك. ابعتلنا اسم المحل ونوعه والقرية.
+          تواصل معانا ونضيف محلك أو خدمتك. ابعتلنا الاسم ونوعه والقرية.
         </p>
         <div className="flex flex-col sm:flex-row gap-2.5 mt-4">
           <a
