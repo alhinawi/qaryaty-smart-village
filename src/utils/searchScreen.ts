@@ -93,9 +93,9 @@ export type ResultGroupId =
   | 'workers';
 
 export const RESULT_GROUPS: { id: ResultGroupId; title: string; emoji: string }[] = [
+  { id: 'products', title: 'المنتجات والأكلات', emoji: '🛍️' },
   { id: 'restaurants', title: 'المطاعم', emoji: '🍽️' },
   { id: 'shops', title: 'المحلات', emoji: '🏪' },
-  { id: 'products', title: 'المنتجات والأكلات', emoji: '🛍️' },
   { id: 'services', title: 'الخدمات', emoji: '⚡' },
   { id: 'edu', title: 'المدرسين', emoji: '👩‍🏫' },
   { id: 'health', title: 'الدكاترة والتمريض', emoji: '🩺' },
