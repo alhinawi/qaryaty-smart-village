@@ -18,6 +18,9 @@ import { orderFormSchema } from "@/utils/validators";
 import { formatCurrency, generateOrderNumber } from "@/utils/helpers";
 import {
   FIRST_ORDER_PROMO,
+  FIRST_ORDER_PROMO_APPLIED,
+  FIRST_ORDER_PROMO_TEXT,
+  WAIVED_FEES_LABEL,
   checkPromoCode,
   describeTotal,
   getCartItemPriceType,
@@ -95,21 +98,17 @@ function CartDrawerContent() {
     pricing.totalToPay,
     pricing.isEstimate,
     formatCurrency,
-    APP_COMMISSION_PERCENT,
+    pricing.feesWaived ? 0 : APP_COMMISSION_PERCENT,
   );
 
-  const promoContext = {
-    orders,
-    usedPromoCodes,
-    discountableAmount: pricing.discountableAmount,
-  };
+  const promoContext = { orders, usedPromoCodes };
 
   const handleApplyPromo = (e: React.FormEvent) => {
     e.preventDefault();
     const result = checkPromoCode(promoCode, promoContext);
     if (result.ok) {
       setDiscountApplied(true);
-      showToast(`🎉 تم تطبيق كود ${FIRST_ORDER_PROMO}: خصم 100% على أول طلب!`);
+      showToast(FIRST_ORDER_PROMO_APPLIED);
     } else {
       showToast(result.message);
     }
@@ -283,7 +282,7 @@ function CartDrawerContent() {
           {/* Promo Code Box */}
           <form onSubmit={handleApplyPromo} className="form-group mb-4">
             <label htmlFor="cartPromo">
-              🎟️ كود الخصم (كود {FIRST_ORDER_PROMO} لأول طلب)
+              🎟️ كود الخصم (كود {FIRST_ORDER_PROMO}: {FIRST_ORDER_PROMO_TEXT})
             </label>
             <div className="flex gap-2">
               <input
@@ -358,10 +357,17 @@ function CartDrawerContent() {
               <span>المجموع الفرعي:</span>
               <span>{formatCurrency(pricing.subtotal)}</span>
             </div>
-            {discountApplied && pricing.discountAmount > 0 && (
+            {pricing.feesWaived && (
               <div className="flex justify-between text-sm mb-1.5 text-success font-bold">
-                <span>خصم كود {FIRST_ORDER_PROMO}:</span>
-                <span>-{formatCurrency(pricing.discountAmount)}</span>
+                <span>{WAIVED_FEES_LABEL}:</span>
+                <span>
+                  {pricing.discountAmount > 0 && (
+                    <s className="text-text-muted font-normal ml-1">
+                      {formatCurrency(pricing.discountAmount)}
+                    </s>
+                  )}
+                  ببلاش
+                </span>
               </div>
             )}
             {pricing.commission > 0 && (
