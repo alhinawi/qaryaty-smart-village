@@ -90,7 +90,6 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
   }, [shop, loadProducts]);
   const isLoading = loaded === undefined || loaded === 'loading';
   const products = useMemo(() => (Array.isArray(loaded) ? loaded : []), [loaded]);
-  const isRestaurant = shop?.kind === 'restaurant';
   const sections = useMemo(() => sectionsOf(products).filter(Boolean), [products]);
   const count = useCartStore((s) => (shop && s.getVendor()?.key === `shop:${shop.id}` ? s.items.length : 0));
   const total = useCartStore((s) => (count ? s.getTotalAmount() : 0));
@@ -202,12 +201,6 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
               </li>
             )}
           </ul>
-        )}
-
-            <a href="https://commons.wikimedia.org" target="_blank" rel="noopener noreferrer" className="underline">
-              Wikimedia Commons
-            </a>
-          </p>
         )}
 
         {count > 0 && (
