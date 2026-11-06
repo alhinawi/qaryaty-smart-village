@@ -158,7 +158,7 @@ function PickerScreen({
         <Suspense fallback={<div className="absolute inset-0 grid place-items-center text-text-muted">جاري تحميل الخريطة…</div>}>
           <MapCanvas
             ref={mapRef}
-            className="absolute inset-0 z-0 bg-[#e8eee9]"
+            className="map-picker absolute inset-0 z-0 bg-[#e8eee9]"
             initialCenter={startCenter}
             initialZoom={hasInitialPoint ? PICK_ZOOM : DEFAULT_ZOOM}
             layer={layer}
