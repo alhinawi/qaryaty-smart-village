@@ -53,9 +53,9 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const closeMenu = useCallback(() => setIsMenuOpen(false), [setIsMenuOpen]);
   // Pages reached from the menu light up the ☰ button
-  const isMenuPage = [ROUTES.messages, ROUTES.about, ROUTES.groups, ROUTES.donate, ROUTES.admin].some(
-    (path) => pathname === path,
-  );
+  const isMenuPage =
+    [ROUTES.messages, ROUTES.about, ROUTES.groups, ROUTES.donate, ROUTES.admin].some((path) => pathname === path) ||
+    pathname.startsWith(ROUTES.jobs);
 
   // Load the search screen's code while the phone is idle, so it opens at once
   useEffect(() => {

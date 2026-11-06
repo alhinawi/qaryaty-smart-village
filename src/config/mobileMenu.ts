@@ -6,7 +6,7 @@
 import { ROUTES } from '@/routes';
 
 export interface MobileMenuLink {
-  id: 'messages' | 'about' | 'groups' | 'donate' | 'advertise' | 'admin';
+  id: 'messages' | 'jobs' | 'jobsReview' | 'about' | 'groups' | 'donate' | 'advertise' | 'admin';
   label: string;
   /** Emoji shown in the item's icon tile */
   icon: string;
@@ -33,7 +33,10 @@ export function mobileMenuSections({ isAdmin }: MobileMenuOptions): MobileMenuSe
     {
       id: 'app',
       title: '',
-      links: [{ id: 'messages', label: 'الرسائل', icon: '💬', to: ROUTES.messages }],
+      links: [
+        { id: 'messages', label: 'الرسائل', icon: '💬', to: ROUTES.messages },
+        { id: 'jobs', label: 'وظائف', icon: '💼', to: ROUTES.jobs, hint: 'شغل في قريتك والقرى اللي جنبك' },
+      ],
     },
     {
       id: 'qaryaty',
@@ -63,7 +66,10 @@ export function mobileMenuSections({ isAdmin }: MobileMenuOptions): MobileMenuSe
     sections.push({
       id: 'staff',
       title: 'الإدارة',
-      links: [{ id: 'admin', label: 'لوحة التحكم', icon: '⚙️', to: ROUTES.admin }],
+      links: [
+        { id: 'jobsReview', label: 'مراجعة الوظائف', icon: '🗂️', to: ROUTES.jobsReview },
+        { id: 'admin', label: 'لوحة التحكم', icon: '⚙️', to: ROUTES.admin },
+      ],
     });
   }
 

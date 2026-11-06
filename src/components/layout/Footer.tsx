@@ -50,6 +50,12 @@ export function Footer() {
           >
             باب الخير
           </Link>
+          <Link
+            to={ROUTES.jobs}
+            className="text-sm font-bold text-white/90 px-3 py-2 rounded-xl transition-colors hover:bg-white/15 hover:text-gold-light"
+          >
+            وظائف
+          </Link>
         </nav>
 
         {/* Developer + contact links */}

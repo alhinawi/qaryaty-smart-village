@@ -41,6 +41,11 @@ const AboutPage = lazy(() => import('@/pages/About'));
 const GroupsPage = lazy(() => import('@/pages/Groups'));
 const SearchScreen = lazy(() => preloadSearchScreen().then((m) => ({ default: m.SearchScreen })));
 const DonatePage = lazy(() => import('@/pages/Donate'));
+const JobsPage = lazy(() => import('@/pages/Jobs'));
+const JobDetailPage = lazy(() => import('@/pages/Jobs/JobDetailPage'));
+const JobFormPage = lazy(() => import('@/pages/Jobs/JobFormPage'));
+const MyJobsPage = lazy(() => import('@/pages/Jobs/MyJobsPage'));
+const JobsReviewPage = lazy(() => import('@/pages/Jobs/JobsReviewPage'));
 
 // ─── Page Loading Fallback
 function PageLoadingFallback() {
@@ -167,6 +172,12 @@ export default function App() {
                 <Route path={ROUTES.about} element={<AboutPage />} />
                 <Route path={ROUTES.groups} element={<GroupsPage />} />
                 <Route path={ROUTES.donate} element={<DonatePage />} />
+                <Route path={ROUTES.jobs} element={<JobsPage />} />
+                <Route path={ROUTES.jobsNew} element={<JobFormPage />} />
+                <Route path={ROUTES.jobsMine} element={<MyJobsPage />} />
+                <Route path={ROUTES.jobsReview} element={<JobsReviewPage />} />
+                <Route path={`${ROUTES.jobs}/:id`} element={<JobDetailPage />} />
+                <Route path={`${ROUTES.jobs}/:id/edit`} element={<JobFormPage />} />
                 {/* Unknown URLs go home instead of a blank page */}
                 <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
               </Routes>

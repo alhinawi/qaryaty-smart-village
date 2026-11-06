@@ -27,6 +27,8 @@ import { productsForShop } from '@/data/catalog';
 import { ProvidersSection } from './ProvidersSection';
 import { PeopleSectionsRow } from './PeopleSectionsRow';
 import { DonationsBanner } from './DonationsBanner';
+import { JobsBanner } from './JobsBanner';
+import { JOB_SEARCH_WORDS } from '@/config/jobs';
 import { DONATION_SEARCH_FIELDS } from '@/config/donations';
 import { ProviderPickerModal } from './ProviderPickerModal';
 import { FeaturesSection } from './FeaturesSection';
@@ -265,6 +267,9 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
       {!isLoading && selectedCategory === 'all' && !isSearching && (
         <PeopleSectionsRow counts={counts} onOpen={openSection} />
       )}
+
+      {/* وظائف: on الكل, or when the search is about work (وظيفة، شغل…) */}
+      {selectedCategory === 'all' && (!isSearching || matchesSearch(searchQuery, JOB_SEARCH_WORDS)) && <JobsBanner />}
 
       {/* Restaurants: near the top so they're easy to find */}
       {!isLoading && restaurantsOnTop && restaurantsSection}
