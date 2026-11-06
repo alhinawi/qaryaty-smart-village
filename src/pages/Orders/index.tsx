@@ -67,15 +67,15 @@ export default function OrdersPage() {
   const getStatusBadge = (status: OrderStatus) => {
     switch (status) {
       case "cancelled":
-        return <Badge variant="danger">تم إلغاء الطلب</Badge>;
+        return <Badge variant="danger">الطلب اتلغى</Badge>;
       case "pending":
         return <Badge variant="warning">⏳ قيد المراجعة</Badge>;
       case "confirmed":
-        return <Badge variant="info">🔍 جاري التجهيز</Badge>;
+        return <Badge variant="info">🔍 بيتجهّز</Badge>;
       case "onway":
         return <Badge variant="popular">🛵 في الطريق إليك</Badge>;
       case "done":
-        return <Badge variant="success">✓ تم التسليم</Badge>;
+        return <Badge variant="success">✓ اتسلّم</Badge>;
     }
   };
 
@@ -92,7 +92,7 @@ export default function OrdersPage() {
       </div>
 
       {isSupabaseConfigured && ownerId && <div className="mb-4 text-left"><Button variant="outline" size="sm" loading={historyLoading} onClick={() => void loadHistory()}>تحديث الطلبات</Button></div>}
-      {historyLoading && <p role="status" className="mb-4">جاري تحميل سجل الطلبات...</p>}
+      {historyLoading && <p role="status" className="mb-4">بنحمّل طلباتك...</p>}
       {historyError && <p role="alert" className="mb-4 rounded-xl bg-red-50 p-4 text-danger">{historyError}</p>}
       {orders.length === 0 && !historyLoading && !historyError && (!isSupabaseConfigured || !ownerId || historyLoaded) ? (
         <EmptyState
