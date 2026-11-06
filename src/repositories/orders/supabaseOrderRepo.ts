@@ -4,6 +4,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { getFormattedDate } from '@/utils/helpers';
 import { RepoError } from '../errors';
+import type { Order } from '@/types';
 import type { NewOrder, OrderRepo } from './types';
 
 const REJECTED_MESSAGE = 'الطلب اترفض، راجع البيانات وجرّب تاني';
@@ -47,8 +48,53 @@ export function orderToRow(id: string, input: NewOrder, userId: string | null) {
   };
 }
 
+/** Only customer-facing fields, never payment processor IDs or unrelated admin data. */
+const HISTORY_FIELDS = 'id,user_id,order_number,service_name,service_emoji,address,phone,notes,payment_method,discount_code,discount_amount,total_amount,commission_amount,delivery_fee,is_estimate,status,options,service_id,provider_id,shop_id,items,payment_status,lat,lng,created_at';
+export const ORDER_HISTORY_PAGE_SIZE = 50;
+
+type OrderRow = {
+  id: string; user_id: string | null; order_number: string; service_name: string;
+  service_emoji: string; address: string; phone: string; notes: string | null;
+  payment_method: Order['paymentMethod']; discount_code: string | null;
+  discount_amount: number; total_amount: number | null; commission_amount: number;
+  delivery_fee: number; is_estimate: boolean; status: Order['status'];
+  options: Order['options'] | null; service_id: number | null; provider_id: number | null;
+  shop_id: number | null; items: { product_id: number; quantity: number; grill?: boolean }[] | null;
+  payment_status: Order['paymentStatus']; lat: number | null; lng: number | null; created_at: string;
+};
+
+export function orderFromRow(row: OrderRow): Order {
+  return {
+    id: row.id, orderNumber: row.order_number, serviceName: row.service_name,
+    serviceEmoji: row.service_emoji, address: row.address, phone: row.phone,
+    notes: row.notes ?? undefined, paymentMethod: row.payment_method,
+    discountCode: row.discount_code ?? undefined, discountAmount: Number(row.discount_amount),
+    totalAmount: row.total_amount === null ? null : Number(row.total_amount),
+    commissionAmount: Number(row.commission_amount), deliveryFee: Number(row.delivery_fee),
+    isEstimate: row.is_estimate, status: row.status, options: row.options ?? undefined,
+    serviceId: row.service_id ?? undefined, providerId: row.provider_id ?? undefined,
+    shopId: row.shop_id ?? undefined,
+    items: row.items?.map(i => ({ productId: String(i.product_id), quantity: i.quantity, grill: i.grill ?? false })),
+    paymentStatus: row.payment_status, lat: row.lat ?? undefined, lng: row.lng ?? undefined,
+    createdAt: getFormattedDate(new Date(row.created_at)),
+  };
+}
+
 export function createSupabaseOrderRepo(getClient: () => Promise<SupabaseClient>): OrderRepo {
   return {
+    async listMine(ownerId, offset = 0) {
+      const supabase = await getClient();
+      const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+      if (sessionError || !ownerId || sessionData.session?.user.id !== ownerId) {
+        throw new RepoError('rejected', 'سجّل دخول لحسابك عشان تشوف طلباتك');
+      }
+      const { data, error } = await supabase.from('orders').select(HISTORY_FIELDS)
+        .eq('user_id', ownerId).order('created_at', { ascending: false })
+        .order('id', { ascending: false }).range(offset, offset + ORDER_HISTORY_PAGE_SIZE - 1);
+      if (error) throw error;
+      // Defense in depth: even an unexpectedly broad response must not cross owners.
+      return ((data ?? []) as OrderRow[]).filter(row => row.user_id === ownerId).map(orderFromRow);
+    },
     async createOrder(input) {
       const supabase = await getClient();
       const { data: sessionData } = await supabase.auth.getSession();

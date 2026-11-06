@@ -5,6 +5,7 @@ import type { OrderRepo } from './types';
 
 export function createMockOrderRepo(): OrderRepo {
   return {
+    async listMine() { return []; },
     async createOrder(input) {
       return { ...input, id: `ord_${Date.now()}`, createdAt: getFormattedDate() };
     },

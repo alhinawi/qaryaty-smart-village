@@ -2,7 +2,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Order, OrderStatus } from '@/types';
-import { isSupabaseConfigured } from '@/repositories';
+import { isSupabaseConfigured, orderRepo } from '@/repositories';
 
 // ─── Initial Demo Orders
 const INITIAL_DEMO_ORDERS: Order[] = [
@@ -52,10 +52,21 @@ export function dropDemoOrders(state: SavedOrders): SavedOrders {
 
 // ─── State Interface
 interface OrderState {
+  /** null is the guest; a cache is never shared across account boundaries. */
+  ownerId: string | null;
+  /** In-memory generation guards late order responses after logout/account changes. */
+  scopeVersion: number;
+  setOwner: (ownerId: string | null) => void;
+  historyLoading: boolean;
+  historyError: string | null;
+  historyLoaded: boolean;
+  historyHasMore: boolean;
+  historyOffset: number;
+  loadHistory: (more?: boolean) => Promise<void>;
   orders: Order[];
   activeOrder: Order | null;
   /** Adds an order the repository already saved (see createOrder in src/repositories). */
-  addOrder: (order: Order) => void;
+  addOrder: (order: Order, scopeVersion: number) => boolean;
   updateStatus: (orderId: string, status: OrderStatus) => void;
   /** Returns false if the order doesn't exist or was already rated. */
   addRating: (orderId: string, rating: number, feedback?: string) => boolean;
@@ -70,12 +81,51 @@ export const useOrderStore = create<OrderState>()(
       // The two sample orders are for demo mode only: a real customer starts with none
       orders: isSupabaseConfigured ? [] : INITIAL_DEMO_ORDERS,
       activeOrder: null,
+      historyLoading: false,
+      historyError: null,
+      historyLoaded: false,
+      historyHasMore: false,
+      historyOffset: 0,
+      ownerId: null,
+      scopeVersion: 0,
 
-      addOrder: (order) => {
+      setOwner: (ownerId) => {
+        if (get().ownerId === ownerId) return;
+        set((state) => ({ ownerId, orders: [], activeOrder: null, scopeVersion: state.scopeVersion + 1,
+          historyLoading: false, historyError: null, historyLoaded: false, historyHasMore: false, historyOffset: 0 }));
+      },
+
+      loadHistory: async (more = false) => {
+        const { ownerId, scopeVersion, historyLoading, historyOffset } = get();
+        if (!isSupabaseConfigured || !ownerId || historyLoading) return;
+        const offset = more ? historyOffset : 0;
+        const initialIds = new Set(get().orders.map(o => o.id));
+        set({ historyLoading: true, historyError: null });
+        try {
+          const rows = await orderRepo.listMine(ownerId, offset);
+          if (get().scopeVersion !== scopeVersion) return;
+          set(state => {
+            const preserved = more ? state.orders : state.orders.filter(o => !initialIds.has(o.id));
+            const byId = new Map(preserved.map(o => [o.id, o]));
+            rows.forEach(o => byId.set(o.id, o));
+            const orders = [...byId.values()];
+            return { orders, activeOrder: orders.find(o => o.id === state.activeOrder?.id) ?? null,
+              historyLoading: false, historyLoaded: true, historyHasMore: rows.length === 50,
+              historyOffset: offset + rows.length };
+          });
+        } catch {
+          if (get().scopeVersion !== scopeVersion) return;
+          set({ historyLoading: false, historyError: 'مش قادرين نحمّل سجل حسابك دلوقتي. البيانات اللي ظاهرة ممكن تكون قديمة. جرّب تاني.' });
+        }
+      },
+
+      addOrder: (order, scopeVersion) => {
+        if (get().scopeVersion !== scopeVersion) return false;
         set((state) => ({
           orders: [order, ...state.orders.filter((o) => o.id !== order.id)],
           activeOrder: order,
         }));
+        return true;
       },
 
       updateStatus: (orderId: string, status: OrderStatus) => {
@@ -114,13 +164,19 @@ export const useOrderStore = create<OrderState>()(
       },
     }),
     {
-      name: 'qaryati_orders_storage',
-      version: 1,
-      // v0 saved the sample orders on every device; on the live site drop them
-      migrate: (persisted, version) => {
-        const state = persisted as SavedOrders;
-        return version < 1 && isSupabaseConfigured ? dropDemoOrders(state) : state;
-      },
+      // Never read or rewrite the ownerless legacy key. Its exact bytes remain quarantined.
+      name: 'qaryati_orders_scoped_v3',
+      version: 3,
+      merge: (persisted, current) => isSupabaseConfigured
+        ? current
+        : { ...current, ...(persisted as Partial<OrderState>) },
+      // Live private orders stay in this tab only. Account history is fetched with RLS.
+      // No owner can flash from disk before the current session is reconciled.
+      partialize: ({ orders, activeOrder, ownerId }) => isSupabaseConfigured
+        ? { orders: [], activeOrder: null, ownerId: null }
+        : { orders, activeOrder, ownerId },
+      // Unknown future/older scoped cache formats are not adopted. Legacy key is untouched.
+      migrate: () => ({ orders: [], activeOrder: null, ownerId: null }),
     }
   )
 );
