@@ -1,7 +1,7 @@
 // ─── Photos of people used around the site (home hero, people sections, about, donate)
 // Files live in /public/img/people as `<id>-<width>.webp`.
 //
-// Source and license: every photo was made for قريتي with the Sesame Image app on 2026-11-06
+// Source and license (four category images replaced, see docs/people-photos.md): every photo was made for قريتي with the Sesame Image app on 2026-11-06
 // (realistic photo style, Egyptian Delta village setting, every woman in a hijab that covers
 // her hair). They are not stock photos and show no real person, so there is no third-party
 // license or credit line to keep. Each one was checked with image analysis for the hijab,
@@ -35,22 +35,22 @@ export const PEOPLE_PHOTOS: Record<PeoplePhotoId, PeoplePhotoInfo> = {
   teacher: {
     widths: [360, 720],
     ratio: [4, 3],
-    alt: 'مدرسة محجبة بتشرح لطفلين في الكشكول على ترابيزة في البيت',
+    alt: 'إيد مدرس بتشرح في كشكول على مكتب',
   },
   nurse: {
     widths: [360, 720],
     ratio: [4, 3],
-    alt: 'ممرضة محجبة بتقيس الضغط لراجل كبير لابس جلابية في بيته',
+    alt: 'قياس ضغط في البيت من غير ظهور الوجوه',
   },
   babysitter: {
     widths: [360, 720],
     ratio: [4, 3],
-    alt: 'جليسة أطفال محجبة بتقرا قصة لبنت صغيرة قاعدة على رجلها',
+    alt: 'إيد جليسة بترتب ألعاب آمنة على سجادة',
   },
   cleaner: {
     widths: [360, 720],
     ratio: [4, 3],
-    alt: 'عاملة نظافة محجبة لابسة جوانتي بتمسح رخامة المطبخ',
+    alt: 'تنظيف رخامة مطبخ بالقفازات',
   },
   'village-market': {
     widths: [640, 1200],
