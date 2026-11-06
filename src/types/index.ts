@@ -259,6 +259,8 @@ export interface Product {
 }
 
 export interface Shop {
+  /** Fictional front-end examples, not real vendors. */
+  demo?: boolean;
   id: number;
   emoji: string;
   name: string;
