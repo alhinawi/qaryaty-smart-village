@@ -5,7 +5,7 @@ import type { Order, OrderStatus } from '@/types';
 import { isSupabaseConfigured, orderRepo } from '@/repositories';
 
 // ─── Initial Demo Orders
-const INITIAL_DEMO_ORDERS: Order[] = [
+export const INITIAL_DEMO_ORDERS: Order[] = [
   {
     id: 'ord_demo_1',
     orderNumber: '#4821',

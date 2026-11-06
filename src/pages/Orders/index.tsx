@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { isSupabaseConfigured } from '@/repositories';
 // ─── Imports
-import { useOrderStore } from "@/stores/useOrderStore";
+import { INITIAL_DEMO_ORDERS, useOrderStore } from "@/stores/useOrderStore";
 import { DELIVERY_FEE_LABEL } from "@/config/delivery";
 import { useUIStore } from "@/stores/useUIStore";
 import { useGoToTab } from '@/hooks/useTabNavigation';
@@ -27,7 +27,10 @@ export default function OrdersPage() {
     window.addEventListener('focus', refresh);
     return () => window.removeEventListener('focus', refresh);
   }, [ownerId, loadHistory]);
-  const orders = useOrderStore((state) => state.orders);
+  const realOrders = useOrderStore((state) => state.orders);
+  // View-only examples never enter the order store, persistence, server or account history.
+  const showGuestDemo = isSupabaseConfigured && !ownerId;
+  const orders = showGuestDemo ? [...realOrders, ...INITIAL_DEMO_ORDERS] : realOrders;
   const updateStatus = useOrderStore((state) => state.updateStatus);
   const deleteOrder = useOrderStore((state) => state.deleteOrder);
 
@@ -81,27 +84,21 @@ export default function OrdersPage() {
       {/* Page Header */}
       <div className="mb-6">
         <h2 className="text-[clamp(1.375rem,3vw,1.75rem)] font-black text-green-dark font-['Tajawal',sans-serif] mb-1">
-          📋 سجل طلباتي ({orders.length})
+          📋 سجل طلباتي ({realOrders.length})
         </h2>
         <p className="text-sm text-text-muted">
           تابع حالة طلباتك الحالية وسجل الطلبات السابقة داخل القرية
         </p>
       </div>
 
-      {isSupabaseConfigured && (
-        <div className="mb-4 rounded-xl bg-blue-50 p-4 text-sm">
-          <p>{ownerId ? 'ده سجل حسابك من الخادم. الحالة بتتحدث عند فتح الصفحة أو الضغط على تحديث، مش تتبع مباشر.' : 'طلبات الضيف الجديدة بتظهر في التبويب ده بس. سجّل دخول قبل الطلب عشان يرجع في سجل حسابك.'}</p>
-          <p className="mt-2 text-text-muted">أي سجل قديم على الجهاز من غير صاحب معروف محفوظ منفصل ومش بيتعرض هنا، حفاظًا على الخصوصية.</p>
-          {ownerId && <Button className="mt-2" variant="outline" size="sm" loading={historyLoading} onClick={() => void loadHistory()}>تحديث سجل الحساب</Button>}
-        </div>
-      )}
+      {isSupabaseConfigured && ownerId && <div className="mb-4 text-left"><Button variant="outline" size="sm" loading={historyLoading} onClick={() => void loadHistory()}>تحديث الطلبات</Button></div>}
       {historyLoading && <p role="status" className="mb-4">جاري تحميل سجل الطلبات...</p>}
       {historyError && <p role="alert" className="mb-4 rounded-xl bg-red-50 p-4 text-danger">{historyError}</p>}
       {orders.length === 0 && !historyLoading && !historyError && (!isSupabaseConfigured || !ownerId || historyLoaded) ? (
         <EmptyState
           emoji="📋"
-          title={isSupabaseConfigured && !ownerId ? "مفيش طلبات في التبويب ده" : "مفيش طلبات في سجل حسابك"}
-          description="ابدأ طلب جديد من الخدمات والمحلات. طلبات الضيف والسجل القديم غير المرتبط بحساب مش بيظهروا في سجل الحساب."
+          title="مفيش طلبات سابقة!"
+          description="ابدأ طلبك من خدمات ومحلات القرية."
           actionText="ابدأ الطلب الآن"
           onAction={() => setActiveTab("home")}
         />
@@ -126,7 +123,10 @@ export default function OrdersPage() {
                     </span>
                   </div>
                 </div>
-                <div>{getStatusBadge(order.status)}</div>
+                <div className="flex flex-col gap-1 items-end">
+                  {order.id.startsWith('ord_demo_') && <Badge variant="info">تجريبي</Badge>}
+                  {getStatusBadge(order.status)}
+                </div>
               </div>
 
               {/* Order Details */}
@@ -257,7 +257,7 @@ export default function OrdersPage() {
               )}
 
               {/* Rating Section if Delivered */}
-              {!isSupabaseConfigured && order.status === "done" && (
+              {!isSupabaseConfigured && !order.id.startsWith("ord_demo_") && order.status === "done" && (
                 <div className="mb-3">
                   {order.rating ? (
                     <div className="text-[13px] bg-amber-50 rounded-xl py-1.5 px-2.5">
