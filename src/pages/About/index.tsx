@@ -310,6 +310,17 @@ export default function AboutPage() {
           ابدأ اطلب دلوقتي ⬅️
         </Link>
       </section>
+
+      <p className="mt-4 text-[11px] text-text-muted text-center">
+        صور الأكل من{' '}
+        <a href="https://www.pexels.com" target="_blank" rel="noopener noreferrer" className="underline">
+          Pexels
+        </a>{' '}
+        و{' '}
+        <a href="https://commons.wikimedia.org" target="_blank" rel="noopener noreferrer" className="underline">
+          Wikimedia Commons
+        </a>
+      </p>
     </article>
   );
 }
