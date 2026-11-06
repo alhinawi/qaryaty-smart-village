@@ -736,4 +736,23 @@ export const SERVICES: Service[] = [
       { id: 'floor', label: 'الدور', choices: ['أرضي', 'الأول', 'التاني', 'التالت', 'الرابع أو أعلى'] },
     ],
   },
+  {
+    id: 43,
+    cat: 'delivery',
+    emoji: '🛺',
+    name: 'اطلب التوكتوك',
+    desc: 'توكتوك يجيلك لحد باب البيت ويوصلك جوّه القرية وللقرى اللي جنبنا',
+    time: '5-15 د',
+    price: 'السعر بالاتفاق مع السواق',
+    numericPrice: null,
+    priceType: 'quote',
+    rating: '4.8',
+    badge: 'new',
+    featured: true,
+    keywords: ['توكتوك', 'توك', 'تكاتك', 'توك توك', 'مشوار', 'مشاوير', 'مواصلات', 'ركوبة'],
+    options: [
+      { id: 'destination', label: 'رايح فين؟', choices: ['جوّه القرية', 'لقرية جنبنا', 'للموقف أو المدينة'] },
+      { id: 'passengers', label: 'عدد الركاب', choices: ['واحد', 'اتنين', 'تلاتة'] },
+    ],
+  },
 ];
