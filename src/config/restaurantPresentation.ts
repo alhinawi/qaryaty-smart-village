@@ -1,0 +1,90 @@
+import type { Shop } from '@/types';
+
+/** Generic original dish illustrations, not photographs of the named shops. */
+const RESTAURANT_IMAGES: Record<number, string> = {
+  101: '/img/restaurants/101.webp',
+  102: '/img/restaurants/102.webp',
+  103: '/img/restaurants/103.webp',
+  104: '/img/restaurants/104.webp',
+  105: '/img/restaurants/105.webp',
+  106: '/img/restaurants/106.webp',
+  107: '/img/restaurants/107.webp',
+  108: '/img/restaurants/108.webp',
+  109: '/img/restaurants/109.webp',
+  110: '/img/restaurants/110.webp',
+  111: '/img/restaurants/111.webp',
+  112: '/img/restaurants/112.webp',
+  113: '/img/restaurants/113.webp',
+  114: '/img/restaurants/114.webp',
+  115: '/img/restaurants/115.webp',
+  116: '/img/restaurants/116.webp',
+  117: '/img/restaurants/117.webp',
+  118: '/img/restaurants/118.webp',
+  119: '/img/restaurants/119.webp',
+  120: '/img/restaurants/120.webp',
+  121: '/img/restaurants/121.webp',
+  122: '/img/restaurants/122.webp',
+  123: '/img/restaurants/123.webp',
+  124: '/img/restaurants/124.webp',
+  125: '/img/restaurants/125.webp',
+  126: '/img/restaurants/126.webp',
+  127: '/img/restaurants/127.webp',
+  128: '/img/restaurants/128.webp',
+  129: '/img/restaurants/129.webp',
+  130: '/img/restaurants/130.webp',
+  131: '/img/restaurants/131.webp',
+  132: '/img/restaurants/132.webp',
+  133: '/img/restaurants/133.webp',
+  134: '/img/restaurants/134.webp',
+  135: '/img/restaurants/135.webp',
+  136: '/img/restaurants/136.webp',
+  137: '/img/restaurants/137.webp',
+  138: '/img/restaurants/138.webp',
+  139: '/img/restaurants/139.webp',
+  140: '/img/restaurants/140.webp',
+  141: '/img/restaurants/141.webp',
+  142: '/img/restaurants/142.webp',
+  143: '/img/restaurants/143.webp',
+  144: '/img/restaurants/144.webp',
+  145: '/img/restaurants/145.webp',
+  146: '/img/restaurants/146.webp',
+  147: '/img/restaurants/147.webp',
+  148: '/img/restaurants/148.webp',
+  149: '/img/restaurants/149.webp',
+  150: '/img/restaurants/150.webp',
+  151: '/img/restaurants/151.webp',
+  152: '/img/restaurants/152.webp',
+  153: '/img/restaurants/153.webp',
+  154: '/img/restaurants/154.webp',
+  155: '/img/restaurants/155.webp',
+  156: '/img/restaurants/156.webp',
+  157: '/img/restaurants/157.webp',
+  158: '/img/restaurants/158.webp',
+  159: '/img/restaurants/159.webp',
+  160: '/img/restaurants/160.webp',
+  161: '/img/restaurants/161.webp',
+  162: '/img/restaurants/162.webp',
+  163: '/img/restaurants/163.webp',
+  164: '/img/restaurants/164.webp',
+  165: '/img/restaurants/165.webp',
+  166: '/img/restaurants/166.webp',
+  167: '/img/restaurants/167.webp',
+  168: '/img/restaurants/168.webp',
+  169: '/img/restaurants/169.webp',
+  170: '/img/restaurants/170.webp',
+};
+
+// Existing duck/goose meals plus descriptions explicitly saying home-cooked.
+// Keep the stored category key for compatibility with the live catalog.
+export const HOME_COOKED_IDS = new Set([112, 119, 133, 159, 160, 161, 162, 163]);
+
+export function restaurantPresentation(shop: Shop): Shop {
+  if (shop.kind !== 'restaurant') return shop;
+  const foodTypes = shop.foodTypes ?? [];
+  return {
+    ...shop,
+    photo: RESTAURANT_IMAGES[shop.id],
+    foodTypes: HOME_COOKED_IDS.has(shop.id) && !foodTypes.includes('duck')
+      ? [...foodTypes, 'duck'] : foodTypes,
+  };
+}
