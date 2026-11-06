@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { SHOPS } from '@/data/shops';
 import { SERVICES } from '@/data/services';
 import { FOOD_TYPE_LABELS, MENUS, RESTAURANTS } from '@/data/catalog';
 import type { FoodType } from '@/types';
@@ -97,5 +98,19 @@ describe('shop menus through the repository', () => {
     expect(shop.rating).toBe(4.7);
     expect(shop.deliveryTime).toBe('15-25 دقيقة');
     expect(shop.village).toBe('منية سندوب');
+  });
+});
+
+ describe('village shop photo presentation', () => {
+  it('applies each known shop photo when production rows have no photo', () => {
+    const shops = SHOPS.filter(s => s.kind !== 'restaurant');
+    expect(shops).toHaveLength(19);
+    expect(new Set(shops.map(s => s.photo)).size).toBe(19);
+    for (const s of shops) {
+      const row = { id: s.id, name: s.name, kind: s.kind, emoji: s.emoji, description: s.description ?? '', open: s.open, time: s.time, bg_color: s.bgColor, photo: null };
+      expect(shopFromRow(row).photo).toBe(s.photo);
+      expect(shopFromRow({ ...row, photo: 'https://example.com/merchant.webp' }).photo).toBe('https://example.com/merchant.webp');
+      expect(shopFromRow({ ...row, name: 'new merchant' }).photo).toBeUndefined();
+    }
   });
 });
