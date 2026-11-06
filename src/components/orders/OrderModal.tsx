@@ -21,6 +21,7 @@ import {
 } from '@/utils/pricing';
 import { PAYMENT_LABELS, isOnlinePayment, paymentChoices, startOnlinePayment } from '@/services/payments';
 import { APP_COMMISSION_LABEL, APP_COMMISSION_PERCENT } from '@/config/commission';
+import { PhoneInput } from '@/components/ui/PhoneInput';
 
 // ─── Types
 interface OrderModalProps {
@@ -313,17 +314,13 @@ export function OrderModal({
 
             <div className="form-group">
               <label htmlFor="modalPhone">📱 رقم موبايلك للتواصل *</label>
-              <input
+              <PhoneInput
                 id="modalPhone"
-                type="tel"
-                placeholder="01xxxxxxxxx"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 className={errors.phone ? 'is-invalid' : ''}
                 aria-invalid={Boolean(errors.phone)}
                 aria-describedby={errors.phone ? 'modalPhoneError' : undefined}
-                inputMode="tel"
-                autoComplete="tel"
               />
               {errors.phone && (
                 <span id="modalPhoneError" className="input-error-msg">{errors.phone}</span>

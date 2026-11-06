@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import { ROUTES } from '@/routes';
 import { isSupabaseConfigured } from '@/repositories';
+import { PhoneInput } from '@/components/ui/PhoneInput';
 
 interface AuthLayoutProps {
   title: string;
@@ -53,6 +54,35 @@ export function AuthField({ id, label, error, hint, ...inputProps }: FieldProps)
     <div className="form-group">
       <label htmlFor={id}>{label}</label>
       <input
+        id={id}
+        name={id}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={describedBy || undefined}
+        {...inputProps}
+      />
+      {hint && !error && (
+        <span id={`${id}-hint`} className="text-[11px] text-text-muted">
+          {hint}
+        </span>
+      )}
+      {error && (
+        <span id={`${id}-error`} className="input-error-msg" role="alert">
+          {error}
+        </span>
+      )}
+    </div>
+  );
+}
+
+/** Phone input with the +20 box beside it, in the same `.form-group` style. */
+export function PhoneField({ id, label, error, hint, ...inputProps }: Omit<FieldProps, 'type'>) {
+  const describedBy = [error ? `${id}-error` : null, hint ? `${id}-hint` : null]
+    .filter(Boolean)
+    .join(' ');
+  return (
+    <div className="form-group">
+      <label htmlFor={id}>{label}</label>
+      <PhoneInput
         id={id}
         name={id}
         aria-invalid={error ? true : undefined}

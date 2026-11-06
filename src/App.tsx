@@ -1,6 +1,6 @@
 // ─── Imports
 import { Suspense, lazy, useEffect, useState } from 'react';
-import { Navigate, Route, Routes, useNavigate } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router';
 import { ROUTES } from '@/routes';
 import { useSplashScreen } from '@/hooks/useSplashScreen';
 import { useUIStore } from '@/stores/useUIStore';
@@ -8,7 +8,8 @@ import { useGoToTab } from '@/hooks/useTabNavigation';
 import { useAuthStore } from '@/stores/useAuthStore';
 import type { OrderModalData } from '@/types';
 import { readPaymentReturn } from '@/services/payments';
-import { needsProfileCompletion } from '@/services/auth';
+import { ensureProfileForOrder } from '@/stores/useProfilePromptStore';
+import { CompleteProfileSheet } from '@/components/auth/CompleteProfileSheet';
 
 // Layout & Global Components
 import { Header } from '@/components/layout/Header';
@@ -98,16 +99,11 @@ export default function App() {
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [successOrderNumber, setSuccessOrderNumber] = useState('');
 
-  const navigate = useNavigate();
 
   const handleOpenOrderModal = (data: OrderModalData) => {
-    // A Google account without a username, phone or village fills them first
-    const user = useAuthStore.getState().session?.user;
-    if (user && needsProfileCompletion(user)) {
-      useUIStore.getState().showToast('📝 كمّل بياناتك الأول علشان المندوب يوصلك');
-      navigate(ROUTES.completeProfile, { state: { from: window.location.pathname } });
-      return;
-    }
+    // Like Talabat: a Google account gives its phone, village and address only now,
+    // in a sheet over the page, and the order form opens right after
+    if (!ensureProfileForOrder(() => handleOpenOrderModal(data))) return;
     setModalData(data);
     setOrderModalKey((key) => key + 1);
     setIsOrderModalOpen(true);
@@ -194,6 +190,7 @@ export default function App() {
         {/* Global Cart Drawer */}
         <CartDrawer />
         <ConfirmDialog />
+        <CompleteProfileSheet />
 
         {/* Global Notifications Drawer */}
         <NotificationsDrawer />
