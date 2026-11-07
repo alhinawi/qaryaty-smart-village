@@ -3,6 +3,7 @@ import { stockKey, useDemoStock } from '@/components/merchant/demoStock';
 import{useRestockDemo}from'@/components/stock/restockDemo';
 import { OrderNotes } from '@/components/orders/OrderNotes';
 import { useTrackingDemoMode } from '@/hooks/useTrackingDemoMode';
+import { weeklyDemo } from '@/components/merchant/weeklyDemo';
 // ─── Provider dashboard: one place for a merchant or an independent
 // professional to run their side of Qaryati. Admins only (the owner appoints
 // them); edits stay on the device, nothing here is live for customers yet.
@@ -98,6 +99,7 @@ export default function ProviderDashboardPage() {
 // ─── Merchant side
 
 function MerchantPanel() {
+  const demo=useTrackingDemoMode();
   const shops = useCatalogStore((s) => s.shops);
   const [shopId, setShopId] = useState<number | null>(null);
   const shop = useMemo(
@@ -124,7 +126,7 @@ function MerchantPanel() {
         </select>
       </label>
       <DailyPricesEditor key={`prices-${shop.id}`} shop={shop} />
-      <WeeklySummary input={{shopId:shop.id,orders:[],reviews:[],complete:false,demoEnabled:false,now:new Date()}} />
+      <WeeklySummary input={demo?weeklyDemo(shop.id,new Date()):{shopId:shop.id,orders:[],reviews:[],complete:false,demoEnabled:false,now:new Date()}} />
       <OffersSection key={`offers-${shop.id}`} shop={shop} />
       <WhatsappSection key={`wa-${shop.id}`} shop={shop} />
       <ShopInfoSection key={`info-${shop.id}`} shop={shop} />
