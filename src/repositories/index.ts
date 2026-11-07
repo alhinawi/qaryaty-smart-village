@@ -55,6 +55,9 @@ import { invalidateDemoMode, isDemoMode, setDemoModeFlag } from '@/config/demoMo
 import { createLocalSettingsRepo } from './settings/localSettingsRepo';
 import { createSupabaseSettingsRepo } from './settings/supabaseSettingsRepo';
 import type { SettingsRepo } from './settings/types';
+import { createLocalOffersRepo } from './offers/localOffersRepo';
+import { createSupabaseOffersRepo } from './offers/supabaseOffersRepo';
+import type { OffersRepo } from './offers/types';
 
 
 const breaker = createCircuitBreaker({ failureThreshold: 3, cooldownMs: 30_000 });
@@ -417,3 +420,28 @@ export function watchDemoModeSetting(): void {
   });
   window.setInterval(refresh, DEMO_MODE_POLL_MS);
 }
+
+// ─── عروض اليوم (merchant time-limited offers)
+export const OFFERS_UNAVAILABLE_MESSAGE = 'الخدمة متوقفة مؤقتًا، والعرض ماتحفظش. جرّب تاني بعد شوية';
+const liveOffers = isSupabaseConfigured ? createSupabaseOffersRepo(getSupabase) : null;
+export const offersRepo: OffersRepo = liveOffers
+  ? {
+      listActive: () => resilience.read(() => liveOffers.listActive(), async () => []),
+      mineForShop: (shopId) =>
+        resilience.read(
+          () => liveOffers.mineForShop(shopId),
+          async () => null
+        ),
+      create: (shopId, shopName, title, details, hours) =>
+        resilience.write(
+          () => liveOffers.create(shopId, shopName, title, details, hours),
+          (cause) => new ServiceUnavailableError(OFFERS_UNAVAILABLE_MESSAGE, { cause })
+        ),
+      stop: (offerId) =>
+        resilience.write(
+          () => liveOffers.stop(offerId),
+          (cause) => new ServiceUnavailableError(OFFERS_UNAVAILABLE_MESSAGE, { cause })
+        ),
+    }
+  : createLocalOffersRepo();
+export type { DailyOffer, OffersRepo } from './offers/types';

@@ -1,0 +1,78 @@
+// ─── Offers on this device (demo backend) + one labeled sample offer
+import { isTrackingDemoMode } from '@/config/demoMode';
+import { SHOPS } from '@/data/shops';
+import { isOfferActive } from '@/utils/countdown';
+import type { DailyOffer, OffersRepo } from './types';
+
+const PHOTO_BY_SHOP = new Map(SHOPS.map((shop) => [shop.id, shop.photo]));
+
+/** Cards show the shop's real photo when the shop exists in the catalog. */
+function withPhoto(offer: DailyOffer): DailyOffer {
+  const photo = PHOTO_BY_SHOP.get(offer.shopId);
+  return photo ? { ...offer, shopPhoto: photo } : offer;
+}
+
+const KEY = 'qaryati_mock_offers';
+
+/** The sample offer is simulated content: it shows only after a verified
+ * read confirmed demo mode, and stays hidden when the setting is unknown. */
+function sampleOffer(): DailyOffer | null {
+  if (!isTrackingDemoMode()) return null;
+  return {
+    id: 'demo-offer-1',
+    shopId: 101,
+    shopName: 'فول وطعمية الحاج سيد',
+    title: 'خصم 20% على الفطار',
+    details: 'عرض تجريبي — بيخلص تلقائي لما الوقت يعدي',
+    endsAt: new Date(Date.now() + 3 * 3600_000).toISOString(),
+    createdAt: new Date().toISOString(),
+  };
+}
+
+function load(): DailyOffer[] {
+  try {
+    return (JSON.parse(localStorage.getItem(KEY) ?? '[]') as DailyOffer[]).filter((o) => isOfferActive(o.endsAt));
+  } catch {
+    return [];
+  }
+}
+
+function save(list: DailyOffer[]): void {
+  try {
+    localStorage.setItem(KEY, JSON.stringify(list));
+  } catch {
+    /* private mode */
+  }
+}
+
+export function createLocalOffersRepo(): OffersRepo {
+  return {
+    async listActive() {
+      const mine = load();
+      const sample = sampleOffer();
+      const all = sample ? [sample, ...mine] : mine;
+      return all.sort((a, b) => a.endsAt.localeCompare(b.endsAt)).map(withPhoto);
+    },
+    async mineForShop(shopId) {
+      const mine = load().find((o) => o.shopId === shopId) ?? null;
+      return mine ? withPhoto(mine) : null;
+    },
+    async create(shopId, shopName, title, details, hours) {
+      const offer: DailyOffer = {
+        id: `offer_${Date.now()}`,
+        shopId,
+        shopName,
+        title: title.trim(),
+        details: details.trim(),
+        endsAt: new Date(Date.now() + hours * 3600_000).toISOString(),
+        createdAt: new Date().toISOString(),
+      };
+      // One active offer per shop: a new one replaces the old
+      save([...load().filter((o) => o.shopId !== shopId), offer]);
+      return offer;
+    },
+    async stop(offerId) {
+      save(load().filter((o) => o.id !== offerId));
+    },
+  };
+}
