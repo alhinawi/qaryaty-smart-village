@@ -1,6 +1,7 @@
 import { useEventSimulationStore } from '@/pages/EventsPreview/simulation';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { EventBookings } from '@/pages/EventsPreview/EventBookings';
+import { DemoOrderHistory, DEMO_HISTORY_COUNT } from '@/components/orders/DemoOrderHistory';
 import { OwnReviewsProvider } from '@/components/reviews/OwnReviewsProvider';
 import { OrderReviewAction } from '@/components/reviews/OrderReviewAction';
 import { useTrackingDemoMode } from '@/hooks/useTrackingDemoMode';
@@ -8,7 +9,7 @@ import { visibleCustomerOrders } from '@/utils/visibleCustomerOrders';
 import { useEffect } from 'react';
 import { isSupabaseConfigured } from '@/repositories';
 // ─── Imports
-import { INITIAL_DEMO_ORDERS, useOrderStore } from "@/stores/useOrderStore";
+import { useOrderStore } from "@/stores/useOrderStore";
 import { DELIVERY_FEE_LABEL } from "@/config/delivery";
 import { useUIStore } from "@/stores/useUIStore";
 import { useGoToTab } from '@/hooks/useTabNavigation';
@@ -39,10 +40,8 @@ export default function OrdersPage() {
   const eventBookings=useEventSimulationStore(s=>s.bookings);
   const eventCount=trackingDemo?eventBookings.filter(b=>b.scope===eventScope).length:0;
   const storedOrders = useOrderStore((state) => state.orders);
-  const realOrders = visibleCustomerOrders(storedOrders, trackingDemo);
-  // View-only examples never enter the order store, persistence, server or account history.
-  const showGuestDemo = isSupabaseConfigured && !ownerId && trackingDemo;
-  const orders = showGuestDemo ? [...realOrders, ...INITIAL_DEMO_ORDERS] : realOrders;
+  const realOrders = visibleCustomerOrders(storedOrders, trackingDemo).filter(order=>order.id!=='ord_demo_1'&&order.id!=='ord_demo_2');
+  const orders = realOrders;
   const updateStatus = useOrderStore((state) => state.updateStatus);
   const deleteOrder = useOrderStore((state) => state.deleteOrder);
 
@@ -96,7 +95,7 @@ export default function OrdersPage() {
       {/* Page Header */}
       <div className="mb-6">
         <h2 className="text-[clamp(1.375rem,3vw,1.75rem)] font-black text-green-dark font-['Tajawal',sans-serif] mb-1">
-          📋 سجل طلباتي ({realOrders.length + eventCount})
+          📋 سجل طلباتي ({realOrders.length + eventCount + (trackingDemo?DEMO_HISTORY_COUNT:0)})
         </h2>
         <p className="text-sm text-text-muted">
           تابع حالة طلباتك الحالية وسجل الطلبات السابقة داخل القرية
@@ -104,10 +103,11 @@ export default function OrdersPage() {
       </div>
 
       <EventBookings />
+      <DemoOrderHistory />
       {isSupabaseConfigured && ownerId && <div className="mb-4 text-left"><Button variant="outline" size="sm" loading={historyLoading} onClick={() => void loadHistory()}>تحديث الطلبات</Button></div>}
       {historyLoading && <p role="status" className="mb-4">بنحمّل طلباتك...</p>}
       {historyError && <p role="alert" className="mb-4 rounded-xl bg-red-50 p-4 text-danger">{historyError}</p>}
-      {orders.length === 0 && eventCount === 0 && !historyLoading && !historyError && (!isSupabaseConfigured || !ownerId || historyLoaded) ? (
+      {orders.length === 0 && eventCount === 0 && !trackingDemo && !historyLoading && !historyError && (!isSupabaseConfigured || !ownerId || historyLoaded) ? (
         <EmptyState
           emoji="📋"
           title="مفيش طلبات سابقة!"
