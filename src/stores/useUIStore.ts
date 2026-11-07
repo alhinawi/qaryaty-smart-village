@@ -192,3 +192,14 @@ export const useUIStore = create<UIState>()(
 export function mergeNotifications(remote: AppNotification[], local: AppNotification[]): AppNotification[] {
   return [...remote, ...local.slice(remote.length)];
 }
+
+// The seeded samples (طلبك وصل / المزود في الطريق / عرض ترويجي) are demo
+// content: الوضع الحقيقي must not show them or count them in the badge.
+const SAMPLE_NOTIFICATION_IDS = new Set(INITIAL_NOTIFICATIONS.map((n) => n.id));
+
+/** Real-mode view of a notification list: samples out when demo is off.
+ * Runtime-added and server notifications always stay. Fails closed: callers
+ * pass the VERIFIED demo flag, so samples never leak on an unknown setting. */
+export function withoutSampleNotifications(list: AppNotification[], demoOn: boolean): AppNotification[] {
+  return demoOn ? list : list.filter((n) => !SAMPLE_NOTIFICATION_IDS.has(n.id));
+}
