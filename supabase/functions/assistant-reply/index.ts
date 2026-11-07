@@ -12,8 +12,8 @@
 // yet, the function answers without counting instead of failing.
 
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
-const GROQ_MODEL = 'llama-3.1-8b-instant';
-const GEMINI_MODEL = 'gemini-2.0-flash';
+const GROQ_MODEL = 'openai/gpt-oss-120b';
+const GEMINI_MODEL = 'gemini-3.8-flash';
 const DAILY_CAP = 20;
 
 const SYSTEM_CUSTOMER = `انت «مساعد قريتي»، مساعد تطبيق قريتي لخدمات القرية في مصر. جاوب بالمصري العامي البسيط، باختصار (سطرين أو تلاتة)، ومن غير ايموجي أسهم.
