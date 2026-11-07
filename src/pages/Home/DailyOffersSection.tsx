@@ -165,7 +165,7 @@ export function DailyOffersSection() {
     };
   }, [trackingDemo,offerScope]);
 
-  const live = offers.filter((o) => isOfferActive(o.endsAt));
+  const live = offers.filter((o) => isOfferActive(o.endsAt)).slice(0,20);
   if (live.length === 0) return null;
 
   const header = (
