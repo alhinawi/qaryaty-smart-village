@@ -22,5 +22,13 @@ export function appendIllustrativeRestaurantItems(shop: MenuShop, products: Prod
     return product?.name === base.name && product.price === base.price && product.available !== false;
   })) return products;
   const names = new Set(products.map(product => product.name));
-  return [...products, ...sample.items.filter(product => !names.has(product.name))];
+  const extras = sample.items.filter(product => !names.has(product.name));
+  const inserted = new Set<Product>();
+  const result: Product[] = [];
+  products.forEach((product, index) => {
+    result.push(product);
+    if (products.slice(index + 1).some(next => next.section === product.section)) return;
+    extras.filter(extra => extra.section === product.section).forEach(extra => { result.push(extra); inserted.add(extra); });
+  });
+  return [...result, ...extras.filter(extra => !inserted.has(extra))];
 }
