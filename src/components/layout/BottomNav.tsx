@@ -35,6 +35,7 @@ export function BottomNav({ onOpenQuickOrder }: BottomNavProps) {
             type="button"
             className={`flex-1 flex flex-col items-center justify-center py-2 px-1 cursor-pointer transition-all duration-200 border-none bg-transparent font-['Cairo',sans-serif] ${isActive ? 'text-green' : ''}`}
             onClick={() => setActiveTab(item.id)}
+            aria-current={isActive ? 'page' : undefined}
             aria-label={item.label}
           >
             <span className="text-[22px] leading-none" role="img" aria-hidden="true">
@@ -66,6 +67,7 @@ export function BottomNav({ onOpenQuickOrder }: BottomNavProps) {
             type="button"
             className={`flex-1 flex flex-col items-center justify-center py-2 px-1 cursor-pointer transition-all duration-200 border-none bg-transparent font-['Cairo',sans-serif] ${isActive ? 'text-green' : ''}`}
             onClick={() => setActiveTab(item.id)}
+            aria-current={isActive ? 'page' : undefined}
             aria-label={item.label}
           >
             <span className="text-[22px] leading-none" role="img" aria-hidden="true">

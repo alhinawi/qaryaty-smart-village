@@ -12,7 +12,7 @@ export function CategoriesSection({ categories, selectedCategory, onSelectCatego
   return (
     <section className="mb-5" aria-label="فئات الخدمات">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-lg font-extrabold text-green-dark">يومك أسهل مع قريتي</h3>
+        <h2 className="text-lg font-extrabold text-green-dark">يومك أسهل مع قريتي</h2>
         <button type="button" className="text-xs text-green font-bold" onClick={() => onSelectCategory('all')}>كل الخدمات</button>
       </div>
       <div className="flex gap-3 overflow-x-auto pb-2 overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" id="catScroll">

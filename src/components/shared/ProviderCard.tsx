@@ -40,7 +40,7 @@ export function ProviderCard({ provider, onBook, online = false, showShare = tru
       <div className="flex gap-3 items-start">
         <Avatar src={provider.photo} name={provider.name} size={60} />
         <div className="min-w-0 flex-1">
-          <h4 className="font-extrabold text-[15px] leading-snug truncate">{provider.name}</h4>
+          <h3 className="font-extrabold text-[15px] leading-snug truncate">{provider.name}</h3>
           <p className="text-xs text-green font-bold">{role}</p>
           {/* A new provider with no reviews or no stated experience shows neither, never a made-up 0 */}
           {(provider.reviews > 0 || provider.experienceYears > 0) && (

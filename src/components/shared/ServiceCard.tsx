@@ -147,9 +147,9 @@ export const ServiceCard = React.memo(function ServiceCard({
 
       {/* Service Info */}
       <div className="p-3.5 flex-1 flex flex-col">
-        <h4 className="text-[15px] font-extrabold mb-1 text-text">
+        <h3 className="text-[15px] font-extrabold mb-1 text-text">
           {service.name}
-        </h4>
+        </h3>
 
         <p className="text-xs text-text-muted leading-[1.4] mb-2.5 flex-1">
           {service.desc}
