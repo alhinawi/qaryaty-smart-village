@@ -310,8 +310,9 @@ function SearchOverlay({
         onKeyDown={trapTab}
         className="h-full w-full flex flex-col bg-cream lg:h-auto lg:max-h-[calc(100svh-3rem)] lg:max-w-3xl lg:rounded-2xl lg:overflow-hidden lg:shadow-[0_20px_60px_rgba(0,0,0,0.3)]"
       >
-        {/* ─── Top: back, field, cart, then the tabs */}
-        <div className="bg-linear-to-br from-green-dark to-green pt-[max(0.625rem,env(safe-area-inset-top))] shadow-card shrink-0">
+        {/* ─── Top: back, field, cart, then the tabs. A real <header> so the palette
+            rules keep its text white on the green hero, like the home header. */}
+        <header className="bg-linear-to-br from-green-dark to-green pt-[max(0.625rem,env(safe-area-inset-top))] shadow-card shrink-0">
           <div className="flex items-center gap-2 px-3">
             <button
               type="button"
@@ -407,7 +408,7 @@ function SearchOverlay({
               );
             })}
           </div>
-        </div>
+        </header>
 
         {/* ─── Body */}
         <div
