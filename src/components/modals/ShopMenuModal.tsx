@@ -1,5 +1,6 @@
 import { DemoOpinions } from '@/components/reviews/DemoOpinions';
 import { stockKey, useDemoStock } from '@/components/merchant/demoStock';
+import{OfferPrice}from'@/components/ui/OfferPrice';
 import {isSupabaseConfigured} from '@/repositories/supabaseClient';
 // ─── Imports
 import { useEffect, useMemo, useState } from 'react';
@@ -212,7 +213,7 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
                     )}
                   </div>
                   <div className="text-[12px] text-gray-600">
-                    <span className="font-bold text-green">{formatCurrency(p.price)} / {p.unit}</span>{p.originalPrice!=null&&<del className="ms-2 text-text-muted">{formatCurrency(p.originalPrice)}</del>}{p.offerId&&<span className="block text-[11px] text-green">سعر العرض لحد {new Date(p.offerEndsAt!).toLocaleTimeString("ar-EG",{hour:"numeric",minute:"2-digit"})}</span>}
+                    <OfferPrice price={p.price} original={p.originalPrice} percent={p.offerPercent} unit={p.unit}/>{p.offerId&&<span className="block text-[11px] text-green">سعر العرض لحد {new Date(p.offerEndsAt!).toLocaleTimeString("ar-EG",{hour:"numeric",minute:"2-digit"})}</span>}
                   </div>
                   {p.grillable && (
                     <div className="mt-1.5 flex items-center justify-between gap-2">

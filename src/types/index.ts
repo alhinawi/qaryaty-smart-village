@@ -250,6 +250,7 @@ export interface Product {
   originalPrice?: number;
   offerId?: string;
   offerEndsAt?: string;
+  offerPercent?: number;
   id: string;
   name: string;
   emoji: string;
@@ -317,6 +318,7 @@ export interface CartItem {
   originalPrice?: number;
   offerId?: string;
   offerEndsAt?: string;
+  offerPercent?: number;
   id: string;
   serviceId: number;
   name: string;
