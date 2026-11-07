@@ -120,9 +120,6 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
             🕐 المحل مشغول — التحضير هياخد وقت أطول من المعتاد
           </p>
         )}
-        {shop.demo && (
-          <p className="text-[12px] text-gray-600 bg-amber-50 rounded-lg px-3 py-2 mb-2">{shop.kind === 'pharmacy' ? 'بيانات خيالية للتجربة فقط، ليست صيدلية حقيقية ولا تعبر عن مخزون متاح. لا يمكن الطلب منها.' : 'محل خيالي. الصور والأصناف توضيحية، ولا تعبر عن محل فعلي أو مخزون متاح. لا يمكن الطلب منه.'}</p>
-        )}
         <input
           type="search"
           value={query}
@@ -153,7 +150,7 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
 
         {shop.kind === 'pharmacy' && (
           <p className="text-[12px] text-gray-600 bg-blue-50 rounded-lg px-3 py-2 mb-2">
-            الأدوية اللي عليها «بروشتة» الصيدلي بيراجع الروشتة قبل التوصيل. الأسعار تقريبية. الصور توضيحية مولدة، مش صورة العبوة الفعلية؛ اعتمد على الاسم والتركيز ومراجعة الصيدلي، مش الصورة.
+            الأدوية اللي عليها «بروشتة» الصيدلي بيراجع الروشتة قبل التوصيل. الأسعار تقريبية. اعتمد على الاسم والتركيز ومراجعة الصيدلي، مش الصورة.
           </p>
         )}
 

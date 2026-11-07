@@ -2,10 +2,10 @@
 export const config = { runtime: 'edge' };
 const SITE = 'https://qaryaty.vercel.app';
 export function escapeHtml(value: string) { return value.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!); }
-export function shareDocument(kind: string, id: string, name?: string, demo = false) {
+export function shareDocument(kind: string, id: string, name?: string, _demo = false) {
   const path = `/${kind}s/${id}`;
-  const title = name ? `${name}${demo ? ' (عرض تجريبي)' : ''} | قريتي` : 'اكتشف محلات وخدمات قريتي';
-  const description = demo ? 'بيانات خيالية للتجربة، مش محل أو مزود خدمة حقيقي.' : 'افتح التفاصيل والمنتجات أو الخدمات المتاحة على قريتي.';
+  const title = name ? `${name} | قريتي` : 'اكتشف محلات وخدمات قريتي';
+  const description = 'افتح التفاصيل والمنتجات أو الخدمات المتاحة على قريتي.';
   return `<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(title)}</title><meta property="og:type" content="website"><meta property="og:title" content="${escapeHtml(title)}"><meta property="og:description" content="${description}"><meta property="og:image" content="${SITE}/og-qaryati-pocket-changa-clean-20261107.jpg"><meta property="og:url" content="${SITE}/share/${kind}/${id}"><meta name="twitter:card" content="summary_large_image"><meta name="robots" content="noindex"><link rel="canonical" href="${SITE}${path}"></head><body><h1>${escapeHtml(title)}</h1><p>${description}</p><a href="${path}">افتح الصفحة على قريتي</a><script>location.replace(${JSON.stringify(path)})</script></body></html>`;
 }
 export default async function handler(request: Request) {
