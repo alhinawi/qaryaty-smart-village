@@ -152,7 +152,7 @@ export function DailyOffersSection() {
           if (alive) setOffers([...local,...list.filter(o=>!shops.has(o.shopId))]);
         })
         .catch(() => {
-          /* no offers shown when the backend can't answer */
+          if (alive) setOffers([]);
         });
     };
     refresh();
@@ -165,13 +165,13 @@ export function DailyOffersSection() {
     };
   }, [trackingDemo,offerScope]);
 
-  const live = offers.filter((o) => isOfferActive(o.endsAt)).slice(0,20);
+  const live = offers.filter((o) => isOfferActive(o.endsAt) && (!o.demo || trackingDemo)).slice(0,20);
   if (live.length === 0) return null;
 
   const header = (
     <div className="flex items-center justify-between mb-3">
       <h2 className="text-[17px] font-black text-green-dark m-0">🔥 عروض اليوم</h2>
-      <span className="text-[12px] font-bold text-text-muted">لفترة محدودة</span>
+      <span className="text-[12px] font-bold text-text-muted">{live.length} عروض · لفترة محدودة</span>
     </div>
   );
 
