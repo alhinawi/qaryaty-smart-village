@@ -5,7 +5,7 @@ export const SERVICE_IMAGES: Record<number, string> = {
   1: '/img/services/food.webp',
   2: '/img/services/fish.webp',
   3: '/img/services/delivery.webp',
-  4: '/img/services/service-4.webp',
+  4: '/img/services/school-dropoff-3.webp',
   5: '/img/services/waste.webp',
   6: '/img/services/service-6.webp',
   7: '/img/services/service-7.webp',
@@ -48,4 +48,11 @@ export const SERVICE_IMAGES: Record<number, string> = {
 };
 export function imageForService(service: Pick<Service, 'id'>): string | undefined {
   return SERVICE_IMAGES[service.id];
+}
+
+export function imagesForService(service: Pick<Service, 'id' | 'images'>): string[] {
+  if (service.images?.length) return [...new Set(service.images.filter(Boolean))].slice(0, 3);
+  if (service.id === 4) return [3, 1, 2].map(i => `/img/services/school-dropoff-${i}.webp`);
+  const photo = imageForService(service);
+  return photo ? [photo] : [];
 }

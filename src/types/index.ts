@@ -178,6 +178,8 @@ export interface Provider {
 }
 
 export interface Service {
+  /** Optional presentation gallery; no server-schema change. */
+  images?: string[];
   id: number;
   cat: ServiceCategory;
   emoji: string;
