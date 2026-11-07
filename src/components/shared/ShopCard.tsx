@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import { CatalogShareButton } from './CatalogShareButton';
 // ─── Imports
 import React from "react";
@@ -107,7 +108,7 @@ export const ShopCard = React.memo(function ShopCard({
       )}
       <div className="p-2.5">
         <CatalogShareButton kind="shop" id={shop.id} name={shop.name} />
-        <h5 className="text-sm font-extrabold mb-1 text-text">{shop.name}</h5>
+        <h5 className="text-sm font-extrabold mb-1 text-text">{shop.name}</h5><Link to={`/shops/${shop.id}`} onClick={e=>e.stopPropagation()} onKeyDown={e=>e.stopPropagation()} className="inline-block text-[11px] text-green font-bold py-2">التفاصيل والآراء</Link>
         {shop.kind === "restaurant" && (
           <p className="text-[11px] text-text-muted leading-snug mb-1 line-clamp-2">
             {shop.description}
