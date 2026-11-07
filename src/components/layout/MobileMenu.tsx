@@ -119,7 +119,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         className="absolute inset-y-0 left-0 w-[min(86vw,320px)] bg-white shadow-[8px_0_30px_rgba(0,0,0,0.18)] flex flex-col text-right animate-[menuSlideIn_0.25s_cubic-bezier(0.22,1,0.36,1)] pt-[env(safe-area-inset-top)]"
       >
         {/* Brand + close */}
-        <div className="shrink-0 bg-linear-to-br from-green-dark to-green text-white px-4 py-3 flex items-center justify-between gap-3">
+        <div className="keep-palette-off shrink-0 bg-linear-to-br from-green-dark to-green text-white px-4 py-3 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5 min-w-0">
             <div
               className="w-[40px] h-[40px] bg-gold rounded-xl flex items-center justify-center text-[22px] shrink-0"
