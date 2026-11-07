@@ -1,6 +1,7 @@
 import { StockControl } from '@/components/merchant/StockControl';
 import { stockKey, useDemoStock } from '@/components/merchant/demoStock';
 import { useTrackingDemoMode } from '@/hooks/useTrackingDemoMode';
+import{useRestockDemo}from'@/components/stock/restockDemo';
 // ─── Provider dashboard: one place for a merchant or an independent
 // professional to run their side of Qaryati. Admins only (the owner appoints
 // them); edits stay on the device, nothing here is live for customers yet.
@@ -285,6 +286,7 @@ function ShopInfoSection({ shop }: { shop: Shop }) {
 }
 
 function ProductsSection({ shop }: { shop: Shop }) {
+  const restockScope=useAuthStore(s=>s.session?.user.id??'guest');
   const productsState = useCatalogStore((s) => s.products[shop.id]);
   const loadProducts = useCatalogStore((s) => s.loadProducts);
   const overrides = useProviderDashboardStore((s) => s.merchants[shop.id]);
@@ -381,6 +383,7 @@ function ProductsSection({ shop }: { shop: Shop }) {
                       price={custom.price}
                       isCustom
                       onToggle={(next) => {
+                        useRestockDemo.getState().transition(restockScope,shop.id,p.id,custom.available,next);
                         setCustomProductAvailable(shop.id, p.id, next);
                         showToast(next ? `✅ «${p.name}» رجع متاح` : `⏸️ «${p.name}» اتقفل مؤقتًا`);
                       }}
@@ -415,6 +418,7 @@ function ProductsSection({ shop }: { shop: Shop }) {
                     available={overrides?.products[p.id]?.available ?? true}
                     price={overrides?.products[p.id]?.price ?? p.price}
                     onToggle={(next) => {
+                      useRestockDemo.getState().transition(restockScope,shop.id,p.id,overrides?.products[p.id]?.available??true,next);
                       setProductAvailable(shop.id, p.id, next);
                       showToast(next ? `✅ «${p.name}» رجع متاح` : `⏸️ «${p.name}» اتقفل مؤقتًا`);
                     }}

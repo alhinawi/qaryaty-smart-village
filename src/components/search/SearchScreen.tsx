@@ -1,3 +1,4 @@
+import{useProviderDashboardStore}from'@/stores/useProviderDashboardStore';
 import{OfferPrice}from'@/components/ui/OfferPrice';
 import {useAuthStore} from '@/stores/useAuthStore';
 import {useTrackingDemoMode} from '@/hooks/useTrackingDemoMode';
@@ -129,14 +130,15 @@ function SearchOverlay({
   const inputRef = useRef<HTMLInputElement>(null);
   const restoreFocusRef = useRef(true);
 
+  const merchantEdits=useProviderDashboardStore(s=>s.merchants);
   const scope=useAuthStore(s=>s.session?.user.id??'guest');
   const demo=useTrackingDemoMode();
   const [priceOffers,setPriceOffers]=useState<DailyOffer[]>([]);
   useEffect(()=>{let alive=true;const refresh=async()=>{const live=await offersRepo.listActive();const local=demo?await createLocalOffersRepo(scope).listActive():[];const localShops=new Set(local.map(o=>o.shopId));if(alive)setPriceOffers([...local,...live.filter(o=>!localShops.has(o.shopId))]);};void refresh().catch(()=>{if(alive)setPriceOffers([])});const timer=setInterval(()=>void refresh().catch(()=>{}),30000);return()=>{alive=false;clearInterval(timer)};},[scope,demo]);
   const index = useMemo(
     () =>
-      buildSearchIndex({ shops, services, providers, categories: CATEGORIES }).map(entry=>entry.type==="product"?{...entry,product:applyProductOffer(entry.product,entry.shop.id,priceOffers.filter(()=>entry.shop.demo||!isSupabaseConfigured?demo:true))}:entry),
-    [shops, services, providers,priceOffers,demo],
+      buildSearchIndex({ shops, services, providers, categories: CATEGORIES }).map(entry=>entry.type==="product"?{...entry,product:applyProductOffer(demo&&merchantEdits[entry.shop.id]?.products[entry.product.id]?{...entry.product,...merchantEdits[entry.shop.id].products[entry.product.id]}:entry.product,entry.shop.id,priceOffers.filter(()=>entry.shop.demo||!isSupabaseConfigured?demo:true))}:entry),
+    [shops, services, providers,priceOffers,demo,merchantEdits],
   );
   const tabs = useMemo(() => buildSearchTabs(index, CATEGORIES), [index]);
   const tab = tabs.some((t) => t.id === chosenTab) ? chosenTab : ALL_TAB;
@@ -893,7 +895,7 @@ function ResultRow({
       {thumb}
       <span className="flex-1 min-w-0">
         <span className="block font-bold text-[0.9375rem] text-text leading-snug">
-          <Highlight text={entry.title} query={query} />
+          <Highlight text={entry.title} query={query} />{entry.type==="product"&&entry.product.available===false&&<span className="ms-1 text-[11px] rounded bg-gray-100 text-text-muted px-1.5 py-0.5">خلصان</span>}
         </span>
         {subtitle && (
           <span className="block text-[0.75rem] text-text-muted truncate">

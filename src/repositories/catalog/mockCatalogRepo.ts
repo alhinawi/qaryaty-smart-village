@@ -63,7 +63,7 @@ export function createMockCatalogRepo(showDemo: () => boolean = isDemoMode): Cat
       // a photo: the merchant may save the data now and add the photo later,
       // and it shows itself the moment the photo lands.
       const customs = (merchant?.customProducts ?? [])
-        .filter((c) => c.available && c.photo)
+        .filter((c) => c.photo)
         .map(
           (c): Product => ({
             id: c.id,
@@ -74,6 +74,7 @@ export function createMockCatalogRepo(showDemo: () => boolean = isDemoMode): Cat
             unit: c.unit,
             step: 1,
             section: c.section,
+            available:c.available,
           })
         );
       const merged = [...overridden, ...customs];
