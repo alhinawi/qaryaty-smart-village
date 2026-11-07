@@ -1,3 +1,4 @@
+import { CatalogShareButton } from './CatalogShareButton';
 import { isIllustratedProvider } from '@/config/providerImages';
 // ─── Card for one person you book directly: teacher, nurse, plumber, painter, gas delivery…
 import type { Provider, ProviderMode, TeacherGroup } from '@/types';
@@ -12,6 +13,7 @@ interface ProviderCardProps {
   onBook: (provider: Provider, group?: TeacherGroup) => void;
   /** The online tab: lead with "أونلاين" and say where they are from. */
   online?: boolean;
+  showShare?: boolean;
 }
 
 const MODE_ICONS: Record<ProviderMode, string> = {
@@ -22,7 +24,7 @@ const MODE_ICONS: Record<ProviderMode, string> = {
   center: '🏫',
 };
 
-export function ProviderCard({ provider, onBook, online = false }: ProviderCardProps) {
+export function ProviderCard({ provider, onBook, online = false, showShare = true }: ProviderCardProps) {
   const role = providerRoleLabel(provider);
   // In the online tab only the online mode matters; in the village tab, how they come to you
   const modes = online ? (['online'] as ProviderMode[]) : provider.modes;
@@ -125,6 +127,7 @@ export function ProviderCard({ provider, onBook, online = false }: ProviderCardP
         </details>
       )}
 
+      {showShare && <div className="flex justify-end"><CatalogShareButton kind="provider" id={provider.id} name={provider.name} /></div>}
       <div className="flex items-end justify-between gap-2 mt-auto">
         <div className="flex flex-col gap-0.5 min-w-0">
           {prices.map((line) => (
