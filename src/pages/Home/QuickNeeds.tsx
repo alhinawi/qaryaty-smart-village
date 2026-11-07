@@ -28,7 +28,7 @@ export function QuickNeeds({ shops, services }: { shops: Shop[]; services: Servi
   const shownServices = quickNeedServices(services, need);
   const choices = [
     ...shownShops.map(shop => ({ id: `shop-${shop.id}`, name: shop.name, emoji: shop.emoji, subtitle: shop.village || 'شوف بيانات المحل', to: catalogPath('shop', shop.id), shop, status: demo ? `مفتوح دلوقتي · ${demoHoursLabel(shop)}` : '' })),
-    ...shownServices.map(service => ({ id: `service-${service.id}`, name: service.name, emoji: service.emoji, subtitle: 'شوف تفاصيل الخدمة والتكلفة', to: catalogPath('service', service.id), shop: undefined, status: demo ? (demoRiderAvailable(now) ? 'مندوب متاح' : 'التوصيل يبدأ ٧ الصبح') : '' })),
+    ...shownServices.map(service => ({ id: `service-${service.id}`, name: service.name, emoji: service.emoji, subtitle: 'شوف تفاصيل الخدمة والتكلفة', to: catalogPath('service', service.id), shop: undefined, status: demo ? (demoRiderAvailable(now) ? 'مندوب متاح' : 'التوصيل يبدأ 7 الصبح') : '' })),
   ];
   return (
     <section className="mb-5 rounded-2xl border border-green/15 bg-white shadow-sm overflow-hidden" aria-label="محتاج دلوقتي">
