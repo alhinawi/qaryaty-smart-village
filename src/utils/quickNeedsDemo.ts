@@ -1,4 +1,5 @@
 import type { Shop } from '@/types';
+import { spokenHoursRange } from './shopOpenNow';
 export interface DemoHours { from: number; to: number; allDay?: boolean }
 export function cairoMinute(now: Date): number {
   const parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Africa/Cairo', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(now);
@@ -18,4 +19,4 @@ export function demoOpenNow(shop: Pick<Shop, 'id' | 'kind' | 'open'>, now: Date,
 }
 /** Not a location or driver feed. No driver identity or phone is fabricated. */
 export function demoRiderAvailable(now: Date): boolean { return cairoMinute(now) >= 7 * 60; }
-export function demoHoursLabel(shop: Pick<Shop, 'id' | 'kind'>): string { return demoHours(shop).allDay ? '24 ساعة' : shop.kind === 'pharmacy' ? '9 صباحًا - 2 صباحًا' : '7 صباحًا - 12 بالليل'; }
+export function demoHoursLabel(shop: Pick<Shop, 'id' | 'kind'>): string { const hours = demoHours(shop); return hours.allDay ? '24 ساعة' : spokenHoursRange(hours.from, hours.to); }
