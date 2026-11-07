@@ -2,7 +2,7 @@ import{useRestockDemo}from'@/components/stock/restockDemo';
 // ─── Imports
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { Menu, Search, X, Mic } from "lucide-react";
+import { Menu, Search, X, Mic, Bell } from "lucide-react";
 
 import { mergeNotifications, withoutSampleNotifications, useUIStore } from "@/stores/useUIStore";
 import { useTrackingDemoMode } from "@/hooks/useTrackingDemoMode";
@@ -148,11 +148,9 @@ export function Header() {
               type="button"
               className="w-[40px] h-[40px] rounded-xl bg-white/15 border-none cursor-pointer flex items-center justify-center text-[18px] text-white transition-all duration-200 relative font-['Cairo',sans-serif] hover:bg-white/25 hover:scale-105"
               onClick={() => setIsNotificationsOpen(true)}
-              aria-label={`الإشعارات (${unreadCount} غير مقروءة)`}
+              aria-label={`الإشعارات، ${unreadCount} غير مقروءة`}
             >
-              <span role="img" aria-hidden="true">
-                🔔
-              </span>
+              <Bell size={20} aria-hidden="true" />
 
               {unreadCount > 0 && (
                 <span aria-hidden="true" className="absolute -top-1 -right-1 bg-gold text-black rounded-xl w-[18px] h-[18px] text-[10px] font-extrabold flex items-center justify-center">
