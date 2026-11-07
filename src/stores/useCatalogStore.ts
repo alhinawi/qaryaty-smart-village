@@ -1,7 +1,7 @@
 // ─── Catalog store: services, shops, providers and shop menus, loaded through the repository
 import { create } from 'zustand';
 import type { Product, Provider, Service, Shop } from '@/types';
-import { getProducts, getProviders, getServices, getShops } from '@/repositories';
+import { getProducts, getProviders, getServices, getShops , loadDemoModeSetting} from '@/repositories';
 
 type LoadState = 'idle' | 'loading' | 'ready';
 
@@ -32,6 +32,8 @@ export const useCatalogStore = create<CatalogState>()((set, get) => ({
     const { loadState } = get();
     if (loadState === 'loading' || (loadState === 'ready' && !force)) return;
     set({ loadState: 'loading' });
+    // Demo-mode switch decides which rows the catalog queries return
+    await loadDemoModeSetting().catch(() => true);
     try {
       // Reads fall back to the sample data inside the repository, so this rarely fails
       const [services, shops, providers] = await Promise.all([getServices(), getShops(), getProviders()]);
