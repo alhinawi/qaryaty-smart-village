@@ -9,7 +9,7 @@ export function JobsBanner() {
       aria-labelledby="home-jobs-title"
     >
       <span
-        className="w-[48px] h-[48px] bg-green rounded-2xl flex items-center justify-center text-[26px] shrink-0"
+        className="w-[48px] h-[48px] bg-cream border border-green/25 rounded-2xl flex items-center justify-center text-[26px] shrink-0"
         aria-hidden="true"
       >
         💼
