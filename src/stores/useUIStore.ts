@@ -37,6 +37,8 @@ const INITIAL_NOTIFICATIONS: AppNotification[] = [
 
 // ─── State Interface
 interface UIState {
+  voiceSearchRequested: boolean;
+  setVoiceSearchRequested: (requested: boolean) => void;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
 
@@ -89,6 +91,8 @@ let toastTimer: ReturnType<typeof setTimeout> | null = null;
 export const useUIStore = create<UIState>()(
   persist(
     (set, get) => ({
+      voiceSearchRequested: false,
+      setVoiceSearchRequested: (requested) => set({ voiceSearchRequested: requested }),
       searchQuery: '',
       setSearchQuery: (query) => set({ searchQuery: query }),
 
