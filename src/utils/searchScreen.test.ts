@@ -160,6 +160,40 @@ describe('photos', () => {
     expect(smallPhoto('https://upload.wikimedia.org/x/330px-a.jpg')).toBe('https://upload.wikimedia.org/x/330px-a.jpg');
     expect(smallPhoto(undefined)).toBeUndefined();
   });
+
+  it('kind tiles show a real shop photo, falling back to emoji only with none', () => {
+    const tiles = exploreTiles('shops', SHOPS, index);
+    const withPhoto = tiles.filter((t) => t.photo);
+    expect(withPhoto.length).toBeGreaterThan(0);
+    // attar, coffee, dairy and stationery demo shops all carry photos
+    const labels = ['عطارة', 'بن وقهوة', 'ألبان', 'مكتبات'];
+    for (const label of labels) {
+      const tile = tiles.find((t) => t.label === label);
+      if (tile) expect(tile.photo, label).toBeTruthy();
+    }
+    // A kind whose shops have no photo keeps its emoji and no broken image
+    const photoless = { ...SHOPS[0], id: 9993, kind: 'florist', name: 'ورد الربيع', description: 'ورد طبيعي', emoji: '🌸', photo: undefined } as unknown as Shop;
+    const floristTile = exploreTiles('shops', [...SHOPS, photoless], buildSearchIndex({ shops: [...SHOPS, photoless], services: SERVICES, providers: PROVIDERS, categories: CATEGORIES })).find((t) => t.key === 'kind-florist');
+    expect(floristTile?.photo).toBeUndefined();
+    expect(floristTile?.emoji).toBeTruthy();
+    for (const tile of tiles) expect(tile.emoji).toBeTruthy();
+  });
+
+  it('kind tiles prefer photos no other tile shows yet', () => {
+    const photos = exploreTiles('shops', SHOPS, index).map((t) => t.photo).filter(Boolean);
+    expect(new Set(photos).size).toBe(photos.length);
+  });
+
+  it('category service tiles show the service image', () => {
+    const tabs = buildSearchTabs(index, CATEGORIES).filter((t) => t.id.startsWith('cat:'));
+    expect(tabs.length).toBeGreaterThan(0);
+    for (const tab of tabs) {
+      const serviceTiles = exploreTiles(tab.id, SHOPS, index).filter((t) => t.key.startsWith('tile-'));
+      for (const tile of serviceTiles) expect(tile.photo ?? tile.emoji, `${tab.label}: ${tile.label}`).toBeTruthy();
+    }
+    const eduTiles = exploreTiles('cat:edu', SHOPS, index);
+    expect(eduTiles.some((t) => t.photo)).toBe(true);
+  });
 });
 
 describe('recent searches', () => {
