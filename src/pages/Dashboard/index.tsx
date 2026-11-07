@@ -1,3 +1,5 @@
+import { contentVisible } from '@/utils/contentProvenance';
+import { useDemoMode } from '@/hooks/useDemoMode';
 import { StockControl } from '@/components/merchant/StockControl';
 import { stockKey, useDemoStock } from '@/components/merchant/demoStock';
 import{useRestockDemo}from'@/components/stock/restockDemo';
@@ -293,6 +295,7 @@ function ShopInfoSection({ shop }: { shop: Shop }) {
 }
 
 function ProductsSection({ shop }: { shop: Shop }) {
+  const showDemo = useDemoMode();
   const restockScope=useAuthStore(s=>s.session?.user.id??'guest');
   const productsState = useCatalogStore((s) => s.products[shop.id]);
   const loadProducts = useCatalogStore((s) => s.loadProducts);
@@ -328,8 +331,8 @@ function ProductsSection({ shop }: { shop: Shop }) {
     );
   }
 
-  const catalogList = productsState ?? [];
-  const customs = overrides?.customProducts ?? [];
+  const catalogList = (productsState ?? []).filter(row => contentVisible(row, showDemo));
+  const customs = (overrides?.customProducts ?? []).filter(row => contentVisible(row, showDemo));
   // Custom products already come back with the list; the unavailable ones the
   // catalog hides from customers get merged back here so the merchant can
   // still manage them.
@@ -571,7 +574,7 @@ function AddProductForm({ shop, sections, onAdded }: { shop: Shop; sections: str
       showToast('⚠️ اكتب سعر صحيح أكبر من صفر');
       return;
     }
-    addCustomProduct(shop.id, {
+    try { addCustomProduct(shop.id, {
       name: name.trim(),
       price: value,
       unit: unit.trim() || 'قطعة',
@@ -579,6 +582,7 @@ function AddProductForm({ shop, sections, onAdded }: { shop: Shop; sections: str
       emoji: emoji.trim() || '📦',
       ...(photo ? { photo } : {}),
     });
+    } catch (error) { showToast(error instanceof Error ? error.message : 'المنتج مااتضافش'); return; }
     void loadProducts(shop, true);
     showToast(`✅ «${name.trim()}» اتضاف لقايمة «${shop.name}»`);
     onAdded();
@@ -819,6 +823,7 @@ function ProProfileSection({ provider }: { provider: Provider }) {
 }
 
 function ProServicesSection({ provider }: { provider: Provider }) {
+  const showDemo = useDemoMode();
   const overrides = useProviderDashboardStore((s) => s.professionals[provider.id]);
   const toggleProService = useProviderDashboardStore((s) => s.toggleProService);
   const addProService = useProviderDashboardStore((s) => s.addProService);
@@ -827,7 +832,7 @@ function ProServicesSection({ provider }: { provider: Provider }) {
   const [price, setPrice] = useState('');
 
   const defaults = defaultServices(provider);
-  const services = overrides && overrides.services.length ? overrides.services : defaults;
+  const services = (overrides && overrides.services.length ? overrides.services : defaults).filter(row => contentVisible(row, showDemo));
 
   return (
     <Section icon="🛠️" title="خدماتي وأسعاري" hint="قفل خدمة مؤقتًا من غير ما تمسحها">
@@ -864,7 +869,8 @@ function ProServicesSection({ provider }: { provider: Provider }) {
               showToast('⚠️ اكتب اسم الخدمة الأول');
               return;
             }
-            addProService(provider.id, name.trim(), price.trim() || 'حسب المعاينة', defaults);
+            try { addProService(provider.id, name.trim(), price.trim() || 'حسب المعاينة', defaults); }
+            catch (error) { showToast(error instanceof Error ? error.message : 'الخدمة مااتضافتش'); return; }
             setName('');
             setPrice('');
             showToast(`✅ اتضافت «${name.trim()}» لخدماتك`);

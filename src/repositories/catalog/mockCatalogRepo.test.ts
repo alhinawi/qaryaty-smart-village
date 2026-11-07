@@ -1,3 +1,4 @@
+import { setDemoModeFlag } from '@/config/demoMode';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { createMockCatalogRepo } from './mockCatalogRepo';
 import { useProviderDashboardStore } from '@/stores/useProviderDashboardStore';
@@ -13,7 +14,7 @@ const add = (input: { name: string; photo?: string; available?: boolean }) => {
 };
 
 describe('mock catalog: a custom product shows to customers only with a photo; unavailable stays visible', () => {
-  beforeEach(() => useProviderDashboardStore.setState({ merchants: {}, professionals: {} }));
+  beforeEach(() => { setDemoModeFlag(true); useProviderDashboardStore.setState({ merchants: {}, professionals: {} }); });
 
   it('hides a saved product that has no photo yet', async () => {
     add({ name: 'منتج من غير صورة' });

@@ -1,3 +1,4 @@
+import { creationDemoFlag } from '@/utils/contentProvenance';
 import { appendIllustrativeRestaurantItems } from '@/data/restaurantMenuExtras';
 import { appendIllustrativeShops } from '@/data/illustrativeShops';
 import { appendDemoPharmacies, demoPharmacyMenu } from '@/data/demoPharmacies';
@@ -159,6 +160,7 @@ export function serviceFromRow(row: ServiceRow): Service {
 
 export function shopFromRow(row: ShopRow): Shop {
   return shopPresentation(restaurantPresentation({
+    demo: row.is_demo === true,
     id: row.id,
     emoji: row.emoji,
     name: row.name,
@@ -179,6 +181,7 @@ export function shopFromRow(row: ShopRow): Shop {
 
 export function providerFromRow(row: ProviderRow): Provider {
   return withProviderPortrait({
+    demo: row.is_demo === true,
     id: row.id,
     kind: row.kind,
     serviceId: row.service_id,
@@ -269,11 +272,13 @@ export function createSupabaseCatalogRepo(
     },
 
     async addShop(input: NewShopInput) {
+      const demo = creationDemoFlag();
       const supabase = await getClient();
       // ids are assigned by the app (the column has no sequence)
       const { data: maxRow } = await supabase.from('shops').select('id').order('id', { ascending: false }).limit(1);
       const id = ((maxRow?.[0] as { id: number } | undefined)?.id ?? 0) + 1;
       const base = {
+        is_demo: demo,
         id,
         name: input.name,
         kind: input.kind,
@@ -298,10 +303,12 @@ export function createSupabaseCatalogRepo(
     },
 
     async addProvider(input: NewProviderInput) {
+      const demo = creationDemoFlag();
       const supabase = await getClient();
       const { data: maxRow } = await supabase.from('providers').select('id').order('id', { ascending: false }).limit(1);
       const id = ((maxRow?.[0] as { id: number } | undefined)?.id ?? 0) + 1;
       const base = {
+        is_demo: demo,
         id,
         name: input.name,
         kind: input.kind,

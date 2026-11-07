@@ -1,10 +1,11 @@
+import { creationDemoFlag, contentVisible } from '@/utils/contentProvenance';
 // ─── Catalog from the sample data in src/data (no network)
 // Demo mode also reflects the provider dashboard's localStorage edits, so what
 // a merchant changes on this device shows to customers on this device: closed
 // products hide, price/photo changes show, and custom products join the list.
 // The bundled sample data (SHOPS/SERVICES/PROVIDERS/catalog products) is demo
 // content: showDemo()=false hides it, while records added on this device
-// (localStorage) stay — they play the role of real rows, mirroring is_demo.
+// (localStorage) keep their creation-time demo tag. Untagged legacy rows stay.
 import { productsForShop } from '@/data/catalog';
 import { isDemoMode } from '@/config/demoMode';
 import { PROVIDERS } from '@/data/providers';
@@ -38,12 +39,12 @@ export function createMockCatalogRepo(showDemo: () => boolean = isDemoMode): Cat
       const merchants = useProviderDashboardStore.getState().merchants;
       const withPhoto = (shop: Shop) =>
         merchants[shop.id]?.photo ? { ...shop, photo: merchants[shop.id].photo } : shop;
-      return [...(showDemo() ? SHOPS : []).map(withPhoto), ...readAdded<Shop>(ADDED_SHOPS_KEY).map(withPhoto)];
+      return [...(showDemo() ? SHOPS : []).map(withPhoto), ...readAdded<Shop>(ADDED_SHOPS_KEY).filter(row => contentVisible(row, showDemo())).map(withPhoto)];
     },
 
     getProviders: async () => [
       ...(showDemo() ? PROVIDERS.filter((provider) => provider.active) : []),
-      ...readAdded<Provider>(ADDED_PROVIDERS_KEY),
+      ...readAdded<Provider>(ADDED_PROVIDERS_KEY).filter(row => contentVisible(row, showDemo())),
     ],
 
     getProducts: async (shop) => {
@@ -63,10 +64,11 @@ export function createMockCatalogRepo(showDemo: () => boolean = isDemoMode): Cat
       // a photo: the merchant may save the data now and add the photo later,
       // and it shows itself the moment the photo lands.
       const customs = (merchant?.customProducts ?? [])
-        .filter((c) => c.photo)
+        .filter((c) => c.photo && contentVisible(c, showDemo()))
         .map(
           (c): Product => ({
             id: c.id,
+            demo: c.demo,
             name: c.name,
             emoji: c.emoji,
             photo: c.photo,
@@ -84,6 +86,7 @@ export function createMockCatalogRepo(showDemo: () => boolean = isDemoMode): Cat
     addShop: async (input: NewShopInput) => {
       const added = readAdded<Shop>(ADDED_SHOPS_KEY);
       const shop: Shop = {
+        demo: creationDemoFlag(),
         id: nextAddedId(added),
         name: input.name,
         kind: input.kind,
@@ -100,6 +103,7 @@ export function createMockCatalogRepo(showDemo: () => boolean = isDemoMode): Cat
     addProvider: async (input: NewProviderInput) => {
       const added = readAdded<Provider>(ADDED_PROVIDERS_KEY);
       const provider: Provider = {
+        demo: creationDemoFlag(),
         id: nextAddedId(added),
         kind: input.kind,
         serviceId: input.serviceId,
