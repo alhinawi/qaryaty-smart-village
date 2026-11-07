@@ -17,3 +17,6 @@ Verified demo shop menu uses account-scoped local offer storage and demoOnly car
 
 ### Search integration follow-up
 Global product search now applies the same percentage calculator, current/original price and30second refresh; offers read all pages of1000rows instead of silently limiting pricing to homepage20. Homepage still displays first20. Browser390/320 after actual local receipt: search milk shows36 and before45. Existing search base index still comes from static catalog mappings, not a complete dynamic server index; changed base prices/new custom products can still be stale or absent in search. Server checkout remains authoritative and rejects mismatch. A complete live search index is separate work, not claimed solved here.
+
+### Automatic stock follow-up
+Imports same demoStock state/model as92ce802 unchanged. New local cart orders now progress pending->confirmed->onway->done with verified demo only. The final transition atomically deducts all product quantities once, scoped by account/cart-orderID. Insufficient inventory blocks final transition; cancellation before done is terminal and consumes nothing. Same session reload remains idempotent. Browser390/320: milk stock3->2 after quantity1 delivery, reload stays2. No live stock changes. When merging92ce802, retain identical demoStock files and its merchant quantity UI/sample-history component.
