@@ -2,13 +2,17 @@
 import { useUIStore } from '@/stores/useUIStore';
 import { useGoToTab } from '@/hooks/useTabNavigation';
 
+// ─── Demo card: the order's display name stays in one place so the title and
+// the tracking toast never drift apart.
+const ORDER_NAME = 'حامد العيش';
+
 // ─── Component
 export function LiveOrderBanner() {
   const setActiveTab = useGoToTab();
   const showToast = useUIStore((state) => state.showToast);
 
   const handleTrackClick = () => {
-    showToast('📍 جاري تتبع طلب حامد العيش...');
+    showToast(`📍 جاري تتبع طلب ${ORDER_NAME}...`);
     setActiveTab('orders');
   };
 
@@ -19,7 +23,7 @@ export function LiveOrderBanner() {
       </div>
       <div className="flex-1">
         <div className="flex items-center gap-2 mb-1 flex-wrap">
-          <span className="text-sm font-extrabold text-text">طلب حامد العيش شغال دلوقتي</span>
+          <span className="text-sm font-extrabold text-text">استلم {ORDER_NAME} وفي الطريق ليك</span>
           <span className="inline-flex items-center gap-1 bg-danger text-white text-[11px] font-extrabold px-2 py-0.5 rounded-xl">
             <span className="w-1.5 h-1.5 rounded-sm bg-white" /> مباشر
           </span>
