@@ -116,8 +116,8 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
     <Modal isOpen onClose={close} title={shop.name} emoji={shop.emoji} maxWidth="640px">
       <div dir="rtl" className="text-right">
         {!shop.demo && isShopBusy(shop) && (
-          <p className="text-[12px] font-bold text-amber-700 bg-amber-50 rounded-lg px-3 py-2 mb-2">
-            🟠 المحل مشغول دلوقتي — طلبك هيتسجل عادي بس التحضير هياخد وقت أطول من المعتاد.
+          <p className="text-[12px] font-bold text-[#92400e] bg-[#fffbeb] border border-[#e7cd7a] rounded-lg px-3 py-2 mb-2">
+            🕐 المحل مشغول — التحضير هياخد وقت أطول من المعتاد
           </p>
         )}
         {shop.demo && (
