@@ -8,7 +8,6 @@ import {
   RIDE_KINDS,
   TIME_WINDOWS,
   filterRides,
-  hasRideFilters,
   rideVillages,
   type RideFilters,
 } from '@/config/rides';
@@ -163,11 +162,7 @@ export default function RidesPage() {
           <button type="button" className={chip(f.today)} aria-pressed={f.today} onClick={() => set('today', !f.today)}>
             📅 طالعين النهارده
           </button>
-          {hasRideFilters(f) && (
-            <button type="button" className={`${chip(false)} !text-[#b42318]`} onClick={() => setF(EMPTY_RIDE_FILTERS)}>
-              ✖ امسح الفلاتر
-            </button>
-          )}
+
         </div>
       </section>
 
