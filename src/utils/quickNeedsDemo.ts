@@ -18,4 +18,4 @@ export function demoOpenNow(shop: Pick<Shop, 'id' | 'kind' | 'open'>, now: Date,
 }
 /** Not a location or driver feed. No driver identity or phone is fabricated. */
 export function demoRiderAvailable(now: Date): boolean { return cairoMinute(now) >= 7 * 60; }
-export function demoHoursLabel(shop: Pick<Shop, 'id' | 'kind'>): string { return demoHours(shop).allDay ? '٢٤ ساعة' : shop.kind === 'pharmacy' ? '٩ صباحًا - ٢ صباحًا' : '٧ صباحًا - ١٢ بالليل'; }
+export function demoHoursLabel(shop: Pick<Shop, 'id' | 'kind'>): string { return demoHours(shop).allDay ? '24 ساعة' : shop.kind === 'pharmacy' ? '9 صباحًا - 2 صباحًا' : '7 صباحًا - 12 بالليل'; }
