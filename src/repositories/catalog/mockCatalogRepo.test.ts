@@ -12,7 +12,7 @@ const add = (input: { name: string; photo?: string; available?: boolean }) => {
   return p;
 };
 
-describe('mock catalog: a custom product shows to customers only when available with a photo', () => {
+describe('mock catalog: a custom product shows to customers only with a photo; unavailable stays visible', () => {
   beforeEach(() => useProviderDashboardStore.setState({ merchants: {}, professionals: {} }));
 
   it('hides a saved product that has no photo yet', async () => {
@@ -30,9 +30,10 @@ describe('mock catalog: a custom product shows to customers only when available 
     expect(products?.some((x) => x.id === p.id)).toBe(true);
   });
 
-  it('hides an unavailable product even with a photo', async () => {
+  it('keeps a photographed unavailable product visible with ordering disabled', async () => {
     const p = add({ name: 'منتج مقفول', photo: 'data:image/jpeg;base64,x', available: false });
     const products = await createMockCatalogRepo().getProducts(shop);
-    expect(products?.some((x) => x.id === p.id)).toBe(false);
+    expect(products?.find((x) => x.id === p.id)?.available).toBe(false);
+    expect(products?.some((x) => x.id === p.id)).toBe(true);
   });
 });
