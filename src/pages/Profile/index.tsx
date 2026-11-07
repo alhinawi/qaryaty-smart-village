@@ -1,3 +1,4 @@
+
 // ─── Imports
 import React, { useEffect, useRef, useState } from 'react';
 import { useUserStore } from '@/stores/useUserStore';
@@ -174,6 +175,7 @@ export default function ProfilePage() {
 
   return (
     <div className="profile-page-container">
+      <Link to="/settings" className="flex justify-between items-center rounded-2xl bg-white border border-green/15 p-4 my-3 text-green font-bold">الإعدادات <span aria-hidden="true">‹</span></Link>
       {/* Profile Header */}
       <div className="bg-linear-to-br from-green-dark to-green text-white rounded-2xl p-6 flex items-center gap-5 mb-6" dir="rtl">
         <button
