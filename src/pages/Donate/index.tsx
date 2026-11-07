@@ -1,3 +1,4 @@
+import { HandHeart } from 'lucide-react';
 // ─── باب الخير (/donate): causes and village organizations to give to
 // The causes, their contacts and payment details live in src/config/donations.ts.
 import { useEffect, useState } from "react";
@@ -245,7 +246,7 @@ export default function DonatePage() {
               onClick={() => openForm("")}
               className="mt-4 inline-flex items-center justify-center gap-2 min-h-[44px] px-5 rounded-xl bg-gold text-black font-extrabold text-[0.9375rem] cursor-pointer border-0 font-['Cairo',sans-serif] transition-transform duration-200 hover:scale-105"
             >
-              عايز أتبرع ⬅️
+              عايز أتبرع <HandHeart size={19} aria-hidden="true" className="inline-block align-middle" />
             </button>
           </div>
         </div>
