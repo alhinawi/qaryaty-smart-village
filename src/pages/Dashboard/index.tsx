@@ -1,3 +1,6 @@
+import { StockControl } from '@/components/merchant/StockControl';
+import { stockKey, useDemoStock } from '@/components/merchant/demoStock';
+import { useTrackingDemoMode } from '@/hooks/useTrackingDemoMode';
 // ─── Provider dashboard: one place for a merchant or an independent
 // professional to run their side of Qaryati. Admins only (the owner appoints
 // them); edits stay on the device, nothing here is live for customers yet.
@@ -372,6 +375,7 @@ function ProductsSection({ shop }: { shop: Shop }) {
                     <ProductRow
                       key={p.id}
                       product={p}
+                      shopId={shop.id}
                       photo={custom.photo}
                       available={custom.available}
                       price={custom.price}
@@ -406,6 +410,7 @@ function ProductsSection({ shop }: { shop: Shop }) {
                   <ProductRow
                     key={p.id}
                     product={p}
+                      shopId={shop.id}
                     photo={overrides?.products[p.id]?.photo}
                     available={overrides?.products[p.id]?.available ?? true}
                     price={overrides?.products[p.id]?.price ?? p.price}
@@ -434,6 +439,7 @@ function ProductsSection({ shop }: { shop: Shop }) {
 
 function ProductRow({
   product,
+  shopId,
   photo,
   available,
   price,
@@ -444,6 +450,7 @@ function ProductRow({
   onRemove,
 }: {
   product: Product;
+  shopId: number;
   photo?: string;
   available: boolean;
   price: number;
@@ -456,6 +463,11 @@ function ProductRow({
 }) {
   const showToast = useUIStore((s) => s.showToast);
   const [draft, setDraft] = useState(String(price));
+  const demo=useTrackingDemoMode();
+  const scope=useAuthStore(s=>s.session?.user.id??'guest');
+  const key=stockKey(scope,shopId,product.id);
+  const count=useDemoStock(s=>s.counts[key]);
+  const effectiveAvailable=available&&(!demo||count!==0);
 
   const commit = () => {
     const next = Number(draft);
@@ -467,7 +479,7 @@ function ProductRow({
   };
 
   return (
-    <li className={`min-w-0 p-2.5 rounded-xl border ${available ? 'border-[rgba(26,122,74,0.12)] bg-cream/30' : 'border-gray-200 bg-gray-50 opacity-70'}`}>
+    <li className={`min-w-0 p-2.5 rounded-xl border ${effectiveAvailable ? 'border-[rgba(26,122,74,0.12)] bg-cream/30' : 'border-gray-200 bg-gray-50'}`}>
       <div className="flex items-start gap-2.5">
         <ProductPhoto photo={photo ?? product.photo} emoji={product.emoji} className="w-11 h-11 rounded-lg shrink-0" />
         <div className="flex-1 min-w-0">
@@ -515,13 +527,14 @@ function ProductRow({
           />
         </div>
         <Toggle
-          checked={available}
-          onChange={onToggle}
+          checked={effectiveAvailable}
+          onChange={next=>{if(demo&&count===0&&next){showToast('زوّد كمية المخزون الأول علشان الصنف يرجع متاح.');return;}onToggle(next);}}
           labelOn="متاح"
           labelOff="خلص"
           ariaLabel={`توفر ${product.name}`}
         />
       </div>
+      {demo&&<StockControl key={key} stockKey={key} name={product.name} unit={product.unit} step={product.step||1}/>}
     </li>
   );
 }
@@ -807,7 +820,7 @@ function ProServicesSection({ provider }: { provider: Provider }) {
     <Section icon="🛠️" title="خدماتي وأسعاري" hint="قفل خدمة مؤقتًا من غير ما تمسحها">
       <ul className="m-0 p-0 list-none grid grid-cols-1 gap-2 mb-3">
         {services.map((svc) => (
-          <li key={svc.id} className={`flex min-w-0 items-center gap-2.5 p-2.5 rounded-xl border ${svc.active ? 'border-[rgba(26,122,74,0.12)] bg-cream/30' : 'border-gray-200 bg-gray-50 opacity-70'}`}>
+          <li key={svc.id} className={`flex min-w-0 items-center gap-2.5 p-2.5 rounded-xl border ${svc.active ? 'border-[rgba(26,122,74,0.12)] bg-cream/30' : 'border-gray-200 bg-gray-50'}`}>
             <div className="flex-1 min-w-0">
               <p className="text-[13px] font-extrabold text-text m-0 leading-snug">{svc.name}</p>
               <p className="text-[11px] text-text-muted m-0">{svc.price}</p>
