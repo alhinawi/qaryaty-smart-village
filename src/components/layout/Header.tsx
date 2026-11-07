@@ -95,7 +95,6 @@ export function Header() {
           <a
             className="flex items-center gap-2 sm:gap-3 min-w-0 select-none cursor-pointer"
             href={ROUTES.home}
-            aria-label="قريتي - الرئيسية"
           >
             <div
               className="w-[44px] h-[44px] bg-gold rounded-xl flex items-center justify-center text-[24px] shrink-0"
@@ -152,7 +151,7 @@ export function Header() {
               </span>
 
               {unreadCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-gold text-black rounded-xl w-[18px] h-[18px] text-[10px] font-extrabold flex items-center justify-center">
+                <span aria-hidden="true" className="absolute -top-1 -right-1 bg-gold text-black rounded-xl w-[18px] h-[18px] text-[10px] font-extrabold flex items-center justify-center">
                   {unreadCount}
                 </span>
               )}
@@ -171,7 +170,7 @@ export function Header() {
               </span>
 
               {totalCartCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-gold text-black rounded-xl w-[18px] h-[18px] text-[10px] font-extrabold flex items-center justify-center">
+                <span aria-hidden="true" className="absolute -top-1 -right-1 bg-gold text-black rounded-xl w-[18px] h-[18px] text-[10px] font-extrabold flex items-center justify-center">
                   {totalCartCount}
                 </span>
               )}
@@ -225,7 +224,7 @@ export function Header() {
             onFocus={() => void preloadSearchScreen()}
             aria-haspopup="dialog"
             aria-expanded={isSearchOpen}
-            aria-label={searchQuery ? `البحث: ${searchQuery}` : "البحث عن خدمة أو محل"}
+            aria-label={searchQuery ? `البحث: ${searchQuery}` : "دور على خدمة أو محل (مثل: عيش، سباك، شوي سمك)..."}
             className="flex-1 min-w-0 flex items-center gap-2.5 bg-white/14 rounded-xl ps-3.5 pe-22 py-2.25 min-h-[44px] border border-white/22 text-start cursor-pointer font-['Cairo',sans-serif] text-[0.9375rem] transition-colors duration-200 hover:bg-white/20 hover:border-white/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-light"
           >
             <Search size={18} strokeWidth={2.5} className="text-white/85 shrink-0" aria-hidden="true" />
