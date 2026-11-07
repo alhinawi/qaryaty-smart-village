@@ -37,6 +37,7 @@ import {
 import { KIND_FILTER_LABELS } from '@/utils/peopleSections';
 import { formatCurrency } from '@/utils/helpers';
 import { formatOpeningHours, HOUR_OPTIONS, parseOpeningHours } from '@/utils/openingHours';
+import { saveShopBasics } from '@/repositories';
 import type { Product, Provider, Shop } from '@/types';
 import { Section, Toggle, Field, PhotoButton, EmojiPickerField } from './parts';
 
@@ -147,6 +148,13 @@ function ShopInfoSection({ shop }: { shop: Shop }) {
   const setShopDescription = useProviderDashboardStore((s) => s.setShopDescription);
   const setShopPhoto = useProviderDashboardStore((s) => s.setShopPhoto);
   const showToast = useUIStore((s) => s.showToast);
+  // Best-effort server sync (live mode): the device mirror saves first, and a
+  // failed sync says so instead of pretending. No-op when Supabase isn't configured.
+  const syncBasics = (update: Parameters<typeof saveShopBasics>[1]) => {
+    void saveShopBasics(shop.id, update).catch(() => {
+      showToast('⚠️ اتحفظ على الجهاز بس — التعديل على السيرفر ماتحفظش');
+    });
+  };
 
   // Keyed by shop id in the parent: switching shops remounts with that shop's values
   const open = overrides?.open ?? shop.open;
@@ -182,6 +190,7 @@ function ShopInfoSection({ shop }: { shop: Shop }) {
           checked={open}
           onChange={(next) => {
             setShopOpen(shop.id, next);
+            syncBasics({ open: next });
             showToast(next ? `✅ «${shop.name}» بقى مفتوح للطلبات` : `⏸️ «${shop.name}» اتقفل مؤقتًا`);
           }}
           labelOn="مفتوح"
@@ -198,6 +207,7 @@ function ShopInfoSection({ shop }: { shop: Shop }) {
           checked={busy}
           onChange={(next) => {
             setShopBusy(shop.id, next, null);
+            syncBasics({ busy: next, busyUntil: null });
             showToast(next ? '🟠 «' + shop.name + '» بقى مشغول — العملاء هيشوفوا تنبيه' : '✅ «' + shop.name + '» بقى فاضي');
           }}
           labelOn="مشغول"
@@ -220,6 +230,7 @@ function ShopInfoSection({ shop }: { shop: Shop }) {
                 onClick={() => {
                   const until = opt.mins === 0 ? null : new Date(Date.now() + opt.mins * 60000).toISOString();
                   setShopBusy(shop.id, true, until);
+                  syncBasics({ busy: true, busyUntil: until });
                   showToast(opt.mins === 0 ? '🟠 مشغول لحد ما تقفلها بنفسك' : `🟠 مشغول — هتتشال تلقائي بعد ${opt.label}`);
                 }}
                 className={`text-[12px] font-bold px-3 py-1.5 rounded-full border cursor-pointer ${active ? 'bg-amber-500 text-white border-amber-500' : 'bg-white text-text-muted border-gray-200'}`}
@@ -274,6 +285,7 @@ function ShopInfoSection({ shop }: { shop: Shop }) {
             onClick={() => {
               setShopHours(shop.id, hoursText);
               setShopDescription(shop.id, description.trim());
+              syncBasics({ hours: hoursText, description: description.trim() });
               showToast('✅ اتحفظت بيانات المحل (على جهازك في المعاينة)');
             }}
           >
