@@ -8,7 +8,7 @@ export const HERO_SLIDES = [
   { id: 'plumbing', serviceId: 6, eyebrow: 'سباك', title: 'نقطة الميه تفرق', line: 'اختار سباك من أهل القرية', cta: 'شوف السباكين' },
   { id: 'electrician', serviceId: 12, eyebrow: 'كهربائي', title: 'لشغل الكهربا', line: 'اختار الكهربائي المناسب', cta: 'شوف الكهربائيين' },
   { id: 'carpenter', serviceId: 7, eyebrow: 'نجار', title: 'خشبك في إيد صاحبه', line: 'شوف نجارين قريتك وشغلهم', cta: 'شوف النجارين' },
-  { id: 'supermarket', serviceId: 3, eyebrow: 'سوبر ماركت', title: 'ناقصك حاجة؟', line: 'طلبات البقالة واحتياجات البيت', cta: 'شوف السوبر ماركت' },
+  { id: 'supermarket', serviceId: 3, eyebrow: 'مرسول', title: 'عايز توصّل حاجة؟', line: 'المندوب يجيلك لحد باب البيت ويوصّلهالك', cta: 'اطلب مرسول' },
   { id: 'cleaning', serviceId: 30, eyebrow: 'عامل / عاملة نظافة', title: 'بيت أروق ليك', line: 'شوف خدمات نظافة البيت', cta: 'شوف خدمة النظافة' },
   { id: 'homefood', serviceId: 13, eyebrow: 'أكل بيتي', title: 'طعم البيت عندنا', line: 'أكل بيتي من أهل قريتك', cta: 'شوف الأكل البيتي' },
 ] as const;

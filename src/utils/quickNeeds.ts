@@ -45,5 +45,5 @@ export function quickNeedShops(shops: Shop[], need: QuickNeed): Shop[] {
     : shop.kind === 'grocery').slice(0, 4);
 }
 export function quickNeedServices(services: Service[], need: QuickNeed): Service[] {
-  return need === 'delivery' ? services.filter(service => service.cat === 'delivery' && /توصيل|سوبر ماركت|توكتوك/.test(service.name)).slice(0, 4) : [];
+  return need === 'delivery' ? services.filter(service => service.cat === 'delivery' && /توصيل|مرسول|سوبر ماركت|توكتوك/.test(service.name)).slice(0, 4) : [];
 }
