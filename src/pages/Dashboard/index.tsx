@@ -139,6 +139,11 @@ function ShopInfoSection({ shop }: { shop: Shop }) {
   const open = overrides?.open ?? shop.open;
   const busy = overrides?.busy ?? false;
   const busyUntil = overrides?.busyUntil ?? null;
+  const [displayNow, setDisplayNow] = useState(() => Date.now());
+  useEffect(() => {
+    const timer = window.setInterval(() => setDisplayNow(Date.now()), 30000);
+    return () => window.clearInterval(timer);
+  }, []);
   const parsed = parseOpeningHours(overrides?.hours ?? shop.time);
   const [allDay, setAllDay] = useState(parsed.allDay);
   const [fromHour, setFromHour] = useState(parsed.from);
@@ -194,7 +199,7 @@ function ShopInfoSection({ shop }: { shop: Shop }) {
             { label: 'ساعة', mins: 60 },
             { label: 'لحد ما أقفلها', mins: 0 },
           ].map((opt) => {
-            const active = opt.mins === 0 ? busyUntil === null : busyUntil !== null && Math.abs(new Date(busyUntil).getTime() - Date.now() - opt.mins * 60000) < 5 * 60000;
+            const active = opt.mins === 0 ? busyUntil === null : busyUntil !== null && Math.abs(new Date(busyUntil).getTime() - displayNow - opt.mins * 60000) < 5 * 60000;
             return (
               <button
                 key={opt.label}

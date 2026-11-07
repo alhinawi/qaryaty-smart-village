@@ -35,7 +35,6 @@ export function AccountPicker({
 
   useEffect(() => {
     if (!open) return;
-    setQuery('');
     // Focus after the sheet settles so the mobile keyboard opens with it.
     // 16px font on the input keeps iOS/Android from zooming on focus.
     const t = setTimeout(() => inputRef.current?.focus({ preventScroll: true }), 60);
@@ -52,7 +51,7 @@ export function AccountPicker({
       <span className="block text-[12px] font-bold text-text-muted mb-1">{label}</span>
       <button
         type="button"
-        onClick={() => setOpen(true)}
+        onClick={() => { setQuery(''); setOpen(true); }}
         aria-haspopup="dialog"
         className="w-full min-h-[44px] px-3 rounded-xl border border-[rgba(26,122,74,0.25)] bg-cream/40 text-[14px] font-bold text-text focus:outline-none focus:border-green flex items-center justify-between gap-2"
       >
