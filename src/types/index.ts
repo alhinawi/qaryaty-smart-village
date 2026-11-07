@@ -387,6 +387,8 @@ export interface UserProfile {
   village: string;
   rewardPoints: number;
   memberSince: string;
+  /** Profile photo. A data URL on the device for guests, a storage URL for accounts. */
+  avatarUrl?: string;
 }
 
 // ─── Auth
@@ -408,6 +410,8 @@ export interface AuthUser {
   role: UserRole;
   blocked: boolean;
   createdAt: string;
+  /** Profile photo URL. Empty when the customer never picked one. */
+  avatarUrl?: string;
 }
 
 export interface AuthSession {
