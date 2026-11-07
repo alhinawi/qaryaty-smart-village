@@ -2,7 +2,11 @@
 // Demo mode also reflects the provider dashboard's localStorage edits, so what
 // a merchant changes on this device shows to customers on this device: closed
 // products hide, price/photo changes show, and custom products join the list.
+// The bundled sample data (SHOPS/SERVICES/PROVIDERS/catalog products) is demo
+// content: showDemo()=false hides it, while records added on this device
+// (localStorage) stay — they play the role of real rows, mirroring is_demo.
 import { productsForShop } from '@/data/catalog';
+import { isDemoMode } from '@/config/demoMode';
 import { PROVIDERS } from '@/data/providers';
 import { SERVICES } from '@/data/services';
 import { SHOPS } from '@/data/shops';
@@ -26,24 +30,24 @@ const writeAdded = <T>(key: string, list: T[]) => localStorage.setItem(key, JSON
 const nextAddedId = (existing: Array<{ id: number }>) =>
   Math.max(900_000, ...existing.map((r) => r.id + 1), 900_000);
 
-export function createMockCatalogRepo(): CatalogRepo {
+export function createMockCatalogRepo(showDemo: () => boolean = isDemoMode): CatalogRepo {
   return {
-    getServices: async () => SERVICES.filter((service) => !service.hidden),
+    getServices: async () => (showDemo() ? SERVICES.filter((service) => !service.hidden) : []),
 
     getShops: async () => {
       const merchants = useProviderDashboardStore.getState().merchants;
       const withPhoto = (shop: Shop) =>
         merchants[shop.id]?.photo ? { ...shop, photo: merchants[shop.id].photo } : shop;
-      return [...SHOPS.map(withPhoto), ...readAdded<Shop>(ADDED_SHOPS_KEY).map(withPhoto)];
+      return [...(showDemo() ? SHOPS : []).map(withPhoto), ...readAdded<Shop>(ADDED_SHOPS_KEY).map(withPhoto)];
     },
 
     getProviders: async () => [
-      ...PROVIDERS.filter((provider) => provider.active),
+      ...(showDemo() ? PROVIDERS.filter((provider) => provider.active) : []),
       ...readAdded<Provider>(ADDED_PROVIDERS_KEY),
     ],
 
     getProducts: async (shop) => {
-      const base = productsForShop(shop) ?? [];
+      const base = showDemo() ? (productsForShop(shop) ?? []) : [];
       const merchant = useProviderDashboardStore.getState().merchants[shop.id];
       const overridden = base.map((product) => {
         const edit = merchant?.products[product.id];
