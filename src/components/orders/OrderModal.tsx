@@ -332,7 +332,7 @@ export function OrderModal({
               <label htmlFor="modalNotes">📝 ملاحظات إضافية (اختياري)</label>
               <textarea
                 id="modalNotes"
-                placeholder="اكتب أي تفاصيل إضافية هنا لتسهيل الوصول..."
+                placeholder="مثلاً: بدون بصل، أو الشطة على جنب، أو كلمني قبل الوصول"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={2}
