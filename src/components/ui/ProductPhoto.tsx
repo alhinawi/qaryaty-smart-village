@@ -1,3 +1,4 @@
+import { ImagePlaceholder } from './ImagePlaceholder';
 // ─── Imports
 import { useState } from 'react';
 
@@ -6,28 +7,20 @@ interface ProductPhotoProps {
   emoji: string;
   /** Tailwind size and shape classes for the box. */
   className?: string;
-  /** Emoji size when there is no photo. */
+  /** Legacy compatibility only; missing photos always use a neutral icon. */
   emojiClassName?: string;
 }
 
 // ─── Component
-/** The product's photo, or its emoji when it has none or the photo fails to load. */
+/** The product photo, or a neutral placeholder when missing or broken. */
 export function ProductPhoto({
   photo,
-  emoji,
   className = 'w-11 h-11 rounded-lg',
-  emojiClassName = 'text-[28px]',
 }: ProductPhotoProps) {
-  const [failed, setFailed] = useState(false);
+  const [failedPhoto, setFailedPhoto] = useState<string>();
 
-  if (!photo || failed) {
-    return (
-      <div className={`${className} shrink-0 flex items-center justify-center bg-gray-50 ${emojiClassName}`}>
-        <span role="img" aria-hidden="true">
-          {emoji}
-        </span>
-      </div>
-    );
+  if (!photo || failedPhoto === photo) {
+    return <ImagePlaceholder className={`${className} shrink-0`} />;
   }
 
   return (
@@ -38,7 +31,7 @@ export function ProductPhoto({
       decoding="async"
       referrerPolicy="no-referrer"
       className={`${className} shrink-0 object-cover bg-gray-50`}
-      onError={() => setFailed(true)}
+      onError={() => setFailedPhoto(photo)}
     />
   );
 }

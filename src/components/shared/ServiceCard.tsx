@@ -1,3 +1,4 @@
+import { ImagePlaceholder } from '@/components/ui/ImagePlaceholder';
 // ─── Imports
 
 import React, { useState } from "react";
@@ -120,7 +121,7 @@ export const ServiceCard = React.memo(function ServiceCard({
             className="w-full h-full object-cover object-center"
           />
         ) : (
-          <span role="img" aria-hidden="true">{service.emoji}</span>
+          <ImagePlaceholder className="w-full h-full" />
         )}
 
         {/* Favorite Heart Button */}
