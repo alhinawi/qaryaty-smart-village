@@ -42,7 +42,7 @@ function normalize(text: string): string {
 }
 
 // ─── One line's add button or quantity stepper
-function LineControl({ shop, product, grill, label }: { shop: Shop; product: Product; grill: boolean; label: string }) {
+export function LineControl({ shop, product, grill, label }: { shop: Shop; product: Product; grill: boolean; label: string }) {
   const trackingDemo=useTrackingDemoMode();
   const item = useMemo(
     () => cartItemFromProduct(shop, product, grill ? { pricePerKilo: GRILL_PRICE_PER_KILO } : undefined),
