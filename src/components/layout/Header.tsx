@@ -90,7 +90,7 @@ export function Header() {
   ];
 
   return (
-    <header className="bg-linear-to-br from-green-dark to-green sticky top-0 z-100 shadow-card w-full">
+    <header className="keep-palette-off bg-linear-to-br from-green-dark to-green sticky top-0 z-100 shadow-card w-full">
       <div className="w-[min(100%-1.5rem,1200px)] mx-auto py-3">
         {/* Top Section */}
         <div className="flex items-center justify-between gap-2 sm:gap-4">

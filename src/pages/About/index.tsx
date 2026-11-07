@@ -242,7 +242,7 @@ export default function AboutPage() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="كلمنا على واتساب (بيفتح في صفحة جديدة)"
-              className="inline-flex items-center justify-center gap-2 min-h-[44px] px-5 rounded-xl bg-[#25D366] text-white font-extrabold text-[0.9375rem] transition-transform duration-200 hover:scale-105"
+              className="inline-flex items-center justify-center gap-2 min-h-[44px] px-5 rounded-xl bg-[#075E54] text-white font-extrabold text-[0.9375rem] transition-transform duration-200 hover:scale-105"
             >
               <WhatsAppIcon className="w-5 h-5" />
               كلمنا على واتساب
@@ -263,7 +263,7 @@ export default function AboutPage() {
         className="flex items-center justify-between gap-3 bg-white rounded-2xl p-5 shadow-card mb-6 min-h-[44px] transition-colors hover:bg-cream"
       >
         <span className="flex items-center gap-3">
-          <span className="w-[42px] h-[42px] bg-[#25D366] text-white rounded-xl flex items-center justify-center shrink-0">
+          <span className="w-[42px] h-[42px] bg-[#075E54] text-white rounded-xl flex items-center justify-center shrink-0">
             <WhatsAppIcon className="w-6 h-6" />
           </span>
           <span>
