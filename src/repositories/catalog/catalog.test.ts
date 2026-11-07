@@ -1,3 +1,4 @@
+import { appendIllustrativeRestaurantItems } from '@/data/restaurantMenuExtras';
 import { catalogProductPhoto } from '@/config/catalogImages';
 import { describe, expect, it } from 'vitest';
 import { SHOPS } from '@/data/shops';
@@ -41,7 +42,7 @@ describe('shop menus through the repository', () => {
   it('mock repo returns each restaurant menu and nothing for shops without a list', async () => {
     const repo = createMockCatalogRepo();
     for (const shop of RESTAURANTS) {
-      expect(await repo.getProducts(shop)).toEqual(MENUS[shop.id].map((p) => catalogProductPhoto(`restaurant:${shop.id}`, p)));
+      expect(await repo.getProducts(shop)).toEqual(appendIllustrativeRestaurantItems(shop, MENUS[shop.id].map((p) => catalogProductPhoto(`restaurant:${shop.id}`, p))));
     }
     expect(await repo.getProducts({ id: 999, kind: 'other' })).toBeNull();
   });

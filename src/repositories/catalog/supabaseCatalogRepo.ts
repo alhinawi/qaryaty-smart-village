@@ -1,3 +1,4 @@
+import { appendIllustrativeRestaurantItems } from '@/data/restaurantMenuExtras';
 import { appendIllustrativeShops } from '@/data/illustrativeShops';
 import { appendDemoPharmacies, demoPharmacyMenu } from '@/data/demoPharmacies';
 import { PHARMACY } from '@/data/catalog';
@@ -233,7 +234,7 @@ export function createSupabaseCatalogRepo(getClient: () => Promise<SupabaseClien
         .order('product_id');
       if (error) throw error;
       const rows = data as CatalogProductRow[];
-      return rows.length > 0 ? rows.map(productFromRow) : null;
+      return rows.length > 0 ? appendIllustrativeRestaurantItems(shop, rows.map(productFromRow)) : null;
     },
 
     async addShop(input: NewShopInput) {
