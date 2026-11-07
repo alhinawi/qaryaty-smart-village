@@ -24,13 +24,14 @@ export function NotificationsDrawer() {
   const markAsRead = useUIStore((state) => state.markNotificationAsRead);
   const markAllAsRead = useUIStore((state) => state.markAllNotificationsAsRead);
   const user = useAuthStore(selectUser);
+  const userId = user?.id;
 
   // Opening the drawer refreshes the real notifications for a signed-in account
   useEffect(() => {
-    if (!isOpen || !user) return;
+    if (!isOpen || !userId) return;
     let alive = true;
     notificationsRepo
-      .listMine(user.id)
+      .listMine(userId)
       .then((list) => {
         if (alive) setRemoteNotifications(list);
       })
@@ -40,7 +41,7 @@ export function NotificationsDrawer() {
     return () => {
       alive = false;
     };
-  }, [isOpen, user?.id, setRemoteNotifications]);
+  }, [isOpen, userId, setRemoteNotifications]);
 
   const navigate = useNavigate();
 
