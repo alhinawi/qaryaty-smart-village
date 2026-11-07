@@ -99,7 +99,7 @@ export const ShopCard = React.memo(function ShopCard({
             shop.open ? "bg-green-50 text-success" : "bg-red-50 text-danger"
           }`}
         >
-          {shop.open ? "🟢 مفتوح" : "🔴 مغلق"}
+          {shop.demo ? "للعرض فقط" : shop.open ? "🟢 مفتوح" : "🔴 مغلق"}
         </div>
         <div className="text-[11px] text-text-muted">{shop.time}</div>
         {shop.kind === "restaurant" && (shop.rating || shop.deliveryTime) && (

@@ -1,3 +1,4 @@
+import { interleaveShops } from '@/utils/interleaveShops';
 // ─── Imports
 import React, { useMemo, useState } from 'react';
 import type { OrderModalData, Shop } from '@/types';
@@ -40,7 +41,7 @@ export function ShopsSection({
     () => (isRestaurants ? [...new Set(shops.flatMap((s) => s.foodTypes ?? []))] : []),
     [shops, isRestaurants]
   );
-  const shown = foodType ? shops.filter((s) => s.foodTypes?.includes(foodType as never)) : shops;
+  const shown = foodType ? shops.filter((s) => s.foodTypes?.includes(foodType as never)) : (isRestaurants ? shops : interleaveShops(shops));
 
   const handleAllShopsClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
