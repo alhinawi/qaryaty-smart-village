@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import { CatalogShareButton } from './CatalogShareButton';
 import { ImagePlaceholder } from '@/components/ui/ImagePlaceholder';
 // ─── Imports
@@ -173,11 +174,12 @@ export const ServiceCard = React.memo(function ServiceCard({
             ⏱️ {service.time}
           </div>
 
-          <div className="text-xs text-gold font-extrabold">
+          {service.rating && <div className="text-xs text-gold font-extrabold">
             ⭐ {service.rating}
-          </div>
+          </div>}
         </div>
 
+        <Link to={`/services/${service.id}`} onClick={e=>e.stopPropagation()} onKeyDown={e=>e.stopPropagation()} className="inline-block text-[11px] text-green font-bold py-2">التفاصيل والآراء</Link>
         <div className="flex items-center justify-between pt-1.5 border-t border-gray-100">
           <div className="text-[13px] font-extrabold text-green-dark">
             {service.price}
