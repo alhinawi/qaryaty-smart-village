@@ -48,17 +48,16 @@ export default function ProfilePage() {
   const [photoOpen, setPhotoOpen] = useState(false);
 
   // دعوة الأصحاب: the personal code and how much it earned (signed-in only)
-  const [referral, setReferral] = useState<ReferralInfo | null>(null);
+  const [referralState, setReferral] = useState<{ owner: string; info: ReferralInfo } | null>(null);
+  const referral = referralState?.owner === user?.id ? referralState?.info : null;
+  const referralOwner = user?.id;
   useEffect(() => {
-    if (!user) {
-      setReferral(null);
-      return;
-    }
+    if (!referralOwner) return;
     let alive = true;
     referralRepo
-      .getInfo(user.id)
+      .getInfo(referralOwner)
       .then((info) => {
-        if (alive) setReferral(info);
+        if (alive) setReferral({ owner: referralOwner, info });
       })
       .catch(() => {
         /* the card keeps showing the share fallback */
@@ -66,7 +65,7 @@ export default function ProfilePage() {
     return () => {
       alive = false;
     };
-  }, [user?.id]);
+  }, [referralOwner]);
   const [photoBusy, setPhotoBusy] = useState(false);
   const photoInputRef = useRef<HTMLInputElement>(null);
 
