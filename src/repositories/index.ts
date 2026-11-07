@@ -51,6 +51,9 @@ import type { ClaimResult, ReferralInfo, ReferralRepo } from './referral/types';
 import { createLocalNotificationsRepo } from './notifications/localNotificationsRepo';
 import { createSupabaseNotificationsRepo } from './notifications/supabaseNotificationsRepo';
 import type { NotificationsRepo } from './notifications/types';
+import { createLocalSettingsRepo } from './settings/localSettingsRepo';
+import { createSupabaseSettingsRepo } from './settings/supabaseSettingsRepo';
+import type { SettingsRepo } from './settings/types';
 
 
 const breaker = createCircuitBreaker({ failureThreshold: 3, cooldownMs: 30_000 });
@@ -354,3 +357,36 @@ export const notificationsRepo: NotificationsRepo = liveNotifications
     }
   : createLocalNotificationsRepo();
 export { SERVER_NOTIF_PREFIX, type NotificationsRepo } from './notifications/types';
+
+// ─── إعدادات الموقع (site-wide switches in app_settings)
+export const SETTINGS_UNAVAILABLE_MESSAGE = 'الخدمة متوقفة مؤقتًا، والإعداد ماتحفظش. جرّب تاني بعد شوية';
+const liveSettings = isSupabaseConfigured ? createSupabaseSettingsRepo(getSupabase) : null;
+export const settingsRepo: SettingsRepo = liveSettings
+  ? {
+      getDemoMode: () => liveSettings.getDemoMode(),
+      setDemoMode: (on) =>
+        resilience.write(
+          () => liveSettings.setDemoMode(on),
+          (cause) => new ServiceUnavailableError(SETTINGS_UNAVAILABLE_MESSAGE, { cause })
+        ),
+      getWhatsappEnabled: () => liveSettings.getWhatsappEnabled(),
+      setWhatsappEnabled: (on) =>
+        resilience.write(
+          () => liveSettings.setWhatsappEnabled(on),
+          (cause) => new ServiceUnavailableError(SETTINGS_UNAVAILABLE_MESSAGE, { cause })
+        ),
+    }
+  : createLocalSettingsRepo();
+export type { SettingsRepo };
+
+// ─── واتساب الطلبات: the merchant saves his number + opt-in on his own shop
+// row (RLS: "shops: owner edits own"). In demo mode the device store is the record.
+export async function saveShopWhatsapp(shopId: number, phone: string, optIn: boolean): Promise<void> {
+  if (!isSupabaseConfigured) return;
+  const supabase = await getSupabase();
+  const { error } = await supabase
+    .from('shops')
+    .update({ whatsapp_phone: phone || null, whatsapp_opt_in: optIn })
+    .eq('id', shopId);
+  if (error) throw new RepoError('rejected', 'ماقدرناش نحفظ الإعداد — محتاج صلاحية إدارة', { cause: error });
+}

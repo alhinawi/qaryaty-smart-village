@@ -4,7 +4,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router';
 import { ROUTES } from '@/routes';
-import { addProvider, addShop, authRepo, jobRepo, marketRepo, rideRepo } from '@/repositories';
+import { addProvider, addShop, authRepo, jobRepo, marketRepo, rideRepo, settingsRepo } from '@/repositories';
 import { useAuthStore, selectIsStaff, selectRole, selectUser } from '@/stores/useAuthStore';
 import { useCatalogStore } from '@/stores/useCatalogStore';
 import { useUIStore } from '@/stores/useUIStore';
@@ -146,12 +146,79 @@ export default function AdminPage() {
 
       {sections.supervisors && <SupervisorsSection />}
 
+      {sections.supervisors && <WhatsappMasterSection />}
+
       {sections.feesNote && (
         <p className="text-[12px] text-text-muted">
           إعدادات رسوم التوصيل والعمولة لسه بتتعدل من Supabase لحد ما تتضاف هنا.
         </p>
       )}
     </div>
+  );
+}
+
+// ─── واتساب الطلبات master switch (owner only): OFF = no merchant opt-in, the
+// DB trigger queues nothing, no provider calls, no spend. ON = merchants can
+// opt in; sending still needs a paid provider to be wired.
+function WhatsappMasterSection() {
+  const showToast = useUIStore((s) => s.showToast);
+  const [enabled, setEnabled] = useState<boolean | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    let alive = true;
+    settingsRepo
+      .getWhatsappEnabled()
+      .then((on) => {
+        if (alive) setEnabled(on);
+      })
+      .catch(() => {
+        if (alive) setEnabled(false); // a failed read fails closed
+      });
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const flip = async () => {
+    if (enabled === null || busy) return;
+    const next = !enabled;
+    setBusy(true);
+    try {
+      await settingsRepo.setWhatsappEnabled(next);
+      setEnabled(next);
+      showToast(next ? '✅ واتساب الطلبات اتفعل — التجار يقدروا يفعّلوه' : '⏸️ واتساب الطلبات اتقفل — مفيش رسائل هتتبعت');
+    } catch {
+      showToast('⚠️ الإعداد ماتحفظش — جرّب تاني');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <section className="bg-white rounded-2xl border border-[rgba(26,122,74,0.12)] p-4 mb-5">
+      <div className="flex items-center gap-3">
+        <div className="flex-1 min-w-0">
+          <h2 className="text-[15px] font-black text-green-dark m-0">🟢 واتساب الطلبات للتجار</h2>
+          <p className="text-[12px] text-text-muted leading-relaxed m-0 mt-1">
+            {enabled
+              ? 'شغال: التاجر يقدر يفعّل واتساب من لوحته ويوصله إشعار بكل طلب جديد.'
+              : 'مقفول: مفيش تاجر شايف التفعيل، ومفيش أي رسالة بتتجهز أو بتتبعت — صفر تكلفة.'}
+          </p>
+        </div>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={enabled === true}
+          aria-label="تفعيل واتساب الطلبات للتجار"
+          disabled={enabled === null || busy}
+          onClick={() => void flip()}
+          className={`shrink-0 w-14 h-8 rounded-full p-1 transition-colors duration-200 cursor-pointer border-none ${enabled ? 'bg-green' : 'bg-gray-300'} ${enabled === null || busy ? 'opacity-50 cursor-not-allowed' : ''}`}
+        >
+          <span className={`block w-6 h-6 rounded-full bg-white shadow transition-transform duration-200 ${enabled ? '-translate-x-6' : 'translate-x-0'}`} />
+        </button>
+      </div>
+    </section>
   );
 }
 
