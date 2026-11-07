@@ -77,7 +77,6 @@ export function ShopsSection({
         )}
       </div>
 
-      {!isRestaurants && <p className="text-[11px] text-text-muted mb-3">الصور توضيحية مولدة، مش صور المحلات نفسها.</p>}
 
       {foodTypes.length > 1 && (
         <div className="flex gap-2 overflow-x-auto pb-2 mb-2 scrollbar-none" aria-label="نوع الأكل">

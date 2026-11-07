@@ -1,6 +1,5 @@
 import { Link } from 'react-router';
 import { CatalogShareButton } from './CatalogShareButton';
-import { isIllustratedProvider } from '@/config/providerImages';
 // ─── Card for one person you book directly: teacher, nurse, plumber, painter, gas delivery…
 import type { Provider, ProviderMode, TeacherGroup } from '@/types';
 import { Avatar } from './Avatar';
@@ -43,7 +42,6 @@ export function ProviderCard({ provider, onBook, online = false, showShare = tru
         <div className="min-w-0 flex-1">
           <h4 className="font-extrabold text-[15px] leading-snug truncate">{provider.name}</h4>
           <p className="text-xs text-green font-bold">{role}</p>
-          {isIllustratedProvider(provider) && <p className="text-[10px] text-text-muted mt-1">صورة خيالية مولدة</p>}
           {/* A new provider with no reviews or no stated experience shows neither, never a made-up 0 */}
           {(provider.reviews > 0 || provider.experienceYears > 0) && (
             <p className="text-[11px] text-text-muted mt-0.5">
