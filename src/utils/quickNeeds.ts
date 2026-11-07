@@ -1,5 +1,5 @@
 import type { Service, Shop } from '@/types';
-import { cairoMinute } from './quickNeedsDemo';
+import { cairoMinute, demoOpenNow } from './quickNeedsDemo';
 import { isShopOpenNow } from './shopOpenNow';
 
 export type QuickNeed = 'pharmacy' | 'grocery' | 'delivery';
@@ -21,6 +21,16 @@ export function isQuickNeedsNight(now: Date): boolean {
 /** The «بتسهر» list: shops whose stated hours say they're open right now. */
 export function openNowShops(shops: Shop[], now: Date): Shop[] {
   return shops.filter((shop) => isShopOpenNow(shop, now));
+}
+
+/**
+ * Night list under demo mode: demo shops keep their synthetic demo schedules
+ * (they carry no real hours), while real shops always keep their own stated
+ * hours so a supermarket that says it stays open late shows as open late.
+ */
+export function nightOpenShops(shops: Shop[], now: Date, demo: boolean, manualOpen: (id: number) => boolean | undefined): Shop[] {
+  if (!demo) return openNowShops(shops, now);
+  return shops.filter((shop) => (shop.demo ? demoOpenNow(shop, now, manualOpen(shop.id)) : isShopOpenNow(shop, now)));
 }
 
 /** Who sees the card: everyone at night; staff in test mode at any hour. */
