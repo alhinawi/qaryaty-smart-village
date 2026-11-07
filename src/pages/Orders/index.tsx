@@ -1,3 +1,6 @@
+import { useEventSimulationStore } from '@/pages/EventsPreview/simulation';
+import { useAuthStore } from '@/stores/useAuthStore';
+import { EventBookings } from '@/pages/EventsPreview/EventBookings';
 import { OwnReviewsProvider } from '@/components/reviews/OwnReviewsProvider';
 import { OrderReviewAction } from '@/components/reviews/OrderReviewAction';
 import { useTrackingDemoMode } from '@/hooks/useTrackingDemoMode';
@@ -32,6 +35,9 @@ export default function OrdersPage() {
     return () => window.removeEventListener('focus', refresh);
   }, [ownerId, loadHistory]);
   const trackingDemo = useTrackingDemoMode();
+  const eventScope=useAuthStore(s=>s.session?.user.id??'guest');
+  const eventBookings=useEventSimulationStore(s=>s.bookings);
+  const eventCount=trackingDemo?eventBookings.filter(b=>b.scope===eventScope).length:0;
   const storedOrders = useOrderStore((state) => state.orders);
   const realOrders = visibleCustomerOrders(storedOrders, trackingDemo);
   // View-only examples never enter the order store, persistence, server or account history.
@@ -90,17 +96,18 @@ export default function OrdersPage() {
       {/* Page Header */}
       <div className="mb-6">
         <h2 className="text-[clamp(1.375rem,3vw,1.75rem)] font-black text-green-dark font-['Tajawal',sans-serif] mb-1">
-          📋 سجل طلباتي ({realOrders.length})
+          📋 سجل طلباتي ({realOrders.length + eventCount})
         </h2>
         <p className="text-sm text-text-muted">
           تابع حالة طلباتك الحالية وسجل الطلبات السابقة داخل القرية
         </p>
       </div>
 
+      <EventBookings />
       {isSupabaseConfigured && ownerId && <div className="mb-4 text-left"><Button variant="outline" size="sm" loading={historyLoading} onClick={() => void loadHistory()}>تحديث الطلبات</Button></div>}
       {historyLoading && <p role="status" className="mb-4">بنحمّل طلباتك...</p>}
       {historyError && <p role="alert" className="mb-4 rounded-xl bg-red-50 p-4 text-danger">{historyError}</p>}
-      {orders.length === 0 && !historyLoading && !historyError && (!isSupabaseConfigured || !ownerId || historyLoaded) ? (
+      {orders.length === 0 && eventCount === 0 && !historyLoading && !historyError && (!isSupabaseConfigured || !ownerId || historyLoaded) ? (
         <EmptyState
           emoji="📋"
           title="مفيش طلبات سابقة!"
