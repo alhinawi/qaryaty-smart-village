@@ -289,6 +289,7 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
       {/* The selected category's people, all in one section, with its filters */}
       {!isLoading && peopleSection && (
         <ProvidersSection
+          key={peopleSection.id}
           section={peopleSection}
           providers={filteredProviders}
           onBook={handleBookProvider}
