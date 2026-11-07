@@ -61,7 +61,7 @@ export function cartItemFromProduct(
     id: `shop-${shop.id}-${product.id}${grill ? '-grill' : ''}`,
     demoOnly:shop.demo===true||!isSupabaseConfigured,
     originalPrice:product.originalPrice!=null?product.originalPrice+(grill?.pricePerKilo??0):undefined,
-    offerId:product.offerId,offerEndsAt:product.offerEndsAt,
+    offerId:product.offerId,offerEndsAt:product.offerEndsAt,offerPercent:product.offerPercent,
     serviceId: 0,
     name: grill ? `${product.name} (شراء وشوي)` : product.name,
     price,
