@@ -109,18 +109,29 @@ export function ShopsSection({
             : 'flex gap-3.5 overflow-x-auto pb-1.5 scrollbar-none [&::-webkit-scrollbar]:hidden lg:grid lg:grid-cols-6 lg:overflow-x-visible'
         }
       >
-        {shown.map((shop) => (
+        {shown.map((shop) => {
+          // Same-device mirror of the merchant dashboard toggles; in live mode
+          // the flags come from the shop row itself once they're server-backed.
+          const override = merchantOverrides[shop.id];
+          const shownShop = override
+            ? {
+                ...shop,
+                ...(override.open !== undefined ? { open: override.open } : {}),
+                ...(override.hours ? { time: override.hours } : {}),
+                ...(override.busy !== undefined
+                  ? { busy: override.busy, busyUntil: override.busyUntil ?? undefined }
+                  : {}),
+              }
+            : shop;
+          return (
           <ShopCard
             key={shop.id}
-            shop={
-              merchantOverrides[shop.id]?.busy !== undefined
-                ? { ...shop, busy: merchantOverrides[shop.id].busy, busyUntil: merchantOverrides[shop.id].busyUntil ?? undefined }
-                : shop
-            }
+            shop={shownShop}
             onSelectShop={onSelectShop}
             onOpenMenu={setMenuShop}
           />
-        ))}
+          );
+        })}
       </div>
 
       <ShopMenuModal shop={menuShop} onClose={() => setMenuShop(null)} />
