@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Share2, Copy, X } from 'lucide-react';
 import { catalogShareUrl, type CatalogKind } from '@/utils/catalogLinks';
 import { Modal } from '@/components/ui/Modal';
-export function CatalogShareButton({ kind, id, name }: { kind: CatalogKind; id: number; name: string }) {
+export function CatalogShareButton({ kind, id, name, compact = false }: { kind: CatalogKind; id: number; name: string; compact?: boolean }) {
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState('');
   const url = catalogShareUrl(kind, id);
@@ -19,7 +19,7 @@ export function CatalogShareButton({ kind, id, name }: { kind: CatalogKind; id: 
     catch { setStatus('النسخ مش متاح هنا. دوس مطولًا على الرابط وانسخه.'); }
   }
   return <span onClick={e => e.stopPropagation()} onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') e.stopPropagation(); }}>
-    <button type="button" onClick={() => void share()} aria-label={`مشاركة ${name}`} className="inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-xl border border-green/20 bg-white px-3 text-green font-bold text-xs"><Share2 size={17} aria-hidden="true" />مشاركة</button>
+    <button type="button" onClick={() => void share()} aria-label={`مشاركة ${name}`} title={`مشاركة ${name}`} className={compact ? "inline-flex h-11 w-11 shrink-0 items-center justify-center text-green focus-visible:outline-2 focus-visible:outline-green rounded-full" : "inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-xl border border-green/20 bg-white px-3 text-green font-bold text-xs"}>{compact ? <span className="h-8 w-8 rounded-full bg-white/95 shadow-sm border border-green/10 flex items-center justify-center"><Share2 size={16} aria-hidden="true" /></span> : <><Share2 size={17} aria-hidden="true" />مشاركة</>}</button>
     {open && <Modal isOpen onClose={() => setOpen(false)} title={`مشاركة ${name}`}>
       <p className="text-sm text-text-muted mb-4">ابعت رابط مباشر. فتح واتساب مش بيبعت الرسالة لوحده، إنت بتختار الشخص وبتراجعها.</p>
       <a className="flex justify-center bg-green text-white rounded-xl p-3 font-bold" href={`whatsapp://send?text=${encodeURIComponent(`${text}\n${url}`)}`}>فتح واتساب المثبت</a>

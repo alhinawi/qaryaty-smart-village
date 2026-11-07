@@ -55,7 +55,7 @@ export const ShopCard = React.memo(function ShopCard({
     <div
       role="button"
       tabIndex={0}
-      className="shrink-0 w-[150px] bg-white rounded-2xl overflow-hidden shadow-md cursor-pointer transition-all duration-200 border border-green/10 text-right lg:w-full hover:translate-y-[-3px] hover:shadow-lg"
+      className="relative shrink-0 w-[150px] bg-white rounded-2xl overflow-hidden shadow-md cursor-pointer transition-all duration-200 border border-green/10 text-right lg:w-full hover:translate-y-[-3px] hover:shadow-lg"
       onClick={handleClick}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -65,6 +65,7 @@ export const ShopCard = React.memo(function ShopCard({
       }}
       aria-label={`التسوق من ${shop.name}`}
     >
+      <div className="absolute top-10 left-0 z-10"><CatalogShareButton compact kind="shop" id={shop.id} name={shop.name} /></div>
       {shop.photo ? (
         <div className="relative h-[90px]" style={{ background: bg }}>
           {!shop.demo && shop.open && isShopBusy(shop) && (
@@ -107,7 +108,6 @@ export const ShopCard = React.memo(function ShopCard({
         </div>
       )}
       <div className="p-2.5">
-        <CatalogShareButton kind="shop" id={shop.id} name={shop.name} />
         <h5 className="text-sm font-extrabold mb-1 text-text">{shop.name}</h5><Link to={`/shops/${shop.id}`} onClick={e=>e.stopPropagation()} onKeyDown={e=>e.stopPropagation()} className="inline-block text-[11px] text-green font-bold py-2">التفاصيل والآراء</Link>
         {shop.kind === "restaurant" && (
           <p className="text-[11px] text-text-muted leading-snug mb-1 line-clamp-2">
