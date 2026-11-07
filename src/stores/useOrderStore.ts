@@ -105,7 +105,7 @@ export const useOrderStore = create<OrderState>()(
           const rows = await orderRepo.listMine(ownerId, offset);
           if (get().scopeVersion !== scopeVersion) return;
           set(state => {
-            const preserved = more ? state.orders : state.orders.filter(o => !initialIds.has(o.id));
+            const preserved = more ? state.orders : state.orders.filter(o => o.id.startsWith('ord_demo_local_')||!initialIds.has(o.id));
             const byId = new Map(preserved.map(o => [o.id, o]));
             rows.forEach(o => byId.set(o.id, o));
             const orders = [...byId.values()];

@@ -31,6 +31,11 @@ export type PaymentStatus = 'unpaid' | 'pending' | 'paid' | 'failed' | 'refunded
 /** One cart line as the server needs it: it looks up the name and price itself. */
 export interface OrderItem {
   productId: string;
+  expectedUnitPrice?:number;
+  originalUnitPrice?:number;
+  unitPrice?:number;
+  offerPercent?:number;
+  offerId?:string;
   quantity: number;
   grill?: boolean;
 }
@@ -242,6 +247,9 @@ export type FoodType =
 
 /** Something a shop or restaurant sells, with its own price and unit. */
 export interface Product {
+  originalPrice?: number;
+  offerId?: string;
+  offerEndsAt?: string;
   id: string;
   name: string;
   emoji: string;
@@ -305,6 +313,10 @@ export interface FeatureItem {
 }
 
 export interface CartItem {
+  demoOnly?: boolean;
+  originalPrice?: number;
+  offerId?: string;
+  offerEndsAt?: string;
   id: string;
   serviceId: number;
   name: string;

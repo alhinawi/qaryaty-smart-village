@@ -6,6 +6,7 @@ import type { DailyOffer, OffersRepo } from './types';
 
 interface Row {
   id: number;
+  product_id?:string|null;percent_off?:number|null;starts_at?:string|null;
   shop_id: number;
   title: string;
   details: string;
@@ -17,6 +18,7 @@ interface Row {
 function toOffer(row: Row): DailyOffer {
   return {
     id: `offer_${row.id}`,
+    productId:row.product_id??undefined,percentOff:row.percent_off??undefined,startsAt:row.starts_at??undefined,
     shopId: row.shop_id,
     shopName: (Array.isArray(row.shops) ? row.shops[0]?.name : row.shops?.name) ?? '',
     shopPhoto: (Array.isArray(row.shops) ? row.shops[0]?.photo : row.shops?.photo) ?? undefined,
@@ -34,7 +36,7 @@ export function createSupabaseOffersRepo(getClient: () => Promise<SupabaseClient
       // !inner lets us hide offers of hidden shops, and of demo shops in real mode
       let query = supabase
         .from('daily_offers')
-        .select('id, shop_id, title, details, ends_at, created_at, shops!inner(name, photo, hidden, is_demo)')
+        .select('id, shop_id, title, details, ends_at, created_at, product_id, percent_off, starts_at, shops!inner(name, photo, hidden, is_demo)')
         .is('stopped_at', null)
         .gt('ends_at', new Date().toISOString())
         .eq('shops.hidden', false);
@@ -48,7 +50,7 @@ export function createSupabaseOffersRepo(getClient: () => Promise<SupabaseClient
       const supabase = await getClient();
       const { data, error } = await supabase
         .from('daily_offers')
-        .select('id, shop_id, title, details, ends_at, created_at, shops(name, photo)')
+        .select('id, shop_id, title, details, ends_at, created_at, product_id, percent_off, starts_at, shops(name, photo)')
         .eq('shop_id', shopId)
         .is('stopped_at', null)
         .gt('ends_at', new Date().toISOString())
@@ -57,34 +59,19 @@ export function createSupabaseOffersRepo(getClient: () => Promise<SupabaseClient
       return data ? toOffer(data as Row) : null;
     },
 
-    async create(shopId, _shopName, title, details, hours) {
+    async create(shopId, _shopName, title, details, hours, discount) {
       const supabase = await getClient();
-      // One active offer per shop: stop the old one first
-      await supabase
-        .from('daily_offers')
-        .update({ stopped_at: new Date().toISOString() })
-        .eq('shop_id', shopId)
-        .is('stopped_at', null);
-      const { data, error } = await supabase
-        .from('daily_offers')
-        .insert({
-          shop_id: shopId,
-          title: title.trim(),
-          details: details.trim(),
-          ends_at: new Date(Date.now() + hours * 3600_000).toISOString(),
-        })
-        .select('id, shop_id, title, details, ends_at, created_at, shops(name, photo)')
-        .single();
+      const { data, error } = await supabase.rpc('publish_product_offer', {
+        p_shop_id:shopId,p_title:title.trim(),p_details:details.trim(),p_hours:hours,
+        p_product_id:discount?.productId??null,p_percent_off:discount?.percentOff??null,
+      });
       if (error) throw new RepoError('rejected', 'العرض ماتحفظش — اتأكد إن المحل بتاعك', { cause: error });
-      return toOffer(data as Row);
+      return toOffer((Array.isArray(data)?data[0]:data) as Row);
     },
 
     async stop(offerId) {
       const supabase = await getClient();
-      const { error } = await supabase
-        .from('daily_offers')
-        .update({ stopped_at: new Date().toISOString() })
-        .eq('id', Number(offerId.replace('offer_', '')));
+      const {error}=await supabase.rpc('stop_product_offer',{p_offer_id:Number(offerId.replace('offer_',''))});
       if (error) throw new RepoError('unavailable', 'ماقدرناش نوقف العرض', { cause: error });
     },
   };

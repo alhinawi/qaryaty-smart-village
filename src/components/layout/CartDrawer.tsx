@@ -5,7 +5,13 @@ import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ProductPhoto } from "@/components/ui/ProductPhoto";
 import { useCartStore } from "@/stores/useCartStore";
-import { createOrder } from "@/repositories";
+import { createOrder,getProducts,offersRepo } from "@/repositories";
+import {repriceCart,cartPriceChanged} from "@/repositories/offers/revalidateCart";
+import {useAuthStore} from '@/stores/useAuthStore';
+import {isTrackingDemoMode} from '@/config/demoMode';
+import {createLocalOffersRepo} from '@/repositories/offers/localOffersRepo';
+import {createMockOrderRepo} from '@/repositories/orders/mockOrderRepo';
+import {useCatalogStore} from "@/stores/useCatalogStore";
 import AddressChooser from "@/components/address/AddressChooser";
 import type { LatLng } from "@/types";
 import { PAYMENT_LABELS, isOnlinePayment, paymentChoices, startOnlinePayment } from "@/services/payments";
@@ -28,7 +34,7 @@ import {
 } from "@/utils/pricing";
 import type { CartItem, PaymentMethod } from "@/types";
 import { APP_COMMISSION_LABEL, APP_COMMISSION_PERCENT } from "@/config/commission";
-import { DELIVERY_FEE_LABEL } from "@/config/delivery";
+import { DELIVERY_FEE_DEFAULT,DELIVERY_FEE_LABEL } from "@/config/delivery";
 import { useDeliveryFee } from "@/hooks/useDeliveryFee";
 import { PhoneInput } from "@/components/ui/PhoneInput";
 
@@ -56,6 +62,7 @@ function formatLinePrice(item: CartItem): string {
 }
 
 function CartDrawerContent() {
+  const offerScope=useAuthStore(s=>s.session?.user.id??'guest');
   const setIsOpen = useUIStore((state) => state.setIsCartOpen);
   const showToast = useUIStore((state) => state.showToast);
   const setActiveTab = useGoToTab();
@@ -86,16 +93,18 @@ function CartDrawerContent() {
   const close = () => setIsOpen(false);
 
   // A shop cart is priced by the server from its product list; a service cart as before
+  const demoOnly=items.some(i=>i.demoOnly);
   const shopId = items[0]?.shopId;
   const shopItems =
     shopId !== undefined && items.every((i) => i.shopId === shopId && i.productId)
-      ? items.map((i) => ({ productId: i.productId as string, quantity: i.quantity, grill: i.grill }))
+      ? items.map((i) => ({ productId: i.productId as string, quantity: i.quantity, grill: i.grill,expectedUnitPrice:i.price,offerId:i.offerId }))
       : undefined;
   // رسوم التوصيل: a shop cart is brought to the door; a service cart never pays it
-  const deliveryFee = useDeliveryFee(shopItems ? shopId : undefined);
+  const quotedDeliveryFee = useDeliveryFee(!demoOnly&&shopItems ? shopId : undefined);
+  const deliveryFee=demoOnly?DELIVERY_FEE_DEFAULT:quotedDeliveryFee;
   const pricing = getCartPricing(items, discountApplied, deliveryFee);
   // Card and wallet charge a known amount, so they need a fixed total
-  const paymentOptions = paymentChoices(!pricing.isEstimate && (pricing.totalToPay ?? 0) > 0);
+  const paymentOptions = demoOnly?["cash" as const]:paymentChoices(!pricing.isEstimate && (pricing.totalToPay ?? 0) > 0);
   const payWith: PaymentMethod = paymentOptions.includes(paymentMethod) ? paymentMethod : "cash";
   // عمولة التطبيق is in the total here, at checkout, and nowhere before
   const totalLabel = describeTotal(
@@ -120,7 +129,28 @@ function CartDrawerContent() {
 
   const handleCheckout = async () => {
     if (items.length === 0 || submitting) return;
+    const initialScope=useOrderStore.getState().scopeVersion;
     setErrors({});
+    if(demoOnly&&(!isTrackingDemoMode()||!items.every(i=>i.demoOnly))){showToast('الطلب التجريبي متوقف. فضّي السلة وافتح المحل من جديد');return;}
+    if(shopItems&&shopId!=null){
+      setSubmitting(true);
+      try{
+        const shop=useCatalogStore.getState().shops.find(s=>s.id===shopId);
+        if(!shop)throw Error('افتح المحل من جديد عشان نراجع السعر');
+        const [products,offer]=await Promise.all([getProducts(shop),(demoOnly?createLocalOffersRepo(offerScope):offersRepo).mineForShop(shop.id)]);
+        const offers=offer?[offer]:[];
+        if(!products)throw Error('مش قادرين نراجع أسعار المحل دلوقتي');
+        if(useOrderStore.getState().scopeVersion!==initialScope){showToast("الحساب اتغيّر، راجع السلة من جديد");return;}
+        if(useCartStore.getState().items!==items){showToast("السلة اتعدلت، راجعها وأكد تاني");return;}
+        const next=repriceCart(items,products,offers);
+        if(cartPriceChanged(items,next)){
+          useCartStore.setState({items:next});
+          showToast('السعر أو العرض اتغيّر. راجع الإجمالي الجديد واضغط تأكيد تاني');
+          return;
+        }
+      }catch(error){showToast(error instanceof Error?error.message:'تعذر مراجعة السعر');return;}
+      finally{setSubmitting(false);}
+    }
     // A Google account gives its phone, village and address first (a sheet over the
     // cart); its default address and phone then fill in here, and one more tap orders
     if (!ensureProfileForOrder()) return;
@@ -165,7 +195,7 @@ function CartDrawerContent() {
     const orderScope = useOrderStore.getState().scopeVersion;
     let newOrder;
     try {
-      newOrder = await createOrder({
+      newOrder = await (demoOnly?createMockOrderRepo(offerScope).createOrder:createOrder)({
         orderNumber: generateOrderNumber(),
         serviceName: vendor && items[0]?.shopId ? `${vendor.name}: ${names}` : names,
         serviceEmoji: emojis || "🛒",
@@ -195,11 +225,11 @@ function CartDrawerContent() {
     }
     setSubmitting(false);
 
-    if (promoStillValid) {
+    if (promoStillValid&&!demoOnly) {
       markPromoUsed(FIRST_ORDER_PROMO);
     }
     // Same rule as the order modal: +10 points, except for a free order
-    if (total !== 0) {
+    if (total !== 0&&!demoOnly) {
       addRewardPoints(10);
     }
 
@@ -247,7 +277,7 @@ function CartDrawerContent() {
                 <div className="flex-1 min-w-[120px]">
                   <h3 className="text-sm font-extrabold">{item.name}</h3>
                   <div className="text-xs text-text-muted">
-                    {formatLinePrice(item)}
+                    {item.originalPrice!=null&&<span className="block mb-1">قبل الخصم <del>{formatCurrency(item.originalPrice)}</del></span>}<span>{formatLinePrice(item)}</span>
                   </div>
                 </div>
 

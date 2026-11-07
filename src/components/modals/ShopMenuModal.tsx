@@ -1,7 +1,6 @@
 import { DemoOpinions } from '@/components/reviews/DemoOpinions';
-import { useTrackingDemoMode } from '@/hooks/useTrackingDemoMode';
-import { useAuthStore } from '@/stores/useAuthStore';
 import { stockKey, useDemoStock } from '@/components/merchant/demoStock';
+import {isSupabaseConfigured} from '@/repositories/supabaseClient';
 // ─── Imports
 import { useEffect, useMemo, useState } from 'react';
 import { Modal } from '@/components/ui/Modal';
@@ -13,6 +12,11 @@ import { useCatalogStore } from '@/stores/useCatalogStore';
 import { useUIStore } from '@/stores/useUIStore';
 import { formatCurrency } from '@/utils/helpers';
 import { isShopBusy } from '@/utils/shopBusy';
+import {useAuthStore} from '@/stores/useAuthStore';
+import {useTrackingDemoMode} from '@/hooks/useTrackingDemoMode';
+import {createLocalOffersRepo} from '@/repositories/offers/localOffersRepo';
+import {offersRepo,type DailyOffer} from '@/repositories';
+import {applyProductOffer} from '@/repositories/offers/priceOffer';
 import type { Product, Shop } from '@/types';
 
 interface ShopMenuModalProps {
@@ -35,6 +39,7 @@ function normalize(text: string): string {
 
 // ─── One line's add button or quantity stepper
 function LineControl({ shop, product, grill, label }: { shop: Shop; product: Product; grill: boolean; label: string }) {
+  const trackingDemo=useTrackingDemoMode();
   const item = useMemo(
     () => cartItemFromProduct(shop, product, grill ? { pricePerKilo: GRILL_PRICE_PER_KILO } : undefined),
     [shop, product, grill]
@@ -47,7 +52,7 @@ function LineControl({ shop, product, grill, label }: { shop: Shop; product: Pro
   const count=useDemoStock(s=>s.counts[stockKey(scope,shop.id,product.id)]);
 
   if(demo&&count===0)return <span className="text-xs font-bold text-text-muted">خلص · غير متاح</span>;
-  if (shop.demo || product.viewOnly) return null;
+  if ((shop.demo&&!trackingDemo) || product.viewOnly) return null;
 
   if (!inCart) {
     return (
@@ -94,16 +99,23 @@ function LineControl({ shop, product, grill, label }: { shop: Shop; product: Pro
 /** A shop's or restaurant's list, in sections, with search; items go to the cart. */
 export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
   const [query, setQuery] = useState('');
+  const [offers,setOffers]=useState<DailyOffer[]>([]);
+  const offerScope=useAuthStore(s=>s.session?.user.id??'guest');
+  const trackingDemo=useTrackingDemoMode();
   const [section, setSection] = useState(ALL);
   // The menu comes through the repository (Supabase, or the sample data offline)
   const loaded = useCatalogStore((s) => (shop ? s.products[shop.id] : undefined));
   const loadProducts = useCatalogStore((s) => s.loadProducts);
   useEffect(() => {
-    if (shop) void loadProducts(shop);
-  }, [shop, loadProducts]);
+    let alive=true;
+    const refresh=()=>{if(shop){void loadProducts(shop,true);((shop.demo||!isSupabaseConfigured)&&trackingDemo?createLocalOffersRepo(offerScope):offersRepo).mineForShop(shop.id).then(row=>{if(alive)setOffers(row?[row]:[])}).catch(()=>{if(alive)setOffers([])});}};
+    refresh();
+    const timer=shop?setInterval(refresh,30000):undefined;
+    return ()=>{alive=false;clearInterval(timer);};
+  }, [shop, loadProducts,trackingDemo,offerScope]);
   const isLoading = loaded === undefined || loaded === 'loading';
   // Products the merchant marked as sold out never show to customers
-  const products = useMemo(() => (Array.isArray(loaded) ? loaded.filter((p) => p.available !== false) : []), [loaded]);
+  const products = useMemo(() => (Array.isArray(loaded)&&shop ? loaded.filter((p) => p.available !== false).map(p=>applyProductOffer(p,shop.id,offers)) : []), [loaded,shop,offers]);
   const sections = useMemo(() => sectionsOf(products).filter(Boolean), [products]);
   const count = useCartStore((s) => (shop && s.getVendor()?.key === `shop:${shop.id}` ? s.items.length : 0));
   const total = useCartStore((s) => (count ? s.getTotalAmount() : 0));
@@ -200,7 +212,7 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
                     )}
                   </div>
                   <div className="text-[12px] text-gray-600">
-                    {formatCurrency(p.price)} / {p.unit}
+                    <span className="font-bold text-green">{formatCurrency(p.price)} / {p.unit}</span>{p.originalPrice!=null&&<del className="ms-2 text-text-muted">{formatCurrency(p.originalPrice)}</del>}{p.offerId&&<span className="block text-[11px] text-green">سعر العرض لحد {new Date(p.offerEndsAt!).toLocaleTimeString("ar-EG",{hour:"numeric",minute:"2-digit"})}</span>}
                   </div>
                   {p.grillable && (
                     <div className="mt-1.5 flex items-center justify-between gap-2">
