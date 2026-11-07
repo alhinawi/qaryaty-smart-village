@@ -147,7 +147,7 @@ export function KindSwitch({ kind }: { kind: 'sale' | 'swap' }) {
           }`}
         >
           <span aria-hidden="true">{KIND_INFO[k].icon}</span>
-          {KIND_INFO[k].title}
+          {k === 'sale' ? 'بيع وشراء' : KIND_INFO[k].title}
         </Link>
       ))}
     </div>

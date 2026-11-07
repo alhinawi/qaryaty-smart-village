@@ -14,7 +14,7 @@ it('service card actions are sibling native controls, not an interactive ancesto
   const html = renderToStaticMarkup(h(MemoryRouter,null,h(ServiceCard,{service:SERVICES[0],onSelect:()=>{}})));
   expect(html).not.toContain('role="button"');
   expect(html).toContain('aria-label="طلب خدمة عيش من الفرن"');
-  expect(html).toContain('aria-label="إزالة من المفضلة"');
+  expect(html).toContain('aria-label="إضافة للمفضلة"');
   expect(html).toContain('aria-label="مشاركة عيش من الفرن"');
   expect(html).toContain('href="/services/1"');
 });
