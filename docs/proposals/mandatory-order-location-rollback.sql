@@ -1,0 +1,4 @@
+-- PROPOSAL ONLY. Only if the separately approved named constraint was applied.
+-- No data deletion or coordinate rewrite. Inspect live definition first.
+-- alter table public.orders drop constraint if exists orders_location_required_v2;
+-- The existing orders_location_sane constraint is preserved.
