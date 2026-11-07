@@ -135,6 +135,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             </div>
           </div>
           <button
+            id="mobile-menu-close"
             ref={closeRef}
             type="button"
             onClick={onClose}

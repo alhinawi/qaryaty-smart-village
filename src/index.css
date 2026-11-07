@@ -435,3 +435,6 @@ html[data-theme='light'][data-palette='light-6'] .bg-white { border-color: #7f9d
 
 /* Shared keyboard focus remains visible in all palettes. */
 :focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+/* Fixed high-contrast close control on the branded drawer header. */
+#mobile-menu-close { background: #ffffff; color: #125936; border: 1px solid rgba(18,89,54,.15); }
+#mobile-menu-close:hover { background: #f0f7f2; }

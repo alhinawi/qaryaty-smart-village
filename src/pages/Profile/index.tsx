@@ -1,4 +1,4 @@
-import { ChevronLeft, House, MessagesSquare, Megaphone, Share2, Link2, UserRound, Camera, Trash2 } from 'lucide-react';
+import { ChevronLeft, House, MessagesSquare, Megaphone, Share2, Link2, UserRound, Camera, Trash2, Smartphone, Pencil } from 'lucide-react';
 
 // ─── Imports
 import React, { useEffect, useRef, useState } from 'react';
@@ -36,7 +36,6 @@ export default function ProfilePage() {
   const [isSignInPromptOpen, setIsSignInPromptOpen] = useState(false);
   const [name, setName] = useState(profile.name);
   const [phone, setPhone] = useState(profile.phone);
-  const [address, setAddress] = useState(profile.address);
   const markVillageChosen = useVillageStore((state) => state.markChosen);
   const savedVillage = user?.village || profile.village;
   const [villageDraft, setVillageDraft] = useState(savedVillage);
@@ -110,16 +109,16 @@ export default function ProfilePage() {
       // Signed in: saved to the account first; the phone can't change from here
       setSaving(true);
       try {
-        await updateAuthUser({ name, address, ...(villageChanged ? { village: villageDraft } : {}) });
+        await updateAuthUser({ name, ...(villageChanged ? { village: villageDraft } : {}) });
       } catch (error) {
         showToast(error instanceof AuthError ? `⚠️ ${error.message}` : '⚠️ ماقدرناش نحفظ التعديل، جرّب تاني');
         return;
       } finally {
         setSaving(false);
       }
-      updateProfile({ name, address, ...(villageChanged ? { village: villageDraft } : {}) });
+      updateProfile({ name, ...(villageChanged ? { village: villageDraft } : {}) });
     } else {
-      updateProfile({ name, phone: normalizeEgyptianPhone(phone), address, ...(villageChanged ? { village: villageDraft } : {}) });
+      updateProfile({ name, phone: normalizeEgyptianPhone(phone), ...(villageChanged ? { village: villageDraft } : {}) });
     }
     if (villageChanged) markVillageChosen();
     setIsEditing(false);
@@ -286,7 +285,7 @@ export default function ProfilePage() {
       {/* User Information Form */}
       <div className="bg-white rounded-2xl p-5 shadow-sm mb-5">
         <div className="flex items-center justify-between mb-3.5">
-          <h3 className="text-base font-extrabold"><UserRound size={18} aria-hidden="true" className="inline-block align-middle" /> بيانات الحساب والعنوان</h3>
+          <h3 className="text-base font-extrabold"><UserRound size={18} aria-hidden="true" className="inline-block align-middle" /> بيانات الحساب</h3>
           {!isEditing && (
             <button
               type="button"
@@ -298,12 +297,11 @@ export default function ProfilePage() {
                 }
                 setName(profile.name);
                 setPhone(profile.phone);
-                setAddress(profile.address);
                 setVillageDraft(savedVillage);
                 setIsEditing(true);
               }}
             >
-              تعديل ✏️
+              تعديل <Pencil size={15} aria-hidden="true" className="inline-block align-middle" />
             </button>
           )}
         </div>
@@ -347,16 +345,6 @@ export default function ProfilePage() {
               hint="بنعرضلك المدرسين والصنايعية من قريتك"
 
             />
-            <div className="form-group">
-              <label htmlFor="profileAddress">العنوان في القرية</label>
-              <input
-                id="profileAddress"
-                type="text"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
-                required
-              />
-            </div>
             <div className="flex gap-3 mt-2">
               <Button type="submit" variant="primary" size="md" loading={saving} disabled={saving}>
                 حفظ التغييرات ✓
@@ -374,23 +362,15 @@ export default function ProfilePage() {
           <div>
             {user?.username && (
               <div className="flex gap-2 py-2 border-b border-gray-50 text-sm last:border-b-0">
-                <span className="text-text-muted font-bold min-w-[100px]">👤 اسم المستخدم:</span>
+                <span className="text-text-muted font-bold min-w-[100px]"><UserRound size={15} aria-hidden="true" className="inline-block align-middle" /> اسم المستخدم:</span>
                 <span className="font-bold" dir="ltr">
                   @{user.username}
                 </span>
               </div>
             )}
             <div className="flex gap-2 py-2 border-b border-gray-50 text-sm last:border-b-0">
-              <span className="text-text-muted font-bold min-w-[100px]">📱 رقم الموبايل:</span>
+              <span className="text-text-muted font-bold min-w-[100px]"><Smartphone size={15} aria-hidden="true" className="inline-block align-middle" /> رقم الموبايل:</span>
               <span className="font-bold">{profile.phone || '—'}</span>
-            </div>
-            <div className="flex gap-2 py-2 border-b border-gray-50 text-sm last:border-b-0">
-              <span className="text-text-muted font-bold min-w-[100px]">📍 العنوان:</span>
-              <span className="font-bold">{profile.address || '—'}</span>
-            </div>
-            <div className="flex gap-2 py-2 border-b border-gray-50 text-sm last:border-b-0">
-              <span className="text-text-muted font-bold min-w-[100px]">🏡 القرية:</span>
-              <span className="font-bold">{profile.village}</span>
             </div>
           </div>
         )}

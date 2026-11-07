@@ -1,3 +1,4 @@
+import { MapPin, Pencil, Map, Star, House } from 'lucide-react';
 import { canDeleteAddress, LAST_ADDRESS_MESSAGE } from '@/utils/addressDeletion';
 // ─── حسابي ← عناويني: list, add, edit, delete, set the default
 import { useEffect, useState } from 'react';
@@ -7,7 +8,7 @@ import { useAuthStore, selectUser } from '@/stores/useAuthStore';
 import { useUIStore } from '@/stores/useUIStore';
 import { useConfirmStore } from '@/stores/useConfirmStore';
 import { useReach } from '@/hooks/useReach';
-import { formatAddress, googleMapsUrl, labelEmoji } from '@/utils/address';
+import { formatAddress, googleMapsUrl } from '@/utils/address';
 import LocationPicker from './LocationPicker';
 
 export default function MyAddresses() {
@@ -52,7 +53,7 @@ export default function MyAddresses() {
   return (
     <div className="bg-white rounded-2xl p-5 shadow-sm mb-5" id="my-addresses">
       <div className="flex items-center justify-between mb-3.5">
-        <h3 className="text-base font-extrabold">📍 عناويني</h3>
+        <h3 className="text-base font-extrabold"><MapPin size={18} aria-hidden="true" className="inline-block align-middle" /> عناويني</h3>
         <button
           type="button"
           onClick={() => setEditing('new')}
@@ -105,7 +106,7 @@ export default function MyAddresses() {
           >
             <div className="flex items-start gap-3">
               <span className="shrink-0 w-10 h-10 rounded-full bg-white shadow-sm grid place-items-center text-xl" aria-hidden="true">
-                {labelEmoji(a.label)}
+                <House size={22} aria-hidden="true" />
               </span>
               <div className="flex-1 min-w-0">
                 <p className="font-extrabold text-sm flex items-center gap-2 flex-wrap">
@@ -124,7 +125,7 @@ export default function MyAddresses() {
             </div>
             <div className="flex flex-wrap gap-1.5 mt-2.5 text-[12px] font-bold">
               <button type="button" className="px-3 py-1.5 rounded-full bg-cream text-green-dark" onClick={() => setEditing(a)}>
-                ✏️ تعديل
+                <Pencil size={14} aria-hidden="true" className="inline-block align-middle" /> تعديل
               </button>
               {!a.isDefault && (
                 <button
@@ -133,7 +134,7 @@ export default function MyAddresses() {
                   className="px-3 py-1.5 rounded-full bg-cream text-green-dark disabled:opacity-50"
                   onClick={() => void handleDefault(a)}
                 >
-                  ⭐ خلّيه الأساسي
+                  <Star size={14} aria-hidden="true" className="inline-block align-middle" /> خلّيه الأساسي
                 </button>
               )}
               <a
@@ -142,7 +143,7 @@ export default function MyAddresses() {
                 rel="noopener noreferrer"
                 className="px-3 py-1.5 rounded-full bg-cream text-green-dark no-underline"
               >
-                🗺️ الخريطة
+                <Map size={14} aria-hidden="true" className="inline-block align-middle" /> الخريطة
               </a>
               <button
                 type="button"
