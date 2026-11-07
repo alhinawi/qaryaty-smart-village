@@ -10,6 +10,7 @@ import { useCatalogStore } from '@/stores/useCatalogStore';
 import { useUIStore } from '@/stores/useUIStore';
 import { useConfirmStore } from '@/stores/useConfirmStore';
 import { Badge } from '@/components/ui/Badge';
+import { AccountPicker } from '@/components/ui/AccountPicker';
 import {
   APPOINTABLE_ROLES,
   STAFF_ROLE_HINTS,
@@ -252,17 +253,7 @@ function AddProviderSection() {
     'w-full min-h-[42px] px-3 rounded-xl border border-[rgba(26,122,74,0.25)] bg-cream/40 text-[14px] font-bold text-text focus:outline-none focus:border-green';
   const ownerPicker = (value: string, setValue: (v: string) => void, label: string) =>
     users && users.length > 0 ? (
-      <label className="block">
-        <span className="block text-[12px] font-bold text-text-muted mb-1">{label}</span>
-        <select value={value} onChange={(e) => setValue(e.target.value)} className={selectCls}>
-          <option value="">من غير ربط بحساب</option>
-          {users.map((u) => (
-            <option key={u.id} value={u.id}>
-              {u.name} — {u.email || u.phone}
-            </option>
-          ))}
-        </select>
-      </label>
+      <AccountPicker users={users} value={value} onChange={setValue} label={label} />
     ) : (
       <p className="text-[11px] text-text-muted m-0">
         ربط بحساب بيشتغل لما يكون معاك صلاحية قراية الحسابات (المالك).
