@@ -23,7 +23,7 @@ export function RidesBanner() {
             >
               <span className="flex items-center gap-2">
                 <span
-                  className="w-[40px] h-[40px] bg-green rounded-xl flex items-center justify-center text-[22px] shrink-0"
+                  className="w-[40px] h-[40px] bg-cream border border-green/25 rounded-xl flex items-center justify-center text-[22px] shrink-0"
                   aria-hidden="true"
                 >
                   {k.icon}
