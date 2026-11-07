@@ -52,6 +52,9 @@ interface UIState {
   clearSearchHistory: () => void;
 
   notifications: AppNotification[];
+  /** Server notifications (order updates…). Merged over the samples: every real one replaces a sample. */
+  remoteNotifications: AppNotification[];
+  setRemoteNotifications: (list: AppNotification[]) => void;
   addNotification: (
     notif: Omit<AppNotification, 'id' | 'time' | 'read'>
   ) => void;
@@ -107,6 +110,8 @@ export const useUIStore = create<UIState>()(
       clearSearchHistory: () => set({ searchHistory: [] }),
 
       notifications: INITIAL_NOTIFICATIONS,
+      remoteNotifications: [],
+      setRemoteNotifications: (list) => set({ remoteNotifications: list }),
       addNotification: (notif) => {
         const newNotif: AppNotification = {
           ...notif,
@@ -124,11 +129,15 @@ export const useUIStore = create<UIState>()(
           notifications: state.notifications.map((n) =>
             n.id === id ? { ...n, read: true } : n
           ),
+          remoteNotifications: state.remoteNotifications.map((n) =>
+            n.id === id ? { ...n, read: true } : n
+          ),
         }));
       },
       markAllNotificationsAsRead: () => {
         set((state) => ({
           notifications: state.notifications.map((n) => ({ ...n, read: true })),
+          remoteNotifications: state.remoteNotifications.map((n) => ({ ...n, read: true })),
         }));
       },
 
@@ -174,3 +183,10 @@ export const useUIStore = create<UIState>()(
     }
   )
 );
+
+/** What the drawer and the bell badge show: real server notifications first,
+ *  and every real one replaces one of the sample notifications (they stay
+ *  until enough real ones arrive — nothing is deleted up front). */
+export function selectMergedNotifications(state: UIState): AppNotification[] {
+  return [...state.remoteNotifications, ...state.notifications.slice(state.remoteNotifications.length)];
+}

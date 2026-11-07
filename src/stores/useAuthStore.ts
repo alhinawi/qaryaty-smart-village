@@ -4,7 +4,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { AuthSession, AuthUser } from '@/types';
-import { AuthError, authRepo, referralRepo, type CompleteProfileInput } from '@/repositories';
+import { AuthError, authRepo, notificationsRepo, referralRepo, type CompleteProfileInput } from '@/repositories';
 import { useUIStore } from './useUIStore';
 import { clearStoredReferral, storedReferralCode } from '@/utils/referral';
 import type { LoginInput, RegisterInput } from '@/utils/validators';
@@ -30,6 +30,16 @@ interface AuthState {
   completeProfile: (input: CompleteProfileInput) => Promise<AuthUser>;
 }
 
+
+/** Pull the account's real notifications once the session is real. */
+function loadRemoteNotifications(userId: string): void {
+  notificationsRepo
+    .listMine(userId)
+    .then((list) => useUIStore.getState().setRemoteNotifications(list))
+    .catch(() => {
+      /* the drawer refetches on open */
+    });
+}
 
 /** An invite link brought this account in? Claim it once the session is real. */
 async function claimStoredReferral(userId: string): Promise<void> {
@@ -67,6 +77,7 @@ export const useAuthStore = create<AuthState>()(
         set({ session });
         useUserStore.getState().applyAuthUser(session.user);
         void claimStoredReferral(session.user.id);
+        loadRemoteNotifications(session.user.id);
         return session.user;
       },
 
@@ -83,6 +94,7 @@ export const useAuthStore = create<AuthState>()(
         const token = get().session?.token;
         set({ session: null });
         useUserStore.getState().resetToGuest();
+        useUIStore.getState().setRemoteNotifications([]);
         // Signed out on this device even if the server can't be reached
         if (token) await authRepo.logout(token).catch((error: unknown) => console.warn('[qaryati] logout', error));
       },
@@ -142,6 +154,7 @@ export const useAuthStore = create<AuthState>()(
         set({ session });
         useUserStore.getState().applyAuthUser(session.user);
         void claimStoredReferral(session.user.id);
+        loadRemoteNotifications(session.user.id);
         return { user: session.user, returnTo };
       },
 
