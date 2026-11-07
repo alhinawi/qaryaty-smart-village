@@ -11,6 +11,7 @@ import { providerToOrderModalData, serviceToOrderModalData } from '@/utils/prici
 import { providersForService } from '@/utils/peopleSections';
 import { groupPreselection } from '@/utils/teacherGroups';
 import { validCatalogId, type CatalogKind } from '@/utils/catalogLinks';
+import { isShopOpenNow } from '@/utils/shopOpenNow';
 import type { OrderModalData, Provider, TeacherGroup } from '@/types';
 export default function CatalogDetail({ kind, onOpenOrderModal }: { kind: CatalogKind; onOpenOrderModal: (data: OrderModalData) => void }) {
   const { id } = useParams();
@@ -32,8 +33,8 @@ export default function CatalogDetail({ kind, onOpenOrderModal }: { kind: Catalo
     {shop && <article className="bg-white rounded-2xl border border-green/15 p-4">
       {shop.photo && <ProductPhoto photo={shop.photo} emoji={shop.emoji} className="w-full h-44 rounded-xl overflow-hidden mb-4" />}
       <p className="text-text-muted mb-3">{shop.description}</p>
-      {!shop.demo && <p className="text-sm text-green mb-3">{shop.open ? 'مفتوح حاليًا' : 'مغلق حاليًا'} {shop.time}</p>}
-      <button type="button" className="w-full bg-green text-white rounded-xl p-3 font-bold disabled:opacity-50" disabled={!shop.open && !shop.demo} onClick={() => shop.kind === 'restaurant' || productsForShop(shop) ? setMenuOpen(true) : onOpenOrderModal({ name: `طلب من ${shop.name}`, desc: shop.description, emoji: shop.emoji, price: 'حسب الطلب' })}>{'شوف المنتجات'}</button>
+      {!shop.demo && <p className={`text-sm mb-3 ${isShopOpenNow(shop) ? 'text-green' : 'text-danger'}`}>{isShopOpenNow(shop) ? 'مفتوح حاليًا' : 'مغلق حاليًا'} {shop.time}</p>}
+      <button type="button" className="w-full bg-green text-white rounded-xl p-3 font-bold disabled:opacity-50" disabled={!isShopOpenNow(shop) && !shop.demo} onClick={() => shop.kind === 'restaurant' || productsForShop(shop) ? setMenuOpen(true) : onOpenOrderModal({ name: `طلب من ${shop.name}`, desc: shop.description, emoji: shop.emoji, price: 'حسب الطلب' })}>{'شوف المنتجات'}</button>
       <ShopMenuModal shop={menuOpen ? shop : null} onClose={() => setMenuOpen(false)} />
     </article>}
     {provider && <ProviderCard headingLevel="h2" provider={provider} onBook={book} showShare={false} />}
