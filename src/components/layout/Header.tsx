@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { Menu, Search, X } from "lucide-react";
 
-import { useUIStore } from "@/stores/useUIStore";
+import { selectMergedNotifications, useUIStore } from "@/stores/useUIStore";
 import { useGoToTab, useActiveTab } from '@/hooks/useTabNavigation';
 
 import { useCartStore } from "@/stores/useCartStore";
@@ -36,7 +36,7 @@ export function Header() {
   const isSearchOpen = useUIStore((state) => state.isSearchOpen);
   const setIsSearchOpen = useUIStore((state) => state.setIsSearchOpen);
 
-  const notifications = useUIStore((state) => state.notifications);
+  const notifications = useUIStore(selectMergedNotifications);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 

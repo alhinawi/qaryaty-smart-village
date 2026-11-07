@@ -48,6 +48,9 @@ import type { MarketRepo } from './market/types';
 import { createLocalReferralRepo } from './referral/localReferralRepo';
 import { createSupabaseReferralRepo } from './referral/supabaseReferralRepo';
 import type { ClaimResult, ReferralInfo, ReferralRepo } from './referral/types';
+import { createLocalNotificationsRepo } from './notifications/localNotificationsRepo';
+import { createSupabaseNotificationsRepo } from './notifications/supabaseNotificationsRepo';
+import type { NotificationsRepo } from './notifications/types';
 
 
 const breaker = createCircuitBreaker({ failureThreshold: 3, cooldownMs: 30_000 });
@@ -335,3 +338,19 @@ export const referralRepo: ReferralRepo = liveReferrals
     }
   : createLocalReferralRepo();
 export type { ClaimResult, ReferralInfo, ReferralRepo };
+
+// ─── الإشعارات الحقيقية (server notifications)
+// Reads fall back to an empty list; marking read is best-effort.
+const liveNotifications = isSupabaseConfigured ? createSupabaseNotificationsRepo(getSupabase) : null;
+export const notificationsRepo: NotificationsRepo = liveNotifications
+  ? {
+      listMine: (userId) =>
+        resilience.read(
+          () => liveNotifications.listMine(userId),
+          async () => []
+        ),
+      markRead: (id) => liveNotifications.markRead(id),
+      markAllRead: (userId) => liveNotifications.markAllRead(userId),
+    }
+  : createLocalNotificationsRepo();
+export { SERVER_NOTIF_PREFIX, type NotificationsRepo } from './notifications/types';
