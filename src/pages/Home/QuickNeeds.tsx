@@ -7,7 +7,9 @@ import { useTrackingDemoMode } from '@/hooks/useTrackingDemoMode';
 import { useProviderDashboardStore } from '@/stores/useProviderDashboardStore';
 import { ShopMenuModal } from '@/components/modals/ShopMenuModal';
 import { demoOpenNow, demoHoursLabel, demoRiderAvailable } from '@/utils/quickNeedsDemo';
-import { quickNeedServices, quickNeedShops, type QuickNeed } from '@/utils/quickNeeds';
+import { openNowShops, quickNeedServices, quickNeedShops, quickNeedsVisible, type QuickNeed } from '@/utils/quickNeeds';
+import { useAuthStore, selectIsStaff } from '@/stores/useAuthStore';
+import { useQuickNeedsTestStore } from '@/stores/useQuickNeedsTestStore';
 
 const NEEDS = [
   { id: 'pharmacy', label: 'صيدلية', emoji: '💊' },
@@ -24,7 +26,12 @@ export function QuickNeeds({ shops, services }: { shops: Shop[]; services: Servi
   const [menuShop, setMenuShop] = useState<Shop | null>(null);
   useEffect(() => { const timer = window.setInterval(() => setNow(new Date()), 30000); return () => window.clearInterval(timer); }, []);
   const [need, setNeed] = useState<QuickNeed>('pharmacy');
-  const shownShops = quickNeedShops(demo ? shops.filter(shop => demoOpenNow(shop, now, overrides[shop.id]?.open)) : shops, need);
+  const isStaff = useAuthStore(selectIsStaff);
+  const testMode = useQuickNeedsTestStore((state) => state.testMode);
+  // Everyone sees it inside the night window; staff can preview it any hour.
+  if (!quickNeedsVisible(now, isStaff, testMode)) return null;
+  // Night or not, the list is only the shops whose hours say they're open now.
+  const shownShops = quickNeedShops(demo ? shops.filter(shop => demoOpenNow(shop, now, overrides[shop.id]?.open)) : openNowShops(shops, now), need);
   const shownServices = quickNeedServices(services, need);
   const choices = [
     ...shownShops.map(shop => ({ id: `shop-${shop.id}`, name: shop.name, emoji: shop.emoji, subtitle: shop.village || 'شوف بيانات المحل', to: catalogPath('shop', shop.id), shop, status: demo ? `مفتوح دلوقتي · ${demoHoursLabel(shop)}` : '' })),
