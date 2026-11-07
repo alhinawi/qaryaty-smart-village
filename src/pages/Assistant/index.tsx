@@ -97,7 +97,7 @@ export default function AssistantPage() {
           disabled={!input.trim()}
           className="shrink-0 w-11 h-11 rounded-2xl bg-green text-white flex items-center justify-center disabled:opacity-40"
         >
-          <SendHorizonal size={19} aria-hidden="true" />
+          <SendHorizonal size={19} aria-hidden="true" className="-scale-x-100" />
         </button>
       </form>
     </div>
