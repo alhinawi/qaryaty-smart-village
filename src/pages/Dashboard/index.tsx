@@ -15,6 +15,7 @@ import { useProviderDashboardStore, type ProService } from '@/stores/useProvider
 import { useUIStore } from '@/stores/useUIStore';
 import { useConfirmStore } from '@/stores/useConfirmStore';
 import { DailyPricesEditor } from './DailyPricesEditor';
+import { WeeklySummary } from '@/components/merchant/WeeklySummary';
 import { OffersSection } from './OffersSection';
 import { WhatsappSection } from './WhatsappSection';
 import { Badge } from '@/components/ui/Badge';
@@ -123,6 +124,7 @@ function MerchantPanel() {
         </select>
       </label>
       <DailyPricesEditor key={`prices-${shop.id}`} shop={shop} />
+      <WeeklySummary input={{shopId:shop.id,orders:[],reviews:[],complete:false,demoEnabled:false,now:new Date()}} />
       <OffersSection key={`offers-${shop.id}`} shop={shop} />
       <WhatsappSection key={`wa-${shop.id}`} shop={shop} />
       <ShopInfoSection key={`info-${shop.id}`} shop={shop} />
