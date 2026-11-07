@@ -1,3 +1,4 @@
+import {notificationOrderNote} from '@/utils/orderNotes';
 // ─── واتساب الطلبات (merchant side): opt-in + number + message preview
 // The actual sending needs a WhatsApp Business provider (paid) — this section
 // collects the merchant's number and choice and shows exactly what he'll get.
@@ -10,9 +11,9 @@ import { normalizeEgyptianPhone } from '@/utils/validators';
 import type { Shop } from '@/types';
 
 /** The message the merchant gets on every new order (template preview). */
-export function orderWhatsappTemplate(shopName: string): { body: string; button: string } {
+export function orderWhatsappTemplate(shopName: string, notes = 'بدون بصل، والشطة على جنب'): { body: string; button: string } {
   return {
-    body: `🛒 طلب جديد من قريتي!\n\nالطلب: 2 عيش بلدي + 1 جبنة\nالعنوان: منية سندوب - شارع المدرسة\nالموبايل: 01012345678\nالإجمالي: 45 جنيه كاش\n\nدوس «قبول الطلب» عشان تبدأ تجهزه، أو افتح ${shopName} في التطبيق.`,
+    body: `🛒 طلب جديد من قريتي!\n\nالطلب: 2 عيش بلدي + 1 جبنة\n${notificationOrderNote(notes)}العنوان: منية سندوب - شارع المدرسة\nالموبايل: 01012345678\nالإجمالي: 45 جنيه كاش\n\nدوس «قبول الطلب» عشان تبدأ تجهزه، أو افتح ${shopName} في التطبيق.`,
     button: '✅ قبول الطلب',
   };
 }
