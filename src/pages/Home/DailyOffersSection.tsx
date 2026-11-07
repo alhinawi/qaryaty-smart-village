@@ -1,6 +1,5 @@
 // ─── عروض اليوم: live merchant offers with a countdown, auto-hide on expiry.
-// Card art styles are previewable with ?offers=1|2|3 (or =all to compare);
-// style 1 is the default until the owner picks one.
+// Card art: style ٣ is the approved default; ?offers=1|2|all still previews the rest.
 import { useEffect, useState } from 'react';
 import { useTrackingDemoMode } from '@/hooks/useTrackingDemoMode';
 import { offersRepo, type DailyOffer } from '@/repositories';
@@ -8,9 +7,11 @@ import { countdownText, isOfferActive } from '@/utils/countdown';
 
 type OfferStyle = '1' | '2' | '3';
 
+// ─── Card art: style ٣ (الكارت الأفقي بصورة المحل) is the approved default.
+// The other two stay previewable with ?offers=1|2 (or =all to compare).
 function readStyle(): OfferStyle | 'all' {
   const value = new URLSearchParams(window.location.search).get('offers');
-  return value === '2' || value === '3' || value === 'all' ? value : '1';
+  return value === '1' || value === '2' || value === 'all' ? value : '3';
 }
 
 /** Shop photo, or a gold initial when the shop has none. No emoji stand-ins. */
