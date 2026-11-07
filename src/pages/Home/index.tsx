@@ -17,6 +17,7 @@ import { useCatalogStore } from '@/stores/useCatalogStore';
 
 // Subcomponents
 import { Hero } from './Hero';
+import { QuickNeeds } from './QuickNeeds';
 import { CategoriesSection } from './CategoriesSection';
 import { LiveOrderBanner } from './LiveOrderBanner';
 import { ServicesSection } from './ServicesSection';
@@ -257,6 +258,7 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
         <div><span className="text-[10px] text-text-muted block">من أهل القرية، لأهل القرية</span><p className="text-[13px] font-extrabold text-green-dark">كل اللي محتاجه، قريب منك</p></div>
         <button type="button" onClick={() => void handlePullToRefresh()} className="text-xs text-green font-bold">{isRefreshing ? 'بنحدّث...' : 'تحديث الخدمات'}</button>
       </div>
+      {!isLoading && selectedCategory === 'all' && !isSearching && <QuickNeeds shops={shops} services={services} />}
       {/* Live Order Pulse Widget — simulated content: الوضع الحقيقي only (verified demo flag) */}
       {trackingDemo && <LiveOrderBanner />}
 
