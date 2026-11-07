@@ -72,7 +72,7 @@ export function JobCard({ job, showStatus = false }: { job: Job; showStatus?: bo
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <h3 className="text-[15px] font-extrabold text-text m-0 leading-snug">{job.title}</h3>
+          <h2 className="text-[15px] font-extrabold text-text m-0 leading-snug">{job.title}</h2>
           <p className="text-[13px] text-text-muted m-0 mt-0.5">
             {job.employer} · 📍 {shortVillage(job.village)}
           </p>

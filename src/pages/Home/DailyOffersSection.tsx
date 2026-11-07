@@ -97,7 +97,7 @@ function StyleTwo({ offer }: { offer: DailyOffer }) {
 // ─── Style 3: horizontal snap carousel, photo on top, body below
 function StyleThree({ offers }: { offers: DailyOffer[] }) {
   return (
-    <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-1 -mx-1 px-1">
+    <div tabIndex={0} role="region" aria-label="العروض المتاحة" className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-1 -mx-1 px-1 focus-visible:outline-2 focus-visible:outline-green">
       {offers.map((offer) => (
         <div
           key={offer.id}
