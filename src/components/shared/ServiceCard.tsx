@@ -126,6 +126,7 @@ export const ServiceCard = React.memo(function ServiceCard({
           <ImagePlaceholder className="w-full h-full" />
         )}
 
+        <div className="absolute bottom-0 left-0"><CatalogShareButton compact kind="service" id={service.id} name={service.name} /></div>
         {/* Favorite Heart Button */}
         <button
           type="button"
@@ -154,7 +155,6 @@ export const ServiceCard = React.memo(function ServiceCard({
 
       {/* Service Info */}
       <div className="p-3.5 flex-1 flex flex-col">
-        <div className="mb-2"><CatalogShareButton kind="service" id={service.id} name={service.name} /></div>
         <h4 className="text-[15px] font-extrabold mb-1 text-text">
           {service.name}
         </h4>
