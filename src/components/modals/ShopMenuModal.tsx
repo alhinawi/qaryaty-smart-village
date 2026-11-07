@@ -1,5 +1,7 @@
 import { DemoOpinions } from '@/components/reviews/DemoOpinions';
 import { stockKey, useDemoStock } from '@/components/merchant/demoStock';
+import{NotifyStock}from'@/components/stock/NotifyStock';
+import{useProviderDashboardStore}from'@/stores/useProviderDashboardStore';
 import{OfferPrice}from'@/components/ui/OfferPrice';
 import {isSupabaseConfigured} from '@/repositories/supabaseClient';
 // ─── Imports
@@ -54,6 +56,8 @@ function LineControl({ shop, product, grill, label }: { shop: Shop; product: Pro
 
   if(demo&&count===0)return <span className="text-xs font-bold text-text-muted">خلص · غير متاح</span>;
   if ((shop.demo&&!trackingDemo) || product.viewOnly) return null;
+
+  if(product.available===false)return <div className="flex flex-col gap-1 items-end"><span className="text-xs font-bold text-text-muted">خلصان</span><button disabled className="bg-gray-100 text-gray-400 rounded-lg px-3 py-2 text-xs">غير متاح</button>{!grill&&<NotifyStock shop={shop} product={product}/>}</div>;
 
   if (!inCart) {
     return (
@@ -114,9 +118,10 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
     const timer=shop?setInterval(refresh,30000):undefined;
     return ()=>{alive=false;clearInterval(timer);};
   }, [shop, loadProducts,trackingDemo,offerScope]);
+  const localOverride=useProviderDashboardStore(s=>shop?s.merchants[shop.id]:undefined);
   const isLoading = loaded === undefined || loaded === 'loading';
-  // Products the merchant marked as sold out never show to customers
-  const products = useMemo(() => (Array.isArray(loaded)&&shop ? loaded.filter((p) => p.available !== false).map(p=>applyProductOffer(p,shop.id,offers)) : []), [loaded,shop,offers]);
+  // Sold-out products remain visible; only ordering is disabled.
+  const products = useMemo(() => (Array.isArray(loaded)&&shop ? loaded.map(p=>{const edit=trackingDemo?localOverride?.products[p.id]:undefined;return applyProductOffer(edit?{...p,...edit}:p,shop.id,offers)}) : []), [loaded,shop,offers,localOverride,trackingDemo]);
   const sections = useMemo(() => sectionsOf(products).filter(Boolean), [products]);
   const count = useCartStore((s) => (shop && s.getVendor()?.key === `shop:${shop.id}` ? s.items.length : 0));
   const total = useCartStore((s) => (count ? s.getTotalAmount() : 0));

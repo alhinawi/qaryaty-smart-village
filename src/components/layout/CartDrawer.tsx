@@ -1,3 +1,4 @@
+import{useProviderDashboardStore}from'@/stores/useProviderDashboardStore';
 import{OfferPrice}from'@/components/ui/OfferPrice';
 // ─── Imports
 import React, { useState } from "react";
@@ -143,7 +144,8 @@ function CartDrawerContent() {
         if(!products)throw Error('مش قادرين نراجع أسعار المحل دلوقتي');
         if(useOrderStore.getState().scopeVersion!==initialScope){showToast("الحساب اتغيّر، راجع السلة من جديد");return;}
         if(useCartStore.getState().items!==items){showToast("السلة اتعدلت، راجعها وأكد تاني");return;}
-        const next=repriceCart(items,products,offers);
+        const checkedProducts=demoOnly?products.map(p=>({...p,...useProviderDashboardStore.getState().merchants[shop.id]?.products[p.id]})):products;
+        const next=repriceCart(items,checkedProducts,offers);
         if(cartPriceChanged(items,next)){
           useCartStore.setState({items:next});
           showToast('السعر أو العرض اتغيّر. راجع الإجمالي الجديد واضغط تأكيد تاني');

@@ -1,3 +1,4 @@
+import{useRestockDemo}from'@/components/stock/restockDemo';
 // ─── Imports
 
 import { useState, useEffect, useCallback, useMemo } from "react";
@@ -40,9 +41,11 @@ export function Header() {
   const remoteNotifs = useUIStore((state) => state.remoteNotifications);
   const localNotifs = useUIStore((state) => state.notifications);
   const demoOn = useTrackingDemoMode();
+  const restockScope=useAuthStore(s=>s.session?.user.id??'guest');
+  const restockNotices=useRestockDemo(s=>s.notices);
   const notifications = useMemo(
-    () => withoutSampleNotifications(mergeNotifications(remoteNotifs, localNotifs), demoOn),
-    [remoteNotifs, localNotifs, demoOn]
+    () => [...(demoOn?restockNotices.filter(n=>n.scope===restockScope).map(n=>n.notification):[]),...withoutSampleNotifications(mergeNotifications(remoteNotifs, localNotifs), demoOn)],
+    [remoteNotifs, localNotifs, demoOn,restockNotices,restockScope]
   );
 
   const unreadCount = notifications.filter((n) => !n.read).length;

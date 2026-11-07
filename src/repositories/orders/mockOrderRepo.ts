@@ -1,3 +1,4 @@
+import{useProviderDashboardStore}from'@/stores/useProviderDashboardStore';
 // ─── Demo orders: kept on this device only (useOrderStore persists them)
 import { getFormattedDate } from '@/utils/helpers';
 import { DELIVERY_FEE_DEFAULT } from '@/config/delivery';
@@ -17,7 +18,7 @@ export function createMockOrderRepo(scope='guest'): OrderRepo {
         if(!isTrackingDemoMode())throw Error('الطلب المحلي متاح في وضع التجربة بس');
         const shop=SHOPS.find(s=>s.id===input.shopId);const products=shop?productsForShop(shop):null;
         const offers=await createLocalOffersRepo(scope).listActive();
-        const items=input.items.map(line=>{const raw=products?.find(p=>p.id===line.productId);if(!raw||raw.viewOnly||raw.available===false)throw Error('الصنف مش متاح');
+        const items=input.items.map(line=>{const base=products?.find(p=>p.id===line.productId);const raw=base?{...base,...useProviderDashboardStore.getState().merchants[input.shopId!]?.products[line.productId]}:undefined;if(!raw||raw.viewOnly||raw.available===false)throw Error('الصنف مش متاح');
           if(!Number.isFinite(line.quantity)||line.quantity<=0||line.quantity>100||Math.abs(line.quantity/raw.step-Math.round(line.quantity/raw.step))>0.00001||line.grill&&!raw.grillable)throw Error('راجع كمية الصنف وطريقة التجهيز');
           const p=applyProductOffer(raw,input.shopId!,offers);const extra=line.grill?GRILL_PRICE_PER_KILO:0;const unit=p.price+extra;
           if(line.expectedUnitPrice!==unit||line.offerId!==p.offerId)throw Error('السعر أو العرض اتغيّر. راجع السلة وأكد تاني');

@@ -1,3 +1,4 @@
+import{useRestockDemo}from'@/components/stock/restockDemo';
 // ─── Imports
 import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router';
@@ -16,9 +17,11 @@ export function NotificationsDrawer() {
   const remoteNotifs = useUIStore((state) => state.remoteNotifications);
   const localNotifs = useUIStore((state) => state.notifications);
   const demoOn = useTrackingDemoMode();
+  const restockScope=useAuthStore(s=>s.session?.user.id??'guest');
+  const restockNotices=useRestockDemo(s=>s.notices);
   const notifications = useMemo(
-    () => withoutSampleNotifications(mergeNotifications(remoteNotifs, localNotifs), demoOn),
-    [remoteNotifs, localNotifs, demoOn]
+    () => [...(demoOn?restockNotices.filter(n=>n.scope===restockScope).map(n=>n.notification):[]),...withoutSampleNotifications(mergeNotifications(remoteNotifs, localNotifs), demoOn)],
+    [remoteNotifs, localNotifs, demoOn,restockNotices,restockScope]
   );
   const setRemoteNotifications = useUIStore((state) => state.setRemoteNotifications);
   const markAsRead = useUIStore((state) => state.markNotificationAsRead);
@@ -46,6 +49,7 @@ export function NotificationsDrawer() {
   const navigate = useNavigate();
 
   const handleMarkAsRead = (id: string) => {
+    if(id.startsWith("restock_"))useRestockDemo.getState().read(restockScope,id);
     markAsRead(id);
     if (id.startsWith(SERVER_NOTIF_PREFIX)) {
       notificationsRepo.markRead(id).catch(() => {});
@@ -53,6 +57,7 @@ export function NotificationsDrawer() {
   };
 
   const handleMarkAllAsRead = () => {
+    useRestockDemo.getState().read(restockScope);
     markAllAsRead();
     if (user) notificationsRepo.markAllRead(user.id).catch(() => {});
   };
