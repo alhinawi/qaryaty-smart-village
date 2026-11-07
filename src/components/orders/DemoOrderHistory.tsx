@@ -1,0 +1,15 @@
+import {useState} from 'react';
+import {useTrackingDemoMode} from '@/hooks/useTrackingDemoMode';
+import {useAuthStore} from '@/stores/useAuthStore';
+/** Fictional display-only history. Never handed to order/review repositories. */
+export const DEMO_HISTORY_COUNT=6;
+const samples=[
+{id:'bread',name:'فرن الأصيل',detail:'عيش بلدي وفينو',amount:45,status:'اتسلّم',done:true},
+{id:'veg',name:'خضار الفلاح',detail:'طماطم وبطاطس وخيار',amount:135,status:'اتسلّم',done:true},
+{id:'grocery',name:'الحاج سيد',detail:'سكر وشاي وزيت',amount:280,status:'اتسلّم',done:true},
+{id:'food',name:'فراخ المدينة',detail:'وجبتين غدا',amount:240,status:'في الطريق إليك',done:false},
+{id:'fish',name:'أسماك أبو حسن',detail:'سمك متجهّز للشوي',amount:180,status:'بيتجهّز',done:false},
+{id:'cancel',name:'فرن الأصيل',detail:'طلب اتلغى قبل التجهيز',amount:30,status:'الطلب اتلغى',done:false},
+];
+export function DemoOrderHistory(){const enabled=useTrackingDemoMode();const scope=useAuthStore(s=>s.session?.user.id??'guest');if(!enabled)return null;return <section className="mb-5" aria-label="سجل الطلبات"><div className="grid grid-cols-1 md:grid-cols-2 gap-3">{samples.map((row,index)=><article key={row.id} className="bg-white rounded-2xl border border-green/15 p-4"><div className="flex items-start gap-2"><h3 className="font-black text-sm text-green-dark m-0">{row.name}</h3><span className={`ms-auto text-[11px] px-2 py-1 rounded-full whitespace-nowrap ${row.status==='الطلب اتلغى'?'bg-red-50 text-danger':'bg-green/10 text-green'}`}>{row.status}</span></div><p className="text-[11px] text-text-muted mt-2">رقم الطلب #Q{4821+index} · {index<3?'أمس':'اليوم'}</p><p className="text-sm mt-3 mb-2">{row.detail}</p><strong className="text-sm text-green">{row.amount} جنيه</strong>{row.done&&<LocalReview key={`${scope}-${row.id}`}/>}</article>)}</div></section>}
+function LocalReview(){const[open,setOpen]=useState(false);const[stars,setStars]=useState(5);const[text,setText]=useState('');const[saved,setSaved]=useState(false);if(saved)return <p role="status" className="text-xs text-green bg-green/5 p-3 rounded-xl mt-3">اتحفظ تقييمك على الجهاز. </p>;return <div className="mt-3 border-t border-green/10 pt-3"><button className="text-green text-sm font-bold" onClick={()=>setOpen(!open)}>قيّم تجربتك</button>{open&&<form onSubmit={e=>{e.preventDefault();setSaved(true);}}><label className="text-xs block mt-2">عدد النجوم<select aria-label="عدد النجوم" value={stars} onChange={e=>setStars(Number(e.target.value))} className="block w-full bg-white border border-green/20 rounded-xl p-2 mt-1">{[5,4,3,2,1].map(n=><option key={n}>{n}</option>)}</select></label><label className="text-xs block mt-2">رأيك<textarea maxLength={1000} rows={2} value={text} onChange={e=>setText(e.target.value)} className="block w-full bg-white border border-green/20 rounded-xl p-2 mt-1" placeholder="من غير موبايل أو بيانات شخصية"/></label><button className="bg-green text-white text-xs font-bold px-3 py-2 rounded-xl mt-2">احفظ التقييم</button></form>}</div>}
