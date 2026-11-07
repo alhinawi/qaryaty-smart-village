@@ -163,6 +163,7 @@ export default function App() {
         id="app"
         className={`w-full min-h-svh flex flex-col ${isAppVisible ? 'visible' : ''}`}
       >
+        <a href="#main-content" className="fixed top-2 right-2 z-[500] rounded-xl bg-white text-green-dark px-4 py-3 font-bold shadow-lg -translate-y-[200%] focus:translate-y-0" onClick={() => document.getElementById('main-content')?.focus()}>عدّي للمحتوى</a>
         {/* Responsive Header */}
         <Header />
 
@@ -170,7 +171,7 @@ export default function App() {
         <ServiceStatusBanner />
 
         {/* Dynamic Page Content */}
-        <main className="flex-1 w-full pb-[calc(85px+env(safe-area-inset-bottom))] lg:pb-10">
+        <main id="main-content" tabIndex={-1} className="flex-1 w-full pb-[calc(85px+env(safe-area-inset-bottom))] lg:pb-10">
           <PageWrapper>
             <Suspense fallback={<PageLoadingFallback />}>
               <Routes>

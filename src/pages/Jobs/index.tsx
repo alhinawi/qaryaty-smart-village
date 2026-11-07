@@ -13,6 +13,8 @@ export default function JobsPage() {
   const user = useAuthStore(selectUser);
   const signInFirst = useSignInFirst();
   const [jobs, setJobs] = useState<Job[] | null>(null);
+  const [loadError, setLoadError] = useState(false);
+  const [loadAttempt, setLoadAttempt] = useState(0);
   const [query, setQuery] = useState('');
   const [village, setVillage] = useState('');
   const [type, setType] = useState<JobType | ''>('');
@@ -22,11 +24,11 @@ export default function JobsPage() {
     jobRepo
       .listPublic()
       .then((list) => alive && setJobs(list))
-      .catch(() => alive && setJobs([]));
+      .catch(() => { if (alive) { setLoadError(true); setJobs([]); } });
     return () => {
       alive = false;
     };
-  }, []);
+  }, [loadAttempt]);
 
   const villages = useMemo(() => jobVillages(jobs ?? []), [jobs]);
   const shown = useMemo(() => filterJobs(jobs ?? [], { query, village, type }), [jobs, query, village, type]);
@@ -110,7 +112,13 @@ export default function JobsPage() {
         <SafetyNote compact />
       </div>
 
-      {jobs === null ? (
+      {loadError ? (
+        <div role="alert" className="bg-white rounded-2xl p-6 text-center shadow-sm border border-danger/20">
+          <h2 className="font-extrabold text-text mb-2">الوظائف ما اتحمّلتش</h2>
+          <p className="text-sm text-text-muted mb-4">مش قادرين نعرض الوظائف دلوقتي. ده مش معناه إن مفيش وظائف.</p>
+          <button type="button" className={outlineBtn} onClick={() => { setLoadError(false); setJobs(null); setLoadAttempt(value => value + 1); }}>جرّب تاني</button>
+        </div>
+      ) : jobs === null ? (
         <div className="flex flex-col gap-3" aria-busy="true" aria-label="بنحمّل الوظائف">
           {[0, 1, 2].map((i) => (
             <div key={i} className="h-[96px] bg-white rounded-2xl animate-pulse" />
