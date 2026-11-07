@@ -20,6 +20,8 @@ export type PeoplePhotoId =
 export interface PeoplePhotoInfo {
   /** Widths that exist on disk, smallest first. */
   widths: number[];
+  /** Optional versioned asset name for cache-safe image replacements. */
+  assetName?: string;
   /** Width / height. */
   ratio: [number, number];
   /** Arabic alt text. */
@@ -63,14 +65,15 @@ export const PEOPLE_PHOTOS: Record<PeoplePhotoId, PeoplePhotoInfo> = {
     alt: 'صاحب بقالة في القرية واقف ورا الكاونتر ووراه الرفوف مليانة بضاعة',
   },
   volunteers: {
+    assetName: 'volunteers-photo',
     widths: [480, 960],
-    ratio: [4, 3],
+    ratio: [16, 9],
     alt: 'شباب وبنات محجبات متطوعين بيجهزوا كراتين رمضان فيها رز وزيت وسكر',
   },
 };
 
 export function peoplePhotoSrc(id: PeoplePhotoId, width: number): string {
-  return `/img/people/${id}-${width}.webp`;
+  return `/img/people/${PEOPLE_PHOTOS[id].assetName ?? id}-${width}.webp`;
 }
 
 export function peoplePhotoSrcSet(id: PeoplePhotoId): string {
