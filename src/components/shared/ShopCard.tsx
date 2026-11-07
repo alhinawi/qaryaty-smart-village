@@ -2,6 +2,7 @@ import { CatalogShareButton } from './CatalogShareButton';
 // ─── Imports
 import React from "react";
 import type { OrderModalData, Shop } from "@/types";
+import { isShopBusy } from "@/utils/shopBusy";
 import { useUIStore } from "@/stores/useUIStore";
 import { productsForShop } from "@/data/catalog";
 import { ProductPhoto } from "@/components/ui/ProductPhoto";
@@ -103,6 +104,11 @@ export const ShopCard = React.memo(function ShopCard({
         >
           {shop.open ? "🟢 مفتوح" : "🔴 مغلق"}
         </div>}
+        {!shop.demo && shop.open && isShopBusy(shop) && (
+          <div className="inline-block text-[11px] font-bold px-2 py-0.5 rounded-xl mb-1 bg-amber-50 text-amber-700">
+            🟠 مشغول — التحضير هياخد وقت أطول
+          </div>
+        )}
         {shop.time && <div className="text-[11px] text-text-muted">{shop.time}</div>}
         {shop.kind === "restaurant" && (shop.rating || shop.deliveryTime) && (
           <div className="text-[11px] text-text-muted mt-0.5 flex flex-wrap gap-x-2">
