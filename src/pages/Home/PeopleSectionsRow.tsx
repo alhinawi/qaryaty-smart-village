@@ -23,7 +23,6 @@ export function PeopleSectionsRow({ counts, onOpen }: PeopleSectionsRowProps) {
             key={section.id}
             type="button"
             onClick={() => onOpen(section.id)}
-            aria-label={`${section.title} ${counts[section.id]} متاح، افتح القسم`}
             className="bg-white rounded-2xl p-2 pb-3 shadow-sm border-2 border-transparent hover:border-green text-start cursor-pointer font-['Cairo',sans-serif] flex flex-col gap-2 transition-colors overflow-hidden"
           >
             <PeoplePhoto

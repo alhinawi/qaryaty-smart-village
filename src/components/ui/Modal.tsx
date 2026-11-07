@@ -1,6 +1,7 @@
 // ─── Imports
 import React, { useEffect, useId, useRef } from 'react';
 import { X } from 'lucide-react';
+import { dialogTabStops, isTopDialog } from '@/utils/dialogFocus';
 import { useBackButtonClose } from '@/hooks/useBackButtonClose';
 
 // ─── Types
@@ -51,16 +52,38 @@ export function Modal({
     document.body.style.overflow = 'hidden';
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      const panel = modalRef.current;
+      if (!panel || !isTopDialog(panel)) return;
       if (e.key === 'Escape') {
+        e.preventDefault();
+        e.stopImmediatePropagation();
         onClose();
+      }
+      if (e.key === 'Tab') {
+        const stops = dialogTabStops(panel);
+        const first = stops[0];
+        const last = stops.at(-1);
+        if (!first) { e.preventDefault(); panel.focus(); return; }
+        const active = document.activeElement;
+        if (e.shiftKey && (active === first || active === panel || !panel.contains(active))) {
+          e.preventDefault(); last?.focus();
+        } else if (!e.shiftKey && (active === last || !panel.contains(active))) {
+          e.preventDefault(); first.focus();
+        }
       }
     };
 
+    const containFocus = (event: FocusEvent) => {
+      const panel = modalRef.current;
+      if (panel && isTopDialog(panel) && event.target instanceof Node && !panel.contains(event.target)) panel.focus({ preventScroll: true });
+    };
     window.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('focusin', containFocus);
 
     return () => {
       document.body.style.overflow = originalOverflow;
       window.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('focusin', containFocus);
     };
   }, [isOpen, onClose]);
 
