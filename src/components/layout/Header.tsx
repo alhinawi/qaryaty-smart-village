@@ -130,6 +130,7 @@ export function Header() {
                     ? "bg-white/25 text-gold-light "
                     : "text-white/85"
                 }`}
+                aria-current={activeTab === link.id ? 'page' : undefined}
                 onClick={() => setActiveTab(link.id)}
               >
                 <span>{link.icon}</span>
