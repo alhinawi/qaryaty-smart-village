@@ -1,3 +1,4 @@
+import { ProductPhoto } from '@/components/ui/ProductPhoto';
 // ─── Full search screen (opened from the header's search bar), in the style of Talabat:
 // back + field + cart, tabs from the app's sections, "عايز إيه النهارده؟" circles, recent
 // searches, the village's shops (or people), the first-order code, and live grouped results.
@@ -737,20 +738,9 @@ function Explore({
   );
 }
 
-/** A photo (lazy, small) that falls back to the emoji if it fails to load. */
+/** Search thumbnails share the neutral missing/broken-photo fallback. */
 function TilePicture({ photo, emoji }: { photo?: string; emoji: string }) {
-  const [failed, setFailed] = useState(false);
-  if (!photo || failed) return <span aria-hidden="true">{emoji}</span>;
-  return (
-    <img
-      src={photo}
-      alt=""
-      loading="lazy"
-      decoding="async"
-      onError={() => setFailed(true)}
-      className="w-full h-full object-cover"
-    />
-  );
+  return <ProductPhoto photo={photo} emoji={emoji} className="w-full h-full" />;
 }
 
 // ─── While typing: results grouped by type
