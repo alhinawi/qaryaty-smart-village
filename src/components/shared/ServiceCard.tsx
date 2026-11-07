@@ -99,7 +99,7 @@ export const ServiceCard = React.memo(function ServiceCard({
         className={`h-[150px] shrink-0 self-center w-full flex items-center justify-center text-[48px] relative ${
 
           isFeatured
-            ? "max-lg:w-[120px] max-lg:h-[120px] max-lg:shrink-0"
+            ? "max-lg:w-[140px] max-lg:h-[160px] max-lg:shrink-0"
             : ""
         }`}
         style={{ background: bg }}
