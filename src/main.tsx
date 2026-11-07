@@ -1,3 +1,4 @@
+import { applyDarkPalettePreview } from '@/config/darkPalettes';
 // ─── Imports
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
@@ -9,6 +10,7 @@ import { captureReferralFromUrl } from './utils/referral';
 
 import { initTheme } from './config/theme';
 initTheme();
+applyDarkPalettePreview();
 
 // ─── Root Render
 const rootElement = document.getElementById('root');
