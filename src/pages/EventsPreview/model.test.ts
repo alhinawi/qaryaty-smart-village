@@ -1,0 +1,10 @@
+import { it, expect } from 'vitest';
+import { eventEstimate, validEventDraft, type EventDraft, type EventListing } from './model';
+const draft:EventDraft={type:'عقيقة',guests:80,date:'2026-12-01',time:'16:00',place:'القرية شارع السوق',services:['catering','chairs'],note:''};
+const listing:EventListing={id:'listed-1',providerId:1,providerName:'صاحب الخدمة',service:'catering',amount:75,currency:'EGP',unit:'guest',updatedAt:'2026-11-01T00:00:00Z',expiresAt:'2026-12-01T00:00:00Z',ownerConfirmed:true,demo:false};const now=new Date('2026-11-07T10:00:00Z');
+it('requires valid details and at least one service',()=>{expect(validEventDraft(draft)).toBe(true);for(const guests of[0,1.2,2001,NaN])expect(validEventDraft({...draft,guests})).toBe(false);expect(validEventDraft({...draft,services:[]})).toBe(false);expect(validEventDraft({...draft,time:'25:99'})).toBe(false);});
+it('does not fabricate a total or turn unknown into zero',()=>{expect(eventEstimate(draft,[],now).total).toBe(null);expect(eventEstimate(draft,[listing],now).total).toBe(null);});
+it('estimates only explicit fresh owner listings',()=>{const quote=eventEstimate({...draft,services:['catering']},[listing],now);expect(quote.total).toBe(6000);expect(quote.rows[0].listing?.id).toBe('listed-1');});
+it('rejects demo unapproved stale and invalid numbers',()=>{for(const patch of[{demo:true},{ownerConfirmed:false},{expiresAt:'2026-10-01T00:00:00Z'},{updatedAt:'2027-01-01T00:00:00Z'},{amount:NaN},{amount:-1}])expect(eventEstimate({...draft,services:['catering']},[{...listing,...patch}],now).total).toBe(null);});
+it('does not silently choose between two providers',()=>{expect(eventEstimate({...draft,services:['catering']},[listing,{...listing,id:'listed-2'}],now).total).toBe(null);});
+it('does not multiply unrelated pricing units',()=>{expect(eventEstimate({...draft,services:['catering']},[{...listing,unit:'chair'}],now).total).toBe(null);});
