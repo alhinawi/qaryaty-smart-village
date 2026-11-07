@@ -29,6 +29,7 @@ import { preloadSearchScreen } from '@/components/search/loadSearchScreen';
 
 // ─── Lazy Loaded Pages
 const HomePage = lazy(() => import('@/pages/Home'));
+const ReviewsPreviewPage = lazy(() => import('@/components/reviews/ReviewsPreviewPage'));
 const CatalogDetail = lazy(() => import('@/pages/CatalogDetail'));
 const SettingsPage = lazy(() => import('@/pages/Settings'));
 const ThemeSettingsPage = lazy(() => import('@/pages/Settings/ThemeSettings'));
@@ -175,6 +176,7 @@ export default function App() {
                   path={ROUTES.home}
                   element={<HomePage onOpenOrderModal={handleOpenOrderModal} />}
                 />
+                <Route path="/preview/reviews" element={<ReviewsPreviewPage />} />
                 <Route path="/shops/:id" element={<CatalogDetail kind="shop" onOpenOrderModal={handleOpenOrderModal} />} />
                 <Route path="/providers/:id" element={<CatalogDetail kind="provider" onOpenOrderModal={handleOpenOrderModal} />} />
                 <Route path="/services/:id" element={<CatalogDetail kind="service" onOpenOrderModal={handleOpenOrderModal} />} />
