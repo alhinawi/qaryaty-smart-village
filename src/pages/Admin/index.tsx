@@ -1,3 +1,5 @@
+import { useAppearanceEnabled } from '@/hooks/useAppearanceEnabled';
+import { setAppearanceGate } from '@/config/appearanceGate';
 // ─── Staff panel (/admin): one panel, and every staff tier sees its own
 // sections (src/config/staffTiers.ts). The owner is the only one who appoints
 // supervisors or changes their tiers; review queues live on their own pages.
@@ -52,6 +54,16 @@ export default function AdminPage() {
   const providers = useCatalogStore((s) => s.providers);
   // وضع العرض التجريبي: owner-only switch, flips the whole site at once
   const demoMode = useDemoMode();
+  const appearanceOn = useAppearanceEnabled();
+  const [appearanceBusy, setAppearanceBusy] = useState(false);
+  async function toggleAppearance() {
+    if (appearanceBusy || appearanceOn === null) return;
+    setAppearanceBusy(true);
+    try { await settingsRepo.setAppearanceEnabled(!appearanceOn); setAppearanceGate(!appearanceOn); useUIStore.getState().showToast('إعداد الثيمات اتحفظ'); }
+    catch { useUIStore.getState().showToast('الإعداد ماتحفظش. جرّب تاني'); }
+    finally { setAppearanceBusy(false); }
+  }
+
   const [demoBusy, setDemoBusy] = useState(false);
 
   const toggleDemoMode = async () => {
@@ -145,6 +157,11 @@ export default function AdminPage() {
           </button>
         </div>
       )}
+
+      {role === 'owner' && <section aria-label="التحكم في الثيمات" className="bg-white rounded-2xl border border-green/15 p-4 mb-5 flex items-center justify-between gap-3">
+        <div className="min-w-0"><h2 className="text-[15px] font-black text-green-dark m-0">الثيمات للزوار</h2><p className="text-xs text-text-muted leading-relaxed m-0 mt-1">{appearanceOn === null ? 'مش قادرين نتحقق من الإعداد دلوقتي.' : appearanceOn ? 'شغالة: كل زائر يقدر يختار شكل التطبيق من الإعدادات.' : 'مقفولة: الكل بيستخدم الشكل الافتراضي، واختيار الثيمات متخفي.'}</p><p className="text-[10px] text-text-muted m-0 mt-1">التغيير بيوصل لباقي الأجهزة عند الرجوع للتطبيق أو خلال دقيقة. الاختيارات المحفوظة بترجع لما تفتحها.</p></div>
+        <button type="button" role="switch" aria-label="السماح بتغيير الثيمات" aria-checked={appearanceOn === true} disabled={appearanceBusy || appearanceOn === null} onClick={() => void toggleAppearance()} className={`shrink-0 w-14 h-8 rounded-full p-1 border-none disabled:opacity-50 ${appearanceOn ? 'bg-green' : 'bg-gray-300'}`}><span className={`block w-6 h-6 rounded-full bg-white shadow transition-transform ${appearanceOn ? '-translate-x-6' : 'translate-x-0'}`} /></button>
+      </section>}
 
       {sections.overview && (
         <div className="grid grid-cols-3 gap-2 mb-5">
