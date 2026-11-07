@@ -30,6 +30,8 @@ import { preloadSearchScreen } from '@/components/search/loadSearchScreen';
 // ─── Lazy Loaded Pages
 const HomePage = lazy(() => import('@/pages/Home'));
 const CatalogDetail = lazy(() => import('@/pages/CatalogDetail'));
+const SettingsPage = lazy(() => import('@/pages/Settings'));
+const ThemeSettingsPage = lazy(() => import('@/pages/Settings/ThemeSettings'));
 const FamilyOrderPreviewPage = lazy(() => import('@/components/family/FamilyOrderPreviewPage'));
 const OrdersPage = lazy(() => import('@/pages/Orders'));
 const FavoritesPage = lazy(() => import('@/pages/Favorites'));
@@ -176,6 +178,8 @@ export default function App() {
                 <Route path="/shops/:id" element={<CatalogDetail kind="shop" onOpenOrderModal={handleOpenOrderModal} />} />
                 <Route path="/providers/:id" element={<CatalogDetail kind="provider" onOpenOrderModal={handleOpenOrderModal} />} />
                 <Route path="/services/:id" element={<CatalogDetail kind="service" onOpenOrderModal={handleOpenOrderModal} />} />
+                <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/settings/appearance" element={<ThemeSettingsPage />} />
                 <Route path="/preview/family-order" element={<FamilyOrderPreviewPage />} />
                 <Route path={ROUTES.orders} element={<OrdersPage />} />
                 <Route
