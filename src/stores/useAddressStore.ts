@@ -1,3 +1,4 @@
+import { canDeleteAddress, LAST_ADDRESS_MESSAGE } from '@/utils/addressDeletion';
 // ─── عناويني: the saved addresses of whoever is using the app
 // Signed in → the account's addresses in Supabase; guest → this device.
 import { create } from 'zustand';
@@ -63,6 +64,8 @@ export const useAddressStore = create<AddressState>()((set, get) => ({
   },
 
   remove: async (id) => {
+    const current = await repo().list();
+    if (!canDeleteAddress(current, id)) throw new Error(LAST_ADDRESS_MESSAGE);
     await repo().remove(id);
     // The default may have moved to another address
     await get().load(true);
