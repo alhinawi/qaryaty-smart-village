@@ -345,7 +345,7 @@ function SearchOverlay({
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="عيش، سباك، شوي سمك، مدرس إنجليزي…"
-                  className="flex-1 min-w-0 bg-transparent border-none outline-none text-text font-['Cairo',sans-serif] text-[16px] placeholder:text-text-muted [&::-webkit-search-cancel-button]:hidden"
+                  className="flex-1 min-w-0 bg-transparent border-none outline-none no-focus-outline text-text font-['Cairo',sans-serif] text-[16px] placeholder:text-text-muted [&::-webkit-search-cancel-button]:hidden"
                 />
                 <VoiceSearchButton openInitially={voiceRequested} onText={(text) => { setQuery(text); setHomeQuery(text); }} />
                 {query && (
@@ -393,7 +393,7 @@ function SearchOverlay({
                   className={`relative shrink-0 px-3 pt-1.5 pb-2.5 min-h-[44px] bg-transparent border-none cursor-pointer font-['Cairo',sans-serif] text-[0.875rem] whitespace-nowrap transition-colors ${
                     active
                       ? "text-white font-black"
-                      : "text-white/75 font-bold hover:text-white"
+                      : "text-white/90 font-bold hover:text-white"
                   }`}
                 >
                   {t.label}
