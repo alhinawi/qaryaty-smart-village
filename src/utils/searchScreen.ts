@@ -289,6 +289,26 @@ export function groupResults(results: SearchEntry[]): ResultGroup[] {
   }).filter(g => g.entries.length > 0);
 }
 
+// ─── Products under their shop (Talabat-style shop sections)
+export type ProductEntry = Extract<SearchEntry, { type: 'product' }>;
+
+export interface ProductShopGroup {
+  shop: Shop;
+  entries: ProductEntry[];
+}
+
+/** Matching products subgrouped under their shop, in the order the shops first appear. */
+export function groupProductsByShop(entries: SearchEntry[]): ProductShopGroup[] {
+  const byShop = new Map<number, ProductShopGroup>();
+  for (const entry of entries) {
+    if (entry.type !== 'product') continue;
+    const group = byShop.get(entry.shop.id);
+    if (group) group.entries.push(entry);
+    else byShop.set(entry.shop.id, { shop: entry.shop, entries: [entry] });
+  }
+  return [...byShop.values()];
+}
+
 // ─── Explore tiles ("عايز إيه النهارده؟")
 export interface ExploreTile {
   key: string;

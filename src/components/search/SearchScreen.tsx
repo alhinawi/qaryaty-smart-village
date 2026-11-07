@@ -36,7 +36,7 @@ import { DONATION_SEARCH_FIELDS } from "@/config/donations";
 import { matchesSearch } from "@/utils/arabicSearch";
 import { ROUTES } from "@/routes";
 import { productsForShop } from "@/data/catalog";
-import { ShopMenuModal } from "@/components/modals/ShopMenuModal";
+import { LineControl, ShopMenuModal } from "@/components/modals/ShopMenuModal";
 import { Avatar } from "@/components/shared/Avatar";
 import { formatCurrency } from "@/utils/helpers";
 import {
@@ -52,10 +52,12 @@ import {
   buildSearchIndex,
   buildSearchTabs,
   exploreTiles,
+  groupProductsByShop,
   groupResults,
   searchEntries,
   shopTab,
   type ExploreTile,
+  type ProductEntry,
   type ResultGroup,
   type SearchEntry,
   type SearchTabId,
@@ -452,6 +454,7 @@ function SearchOverlay({
                 groups={groups}
                 query={deferredQuery}
                 onOpen={openEntry}
+                onOpenShop={openShop}
                 onShowOnHome={showOnHome}
                 stale={deferredQuery !== query}
               />
@@ -766,12 +769,14 @@ function Results({
   groups,
   query,
   onOpen,
+  onOpenShop,
   onShowOnHome,
   stale,
 }: {
   groups: ResultGroup[];
   query: string;
   onOpen: (entry: SearchEntry) => void;
+  onOpenShop: (shop: Shop) => void;
   onShowOnHome: () => void;
   stale: boolean;
 }) {
@@ -782,9 +787,17 @@ function Results({
     >
       {groups.map((group) => {
         const open = expanded.has(group.id) || groups.length === 1;
+        // Products show in Talabat-style shop sections; everything else stays a flat list
+        const shopGroups =
+          group.id === "products" ? groupProductsByShop(group.entries) : [];
+        const shownShops = open
+          ? shopGroups.slice(0, 60)
+          : shopGroups.slice(0, GROUP_PREVIEW);
         const shown = open
           ? group.entries.slice(0, 60)
           : group.entries.slice(0, GROUP_PREVIEW);
+        const moreCount =
+          group.id === "products" ? shopGroups.length : group.entries.length;
         return (
           <section key={group.id} aria-labelledby={`search-group-${group.id}`}>
             <h2
@@ -797,14 +810,28 @@ function Results({
                 ({group.entries.length})
               </span>
             </h2>
-            <ul className="list-none m-0 p-0 bg-white rounded-2xl border border-black/6 shadow-sm divide-y divide-black/5 overflow-hidden">
-              {shown.map((entry) => (
-                <li key={entry.key}>
-                  <ResultRow entry={entry} query={query} onOpen={onOpen} />
-                </li>
-              ))}
-            </ul>
-            {!open && group.entries.length > GROUP_PREVIEW && (
+            {group.id === "products" ? (
+              <div className="flex flex-col gap-3">
+                {shownShops.map((shopGroup) => (
+                  <ShopProductSection
+                    key={shopGroup.shop.id}
+                    shopGroup={shopGroup}
+                    query={query}
+                    onOpen={onOpen}
+                    onOpenShop={onOpenShop}
+                  />
+                ))}
+              </div>
+            ) : (
+              <ul className="list-none m-0 p-0 bg-white rounded-2xl border border-black/6 shadow-sm divide-y divide-black/5 overflow-hidden">
+                {shown.map((entry) => (
+                  <li key={entry.key}>
+                    <ResultRow entry={entry} query={query} onOpen={onOpen} />
+                  </li>
+                ))}
+              </ul>
+            )}
+            {!open && moreCount > GROUP_PREVIEW && (
               <button
                 type="button"
                 onClick={() =>
@@ -812,7 +839,7 @@ function Results({
                 }
                 className="mt-1.5 bg-transparent border-none cursor-pointer text-[0.8125rem] font-bold text-green min-h-[36px] px-1 hover:underline"
               >
-                عرض الكل ({group.entries.length})
+                عرض الكل ({moreCount})
               </button>
             )}
           </section>
@@ -826,6 +853,100 @@ function Results({
       >
         اعرض النتايج في الصفحة الرئيسية
       </button>
+    </div>
+  );
+}
+
+// ─── One shop's matching products: shop header plus a horizontal row of product cards
+function ShopProductSection({
+  shopGroup,
+  query,
+  onOpen,
+  onOpenShop,
+}: {
+  shopGroup: { shop: Shop; entries: ProductEntry[] };
+  query: string;
+  onOpen: (entry: SearchEntry) => void;
+  onOpenShop: (shop: Shop) => void;
+}) {
+  const { shop, entries } = shopGroup;
+  return (
+    <section
+      aria-label={shop.name}
+      className="bg-white rounded-2xl border border-black/6 shadow-sm p-3"
+    >
+      <button
+        type="button"
+        onClick={() => onOpenShop(shop)}
+        className="w-full flex items-center gap-2.5 bg-transparent border-none cursor-pointer p-0 text-start font-['Cairo',sans-serif]"
+      >
+        <span
+          className="w-[40px] h-[40px] rounded-xl overflow-hidden flex items-center justify-center text-[22px] shrink-0"
+          style={{ background: shop.bgColor || "#f0fdf4" }}
+        >
+          <TilePicture photo={shop.photo} emoji={shop.emoji} />
+        </span>
+        <span className="flex-1 min-w-0 font-extrabold text-[0.9375rem] text-text truncate">
+          <Highlight text={shop.name} query={query} />
+        </span>
+        {!shop.demo && (
+          <span
+            className={`shrink-0 text-[0.75rem] font-bold ${isShopOpenNow(shop) ? "text-success" : "text-danger"}`}
+          >
+            {isShopOpenNow(shop) ? "مفتوح" : "مغلق"}
+          </span>
+        )}
+      </button>
+      <ul className="flex gap-2.5 overflow-x-auto list-none m-0 mt-2.5 p-0 pb-1">
+        {entries.map((entry) => (
+          <li key={entry.key} className="shrink-0 w-[132px]">
+            <ProductCard entry={entry} query={query} onOpen={onOpen} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+// ─── One matching product inside its shop's section
+function ProductCard({
+  entry,
+  query,
+  onOpen,
+}: {
+  entry: ProductEntry;
+  query: string;
+  onOpen: (entry: SearchEntry) => void;
+}) {
+  const { shop, product } = entry;
+  return (
+    <div className="flex flex-col gap-1.5">
+      <button
+        type="button"
+        onClick={() => onOpen(entry)}
+        className="flex flex-col gap-1.5 bg-transparent border-none cursor-pointer p-0 text-start font-['Cairo',sans-serif]"
+      >
+        <span className="w-full h-[84px] rounded-xl overflow-hidden bg-[#f9fafb] flex items-center justify-center text-[34px]">
+          <TilePicture photo={product.photo} emoji={product.emoji} />
+        </span>
+        <span className="font-bold text-[0.8125rem] text-text leading-snug line-clamp-2 min-h-[2.6em]">
+          <Highlight text={product.name} query={query} />
+          {product.available === false && (
+            <span className="ms-1 text-[11px] rounded bg-gray-100 text-text-muted px-1.5 py-0.5">
+              خلصان
+            </span>
+          )}
+        </span>
+        <span className="text-[0.75rem] font-bold text-text">
+          <OfferPrice
+            price={product.price}
+            original={product.originalPrice}
+            percent={product.offerPercent}
+            unit={product.unit}
+          />
+        </span>
+      </button>
+      <LineControl shop={shop} product={product} grill={false} label="أضف" />
     </div>
   );
 }
