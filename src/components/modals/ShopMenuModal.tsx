@@ -1,3 +1,4 @@
+import { DemoOpinions } from '@/components/reviews/DemoOpinions';
 // ─── Imports
 import { useEffect, useMemo, useState } from 'react';
 import { Modal } from '@/components/ui/Modal';
@@ -178,7 +179,7 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
         {!isLoading && loaded !== 'error' && (
           <ul className="flex flex-col gap-2 max-h-[55vh] overflow-y-auto overscroll-none touch-pan-y">
             {visible.map((p) => (
-              <li key={p.id} className="flex items-center gap-3 p-2.5 rounded-xl bg-gray-50">
+              <li key={p.id} className="flex flex-wrap items-center gap-3 p-2.5 rounded-xl bg-gray-50">
                 <ProductPhoto photo={p.photo} emoji={p.emoji} className="w-14 h-14 rounded-lg" />
                 <div className="flex-1 min-w-0">
                   <div className="text-[14px] font-bold truncate">
@@ -202,6 +203,7 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
                   )}
                 </div>
                 <LineControl shop={shop} product={p} grill={false} label="أضف" />
+                <div className="basis-full"><DemoOpinions kind="product" target={`${shop.id}:${p.id}`} compact /></div>
               </li>
             ))}
             {visible.length === 0 && (
