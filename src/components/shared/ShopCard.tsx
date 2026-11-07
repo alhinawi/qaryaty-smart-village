@@ -53,19 +53,10 @@ export const ShopCard = React.memo(function ShopCard({
 
   return (
     <div
-      role="button"
-      tabIndex={0}
       className="motion-card relative shrink-0 w-[150px] bg-white rounded-2xl overflow-hidden shadow-md cursor-pointer transition-all duration-200 border border-green/10 text-right lg:w-full hover:translate-y-[-3px] hover:shadow-lg"
-      onClick={handleClick}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          handleClick();
-        }
-      }}
-      aria-label={`التسوق من ${shop.name}`}
     >
-      <div className="absolute top-10 left-0 z-10"><CatalogShareButton compact kind="shop" id={shop.id} name={shop.name} /></div>
+      <button type="button" className="absolute inset-0 z-10 rounded-2xl cursor-pointer border-0 bg-transparent focus-visible:outline-offset-[-3px]" onClick={handleClick} aria-label={`التسوق من ${shop.name}`} />
+      <div className="absolute top-10 left-0 z-20"><CatalogShareButton compact kind="shop" id={shop.id} name={shop.name} /></div>
       {shop.photo ? (
         <div className="relative h-[90px]" style={{ background: bg }}>
           {!shop.demo && shop.open && isShopBusy(shop) && (
@@ -108,7 +99,7 @@ export const ShopCard = React.memo(function ShopCard({
         </div>
       )}
       <div className="p-2.5">
-        <h5 className="text-sm font-extrabold mb-1 text-text">{shop.name}</h5><Link to={`/shops/${shop.id}`} onClick={e=>e.stopPropagation()} onKeyDown={e=>e.stopPropagation()} className="inline-block text-[11px] text-green font-bold py-2">التفاصيل والآراء</Link>
+        <h5 className="text-sm font-extrabold mb-1 text-text">{shop.name}</h5><Link to={`/shops/${shop.id}`} onClick={e=>e.stopPropagation()} onKeyDown={e=>e.stopPropagation()} className="relative z-20 inline-block text-[12px] text-green font-bold py-2">التفاصيل والآراء</Link>
         {shop.kind === "restaurant" && (
           <p className="text-[11px] text-text-muted leading-snug mb-1 line-clamp-2">
             {shop.description}
@@ -124,7 +115,7 @@ export const ShopCard = React.memo(function ShopCard({
         {shop.time && <div className="text-[11px] text-text-muted">{shop.time}</div>}
         {shop.kind === "restaurant" && (shop.rating || shop.deliveryTime) && (
           <div className="text-[11px] text-text-muted mt-0.5 flex flex-wrap gap-x-2">
-            {shop.rating ? <span className="font-bold text-amber-600">⭐ {shop.rating.toFixed(1)}</span> : null}
+            {shop.rating ? <span className="font-bold text-amber-800">⭐ {shop.rating.toFixed(1)}</span> : null}
             {shop.deliveryTime ? <span>🛵 {shop.deliveryTime}</span> : null}
           </div>
         )}

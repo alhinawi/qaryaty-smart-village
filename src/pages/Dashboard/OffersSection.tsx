@@ -82,6 +82,7 @@ export function OffersSection({ shop }: { shop: Shop }) {
       ) : (
         <div className="flex flex-col gap-2.5">
           <input
+            aria-label="عنوان العرض"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="العرض (مثال: خصم 20% على الغدا)"
@@ -89,14 +90,15 @@ export function OffersSection({ shop }: { shop: Shop }) {
             className="w-full min-h-[46px] rounded-xl border border-[rgba(26,122,74,0.25)] px-3 text-[16px] font-bold font-['Cairo',sans-serif]"
           />
           <input
+            aria-label="تفاصيل العرض"
             value={details}
             onChange={(e) => setDetails(e.target.value)}
             placeholder="تفاصيل زيادة (اختياري)"
             maxLength={120}
             className="w-full min-h-[46px] rounded-xl border border-[rgba(26,122,74,0.25)] px-3 text-[16px] font-['Cairo',sans-serif]"
           />
-          <div className="flex items-center gap-2">
-            <span className="text-[13px] font-bold text-text-muted">مدة العرض:</span>
+          <div role="group" aria-label="مدة العرض" className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <span className="col-span-full text-[13px] font-bold text-text-muted">مدة العرض:</span>
             {DURATIONS.map((h) => (
               <button
                 key={h}
