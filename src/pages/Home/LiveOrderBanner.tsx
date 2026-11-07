@@ -20,8 +20,8 @@ export function LiveOrderBanner() {
       <div className="flex-1">
         <div className="flex items-center gap-2 mb-1 flex-wrap">
           <span className="text-sm font-extrabold text-text">طلب حامد العيش شغال دلوقتي</span>
-          <span className="inline-flex items-center gap-1 bg-danger text-white text-[11px] font-extrabold px-2 py-0.5 rounded-xl animate-pulse">
-            <span className="w-1.5 h-1.5 rounded-sm bg-white animate-pulse" /> مباشر
+          <span className="inline-flex items-center gap-1 bg-danger text-white text-[11px] font-extrabold px-2 py-0.5 rounded-xl">
+            <span className="w-1.5 h-1.5 rounded-sm bg-white" /> مباشر
           </span>
         </div>
         <div className="text-xs text-text-muted">⏱️ متوقع وصوله في 8 دقايق</div>

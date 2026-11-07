@@ -1,0 +1,7 @@
+# Remove scroll flashing
+
+User's phone recording2026-11-07: home scrolling restaurants/services. Main requested sweep of possible flash effects. Clear implemented candidate: motion2 IntersectionObserver adds opacity0 reveal only after visible card intersects, causing card to disappear/reappear while scrolling. Removed card reveal/stagger and all IntersectionObserver/MutationObserver scanning. Route now140ms translate3px only, opacity always1; press/nav/drawer motion retained and reduced-motion cancels. Native screenshot/video proof included.
+
+Other candidates removed: Skeleton gradient sweep and pack2 opacity pulse→static neutral grey; LiveOrderBanner label/dot pulse→static; full-screen haptic overlay/helper keyframes removed (no caller found during source sweep, so do not claim it caused this video). Existing pointer tap highlight already transparent. ProductPhoto no image shine effect; new badge static, no shine/pulse code, left unchanged. Global .animate-pulse static under motion-enabled app to prevent other loading-panel flashes. Card dimensions/photos/colors untouched.
+
+520tests/build/scoped touched lint passed.390actual app recording scroll/nav/drawer, no page errors; motion-enter count0 and card WebAnimations count0.320reducedmotion no animations/transform/overflow. Native3x still inspected; video inspected sampled frame only, not physical Android FPS/slow-network image loading. Lazy-loaded photos can still arrive naturally, but no new opacity flash is applied.
