@@ -34,3 +34,18 @@ Expose a narrow RPC/view for published reviews only: public review ID, consented
 ## Rollout
 
 This document and `/preview/reviews` are prototypes only. No table/RPC/policy has been created or changed. Before backend implementation: inspect live schema and RLS, take and verify a fresh recoverable backup, obtain approval for exact migrations, test on a separate database, then wire catalog detail sections and Orders eligibility. Until then the sample review page must not become a public real-review feature.
+
+## Implemented locally after approval
+
+- Migration `20261107080000_public_reviews.sql`: RPC-only private tables, server-derived eligibility/target, pending moderation, narrow public keyset pages, honest catalog aggregates, private reports and audited content-admin decisions.
+- Connected Orders form, catalog list/report UI and admin queue. No rewards change. Unknown/outage aggregates hide stars instead of preserving manually seeded ratings on real rows. Demo catalog stars stay inside demo mode.
+- `scripts/review-sql-tests`: run `npm ci && npm test` there. PGlite provides an isolated PostgreSQL-compatible engine; 27 behavioral SQL checks passed. This does not replace live-Supabase schema/role/RLS integration testing.
+- Browser lifecycle checked at 390/320 using in-memory repository doubles: completed-order form, name consent, pending submission, admin publication, public list and report, empty hides. No real customer review or report submitted during testing.
+
+## Deployment gate
+
+S3B must inspect the live schema first: `shops.hidden/is_demo/owner_profile_id`, `providers.active/is_demo/service_id/owner_profile_id`, `services.hidden/is_demo`, `orders.shop_id/provider_id/service_id/user_id/status`, `profiles.blocked`, `can_review_content()`. The baseline reviewed here resets customer-created orders to pending and grants status changes only under admin RLS; verify those guards are still live before trusting completed-order badges.
+
+Take a fresh recoverable backup, apply the SQL transaction only after approval, then run authenticated customer/other-account/blocked/guest/content-admin checks against a staging or test account. Do not seed fictional rows into the real reviews table. Public mode has no sample fallback. Test all three target kinds and inspect actual API response fields. Deploy code after SQL; refresh catalog to update aggregates. A missing RPC fails closed rather than inventing ratings.
+
+Rollback disables all reviews RPC access without deleting submitted review/report/audit records. Use `public-reviews-rollback.sql`, then roll back code. Restoring service requires the explicit grants at the end of the reviewed migration, not re-running CREATE TABLE against existing tables.

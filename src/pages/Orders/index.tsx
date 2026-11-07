@@ -1,3 +1,5 @@
+import { OwnReviewsProvider } from '@/components/reviews/OwnReviewsProvider';
+import { OrderReviewAction } from '@/components/reviews/OrderReviewAction';
 import { useEffect } from 'react';
 import { isSupabaseConfigured } from '@/repositories';
 // ─── Imports
@@ -80,7 +82,7 @@ export default function OrdersPage() {
   };
 
   return (
-    <div className="orders-page-container">
+    <OwnReviewsProvider><div className="orders-page-container">
       {/* Page Header */}
       <div className="mb-6">
         <h2 className="text-[clamp(1.375rem,3vw,1.75rem)] font-black text-green-dark font-['Tajawal',sans-serif] mb-1">
@@ -255,6 +257,8 @@ export default function OrdersPage() {
 
               )}
 
+              {/* Real reviews have server-side ownership/completion checks and no rewards. */}
+              {isSupabaseConfigured && ownerId && order.status === 'done' && !order.id.startsWith('ord_demo_') && <OrderReviewAction key={`${ownerId}:${order.id}`} orderId={order.id} />}
               {/* Rating Section if Delivered */}
               {!isSupabaseConfigured && !order.id.startsWith("ord_demo_") && order.status === "done" && (
                 <div className="mb-3">
@@ -304,6 +308,6 @@ export default function OrdersPage() {
         </div>
       )}
       {historyHasMore && !historyError && <Button className="mt-4" loading={historyLoading} onClick={() => void loadHistory(true)}>عرض طلبات أقدم</Button>}
-    </div>
+    </div></OwnReviewsProvider>
   );
 }
