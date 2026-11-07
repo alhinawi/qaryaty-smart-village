@@ -33,6 +33,7 @@ const ReviewsAdminPage = lazy(() => import('@/components/reviews/ReviewsAdminPag
 const ReviewsPreviewPage = lazy(() => import('@/components/reviews/ReviewsPreviewPage'));
 const CatalogDetail = lazy(() => import('@/pages/CatalogDetail'));
 const SettingsPage = lazy(() => import('@/pages/Settings'));
+const EventsPreview = lazy(() => import('@/pages/EventsPreview'));
 const ThemeSettingsPage = lazy(() => import('@/pages/Settings/ThemeSettings'));
 const FamilyOrderPreviewPage = lazy(() => import('@/components/family/FamilyOrderPreviewPage'));
 const OrdersPage = lazy(() => import('@/pages/Orders'));
@@ -183,6 +184,7 @@ export default function App() {
                 <Route path="/providers/:id" element={<CatalogDetail kind="provider" onOpenOrderModal={handleOpenOrderModal} />} />
                 <Route path="/services/:id" element={<CatalogDetail kind="service" onOpenOrderModal={handleOpenOrderModal} />} />
                 <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/events-preview" element={<EventsPreview />} />
                 <Route path="/settings/appearance" element={<ThemeSettingsPage />} />
                 <Route path="/preview/family-order" element={<FamilyOrderPreviewPage />} />
                 <Route path={ROUTES.orders} element={<OrdersPage />} />
