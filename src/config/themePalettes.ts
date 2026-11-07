@@ -1,11 +1,11 @@
 import { DARK_PALETTES } from './darkPalettes';
 export const LIGHT_PALETTES = [
-  { id: 1, name: 'أبيض أخضر', bg: '#f4f8f5', surface: '#ffffff', raised: '#e7f1eb', ink: '#172b20', muted: '#53695c', border: '#c7dace' },
-  { id: 2, name: 'عاجي دافي', bg: '#faf6ed', surface: '#fffdf8', raised: '#f0ebdb', ink: '#252b20', muted: '#626858', border: '#d9d6c5' },
-  { id: 3, name: 'نعناعي', bg: '#edf7f0', surface: '#fafffb', raised: '#dceee1', ink: '#173a28', muted: '#4b6b58', border: '#bcd7c5' },
-  { id: 4, name: 'رمادي هادي', bg: '#f0f2f1', surface: '#ffffff', raised: '#e3e7e4', ink: '#202b25', muted: '#59675f', border: '#c9d1cc' },
-  { id: 5, name: 'رملي دهبي', bg: '#f5f0e3', surface: '#fffdf6', raised: '#eae2ce', ink: '#303025', muted: '#676451', border: '#d7ccb0' },
-  { id: 6, name: 'أخضر فاتح ناعم', bg: '#f3f6eb', surface: '#fdfff8', raised: '#e4ebd8', ink: '#283623', muted: '#5b6b50', border: '#ccd8be' },
+  { id: 1, name: 'كلاسيك أبيض', bg: '#ffffff', surface: '#ffffff', raised: '#e7f1eb', ink: '#172b20', muted: '#53695c', border: '#c7dace' },
+  { id: 2, name: 'كريمي ودهبي', bg: '#f4e5c5', surface: '#fff8e8', raised: '#e7d5b0', ink: '#252b20', muted: '#626858', border: '#d9d6c5' },
+  { id: 3, name: 'نعناعي واضح', bg: '#d2eadb', surface: '#edf9f1', raised: '#b8dbc5', ink: '#173a28', muted: '#4b6b58', border: '#bcd7c5' },
+  { id: 4, name: 'فضي بارد', bg: '#dfe6eb', surface: '#f6f9fb', raised: '#cbd6dd', ink: '#202b25', muted: '#59675f', border: '#c9d1cc' },
+  { id: 5, name: 'تباين قوي', bg: '#ffffff', surface: '#ffffff', raised: '#e7eee9', ink: '#303025', muted: '#676451', border: '#d7ccb0' },
+  { id: 6, name: 'ليموني وأخضر', bg: '#faf2c9', surface: '#f0f7e8', raised: '#e1ebcb', ink: '#283623', muted: '#5b6b50', border: '#ccd8be' },
 ] as const;
 export const PALETTE_KEY = 'qaryati-theme-palettes';
 export interface PaletteChoice { darkId: number; lightId: number }
