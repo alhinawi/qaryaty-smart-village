@@ -4,6 +4,7 @@ import React, { useMemo, useState } from 'react';
 import type { OrderModalData, Shop } from '@/types';
 import { ShopCard } from '@/components/shared/ShopCard';
 import { useUIStore } from '@/stores/useUIStore';
+import { useProviderDashboardStore } from '@/stores/useProviderDashboardStore';
 import { ShopMenuModal } from '@/components/modals/ShopMenuModal';
 import { FOOD_TYPE_LABELS } from '@/data/catalog';
 
@@ -31,6 +32,9 @@ export function ShopsSection({
   onShowAll,
 }: ShopsSectionProps) {
   const showToast = useUIStore((state) => state.showToast);
+  // Same-device mirror of the merchant's «مشغول» toggle (mock mode); in live
+  // mode the flag comes from the shop row itself.
+  const merchantOverrides = useProviderDashboardStore((s) => s.merchants);
   const [menuShop, setMenuShop] = useState<Shop | null>(null);
   const [foodType, setFoodType] = useState<string | null>(null);
   const isRestaurants = variant === 'restaurants';
@@ -107,7 +111,16 @@ export function ShopsSection({
         }
       >
         {shown.map((shop) => (
-          <ShopCard key={shop.id} shop={shop} onSelectShop={onSelectShop} onOpenMenu={setMenuShop} />
+          <ShopCard
+            key={shop.id}
+            shop={
+              merchantOverrides[shop.id]?.busy !== undefined
+                ? { ...shop, busy: merchantOverrides[shop.id].busy, busyUntil: merchantOverrides[shop.id].busyUntil ?? undefined }
+                : shop
+            }
+            onSelectShop={onSelectShop}
+            onOpenMenu={setMenuShop}
+          />
         ))}
       </div>
 

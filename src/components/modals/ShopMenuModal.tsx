@@ -8,6 +8,7 @@ import { cartItemFromProduct, useCartStore } from '@/stores/useCartStore';
 import { useCatalogStore } from '@/stores/useCatalogStore';
 import { useUIStore } from '@/stores/useUIStore';
 import { formatCurrency } from '@/utils/helpers';
+import { isShopBusy } from '@/utils/shopBusy';
 import type { Product, Shop } from '@/types';
 
 interface ShopMenuModalProps {
@@ -114,6 +115,11 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
   return (
     <Modal isOpen onClose={close} title={shop.name} emoji={shop.emoji} maxWidth="640px">
       <div dir="rtl" className="text-right">
+        {!shop.demo && isShopBusy(shop) && (
+          <p className="text-[12px] font-bold text-[#92400e] bg-[#fffbeb] border border-[#e7cd7a] rounded-lg px-3 py-2 mb-2">
+            🕐 المحل مشغول — التحضير هياخد وقت أطول من المعتاد
+          </p>
+        )}
         {shop.demo && (
           <p className="text-[12px] text-gray-600 bg-amber-50 rounded-lg px-3 py-2 mb-2">{shop.kind === 'pharmacy' ? 'بيانات خيالية للتجربة فقط، ليست صيدلية حقيقية ولا تعبر عن مخزون متاح. لا يمكن الطلب منها.' : 'محل خيالي. الصور والأصناف توضيحية، ولا تعبر عن محل فعلي أو مخزون متاح. لا يمكن الطلب منه.'}</p>
         )}

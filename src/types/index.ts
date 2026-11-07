@@ -283,6 +283,10 @@ export interface Shop {
   deliveryTime?: string;
   /** Restaurants: the village the kitchen is in. */
   village?: string;
+  /** مشغول: الطلبات شغالة بس التحضير هياخد وقت أطول (التاجر يفعّلها بلمسة). */
+  busy?: boolean;
+  /** متى تنتهي حالة الانشغال تلقائيًا (ISO)؛ فاضية = لحد ما التاجر يقفلها. */
+  busyUntil?: string;
 }
 
 export interface CategoryItem {
