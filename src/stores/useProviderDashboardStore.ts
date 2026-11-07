@@ -35,6 +35,9 @@ export interface MerchantOverrides {
   description?: string;
   /** Replaced shop photo (data URL while there is no backend). */
   photo?: string;
+  /** واتساب الطلبات: the merchant's WhatsApp number + opt-in for new-order messages. */
+  whatsappPhone?: string;
+  whatsappOptIn?: boolean;
   products: Record<string, ProductOverride>;
   customProducts: CustomProduct[];
 }
@@ -67,6 +70,7 @@ interface ProviderDashboardState {
   setProductPrice: (shopId: number, productId: string, price: number) => void;
   setProductPhoto: (shopId: number, productId: string, photo: string) => void;
   setShopPhoto: (shopId: number, photo: string) => void;
+  setShopWhatsapp: (shopId: number, phone: string, optIn: boolean) => void;
   addCustomProduct: (shopId: number, input: Omit<CustomProduct, 'id' | 'available'>) => CustomProduct;
   setCustomProductAvailable: (shopId: number, productId: string, available: boolean) => void;
   setCustomProductPrice: (shopId: number, productId: string, price: number) => void;
@@ -143,6 +147,10 @@ export const useProviderDashboardStore = create<ProviderDashboardState>()(
         }));
       },
 
+      setShopWhatsapp: (shopId, phone, optIn) =>
+        set((s) => ({
+          merchants: { ...s.merchants, [shopId]: { ...emptyMerchant(), ...s.merchants[shopId], whatsappPhone: phone, whatsappOptIn: optIn } },
+        })),
       setShopPhoto: (shopId, photo) =>
         set((s) => ({
           merchants: { ...s.merchants, [shopId]: { ...emptyMerchant(), ...s.merchants[shopId], photo } },
