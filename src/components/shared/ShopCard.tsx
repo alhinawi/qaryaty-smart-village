@@ -1,3 +1,4 @@
+import { CatalogShareButton } from './CatalogShareButton';
 // ─── Imports
 import React from "react";
 import type { OrderModalData, Shop } from "@/types";
@@ -88,6 +89,7 @@ export const ShopCard = React.memo(function ShopCard({
         </div>
       )}
       <div className="p-2.5">
+        <CatalogShareButton kind="shop" id={shop.id} name={shop.name} />
         <h5 className="text-sm font-extrabold mb-1 text-text">{shop.name}</h5>
         {shop.kind === "restaurant" && (
           <p className="text-[11px] text-text-muted leading-snug mb-1 line-clamp-2">
