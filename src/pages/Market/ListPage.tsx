@@ -1,7 +1,7 @@
 // ─── /market/sale and /market/swap: browse posts, filter, search, post a new one
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { Plus, Search, SlidersHorizontal, X } from 'lucide-react';
+import { Plus, Search, SlidersHorizontal } from 'lucide-react';
 import { marketRepo, type ListingKind, type MarketListing } from '@/repositories';
 import {
   EMPTY_FILTERS,
@@ -188,19 +188,7 @@ export default function MarketListPage({ kind }: { kind: ListingKind }) {
               </div>
             </fieldset>
           )}
-          {activeFilters > 0 && (
-            <button
-              type="button"
-              onClick={() => {
-                setFilters((f) => ({ ...EMPTY_FILTERS, search: f.search }));
-                setMinText('');
-                setMaxText('');
-              }}
-              className="self-start inline-flex items-center gap-1 text-[13px] font-bold text-red-600"
-            >
-              <X className="w-4 h-4" aria-hidden="true" /> امسح الفلاتر
-            </button>
-          )}
+
         </div>
       )}
 
@@ -233,7 +221,7 @@ export default function MarketListPage({ kind }: { kind: ListingKind }) {
               ? kind === 'sale'
                 ? 'كن أول واحد يعرض حاجة للبيع في قريتك.'
                 : 'كن أول واحد يعرض حاجة للتبادل في قريتك.'
-              : 'غيّر البحث أو امسح الفلاتر.'
+              : 'غيّر البحث أو اختيارات الفلاتر.'
           }
           actionText={listings.length === 0 ? (kind === 'sale' ? 'اعرض حاجة' : 'اعرض للتبادل') : undefined}
           onAction={listings.length === 0 ? goPost : undefined}
