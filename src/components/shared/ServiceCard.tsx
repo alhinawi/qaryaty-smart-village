@@ -3,8 +3,9 @@ import { CatalogShareButton } from './CatalogShareButton';
 import { ImagePlaceholder } from '@/components/ui/ImagePlaceholder';
 // ─── Imports
 
-import React, { useState } from "react";
-import { imageForService } from "@/config/serviceImages";
+import React from "react";
+import { imagesForService } from "@/config/serviceImages";
+import { ServiceImageGallery } from "./ServiceImageGallery";
 
 import type { Service, ServiceCategory } from "@/types";
 
@@ -54,7 +55,7 @@ export const ServiceCard = React.memo(function ServiceCard({
 
   const showToast = useUIStore((state) => state.showToast);
 
-  const [imageFailed, setImageFailed] = useState(false);
+  const images = imagesForService(service);
   const bg = CATEGORY_BACKGROUNDS[service.cat] || "#f9fafb";
 
   const isFeatured = service.featured && !disableFeaturedLayout;
@@ -95,27 +96,14 @@ export const ServiceCard = React.memo(function ServiceCard({
       <button type="button" className="absolute inset-0 z-10 rounded-2xl cursor-pointer border-0 bg-transparent focus-visible:outline-offset-[-3px]" onClick={() => onSelect(service)} aria-label={`طلب خدمة ${service.name}`} />
       {/* Service Image */}
       <div
-        className={`h-[110px] flex items-center justify-center text-[48px] relative ${
+        className={`h-[110px] shrink-0 self-center w-full flex items-center justify-center text-[48px] relative ${
           isFeatured
             ? "max-lg:w-[120px] max-lg:h-[120px] max-lg:shrink-0"
             : ""
         }`}
         style={{ background: bg }}
       >
-        {!imageFailed && imageForService(service) ? (
-          <img
-            src={imageForService(service)}
-            alt=""
-            width={480}
-            height={540}
-            loading="lazy"
-            decoding="async"
-            onError={() => setImageFailed(true)}
-            className="w-full h-full object-cover object-center"
-          />
-        ) : (
-          <ImagePlaceholder className="w-full h-full" />
-        )}
+        {images.length ? <ServiceImageGallery key={images.join('|')} images={images} name={service.name} /> : <ImagePlaceholder className="w-full h-full" />}
 
         <div className="absolute bottom-0 left-0 z-20"><CatalogShareButton compact kind="service" id={service.id} name={service.name} /></div>
         {/* Favorite Heart Button */}
