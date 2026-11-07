@@ -3,7 +3,7 @@
 // have orders. Demo mode: a sample ranking shows (still gated on the verified flag).
 import { useEffect, useState } from 'react';
 import type { Shop } from '@/types';
-import { ShopMenuModal } from '@/components/modals/ShopMenuModal';
+import { ShopMenuPage } from '@/components/shop/ShopMenuPage';
 import { useCatalogStore } from '@/stores/useCatalogStore';
 import { useTrackingDemoMode } from '@/hooks/useTrackingDemoMode';
 import { topShopsRepo, type WeeklyTopShop } from '@/repositories';
@@ -72,7 +72,7 @@ export function TopWeeklySection() {
           </button>
         ))}
       </div>
-      <ShopMenuModal shop={menuShop} onClose={() => setMenuShop(null)} />
+      <ShopMenuPage shop={menuShop} onClose={() => setMenuShop(null)} />
     </section>
   );
 }

@@ -5,7 +5,7 @@ import type { Service, Shop } from '@/types';
 import { catalogPath } from '@/utils/catalogLinks';
 import { useTrackingDemoMode } from '@/hooks/useTrackingDemoMode';
 import { useProviderDashboardStore } from '@/stores/useProviderDashboardStore';
-import { ShopMenuModal } from '@/components/modals/ShopMenuModal';
+import { ShopMenuPage } from '@/components/shop/ShopMenuPage';
 import { demoOpenNow, demoHoursLabel, demoRiderAvailable } from '@/utils/quickNeedsDemo';
 import { openNowShops, quickNeedServices, quickNeedShops, quickNeedsVisible, type QuickNeed } from '@/utils/quickNeeds';
 import { useAuthStore, selectIsStaff } from '@/stores/useAuthStore';
@@ -57,7 +57,7 @@ export function QuickNeeds({ shops, services }: { shops: Shop[]; services: Servi
           })}
         </div>
       </div>
-      <ShopMenuModal shop={menuShop && (!menuShop.demo || demo) && shops.some(shop => shop.id === menuShop.id) ? menuShop : null} onClose={() => setMenuShop(null)} />
+      <ShopMenuPage shop={menuShop && (!menuShop.demo || demo) && shops.some(shop => shop.id === menuShop.id) ? menuShop : null} onClose={() => setMenuShop(null)} />
     </section>
   );
 }
