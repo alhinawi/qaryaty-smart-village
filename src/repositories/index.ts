@@ -1,3 +1,4 @@
+import { validOrderPoint, ORDER_LOCATION_REQUIRED } from '@/utils/orderLocation';
 // ─── Data access for the whole app (Repository / Service layer)
 //
 // Pages and stores call these functions only: getServices(), createOrder(),
@@ -143,7 +144,10 @@ export const orderRepo: OrderRepo = isSupabaseConfigured
   ? createResilientOrderRepo(createSupabaseOrderRepo(getSupabase))
   : createMockOrderRepo();
 
-export const createOrder = (input: NewOrder) => orderRepo.createOrder(input);
+export const createOrder = (input: NewOrder) => {
+  if (!validOrderPoint(input)) return Promise.reject(new Error(ORDER_LOCATION_REQUIRED));
+  return orderRepo.createOrder(input);
+};
 export const quoteDeliveryFee = (shopId: number) => orderRepo.quoteDeliveryFee(shopId);
 export type { NewOrder };
 

@@ -28,8 +28,8 @@ export function rowToAddress(row: AddressRow): UserAddress {
   return {
     id: row.id,
     label: row.label,
-    lat: Number(row.lat),
-    lng: Number(row.lng),
+    lat: row.lat == null ? NaN : Number(row.lat),
+    lng: row.lng == null ? NaN : Number(row.lng),
     street: row.street ?? '',
     building: row.building ?? '',
     floor: row.floor ?? '',
@@ -94,6 +94,16 @@ export function createSupabaseAddressRepo(getClient: () => Promise<SupabaseClien
     async remove(id) {
       const supabase = await getClient();
       const { error } = await supabase.rpc('delete_saved_address', { p_id: id });
+      if (error?.code === 'PGRST202' || error?.code === '42883') {
+        // Compatibility until the separately-approved atomic guard RPC exists.
+        // Never erase the last address on this client; the DB guard is still needed
+        // for concurrent or direct API deletion protection.
+        const rows = await this.list();
+        if (rows.length <= 1) throw new RepoError('rejected', 'ضيف عنوان تاني الأول قبل ما تمسح عنوانك الأساسي.');
+        const result = await supabase.from('user_addresses').delete().eq('id', id);
+        check(result.error);
+        return;
+      }
       if (error?.code === '23514') throw new RepoError('rejected', 'ضيف عنوان تاني الأول قبل ما تمسح عنوانك الأساسي.', { cause: error });
       check(error);
     },

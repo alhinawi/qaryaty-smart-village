@@ -3,7 +3,7 @@ import fs from 'node:fs';
 const db=new PGlite();
 await db.exec(`create role anon;create role authenticated;create schema auth;create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
 create table profiles(id uuid primary key,blocked boolean default false);create table shops(id bigint primary key,name text,owner_profile_id uuid,is_demo boolean default false,hidden boolean default false);`);
-await db.exec(fs.readFileSync(new URL('../../supabase/migrations/20261107093000_daily_price_board.sql',import.meta.url),'utf8'));
+await db.exec(fs.readFileSync(new URL('../../docs/proposals/deferred-20261107093000_daily_price_board.sql',import.meta.url),'utf8'));
 const owner='11111111-1111-4111-8111-111111111111',other='22222222-2222-4222-8222-222222222222';
 await db.exec(`insert into profiles values('${owner}',false),('${other}',false);insert into shops values(1,'محل أحمد','${owner}',false,false),(2,'Demo','${owner}',true,false),(3,'Hidden','${owner}',false,true);`);
 let n=0;const check=(test,label)=>{if(!test)throw Error(label);n++;console.log('PASS',label)};

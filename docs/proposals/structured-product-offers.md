@@ -3,7 +3,7 @@
 One product per shop, integer1..99%, starts immediately, duration2/3/4/6hours. No fixed price, future scheduling or minimum rules yet. New offer replaces previous atomically; exact-ID stop cannot stop a newer replacement accidentally. Merchant editor keeps base catalog prices. Menu shows original/current unit price and end time. Cart checks shop-specific offer again before submit; changed price/offer updates cart and requires another confirmation. Server rejects missing/stale unit price or offer ID and stores original/current unit price, offer ID and percent in order item JSON. Product discount excludes grilling and delivery. Existing commission function, rate, caps and QARYA1 rules remain unchanged; normal commission calculation uses the discounted item subtotal.
 
 ## Rollout: do not deploy frontend alone
-- Proposed SQL only: supabase/migrations/20261107110000_product_offers.sql. Nothing applied remotely.
+- Proposed SQL only: docs/proposals/deferred-20261107110000_product_offers.sql. Nothing applied remotely.
 - Back up actual live orders_before_insert, daily_offers definitions/policies and data. Reconcile this function replacement against newer live changes, especially stock work.
 - Depends on daily_offers and delivery_fee migrations. Transactional SQL retires existing text-only ads without deleting rows, adds structured fields, locks publisher/order discount reads using advisory locks, restricts writes to owner-only RPC.
 - Coordinate SQL+client deployment. Old clients lacking expected prices will be rejected, not charged a surprise amount. Refresh clients after rollout.

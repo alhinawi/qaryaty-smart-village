@@ -16,6 +16,7 @@ const DURATIONS = [2, 3, 4, 6];
 export function OffersSection({ shop }: { shop: Shop }) {
   const offerScope=useAuthStore(s=>s.session?.user.id??'guest');
   const trackingDemo=useTrackingDemoMode();
+  const structuredLocal = (shop.demo || !isSupabaseConfigured) && trackingDemo;
   const repo=(shop.demo||!isSupabaseConfigured)&&trackingDemo?createLocalOffersRepo(offerScope):offersRepo;
   const showToast = useUIStore((s) => s.showToast);
   const [current, setCurrent] = useState<DailyOffer | null>(null);
@@ -43,14 +44,14 @@ export function OffersSection({ shop }: { shop: Shop }) {
   }, [shop.id,shop.demo,trackingDemo,offerScope]);
 
   const publish = async () => {
-    if (!productId||!Number.isInteger(percentOff)||percentOff<1||percentOff>99){showToast('اختار المنتج ونسبة خصم من1 إلى99');return;}
+    if (structuredLocal && (!productId||!Number.isInteger(percentOff)||percentOff<1||percentOff>99)){showToast('اختار المنتج ونسبة خصم من1 إلى99');return;}
     if (!title.trim()) {
       showToast('⚠️ اكتب العرض الأول');
       return;
     }
     setBusy(true);
     try {
-      const offer = await repo.create(shop.id, shop.name, title, details, hours,{productId,percentOff});
+      const offer = await repo.create(shop.id, shop.name, title, details, hours,structuredLocal?{productId,percentOff}:undefined);
       setCurrent(offer);
       setTitle('');
       setDetails('');
@@ -95,9 +96,9 @@ export function OffersSection({ shop }: { shop: Shop }) {
         </div>
       ) : (
         <div className="flex flex-col gap-2.5">
-          <label className="text-xs font-bold">المنتج المشمول بالخصم<select aria-label="منتج العرض" value={productId} onChange={e=>setProductId(e.target.value)} className="block w-full bg-white rounded-xl border border-green/25 p-3 mt-1"><option value="">اختار منتج</option>{Array.isArray(products)&&products.map(p=><option key={p.id} value={p.id}>{p.name}</option>)}</select></label>
+          {structuredLocal && <><label className="text-xs font-bold">المنتج المشمول بالخصم<select aria-label="منتج العرض" value={productId} onChange={e=>setProductId(e.target.value)} className="block w-full bg-white rounded-xl border border-green/25 p-3 mt-1"><option value="">اختار منتج</option>{Array.isArray(products)&&products.map(p=><option key={p.id} value={p.id}>{p.name}</option>)}</select></label>
           <label className="text-xs font-bold">نسبة الخصم %<input aria-label="نسبة الخصم" type="number" min="1" max="99" step="1" value={percentOff} onChange={e=>setPercentOff(Number(e.target.value))} className="block w-full rounded-xl border border-green/25 p-3 mt-1"/></label>
-          <p className="text-xs text-text-muted m-0">الخصم على سعر المنتج بس. رسوم التوصيل والشوي وقواعد عمولة التطبيق زي ما هي.</p>
+          <p className="text-xs text-text-muted m-0">الخصم على سعر المنتج بس. رسوم التوصيل والشوي وقواعد عمولة التطبيق زي ما هي.</p></>}
           <input
             aria-label="عنوان العرض"
             value={title}
