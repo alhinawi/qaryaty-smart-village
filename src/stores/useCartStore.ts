@@ -1,3 +1,4 @@
+import {isSupabaseConfigured} from '@/repositories/supabaseClient';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { CartItem, Product, Service, Shop } from '@/types';
@@ -58,6 +59,9 @@ export function cartItemFromProduct(
   const price = product.price + (grill?.pricePerKilo ?? 0);
   return {
     id: `shop-${shop.id}-${product.id}${grill ? '-grill' : ''}`,
+    demoOnly:shop.demo===true||!isSupabaseConfigured,
+    originalPrice:product.originalPrice!=null?product.originalPrice+(grill?.pricePerKilo??0):undefined,
+    offerId:product.offerId,offerEndsAt:product.offerEndsAt,
     serviceId: 0,
     name: grill ? `${product.name} (شراء وشوي)` : product.name,
     price,

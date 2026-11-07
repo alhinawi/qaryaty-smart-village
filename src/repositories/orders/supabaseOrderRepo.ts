@@ -43,7 +43,7 @@ export function orderToRow(id: string, input: NewOrder, userId: string | null) {
     // The database prices these from its own product list (orders_before_insert)
     shop_id: input.shopId ?? null,
     items: input.items?.length
-      ? input.items.map((i) => ({ product_id: i.productId, quantity: i.quantity, grill: i.grill ?? false }))
+      ? input.items.map((i) => ({ product_id: i.productId, quantity: i.quantity, grill: i.grill ?? false,expected_unit_price:i.expectedUnitPrice,expected_offer_id:i.offerId??null }))
       : null,
   };
 }
@@ -59,7 +59,7 @@ type OrderRow = {
   discount_amount: number; total_amount: number | null; commission_amount: number;
   delivery_fee: number; is_estimate: boolean; status: Order['status'];
   options: Order['options'] | null; service_id: number | null; provider_id: number | null;
-  shop_id: number | null; items: { product_id: number; quantity: number; grill?: boolean }[] | null;
+  shop_id: number | null; items: { product_id: string; quantity: number; grill?: boolean; original_unit_price?:number;unit_price?:number;offer_id?:number;offer_percent?:number }[] | null;
   payment_status: Order['paymentStatus']; lat: number | null; lng: number | null; created_at: string;
 };
 
@@ -74,7 +74,7 @@ export function orderFromRow(row: OrderRow): Order {
     isEstimate: row.is_estimate, status: row.status, options: row.options ?? undefined,
     serviceId: row.service_id ?? undefined, providerId: row.provider_id ?? undefined,
     shopId: row.shop_id ?? undefined,
-    items: row.items?.map(i => ({ productId: String(i.product_id), quantity: i.quantity, grill: i.grill ?? false })),
+    items: row.items?.map(i => ({ productId: String(i.product_id), quantity: i.quantity, grill: i.grill ?? false,originalUnitPrice:i.original_unit_price,unitPrice:i.unit_price,offerId:i.offer_id!=null?`offer_${i.offer_id}`:undefined,offerPercent:i.offer_percent })),
     paymentStatus: row.payment_status, lat: row.lat ?? undefined, lng: row.lng ?? undefined,
     createdAt: getFormattedDate(new Date(row.created_at)),
   };
@@ -107,6 +107,7 @@ export function createSupabaseOrderRepo(getClient: () => Promise<SupabaseClient>
         if (error.code === '23505' && /one_promo/.test(error.message ?? '')) {
           throw new RepoError('rejected', PROMO_USED_MESSAGE, { cause: error });
         }
+        if (/OFFER_PRICE_CHANGED/.test(error.message??''))throw new RepoError('rejected','السعر أو العرض اتغيّر. اقفل السلة وافتحها وراجع السعر قبل التأكيد',{cause:error});
         if (isRejectedByDatabase(error.code)) throw new RepoError('rejected', REJECTED_MESSAGE, { cause: error });
         throw error;
       }

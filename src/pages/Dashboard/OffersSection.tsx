@@ -1,24 +1,37 @@
+import {isSupabaseConfigured} from '@/repositories/supabaseClient';
 // ─── عرض اليوم (merchant side): set a time-limited offer, stop it early
 import { useEffect, useState } from 'react';
 import { offersRepo, type DailyOffer } from '@/repositories';
 import { countdownText } from '@/utils/countdown';
 import { Button } from '@/components/ui/Button';
 import { useUIStore } from '@/stores/useUIStore';
+import {useAuthStore} from '@/stores/useAuthStore';
+import {useTrackingDemoMode} from '@/hooks/useTrackingDemoMode';
+import {createLocalOffersRepo} from '@/repositories/offers/localOffersRepo';
+import {useCatalogStore} from '@/stores/useCatalogStore';
 import type { Shop } from '@/types';
 
 const DURATIONS = [2, 3, 4, 6];
 
 export function OffersSection({ shop }: { shop: Shop }) {
+  const offerScope=useAuthStore(s=>s.session?.user.id??'guest');
+  const trackingDemo=useTrackingDemoMode();
+  const repo=(shop.demo||!isSupabaseConfigured)&&trackingDemo?createLocalOffersRepo(offerScope):offersRepo;
   const showToast = useUIStore((s) => s.showToast);
   const [current, setCurrent] = useState<DailyOffer | null>(null);
   const [title, setTitle] = useState('');
   const [details, setDetails] = useState('');
   const [hours, setHours] = useState(3);
   const [busy, setBusy] = useState(false);
+  const [productId,setProductId]=useState('');
+  const [percentOff,setPercentOff]=useState(20);
+  const products=useCatalogStore(s=>s.products[shop.id]);
+  const loadProducts=useCatalogStore(s=>s.loadProducts);
+  useEffect(()=>{void loadProducts(shop)},[shop,loadProducts]);
 
   useEffect(() => {
     let alive = true;
-    offersRepo
+    ((shop.demo||!isSupabaseConfigured)&&trackingDemo?createLocalOffersRepo(offerScope):offersRepo)
       .mineForShop(shop.id)
       .then((o) => {
         if (alive) setCurrent(o);
@@ -27,20 +40,21 @@ export function OffersSection({ shop }: { shop: Shop }) {
     return () => {
       alive = false;
     };
-  }, [shop.id]);
+  }, [shop.id,shop.demo,trackingDemo,offerScope]);
 
   const publish = async () => {
+    if (!productId||!Number.isInteger(percentOff)||percentOff<1||percentOff>99){showToast('اختار المنتج ونسبة خصم من1 إلى99');return;}
     if (!title.trim()) {
       showToast('⚠️ اكتب العرض الأول');
       return;
     }
     setBusy(true);
     try {
-      const offer = await offersRepo.create(shop.id, shop.name, title, details, hours);
+      const offer = await repo.create(shop.id, shop.name, title, details, hours,{productId,percentOff});
       setCurrent(offer);
       setTitle('');
       setDetails('');
-      showToast('🔥 عرضك اتنشر وظهر للعملاء');
+      showToast('✅ عرضك اتحفظ، وبيظهر للعملاء مع تحديث العروض');
     } catch (error) {
       showToast(error instanceof Error ? `⚠️ ${error.message}` : '⚠️ العرض ماتحفظش');
     } finally {
@@ -52,7 +66,7 @@ export function OffersSection({ shop }: { shop: Shop }) {
     if (!current) return;
     setBusy(true);
     try {
-      await offersRepo.stop(current.id);
+      await repo.stop(current.id);
       setCurrent(null);
       showToast('✅ العرض اتوقف');
     } catch {
@@ -81,6 +95,9 @@ export function OffersSection({ shop }: { shop: Shop }) {
         </div>
       ) : (
         <div className="flex flex-col gap-2.5">
+          <label className="text-xs font-bold">المنتج المشمول بالخصم<select aria-label="منتج العرض" value={productId} onChange={e=>setProductId(e.target.value)} className="block w-full bg-white rounded-xl border border-green/25 p-3 mt-1"><option value="">اختار منتج</option>{Array.isArray(products)&&products.map(p=><option key={p.id} value={p.id}>{p.name}</option>)}</select></label>
+          <label className="text-xs font-bold">نسبة الخصم %<input aria-label="نسبة الخصم" type="number" min="1" max="99" step="1" value={percentOff} onChange={e=>setPercentOff(Number(e.target.value))} className="block w-full rounded-xl border border-green/25 p-3 mt-1"/></label>
+          <p className="text-xs text-text-muted m-0">الخصم على سعر المنتج بس. رسوم التوصيل والشوي وقواعد عمولة التطبيق زي ما هي.</p>
           <input
             aria-label="عنوان العرض"
             value={title}
@@ -99,6 +116,7 @@ export function OffersSection({ shop }: { shop: Shop }) {
           />
           <div role="group" aria-label="مدة العرض" className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             <span className="col-span-full text-[13px] font-bold text-text-muted">مدة العرض:</span>
+
             {DURATIONS.map((h) => (
               <button
                 key={h}

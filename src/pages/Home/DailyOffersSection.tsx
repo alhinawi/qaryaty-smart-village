@@ -1,6 +1,8 @@
 // ─── عروض اليوم: live merchant offers with a countdown, auto-hide on expiry.
 // Card art: style ٣ is the approved default; ?offers=1|2|all still previews the rest.
 import { useEffect, useState } from 'react';
+import {useAuthStore} from '@/stores/useAuthStore';
+import {createLocalOffersRepo} from '@/repositories/offers/localOffersRepo';
 import { useTrackingDemoMode } from '@/hooks/useTrackingDemoMode';
 import { offersRepo, type DailyOffer } from '@/repositories';
 import { countdownText, isOfferActive } from '@/utils/countdown';
@@ -135,6 +137,7 @@ export function DailyOffersSection() {
   // false→true when the first successful settings read lands, so the sample
   // offer appears without waiting for the slow refresh
   const trackingDemo = useTrackingDemoMode();
+  const offerScope=useAuthStore(s=>s.session?.user.id??'guest');
   // A slow tick re-renders the countdown and drops expired offers
   const [, setTick] = useState(0);
 
@@ -143,8 +146,10 @@ export function DailyOffersSection() {
     const refresh = () => {
       offersRepo
         .listActive()
-        .then((list) => {
-          if (alive) setOffers(list);
+        .then(async (list) => {
+          const local=trackingDemo?await createLocalOffersRepo(offerScope).listActive():[];
+          const shops=new Set(local.map(o=>o.shopId));
+          if (alive) setOffers([...local,...list.filter(o=>!shops.has(o.shopId))]);
         })
         .catch(() => {
           /* no offers shown when the backend can't answer */
@@ -158,7 +163,7 @@ export function DailyOffersSection() {
       clearInterval(reloadTimer);
       clearInterval(tickTimer);
     };
-  }, [trackingDemo]);
+  }, [trackingDemo,offerScope]);
 
   const live = offers.filter((o) => isOfferActive(o.endsAt));
   if (live.length === 0) return null;
