@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router';
 import { Modal } from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { mergeNotifications, useUIStore } from '@/stores/useUIStore';
+import { mergeNotifications, withoutSampleNotifications, useUIStore } from '@/stores/useUIStore';
+import { useTrackingDemoMode } from '@/hooks/useTrackingDemoMode';
 import { useAuthStore, selectUser } from '@/stores/useAuthStore';
 import { notificationsRepo, SERVER_NOTIF_PREFIX } from '@/repositories';
 
@@ -14,7 +15,11 @@ export function NotificationsDrawer() {
   const setIsOpen = useUIStore((state) => state.setIsNotificationsOpen);
   const remoteNotifs = useUIStore((state) => state.remoteNotifications);
   const localNotifs = useUIStore((state) => state.notifications);
-  const notifications = useMemo(() => mergeNotifications(remoteNotifs, localNotifs), [remoteNotifs, localNotifs]);
+  const demoOn = useTrackingDemoMode();
+  const notifications = useMemo(
+    () => withoutSampleNotifications(mergeNotifications(remoteNotifs, localNotifs), demoOn),
+    [remoteNotifs, localNotifs, demoOn]
+  );
   const setRemoteNotifications = useUIStore((state) => state.setRemoteNotifications);
   const markAsRead = useUIStore((state) => state.markNotificationAsRead);
   const markAllAsRead = useUIStore((state) => state.markAllNotificationsAsRead);

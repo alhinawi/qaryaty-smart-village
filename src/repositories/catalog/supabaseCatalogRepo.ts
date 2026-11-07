@@ -200,31 +200,46 @@ export function providerFromRow(row: ProviderRow): Provider {
   });
 }
 
-export function createSupabaseCatalogRepo(getClient: () => Promise<SupabaseClient>): CatalogRepo {
+export function createSupabaseCatalogRepo(
+  getClient: () => Promise<SupabaseClient>,
+  /** Demo content visible? Read at query time so the admin switch applies at once. */
+  showDemo: () => boolean = () => true,
+): CatalogRepo {
   return {
     async getServices() {
       const supabase = await getClient();
-      const { data, error } = await supabase.from('services').select('*').eq('hidden', false).order('id');
+      let query = supabase.from('services').select('*').eq('hidden', false);
+      if (!showDemo()) query = query.eq('is_demo', false);
+      const { data, error } = await query.order('id');
       if (error) throw error;
       return (data as ServiceRow[]).map(serviceFromRow);
     },
     async getShops() {
       const supabase = await getClient();
-      const { data, error } = await supabase.from('shops').select('*').order('id');
+      let query = supabase.from('shops').select('*');
+      if (!showDemo()) query = query.eq('is_demo', false);
+      const { data, error } = await query.order('id');
       if (error) throw error;
-      return appendIllustrativeShops(appendDemoPharmacies((data as ShopRow[]).map(shopFromRow)));
+      const shops = (data as ShopRow[]).map(shopFromRow);
+      // Illustrative/demo shops are presentation-only; real mode never sees them.
+      return showDemo() ? appendIllustrativeShops(appendDemoPharmacies(shops)) : shops;
     },
     async getProviders() {
       const supabase = await getClient();
-      const { data, error } = await supabase.from('providers').select('*').eq('active', true).order('id');
+      let query = supabase.from('providers').select('*').eq('active', true);
+      if (!showDemo()) query = query.eq('is_demo', false);
+      const { data, error } = await query.order('id');
       if (error) throw error;
       const providers = (data as ProviderRow[]).map(providerFromRow);
+      if (!showDemo()) return providers;
       // Extra fictional demo caregivers are presentation-only; never overwrite live rows.
       return [...providers, ...PROVIDERS.filter(p => p.id >= 145 && p.id <= 147 && !providers.some(row => row.id === p.id))];
     },
     async getProducts(shop) {
-      const demoMenu = demoPharmacyMenu(shop, PHARMACY);
-      if (demoMenu) return demoMenu;
+      if (showDemo()) {
+        const demoMenu = demoPharmacyMenu(shop, PHARMACY);
+        if (demoMenu) return demoMenu;
+      }
       const supabase = await getClient();
       const { data, error } = await supabase
         .from('catalog_products')
@@ -234,7 +249,9 @@ export function createSupabaseCatalogRepo(getClient: () => Promise<SupabaseClien
         .order('product_id');
       if (error) throw error;
       const rows = data as CatalogProductRow[];
-      return rows.length > 0 ? appendIllustrativeRestaurantItems(shop, rows.map(productFromRow)) : null;
+      if (rows.length === 0) return null;
+      const products = rows.map(productFromRow);
+      return showDemo() ? appendIllustrativeRestaurantItems(shop, products) : products;
     },
 
     async addShop(input: NewShopInput) {
