@@ -29,6 +29,7 @@ import type {
   TeacherSubject,
 } from '@/types';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { RepoError } from '../errors';
 import type { CatalogRepo, NewProviderInput, NewShopInput } from './types';
 
 export interface ServiceRow {
@@ -334,4 +335,42 @@ export function createSupabaseCatalogRepo(
       return providerFromRow(data as ProviderRow);
     },
   };
+}
+
+// ─── بيانات المحل (merchant dashboard): the merchant edits his own shop row
+// (RLS: "shops: owner edits own"; staff keep the admin policies). Only the
+// fields the dashboard actually changed go in the payload, so one edit never
+// clobbers the rest of the row.
+export interface ShopBasicsUpdate {
+  open?: boolean;
+  /** Customer-facing hours text ("⏰ 7ص - 12م"); isShopOpenNow reads it. */
+  hours?: string;
+  description?: string;
+  busy?: boolean;
+  /** ISO auto-end for busy; null = until the merchant clears it himself. */
+  busyUntil?: string | null;
+  photo?: string;
+}
+
+export function shopBasicsPayload(update: ShopBasicsUpdate): Record<string, unknown> {
+  const payload: Record<string, unknown> = {};
+  if (update.open !== undefined) payload.open = update.open;
+  if (update.hours !== undefined) payload.time = update.hours;
+  if (update.description !== undefined) payload.description = update.description;
+  if (update.busy !== undefined) payload.is_busy = update.busy;
+  if (update.busyUntil !== undefined) payload.busy_until = update.busyUntil;
+  if (update.photo !== undefined) payload.photo = update.photo;
+  return payload;
+}
+
+export async function updateShopBasics(
+  getClient: () => Promise<SupabaseClient>,
+  shopId: number,
+  update: ShopBasicsUpdate,
+): Promise<void> {
+  const payload = shopBasicsPayload(update);
+  if (Object.keys(payload).length === 0) return;
+  const supabase = await getClient();
+  const { error } = await supabase.from('shops').update(payload).eq('id', shopId);
+  if (error) throw new RepoError('rejected', 'ماقدرناش نحفظ التعديل — محتاج صلاحية إدارة', { cause: error });
 }
