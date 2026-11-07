@@ -19,3 +19,7 @@ Source-grounded principles:
 - https://developer.chrome.com/docs/web-platform/view-transitions : available navigation-transition approach, intentionally not selected for this small patch.
 
 QA:513 application tests/build/scoped lint pass. Browser recordings390×844 with native3x screenshots, no runtime errors. Reduced-motion320 verified all3 packs have animation:none/transform:none and no overflow. No real low-end Android GPU/thermal/FPS test, so no60fps claim. Videos are actual local app recordings, not composited concept animation. Current published/sibling fixes require sequential merge before selecting a pack.
+
+## Selected default
+
+Main relayed user approval 2026-11-07 11:03. Pack2 selected as main communicated. This final patch enables2 without query parameters, removes preview badge and alternate packs, and preserves reduced-motion support. Based on latest fetched main f59364b; separate image/settings previews are not bundled. No database changes or direct publication.
