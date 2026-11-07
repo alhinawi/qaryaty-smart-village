@@ -54,6 +54,7 @@ export function ProviderCard({ provider, onBook, online = false, showShare = tru
             </p>
           )}
         </div>
+        {showShare && <CatalogShareButton compact kind="provider" id={provider.id} name={provider.name} />}
         {online && (
           <span className="shrink-0 bg-[#eef2ff] text-[#4338ca] text-[11px] font-extrabold px-2 py-1 rounded-full">
             💻 أونلاين
@@ -126,7 +127,7 @@ export function ProviderCard({ provider, onBook, online = false, showShare = tru
         </details>
       )}
 
-      {showShare && <div className="flex items-center justify-between"><Link to={`/providers/${provider.id}`} onClick={e=>e.stopPropagation()} onKeyDown={e=>e.stopPropagation()} className="inline-block text-[11px] text-green font-bold py-2">التفاصيل والآراء</Link><CatalogShareButton kind="provider" id={provider.id} name={provider.name} /></div>}
+      <Link to={`/providers/${provider.id}`} onClick={e=>e.stopPropagation()} onKeyDown={e=>e.stopPropagation()} className="inline-block text-[11px] text-green font-bold py-2">التفاصيل والآراء</Link>
       <div className="flex items-end justify-between gap-2 mt-auto">
         <div className="flex flex-col gap-0.5 min-w-0">
           {prices.map((line) => (
