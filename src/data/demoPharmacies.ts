@@ -13,7 +13,7 @@ export const DEMO_PHARMACIES: Shop[] = [
 ].map(([name, village], index) => ({
   id: -801 - index, name, village, kind: 'pharmacy', emoji: '💊',
   description: 'بيانات خيالية للتجربة، ليست صيدلية حقيقية ولا تعبر عن مخزون متاح. الأدوية بروشتة بعد مراجعة الصيدلي.',
-  demo: true, open: true, time: 'للعرض فقط', bgColor: '#EAF7F1',
+  demo: true, open: true, time: '', bgColor: '#EAF7F1',
   photo: `/img/pharmacies/demo-${index + 1}.webp`,
 }));
 
