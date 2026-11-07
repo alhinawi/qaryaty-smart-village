@@ -64,7 +64,7 @@ describe('isShopOpenNow', () => {
   });
 });
 
-import { hoursDisplayLabel, minuteToSpoken, spokenHoursRange } from './shopOpenNow';
+import { hoursClosingLabel, hoursDisplayLabel, minuteToSpoken, spokenHoursRange } from './shopOpenNow';
 
 describe('spoken hours labels', () => {
   it('names the clock in colloquial Egyptian with English digits', () => {
@@ -86,5 +86,15 @@ describe('spoken hours labels', () => {
     expect(hoursDisplayLabel('⏰ 24 ساعة')).toBe('24 ساعة');
     expect(hoursDisplayLabel('⏰ يفتح 2م')).toBeNull();
     expect(spokenHoursRange(7 * 60, 24 * 60)).toBe('من 7 الصبح لحد 12 بالليل');
+  });
+});
+
+describe('closing-only hours labels', () => {
+  it('shows only when an open shop closes', () => {
+    expect(hoursClosingLabel('⏰ 8ص - 1ص')).toBe('لحد 1 بالليل');
+    expect(hoursClosingLabel('⏰ 7ص - 12م')).toBe('لحد 12 الضهر');
+    expect(hoursClosingLabel('⏰ 10ص - 12ص')).toBe('لحد 12 بالليل');
+    expect(hoursClosingLabel('⏰ 24 ساعة')).toBe('24 ساعة');
+    expect(hoursClosingLabel('⏰ يفتح 2م')).toBeNull();
   });
 });

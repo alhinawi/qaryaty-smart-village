@@ -62,3 +62,14 @@ export function hoursDisplayLabel(time: string | undefined): string | null {
   if (from == null || to == null) return null;
   return spokenHoursRange(from, to);
 }
+
+/** "⏰ 8ص - 1ص" → "لحد 1 بالليل" (closing time only); "24 ساعة" stays; null when unreadable. */
+export function hoursClosingLabel(time: string | undefined): string | null {
+  if (!time) return null;
+  if (time.includes('24')) return '24 ساعة';
+  const range = time.match(/(\d{1,2})\s*([صم])\s*-\s*(\d{1,2})\s*([صم])/);
+  if (!range) return null;
+  const to = hourLabelToMinute(`${range[3]}${range[4]}`);
+  if (to == null) return null;
+  return `لحد ${minuteToSpoken(to)}`;
+}
