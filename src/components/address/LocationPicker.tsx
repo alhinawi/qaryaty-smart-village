@@ -1,3 +1,5 @@
+import { dialogTabStops, isTopDialog } from '@/utils/dialogFocus';
+import { validOrderPoint } from '@/utils/orderLocation';
 // ─── "تأكيد الموقع" – full-screen map like Talabat, then the address details
 // The map moves under a fixed pin; مكاني, streets/satellite, search and back on top;
 // "أدخل العنوان بالكامل" opens the details form, then onSave gets the address.
@@ -55,7 +57,19 @@ function PickerScreen({
   saveLabel,
   onSave,
 }: LocationPickerProps) {
-  const hasInitialPoint = typeof initial?.lat === 'number' && typeof initial?.lng === 'number';
+  const hasInitialPoint = validOrderPoint(initial);
+  const screenRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const previous = document.activeElement as HTMLElement | null;
+    return () => { requestAnimationFrame(() => {
+      if (previous?.isConnected && previous !== document.body) previous.focus({ preventScroll: true });
+      else {
+        const dialogs = [...document.querySelectorAll<HTMLElement>('[role="dialog"][aria-modal="true"]')].filter(el => el.getClientRects().length > 0);
+        const parent = dialogs.at(-1);
+        if (parent) (parent.querySelector<HTMLElement>('[tabindex="-1"]') ?? dialogTabStops(parent)[0])?.focus({ preventScroll: true });
+      }
+    }); };
+  }, []);
   const [startCenter] = useState<LatLng>(() =>
     hasInitialPoint ? { lat: initial!.lat!, lng: initial!.lng! } : (knownCenter ?? villageCenter(village))
   );
@@ -122,6 +136,30 @@ function PickerScreen({
     geo.status === 'idle' &&
     (geo.permission === 'prompt' || (geo.permission === 'unknown' && permWaitOver));
 
+  // The map, permission explanation and place search share one focus boundary.
+  useEffect(() => {
+    const screen = screenRef.current;
+    if (!screen) return;
+    const scope = () => screen.querySelector<HTMLElement>('[data-picker-focus-scope]') ?? screen;
+    const activeScope = scope();
+    if (!activeScope.contains(document.activeElement)) activeScope.focus({ preventScroll: true });
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key !== 'Tab' || !isTopDialog(screen)) return;
+      const boundary = scope();
+      const stops = dialogTabStops(boundary);
+      const first = stops[0], last = stops.at(-1), active = document.activeElement;
+      if (!first) { event.preventDefault(); boundary.focus(); }
+      else if (event.shiftKey && (active === first || active === boundary || !boundary.contains(active))) { event.preventDefault(); last?.focus(); }
+      else if (!event.shiftKey && (active === last || !boundary.contains(active))) { event.preventDefault(); first.focus(); }
+    };
+    const contain = (event: FocusEvent) => {
+      if (isTopDialog(screen) && event.target instanceof Node && !scope().contains(event.target)) scope().focus({ preventScroll: true });
+    };
+    window.addEventListener('keydown', onKey, true);
+    document.addEventListener('focusin', contain);
+    return () => { window.removeEventListener('keydown', onKey, true); document.removeEventListener('focusin', contain); };
+  }, [askLocation, searchOpen, step]);
+
   // Name of the spot under the pin, 0.8 s after the map stops
   useEffect(() => {
     if (moving) return;
@@ -149,7 +187,9 @@ function PickerScreen({
 
   return (
     <div
-      className="fixed inset-0 z-[260] bg-cream text-right flex flex-col h-dvh animate-[fadeIn_0.15s_ease]"
+      ref={screenRef}
+      tabIndex={-1}
+      className="outline-none fixed inset-0 z-[260] bg-cream text-right flex flex-col h-dvh animate-[fadeIn_0.15s_ease]"
       role="dialog"
       aria-modal="true"
       aria-label={step === 'map' ? 'تأكيد الموقع' : 'تفاصيل العنوان'}
@@ -299,7 +339,7 @@ function PickerScreen({
 // ─── "نحدد مكانك؟" – said before the browser asks, so the question isn't a surprise
 function LocationPrompt({ onAllow, onSkip }: { onAllow: () => void; onSkip: () => void }) {
   return (
-    <div className="absolute inset-0 z-[600] bg-black/40 flex items-end" role="alertdialog" aria-labelledby="loc-ask-title">
+    <div tabIndex={-1} data-picker-focus-scope className="outline-none absolute inset-0 z-[600] bg-black/40 flex items-end" role="alertdialog" aria-labelledby="loc-ask-title">
       <div className="w-full bg-white rounded-t-3xl p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] text-center animate-[springUp_0.3s_ease]">
         <div className="mx-auto mb-3 w-14 h-14 rounded-full bg-green/10 text-green grid place-items-center">
           <MyLocationIcon size={28} />
@@ -349,7 +389,7 @@ function SearchPanel({ onClose, onPick }: { onClose: () => void; onPick: (p: Pla
   };
 
   return (
-    <div className="absolute inset-0 z-[700] bg-white flex flex-col">
+    <div tabIndex={-1} data-picker-focus-scope className="outline-none absolute inset-0 z-[700] bg-white flex flex-col">
       <form onSubmit={run} className="flex items-center gap-2 px-3 pt-[max(0.75rem,env(safe-area-inset-top))] pb-3 border-b border-gray-100">
         <button type="button" onClick={onClose} className="w-11 h-11 grid place-items-center rounded-full text-green-dark" aria-label="رجوع للخريطة">
           <BackIcon />
