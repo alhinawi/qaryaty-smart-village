@@ -398,3 +398,19 @@ html[data-theme='dark'] .bg-gold { color: #16351f; }
 html[data-theme='dark'] .bg-gold :is(.text-green,.text-green-dark) { color: #16351f; }
 html[data-theme='dark'] .form-group label { color: #8bdda8; }
 html[data-theme='dark'] [class~='text-[#b45309]'], html[data-theme='dark'] [class~='text-[#d97706]'], html[data-theme='dark'] [class~='text-[#7a4b00]'] { color: #f9d994; }
+/* Unpublished ?dark=1..10 design sampler. No change to persisted theme. */
+html[data-dark-preview] {
+  --color-cream: var(--preview-bg); --color-text: var(--preview-ink); --color-text-muted: var(--preview-muted);
+  --color-green: var(--preview-accent); --color-green-dark: var(--preview-actionInk); --color-gold: var(--preview-gold);
+  background: var(--preview-bg); color: var(--preview-ink);
+}
+html[data-dark-preview] :is(.bg-white,.bg-white\/95,.bg-white\/90,.bg-white\/80,.bg-white\/70) { background: var(--preview-surface); }
+html[data-dark-preview] :is(.bg-gray-50,.bg-gray-100,.bg-slate-50,.bg-green\/5,.bg-green\/8,.bg-green\/10,.bg-green\/15,.bg-green-50,.bg-green-100) { background: var(--preview-raised); }
+html[data-dark-preview] :is(.text-green-dark,.text-green,.text-success,.text-green-700,.text-green-800), html[data-dark-preview] .form-group label { color: var(--preview-accent); }
+html[data-dark-preview] :is(.text-gray-400,.text-gray-500,.text-gray-600,.text-gray-700,.text-gray-800,.text-gray-900) { color: var(--preview-muted); }
+html[data-dark-preview] :is(.border-gray-100,.border-gray-200,.border-gray-300,.border-green\/10,.border-green\/15,.border-green\/20) { border-color: var(--preview-border); }
+html[data-dark-preview] .bg-green { background: var(--preview-accent); color: var(--preview-actionInk); }
+html[data-dark-preview] .bg-gold, html[data-dark-preview] .bg-gold :is(.text-green,.text-green-dark) { color: var(--preview-actionInk); }
+html[data-dark-preview] [class*='bg-linear'], html[data-dark-preview] [class*='bg-gradient'] { background-image: linear-gradient(135deg,var(--preview-hero),var(--preview-heroEnd)); }
+html[data-dark-preview] [class*='bg-linear'] .text-white, html[data-dark-preview] [class*='bg-gradient'] .text-white { color: var(--preview-ink); }
+html[data-dark-preview='9'] .bg-white { background: linear-gradient(145deg,#173d46ee,#102e36f0); box-shadow: inset 0 1px 0 #98e5e126,0 8px 24px #0002; backdrop-filter: blur(12px); border-color: #49828766; }
