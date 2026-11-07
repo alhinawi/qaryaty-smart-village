@@ -9,6 +9,7 @@ import { useCatalogStore } from '@/stores/useCatalogStore';
 import { useProviderDashboardStore, type ProService } from '@/stores/useProviderDashboardStore';
 import { useUIStore } from '@/stores/useUIStore';
 import { useConfirmStore } from '@/stores/useConfirmStore';
+import { WhatsappSection } from './WhatsappSection';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { ProductPhoto } from '@/components/ui/ProductPhoto';
@@ -114,6 +115,7 @@ function MerchantPanel() {
           ))}
         </select>
       </label>
+      <WhatsappSection key={`wa-${shop.id}`} shop={shop} />
       <ShopInfoSection key={`info-${shop.id}`} shop={shop} />
       <ProductsSection key={`products-${shop.id}`} shop={shop} />
       {shop.kind === 'pharmacy' && <MedicinePacksSection shop={shop} />}
