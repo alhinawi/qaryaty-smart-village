@@ -31,6 +31,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import type { CatalogRepo, NewProviderInput, NewShopInput } from './types';
 
 export interface ServiceRow {
+  is_demo?: boolean;
   id: number;
   cat: ServiceCategory;
   emoji: string;
@@ -51,6 +52,7 @@ export interface ServiceRow {
 }
 
 export interface ShopRow {
+  is_demo?: boolean;
   id: number;
   emoji: string;
   name: string;
@@ -105,6 +107,7 @@ export function productFromRow(row: CatalogProductRow): Product {
 }
 
 export interface ProviderRow {
+  is_demo?: boolean;
   id: number;
   kind: ProviderKind;
   service_id: number;
@@ -143,7 +146,7 @@ export function serviceFromRow(row: ServiceRow): Service {
     price: row.price,
     numericPrice: row.numeric_price == null ? null : Number(row.numeric_price),
     priceType: row.price_type,
-    rating: row.rating,
+    rating: row.is_demo === true ? row.rating : '',
     badge: row.badge ?? '',
     featured: row.featured,
     subject: row.subject ?? undefined,
@@ -166,7 +169,7 @@ export function shopFromRow(row: ShopRow): Shop {
     kind: (row.kind ?? 'other') as Shop['kind'],
     foodTypes: (row.food_types ?? []) as Shop['foodTypes'],
     photo: row.photo ?? undefined,
-    rating: row.rating == null ? undefined : Number(row.rating),
+    rating: row.is_demo === true && row.rating != null ? Number(row.rating) : undefined,
     deliveryTime: row.delivery_time ?? undefined,
     village: row.village ?? undefined,
     busy: row.is_busy ?? undefined,
@@ -187,8 +190,8 @@ export function providerFromRow(row: ProviderRow): Provider {
     specialty: row.specialty ?? undefined,
     role: row.role ?? undefined,
     experienceYears: row.experience_years,
-    rating: Number(row.rating),
-    reviews: row.reviews,
+    rating: row.is_demo === true ? Number(row.rating) : 0,
+    reviews: row.is_demo === true ? row.reviews : 0,
     price: row.price,
     numericPrice: row.numeric_price == null ? null : Number(row.numeric_price),
     priceType: row.price_type,
@@ -209,6 +212,10 @@ export function createSupabaseCatalogRepo(
   /** Demo content visible? Read at query time so the admin switch applies at once. */
   showDemo: () => boolean = () => true,
 ): CatalogRepo {
+  async function aggregates(kind:string, ids:number[]) {
+    try { const c=await getClient(); const {data,error}=await c.rpc('public_review_aggregates',{p_kind:kind,p_ids:ids}); if(error) return new Map<number,{average:number;count:number}>(); return new Map<number,{average:number;count:number}>((data??[]).map((r:{target_id:number;average:number;review_count:number})=>[Number(r.target_id),{average:Number(r.average),count:Number(r.review_count)}])); }
+    catch { return new Map<number,{average:number;count:number}>(); } // Missing RPC/outage hides unverified stars, never preserves seeded values on real rows.
+  }
   return {
     async getServices() {
       const supabase = await getClient();
@@ -216,7 +223,8 @@ export function createSupabaseCatalogRepo(
       if (!showDemo()) query = query.eq('is_demo', false);
       const { data, error } = await query.order('id');
       if (error) throw error;
-      return (data as ServiceRow[]).map(serviceFromRow);
+      const rows=data as ServiceRow[]; const ratings=await aggregates('service',rows.filter(r=>r.is_demo!==true).map(r=>r.id));
+      return rows.map(row=>({...serviceFromRow(row),...(row.is_demo===true?{}:{rating:ratings.get(row.id)?.average.toFixed(1)??''})}));
     },
     async getShops() {
       const supabase = await getClient();
@@ -224,7 +232,8 @@ export function createSupabaseCatalogRepo(
       if (!showDemo()) query = query.eq('is_demo', false);
       const { data, error } = await query.order('id');
       if (error) throw error;
-      const shops = (data as ShopRow[]).map(shopFromRow);
+      const rows=data as ShopRow[]; const ratings=await aggregates('shop',rows.filter(r=>r.is_demo!==true).map(r=>r.id));
+      const shops=rows.map(row=>({...shopFromRow(row),...(row.is_demo===true?{}:{rating:ratings.get(row.id)?.average})}));
       // Illustrative/demo shops are presentation-only; real mode never sees them.
       return showDemo() ? appendIllustrativeShops(appendDemoPharmacies(shops)) : shops;
     },
@@ -234,7 +243,8 @@ export function createSupabaseCatalogRepo(
       if (!showDemo()) query = query.eq('is_demo', false);
       const { data, error } = await query.order('id');
       if (error) throw error;
-      const providers = (data as ProviderRow[]).map(providerFromRow);
+      const rows=data as ProviderRow[]; const ratings=await aggregates('provider',rows.filter(r=>r.is_demo!==true).map(r=>r.id));
+      const providers=rows.map(row=>({...providerFromRow(row),...(row.is_demo===true?{}:{rating:ratings.get(row.id)?.average??0,reviews:ratings.get(row.id)?.count??0})}));
       if (!showDemo()) return providers;
       // Extra fictional demo caregivers are presentation-only; never overwrite live rows.
       return [...providers, ...PROVIDERS.filter(p => p.id >= 145 && p.id <= 147 && !providers.some(row => row.id === p.id))];

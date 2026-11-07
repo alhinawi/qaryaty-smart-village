@@ -158,6 +158,7 @@ export default function AdminPage() {
         </div>
       )}
 
+      {sections.reviewQueues && <Link to="/admin/reviews" className="block bg-white border border-green/15 rounded-2xl p-4 mb-4 text-green font-bold">مراجعة آراء العملاء والبلاغات</Link>}
       {sections.reviewQueues && (
         <>
           <h2 className="text-[15px] font-black text-green-dark mb-2">طوابير المراجعة</h2>

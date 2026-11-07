@@ -1,0 +1,52 @@
+import {PGlite} from '@electric-sql/pglite';
+import fs from 'node:fs';
+const db=new PGlite();
+await db.exec(`create role anon;create role authenticated;create schema auth;
+create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
+create function auth.role() returns text language sql stable as $$select 'authenticated'::text$$;
+create table public.profiles(id uuid primary key,blocked boolean default false,role text);
+create function public.can_review_content() returns boolean language sql stable as $$select exists(select 1 from profiles where id=auth.uid() and not blocked and role in ('owner','admin','content_admin'))$$;
+create table public.shops(id bigint primary key,is_demo boolean default false,hidden boolean default false,owner_profile_id uuid);
+create table public.services(id bigint primary key,is_demo boolean default false,hidden boolean default false);
+create table public.providers(id bigint primary key,is_demo boolean default false,active boolean default true,service_id bigint,owner_profile_id uuid);
+create table public.orders(id uuid primary key,user_id uuid,status text,shop_id bigint,provider_id bigint,service_id bigint);`);
+await db.exec(fs.readFileSync(new URL('../../supabase/migrations/20261107080000_public_reviews.sql',import.meta.url),'utf8'));
+console.log('Migration parsed and installed');
+const user='11111111-1111-4111-8111-111111111111', other='22222222-2222-4222-8222-222222222222',admin='33333333-3333-4333-8333-333333333333';
+await db.exec(`insert into profiles values('${user}',false,'customer'),('${other}',false,'customer'),('${admin}',false,'content_admin');insert into shops(id)values(1);insert into shops(id,is_demo)values(2,true);insert into services(id)values(1);insert into providers(id,service_id)values(1,1);
+insert into orders values('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa','${user}','done',1,null,null),('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb','${user}','pending',1,null,null),('cccccccc-cccc-4ccc-8ccc-cccccccccccc','${user}','done',2,null,null);`);
+const as=async id=>db.exec(`select set_config('request.jwt.claim.sub','${id}',false);set role authenticated;`);
+let pass=0;const check=(ok,label)=>{if(!ok)throw Error(label);pass++;console.log('PASS',label)};
+const denied=async(sql,label)=>{try{await db.query(sql);throw Error('NOT REJECTED')}catch(e){if(e.message==='NOT REJECTED')throw Error(label);pass++;console.log('PASS',label)}};
+await db.exec('grant usage on schema auth to authenticated;grant execute on function auth.uid() to authenticated;');
+await as(other);await denied("select submit_review('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',5,'good','')",'other account denied');
+await as(user);await denied("select submit_review('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',5,'good','')",'unfinished denied');await denied("select submit_review('cccccccc-cccc-4ccc-8ccc-cccccccccccc',5,'good','')",'demo denied');
+await denied("select submit_review('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',6,'good','')",'invalid stars denied');await denied("select submit_review('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',5,'good','01012345678')",'phone label denied');
+const rid=(await db.query("select submit_review('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',4,'good','أحمد') id")).rows[0].id;
+await denied("select submit_review('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',5,'again','')",'duplicate denied');
+let page=(await db.query("select list_public_reviews('shop',1) p")).rows[0].p;check(page.count===0,'pending review not public');
+await denied('select * from reviews','direct table read denied');await denied(`select moderate_review('${rid}',true,'valid')`,'customer cannot moderate');
+await as(admin);await db.query(`select moderate_review('${rid}',true,'content checked')`);
+page=(await db.query("select list_public_reviews('shop',1) p")).rows[0].p;check(page.count===1&&page.average===4,'honest public average');check(Object.keys(page.rows[0]).sort().join(',')==='authorLabel,completedOrder,createdAt,id,stars,text','public projection has no private IDs');
+await as(other);await db.query(`select report_review('${rid}','personal')`);await db.query(`select report_review('${rid}','personal')`);await denied('select * from review_reports','reporter table private');
+await as(admin);let q=(await db.query('select review_moderation_queue() q')).rows[0].q;check(Number(q[0].reports_count)===1,'report deduplicated');await db.query(`select moderate_review('${rid}',false,'contains personal data')`);page=(await db.query("select list_public_reviews('shop',1) p")).rows[0].p;check(page.count===0&&page.average===null,'hidden removed from count and average');
+await db.exec('reset role');check((await db.query('select count(*)::int n from review_moderation_log')).rows[0].n===2,'moderation audit persisted');
+
+await db.exec(`select set_config('request.jwt.claim.sub','',false);set role anon;`);
+await denied("select submit_review('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa',5,'','')",'anonymous submit denied');
+page=(await db.query("select list_public_reviews('shop',1) p")).rows[0].p;check(page.count===0,'anonymous sees no hidden reviews');
+await db.exec('reset role');
+await db.exec(`update shops set owner_profile_id='${user}' where id=1;insert into orders values('dddddddd-dddd-4ddd-8ddd-dddddddddddd','${user}','done',1,null,null);`);
+await as(user);await denied("select submit_review('dddddddd-dddd-4ddd-8ddd-dddddddddddd',5,'','')",'self merchant review denied');
+await db.exec('reset role');await db.exec(`update shops set owner_profile_id=null where id=1;update profiles set blocked=true where id='${user}';`);
+await as(user);await denied("select submit_review('dddddddd-dddd-4ddd-8ddd-dddddddddddd',5,'','')",'blocked account denied');
+await db.exec('reset role');await db.exec(`update profiles set blocked=false where id='${user}';`);
+for(let i=0;i<45;i++) {const id=crypto.randomUUID();await db.query('insert into orders values($1,$2,\'done\',1,null,null)',[id,user]);await db.query('insert into reviews(order_id,author_id,target_kind,target_id,stars,body,status)values($1,$2,\'shop\',1,$3,\'test\',\'published\')',[id,user,(i%5)+1]);}
+await db.exec(`select set_config('request.jwt.claim.sub','',false);set role anon;`);
+for(const sort of ['newest','highest','lowest']){
+const first=(await db.query('select list_public_reviews(\'shop\',1,$1) p',[sort])).rows[0].p;const last=first.rows.at(-1);const second=(await db.query('select list_public_reviews(\'shop\',1,$1,$2,$3,$4) p',[sort,last.createdAt,last.id,last.stars])).rows[0].p;
+check(first.rows.length===20&&second.rows.length===20&&!first.rows.some(x=>second.rows.some(y=>x.id===y.id)),sort+' cursor has no overlaps');check(first.count===45&&first.average===3&&first.distribution.every(n=>n===9),sort+' aggregates cover full dataset, not page');
+}
+const agg=(await db.query("select * from public_review_aggregates('shop',array[1]::bigint[])")).rows;check(agg.length===1&&Number(agg[0].average)===3&&Number(agg[0].review_count)===45,'catalog aggregates honest');
+await db.exec('reset role');await db.exec('update shops set hidden=true where id=1');await db.exec('set role anon');page=(await db.query("select list_public_reviews('shop',1) p")).rows[0].p;check(page.count===0,'hidden target excludes every review');
+console.log('SQL tests passed:',pass);await db.close();
