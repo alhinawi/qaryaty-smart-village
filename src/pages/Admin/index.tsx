@@ -8,6 +8,7 @@ import { Link, Navigate } from 'react-router';
 import { ROUTES } from '@/routes';
 import { addProvider, addShop, authRepo, jobRepo, marketRepo, rideRepo, settingsRepo } from '@/repositories';
 import { setDemoModeFlag } from '@/config/demoMode';
+import { useQuickNeedsTestStore } from '@/stores/useQuickNeedsTestStore';
 import { useDemoMode } from '@/hooks/useDemoMode';
 import { useAuthStore, selectIsStaff, selectRole, selectUser } from '@/stores/useAuthStore';
 import { useCatalogStore } from '@/stores/useCatalogStore';
@@ -55,6 +56,9 @@ export default function AdminPage() {
   // وضع العرض التجريبي: owner-only switch, flips the whole site at once
   const demoMode = useDemoMode();
   const appearanceOn = useAppearanceEnabled();
+  // «محتاج دلوقتي» test preview: device-local, the night window needs no switch
+  const quickNeedsTest = useQuickNeedsTestStore((s) => s.testMode);
+  const setQuickNeedsTest = useQuickNeedsTestStore((s) => s.setTestMode);
   const [appearanceBusy, setAppearanceBusy] = useState(false);
   async function toggleAppearance() {
     if (appearanceBusy || appearanceOn === null) return;
@@ -153,6 +157,31 @@ export default function AdminPage() {
           >
             <span
               className={`block w-6 h-6 rounded-full bg-white shadow transition-transform duration-200 ${demoMode ? '-translate-x-6' : 'translate-x-0'}`}
+            />
+          </button>
+        </div>
+      )}
+
+      {role === 'owner' && (
+        <div className="bg-white rounded-2xl border border-[rgba(26,122,74,0.12)] p-4 mb-5 flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <h2 className="text-[15px] font-black text-green-dark m-0">⚡ محتاج دلوقتي</h2>
+            <p className="text-[12px] text-text-muted leading-relaxed m-0 mt-1">
+              {quickNeedsTest
+                ? 'وضع التجربة شغال: الكارت ظاهر ليك في أي وقت على الجهاز ده. لكل الناس بيظهر لوحده من 12 لـ6 بالليل بالمحلات اللي بتسهر.'
+                : 'مقفول: الكارت متخفي عن الكل طول اليوم، وبيظهر لوحده لكل الناس من 12 لـ6 بالليل بالمحلات اللي بتسهر. شغّل وضع التجربة عشان تشوفه في أي وقت.'}
+            </p>
+          </div>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={quickNeedsTest}
+            aria-label="محتاج دلوقتي - وضع التجربة"
+            onClick={() => setQuickNeedsTest(!quickNeedsTest)}
+            className={`shrink-0 w-14 h-8 rounded-full p-1 transition-colors duration-200 cursor-pointer border-none ${quickNeedsTest ? 'bg-green' : 'bg-gray-300'}`}
+          >
+            <span
+              className={`block w-6 h-6 rounded-full bg-white shadow transition-transform duration-200 ${quickNeedsTest ? '-translate-x-6' : 'translate-x-0'}`}
             />
           </button>
         </div>
