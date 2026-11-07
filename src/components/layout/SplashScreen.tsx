@@ -8,7 +8,7 @@ export function SplashScreen({ isFadingOut }: SplashScreenProps) {
   return (
     <div
       id="splash"
-      className="fixed inset-0 z-9999 flex flex-col items-center justify-center min-h-svh bg-linear-to-br from-green-dark via-green to-green-light transition-opacity duration-800 ease-in-out"
+      className="keep-palette-off fixed inset-0 z-9999 flex flex-col items-center justify-center min-h-svh bg-linear-to-br from-green-dark via-green to-green-light transition-opacity duration-800 ease-in-out"
       style={{
         opacity: isFadingOut ? 0 : 1,
         pointerEvents: isFadingOut ? 'none' : 'auto',

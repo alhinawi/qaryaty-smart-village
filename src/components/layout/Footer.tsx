@@ -12,7 +12,7 @@ export function Footer() {
 
   return (
     <footer
-      className="hidden lg:block w-full bg-linear-to-br from-green-dark to-green text-white mt-auto"
+      className="keep-palette-off hidden lg:block w-full bg-linear-to-br from-green-dark to-green text-white mt-auto"
       aria-label="تذييل الصفحة"
     >
       <div className="w-[min(100%-3rem,1200px)] mx-auto py-5 flex items-center justify-between gap-6">
