@@ -1,4 +1,7 @@
 import { DemoOpinions } from '@/components/reviews/DemoOpinions';
+import { useTrackingDemoMode } from '@/hooks/useTrackingDemoMode';
+import { useAuthStore } from '@/stores/useAuthStore';
+import { stockKey, useDemoStock } from '@/components/merchant/demoStock';
 // ─── Imports
 import { useEffect, useMemo, useState } from 'react';
 import { Modal } from '@/components/ui/Modal';
@@ -39,7 +42,11 @@ function LineControl({ shop, product, grill, label }: { shop: Shop; product: Pro
   const inCart = useCartStore((s) => s.items.find((i) => i.id === item.id));
   const updateQuantity = useCartStore((s) => s.updateQuantity);
   const addToCart = useAddToCart();
+  const demo=useTrackingDemoMode();
+  const scope=useAuthStore(s=>s.session?.user.id??'guest');
+  const count=useDemoStock(s=>s.counts[stockKey(scope,shop.id,product.id)]);
 
+  if(demo&&count===0)return <span className="text-xs font-bold text-text-muted">خلص · غير متاح</span>;
   if (shop.demo || product.viewOnly) return null;
 
   if (!inCart) {
@@ -47,6 +54,7 @@ function LineControl({ shop, product, grill, label }: { shop: Shop; product: Pro
       <button
         type="button"
         className="min-h-[40px] px-3.5 py-1.5 rounded-lg bg-green text-white text-[13px] font-bold cursor-pointer whitespace-nowrap"
+        disabled={demo&&count!=null&&count<(item.step??1)}
         onClick={() => void addToCart(item)}
         aria-label={`${label} ${item.name}`}
       >
@@ -72,6 +80,7 @@ function LineControl({ shop, product, grill, label }: { shop: Shop; product: Pro
       <button
         type="button"
         className="w-9 h-9 rounded-lg bg-white border border-gray-300 font-extrabold cursor-pointer"
+        disabled={demo&&count!=null&&inCart.quantity+step>count}
         onClick={() => updateQuantity(item.id, inCart.quantity + step)}
         aria-label={`أكتر ${item.name}`}
       >
