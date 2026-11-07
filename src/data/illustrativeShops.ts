@@ -9,7 +9,7 @@ export const ILLUSTRATIVE_SHOPS: Shop[] = [
     ['عطارة ريحان', 'سندوب'], ['عطارة كنوز البلد', 'نقيطة'],
   ].map(([name, village], i): Shop => ({
     id: -901 - i, name, village, kind: 'attar', emoji: '🌿',
-    description: 'توابل وأعشاب ومكسرات وياميش. محل خيالي، وليس مخزونًا متاحًا للطلب.',
+    description: 'توابل وأعشاب ومكسرات وياميش.',
     demo: true, open: true, time: '', bgColor: '#F3F7E9',
     photo: `/img/illustrative-shops/attar-${i + 1}.webp`,
   })),
@@ -20,7 +20,7 @@ export const ILLUSTRATIVE_SHOPS: Shop[] = [
     ['مكتبة الفجر', 'سندوب'], ['مكتبة أهل البلد', 'نقيطة'],
   ].map(([name, village], i): Shop => ({
     id: -1001 - i, name, village, kind: 'stationery', emoji: '📚',
-    description: 'أدوات مدرسية وكراريس وكتب وطباعة وتصوير. محل خيالي، وليس مخزونًا متاحًا للطلب.',
+    description: 'أدوات مدرسية وكراريس وكتب وطباعة وتصوير.',
     demo: true, open: true, time: '', bgColor: '#EEF2FF',
     photo: `/img/illustrative-shops/stationery-${i + 1}.webp`,
   })),

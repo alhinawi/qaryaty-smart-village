@@ -1,6 +1,4 @@
 import { CatalogReviews } from '@/components/reviews/CatalogReviews';
-import { isIllustratedProvider } from '@/config/providerImages';
-import { isSupabaseConfigured } from '@/repositories/supabaseClient';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { useCatalogStore } from '@/stores/useCatalogStore';
@@ -30,14 +28,12 @@ export default function CatalogDetail({ kind, onOpenOrderModal }: { kind: Catalo
   const people = service ? providersForService(service, providers) : [];
   return <section className="max-w-2xl mx-auto p-4" dir="rtl">
     <Link to="/" className="inline-block text-sm text-green font-bold py-3">الرئيسية</Link>
-    {(!isSupabaseConfigured || (provider && isIllustratedProvider(provider))) && <p className="bg-amber-50 text-amber-900 rounded-xl p-3 text-xs mb-3">بيانات تجريبية خيالية لعرض التصميم، مش بيانات محل أو مزود حقيقي ولا تقييمات موثقة.</p>}
     <header className="flex flex-wrap items-center justify-between gap-3 mb-4"><h1 className="text-2xl font-extrabold text-text">{name}</h1><CatalogShareButton kind={kind} id={Number(id)} name={name} /></header>
     {shop && <article className="bg-white rounded-2xl border border-green/15 p-4">
       {shop.photo && <ProductPhoto photo={shop.photo} emoji={shop.emoji} className="w-full h-44 rounded-xl overflow-hidden mb-4" />}
-      {shop.demo && <p className="bg-amber-50 text-amber-900 text-xs p-3 rounded-xl mb-3">محل خيالي للتجربة فقط، مش محل حقيقي ومش متاح للطلب.</p>}
       <p className="text-text-muted mb-3">{shop.description}</p>
       {!shop.demo && <p className="text-sm text-green mb-3">{shop.open ? 'مفتوح حاليًا' : 'مغلق حاليًا'} {shop.time}</p>}
-      <button type="button" className="w-full bg-green text-white rounded-xl p-3 font-bold disabled:opacity-50" disabled={!shop.open && !shop.demo} onClick={() => shop.kind === 'restaurant' || productsForShop(shop) ? setMenuOpen(true) : onOpenOrderModal({ name: `طلب من ${shop.name}`, desc: shop.description, emoji: shop.emoji, price: 'حسب الطلب' })}>{shop.demo ? 'شوف الأصناف التوضيحية' : 'شوف المنتجات أو اطلب'}</button>
+      <button type="button" className="w-full bg-green text-white rounded-xl p-3 font-bold disabled:opacity-50" disabled={!shop.open && !shop.demo} onClick={() => shop.kind === 'restaurant' || productsForShop(shop) ? setMenuOpen(true) : onOpenOrderModal({ name: `طلب من ${shop.name}`, desc: shop.description, emoji: shop.emoji, price: 'حسب الطلب' })}>{'شوف المنتجات'}</button>
       <ShopMenuModal shop={menuOpen ? shop : null} onClose={() => setMenuOpen(false)} />
     </article>}
     {provider && <ProviderCard provider={provider} onBook={book} showShare={false} />}

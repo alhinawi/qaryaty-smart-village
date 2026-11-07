@@ -1,5 +1,7 @@
 import { OwnReviewsProvider } from '@/components/reviews/OwnReviewsProvider';
 import { OrderReviewAction } from '@/components/reviews/OrderReviewAction';
+import { useTrackingDemoMode } from '@/hooks/useTrackingDemoMode';
+import { visibleCustomerOrders } from '@/utils/visibleCustomerOrders';
 import { useEffect } from 'react';
 import { isSupabaseConfigured } from '@/repositories';
 // ─── Imports
@@ -29,9 +31,11 @@ export default function OrdersPage() {
     window.addEventListener('focus', refresh);
     return () => window.removeEventListener('focus', refresh);
   }, [ownerId, loadHistory]);
-  const realOrders = useOrderStore((state) => state.orders);
+  const trackingDemo = useTrackingDemoMode();
+  const storedOrders = useOrderStore((state) => state.orders);
+  const realOrders = visibleCustomerOrders(storedOrders, trackingDemo);
   // View-only examples never enter the order store, persistence, server or account history.
-  const showGuestDemo = isSupabaseConfigured && !ownerId;
+  const showGuestDemo = isSupabaseConfigured && !ownerId && trackingDemo;
   const orders = showGuestDemo ? [...realOrders, ...INITIAL_DEMO_ORDERS] : realOrders;
   const updateStatus = useOrderStore((state) => state.updateStatus);
   const deleteOrder = useOrderStore((state) => state.deleteOrder);
