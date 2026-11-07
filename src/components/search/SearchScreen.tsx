@@ -53,6 +53,7 @@ import {
   type SearchTabId,
 } from "@/utils/searchScreen";
 import type { OrderModalData, Provider, Service, Shop } from "@/types";
+import { VoiceSearchButton } from './VoiceSearchButton';
 import { Highlight } from "./Highlight";
 
 const CLOSE_MS = 160;
@@ -93,6 +94,7 @@ function SearchOverlay({
   onOpenMenu,
 }: SearchScreenProps & { onOpenMenu: (shop: Shop) => void }) {
   const setIsSearchOpen = useUIStore((s) => s.setIsSearchOpen);
+  const voiceRequested = useUIStore.getState().voiceSearchRequested;
   const homeQuery = useUIStore((s) => s.searchQuery);
   const setHomeQuery = useUIStore((s) => s.setSearchQuery);
   const history = useUIStore((s) => s.searchHistory);
@@ -332,6 +334,7 @@ function SearchOverlay({
                   placeholder="عيش، سباك، شوي سمك، مدرس إنجليزي…"
                   className="flex-1 min-w-0 bg-transparent border-none outline-none text-text font-['Cairo',sans-serif] text-[16px] placeholder:text-text-muted [&::-webkit-search-cancel-button]:hidden"
                 />
+                <VoiceSearchButton openInitially={voiceRequested} onText={(text) => { setQuery(text); setHomeQuery(text); }} />
                 {query && (
                   <button
                     type="button"
