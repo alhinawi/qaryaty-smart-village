@@ -5,7 +5,7 @@ import type { OrderModalData, Shop } from '@/types';
 import { ShopCard } from '@/components/shared/ShopCard';
 import { useUIStore } from '@/stores/useUIStore';
 import { useProviderDashboardStore } from '@/stores/useProviderDashboardStore';
-import { ShopMenuModal } from '@/components/modals/ShopMenuModal';
+import { ShopMenuPage } from '@/components/shop/ShopMenuPage';
 import { FOOD_TYPE_LABELS } from '@/data/catalog';
 
 // ─── Types
@@ -134,7 +134,7 @@ export function ShopsSection({
         })}
       </div>
 
-      <ShopMenuModal shop={menuShop} onClose={() => setMenuShop(null)} />
+      <ShopMenuPage shop={menuShop} onClose={() => setMenuShop(null)} />
     </section>
   );
 }

@@ -4,7 +4,7 @@
 // dashboard looks like; they are not real customer activity, and edits a
 // provider makes in the preview never leave their device.
 
-/** Same wording the customer sees on a pharmacy's menu (ShopMenuModal). */
+/** Same wording the customer sees on a pharmacy's menu (ShopMenuPage). */
 export const PHARMACY_PACK_NOTE =
   'الأدوية اللي عليها «بروشتة» الصيدلي بيراجع الروشتة قبل التوصيل. الأسعار تقريبية. الصور توضيحية مولدة، مش صورة العبوة الفعلية؛ اعتمد على الاسم والتركيز ومراجعة الصيدلي، مش الصورة.';
 

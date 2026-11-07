@@ -36,7 +36,8 @@ import { DONATION_SEARCH_FIELDS } from "@/config/donations";
 import { matchesSearch } from "@/utils/arabicSearch";
 import { ROUTES } from "@/routes";
 import { productsForShop } from "@/data/catalog";
-import { LineControl, ShopMenuModal } from "@/components/modals/ShopMenuModal";
+import { LineControl } from "@/components/shop/LineControl";
+import { ShopMenuPage } from "@/components/shop/ShopMenuPage";
 import { Avatar } from "@/components/shared/Avatar";
 import { formatCurrency } from "@/utils/helpers";
 import {
@@ -94,7 +95,7 @@ export function SearchScreen({ onOpenOrderModal }: SearchScreenProps) {
           onOpenMenu={setMenuShop}
         />
       )}
-      <ShopMenuModal shop={menuShop} onClose={() => setMenuShop(null)} />
+      <ShopMenuPage shop={menuShop} onClose={() => setMenuShop(null)} />
     </>
   );
 }

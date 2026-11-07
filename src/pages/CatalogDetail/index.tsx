@@ -2,7 +2,7 @@ import { CatalogReviews } from '@/components/reviews/CatalogReviews';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router';
 import { useCatalogStore } from '@/stores/useCatalogStore';
-import { ShopMenuModal } from '@/components/modals/ShopMenuModal';
+import { ShopMenuPage } from '@/components/shop/ShopMenuPage';
 import { ProviderCard } from '@/components/shared/ProviderCard';
 import { CatalogShareButton } from '@/components/shared/CatalogShareButton';
 import { ProductPhoto } from '@/components/ui/ProductPhoto';
@@ -35,7 +35,7 @@ export default function CatalogDetail({ kind, onOpenOrderModal }: { kind: Catalo
       <p className="text-text-muted mb-3">{shop.description}</p>
       {!shop.demo && <p className={`text-sm mb-3 ${isShopOpenNow(shop) ? 'text-green' : 'text-danger'}`}>{isShopOpenNow(shop) ? 'مفتوح حاليًا' : 'مغلق حاليًا'} {shop.time}</p>}
       <button type="button" className="w-full bg-green text-white rounded-xl p-3 font-bold disabled:opacity-50" disabled={!isShopOpenNow(shop) && !shop.demo} onClick={() => shop.kind === 'restaurant' || productsForShop(shop) ? setMenuOpen(true) : onOpenOrderModal({ name: `طلب من ${shop.name}`, desc: shop.description, emoji: shop.emoji, price: 'حسب الطلب' })}>{'شوف المنتجات'}</button>
-      <ShopMenuModal shop={menuOpen ? shop : null} onClose={() => setMenuOpen(false)} />
+      <ShopMenuPage shop={menuOpen ? shop : null} onClose={() => setMenuOpen(false)} />
     </article>}
     {provider && <ProviderCard headingLevel="h2" provider={provider} onBook={book} showShare={false} />}
     {service && <><p className="text-text-muted mb-4">{service.desc}</p>{people.length ? <div className="grid gap-3">{people.map(person => <ProviderCard headingLevel="h2" key={person.id} provider={person} onBook={book} />)}</div> : <button type="button" className="w-full bg-green text-white rounded-xl p-3 font-bold" onClick={() => onOpenOrderModal(serviceToOrderModalData(service))}>اطلب الخدمة</button>}</>}
