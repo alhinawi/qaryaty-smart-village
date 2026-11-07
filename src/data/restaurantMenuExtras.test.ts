@@ -13,8 +13,9 @@ describe('illustrative restaurant additions', () => {
       const before = JSON.stringify(originals);
       const result = appendIllustrativeRestaurantItems(shop, originals);
       expect(JSON.stringify(originals)).toBe(before);
-      expect(result.slice(0, originals.length)).toEqual(originals);
-      expect(result.slice(originals.length).every(item => item.viewOnly)).toBe(true);
+      expect(result.filter(item => !item.viewOnly)).toEqual(originals);
+      expect(result.filter(item => item.viewOnly)).toHaveLength(fixture.items.length);
+      expect(result.some(item => item.section === 'أصناف إضافية للعرض')).toBe(false);
       expect(result.length).toBe(shop.id <= 114 ? 12 : originals.length + 4);
       expect(new Set(result.map(item => item.name)).size).toBe(result.length);
       expect(new Set(result.map(item => item.id)).size).toBe(result.length);
