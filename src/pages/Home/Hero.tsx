@@ -1,10 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ChevronLeft, Pause, Play } from 'lucide-react';
 import { HERO_SLIDES } from './heroSlides';
 
 interface HeroProps { onSelectService: (serviceId: number) => void; }
 export function Hero({ onSelectService }: HeroProps) {
-  const [index, setIndex] = useState(0);
+  const [carousel, setCarousel] = useState({ index: 0, visited: new Set([0]) });
+  const { index, visited } = carousel;
+  const setIndex = useCallback((next: number | ((current: number) => number)) => {
+    setCarousel(current => {
+      const index = typeof next === 'function' ? next(current.index) : next;
+      return { index, visited: new Set([...current.visited, index]) };
+    });
+  }, []);
   const [paused, setPaused] = useState(false);
   const [hovered, setHovered] = useState(false);
   const touchX = useRef<number | null>(null);
@@ -12,13 +19,13 @@ export function Hero({ onSelectService }: HeroProps) {
     if (paused || hovered || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const timer = window.setTimeout(() => setIndex(current => (current + 1) % HERO_SLIDES.length), 5500);
     return () => window.clearTimeout(timer);
-  }, [index, paused, hovered]);
+  }, [index, paused, hovered, setIndex]);
   return (
     <section className="mb-5" aria-roledescription="كاروسيل" aria-label="اكتشف خدمات قريتي" onMouseEnter={() => { if (window.matchMedia('(hover: hover)').matches) setHovered(true); }} onMouseLeave={() => setHovered(false)}>
       <div className="relative overflow-hidden rounded-[24px] bg-green-dark h-[192px] sm:h-[250px] lg:h-[300px] touch-pan-y" onTouchStart={event => { touchX.current = event.changedTouches[0].clientX; }} onTouchEnd={event => { if (touchX.current !== null) { const delta = event.changedTouches[0].clientX - touchX.current; if (Math.abs(delta) > 45) setIndex(current => (current + (delta > 0 ? 1 : -1) + HERO_SLIDES.length) % HERO_SLIDES.length); } touchX.current = null; }}>
         {HERO_SLIDES.map((slide, i) => (
           <div key={slide.id} aria-hidden={index !== i} inert={index !== i} className={`absolute inset-0 transition-opacity duration-500 text-white ${index === i ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}>
-            <img src={`/img/home-refresh/banner-${slide.id}.webp`} alt="" className="absolute inset-0 w-full h-full object-cover" />
+            {(index === i || visited.has(i)) && <img src={`/img/home-refresh/banner-${slide.id}.webp`} alt="" width={1200} height={600} fetchPriority={i === 0 ? "high" : "low"} decoding="async" className="absolute inset-0 w-full h-full object-cover" />}
             <div className="relative z-10 w-[60%] h-full flex flex-col justify-center px-4 sm:px-8">
               <span className="text-[10px] sm:text-xs font-bold opacity-85 mb-1">{slide.eyebrow}</span>
               <h2 className="font-black font-['Tajawal',sans-serif] text-[23px] sm:text-[36px] leading-tight mb-1">{slide.title}</h2>
