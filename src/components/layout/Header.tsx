@@ -1,7 +1,7 @@
 // ─── Imports
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { Menu, Search, X } from "lucide-react";
+import { Menu, Search, X, Mic } from "lucide-react";
 
 import { mergeNotifications, withoutSampleNotifications, useUIStore } from "@/stores/useUIStore";
 import { useTrackingDemoMode } from "@/hooks/useTrackingDemoMode";
@@ -220,13 +220,13 @@ export function Header() {
         <div className="mt-2.5 relative flex items-center">
           <button
             type="button"
-            onClick={() => setIsSearchOpen(true)}
+            onClick={() => { useUIStore.getState().setVoiceSearchRequested(false); setIsSearchOpen(true); }}
             onPointerEnter={() => void preloadSearchScreen()}
             onFocus={() => void preloadSearchScreen()}
             aria-haspopup="dialog"
             aria-expanded={isSearchOpen}
             aria-label={searchQuery ? `البحث: ${searchQuery}` : "البحث عن خدمة أو محل"}
-            className="flex-1 min-w-0 flex items-center gap-2.5 bg-white/14 rounded-xl ps-3.5 pe-11 py-2.25 min-h-[44px] border border-white/22 text-start cursor-pointer font-['Cairo',sans-serif] text-[0.9375rem] transition-colors duration-200 hover:bg-white/20 hover:border-white/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-light"
+            className="flex-1 min-w-0 flex items-center gap-2.5 bg-white/14 rounded-xl ps-3.5 pe-22 py-2.25 min-h-[44px] border border-white/22 text-start cursor-pointer font-['Cairo',sans-serif] text-[0.9375rem] transition-colors duration-200 hover:bg-white/20 hover:border-white/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-light"
           >
             <Search size={18} strokeWidth={2.5} className="text-white/85 shrink-0" aria-hidden="true" />
             <span className={`truncate ${searchQuery ? "text-white font-bold" : "text-white/65"}`}>
@@ -234,10 +234,11 @@ export function Header() {
             </span>
           </button>
 
+          <button type="button" aria-label="البحث بالصوت" onClick={() => { useUIStore.getState().setVoiceSearchRequested(true); setIsSearchOpen(true); }} className="absolute end-1 top-1/2 -translate-y-1/2 w-9 h-9 rounded-lg text-white flex items-center justify-center hover:bg-white/15"><Mic size={19} aria-hidden="true" /></button>
           {searchQuery && (
             <button
               type="button"
-              className="absolute end-1 top-1/2 -translate-y-1/2 w-[36px] h-[36px] rounded-lg bg-transparent border-none text-white/80 cursor-pointer flex items-center justify-center hover:bg-white/15 hover:text-white"
+              className="absolute end-11 top-1/2 -translate-y-1/2 w-[36px] h-[36px] rounded-lg bg-transparent border-none text-white/80 cursor-pointer flex items-center justify-center hover:bg-white/15 hover:text-white"
               onClick={() => setSearchQuery("")}
               aria-label="مسح البحث"
             >
