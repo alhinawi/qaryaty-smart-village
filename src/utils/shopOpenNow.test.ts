@@ -63,3 +63,28 @@ describe('isShopOpenNow', () => {
     expect(isShopOpenNow({ open: false, time: '' }, at('06:00'))).toBe(false);
   });
 });
+
+import { hoursDisplayLabel, minuteToSpoken, spokenHoursRange } from './shopOpenNow';
+
+describe('spoken hours labels', () => {
+  it('names the clock in colloquial Egyptian with English digits', () => {
+    expect(minuteToSpoken(0)).toBe('12 بالليل');
+    expect(minuteToSpoken(60)).toBe('1 بالليل');
+    expect(minuteToSpoken(5 * 60)).toBe('5 بالليل');
+    expect(minuteToSpoken(6 * 60)).toBe('6 الصبح');
+    expect(minuteToSpoken(11 * 60)).toBe('11 الصبح');
+    expect(minuteToSpoken(12 * 60)).toBe('12 الضهر');
+    expect(minuteToSpoken(13 * 60)).toBe('1 العصر');
+    expect(minuteToSpoken(17 * 60)).toBe('5 العصر');
+    expect(minuteToSpoken(18 * 60)).toBe('6 مساءً');
+    expect(minuteToSpoken(23 * 60)).toBe('11 مساءً');
+  });
+  it('unambiguously renders stored ranges', () => {
+    expect(hoursDisplayLabel('⏰ 8ص - 1ص')).toBe('من 8 الصبح لحد 1 بالليل');
+    expect(hoursDisplayLabel('⏰ 7ص - 12م')).toBe('من 7 الصبح لحد 12 الضهر');
+    expect(hoursDisplayLabel('⏰ 10ص - 12ص')).toBe('من 10 الصبح لحد 12 بالليل');
+    expect(hoursDisplayLabel('⏰ 24 ساعة')).toBe('24 ساعة');
+    expect(hoursDisplayLabel('⏰ يفتح 2م')).toBeNull();
+    expect(spokenHoursRange(7 * 60, 24 * 60)).toBe('من 7 الصبح لحد 12 بالليل');
+  });
+});
