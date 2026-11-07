@@ -23,6 +23,7 @@ import { ServicesSection } from './ServicesSection';
 import { PromoBanner } from './PromoBanner';
 import { DailyOffersSection } from './DailyOffersSection';
 import { ShopsSection } from './ShopsSection';
+import { TopWeeklySection } from './TopWeeklySection';
 import { productsForShop } from '@/data/catalog';
 import { ProvidersSection } from './ProvidersSection';
 import { PeopleSectionsRow } from './PeopleSectionsRow';
@@ -321,6 +322,9 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
 
       {/* Promo Banner */}
       {!isRestaurantsCategory && <PromoBanner />}
+
+      {/* الأكتر طلبًا هذا الأسبوع */}
+      {!isLoading && !isRestaurantsCategory && <TopWeeklySection />}
 
       {/* Village Shops Section */}
       {!isLoading && !isRestaurantsCategory && (
