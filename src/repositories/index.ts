@@ -52,6 +52,9 @@ import { createLocalNotificationsRepo } from './notifications/localNotifications
 import { createSupabaseNotificationsRepo } from './notifications/supabaseNotificationsRepo';
 import type { NotificationsRepo } from './notifications/types';
 import { invalidateDemoMode, isDemoMode, setDemoModeFlag } from '@/config/demoMode';
+import { createLocalTopShopsRepo } from './topshops/localTopShopsRepo';
+import { createSupabaseTopShopsRepo } from './topshops/supabaseTopShopsRepo';
+import type { TopShopsRepo } from './topshops/types';
 import { createLocalSettingsRepo } from './settings/localSettingsRepo';
 import { createSupabaseSettingsRepo } from './settings/supabaseSettingsRepo';
 import type { SettingsRepo } from './settings/types';
@@ -390,6 +393,11 @@ export const settingsRepo: SettingsRepo = liveSettings
     }
   : createLocalSettingsRepo();
 export type { SettingsRepo };
+
+// ─── الأكتر طلبًا في القرية هذا الأسبوع (weekly order ranking)
+const liveTopShops = isSupabaseConfigured ? createSupabaseTopShopsRepo(getSupabase) : null;
+export const topShopsRepo: TopShopsRepo = liveTopShops ?? createLocalTopShopsRepo();
+export type { WeeklyTopShop } from './topshops/types';
 
 /** Reads the demo-mode switch and applies it. A failed read invalidates the
  * verified flag (simulated content fails closed) and the error propagates. */
