@@ -86,22 +86,13 @@ export const ServiceCard = React.memo(function ServiceCard({
 
   return (
     <div
-      role="button"
-      tabIndex={0}
       className={`motion-card bg-white rounded-2xl overflow-hidden shadow-(--shadow-card) cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] border border-[rgba(26,122,74,0.08)] relative text-right flex flex-col hover:-translate-y-1 hover:shadow-(--shadow-card-hover) ${
         isFeatured
           ? "max-lg:col-span-2 max-lg:flex-row max-lg:items-center"
           : ""
       }`}
-      onClick={() => onSelect(service)}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onSelect(service);
-        }
-      }}
-      aria-label={`طلب خدمة ${service.name}`}
     >
+      <button type="button" className="absolute inset-0 z-10 rounded-2xl cursor-pointer border-0 bg-transparent focus-visible:outline-offset-[-3px]" onClick={() => onSelect(service)} aria-label={`طلب خدمة ${service.name}`} />
       {/* Service Image */}
       <div
         className={`h-[110px] flex items-center justify-center text-[48px] relative ${
@@ -126,14 +117,15 @@ export const ServiceCard = React.memo(function ServiceCard({
           <ImagePlaceholder className="w-full h-full" />
         )}
 
-        <div className="absolute bottom-0 left-0"><CatalogShareButton compact kind="service" id={service.id} name={service.name} /></div>
+        <div className="absolute bottom-0 left-0 z-20"><CatalogShareButton compact kind="service" id={service.id} name={service.name} /></div>
         {/* Favorite Heart Button */}
         <button
           type="button"
-          className={`absolute top-2 left-2 bg-white/85 border-none rounded-xl w-[30px] h-[30px] flex items-center justify-center text-[15px] cursor-pointer shadow-[0_2px_6px_rgba(0,0,0,0.1)] transition-transform duration-200 hover:scale-[1.15] ${
+          className={`absolute top-2 left-2 z-20 bg-white/85 border-none rounded-xl w-[44px] h-[44px] flex items-center justify-center text-[15px] cursor-pointer shadow-[0_2px_6px_rgba(0,0,0,0.1)] transition-transform duration-200 hover:scale-[1.15] ${
             isFav ? "is-active" : ""
           }`}
           onClick={handleFavoriteClick}
+          aria-pressed={isFav}
           aria-label={isFav ? "إزالة من المفضلة" : "إضافة للمفضلة"}
         >
           {isFav ? "❤️" : "🤍"}
@@ -174,12 +166,12 @@ export const ServiceCard = React.memo(function ServiceCard({
             ⏱️ {service.time}
           </div>
 
-          {service.rating && <div className="text-xs text-gold font-extrabold">
+          {service.rating && <div className="text-xs text-amber-800 font-extrabold">
             ⭐ {service.rating}
           </div>}
         </div>
 
-        <Link to={`/services/${service.id}`} onClick={e=>e.stopPropagation()} onKeyDown={e=>e.stopPropagation()} className="inline-block text-[11px] text-green font-bold py-2">التفاصيل والآراء</Link>
+        <Link to={`/services/${service.id}`} onClick={e=>e.stopPropagation()} onKeyDown={e=>e.stopPropagation()} className="relative z-20 self-start inline-block text-[12px] text-green font-bold py-2">التفاصيل والآراء</Link>
         <div className="flex items-center justify-between pt-1.5 border-t border-gray-100">
           <div className="text-[13px] font-extrabold text-green-dark">
             {service.price}
@@ -189,7 +181,7 @@ export const ServiceCard = React.memo(function ServiceCard({
           {service.options?.length ? (
             <button
               type="button"
-              className="bg-[rgba(26,122,74,0.1)] text-green border-none py-1.5 px-2.5 rounded-xl text-xs font-extrabold font-['Cairo',sans-serif] cursor-pointer transition-all duration-200 hover:bg-green hover:text-white"
+              className="relative z-20 min-h-11 bg-[rgba(26,122,74,0.1)] text-green border-none py-1.5 px-2.5 rounded-xl text-xs font-extrabold font-['Cairo',sans-serif] cursor-pointer transition-all duration-200 hover:bg-green hover:text-white"
               onClick={(e) => {
                 e.stopPropagation();
                 onSelect(service);
@@ -201,7 +193,7 @@ export const ServiceCard = React.memo(function ServiceCard({
           ) : (
           <button
               type="button"
-              className="bg-[rgba(26,122,74,0.1)] text-green border-none py-1.5 px-2.5 rounded-xl text-xs font-extrabold font-['Cairo',sans-serif] cursor-pointer transition-all duration-200 hover:bg-green hover:text-white"
+              className="relative z-20 min-h-11 bg-[rgba(26,122,74,0.1)] text-green border-none py-1.5 px-2.5 rounded-xl text-xs font-extrabold font-['Cairo',sans-serif] cursor-pointer transition-all duration-200 hover:bg-green hover:text-white"
               onClick={handleQuickAdd}
               aria-label={`إضافة ${service.name} للسلة`}
             >
