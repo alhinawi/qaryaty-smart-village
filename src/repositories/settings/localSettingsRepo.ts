@@ -6,6 +6,8 @@ const WA_KEY = 'qaryati_whatsapp_enabled';
 
 export function createLocalSettingsRepo(): SettingsRepo {
   return {
+    async getAppearanceEnabled() { try { return localStorage.getItem('qaryati_appearance_enabled') !== '0'; } catch { return false; } },
+    async setAppearanceEnabled(on) { localStorage.setItem('qaryati_appearance_enabled', on ? '1' : '0'); },
     async getDemoMode() {
       try {
         return localStorage.getItem(KEY) !== '0';

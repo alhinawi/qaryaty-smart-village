@@ -1,3 +1,4 @@
+import { appearanceEnabled, subscribeAppearanceGate } from './appearanceGate';
 import { applyPalette, PALETTE_KEY, validPaletteChoice, type PaletteChoice } from './themePalettes';
 export type ThemePreference = 'auto' | 'light' | 'dark';
 export const THEME_KEY = 'qaryati-theme';
@@ -12,10 +13,11 @@ export function getThemeOptions() { return snapshot; }
 export function subscribeTheme(listener: () => void) { listeners.add(listener); return () => { listeners.delete(listener); }; }
 function notify() { snapshot = { preference, ...palettes }; listeners.forEach(listener => listener()); }
 function apply() {
-  const mode = resolvedTheme(preference, matchMedia('(prefers-color-scheme: dark)').matches);
+  const enabled = appearanceEnabled();
+  const mode = enabled ? resolvedTheme(preference, matchMedia('(prefers-color-scheme: dark)').matches) : 'light';
   const root = document.documentElement;
   root.dataset.theme = mode; root.style.colorScheme = mode;
-  applyPalette(mode, palettes);
+  applyPalette(mode, enabled ? palettes : { lightId: 1, darkId: 2 });
   document.querySelector('meta[name="theme-color"]')?.setAttribute('content', mode === 'dark' ? '#101b17' : '#1a7a4a');
 }
 export function setThemePreference(value: ThemePreference) { preference = validTheme(value); try { localStorage.setItem(THEME_KEY, preference); } catch { /* session choice still works */ } apply(); notify(); }
@@ -36,8 +38,9 @@ export function initTheme() {
   if (query.has('dark') && dark >= 1 && dark <= 10 && Number.isInteger(dark)) { preference = 'dark'; palettes = { ...palettes, darkId: dark }; }
   else if (query.has('light') && light >= 1 && light <= 6 && Number.isInteger(light)) { preference = 'light'; palettes = { ...palettes, lightId: light }; }
   apply(); notify();
+  const unsubscribeGate = subscribeAppearanceGate(() => { apply(); notify(); });
   const media = matchMedia('(prefers-color-scheme: dark)'); media.addEventListener('change', apply);
   const storage = (event: StorageEvent) => { if (event.key === THEME_KEY || event.key === PALETTE_KEY || event.key === null) { readSaved(); apply(); notify(); } };
   window.addEventListener('storage', storage);
-  return () => { media.removeEventListener('change', apply); window.removeEventListener('storage', storage); };
+  return () => { unsubscribeGate(); media.removeEventListener('change', apply); window.removeEventListener('storage', storage); };
 }
