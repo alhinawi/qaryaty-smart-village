@@ -484,3 +484,8 @@ export type { DailyOffer, OffersRepo } from './offers/types';
 // Reviews never fall back to fictional records, even during a backend outage.
 import { createReviewsRepo } from './reviews/supabaseReviewsRepo';
 export const reviewsRepo = createReviewsRepo(getSupabase);
+
+// Merchant daily announcements: no fabricated fallback, no external integration.
+import { createPricesRepo } from './prices/supabasePricesRepo';
+export const pricesRepo = createPricesRepo(getSupabase);
+export type { DailyPrice, PriceDraft } from './prices/types';
