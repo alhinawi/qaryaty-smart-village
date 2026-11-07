@@ -1,7 +1,10 @@
 // ─── Imports
-import React from 'react';
+import React, { useRef } from 'react';
+import { useMotionPreview } from '@/hooks/useMotionPreview';
 
 // ─── Component
 export function PageWrapper({ children }: { children: React.ReactNode }) {
-  return <div className="w-[min(100%-1.5rem,1200px)] md:w-[min(100%-3rem,1200px)] mx-auto py-4 md:py-6">{children}</div>;
+  const ref = useRef<HTMLDivElement>(null);
+  useMotionPreview(ref);
+  return <div ref={ref} className="w-[min(100%-1.5rem,1200px)] md:w-[min(100%-3rem,1200px)] mx-auto py-4 md:py-6">{children}</div>;
 }

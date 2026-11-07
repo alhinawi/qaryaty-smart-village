@@ -88,7 +88,7 @@ export const ServiceCard = React.memo(function ServiceCard({
     <div
       role="button"
       tabIndex={0}
-      className={`bg-white rounded-2xl overflow-hidden shadow-(--shadow-card) cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] border border-[rgba(26,122,74,0.08)] relative text-right flex flex-col hover:-translate-y-1 hover:shadow-(--shadow-card-hover) ${
+      className={`motion-card bg-white rounded-2xl overflow-hidden shadow-(--shadow-card) cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] border border-[rgba(26,122,74,0.08)] relative text-right flex flex-col hover:-translate-y-1 hover:shadow-(--shadow-card-hover) ${
         isFeatured
           ? "max-lg:col-span-2 max-lg:flex-row max-lg:items-center"
           : ""
