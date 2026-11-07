@@ -144,7 +144,7 @@ export const ServiceCard = React.memo(function ServiceCard({
                 : "bg-gold text-black"
             }`}
           >
-            {service.badge === "popular" ? "🔥 الأكثر طلباً" : "🆕 جديد"}
+            {service.badge === "popular" ? "🔥 الأكثر طلباً" : "جديد"}
           </div>
         )}
       </div>
