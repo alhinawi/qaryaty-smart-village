@@ -289,7 +289,7 @@ export function ShopMenuPage({ shop, onClose }: ShopMenuPageProps) {
         )}
 
         {count > 0 && (
-          <div className="sticky bottom-0 inset-x-0 pt-3 pb-3 bg-gradient-to-t from-cream via-cream to-transparent">
+          <div className="keep-palette-off sticky bottom-0 inset-x-0 pt-3 pb-3 bg-gradient-to-t from-cream via-cream to-transparent">
             <button
               type="button"
               className="w-full py-3 rounded-2xl bg-green-dark text-white font-extrabold cursor-pointer shadow-lg"
