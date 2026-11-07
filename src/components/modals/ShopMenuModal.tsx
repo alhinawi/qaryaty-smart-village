@@ -38,7 +38,7 @@ function LineControl({ shop, product, grill, label }: { shop: Shop; product: Pro
   const updateQuantity = useCartStore((s) => s.updateQuantity);
   const addToCart = useAddToCart();
 
-  if (shop.demo) return <span className="text-[11px] text-gray-500 px-2">للعرض فقط</span>;
+  if (shop.demo || product.viewOnly) return <span className="text-[11px] text-gray-500 px-2">للعرض فقط</span>;
 
   if (!inCart) {
     return (
@@ -116,6 +116,11 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
       <div dir="rtl" className="text-right">
         {shop.demo && (
           <p className="text-[12px] text-gray-600 bg-amber-50 rounded-lg px-3 py-2 mb-2">{shop.kind === 'pharmacy' ? 'بيانات خيالية للتجربة فقط، ليست صيدلية حقيقية ولا تعبر عن مخزون متاح. لا يمكن الطلب منها.' : 'محل خيالي للعرض فقط. الصور والأصناف توضيحية، ولا تعبر عن محل فعلي أو مخزون متاح. لا يمكن الطلب منه.'}</p>
+        )}
+        {products.some(product => product.viewOnly) && (
+          <p className="text-[12px] text-gray-600 bg-stone-100 rounded-lg px-3 py-2 mb-3">
+            الأصناف الإضافية للعرض فقط، بأسعار وصور توضيحية، وليست مخزونًا متاحًا للطلب.
+          </p>
         )}
         <input
           type="search"

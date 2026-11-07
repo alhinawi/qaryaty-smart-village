@@ -11,7 +11,7 @@ export interface CatalogRepo {
    * What a shop sells, in menu order: a restaurant's own menu, or its kind's
    * list (fish, butcher…). null when the shop has no list (a salon, a workshop).
    */
-  getProducts(shop: Pick<Shop, 'id' | 'kind' | 'demo'>): Promise<Product[] | null>;
+  getProducts(shop: Pick<Shop, 'id' | 'kind' | 'demo'> & Partial<Pick<Shop, 'name'>>): Promise<Product[] | null>;
   /** Admin panel: a new shop, optionally linked to the account that manages it. */
   addShop(input: NewShopInput): Promise<Shop>;
   /** Admin panel: a new professional (سباك، مدرس…), optionally linked to an account. */

@@ -1,3 +1,4 @@
+import { imageForService } from '@/config/serviceImages';
 import { ProductPhoto } from '@/components/ui/ProductPhoto';
 // ─── Full search screen (opened from the header's search bar), in the style of Talabat:
 // back + field + cart, tabs from the app's sections, "عايز إيه النهارده؟" circles, recent
@@ -843,7 +844,7 @@ function ResultRow({
         <TilePicture photo={entry.product.photo} emoji={entry.product.emoji} />
       </span>
     );
-    meta = `${formatCurrency(entry.product.price)}${entry.product.unit ? ` / ${entry.product.unit}` : ""}`;
+    meta = `${entry.product.viewOnly ? "للعرض فقط · " : ""}${formatCurrency(entry.product.price)}${entry.product.unit ? ` / ${entry.product.unit}` : ""}`;
     subtitle = `${entry.shop.name}${entry.shop.open ? "" : " · مغلق دلوقتي"}`;
   } else if (entry.type === "service") {
     thumb = (
@@ -851,7 +852,7 @@ function ResultRow({
         className="w-[48px] h-[48px] rounded-xl bg-green/8 flex items-center justify-center text-[24px] shrink-0"
         aria-hidden="true"
       >
-        {entry.service.emoji}
+        <TilePicture photo={imageForService(entry.service)} emoji={entry.service.emoji} />
       </span>
     );
     meta = entry.service.price || null;

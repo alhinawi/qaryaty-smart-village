@@ -250,6 +250,8 @@ export interface Product {
   unit: string;
   /** Kilos can be ordered in halves. */
   step: number;
+  /** An illustrative menu suggestion, never orderable or merchant inventory. */
+  viewOnly?: boolean;
   /** Section inside a menu ('سندوتشات', 'أطباق'). */
   section?: string;
   /** false = the merchant closed it, customers don't see it. Missing = available. */

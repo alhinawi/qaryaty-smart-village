@@ -93,7 +93,7 @@ export const catalogRepo: CatalogRepo = isSupabaseConfigured
 export const getServices = () => catalogRepo.getServices();
 export const getShops = () => catalogRepo.getShops();
 export const getProviders = () => catalogRepo.getProviders();
-export const getProducts = (shop: Pick<Shop, 'id' | 'kind'>) => catalogRepo.getProducts(shop);
+export const getProducts = (shop: Pick<Shop, 'id' | 'kind'> & Partial<Pick<Shop, 'name'>>) => catalogRepo.getProducts(shop);
 export const addShop = (input: Parameters<CatalogRepo['addShop']>[0]) => catalogRepo.addShop(input);
 export const addProvider = (input: Parameters<CatalogRepo['addProvider']>[0]) => catalogRepo.addProvider(input);
 
