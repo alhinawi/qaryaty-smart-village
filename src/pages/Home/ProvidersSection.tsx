@@ -1,4 +1,5 @@
 // ─── Providers list with teacher filters (subject, stage)
+import { useState, useMemo } from 'react';
 import type { LucideIcon } from 'lucide-react';
 import {
   Atom,
@@ -20,7 +21,7 @@ import type { Provider, ProviderKind, SchoolStage, Service, TeacherSubject, Teac
 import { STAGES, SUBJECTS, SUBJECT_STAGES } from '@/data/teachers';
 import { ProviderCard } from '@/components/shared/ProviderCard';
 import type { DoctorSpecialty } from '@/utils/doctorSpecialties';
-import { KIND_FILTER_LABELS, type PeopleSection } from '@/utils/peopleSections';
+import { KIND_FILTER_LABELS, matchesProviderSearch, type PeopleSection } from '@/utils/peopleSections';
 
 const SUBJECT_ICONS: Record<TeacherSubject, LucideIcon> = {
   arabic: BookOpen,
@@ -108,15 +109,18 @@ export function ProvidersSection({
 }: ProvidersSectionProps) {
   const titleId = `people-${section.id}-title`;
   const isTeachers = section.kinds.includes('teacher');
-  const visible = maxVisible ? providers.slice(0, maxVisible) : providers;
-  const hiddenCount = providers.length - visible.length;
+  const [query, setQuery] = useState('');
+  const matched = useMemo(() => providers.filter(provider => matchesProviderSearch(provider, query)), [providers, query]);
+  const visible = maxVisible ? matched.slice(0, maxVisible) : matched;
+  const hiddenCount = matched.length - visible.length;
+  const searchId = `people-${section.id}-search`;
   const hasFilters = specialty !== 'all' || subject !== 'all' || stage !== 'all' || kind !== 'all';
 
   return (
     <section className="mb-6 scroll-mt-40" id={`people-${section.id}`} aria-labelledby={titleId}>
       <div className="flex justify-between items-center mb-3 gap-2">
         <h2 id={titleId} className="text-[1.0625rem] font-extrabold font-['Tajawal',sans-serif] m-0">
-          <span aria-hidden="true">{section.emoji}</span> {section.title} ({providers.length})
+          <span aria-hidden="true">{section.emoji}</span> {section.title} ({matched.length})
         </h2>
         {onShowAll && hiddenCount > 0 && (
           <button
@@ -127,6 +131,15 @@ export function ProvidersSection({
             عرض الكل
           </button>
         )}
+      </div>
+
+      <div className="mb-4">
+        <label htmlFor={searchId} className="block text-sm font-bold text-green-dark mb-2">دوّر في {section.title}</label>
+        <div className="flex items-center gap-2 rounded-xl border border-green/25 bg-white px-3 min-h-12">
+          <input id={searchId} type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder="اكتب الاسم أو التخصص…" className="flex-1 min-w-0 bg-transparent outline-none text-base py-3" />
+          {query && <button type="button" onClick={() => setQuery('')} className="min-h-11 px-2 text-sm font-bold text-green" aria-label={`امسح البحث في ${section.title}`}>مسح</button>}
+        </div>
+        {query.trim() && <p role="status" className="text-xs text-text-muted mt-2">{matched.length} نتيجة بالبحث والفلاتر الحالية</p>}
       </div>
 
       {showFilters && isTeachers && onSubjectChange && onStageChange && (
@@ -209,10 +222,11 @@ export function ProvidersSection({
         </div>
       )}
 
-      {providers.length === 0 ? (
+      {matched.length === 0 ? (
         <div className="text-sm text-text-muted bg-white rounded-xl p-4 text-center" role="status">
-          <p className="m-0">{specialty !== 'all' ? 'لسه مفيش دكتور ظاهر في التخصص ده. ابعت طلبك وهنحاول نوصلك بحد مناسب.' : 'مفيش حد مطابق دلوقتي، جرّب فلتر تاني.'}</p>
+          <p className="m-0">{query.trim() ? 'مفيش حد مطابق للبحث ده. جرّب اسم أو تخصص تاني، أو شيل الفلاتر.' : specialty !== 'all' ? 'لسه مفيش دكتور ظاهر في التخصص ده. ابعت طلبك وهنحاول نوصلك بحد مناسب.' : 'مفيش حد مطابق دلوقتي، جرّب فلتر تاني.'}</p>
           {specialty !== 'all' && onQuickRequest && quickServices.some(service => !service.name.includes('تمريض')) && <button type="button" className="mt-3 rounded-xl bg-green px-4 py-2 text-white font-bold" onClick={() => { const service = quickServices.find(item => !item.name.includes('تمريض')); if (service) onQuickRequest(service); }}>اطلب مساعدة في التخصص ده</button>}
+          {query.trim() && <button type="button" onClick={() => setQuery('')} className="min-h-11 px-3 text-green font-bold">امسح البحث</button>}
           {hasFilters && showFilters && (
             <button
               type="button"
@@ -242,7 +256,7 @@ export function ProvidersSection({
           onClick={onShowAll}
           className="w-full mt-3 bg-white border-2 border-gray-200 rounded-xl py-2.5 text-sm font-bold text-green-dark cursor-pointer hover:border-green"
         >
-          عرض الـ {providers.length} كلهم في قسم {section.title}
+          عرض الـ {matched.length} كلهم في قسم {section.title}
         </button>
       )}
     </section>
