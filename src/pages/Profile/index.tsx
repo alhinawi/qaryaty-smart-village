@@ -1,5 +1,5 @@
 // ─── Imports
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useUserStore } from '@/stores/useUserStore';
 import { useOrderStore } from '@/stores/useOrderStore';
 import { useUIStore } from '@/stores/useUIStore';
@@ -7,7 +7,8 @@ import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { Link, useNavigate } from 'react-router';
 import { useAuthStore, selectUser } from '@/stores/useAuthStore';
-import { AuthError } from '@/repositories';
+import { AuthError, referralRepo, type ReferralInfo } from '@/repositories';
+import { referralLink } from '@/utils/referral';
 import { ROUTES } from '@/routes';
 import { useVillageStore } from '@/stores/useVillageStore';
 import { VillagePicker } from '@/components/address/VillagePicker';
@@ -43,6 +44,27 @@ export default function ProfilePage() {
   const setAuthAvatar = useAuthStore((state) => state.setAvatar);
   const avatarUrl = user?.avatarUrl || profile.avatarUrl || '';
   const [photoOpen, setPhotoOpen] = useState(false);
+
+  // دعوة الأصحاب: the personal code and how much it earned (signed-in only)
+  const [referral, setReferral] = useState<ReferralInfo | null>(null);
+  useEffect(() => {
+    if (!user) {
+      setReferral(null);
+      return;
+    }
+    let alive = true;
+    referralRepo
+      .getInfo(user.id)
+      .then((info) => {
+        if (alive) setReferral(info);
+      })
+      .catch(() => {
+        /* the card keeps showing the share fallback */
+      });
+    return () => {
+      alive = false;
+    };
+  }, [user?.id]);
   const [photoBusy, setPhotoBusy] = useState(false);
   const photoInputRef = useRef<HTMLInputElement>(null);
 
@@ -108,22 +130,39 @@ export default function ProfilePage() {
     navigate(ROUTES.home);
   };
 
+  const personalLink = user && referral?.code ? referralLink(referral.code, window.location.origin) : window.location.origin;
+  const shareText = user && referral?.code
+    ? `جرّب تطبيق قريتي لخدمات وتوصيل القرية وسجّل من اللينك ده عشان تكسب 25 نقطة هدية: ${personalLink}`
+    : 'جرب تطبيق قريتي لخدمات وتوصيل القرية واستخدم كود QARYA1 وأول طلب ليك من غير رسوم!';
+
   const handleShareApp = () => {
     if (navigator.share) {
       navigator
         .share({
           title: 'تطبيق قريتي - القرية الذكية',
-          text: 'جرب تطبيق قريتي لخدمات وتوصيل القرية واستخدم كود QARYA1 وأول طلب ليك من غير رسوم!',
-          url: window.location.href,
+          text: shareText,
+          url: personalLink,
         })
         .catch(() => {});
     } else if (navigator.clipboard?.writeText) {
       navigator.clipboard
-        .writeText(window.location.origin)
+        .writeText(personalLink)
         .then(() => showToast('🔗 لينك الدعوة اتنسخ'))
-        .catch(() => showToast(`🔗 ابعت الرابط ده لأهل القرية: ${window.location.origin}`));
+        .catch(() => showToast(`🔗 ابعت الرابط ده لأهل القرية: ${personalLink}`));
     } else {
-      showToast(`🔗 ابعت الرابط ده لأهل القرية: ${window.location.origin}`);
+      showToast(`🔗 ابعت الرابط ده لأهل القرية: ${personalLink}`);
+    }
+  };
+
+  const handleCopyCode = () => {
+    if (!referral?.code) return;
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard
+        .writeText(personalLink)
+        .then(() => showToast('🔗 لينك الدعوة اتنسخ'))
+        .catch(() => showToast(`🔗 لينك دعوتك: ${personalLink}`));
+    } else {
+      showToast(`🔗 لينك دعوتك: ${personalLink}`);
     }
   };
 
@@ -460,21 +499,47 @@ export default function ProfilePage() {
         </button>
       </Modal>
 
-      {/* Share with village */}
+      {/* دعوة الأصحاب: personal invite link + what it earned */}
       {/* Phones: the button sits under the text, compact; sm+ (640px): beside it */}
-      <div className="bg-linear-to-br from-[#1e3a8a] to-[#3b82f6] text-white rounded-2xl p-4 sm:p-5 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-5">
-        <div className="min-w-0 flex-1">
-          <h4 className="text-[15px] sm:text-base font-extrabold leading-snug mb-1 text-balance">📢 ادعُ أهالي القرية لاستخدام التطبيق</h4>
-          <p className="text-xs leading-relaxed opacity-85">شارك التطبيق مع جيرانك في القرية واكسبوا نقاط مكافآت مع كل طلب</p>
+      <div className="bg-linear-to-br from-[#1e3a8a] to-[#3b82f6] text-white rounded-2xl p-4 sm:p-5 flex flex-col gap-3">
+        <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-5">
+          <div className="min-w-0 flex-1">
+            <h4 className="text-[15px] sm:text-base font-extrabold leading-snug mb-1 text-balance">📢 ادعُ أصحابك واكسبوا سوا</h4>
+            <p className="text-xs leading-relaxed opacity-85">
+              {user
+                ? 'صاحبك يكسب 25 نقطة هدية لما يسجّل من لينكك، وانت تكسب 50 نقطة أول ما يخلّص أول طلب ليه'
+                : 'شارك التطبيق مع جيرانك في القرية — وسجّل دخولك عشان يبقى ليك لينك دعوة باسمك وتكسب نقاط على كل صاحب يطلب'}
+            </p>
+          </div>
+          <Button
+            variant="gold"
+            size="sm"
+            className="shrink-0 whitespace-nowrap min-h-[40px] px-4"
+            onClick={handleShareApp}
+          >
+            مشاركة الرابط 📤
+          </Button>
         </div>
-        <Button
-          variant="gold"
-          size="sm"
-          className="shrink-0 whitespace-nowrap min-h-[40px] px-4"
-          onClick={handleShareApp}
-        >
-          مشاركة الرابط 📤
-        </Button>
+        {user && referral?.code && (
+          <div className="flex flex-col gap-2.5 border-t border-white/20 pt-3" dir="rtl">
+            <div className="flex items-center gap-2">
+              <code className="flex-1 min-w-0 truncate bg-white/15 rounded-lg px-3 py-2 text-[13px] font-bold text-left" dir="ltr">
+                {personalLink}
+              </code>
+              <Button
+                variant="gold"
+                size="sm"
+                className="shrink-0 whitespace-nowrap min-h-[36px] px-3"
+                onClick={handleCopyCode}
+              >
+                نسخ اللينك 🔗
+              </Button>
+            </div>
+            <p className="text-[12px] leading-relaxed opacity-85 m-0">
+              دعوت {referral.invitedCount} {referral.invitedCount === 1 ? 'صاحب' : 'أصحاب'} وكسبت منهم {referral.pointsEarned} نقطة
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

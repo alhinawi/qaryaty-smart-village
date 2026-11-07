@@ -4,7 +4,9 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { AuthSession, AuthUser } from '@/types';
-import { AuthError, authRepo, type CompleteProfileInput } from '@/repositories';
+import { AuthError, authRepo, referralRepo, type CompleteProfileInput } from '@/repositories';
+import { useUIStore } from './useUIStore';
+import { clearStoredReferral, storedReferralCode } from '@/utils/referral';
 import type { LoginInput, RegisterInput } from '@/utils/validators';
 import { useUserStore } from './useUserStore';
 import { useOrderStore } from './useOrderStore';
@@ -28,6 +30,26 @@ interface AuthState {
   completeProfile: (input: CompleteProfileInput) => Promise<AuthUser>;
 }
 
+
+/** An invite link brought this account in? Claim it once the session is real. */
+async function claimStoredReferral(userId: string): Promise<void> {
+  const code = storedReferralCode();
+  if (!code) return;
+  try {
+    const result = await referralRepo.claim(userId, code);
+    if (result === 'claimed') {
+      clearStoredReferral();
+      useUserStore.getState().addRewardPoints(25);
+      useUIStore.getState().showToast('🎉 مبروك! كسبت 25 نقطة هدية الدعوة');
+    } else if (result === 'self' || result === 'already') {
+      clearStoredReferral();
+    }
+    // bad_code: keep the stored code, a typo can fix itself later
+  } catch (error) {
+    console.warn('[qaryati] referral claim', error);
+  }
+}
+
 /** Survives the trip to Google and back (same tab). */
 const GOOGLE_RETURN_KEY = 'qaryati_google_return_to';
 
@@ -44,6 +66,7 @@ export const useAuthStore = create<AuthState>()(
         const session = await authRepo.login(input);
         set({ session });
         useUserStore.getState().applyAuthUser(session.user);
+        void claimStoredReferral(session.user.id);
         return session.user;
       },
 
@@ -52,6 +75,7 @@ export const useAuthStore = create<AuthState>()(
         if (result.status === 'confirm_email') return { confirmEmail: result.email };
         set({ session: result.session });
         useUserStore.getState().applyAuthUser(result.session.user);
+        void claimStoredReferral(result.session.user.id);
         return { user: result.session.user };
       },
 
@@ -117,6 +141,7 @@ export const useAuthStore = create<AuthState>()(
         if (!session) return null;
         set({ session });
         useUserStore.getState().applyAuthUser(session.user);
+        void claimStoredReferral(session.user.id);
         return { user: session.user, returnTo };
       },
 
