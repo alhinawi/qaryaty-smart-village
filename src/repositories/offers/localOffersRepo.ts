@@ -1,5 +1,6 @@
 // ─── Offers on this device (demo backend) + one labeled sample offer
 import { isTrackingDemoMode } from '@/config/demoMode';
+import { demoOffers } from './demoOffers';
 import { SHOPS } from '@/data/shops';
 import { isOfferActive } from '@/utils/countdown';
 import type { DailyOffer, OffersRepo } from './types';
@@ -30,6 +31,7 @@ function sampleOffer(): DailyOffer | null {
   };
 }
 
+
 function load(scope:string): DailyOffer[] {
   try {
     return (JSON.parse(localStorage.getItem(`${KEY}:${scope}`) ?? '[]') as DailyOffer[]).filter((o) => isOfferActive(o.endsAt));
@@ -49,10 +51,10 @@ function save(scope:string,list: DailyOffer[]): void {
 export function createLocalOffersRepo(scope='guest'): OffersRepo {
   return {
     async listActive() {
-      if(!isTrackingDemoMode())return [];
-      const mine = load(scope);
-      const sample = sampleOffer();
-      const all = sample ? [sample, ...mine] : mine;
+      if (!isTrackingDemoMode()) return [];
+      const mine = load(scope).map(row => ({ ...row, demo: true }));
+      const all = [...demoOffers().filter(sample => !mine.some(row => row.shopId === sample.shopId)), ...mine];
+
       return all.sort((a, b) => a.endsAt.localeCompare(b.endsAt)).map(withPhoto);
     },
     async mineForShop(shopId) {

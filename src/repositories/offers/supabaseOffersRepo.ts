@@ -1,6 +1,7 @@
 // ─── Offers on Supabase (see the daily_offers migration; applies on owner OK)
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { RepoError } from '@/repositories/errors';
+import { demoOffers } from './demoOffers';
 import { isDemoMode } from '@/config/demoMode';
 import type { DailyOffer, OffersRepo } from './types';
 
@@ -12,13 +13,15 @@ interface Row {
   details: string;
   ends_at: string;
   created_at: string;
-  shops?: { name: string; photo: string | null }[] | { name: string; photo: string | null } | null;
+  shops?: { name: string; photo: string | null; is_demo?: boolean }[] | { name: string; photo: string | null; is_demo?: boolean } | null;
 }
 
 function toOffer(row: Row): DailyOffer {
   return {
     id: `offer_${row.id}`,
     productId:row.product_id??undefined,percentOff:row.percent_off??undefined,startsAt:row.starts_at??undefined,
+    demo: (Array.isArray(row.shops) ? row.shops[0]?.is_demo : row.shops?.is_demo) === true,
+
     shopId: row.shop_id,
     shopName: (Array.isArray(row.shops) ? row.shops[0]?.name : row.shops?.name) ?? '',
     shopPhoto: (Array.isArray(row.shops) ? row.shops[0]?.photo : row.shops?.photo) ?? undefined,
@@ -47,7 +50,8 @@ export function createSupabaseOffersRepo(getClient: () => Promise<SupabaseClient
         if(error)throw new RepoError('unavailable','ماقدرناش نجيب العروض',{cause:error});
         rows.push(...data as Row[]);if(data.length<1000)break;
       }
-      return rows.map(toOffer);
+      return [...rows.map(toOffer), ...demoOffers()].sort((a,b) => a.endsAt.localeCompare(b.endsAt));
+
     },
 
     async mineForShop(shopId) {
