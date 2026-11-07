@@ -71,7 +71,7 @@ const resilience = createResilience({
 if (isSupabaseConfigured) backendStatus.markLive();
 
 // ─── Catalog
-const mockCatalog = createMockCatalogRepo();
+const mockCatalog = createMockCatalogRepo(isDemoMode);
 
 function createResilientCatalogRepo(live: CatalogRepo, fallback: CatalogRepo): CatalogRepo {
   // In الوضع الحقيقي a failed read must NOT silently show the demo sample data:
