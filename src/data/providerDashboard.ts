@@ -14,6 +14,7 @@ export interface DemoIncomingOrder {
   customer: string;
   /** What they asked for, in one line. */
   items: string;
+  notes?: string;
   total: number;
   status: 'new' | 'preparing' | 'done';
   ago: string;
@@ -34,6 +35,7 @@ export const DEMO_INCOMING_ORDERS: DemoIncomingOrder[] = [
     id: 'demo-order-1',
     customer: 'أم محمد',
     items: '2 كيلو طماطم، 1 كيلو بطاطس، ربطة جرجير',
+    notes: 'الطماطم تكون جامدة، والجرجير في كيس لوحده.',
     total: 85,
     status: 'new',
     ago: 'من 5 دقايق',
@@ -42,6 +44,7 @@ export const DEMO_INCOMING_ORDERS: DemoIncomingOrder[] = [
     id: 'demo-order-2',
     customer: 'الحاج محمود',
     items: 'كرتونة بيض، 2 كيلو سكر، لتر زيت',
+    notes: 'كلمني قبل الوصول، الجرس مش شغال.',
     total: 320,
     status: 'preparing',
     ago: 'من 25 دقيقة',

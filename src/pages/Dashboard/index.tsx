@@ -1,7 +1,8 @@
 import { StockControl } from '@/components/merchant/StockControl';
 import { stockKey, useDemoStock } from '@/components/merchant/demoStock';
-import { useTrackingDemoMode } from '@/hooks/useTrackingDemoMode';
 import{useRestockDemo}from'@/components/stock/restockDemo';
+import { OrderNotes } from '@/components/orders/OrderNotes';
+import { useTrackingDemoMode } from '@/hooks/useTrackingDemoMode';
 // ─── Provider dashboard: one place for a merchant or an independent
 // professional to run their side of Qaryati. Admins only (the owner appoints
 // them); edits stay on the device, nothing here is live for customers yet.
@@ -658,6 +659,7 @@ const ORDER_BADGES: Record<DemoIncomingOrder['status'], ReactNode> = {
 };
 
 function IncomingOrdersSection() {
+  const demo = useTrackingDemoMode();
   const [orders, setOrders] = useState<DemoIncomingOrder[]>(DEMO_INCOMING_ORDERS);
   const showToast = useUIStore((s) => s.showToast);
 
@@ -668,7 +670,7 @@ function IncomingOrdersSection() {
   };
 
   return (
-    <Section icon="🧾" title="الطلبات الواردة" hint="دي لسه مش طلبات حقيقية، بس كده هيبقى شكلها أول ما توصل">
+    demo ? <Section icon="🧾" title="الطلبات الواردة" hint="دي لسه مش طلبات حقيقية، بس كده هيبقى شكلها أول ما توصل">
       <ul className="m-0 p-0 list-none grid grid-cols-1 gap-2">
         {orders.map((o) => (
           <li key={o.id} className="p-3 rounded-xl border border-[rgba(26,122,74,0.12)] bg-cream/30">
@@ -677,6 +679,7 @@ function IncomingOrdersSection() {
               {ORDER_BADGES[o.status]}
             </div>
             <p className="text-[12px] text-text-muted m-0 mb-2">{o.items}</p>
+            <OrderNotes notes={o.notes} />
             <div className="flex items-center justify-between gap-2">
               <p className="text-[13px] font-black text-green m-0">{formatCurrency(o.total)}</p>
               {o.status !== 'done' && (
@@ -688,7 +691,7 @@ function IncomingOrdersSection() {
           </li>
         ))}
       </ul>
-    </Section>
+    </Section> : null
   );
 }
 
@@ -931,6 +934,7 @@ const BOOKING_BADGES: Record<DemoBookingRequest['status'], ReactNode> = {
 };
 
 function BookingsSection() {
+  const demo = useTrackingDemoMode();
   const [bookings, setBookings] = useState<DemoBookingRequest[]>(DEMO_BOOKING_REQUESTS);
   const showToast = useUIStore((s) => s.showToast);
 
@@ -939,6 +943,7 @@ function BookingsSection() {
     showToast(status === 'accepted' ? `✅ اتقبل حجز ${booking.customer}` : `اعتذرت عن حجز ${booking.customer}`);
   };
 
+  if (!demo) return null;
   return (
     <Section icon="📅" title="طلبات الحجز" hint="دي لسه مش حجوزات حقيقية، بس كده هيبقى شكلها أول ما توصل">
       <ul className="m-0 p-0 list-none grid grid-cols-1 gap-2">

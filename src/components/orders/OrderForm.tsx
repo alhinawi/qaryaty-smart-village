@@ -71,7 +71,7 @@ export function OrderForm({
         <label htmlFor="notesInput" className={labelClass}>📝 تفاصيل إضافية (اختياري)</label>
         <textarea
           id="notesInput"
-          placeholder="اكتب أي تفاصيل إضافية هنا..."
+          placeholder="مثلاً: بدون بصل، أو الشطة على جنب، أو كلمني قبل الوصول"
           value={formData.notes}
           onChange={handleNotesChange}
           className={inputClass}
