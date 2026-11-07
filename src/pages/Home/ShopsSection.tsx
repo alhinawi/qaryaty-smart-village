@@ -59,13 +59,13 @@ export function ShopsSection({
   return (
     <section className="mb-6 scroll-mt-20" aria-label={title} id={isRestaurants ? 'restaurants' : undefined}>
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-extrabold text-text m-0">
+        <h2 className="text-lg font-extrabold text-text m-0">
           <span role="img" aria-hidden="true">
             {icon}
           </span>{' '}
           {title}
           {isSearching ? ` (${shops.length})` : ''}
-        </h3>
+        </h2>
         {!showAll && (
           <a
             href={isRestaurants ? '#restaurants' : '#all-shops'}

@@ -115,9 +115,9 @@ export function ProvidersSection({
   return (
     <section className="mb-6 scroll-mt-40" id={`people-${section.id}`} aria-labelledby={titleId}>
       <div className="flex justify-between items-center mb-3 gap-2">
-        <h3 id={titleId} className="text-[1.0625rem] font-extrabold font-['Tajawal',sans-serif] m-0">
+        <h2 id={titleId} className="text-[1.0625rem] font-extrabold font-['Tajawal',sans-serif] m-0">
           <span aria-hidden="true">{section.emoji}</span> {section.title} ({providers.length})
-        </h3>
+        </h2>
         {onShowAll && hiddenCount > 0 && (
           <button
             type="button"

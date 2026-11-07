@@ -99,7 +99,7 @@ export const ShopCard = React.memo(function ShopCard({
         </div>
       )}
       <div className="p-2.5">
-        <h5 className="text-sm font-extrabold mb-1 text-text">{shop.name}</h5><Link to={`/shops/${shop.id}`} onClick={e=>e.stopPropagation()} onKeyDown={e=>e.stopPropagation()} className="relative z-20 inline-block text-[12px] text-green font-bold py-2">التفاصيل والآراء</Link>
+        <h3 className="text-sm font-extrabold mb-1 text-text">{shop.name}</h3><Link to={`/shops/${shop.id}`} onClick={e=>e.stopPropagation()} onKeyDown={e=>e.stopPropagation()} className="relative z-20 inline-block text-[12px] text-green font-bold py-2">التفاصيل والآراء</Link>
         {shop.kind === "restaurant" && (
           <p className="text-[11px] text-text-muted leading-snug mb-1 line-clamp-2">
             {shop.description}

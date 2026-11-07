@@ -5,12 +5,12 @@ import { FEATURES } from '@/data/features';
 export function FeaturesSection() {
   return (
     <section className="bg-green-dark rounded-3xl p-6 text-white mb-6" aria-label="مميزات تطبيق قريتي">
-      <h3 className="text-[clamp(1.125rem,2.5vw,1.375rem)] font-black mb-4 flex items-center gap-2">
+      <h2 className="text-[clamp(1.125rem,2.5vw,1.375rem)] font-black mb-4 flex items-center gap-2">
         <span role="img" aria-hidden="true">
           ✨
         </span>{' '}
         ليه تختار قريتي؟
-      </h3>
+      </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
         {FEATURES.map((feature) => (
@@ -19,7 +19,7 @@ export function FeaturesSection() {
               {feature.icon}
             </div>
             <div className="feature-text">
-              <h5 className="text-sm font-extrabold mb-1">{feature.title}</h5>
+              <h3 className="text-sm font-extrabold mb-1">{feature.title}</h3>
               <p className="text-xs opacity-75 leading-[1.4]">{feature.description}</p>
             </div>
           </div>
