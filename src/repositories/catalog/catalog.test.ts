@@ -95,7 +95,7 @@ describe('shop menus through the repository', () => {
   it('maps rating, delivery time and village from a shop row', () => {
     const shop = shopFromRow({
       id: 115, emoji: '🧆', name: 'x', description: '', open: true, time: '', bg_color: '#fff',
-      kind: 'restaurant', food_types: ['fool'], rating: '4.7', delivery_time: '15-25 دقيقة', village: 'منية سندوب',
+      kind: 'restaurant', is_demo: true, food_types: ['fool'], rating: '4.7', delivery_time: '15-25 دقيقة', village: 'منية سندوب',
     });
     expect(shop.rating).toBe(4.7);
     expect(shop.deliveryTime).toBe('15-25 دقيقة');
