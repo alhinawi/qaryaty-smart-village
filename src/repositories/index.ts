@@ -460,6 +460,17 @@ export async function saveShopWhatsapp(shopId: number, phone: string, optIn: boo
     .eq('id', shopId);
   if (error) throw new RepoError('rejected', 'ماقدرناش نحفظ الإعداد — محتاج صلاحية إدارة', { cause: error });
 }
+
+// ─── بيانات المحل: the merchant's own row (RLS: "shops: owner edits own"),
+// staff keep the admin policies. Only the fields the dashboard actually
+// changed go in the update, so one failed edit never clobbers the rest.
+import type { ShopBasicsUpdate } from './catalog/supabaseCatalogRepo';
+export type { ShopBasicsUpdate } from './catalog/supabaseCatalogRepo';
+export async function saveShopBasics(shopId: number, update: ShopBasicsUpdate): Promise<void> {
+  if (!isSupabaseConfigured) return;
+  const { updateShopBasics } = await import('./catalog/supabaseCatalogRepo');
+  return updateShopBasics(getSupabase, shopId, update);
+}
 // ─── عروض اليوم (merchant time-limited offers)
 export const OFFERS_UNAVAILABLE_MESSAGE = 'الخدمة متوقفة مؤقتًا، والعرض ماتحفظش. جرّب تاني بعد شوية';
 const liveOffers = isSupabaseConfigured ? createSupabaseOffersRepo(getSupabase) : null;
