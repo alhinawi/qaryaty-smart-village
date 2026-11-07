@@ -5,3 +5,7 @@ Six authored fixtures attached to existing sample shop names:3delivered,1onway,1
 ## Tracking revision
 
 Each sample card has تتبع الطلب, timeline and local الخطوة الجاية. Preparing→onway→delivered, cancelled has no advance, delivered review unlocks immediately. Account-scoped component remount clears progress; no real order mutation or server request. Click checks verified demo flag again.390/320 preparing→onway→delivered and new review eligibility verified; no overflow. Screenshot inspected.511 tests/build/newfile lint.
+
+## Separate review targets
+
+Delivered only: two independent star/comment sets for shop/provider and rider/delivery. Pickup fixture has shop review only, no rider block. Both local component memory only, no fake review publishing or server queue. Verified demo gate checked again on submit.390/320 dualform and pickup singleform browser assertions passed. UI may not attach invented rider identity; only category label.
