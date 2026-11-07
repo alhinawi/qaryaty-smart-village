@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router';
 import App from './App';
 import './index.css';
+import { captureReferralFromUrl } from './utils/referral';
 
 // ─── Root Render
 const rootElement = document.getElementById('root');
@@ -11,6 +12,9 @@ const rootElement = document.getElementById('root');
 if (!rootElement) {
   throw new Error('Failed to find the root element');
 }
+
+// Keep the invite code (if any) before the router drops the query string
+captureReferralFromUrl();
 
 createRoot(rootElement).render(
   <StrictMode>
