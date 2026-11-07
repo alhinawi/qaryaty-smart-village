@@ -112,6 +112,7 @@ function StyleThree({ offers }: { offers: DailyOffer[] }) {
           <div className="p-2.5">
             <h3 className="text-[13px] font-black text-green-dark leading-snug m-0 line-clamp-2">{offer.title}</h3>
             <p className="text-[11px] font-bold text-text-muted m-0 mt-1">{offer.shopName}</p>
+            {offer.details && <p className="text-[10px] leading-relaxed text-text-muted m-0 mt-1">{offer.details}</p>}
           </div>
         </div>
       ))}
