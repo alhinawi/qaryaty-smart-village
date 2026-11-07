@@ -66,6 +66,14 @@ export const ShopCard = React.memo(function ShopCard({
     >
       {shop.photo ? (
         <div className="relative h-[90px]" style={{ background: bg }}>
+          {!shop.demo && shop.open && isShopBusy(shop) && (
+            <span
+              className="absolute top-2 -start-6 rotate-[-45deg] bg-gold text-black text-[10px] font-black px-6 py-0.5 shadow-sm z-10"
+              aria-label="المحل مشغول"
+            >
+              مشغول
+            </span>
+          )}
           <ProductPhoto
             photo={shop.photo}
             emoji={shop.emoji}
@@ -81,9 +89,17 @@ export const ShopCard = React.memo(function ShopCard({
         </div>
       ) : (
         <div
-          className="h-[80px] flex items-center justify-center text-[38px]"
+          className="relative h-[80px] flex items-center justify-center text-[38px]"
           style={{ background: bg }}
         >
+          {!shop.demo && shop.open && isShopBusy(shop) && (
+            <span
+              className="absolute top-2 -start-6 rotate-[-45deg] bg-gold text-black text-[10px] font-black px-6 py-0.5 shadow-sm z-10"
+              aria-label="المحل مشغول"
+            >
+              مشغول
+            </span>
+          )}
           <span role="img" aria-hidden="true">
             {shop.emoji}
           </span>
@@ -104,11 +120,6 @@ export const ShopCard = React.memo(function ShopCard({
         >
           {shop.open ? "🟢 مفتوح" : "🔴 مغلق"}
         </div>}
-        {!shop.demo && shop.open && isShopBusy(shop) && (
-          <div className="inline-block text-[11px] font-bold px-2 py-0.5 rounded-xl mb-1 bg-amber-50 text-amber-700">
-            🟠 مشغول — التحضير هياخد وقت أطول
-          </div>
-        )}
         {shop.time && <div className="text-[11px] text-text-muted">{shop.time}</div>}
         {shop.kind === "restaurant" && (shop.rating || shop.deliveryTime) && (
           <div className="text-[11px] text-text-muted mt-0.5 flex flex-wrap gap-x-2">
