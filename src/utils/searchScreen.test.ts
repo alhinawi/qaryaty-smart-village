@@ -12,6 +12,7 @@ import {
   buildSearchIndex,
   buildSearchTabs,
   exploreTiles,
+  groupProductsByShop,
   groupResults,
   highlightParts,
   normalizeChar,
@@ -19,6 +20,7 @@ import {
   shopKindLabel,
   shopTab,
   smallPhoto,
+  type SearchEntry,
 } from './searchScreen';
 
 const catalog = { shops: SHOPS, services: SERVICES, providers: PROVIDERS, categories: CATEGORIES };
@@ -212,5 +214,25 @@ describe('recent searches', () => {
     expect(isSeededHistory(['عيش', 'شوي سمك', 'سباك', 'سوبر ماركت'])).toBe(true);
     expect(isSeededHistory(['عيش'])).toBe(false);
     expect(isSeededHistory(undefined)).toBe(false);
+  });
+});
+
+describe('products grouped by shop', () => {
+  it('groups matching products under their shop, one section per shop, in first-appearance order', () => {
+    const results = searchEntries(index, 'عيش');
+    const products = results.filter((e): e is Extract<SearchEntry, { type: 'product' }> => e.type === 'product');
+    expect(products.length).toBeGreaterThan(0);
+    const groups = groupProductsByShop(results);
+    expect(groups.map((g) => g.shop.id)).toEqual([...new Set(products.map((e) => e.shop.id))]);
+    const groupedKeys = groups.flatMap((g) => g.entries).map((e) => e.key).sort();
+    expect(groupedKeys).toEqual(products.map((e) => e.key).sort());
+    for (const g of groups) {
+      expect(g.entries.every((e) => e.type === 'product' && e.shop.id === g.shop.id)).toBe(true);
+    }
+  });
+
+  it('leaves out shops, services and people', () => {
+    const results = searchEntries(index, 'عيش');
+    expect(groupProductsByShop(results.filter((e) => e.type !== 'product'))).toEqual([]);
   });
 });
