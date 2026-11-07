@@ -1,16 +1,53 @@
 // ─── Imports
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import { Modal } from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { useUIStore } from '@/stores/useUIStore';
+import { selectMergedNotifications, useUIStore } from '@/stores/useUIStore';
+import { useAuthStore, selectUser } from '@/stores/useAuthStore';
+import { notificationsRepo, SERVER_NOTIF_PREFIX } from '@/repositories';
 
 // ─── Component
 export function NotificationsDrawer() {
   const isOpen = useUIStore((state) => state.isNotificationsOpen);
   const setIsOpen = useUIStore((state) => state.setIsNotificationsOpen);
-  const notifications = useUIStore((state) => state.notifications);
+  const notifications = useUIStore(selectMergedNotifications);
+  const setRemoteNotifications = useUIStore((state) => state.setRemoteNotifications);
   const markAsRead = useUIStore((state) => state.markNotificationAsRead);
   const markAllAsRead = useUIStore((state) => state.markAllNotificationsAsRead);
+  const user = useAuthStore(selectUser);
+
+  // Opening the drawer refreshes the real notifications for a signed-in account
+  useEffect(() => {
+    if (!isOpen || !user) return;
+    let alive = true;
+    notificationsRepo
+      .listMine(user.id)
+      .then((list) => {
+        if (alive) setRemoteNotifications(list);
+      })
+      .catch(() => {
+        /* keep whatever is already shown */
+      });
+    return () => {
+      alive = false;
+    };
+  }, [isOpen, user?.id, setRemoteNotifications]);
+
+  const navigate = useNavigate();
+
+  const handleMarkAsRead = (id: string) => {
+    markAsRead(id);
+    if (id.startsWith(SERVER_NOTIF_PREFIX)) {
+      notificationsRepo.markRead(id).catch(() => {});
+    }
+  };
+
+  const handleMarkAllAsRead = () => {
+    markAllAsRead();
+    if (user) notificationsRepo.markAllRead(user.id).catch(() => {});
+  };
 
   if (!isOpen) return null;
 
@@ -34,7 +71,7 @@ export function NotificationsDrawer() {
             <Button
               variant="ghost"
               size="sm"
-              onClick={markAllAsRead}
+              onClick={handleMarkAllAsRead}
             >
               تحديد الكل كمقروء ✓
             </Button>
@@ -54,7 +91,13 @@ export function NotificationsDrawer() {
               <div
                 key={notif.id}
                 className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer relative transition-colors duration-150 ${notif.read ? 'bg-gray-50 border-gray-100' : 'bg-green-50 border-green/20'}`}
-                onClick={() => markAsRead(notif.id)}
+                onClick={() => {
+                  handleMarkAsRead(notif.id);
+                  if (notif.url) {
+                    setIsOpen(false);
+                    navigate(notif.url);
+                  }
+                }}
               >
                 <div className="text-[24px]">{notif.icon}</div>
                 <div className="flex-1">

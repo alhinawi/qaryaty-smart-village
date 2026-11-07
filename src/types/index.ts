@@ -439,6 +439,8 @@ export interface AppNotification {
   read: boolean;
   type: 'order' | 'promo' | 'system';
   icon: string;
+  /** Server notifications can deep-link, e.g. the order tracking page. */
+  url?: string;
 }
 
 export interface OrderModalData {
