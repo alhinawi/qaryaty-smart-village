@@ -1,6 +1,8 @@
+import { validOrderPoint, ORDER_LOCATION_REQUIRED } from '@/utils/orderLocation';
 import{useProviderDashboardStore}from'@/stores/useProviderDashboardStore';
 import{OfferPrice}from'@/components/ui/OfferPrice';
 // ─── Imports
+import { SERVICE_IMAGES } from '@/config/serviceImages';
 import React, { useState } from "react";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
@@ -69,6 +71,7 @@ function CartDrawerContent() {
   const showToast = useUIStore((state) => state.showToast);
   const setActiveTab = useGoToTab();
 
+  const catalogShops = useCatalogStore(state => state.shops);
   const items = useCartStore((state) => state.items);
   const removeItem = useCartStore((state) => state.removeItem);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
@@ -133,6 +136,7 @@ function CartDrawerContent() {
     if (items.length === 0 || submitting) return;
     const initialScope=useOrderStore.getState().scopeVersion;
     setErrors({});
+    if (!validOrderPoint(mapPoint)) { setErrors({ address: ORDER_LOCATION_REQUIRED }); showToast(ORDER_LOCATION_REQUIRED); return; }
     if(demoOnly&&(!isTrackingDemoMode()||!items.every(i=>i.demoOnly))){showToast('الطلب التجريبي متوقف. فضّي السلة وافتح المحل من جديد');return;}
     if(shopItems&&shopId!=null){
       setSubmitting(true);
@@ -276,7 +280,7 @@ function CartDrawerContent() {
                 key={item.id}
                 className="flex flex-wrap items-center gap-3 p-2.5 bg-gray-50 rounded-xl"
               >
-                <ProductPhoto photo={item.photo} emoji={item.emoji} />
+                <ProductPhoto photo={item.photo} fallbackPhoto={SERVICE_IMAGES[item.serviceId] || catalogShops.find(shop => shop.id === item.shopId)?.photo} emoji={item.emoji} />
                 <div className="flex-1 min-w-[120px]">
                   <h3 className="text-sm font-extrabold">{item.name}</h3>
 

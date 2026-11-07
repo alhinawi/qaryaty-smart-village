@@ -1,5 +1,6 @@
 import {isSupabaseConfigured} from '@/repositories/supabaseClient';
 import { create } from 'zustand';
+import { imageForService } from '@/config/serviceImages';
 import { persist } from 'zustand/middleware';
 import type { CartItem, Product, Service, Shop } from '@/types';
 import { formatCurrency as formatPrice } from '@/utils/helpers';
@@ -38,6 +39,7 @@ export function cartItemFromService(service: Service): CartItem {
   return {
     id: `service-${service.id}`,
     serviceId: service.id,
+    photo: imageForService(service),
     name: service.name,
     price,
     formattedPrice: service.numericPrice != null ? formatPrice(service.numericPrice) : service.price,
@@ -68,7 +70,7 @@ export function cartItemFromProduct(
     formattedPrice: `${formatPrice(price)} / ${product.unit}`,
     priceType: 'fixed',
     emoji: product.emoji,
-    photo: product.photo,
+    photo: product.photo || shop.photo,
     quantity: product.step < 1 ? 1 : product.step,
     unit: product.unit,
     step: product.step,

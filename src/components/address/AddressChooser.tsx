@@ -1,5 +1,6 @@
 // ─── At checkout: pick a saved address (like Talabat) or add one on the map
-// Typing the address stays possible for anyone who can't use the map.
+// All order addresses require a selected map point.
+import { validOrderPoint, ORDER_LOCATION_REQUIRED } from '@/utils/orderLocation';
 import { useEffect, useRef, useState } from 'react';
 import type { LatLng, UserAddress } from '@/types';
 import { useAddressStore } from '@/stores/useAddressStore';
@@ -11,7 +12,7 @@ import LocationPicker from './LocationPicker';
 export interface ChosenAddress {
   /** The text saved on the order. */
   address: string;
-  /** Where on the map; null when typed by hand. */
+  /** Selected map point; null for an unselected or legacy address. */
   point: LatLng | null;
   /** The saved address it came from. */
   addressId: string | null;
@@ -28,7 +29,7 @@ interface Props {
 }
 
 function fromSaved(a: UserAddress): ChosenAddress {
-  return { address: addressForOrder(a), point: { lat: a.lat, lng: a.lng }, addressId: a.id };
+  return { address: addressForOrder(a), point: validOrderPoint(a) ? { lat: a.lat, lng: a.lng } : null, addressId: a.id };
 }
 
 export default function AddressChooser({ id, label, value, onChange, onPhone, error }: Props) {
@@ -36,9 +37,7 @@ export default function AddressChooser({ id, label, value, onChange, onPhone, er
   const user = useAuthStore(selectUser);
   const { village } = useReach();
   const [pickerOpen, setPickerOpen] = useState(false);
-  const [typing, setTyping] = useState(() => Boolean(value.address && !value.addressId));
   const autoPicked = useRef(false);
-  const userTyped = useRef(false);
 
   useEffect(() => {
     void load();
@@ -48,17 +47,15 @@ export default function AddressChooser({ id, label, value, onChange, onPhone, er
   useEffect(() => {
     if (autoPicked.current || value.addressId || addresses.length === 0) return;
     autoPicked.current = true;
-    if (userTyped.current) return;
     const def = addresses.find((a) => a.isDefault) ?? addresses[0];
-    setTyping(false);
     onChange(fromSaved(def));
     if (def.phone) onPhone?.(def.phone);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addresses]);
 
   const choose = (a: UserAddress) => {
-    setTyping(false);
     onChange(fromSaved(a));
+    if (!validOrderPoint(a)) setPickerOpen(true);
     if (a.phone) onPhone?.(a.phone);
   };
 
@@ -73,7 +70,7 @@ export default function AddressChooser({ id, label, value, onChange, onPhone, er
       {addresses.length > 0 && (
         <ul className="flex flex-col gap-2" role="radiogroup" aria-label={label}>
           {addresses.map((a) => {
-            const selected = !typing && value.addressId === a.id;
+            const selected = value.addressId === a.id && validOrderPoint(a);
             return (
               <li key={a.id}>
                 <button
@@ -115,40 +112,12 @@ export default function AddressChooser({ id, label, value, onChange, onPhone, er
         >
           📍 {addresses.length ? 'عنوان جديد على الخريطة' : 'حدّد عنوانك على الخريطة'}
         </button>
-        {!typing && (
-          <button
-            type="button"
-            onClick={() => {
-              userTyped.current = true;
-              setTyping(true);
-              onChange({ address: '', point: null, addressId: null });
-            }}
-            className="min-h-[46px] rounded-xl text-sm text-text-muted px-3 underline underline-offset-4"
-          >
-            أكتبه بإيدي
-          </button>
-        )}
       </div>
-
-      {typing && (
-        <input
-          id={id}
-          type="text"
-          className={`mt-2 ${error ? 'is-invalid' : ''}`}
-          placeholder="مثال: شارع الجامع الكبير، أمام المدرسة"
-          value={value.address}
-          onChange={(e) => onChange({ address: e.target.value, point: null, addressId: null })}
-          aria-label="اكتب العنوان"
-          aria-invalid={Boolean(error)}
-          aria-describedby={error ? `${id}-error` : undefined}
-          autoComplete="street-address"
-          autoFocus
-        />
-      )}
+      {value.address && !validOrderPoint(value.point) && <p className="text-xs text-text-muted mt-2">العنوان محفوظ، بس محتاج تحدّد مكانه على الخريطة قبل الطلب.</p>}
 
       {error && (
         <span id={`${id}-error`} className="input-error-msg" role="alert">
-          {addresses.length === 0 && !typing ? 'حدّد عنوانك على الخريطة أو اكتبه بإيدك' : error}
+          {!validOrderPoint(value.point) ? ORDER_LOCATION_REQUIRED : error}
         </span>
       )}
 

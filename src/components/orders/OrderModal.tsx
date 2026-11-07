@@ -1,3 +1,4 @@
+import { validOrderPoint, ORDER_LOCATION_REQUIRED } from '@/utils/orderLocation';
 // ─── Imports
 import React, { useState } from 'react';
 import { Modal } from '@/components/ui/Modal';
@@ -96,6 +97,7 @@ export function OrderModal({
   const handleNextStep = (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
+    if (!validOrderPoint(mapPoint)) { setErrors({ address: ORDER_LOCATION_REQUIRED }); showToast(ORDER_LOCATION_REQUIRED); return; }
 
     // Validate Step 1 with Zod
     const validation = orderFormSchema.safeParse({

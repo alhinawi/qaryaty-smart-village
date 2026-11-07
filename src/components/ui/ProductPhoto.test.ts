@@ -4,10 +4,9 @@ import { createElement } from 'react';
 import { ProductPhoto } from './ProductPhoto';
 
 describe('product thumbnail fallbacks', () => {
-  it('shows a neutral image icon, never the supplied emoji, without a photo', () => {
+  it('resolves a category photo when the item has no photo', () => {
     const html = renderToStaticMarkup(createElement(ProductPhoto, { emoji: '🥖' }));
-    expect(html).toContain('الصورة غير متاحة');
-    expect(html).toContain('<svg');
+    expect(html).toContain('/img/services/food.webp');
     expect(html).not.toContain('🥖');
   });
   it('retains the supplied merchant photo', () => {
