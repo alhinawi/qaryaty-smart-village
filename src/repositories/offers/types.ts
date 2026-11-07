@@ -2,6 +2,8 @@
 // a countdown, and it disappears by itself when time runs out.
 export interface DailyOffer {
   id: string;
+  /** Internal provenance, never a customer-facing tag. */
+  demo?: boolean;
   shopId: number;
   shopName: string;
   /** Shop photo URL when known; cards fall back to the shop's initial. */

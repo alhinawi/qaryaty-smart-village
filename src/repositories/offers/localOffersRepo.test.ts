@@ -22,7 +22,7 @@ describe('createLocalOffersRepo', () => {
     const repo = createLocalOffersRepo();
     const shop = SHOPS.find((s) => s.id === 2)!;
     await repo.create(2, shop.name, 'عرض العيش الطازج', '', 3);
-    const [mine] = (await repo.listActive()).filter((o) => o.id !== 'demo-offer-1');
+    const [mine] = (await repo.listActive()).filter((o) => !o.id.startsWith('demo-offer-'));
     expect(mine.shopPhoto).toBe(shop.photo);
   });
 
@@ -48,3 +48,5 @@ describe('createLocalOffersRepo', () => {
     expect(ids).not.toContain('demo-offer-1');
   });
 });
+
+ it('all local saved offers hide when real mode or verification unknown', async () => { const repo=createLocalOffersRepo();setDemoModeFlag(true);await repo.create(2,'shop','offer','',3);setDemoModeFlag(false);expect(await repo.listActive()).toEqual([]);invalidateDemoMode();expect(await repo.listActive()).toEqual([]); });
