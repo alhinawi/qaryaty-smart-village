@@ -1,3 +1,5 @@
+import { FamilyOrderPreview } from '@/components/family/FamilyOrderPreview';
+import { Gift } from 'lucide-react';
 // ─── Imports
 import React, { useState } from "react";
 import { Modal } from "@/components/ui/Modal";
@@ -56,6 +58,7 @@ function formatLinePrice(item: CartItem): string {
 }
 
 function CartDrawerContent() {
+  const [familyOpen, setFamilyOpen] = useState(false);
   const setIsOpen = useUIStore((state) => state.setIsCartOpen);
   const showToast = useUIStore((state) => state.showToast);
   const setActiveTab = useGoToTab();
@@ -315,6 +318,8 @@ function CartDrawerContent() {
             </div>
           </form>
 
+          <button type="button" onClick={() => setFamilyOpen(true)} className="w-full rounded-xl border border-green/20 bg-green-50 p-3 mb-4 text-green text-sm font-extrabold flex items-center justify-center gap-2"><Gift size={18}/>اطلب لحد تاني</button>
+          {familyOpen && <FamilyOrderPreview onClose={() => setFamilyOpen(false)} />}
           {/* Delivery Details (prefilled from the profile) */}
           <div className="flex flex-col gap-3 mb-4">
             <AddressChooser
