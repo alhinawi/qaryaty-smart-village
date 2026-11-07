@@ -107,17 +107,19 @@ export const ServiceCard = React.memo(function ServiceCard({
         {images.length ? <ServiceImageGallery key={images.join('|')} images={images} name={service.name} /> : <ImagePlaceholder className="w-full h-full" />}
 
         <div className="absolute bottom-0 left-0 z-20"><CatalogShareButton compact kind="service" id={service.id} name={service.name} /></div>
-        {/* Favorite Heart Button */}
+        {/* Favorite Heart Button — 44px tap target, small chip matching the share chip */}
         <button
           type="button"
-          className={`absolute top-2 left-2 z-20 bg-white/85 border-none rounded-xl w-[44px] h-[44px] flex items-center justify-center text-[15px] cursor-pointer shadow-[0_2px_6px_rgba(0,0,0,0.1)] transition-transform duration-200 hover:scale-[1.15] ${
+          className={`absolute top-2 left-2 z-20 h-11 w-11 flex items-center justify-center border-none bg-transparent cursor-pointer transition-transform duration-200 hover:scale-[1.15] ${
             isFav ? "is-active" : ""
           }`}
           onClick={handleFavoriteClick}
           aria-pressed={isFav}
           aria-label={isFav ? "إزالة من المفضلة" : "إضافة للمفضلة"}
         >
-          {isFav ? "❤️" : "🤍"}
+          <span className="h-8 w-8 rounded-full bg-white/95 shadow-sm border border-green/10 flex items-center justify-center text-[13px]">
+            {isFav ? "❤️" : "🤍"}
+          </span>
         </button>
 
         {/* Badge */}
