@@ -19,6 +19,7 @@ import {
 import type { Provider, ProviderKind, SchoolStage, Service, TeacherSubject, TeacherGroup } from '@/types';
 import { STAGES, SUBJECTS, SUBJECT_STAGES } from '@/data/teachers';
 import { ProviderCard } from '@/components/shared/ProviderCard';
+import type { DoctorSpecialty } from '@/utils/doctorSpecialties';
 import { KIND_FILTER_LABELS, type PeopleSection } from '@/utils/peopleSections';
 
 const SUBJECT_ICONS: Record<TeacherSubject, LucideIcon> = {
@@ -47,6 +48,9 @@ interface ProvidersSectionProps {
   onSubjectChange?: (subject: TeacherSubject | 'all') => void;
   stage?: SchoolStage | 'all';
   onStageChange?: (stage: SchoolStage | 'all') => void;
+  specialties?: DoctorSpecialty[];
+  specialty?: string;
+  onSpecialtyChange?: (specialty: string) => void;
   kind?: ProviderKind | 'all';
   onKindChange?: (kind: ProviderKind | 'all') => void;
   /** "مش فارق معاك مين؟": general services to order without picking someone. */
@@ -92,6 +96,9 @@ export function ProvidersSection({
   onSubjectChange,
   stage = 'all',
   onStageChange,
+  specialties = [],
+  specialty = 'all',
+  onSpecialtyChange,
   kind = 'all',
   onKindChange,
   quickServices = [],
@@ -103,7 +110,7 @@ export function ProvidersSection({
   const isTeachers = section.kinds.includes('teacher');
   const visible = maxVisible ? providers.slice(0, maxVisible) : providers;
   const hiddenCount = providers.length - visible.length;
-  const hasFilters = subject !== 'all' || stage !== 'all' || kind !== 'all';
+  const hasFilters = specialty !== 'all' || subject !== 'all' || stage !== 'all' || kind !== 'all';
 
   return (
     <section className="mb-6 scroll-mt-40" id={`people-${section.id}`} aria-labelledby={titleId}>
@@ -163,6 +170,22 @@ export function ProvidersSection({
         </div>
       )}
 
+      {showFilters && section.id === 'health' && kind !== 'nurse' && onSpecialtyChange && (
+        <div className="mb-4 rounded-2xl bg-white/70 border border-green/10 p-3">
+          <p className="text-xs text-green-dark font-extrabold mb-1">تخصص الدكتور</p>
+          <p className="text-[11px] text-text-muted mb-3">كل التخصصات موجودة للبحث. الرقم هو عدد الدكاترة الظاهرين في البيانات الحالية، مش تأكيد توافرهم.</p>
+          <label className="block text-xs text-text-muted mb-2">اختار من كل التخصصات
+            <select aria-label="كل تخصصات الدكاترة" value={specialty} onChange={event => onSpecialtyChange(event.target.value)} className="mt-1 w-full rounded-xl border border-gray-200 bg-white p-3 text-text">
+              <option value="all">كل التخصصات</option>{specialties.map(option => <option key={option.id} value={option.id}>{option.label} ({option.count})</option>)}
+            </select>
+          </label>
+          <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto py-1" role="group" aria-label="تخصص الدكتور">
+            <Chip active={specialty === 'all'} onClick={() => onSpecialtyChange('all')}>الكل</Chip>
+            {specialties.map(option => <button type="button" key={option.id} aria-pressed={specialty === option.id} onClick={() => onSpecialtyChange(option.id)} aria-label={`${option.label} (${option.count})`} className={`rounded-full border-2 px-3 py-1.5 text-xs font-bold ${specialty === option.id ? 'bg-green text-white border-green' : option.count === 0 ? 'bg-gray-50 text-gray-500 border-gray-100' : 'bg-white text-text border-gray-200'}`}>{option.label} <span className="text-[10px]">({option.count})</span></button>)}
+          </div>
+        </div>
+      )}
+
       {quickServices.length > 0 && onQuickRequest && (
         <div className="bg-[#e8f5ee] rounded-2xl p-3 mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[13px] font-bold text-green-dark m-0">
@@ -188,7 +211,8 @@ export function ProvidersSection({
 
       {providers.length === 0 ? (
         <div className="text-sm text-text-muted bg-white rounded-xl p-4 text-center" role="status">
-          <p className="m-0">مفيش حد مطابق دلوقتي، جرّب فلتر تاني.</p>
+          <p className="m-0">{specialty !== 'all' ? 'لسه مفيش دكتور ظاهر في التخصص ده. ابعت طلبك وهنحاول نوصلك بحد مناسب.' : 'مفيش حد مطابق دلوقتي، جرّب فلتر تاني.'}</p>
+          {specialty !== 'all' && onQuickRequest && quickServices.some(service => !service.name.includes('تمريض')) && <button type="button" className="mt-3 rounded-xl bg-green px-4 py-2 text-white font-bold" onClick={() => { const service = quickServices.find(item => !item.name.includes('تمريض')); if (service) onQuickRequest(service); }}>اطلب مساعدة في التخصص ده</button>}
           {hasFilters && showFilters && (
             <button
               type="button"
@@ -196,8 +220,9 @@ export function ProvidersSection({
                 onSubjectChange?.('all');
                 onStageChange?.('all');
                 onKindChange?.('all');
+                onSpecialtyChange?.('all');
               }}
-              className="mt-2 text-green font-bold bg-transparent border-none cursor-pointer"
+              className="block mx-auto mt-3 text-green font-bold bg-transparent border-none cursor-pointer"
             >
               شيل الفلاتر
             </button>

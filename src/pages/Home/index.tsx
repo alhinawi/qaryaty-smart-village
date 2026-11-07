@@ -39,6 +39,7 @@ import { SkeletonList } from '@/components/ui/Skeleton';
 import { useTrackingDemoMode } from '@/hooks/useTrackingDemoMode';
 import { providerToOrderModalData, serviceToOrderModalData } from '@/utils/pricing';
 import { groupPreselection } from '@/utils/teacherGroups';
+import { doctorSpecialties, matchesDoctorSpecialty } from '@/utils/doctorSpecialties';
 import { matchesSearch } from '@/utils/arabicSearch';
 import {
   PEOPLE_SECTIONS,
@@ -80,6 +81,7 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
   }, [loadCatalog]);
   const [subject, setSubject] = useState<TeacherSubject | 'all'>('all');
   const [stage, setStage] = useState<SchoolStage | 'all'>('all');
+  const [selectedSpecialty, setSpecialty] = useState('all');
   const [kind, setKind] = useState<ProviderKind | 'all'>('all');
   const peopleSection = sectionForCategory(selectedCategory);
   const isSearching = searchQuery.trim().length > 0;
@@ -90,6 +92,7 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
   const setSelectedCategory = (category: CategoryFilter) => {
     setSelectedCategoryState(category);
     setKind('all');
+    setSpecialty('all');
   };
 
   /** Open a people section from its tile or from "عرض الكل" and scroll to it. */
@@ -134,6 +137,11 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
   const villageShops = useMemo(() => filteredShops.filter((s) => s.kind !== 'restaurant'), [filteredShops]);
   const restaurants = useMemo(() => filteredShops.filter((s) => s.kind === 'restaurant'), [filteredShops]);
 
+  const specialties = useMemo(() => doctorSpecialties(providers, services, searchQuery), [providers, services, searchQuery]);
+  const specialty = specialties.some(option => option.id === selectedSpecialty) ? selectedSpecialty : 'all';
+  const changeKind = (next: ProviderKind | 'all') => { setKind(next); setSpecialty('all'); };
+  const changeSpecialty = (next: string) => { setSpecialty(next); if (next !== 'all') setKind('doctor'); };
+
   // People in the selected category's section (teachers, nurses…), with its filters
   const filteredProviders = useMemo(() => {
     if (!peopleSection) return [];
@@ -143,8 +151,8 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
       subject,
       stage,
       query: searchQuery,
-    });
-  }, [providers, services, peopleSection, kind, subject, stage, searchQuery]);
+    }).filter(provider => !peopleSection.kinds.includes('doctor') || matchesDoctorSpecialty(provider, specialty));
+  }, [providers, services, peopleSection, kind, subject, stage, searchQuery, specialty]);
 
   const quickServices = useMemo(
     () => (peopleSection ? quickRequestServices(peopleSection, services, providers) : []),
@@ -198,7 +206,12 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
   };
 
   const handleSelectService = (service: Service) => {
-    onOpenOrderModal(serviceToOrderModalData(service));
+    const data = serviceToOrderModalData(service);
+    const selected = specialties.find(option => option.id === specialty);
+    if (selected && !service.name.includes('تمريض') && service.cat === 'health') {
+      data.options = [...(data.options ?? []), { id: 'requested-specialty', label: 'التخصص المطلوب', choices: [selected.label] }];
+    }
+    onOpenOrderModal(data);
   };
 
   // A service in the grid with people listed (سباك، نجار…): pick who comes first
@@ -283,7 +296,10 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
           stage={stage}
           onStageChange={setStage}
           kind={kind}
-          onKindChange={setKind}
+          onKindChange={changeKind}
+          specialties={specialties}
+          specialty={specialty}
+          onSpecialtyChange={changeSpecialty}
           quickServices={quickServices}
           onQuickRequest={handleSelectService}
         />
