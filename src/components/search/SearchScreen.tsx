@@ -845,7 +845,7 @@ function ResultRow({
         <TilePicture photo={entry.shop.photo} emoji={entry.shop.emoji} />
       </span>
     );
-    meta = entry.shop.open ? "مفتوح" : "مغلق";
+    meta = entry.shop.demo ? "للعرض فقط" : entry.shop.open ? "مفتوح" : "مغلق";
     metaTone = entry.shop.open ? "text-success" : "text-danger";
   } else if (entry.type === "product") {
     thumb = (
