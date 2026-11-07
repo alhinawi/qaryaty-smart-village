@@ -1,0 +1,30 @@
+import { PGlite } from '@electric-sql/pglite';
+import fs from 'node:fs';
+const db=new PGlite();
+await db.exec(`create role anon;create role authenticated;create schema auth;create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
+create table profiles(id uuid primary key,blocked boolean default false);create table shops(id bigint primary key,name text,owner_profile_id uuid,is_demo boolean default false,hidden boolean default false);`);
+await db.exec(fs.readFileSync(new URL('../../supabase/migrations/20261107093000_daily_price_board.sql',import.meta.url),'utf8'));
+const owner='11111111-1111-4111-8111-111111111111',other='22222222-2222-4222-8222-222222222222';
+await db.exec(`insert into profiles values('${owner}',false),('${other}',false);insert into shops values(1,'محل أحمد','${owner}',false,false),(2,'Demo','${owner}',true,false),(3,'Hidden','${owner}',false,true);`);
+let n=0;const check=(test,label)=>{if(!test)throw Error(label);n++;console.log('PASS',label)};
+async function denied(sql,label){try{await db.query(sql);throw Error('NOT DENIED')}catch(e){if(e.message==='NOT DENIED')throw Error(label);check(true,label)}}
+async function as(id,role='authenticated'){await db.exec(`reset role;select set_config('request.jwt.claim.sub','${id}',false);set role ${role};`)}
+await as('','anon');await denied("select publish_daily_price(1,'tomato','kg',15)",'anonymous publish denied');
+await as(other);await denied("select publish_daily_price(1,'tomato','kg',15)",'other owner denied');
+await as(owner);await denied("select publish_daily_price(2,'tomato','kg',15)",'demo shop denied');await denied("select publish_daily_price(3,'tomato','kg',15)",'hidden shop denied');
+for(const price of ['0','-1','100001',"'NaN'::numeric","'Infinity'::numeric",'1.001','null'])await denied(`select publish_daily_price(1,'tomato','kg',${price})`,'bad price '+price);
+await denied("select publish_daily_price(1,' ','kg',15)",'empty item denied');await denied("select publish_daily_price(1,'tomato',' ',15)",'empty unit denied');
+await db.query("select publish_daily_price(1,' tomato ','kg',15)");
+let rows=(await db.query('select list_daily_prices() p')).rows[0].p;check(rows.length===1&&rows[0].price===15&&rows[0].item==='tomato','server announcement published');
+check(Object.keys(rows[0]).sort().join(',')==='id,item,price,shopId,shopName,unit,updatedAt','narrow public projection excludes owner');
+await as('', 'anon');check((await db.query('select list_daily_prices() p')).rows[0].p.length===1,'anonymous can read real published price');await as(owner);
+const id=rows[0].id;await db.query("select publish_daily_price(1,'tomato','kg',18)");rows=(await db.query('select list_daily_prices() p')).rows[0].p;check(rows.length===1&&rows[0].price===18,'same item updated not duplicated');
+await denied('select * from daily_merchant_prices','direct read denied');await denied("insert into daily_merchant_prices(shop_id,item,unit,price)values(1,'x','kg',2)",'direct write denied');
+await as(other);await denied(`select withdraw_daily_price('${id}')`,'other owner withdraw denied');await as(owner);await db.query(`select withdraw_daily_price('${id}')`);check((await db.query('select list_daily_prices() p')).rows[0].p.length===0,'withdraw removes public item');
+await db.query("select publish_daily_price(1,'tomato','kg',18)");await db.exec('reset role');await db.exec("update daily_merchant_prices set updated_at=now()-interval '2 days'");await as('','anon');check((await db.query('select list_daily_prices() p')).rows[0].p.length===0,'stale row hidden');
+await db.exec("reset role;update daily_merchant_prices set updated_at=now()+interval '1 hour'");await as('','anon');check((await db.query('select list_daily_prices() p')).rows[0].p.length===0,'future row hidden');
+await db.exec(`reset role;update daily_merchant_prices set updated_at=now();update profiles set blocked=true where id='${owner}'`);await as(owner);await denied("select publish_daily_price(1,'tomato','kg',15)",'blocked owner denied');check((await db.query('select list_daily_prices() p')).rows[0].p.length===0,'blocked owner prices hidden');
+await db.exec(`reset role;update profiles set blocked=false;update shops set hidden=true where id=1`);await as('','anon');check((await db.query('select list_daily_prices() p')).rows[0].p.length===0,'hidden shop rows hidden');
+await db.exec('reset role;update shops set hidden=false where id=1');await as(owner);for(let i=0;i<39;i++)await db.query(`select publish_daily_price(1,'item${i}','kg',15)`);await denied("select publish_daily_price(1,'item41','kg',15)",'40 row cap enforced');await db.query("select publish_daily_price(1,'tomato','kg',20)");check(true,'existing item still editable at cap');
+await db.exec('reset role;update shops set is_demo=true where id=1');await as('', 'anon');check((await db.query('select list_daily_prices() p')).rows[0].p.length===0,'shop switched to demo no longer public');
+console.log('SQL tests passed:',n);await db.close();

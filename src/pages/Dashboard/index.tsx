@@ -13,6 +13,7 @@ import { useCatalogStore } from '@/stores/useCatalogStore';
 import { useProviderDashboardStore, type ProService } from '@/stores/useProviderDashboardStore';
 import { useUIStore } from '@/stores/useUIStore';
 import { useConfirmStore } from '@/stores/useConfirmStore';
+import { DailyPricesEditor } from './DailyPricesEditor';
 import { OffersSection } from './OffersSection';
 import { WhatsappSection } from './WhatsappSection';
 import { Badge } from '@/components/ui/Badge';
@@ -120,6 +121,7 @@ function MerchantPanel() {
           ))}
         </select>
       </label>
+      <DailyPricesEditor key={`prices-${shop.id}`} shop={shop} />
       <OffersSection key={`offers-${shop.id}`} shop={shop} />
       <WhatsappSection key={`wa-${shop.id}`} shop={shop} />
       <ShopInfoSection key={`info-${shop.id}`} shop={shop} />
