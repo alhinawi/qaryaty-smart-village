@@ -1,3 +1,4 @@
+import{OfferPrice}from'@/components/ui/OfferPrice';
 import {useAuthStore} from '@/stores/useAuthStore';
 import {useTrackingDemoMode} from '@/hooks/useTrackingDemoMode';
 import {offersRepo,isSupabaseConfigured,type DailyOffer} from '@/repositories';
@@ -857,7 +858,7 @@ function ResultRow({
       </span>
     );
     meta = `${formatCurrency(entry.product.price)}${entry.product.unit ? ` / ${entry.product.unit}` : ""}`;
-    subtitle = `${entry.shop.name}${entry.product.originalPrice!=null?` · قبل الخصم ${formatCurrency(entry.product.originalPrice)}`:""}${entry.shop.open ? "" : " · مغلق دلوقتي"}`;
+    subtitle = `${entry.shop.name}${entry.shop.open ? "" : " · مغلق دلوقتي"}`;
   } else if (entry.type === "service") {
     thumb = (
       <span
@@ -891,7 +892,7 @@ function ResultRow({
     >
       {thumb}
       <span className="flex-1 min-w-0">
-        <span className="block font-bold text-[0.9375rem] text-text truncate">
+        <span className="block font-bold text-[0.9375rem] text-text leading-snug">
           <Highlight text={entry.title} query={query} />
         </span>
         {subtitle && (
@@ -902,9 +903,9 @@ function ResultRow({
       </span>
       {meta && (
         <span
-          className={`shrink-0 text-[0.75rem] font-bold max-w-[38%] truncate ${metaTone}`}
+          className={`shrink-0 text-[0.75rem] font-bold max-w-[44%] ${metaTone}`}
         >
-          {meta}
+          {entry.type==="product"?<OfferPrice price={entry.product.price} original={entry.product.originalPrice} percent={entry.product.offerPercent} unit={entry.product.unit}/>:meta}
         </span>
       )}
     </button>

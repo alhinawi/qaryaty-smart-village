@@ -20,3 +20,6 @@ Global product search now applies the same percentage calculator, current/origin
 
 ### Automatic stock follow-up
 Imports same demoStock state/model as92ce802 unchanged. New local cart orders now progress pending->confirmed->onway->done with verified demo only. The final transition atomically deducts all product quantities once, scoped by account/cart-orderID. Insufficient inventory blocks final transition; cancellation before done is terminal and consumes nothing. Same session reload remains idempotent. Browser390/320: milk stock3->2 after quantity1 delivery, reload stays2. No live stock changes. When merging92ce802, retain identical demoStock files and its merchant quantity UI/sample-history component.
+
+### Visible old/new price request
+Shared OfferPrice shows green new price, old price struck through adjacent and compact -20%badge. Applies search/menu/cart/checkout line. Cart separates quantity controls onto next row on narrow screens so product/name/prices remain readable. Search title wraps instead of losing product identity. Browser390/320 old45/new36/badge20%with complete local checkout unchanged48. Native3x screenshots both widths. No deployment.

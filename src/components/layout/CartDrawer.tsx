@@ -1,3 +1,4 @@
+import{OfferPrice}from'@/components/ui/OfferPrice';
 // ─── Imports
 import React, { useState } from "react";
 import { Modal } from "@/components/ui/Modal";
@@ -276,8 +277,9 @@ function CartDrawerContent() {
                 <ProductPhoto photo={item.photo} emoji={item.emoji} />
                 <div className="flex-1 min-w-[120px]">
                   <h3 className="text-sm font-extrabold">{item.name}</h3>
+
                   <div className="text-xs text-text-muted">
-                    {item.originalPrice!=null&&<span className="block mb-1">قبل الخصم <del>{formatCurrency(item.originalPrice)}</del></span>}<span>{formatLinePrice(item)}</span>
+                    {item.originalPrice!=null?<><OfferPrice price={item.price} original={item.originalPrice} percent={item.offerPercent}/><span className="block mt-1">{formatQuantity(item)} = {formatCurrency(item.price*item.quantity)}</span></>:<span>{formatLinePrice(item)}</span>}
                   </div>
                 </div>
 
