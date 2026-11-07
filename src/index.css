@@ -235,14 +235,6 @@ body {
   }
 }
 
-/* Haptic flash visual effect */
-
-@keyframes hapticFlash {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-
 /* ===== SPLASH SCREEN ===== */
 
 @keyframes splashPop {

@@ -1,17 +1,13 @@
 /* Approved pack2. Card dimensions, padding and type size stay unchanged. */
 html[data-motion='2'] { --motion-duration: 260ms; --motion-distance: 8px; --motion-scale: 1; --motion-press: .98; --motion-ease: cubic-bezier(.2,0,0,1); }
-@keyframes qaryatiCardIn { from { opacity: 0; transform: translateY(var(--motion-distance)) scale(var(--motion-scale)); } to { opacity: 1; transform: none; } }
-@keyframes qaryatiSoftPulse { from { opacity: .45; } to { opacity: .85; } }
 @keyframes qaryatiDrawerIn { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: none; } }
 html[data-motion] .motion-card { transition-property: transform, opacity; transition-duration: 110ms; transition-timing-function: var(--motion-ease); }
-html[data-motion] .motion-card.motion-enter { animation: qaryatiCardIn var(--motion-duration) var(--motion-ease) var(--motion-delay, 0ms) both; }
 html[data-motion] .motion-card:active { transform: scale(var(--motion-press)); }
 html[data-motion] :is(button,a[role='button']) { transition-property: transform,opacity; transition-duration: 110ms; transition-timing-function: var(--motion-ease); }
 html[data-motion] button:active { transform: scale(.96); }
 html[data-motion] :is(button,a):focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
 html[data-motion] nav[aria-label='شريط التنقل السفلي'] button > span:first-child { transition: transform var(--motion-duration) var(--motion-ease); }
 html[data-motion] nav[aria-label='شريط التنقل السفلي'] button.text-green > span:first-child { transform: translateY(-2px) scale(1.06); }
-html[data-motion] [class*='skeletonShimmer'] { background: var(--color-green); opacity: .12; animation: qaryatiSoftPulse 1s ease-in-out 2 alternate; }
 html[data-motion] [role='dialog'] { animation-duration: var(--motion-duration); animation-timing-function: var(--motion-ease); }
 @media (hover: hover) and (pointer: fine) {
   html[data-motion] .motion-card:hover { transform: translateY(-2px); }
@@ -26,3 +22,6 @@ html[data-motion] [role='dialog'] { animation-duration: var(--motion-duration); 
 }
 html[data-motion] #mobile-menu { animation-name: qaryatiDrawerIn; }
 html[data-motion] #mobile-menu > :first-child button { background: #fff; color: #125936; }
+
+/* Static loading feedback: no luminance pulse or sweep while scrolling. */
+html[data-motion] [class*=skeletonShimmer], html[data-motion] .animate-pulse { animation:none !important; opacity:1; }

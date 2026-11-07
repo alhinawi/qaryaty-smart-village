@@ -2,7 +2,7 @@
 
 export function SkeletonCard() {
   const pulseClass =
-    "bg-[linear-gradient(90deg,#f0f0f0_25%,#e0e0e0_50%,#f0f0f0_75%)] bg-size-[200%_100%] animate-[skeletonShimmer_1.5s_infinite]";
+    "bg-gray-100";
   return (
     <div
       className="bg-white rounded-2xl overflow-hidden p-0 border border-black/5"
