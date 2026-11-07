@@ -7,8 +7,8 @@ const allLinks = (role: UserRole | undefined) => mobileMenuSections({ role }).fl
 
 describe('mobile menu', () => {
   it('has messages, jobs, used-goods market, ride sharing, About, WhatsApp groups, donations and advertise for everyone', () => {
-    expect(allLinks(undefined).map((l) => l.id)).toEqual(['messages', 'jobs', 'marketSale', 'marketSwap', 'rides', 'about', 'groups', 'donate', 'advertise']);
-    expect(allLinks('customer').map((l) => l.id)).toEqual(['messages', 'jobs', 'marketSale', 'marketSwap', 'rides', 'about', 'groups', 'donate', 'advertise']);
+    expect(allLinks(undefined).map((l) => l.id)).toEqual(['messages', 'jobs', 'marketSale', 'rides', 'about', 'groups', 'donate', 'advertise']);
+    expect(allLinks('customer').map((l) => l.id)).toEqual(['messages', 'jobs', 'marketSale', 'rides', 'about', 'groups', 'donate', 'advertise']);
   });
 
   it('hides the whole staff section from customers and signed-out visitors', () => {
