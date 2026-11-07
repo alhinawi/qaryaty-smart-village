@@ -1,15 +1,14 @@
 import { useEffect, type RefObject } from 'react';
 import { useLocation } from 'react-router';
-import { MOTION_PACKS, readMotionPack } from '@/config/motionPreview';
+import { MOTION } from '@/config/motion';
 
-export function useMotionPreview(ref: RefObject<HTMLDivElement | null>) {
+export function useMotion(ref: RefObject<HTMLDivElement | null>) {
   const { pathname } = useLocation();
   useEffect(() => {
-    const pack = readMotionPack(document.documentElement.dataset.motion ?? null);
     const root = ref.current;
-    if (!pack || !root) return;
+    if (!root) return;
     const media = matchMedia('(prefers-reduced-motion: reduce)');
-    const { duration, distance, stagger } = MOTION_PACKS[pack];
+    const { duration, distance, stagger } = MOTION;
     const animation = media.matches ? null : root.animate([
       { opacity: 0, transform: `translateY(${Math.min(distance, 8)}px)` },
       { opacity: 1, transform: 'translateY(0)' },
