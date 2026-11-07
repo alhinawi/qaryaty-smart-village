@@ -19,6 +19,8 @@ interface AuthState {
   /** Re-read the user (role/blocked can change from the admin panel). */
   refresh: () => Promise<void>;
   updateUser: (data: Partial<Pick<AuthUser, 'name' | 'village' | 'address'>>) => Promise<void>;
+  /** Sets the account photo, or clears it with null. */
+  setAvatar: (photo: Blob | null) => Promise<void>;
   /** Off to Google; `returnTo` is the page to open after coming back. */
   signInWithGoogle: (returnTo: string) => Promise<void>;
   /** Back from Google: pick up the session. The page to open next, saved before leaving. */
@@ -84,6 +86,13 @@ export const useAuthStore = create<AuthState>()(
         const session = get().session;
         if (!session) return;
         const user = await authRepo.updateProfile(session.user.id, data);
+        set({ session: { ...session, user } });
+      },
+
+      setAvatar: async (photo) => {
+        const session = get().session;
+        if (!session) throw new AuthError('rejected', 'سجّل دخولك الأول');
+        const user = await authRepo.setAvatar(session.user.id, photo);
         set({ session: { ...session, user } });
       },
 

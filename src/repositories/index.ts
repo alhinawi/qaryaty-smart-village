@@ -139,6 +139,7 @@ function createResilientAuthRepo(live: AuthService): AuthService {
     logout: guard(live.logout),
     getUser: guard(live.getUser),
     updateProfile: guard(live.updateProfile),
+    setAvatar: guard(live.setAvatar),
     // Only decides whether the button shows; never trips the breaker
     isGoogleEnabled: live.isGoogleEnabled,
     signInWithGoogle: guard(live.signInWithGoogle),

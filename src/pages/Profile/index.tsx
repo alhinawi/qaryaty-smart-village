@@ -1,5 +1,5 @@
 // ─── Imports
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useUserStore } from '@/stores/useUserStore';
 import { useOrderStore } from '@/stores/useOrderStore';
 import { useUIStore } from '@/stores/useUIStore';
@@ -14,6 +14,7 @@ import { VillagePicker } from '@/components/address/VillagePicker';
 import MyAddresses from '@/components/address/MyAddresses';
 import { PhoneInput } from '@/components/ui/PhoneInput';
 import { normalizeEgyptianPhone } from '@/utils/validators';
+import { ACCEPTED_IMAGE_TYPES, fileToDataUrl } from '@/utils/imageFile';
 
 // ─── Component
 export default function ProfilePage() {
@@ -37,6 +38,42 @@ export default function ProfilePage() {
   const [villageDraft, setVillageDraft] = useState(savedVillage);
 
   const [saving, setSaving] = useState(false);
+
+  // Profile photo: accounts save it to their user record, guests keep it on the device
+  const setAuthAvatar = useAuthStore((state) => state.setAvatar);
+  const avatarUrl = user?.avatarUrl || profile.avatarUrl || '';
+  const [photoOpen, setPhotoOpen] = useState(false);
+  const [photoBusy, setPhotoBusy] = useState(false);
+  const photoInputRef = useRef<HTMLInputElement>(null);
+
+  const applyPhoto = async (dataUrl: string | null) => {
+    setPhotoBusy(true);
+    try {
+      if (user) {
+        const blob = dataUrl ? await (await fetch(dataUrl)).blob() : null;
+        await setAuthAvatar(blob);
+      } else {
+        updateProfile({ avatarUrl: dataUrl ?? '' });
+      }
+      showToast(dataUrl ? '✅ صورتك اتحطت' : '✅ الصورة اتشالت');
+      setPhotoOpen(false);
+    } catch (error) {
+      showToast(error instanceof Error ? `⚠️ ${error.message}` : '⚠️ الصورة مااترفعتش، جرّب صورة تانية');
+    } finally {
+      setPhotoBusy(false);
+    }
+  };
+
+  const onPhotoPicked = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    try {
+      await applyPhoto(await fileToDataUrl(file));
+    } catch (error) {
+      showToast(error instanceof Error ? `⚠️ ${error.message}` : '⚠️ الصورة مااترفعتش، جرّب صورة تانية');
+    }
+  };
 
   const handleSaveProfile = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,7 +137,24 @@ export default function ProfilePage() {
     <div className="profile-page-container">
       {/* Profile Header */}
       <div className="bg-linear-to-br from-green-dark to-green text-white rounded-2xl p-6 flex items-center gap-5 mb-6" dir="rtl">
-        <div className="w-16 h-16 shrink-0 bg-gold rounded-2xl flex items-center justify-center text-[32px]">👤</div>
+        <button
+          type="button"
+          onClick={() => setPhotoOpen(true)}
+          aria-label="غيّر صورتك الشخصية"
+          className="relative w-16 h-16 shrink-0 bg-gold rounded-2xl flex items-center justify-center text-[32px] overflow-hidden cursor-pointer border-0 p-0"
+        >
+          {avatarUrl ? (
+            <img src={avatarUrl} alt={`صورة ${profile.name}`} className="w-full h-full object-cover" />
+          ) : (
+            '👤'
+          )}
+          <span
+            aria-hidden="true"
+            className="absolute bottom-1 end-1 w-5 h-5 rounded-full bg-white text-[11px] flex items-center justify-center shadow"
+          >
+            📷
+          </span>
+        </button>
         <div className="min-w-0 flex-1 text-right">
           <h2 dir="auto" className="text-[1.375rem] font-black font-['Tajawal',sans-serif] text-right break-words [overflow-wrap:anywhere]">{profile.name}</h2>
           {user?.username && (
@@ -323,6 +377,55 @@ export default function ProfilePage() {
         </span>
         <span aria-hidden="true">⬅️</span>
       </Link>
+
+      {/* Profile photo picker */}
+      <Modal
+        isOpen={photoOpen}
+        onClose={() => !photoBusy && setPhotoOpen(false)}
+        emoji="🖼️"
+        title="صورتك الشخصية"
+        maxWidth="420px"
+      >
+        <input
+          ref={photoInputRef}
+          type="file"
+          accept={ACCEPTED_IMAGE_TYPES}
+          onChange={(e) => void onPhotoPicked(e)}
+          className="hidden"
+          aria-hidden="true"
+          tabIndex={-1}
+        />
+        <div className="flex flex-col items-center gap-3 mt-2">
+          <div className="w-28 h-28 rounded-2xl bg-[#e8f5ee] flex items-center justify-center text-[44px] overflow-hidden">
+            {avatarUrl ? (
+              <img src={avatarUrl} alt={`صورة ${profile.name}`} className="w-full h-full object-cover" />
+            ) : (
+              '👤'
+            )}
+          </div>
+          <Button
+            onClick={() => photoInputRef.current?.click()}
+            disabled={photoBusy}
+            className="w-full min-h-[46px]"
+          >
+            {photoBusy ? '⏳ بنحفظ الصورة...' : '📷 اختار صورة جديدة'}
+          </Button>
+          {avatarUrl && (
+            <Button
+              variant="danger"
+              onClick={() => void applyPhoto(null)}
+              disabled={photoBusy}
+              className="w-full min-h-[46px]"
+            >
+              🗑️ شيل الصورة
+            </Button>
+          )}
+          <p className="text-[12px] text-text-muted m-0 text-center">
+            الصورة بتتصغّر على جهازك قبل ما تتحفظ.
+            {!user && ' هتفضل على الجهاز ده بس — سجّل دخولك عشان تبقى على حسابك من أي موبايل.'}
+          </p>
+        </div>
+      </Modal>
 
       {/* Guest tapped "تعديل": sign in first */}
       <Modal

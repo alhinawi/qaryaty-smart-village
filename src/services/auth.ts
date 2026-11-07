@@ -94,6 +94,8 @@ export interface AuthService {
     userId: string,
     data: Partial<Pick<AuthUser, 'name' | 'village' | 'address'>>
   ): Promise<AuthUser>;
+  /** Sets the account photo (processed client-side first), or clears it with null. */
+  setAvatar(userId: string, photo: Blob | null): Promise<AuthUser>;
 
   // Google sign-in
   /** True when the Google provider is turned on in the backend. */
@@ -358,6 +360,17 @@ export function createMockAuthService(
       if (data.village !== undefined) clean.village = data.village.trim();
       if (data.address !== undefined) clean.address = data.address.trim();
       return patchUser(userId, clean);
+    },
+
+    async setAvatar(userId, photo) {
+      await ensureSeeded();
+      if (!photo) return patchUser(userId, { avatarUrl: '' });
+      // No FileReader: arrayBuffer + btoa work the same in the browser and in tests
+      const bytes = new Uint8Array(await photo.arrayBuffer());
+      let binary = '';
+      for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+      const avatarUrl = `data:${photo.type || 'image/jpeg'};base64,${btoa(binary)}`;
+      return patchUser(userId, { avatarUrl });
     },
 
     // The demo has no Google: the button stays hidden
