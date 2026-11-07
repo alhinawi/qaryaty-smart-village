@@ -117,6 +117,7 @@ export function OffersSection({ shop }: { shop: Shop }) {
           <div role="group" aria-label="مدة العرض" className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             <span className="col-span-full text-[13px] font-bold text-text-muted">مدة العرض:</span>
 
+
             {DURATIONS.map((h) => (
               <button
                 key={h}

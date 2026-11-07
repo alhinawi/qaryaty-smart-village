@@ -22,6 +22,7 @@ import { CategoriesSection } from './CategoriesSection';
 import { LiveOrderBanner } from './LiveOrderBanner';
 import { ServicesSection } from './ServicesSection';
 import { PromoBanner } from './PromoBanner';
+import { DailyPricesSection } from './DailyPricesSection';
 import { DailyOffersSection } from './DailyOffersSection';
 import { ShopsSection } from './ShopsSection';
 import { TopWeeklySection } from './TopWeeklySection';
@@ -337,6 +338,7 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
         (!isSearching || matchesSearch(searchQuery, [...DONATION_SEARCH_FIELDS])) && <DonationsBanner />}
 
       {/* عروض اليوم: live merchant offers with countdown */}
+      {!isRestaurantsCategory && !isSearching && <DailyPricesSection />}
       {!isRestaurantsCategory && <DailyOffersSection />}
 
       {/* Promo Banner */}
