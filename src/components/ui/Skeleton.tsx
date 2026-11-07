@@ -8,7 +8,7 @@ export function SkeletonCard() {
       className="bg-white rounded-2xl overflow-hidden p-0 border border-black/5"
       aria-hidden="true"
     >
-      <div className={`h-[110px] w-full ${pulseClass}`} />
+      <div className={`h-[150px] w-full ${pulseClass}`} />
       <div className="p-3.5">
         <div className={`h-[16px] rounded-xl mb-2 w-[70%] ${pulseClass}`} />
         <div className={`h-[14px] rounded-xl mb-2 w-[90%] ${pulseClass}`} />

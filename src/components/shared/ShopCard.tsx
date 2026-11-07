@@ -58,7 +58,7 @@ export const ShopCard = React.memo(function ShopCard({
       <button type="button" className="absolute inset-0 z-10 rounded-2xl cursor-pointer border-0 bg-transparent focus-visible:outline-offset-[-3px]" onClick={handleClick} aria-label={`التسوق من ${shop.name}`} />
       <div className="absolute top-10 left-0 z-20"><CatalogShareButton compact kind="shop" id={shop.id} name={shop.name} /></div>
       {shop.photo ? (
-        <div className="relative h-[90px]" style={{ background: bg }}>
+        <div className="relative h-[128px]" style={{ background: bg }}>
           {!shop.demo && shop.open && isShopBusy(shop) && (
             <span
               className="absolute top-2 -start-6 rotate-[-45deg] bg-gold text-black text-[10px] font-black px-6 py-0.5 shadow-sm z-10"
@@ -82,7 +82,7 @@ export const ShopCard = React.memo(function ShopCard({
         </div>
       ) : (
         <div
-          className="relative h-[80px] flex items-center justify-center text-[38px]"
+          className="relative h-[128px] flex items-center justify-center text-[38px]"
           style={{ background: bg }}
         >
           {!shop.demo && shop.open && isShopBusy(shop) && (

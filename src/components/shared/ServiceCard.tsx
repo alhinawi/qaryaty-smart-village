@@ -96,7 +96,8 @@ export const ServiceCard = React.memo(function ServiceCard({
       <button type="button" className="absolute inset-0 z-10 rounded-2xl cursor-pointer border-0 bg-transparent focus-visible:outline-offset-[-3px]" onClick={() => onSelect(service)} aria-label={`طلب خدمة ${service.name}`} />
       {/* Service Image */}
       <div
-        className={`h-[110px] shrink-0 self-center w-full flex items-center justify-center text-[48px] relative ${
+        className={`h-[150px] shrink-0 self-center w-full flex items-center justify-center text-[48px] relative ${
+
           isFeatured
             ? "max-lg:w-[120px] max-lg:h-[120px] max-lg:shrink-0"
             : ""
