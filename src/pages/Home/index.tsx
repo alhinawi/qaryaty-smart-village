@@ -36,6 +36,7 @@ import { DONATION_SEARCH_FIELDS } from '@/config/donations';
 import { ProviderPickerModal } from './ProviderPickerModal';
 import { FeaturesSection } from './FeaturesSection';
 import { SkeletonList } from '@/components/ui/Skeleton';
+import { useTrackingDemoMode } from '@/hooks/useTrackingDemoMode';
 import { providerToOrderModalData, serviceToOrderModalData } from '@/utils/pricing';
 import { groupPreselection } from '@/utils/teacherGroups';
 import { matchesSearch } from '@/utils/arabicSearch';
@@ -59,6 +60,7 @@ interface HomePageProps {
 
 // ─── Component
 export default function HomePage({ onOpenOrderModal }: HomePageProps) {
+  const trackingDemo = useTrackingDemoMode();
   const searchQuery = useUIStore((state) => state.searchQuery);
   const setSearchQuery = useUIStore((state) => state.setSearchQuery);
   const showToast = useUIStore((state) => state.showToast);
@@ -240,8 +242,8 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
         <div><span className="text-[10px] text-text-muted block">من أهل القرية، لأهل القرية</span><p className="text-[13px] font-extrabold text-green-dark">كل اللي محتاجه، قريب منك</p></div>
         <button type="button" onClick={() => void handlePullToRefresh()} className="text-xs text-green font-bold">{isRefreshing ? 'بنحدّث...' : 'تحديث الخدمات'}</button>
       </div>
-      {/* Live Order Pulse Widget */}
-      <LiveOrderBanner />
+      {/* Live Order Pulse Widget — simulated content: الوضع الحقيقي only (verified demo flag) */}
+      {trackingDemo && <LiveOrderBanner />}
 
       {isLoading && (
         <section className="services-section">

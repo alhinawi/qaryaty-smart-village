@@ -3,7 +3,8 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { Menu, Search, X } from "lucide-react";
 
-import { mergeNotifications, useUIStore } from "@/stores/useUIStore";
+import { mergeNotifications, withoutSampleNotifications, useUIStore } from "@/stores/useUIStore";
+import { useTrackingDemoMode } from "@/hooks/useTrackingDemoMode";
 import { useGoToTab, useActiveTab } from '@/hooks/useTabNavigation';
 
 import { useCartStore } from "@/stores/useCartStore";
@@ -38,7 +39,11 @@ export function Header() {
 
   const remoteNotifs = useUIStore((state) => state.remoteNotifications);
   const localNotifs = useUIStore((state) => state.notifications);
-  const notifications = useMemo(() => mergeNotifications(remoteNotifs, localNotifs), [remoteNotifs, localNotifs]);
+  const demoOn = useTrackingDemoMode();
+  const notifications = useMemo(
+    () => withoutSampleNotifications(mergeNotifications(remoteNotifs, localNotifs), demoOn),
+    [remoteNotifs, localNotifs, demoOn]
+  );
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
