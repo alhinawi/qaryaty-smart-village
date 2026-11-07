@@ -62,10 +62,10 @@ export default function MarketListPage({ kind }: { kind: ListingKind }) {
 
   return (
     <section className="max-w-[960px] mx-auto pb-24" aria-labelledby="market-title">
-      <BackBar title={info.title} to={ROUTES.home} />
+      <BackBar title="المستعمل والتبادل" to={ROUTES.home} />
       <KindSwitch kind={kind} />
 
-      <header className="bg-linear-to-br from-green to-green-dark rounded-2xl p-5 text-white mb-4 flex items-center justify-between gap-3">
+      <header className="bg-linear-to-br from-green to-green-dark rounded-2xl p-5 text-white mb-4 flex flex-wrap items-center justify-between gap-3">
         <div className="min-w-0">
           <h3 id="market-title" className="text-[1.125rem] font-black">
             <span aria-hidden="true">{info.icon} </span>
@@ -85,7 +85,7 @@ export default function MarketListPage({ kind }: { kind: ListingKind }) {
 
       {/* Search + filters */}
       <div className="flex gap-2 mb-3">
-        <label className="flex-1 flex items-center gap-2 bg-white rounded-xl px-3 min-h-[46px] shadow-card">
+        <label className="flex-1 min-w-0 flex items-center gap-2 bg-white rounded-xl px-3 min-h-[46px] shadow-card">
           <Search className="w-4 h-4 text-text-muted shrink-0" aria-hidden="true" />
           <span className="sr-only">دوّر</span>
           <input
@@ -243,15 +243,15 @@ export default function MarketListPage({ kind }: { kind: ListingKind }) {
         <SafetyNote />
       </div>
 
-      {/* Floating post button on phones */}
-      <button
+      {/* The header/empty-state action already offers posting; do not cover empty copy. */}
+      {shown.length > 0 && <button
         type="button"
         onClick={goPost}
         className="lg:hidden fixed bottom-[84px] left-4 z-30 inline-flex items-center gap-1.5 min-h-[50px] px-5 rounded-full bg-green text-white font-extrabold shadow-lg"
       >
         <Plus className="w-5 h-5" aria-hidden="true" />
         أضف إعلان
-      </button>
+      </button>}
     </section>
   );
 }

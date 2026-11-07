@@ -42,7 +42,7 @@ export const useUserStore = create<UserState>()(
   persist(
     (set, get) => ({
       profile: GUEST_PROFILE,
-      favorites: [1, 3, 13], // default initial favorites: bread, supermarket, home food
+      favorites: [], // New visitors choose their own favorites; persisted choices stay intact.
       usedPromoCodes: [],
 
       markPromoUsed: (code: string) => {

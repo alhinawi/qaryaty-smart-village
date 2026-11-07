@@ -39,7 +39,7 @@ function CountdownChip({ endsAt, dark }: { endsAt: string; dark?: boolean }) {
   return (
     <span
       className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-black whitespace-nowrap ${
-        dark ? 'bg-gold-light text-green-dark' : 'bg-gold/15 text-[#8a6100]'
+        dark ? 'bg-gold-light text-[#0f4f2e]' : 'bg-gold/15 text-[#8a6100]'
       }`}
     >
       ⏳ {countdownText(endsAt)}

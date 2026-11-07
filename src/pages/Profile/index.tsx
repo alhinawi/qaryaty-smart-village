@@ -22,6 +22,7 @@ import { ACCEPTED_IMAGE_TYPES, fileToDataUrl } from '@/utils/imageFile';
 export default function ProfilePage() {
   const profile = useUserStore((state) => state.profile);
   const updateProfile = useUserStore((state) => state.updateProfile);
+  const favorites = useUserStore((state) => state.favorites);
   const orders = useOrderStore((state) => state.orders);
   const showToast = useUIStore((state) => state.showToast);
   const user = useAuthStore(selectUser);
@@ -244,7 +245,7 @@ export default function ProfilePage() {
         <div className="flex items-center justify-between mb-3">
           <div>
             <span className="text-[13px] text-text-muted font-bold">🌟 رصيد نقاط المكافآت</span>
-            <div className="text-[1.75rem] font-black text-gold font-['Tajawal',sans-serif]">{profile.rewardPoints} نقطة</div>
+            <div className="text-[1.75rem] font-black text-amber-800 font-['Tajawal',sans-serif]">{profile.rewardPoints} نقطة</div>
           </div>
           <span className="text-[36px]">🎁</span>
         </div>
@@ -277,8 +278,8 @@ export default function ProfilePage() {
           <span className="text-[11px] text-text-muted font-bold">نقاط مكتسبة</span>
         </div>
         <div className="bg-white rounded-2xl p-3.5 text-center shadow-sm">
-          <span className="block text-[1.25rem] font-black text-green font-['Tajawal',sans-serif]">100%</span>
-          <span className="text-[11px] text-text-muted font-bold">دعم الاقتصاد المحلي</span>
+          <span className="block text-[1.25rem] font-black text-green font-['Tajawal',sans-serif]">{favorites.length}</span>
+          <span className="text-[11px] text-text-muted font-bold">خدمات في المفضلة</span>
         </div>
       </div>
 
