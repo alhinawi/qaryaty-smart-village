@@ -2,6 +2,7 @@ import { CatalogShareButton } from './CatalogShareButton';
 // ─── Imports
 import React from "react";
 import type { OrderModalData, Shop } from "@/types";
+import { isShopBusy } from "@/utils/shopBusy";
 import { useUIStore } from "@/stores/useUIStore";
 import { productsForShop } from "@/data/catalog";
 import { ProductPhoto } from "@/components/ui/ProductPhoto";
@@ -65,6 +66,14 @@ export const ShopCard = React.memo(function ShopCard({
     >
       {shop.photo ? (
         <div className="relative h-[90px]" style={{ background: bg }}>
+          {!shop.demo && shop.open && isShopBusy(shop) && (
+            <span
+              className="absolute top-2 -start-6 rotate-[-45deg] bg-gold text-black text-[10px] font-black px-6 py-0.5 shadow-sm z-10"
+              aria-label="المحل مشغول"
+            >
+              مشغول
+            </span>
+          )}
           <ProductPhoto
             photo={shop.photo}
             emoji={shop.emoji}
@@ -80,9 +89,17 @@ export const ShopCard = React.memo(function ShopCard({
         </div>
       ) : (
         <div
-          className="h-[80px] flex items-center justify-center text-[38px]"
+          className="relative h-[80px] flex items-center justify-center text-[38px]"
           style={{ background: bg }}
         >
+          {!shop.demo && shop.open && isShopBusy(shop) && (
+            <span
+              className="absolute top-2 -start-6 rotate-[-45deg] bg-gold text-black text-[10px] font-black px-6 py-0.5 shadow-sm z-10"
+              aria-label="المحل مشغول"
+            >
+              مشغول
+            </span>
+          )}
           <span role="img" aria-hidden="true">
             {shop.emoji}
           </span>
