@@ -1,3 +1,8 @@
+import {useAuthStore} from '@/stores/useAuthStore';
+import {useTrackingDemoMode} from '@/hooks/useTrackingDemoMode';
+import {offersRepo,isSupabaseConfigured,type DailyOffer} from '@/repositories';
+import {createLocalOffersRepo} from '@/repositories/offers/localOffersRepo';
+import {applyProductOffer} from '@/repositories/offers/priceOffer';
 import { imageForService } from '@/config/serviceImages';
 import { ProductPhoto } from '@/components/ui/ProductPhoto';
 // ─── Full search screen (opened from the header's search bar), in the style of Talabat:
@@ -123,10 +128,14 @@ function SearchOverlay({
   const inputRef = useRef<HTMLInputElement>(null);
   const restoreFocusRef = useRef(true);
 
+  const scope=useAuthStore(s=>s.session?.user.id??'guest');
+  const demo=useTrackingDemoMode();
+  const [priceOffers,setPriceOffers]=useState<DailyOffer[]>([]);
+  useEffect(()=>{let alive=true;const refresh=async()=>{const live=await offersRepo.listActive();const local=demo?await createLocalOffersRepo(scope).listActive():[];const localShops=new Set(local.map(o=>o.shopId));if(alive)setPriceOffers([...local,...live.filter(o=>!localShops.has(o.shopId))]);};void refresh().catch(()=>{if(alive)setPriceOffers([])});const timer=setInterval(()=>void refresh().catch(()=>{}),30000);return()=>{alive=false;clearInterval(timer)};},[scope,demo]);
   const index = useMemo(
     () =>
-      buildSearchIndex({ shops, services, providers, categories: CATEGORIES }),
-    [shops, services, providers],
+      buildSearchIndex({ shops, services, providers, categories: CATEGORIES }).map(entry=>entry.type==="product"?{...entry,product:applyProductOffer(entry.product,entry.shop.id,priceOffers.filter(()=>entry.shop.demo||!isSupabaseConfigured?demo:true))}:entry),
+    [shops, services, providers,priceOffers,demo],
   );
   const tabs = useMemo(() => buildSearchTabs(index, CATEGORIES), [index]);
   const tab = tabs.some((t) => t.id === chosenTab) ? chosenTab : ALL_TAB;
@@ -848,7 +857,7 @@ function ResultRow({
       </span>
     );
     meta = `${formatCurrency(entry.product.price)}${entry.product.unit ? ` / ${entry.product.unit}` : ""}`;
-    subtitle = `${entry.shop.name}${entry.shop.open ? "" : " · مغلق دلوقتي"}`;
+    subtitle = `${entry.shop.name}${entry.product.originalPrice!=null?` · قبل الخصم ${formatCurrency(entry.product.originalPrice)}`:""}${entry.shop.open ? "" : " · مغلق دلوقتي"}`;
   } else if (entry.type === "service") {
     thumb = (
       <span
