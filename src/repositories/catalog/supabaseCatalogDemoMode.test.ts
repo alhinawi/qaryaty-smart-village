@@ -55,3 +55,8 @@ describe('supabase catalog in real mode (demo off)', () => {
     expect(providers.map((p) => p.id)).toEqual([1]);
   });
 });
+
+describe('real catalog never trusts seeded star fields',()=>{
+ it('hides raw stars when the aggregate RPC is unavailable',async()=>{const repo=createSupabaseCatalogRepo(fakeClient({shops:[{...realShop,rating:4.9}]}),()=>false);expect((await repo.getShops())[0].rating).toBeUndefined();});
+ it('uses server aggregate instead of catalog supplied score',async()=>{const base=fakeClient({shops:[{...realShop,rating:4.9}]});const getClient=async()=>({...(await base() as unknown as Record<string,unknown>),rpc:async()=>({data:[{target_id:900,average:'3.2',review_count:5}],error:null})});const repo=createSupabaseCatalogRepo(getClient as never,()=>false);expect((await repo.getShops())[0].rating).toBe(3.2);});
+});

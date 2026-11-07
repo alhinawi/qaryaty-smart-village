@@ -1,3 +1,4 @@
+import { CatalogReviews } from '@/components/reviews/CatalogReviews';
 import { isIllustratedProvider } from '@/config/providerImages';
 import { isSupabaseConfigured } from '@/repositories/supabaseClient';
 import { useEffect, useState } from 'react';
@@ -41,5 +42,6 @@ export default function CatalogDetail({ kind, onOpenOrderModal }: { kind: Catalo
     </article>}
     {provider && <ProviderCard provider={provider} onBook={book} showShare={false} />}
     {service && <><p className="text-text-muted mb-4">{service.desc}</p>{people.length ? <div className="grid gap-3">{people.map(person => <ProviderCard key={person.id} provider={person} onBook={book} />)}</div> : <button type="button" className="w-full bg-green text-white rounded-xl p-3 font-bold" onClick={() => onOpenOrderModal(serviceToOrderModalData(service))}>اطلب الخدمة</button>}</>}
+    <CatalogReviews key={`${kind}:${id}`} kind={kind} target={Number(id)} />
   </section>;
 }
