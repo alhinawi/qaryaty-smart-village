@@ -109,7 +109,7 @@ export function RideCard({ ride, showStatus = false, extra }: { ride: Ride; show
     >
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <h3 className="text-[15px] font-extrabold text-text m-0 leading-snug">{routeLabel(ride)}</h3>
+          <h2 className="text-[15px] font-extrabold text-text m-0 leading-snug">{routeLabel(ride)}</h2>
           <p className="text-[13px] text-text-muted m-0 mt-0.5">
             🕒 {timeLabel(ride.departTime)}
             {ride.returnTime && ` · رجوع ${timeLabel(ride.returnTime)}`}
