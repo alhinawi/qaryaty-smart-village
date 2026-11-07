@@ -1,3 +1,4 @@
+import { interleaveShops } from './interleaveShops';
 // ─── The search screen (Talabat-style): tabs, explore tiles and grouped live results
 // Everything here is built from the catalog that is loaded (shops, their products, services,
 // people) and the category list, so a new shop kind or category shows up without code changes.
@@ -278,9 +279,13 @@ export function searchEntries(entries: SearchEntry[], query: string, tab: Search
 
 /** Results in the screen's order: places, products, services, then people. Empty groups are left out. */
 export function groupResults(results: SearchEntry[]): ResultGroup[] {
-  return RESULT_GROUPS.map((g) => ({ ...g, entries: results.filter((r) => r.group === g.id) })).filter(
-    (g) => g.entries.length > 0
-  );
+  return RESULT_GROUPS.map((g) => {
+    const entries = results.filter((r) => r.group === g.id);
+    if (g.id !== 'shops') return { ...g, entries };
+    const shops = entries.filter((e): e is Extract<SearchEntry, { type: 'shop' }> => e.type === 'shop');
+    const byId = new Map(shops.map(e => [e.shop.id, e]));
+    return { ...g, entries: interleaveShops(shops.map(e => e.shop)).map(s => byId.get(s.id)!) };
+  }).filter(g => g.entries.length > 0);
 }
 
 // ─── Explore tiles ("عايز إيه النهارده؟")

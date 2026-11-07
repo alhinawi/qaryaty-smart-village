@@ -1,3 +1,4 @@
+import { ILLUSTRATIVE_SHOPS } from './illustrativeShops';
 import { DEMO_PHARMACIES } from './demoPharmacies';
 // ─── Imports
 import type { Shop } from '@/types';
@@ -215,5 +216,6 @@ export const SHOPS: Shop[] = [
     bgColor: '#EAF7F1',
   },
   ...DEMO_PHARMACIES,
+  ...ILLUSTRATIVE_SHOPS,
   ...RESTAURANTS,
 ];
