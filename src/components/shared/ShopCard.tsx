@@ -4,6 +4,7 @@ import { CatalogShareButton } from './CatalogShareButton';
 import React from "react";
 import type { OrderModalData, Shop } from "@/types";
 import { isShopBusy } from "@/utils/shopBusy";
+import { isShopOpenNow } from "@/utils/shopOpenNow";
 import { useUIStore } from "@/stores/useUIStore";
 import { productsForShop } from "@/data/catalog";
 import { ProductPhoto } from "@/components/ui/ProductPhoto";
@@ -31,9 +32,11 @@ export const ShopCard = React.memo(function ShopCard({
 }: ShopCardProps) {
   const showToast = useUIStore((state) => state.showToast);
   const bg = shop.bgColor || CATEGORY_BACKGROUNDS.default;
+  // Manual pause wins; readable opening hours close the shop outside them.
+  const openNow = isShopOpenNow(shop);
 
   const handleClick = () => {
-    if (!shop.open) {
+    if (!openNow) {
       showToast(`⚠️ ${shop.name} مغلق حالياً، بيفتح ${shop.time}`);
       return;
     }
@@ -59,7 +62,7 @@ export const ShopCard = React.memo(function ShopCard({
       <div className="absolute top-10 left-0 z-20"><CatalogShareButton compact kind="shop" id={shop.id} name={shop.name} /></div>
       {shop.photo ? (
         <div className="relative h-[128px]" style={{ background: bg }}>
-          {!shop.demo && shop.open && isShopBusy(shop) && (
+          {!shop.demo && openNow && isShopBusy(shop) && (
             <span
               className="absolute top-2 -start-6 rotate-[-45deg] bg-gold text-black text-[10px] font-black px-6 py-0.5 shadow-sm z-10"
               aria-label="المحل مشغول"
@@ -85,7 +88,7 @@ export const ShopCard = React.memo(function ShopCard({
           className="relative h-[128px] flex items-center justify-center text-[38px]"
           style={{ background: bg }}
         >
-          {!shop.demo && shop.open && isShopBusy(shop) && (
+          {!shop.demo && openNow && isShopBusy(shop) && (
             <span
               className="absolute top-2 -start-6 rotate-[-45deg] bg-gold text-black text-[10px] font-black px-6 py-0.5 shadow-sm z-10"
               aria-label="المحل مشغول"
@@ -107,10 +110,10 @@ export const ShopCard = React.memo(function ShopCard({
         )}
         {!shop.demo && <div
           className={`inline-block text-[11px] font-bold px-2 py-0.5 rounded-xl mb-1 ${
-            shop.open ? "bg-green-50 text-success" : "bg-red-50 text-danger"
+            openNow ? "bg-green-50 text-success" : "bg-red-50 text-danger"
           }`}
         >
-          {shop.open ? "🟢 مفتوح" : "🔴 مغلق"}
+          {openNow ? "🟢 مفتوح" : "🔴 مغلق"}
         </div>}
         {shop.time && <div className="text-[11px] text-text-muted">{shop.time}</div>}
         {shop.kind === "restaurant" && (shop.rating || shop.deliveryTime) && (

@@ -1,4 +1,5 @@
 import { validOrderPoint, ORDER_LOCATION_REQUIRED } from '@/utils/orderLocation';
+import { isShopOpenNow } from '@/utils/shopOpenNow';
 import{useProviderDashboardStore}from'@/stores/useProviderDashboardStore';
 import{OfferPrice}from'@/components/ui/OfferPrice';
 // ─── Imports
@@ -143,6 +144,9 @@ function CartDrawerContent() {
       try{
         const shop=useCatalogStore.getState().shops.find(s=>s.id===shopId);
         if(!shop)throw Error('افتح المحل من جديد عشان نراجع السعر');
+        // Merchant pause and opening hours both block a new order, even if the
+        // customer filled the cart while the shop was still open.
+        if(!shop.demo&&!isShopOpenNow(shop))throw Error(`«${shop.name}» مغلق حالياً${shop.time?`، بيفتح ${shop.time}`:''}`);
         const [products,offer]=await Promise.all([getProducts(shop),(demoOnly?createLocalOffersRepo(offerScope):offersRepo).mineForShop(shop.id)]);
         const offers=offer?[offer]:[];
         if(!products)throw Error('مش قادرين نراجع أسعار المحل دلوقتي');

@@ -1,3 +1,4 @@
+import{isShopOpenNow}from'@/utils/shopOpenNow';
 import{useProviderDashboardStore}from'@/stores/useProviderDashboardStore';
 import{OfferPrice}from'@/components/ui/OfferPrice';
 import {useAuthStore} from '@/stores/useAuthStore';
@@ -238,7 +239,7 @@ function SearchOverlay({
   };
 
   const openShop = (shop: Shop) => {
-    if (!shop.open) {
+    if (!isShopOpenNow(shop)) {
       showToast(`⚠️ ${shop.name} مغلق حالياً، بيفتح ${shop.time}`);
       return;
     }
@@ -518,7 +519,7 @@ function Explore({
       tab === ALL_TAB
         ? list.filter((s) => s.kind !== "restaurant")
         : list.filter((s) => shopTab(s) === tab);
-    return [...inTab].sort((a, b) => Number(b.open) - Number(a.open));
+    return [...inTab].sort((a, b) => Number(isShopOpenNow(b)) - Number(isShopOpenNow(a)));
   }, [index, tab, isShopTab]);
 
   const people = useMemo(() => {
@@ -657,7 +658,7 @@ function Explore({
                     style={{ background: shop.bgColor || "#f0fdf4" }}
                   >
                     <TilePicture photo={shop.photo} emoji={shop.emoji} />
-                    {!shop.open && (
+                    {!isShopOpenNow(shop) && (
                       <span
                         className="absolute inset-0 bg-white/55"
                         aria-hidden="true"
@@ -670,12 +671,12 @@ function Explore({
                   <span className="text-[0.6875rem] text-text-muted leading-tight">
                     <span
                       className={
-                        shop.open
+                        isShopOpenNow(shop)
                           ? "text-success font-bold"
                           : "text-danger font-bold"
                       }
                     >
-                      {shop.open ? "مفتوح" : "مغلق"}
+                      {isShopOpenNow(shop) ? "مفتوح" : "مغلق"}
                     </span>
                     {shop.time ? ` · ${shop.time}` : ""}
                   </span>
@@ -851,8 +852,8 @@ function ResultRow({
         <TilePicture photo={entry.shop.photo} emoji={entry.shop.emoji} />
       </span>
     );
-    meta = entry.shop.demo ? "" : entry.shop.open ? "مفتوح" : "مغلق";
-    metaTone = entry.shop.open ? "text-success" : "text-danger";
+    meta = entry.shop.demo ? "" : isShopOpenNow(entry.shop) ? "مفتوح" : "مغلق";
+    metaTone = isShopOpenNow(entry.shop) ? "text-success" : "text-danger";
   } else if (entry.type === "product") {
     thumb = (
       <span className="w-[48px] h-[48px] rounded-xl overflow-hidden bg-[#f9fafb] flex items-center justify-center text-[24px] shrink-0">
@@ -860,7 +861,7 @@ function ResultRow({
       </span>
     );
     meta = `${formatCurrency(entry.product.price)}${entry.product.unit ? ` / ${entry.product.unit}` : ""}`;
-    subtitle = `${entry.shop.name}${entry.shop.open ? "" : " · مغلق دلوقتي"}`;
+    subtitle = `${entry.shop.name}${isShopOpenNow(entry.shop) ? "" : " · مغلق دلوقتي"}`;
   } else if (entry.type === "service") {
     thumb = (
       <span
