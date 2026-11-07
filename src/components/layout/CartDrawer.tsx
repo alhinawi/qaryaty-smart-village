@@ -241,11 +241,11 @@ function CartDrawerContent() {
             {items.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center gap-3 p-2.5 bg-gray-50 rounded-xl"
+                className="flex flex-wrap items-center gap-3 p-2.5 bg-gray-50 rounded-xl"
               >
                 <ProductPhoto photo={item.photo} emoji={item.emoji} />
-                <div className="flex-1 min-w-0">
-                  <h4 className="text-sm font-extrabold">{item.name}</h4>
+                <div className="flex-1 min-w-[120px]">
+                  <h3 className="text-sm font-extrabold">{item.name}</h3>
                   <div className="text-xs text-text-muted">
                     {formatLinePrice(item)}
                   </div>
@@ -253,10 +253,10 @@ function CartDrawerContent() {
 
                 {/* Quantity: only for things ordered by a unit (kilo, hour, month) */}
                 {item.unit && (
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1.5 ms-auto">
                     <button
                       type="button"
-                      className="w-[26px] h-[26px] rounded-md bg-white border border-gray-300 flex items-center justify-center font-extrabold cursor-pointer"
+                      className="w-11 h-11 rounded-md bg-white border border-gray-300 flex items-center justify-center font-extrabold cursor-pointer"
                       onClick={() => updateQuantity(item.id, item.quantity - (item.step ?? 1))}
                       aria-label={`أقل ${item.name}`}
                     >
@@ -267,7 +267,7 @@ function CartDrawerContent() {
                     </span>
                     <button
                       type="button"
-                      className="w-[26px] h-[26px] rounded-md bg-white border border-gray-300 flex items-center justify-center font-extrabold cursor-pointer"
+                      className="w-11 h-11 rounded-md bg-white border border-gray-300 flex items-center justify-center font-extrabold cursor-pointer"
                       onClick={() => updateQuantity(item.id, item.quantity + (item.step ?? 1))}
                       aria-label={`أكتر ${item.name}`}
                     >
@@ -279,7 +279,7 @@ function CartDrawerContent() {
                 {/* Delete Button */}
                 <button
                   type="button"
-                  className="bg-transparent border-none text-[16px] cursor-pointer p-1"
+                  className="bg-transparent border-none text-[16px] cursor-pointer w-11 h-11 flex items-center justify-center shrink-0"
                   onClick={() => removeItem(item.id)}
                   aria-label={`حذف ${item.name}`}
                 >
