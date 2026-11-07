@@ -52,8 +52,7 @@
         "step": 1,
         "id": "illustrative-fool-egg-sand",
         "photo": "/img/catalog-original/menu-115-fool-egg-sand.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "ساندوتش طعمية محشية",
@@ -63,8 +62,7 @@
         "step": 1,
         "id": "illustrative-taamia-mahshi",
         "photo": "/img/catalog-original/menu-115-taamia-mahshi.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "ساندوتش بتنجان مقلي",
@@ -74,8 +72,7 @@
         "step": 1,
         "id": "illustrative-eggplant-sand",
         "photo": "/img/catalog-original/menu-115-eggplant-sand.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "فول إسكندراني",
@@ -85,8 +82,7 @@
         "step": 1,
         "id": "illustrative-fool-alex",
         "photo": "/img/catalog-original/menu-115-fool-alex.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       }
     ]
   },
@@ -123,8 +119,7 @@
         "step": 1,
         "id": "illustrative-egg-sand",
         "photo": "/img/catalog-original/menu-120-egg-sand.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "ساندوتش جبنة بالطماطم",
@@ -134,8 +129,7 @@
         "step": 1,
         "id": "illustrative-cheese-sand",
         "photo": "/img/catalog-original/menu-120-cheese-sand.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "طبق بيض أومليت",
@@ -145,8 +139,7 @@
         "step": 1,
         "id": "illustrative-omelette",
         "photo": "/img/catalog-original/menu-120-omelette.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "طبق فول",
@@ -156,8 +149,7 @@
         "step": 1,
         "id": "illustrative-fool-plate",
         "photo": "/img/catalog-original/menu-120-fool-plate.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "قشطة بالعسل",
@@ -167,8 +159,7 @@
         "step": 1,
         "id": "illustrative-cream-honey",
         "photo": "/img/catalog-original/menu-120-cream-honey.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "شاي بالنعناع",
@@ -178,8 +169,7 @@
         "step": 1,
         "id": "illustrative-tea",
         "photo": "/img/catalog-missing/restaurant-120-tea.webp",
-        "section": "مشروبات",
-        "viewOnly": true
+        "section": "مشروبات"
       },
       {
         "name": "فطير مشلتت",
@@ -189,8 +179,7 @@
         "step": 1,
         "id": "illustrative-meshaltet",
         "photo": "/img/catalog-original/menu-121-meshaltet.webp",
-        "section": "فطير",
-        "viewOnly": true
+        "section": "فطير"
       },
       {
         "name": "فطير مشلتت صغير",
@@ -200,8 +189,7 @@
         "step": 1,
         "id": "illustrative-meshaltet-small",
         "photo": "/img/catalog-original/menu-121-meshaltet-small.webp",
-        "section": "فطير بلدي",
-        "viewOnly": true
+        "section": "فطير بلدي"
       }
     ]
   },
@@ -238,8 +226,7 @@
         "step": 1,
         "id": "illustrative-hawawshi-sausage",
         "photo": "/img/catalog-original/menu-122-hawawshi-sausage.webp",
-        "section": "حواوشي",
-        "viewOnly": true
+        "section": "حواوشي"
       },
       {
         "name": "حواوشي بسطرمة",
@@ -249,8 +236,7 @@
         "step": 1,
         "id": "illustrative-hawawshi-basterma",
         "photo": "/img/catalog-original/menu-122-hawawshi-basterma.webp",
-        "section": "حواوشي",
-        "viewOnly": true
+        "section": "حواوشي"
       },
       {
         "name": "حواوشي ميكس",
@@ -260,8 +246,7 @@
         "step": 1,
         "id": "illustrative-hawawshi-mix",
         "photo": "/img/catalog-original/menu-122-hawawshi-mix.webp",
-        "section": "حواوشي",
-        "viewOnly": true
+        "section": "حواوشي"
       },
       {
         "name": "حواوشي فراخ",
@@ -271,8 +256,7 @@
         "step": 1,
         "id": "illustrative-hawawshi-chicken",
         "photo": "/img/catalog-original/menu-122-hawawshi-chicken.webp",
-        "section": "حواوشي",
-        "viewOnly": true
+        "section": "حواوشي"
       },
       {
         "name": "حواوشي صغير (نص رغيف)",
@@ -282,8 +266,7 @@
         "step": 1,
         "id": "illustrative-hawawshi-half",
         "photo": "/img/catalog-original/menu-122-hawawshi-half.webp",
-        "section": "حواوشي",
-        "viewOnly": true
+        "section": "حواوشي"
       },
       {
         "name": "بطاطس محمرة",
@@ -293,8 +276,7 @@
         "step": 1,
         "id": "illustrative-fries",
         "photo": "/img/catalog-original/menu-122-fries.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "سلطة بلدي",
@@ -304,8 +286,7 @@
         "step": 1,
         "id": "illustrative-salad",
         "photo": "/img/catalog-missing/restaurant-122-salad.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "طحينة",
@@ -315,8 +296,7 @@
         "step": 1,
         "id": "illustrative-tahini",
         "photo": "/img/catalog-original/menu-122-tahini.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       }
     ]
   },
@@ -358,8 +338,7 @@
         "step": 1,
         "id": "illustrative-koshary-super",
         "photo": "/img/catalog-original/menu-131-koshary-super.webp",
-        "section": "كشري",
-        "viewOnly": true
+        "section": "كشري"
       },
       {
         "name": "كشري عيلة",
@@ -369,8 +348,7 @@
         "step": 1,
         "id": "illustrative-koshary-family",
         "photo": "/img/catalog-original/menu-131-koshary-family.webp",
-        "section": "كشري",
-        "viewOnly": true
+        "section": "كشري"
       },
       {
         "name": "طاجن مكرونة باللحمة",
@@ -380,8 +358,7 @@
         "step": 1,
         "id": "illustrative-tagen-macaroni",
         "photo": "/img/catalog-original/menu-131-tagen-macaroni.webp",
-        "section": "طواجن",
-        "viewOnly": true
+        "section": "طواجن"
       },
       {
         "name": "شطة ودقة زيادة",
@@ -391,8 +368,7 @@
         "step": 1,
         "id": "illustrative-sauce",
         "photo": "/img/catalog-missing/restaurant-131-sauce.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       },
       {
         "name": "مهلبية",
@@ -402,8 +378,7 @@
         "step": 1,
         "id": "illustrative-mahalabia",
         "photo": "/img/catalog-original/menu-131-mahalabia.webp",
-        "section": "حلو",
-        "viewOnly": true
+        "section": "حلو"
       },
       {
         "name": "أم علي",
@@ -413,8 +388,7 @@
         "step": 1,
         "id": "illustrative-omali",
         "photo": "/img/catalog-original/menu-131-omali.webp",
-        "section": "حلو",
-        "viewOnly": true
+        "section": "حلو"
       },
       {
         "name": "طاجن مكرونة بالفراخ",
@@ -424,8 +398,7 @@
         "step": 1,
         "id": "illustrative-chicken-pasta",
         "photo": "/img/menu-expansion/chicken-pasta.webp",
-        "section": "طواجن",
-        "viewOnly": true
+        "section": "طواجن"
       }
     ]
   },
@@ -462,8 +435,7 @@
         "step": 1,
         "id": "illustrative-pizza-chicken",
         "photo": "/img/catalog-original/menu-136-pizza-chicken.webp",
-        "section": "بيتزا",
-        "viewOnly": true
+        "section": "بيتزا"
       },
       {
         "name": "بيتزا سجق",
@@ -473,8 +445,7 @@
         "step": 1,
         "id": "illustrative-pizza-sausage",
         "photo": "/img/catalog-original/menu-136-pizza-sausage.webp",
-        "section": "بيتزا",
-        "viewOnly": true
+        "section": "بيتزا"
       },
       {
         "name": "كريب بانيه",
@@ -484,8 +455,7 @@
         "step": 1,
         "id": "illustrative-crepe-pane",
         "photo": "/img/catalog-original/menu-136-crepe-pane.webp",
-        "section": "كريب",
-        "viewOnly": true
+        "section": "كريب"
       },
       {
         "name": "كريب لوتس",
@@ -495,8 +465,7 @@
         "step": 1,
         "id": "illustrative-crepe-lotus",
         "photo": "/img/catalog-original/menu-136-crepe-lotus.webp",
-        "section": "كريب",
-        "viewOnly": true
+        "section": "كريب"
       },
       {
         "name": "بطاطس محمرة",
@@ -506,8 +475,7 @@
         "step": 1,
         "id": "illustrative-fries",
         "photo": "/img/catalog-original/menu-136-fries.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "فطير مشلتت",
@@ -517,8 +485,7 @@
         "step": 1,
         "id": "illustrative-meshaltet",
         "photo": "/img/catalog-original/menu-136-meshaltet.webp",
-        "section": "فطير",
-        "viewOnly": true
+        "section": "فطير"
       },
       {
         "name": "فطير مشلتت صغير",
@@ -528,8 +495,7 @@
         "step": 1,
         "id": "illustrative-meshaltet-small",
         "photo": "/img/catalog-original/menu-136-meshaltet-small.webp",
-        "section": "فطير بلدي",
-        "viewOnly": true
+        "section": "فطير بلدي"
       },
       {
         "name": "عسل أسود وطحينة",
@@ -539,8 +505,7 @@
         "step": 1,
         "id": "illustrative-honey-tahini",
         "photo": "/img/catalog-missing/restaurant-136-honey-tahini.webp",
-        "section": "فطير بلدي",
-        "viewOnly": true
+        "section": "فطير بلدي"
       }
     ]
   },
@@ -582,8 +547,7 @@
         "step": 0.5,
         "id": "illustrative-fried-tilapia",
         "photo": "/img/catalog-original/menu-143-fried-tilapia.webp",
-        "section": "سمك",
-        "viewOnly": true
+        "section": "سمك"
       },
       {
         "name": "بوري مشوي",
@@ -593,8 +557,7 @@
         "step": 0.5,
         "id": "illustrative-grilled-mullet",
         "photo": "/img/catalog-original/menu-143-grilled-mullet.webp",
-        "section": "سمك",
-        "viewOnly": true
+        "section": "سمك"
       },
       {
         "name": "دنيس مشوي",
@@ -604,8 +567,7 @@
         "step": 0.5,
         "id": "illustrative-grilled-bream",
         "photo": "/img/catalog-original/menu-143-grilled-bream.webp",
-        "section": "سمك",
-        "viewOnly": true
+        "section": "سمك"
       },
       {
         "name": "سردين مقلي",
@@ -615,8 +577,7 @@
         "step": 0.5,
         "id": "illustrative-fried-sardine",
         "photo": "/img/catalog-original/menu-143-fried-sardine.webp",
-        "section": "سمك",
-        "viewOnly": true
+        "section": "سمك"
       },
       {
         "name": "طاجن جمبري",
@@ -626,8 +587,7 @@
         "step": 1,
         "id": "illustrative-shrimp-tagen",
         "photo": "/img/catalog-original/menu-143-shrimp-tagen.webp",
-        "section": "سي فود",
-        "viewOnly": true
+        "section": "سي فود"
       },
       {
         "name": "أرز صيادية",
@@ -637,8 +597,7 @@
         "step": 1,
         "id": "illustrative-sayadeya",
         "photo": "/img/catalog-missing/restaurant-143-sayadeya.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       },
       {
         "name": "سلطة طحينة",
@@ -648,8 +607,7 @@
         "step": 1,
         "id": "illustrative-tahini",
         "photo": "/img/catalog-original/menu-143-tahini.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       }
     ]
   },
@@ -686,8 +644,7 @@
         "step": 1,
         "id": "illustrative-syrian-chicken",
         "photo": "/img/catalog-original/menu-148-syrian-chicken.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "وجبة شاورما فراخ",
@@ -697,8 +654,7 @@
         "step": 1,
         "id": "illustrative-chicken-meal",
         "photo": "/img/catalog-original/menu-148-chicken-meal.webp",
-        "section": "وجبات",
-        "viewOnly": true
+        "section": "وجبات"
       },
       {
         "name": "وجبة شاورما لحمة",
@@ -708,8 +664,7 @@
         "step": 1,
         "id": "illustrative-meat-meal",
         "photo": "/img/catalog-original/menu-148-meat-meal.webp",
-        "section": "وجبات",
-        "viewOnly": true
+        "section": "وجبات"
       },
       {
         "name": "شاورما فراخ بالكيلو",
@@ -719,8 +674,7 @@
         "step": 0.25,
         "id": "illustrative-shawarma-kg",
         "photo": "/img/catalog-original/menu-148-shawarma-kg.webp",
-        "section": "بالكيلو",
-        "viewOnly": true
+        "section": "بالكيلو"
       },
       {
         "name": "ثومية",
@@ -730,8 +684,7 @@
         "step": 1,
         "id": "illustrative-garlic",
         "photo": "/img/catalog-missing/restaurant-148-garlic.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       },
       {
         "name": "مخلل",
@@ -741,8 +694,7 @@
         "step": 1,
         "id": "illustrative-pickles",
         "photo": "/img/catalog-missing/restaurant-148-pickles.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       },
       {
         "name": "فتة شاورما",
@@ -752,8 +704,7 @@
         "step": 1,
         "id": "illustrative-fattah-shawarma",
         "photo": "/img/catalog-original/menu-149-fattah-shawarma.webp",
-        "section": "وجبات",
-        "viewOnly": true
+        "section": "وجبات"
       },
       {
         "name": "بطاطس محمرة",
@@ -763,8 +714,7 @@
         "step": 1,
         "id": "illustrative-fries",
         "photo": "/img/catalog-original/menu-149-fries.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       }
     ]
   },
@@ -801,8 +751,7 @@
         "step": 1,
         "id": "illustrative-broasted-8",
         "photo": "/img/catalog-original/menu-153-broasted-8.webp",
-        "section": "مقلي",
-        "viewOnly": true
+        "section": "مقلي"
       },
       {
         "name": "أجنحة مقلية",
@@ -812,8 +761,7 @@
         "step": 1,
         "id": "illustrative-wings",
         "photo": "/img/catalog-original/menu-153-wings.webp",
-        "section": "مقلي",
-        "viewOnly": true
+        "section": "مقلي"
       },
       {
         "name": "استربس",
@@ -823,8 +771,7 @@
         "step": 1,
         "id": "illustrative-strips",
         "photo": "/img/catalog-original/menu-153-strips.webp",
-        "section": "مقلي",
-        "viewOnly": true
+        "section": "مقلي"
       },
       {
         "name": "ملوخية",
@@ -834,8 +781,7 @@
         "step": 1,
         "id": "illustrative-molokhia",
         "photo": "/img/catalog-original/menu-153-molokhia.webp",
-        "section": "جنب",
-        "viewOnly": true
+        "section": "جنب"
       },
       {
         "name": "كول سلو",
@@ -845,8 +791,7 @@
         "step": 1,
         "id": "illustrative-coleslaw",
         "photo": "/img/catalog-missing/restaurant-153-coleslaw.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       },
       {
         "name": "بروستد 4 قطع",
@@ -856,8 +801,7 @@
         "step": 1,
         "id": "illustrative-broasted-4",
         "photo": "/img/catalog-original/menu-154-broasted-4.webp",
-        "section": "مقلي",
-        "viewOnly": true
+        "section": "مقلي"
       },
       {
         "name": "وجبة بانيه",
@@ -867,8 +811,7 @@
         "step": 1,
         "id": "illustrative-pane-meal",
         "photo": "/img/catalog-original/menu-154-pane-meal.webp",
-        "section": "مقلي",
-        "viewOnly": true
+        "section": "مقلي"
       },
       {
         "name": "أرز بالشعرية",
@@ -878,8 +821,7 @@
         "step": 1,
         "id": "illustrative-rice",
         "photo": "/img/catalog-missing/restaurant-154-rice.webp",
-        "section": "أطباق جانبية",
-        "viewOnly": true
+        "section": "أطباق جانبية"
       }
     ]
   },
@@ -911,8 +853,7 @@
         "step": 1,
         "id": "illustrative-liver-sand",
         "photo": "/img/catalog-missing/restaurant-155-liver-sand.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "ساندوتش ميكس كبدة وسجق",
@@ -922,8 +863,7 @@
         "step": 1,
         "id": "illustrative-mix-sand",
         "photo": "/img/catalog-original/menu-155-mix-sand.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "ساندوتش مخ",
@@ -933,8 +873,7 @@
         "step": 1,
         "id": "illustrative-brain-sand",
         "photo": "/img/catalog-missing/restaurant-155-brain-sand.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "كبدة إسكندراني بالكيلو",
@@ -944,8 +883,7 @@
         "step": 0.25,
         "id": "illustrative-liver-kg",
         "photo": "/img/catalog-missing/restaurant-155-liver-kg.webp",
-        "section": "بالكيلو",
-        "viewOnly": true
+        "section": "بالكيلو"
       },
       {
         "name": "سجق شرقي بالكيلو",
@@ -955,8 +893,7 @@
         "step": 0.25,
         "id": "illustrative-sausage-kg",
         "photo": "/img/catalog-original/menu-155-sausage-kg.webp",
-        "section": "بالكيلو",
-        "viewOnly": true
+        "section": "بالكيلو"
       },
       {
         "name": "طاجن قوانص",
@@ -966,8 +903,7 @@
         "step": 1,
         "id": "illustrative-gizzard-tagen",
         "photo": "/img/catalog-original/menu-155-gizzard-tagen.webp",
-        "section": "طواجن",
-        "viewOnly": true
+        "section": "طواجن"
       },
       {
         "name": "ممبار محشي",
@@ -977,8 +913,7 @@
         "step": 1,
         "id": "illustrative-mombar",
         "photo": "/img/catalog-original/menu-155-mombar.webp",
-        "section": "طواجن",
-        "viewOnly": true
+        "section": "طواجن"
       },
       {
         "name": "ساندوتش بطاطس",
@@ -988,8 +923,7 @@
         "step": 1,
         "id": "illustrative-potato-sand",
         "photo": "/img/catalog-original/menu-155-potato-sand.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "بطاطس محمرة",
@@ -999,8 +933,7 @@
         "step": 1,
         "id": "illustrative-fries",
         "photo": "/img/catalog-original/menu-155-fries.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       }
     ]
   },
@@ -1037,8 +970,7 @@
         "step": 1,
         "id": "illustrative-meshaltet-small",
         "photo": "/img/catalog-original/menu-141-meshaltet-small.webp",
-        "section": "فطير",
-        "viewOnly": true
+        "section": "فطير"
       },
       {
         "name": "عسل أسود وطحينة",
@@ -1048,8 +980,7 @@
         "step": 1,
         "id": "illustrative-honey-tahini",
         "photo": "/img/catalog-missing/restaurant-141-honey-tahini.webp",
-        "section": "فطير",
-        "viewOnly": true
+        "section": "فطير"
       },
       {
         "name": "فطير سجق",
@@ -1059,8 +990,7 @@
         "step": 1,
         "id": "illustrative-feteer-sausage",
         "photo": "/img/catalog-original/menu-141-feteer-sausage.webp",
-        "section": "فطير حادق",
-        "viewOnly": true
+        "section": "فطير حادق"
       },
       {
         "name": "فطير لحمة مفرومة",
@@ -1070,8 +1000,7 @@
         "step": 1,
         "id": "illustrative-feteer-meat",
         "photo": "/img/catalog-original/menu-141-feteer-meat.webp",
-        "section": "فطير حادق",
-        "viewOnly": true
+        "section": "فطير حادق"
       },
       {
         "name": "فطير بسطرمة",
@@ -1081,8 +1010,7 @@
         "step": 1,
         "id": "illustrative-feteer-basterma",
         "photo": "/img/catalog-original/menu-141-feteer-basterma.webp",
-        "section": "فطير حادق",
-        "viewOnly": true
+        "section": "فطير حادق"
       },
       {
         "name": "فطير فراخ",
@@ -1092,8 +1020,7 @@
         "step": 1,
         "id": "illustrative-feteer-chicken",
         "photo": "/img/catalog-original/menu-141-feteer-chicken.webp",
-        "section": "فطير حادق",
-        "viewOnly": true
+        "section": "فطير حادق"
       },
       {
         "name": "فطير نوتيلا",
@@ -1103,8 +1030,7 @@
         "step": 1,
         "id": "illustrative-feteer-nutella",
         "photo": "/img/catalog-original/menu-141-feteer-nutella.webp",
-        "section": "فطير حلو",
-        "viewOnly": true
+        "section": "فطير حلو"
       },
       {
         "name": "بسبوسة",
@@ -1114,8 +1040,7 @@
         "step": 0.25,
         "id": "illustrative-basbousa",
         "photo": "/img/catalog-original/menu-141-basbousa.webp",
-        "section": "شرقي",
-        "viewOnly": true
+        "section": "شرقي"
       }
     ]
   },
@@ -1152,8 +1077,7 @@
         "step": 0.25,
         "id": "illustrative-kofta-kg",
         "photo": "/img/catalog-original/menu-128-kofta-kg.webp",
-        "section": "بالكيلو",
-        "viewOnly": true
+        "section": "بالكيلو"
       },
       {
         "name": "طرب",
@@ -1163,8 +1087,7 @@
         "step": 0.25,
         "id": "illustrative-tarb-kg",
         "photo": "/img/catalog-original/menu-128-tarb-kg.webp",
-        "section": "مشويات بالكيلو",
-        "viewOnly": true
+        "section": "مشويات بالكيلو"
       },
       {
         "name": "وجبة كفتة (ربع كيلو)",
@@ -1174,8 +1097,7 @@
         "step": 1,
         "id": "illustrative-kofta-meal",
         "photo": "/img/catalog-original/menu-128-kofta-meal.webp",
-        "section": "وجبات",
-        "viewOnly": true
+        "section": "وجبات"
       },
       {
         "name": "نص فرخة على الفحم",
@@ -1185,8 +1107,7 @@
         "step": 1,
         "id": "illustrative-chicken-half",
         "photo": "/img/catalog-original/menu-128-chicken-half.webp",
-        "section": "وجبات",
-        "viewOnly": true
+        "section": "وجبات"
       },
       {
         "name": "أرز بالشعرية",
@@ -1196,8 +1117,7 @@
         "step": 1,
         "id": "illustrative-rice",
         "photo": "/img/catalog-missing/restaurant-128-rice.webp",
-        "section": "أطباق جانبية",
-        "viewOnly": true
+        "section": "أطباق جانبية"
       },
       {
         "name": "سلطة خضرا",
@@ -1207,8 +1127,7 @@
         "step": 1,
         "id": "illustrative-salad",
         "photo": "/img/catalog-missing/restaurant-128-salad.webp",
-        "section": "أطباق جانبية",
-        "viewOnly": true
+        "section": "أطباق جانبية"
       },
       {
         "name": "بابا غنوج",
@@ -1218,8 +1137,7 @@
         "step": 1,
         "id": "illustrative-baba",
         "photo": "/img/catalog-original/menu-128-baba.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "ساندوتش كفتة",
@@ -1229,8 +1147,7 @@
         "step": 1,
         "id": "illustrative-kofta-sand",
         "photo": "/img/catalog-original/menu-128-kofta-sand.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       }
     ]
   },
@@ -1267,8 +1184,7 @@
         "step": 1,
         "id": "illustrative-duck-half",
         "photo": "/img/catalog-original/menu-159-duck-half.webp",
-        "section": "بط ووز",
-        "viewOnly": true
+        "section": "بط ووز"
       },
       {
         "name": "جوز حمام محشي",
@@ -1278,8 +1194,7 @@
         "step": 1,
         "id": "illustrative-pigeon",
         "photo": "/img/catalog-original/menu-159-pigeon.webp",
-        "section": "حمام وسمان",
-        "viewOnly": true
+        "section": "حمام وسمان"
       },
       {
         "name": "سمان محمر (جوز)",
@@ -1289,8 +1204,7 @@
         "step": 1,
         "id": "illustrative-quail",
         "photo": "/img/catalog-original/menu-159-quail.webp",
-        "section": "حمام وسمان",
-        "viewOnly": true
+        "section": "حمام وسمان"
       },
       {
         "name": "فتة",
@@ -1300,8 +1214,7 @@
         "step": 1,
         "id": "illustrative-fattah",
         "photo": "/img/catalog-original/menu-159-fattah.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "طاجن أرز معمر",
@@ -1311,8 +1224,7 @@
         "step": 1,
         "id": "illustrative-rice-moammar",
         "photo": "/img/catalog-missing/restaurant-159-rice-moammar.webp",
-        "section": "أكل بيتي",
-        "viewOnly": true
+        "section": "أكل بيتي"
       },
       {
         "name": "طاجن بامية باللحمة",
@@ -1322,8 +1234,7 @@
         "step": 1,
         "id": "illustrative-okra-tagen",
         "photo": "/img/catalog-missing/restaurant-159-okra-tagen.webp",
-        "section": "أكل بيتي",
-        "viewOnly": true
+        "section": "أكل بيتي"
       },
       {
         "name": "شوربة لسان عصفور",
@@ -1333,8 +1244,7 @@
         "step": 1,
         "id": "illustrative-soup",
         "photo": "/img/catalog-missing/restaurant-159-soup.webp",
-        "section": "أكل بيتي",
-        "viewOnly": true
+        "section": "أكل بيتي"
       },
       {
         "name": "ورقة لحمة بالخضار",
@@ -1344,8 +1254,7 @@
         "step": 1,
         "id": "illustrative-beef-parcel",
         "photo": "/img/menu-expansion/beef-parcel.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       }
     ]
   },
@@ -1382,8 +1291,7 @@
         "step": 0.25,
         "id": "illustrative-kunafa-nutella",
         "photo": "/img/catalog-original/menu-164-kunafa-nutella.webp",
-        "section": "شرقي",
-        "viewOnly": true
+        "section": "شرقي"
       },
       {
         "name": "بقلاوة",
@@ -1393,8 +1301,7 @@
         "step": 0.25,
         "id": "illustrative-baklava",
         "photo": "/img/catalog-original/menu-164-baklava.webp",
-        "section": "شرقي",
-        "viewOnly": true
+        "section": "شرقي"
       },
       {
         "name": "غريبة",
@@ -1404,8 +1311,7 @@
         "step": 0.25,
         "id": "illustrative-ghorayeba",
         "photo": "/img/catalog-original/menu-164-ghorayeba.webp",
-        "section": "شرقي",
-        "viewOnly": true
+        "section": "شرقي"
       },
       {
         "name": "جاتوه",
@@ -1415,8 +1321,7 @@
         "step": 1,
         "id": "illustrative-gateau",
         "photo": "/img/catalog-original/menu-164-gateau.webp",
-        "section": "غربي",
-        "viewOnly": true
+        "section": "غربي"
       },
       {
         "name": "إكلير",
@@ -1426,8 +1331,7 @@
         "step": 1,
         "id": "illustrative-eclair",
         "photo": "/img/catalog-original/menu-164-eclair.webp",
-        "section": "غربي",
-        "viewOnly": true
+        "section": "غربي"
       },
       {
         "name": "تورتة شوكولاتة",
@@ -1437,8 +1341,7 @@
         "step": 1,
         "id": "illustrative-torta",
         "photo": "/img/catalog-original/menu-164-torta.webp",
-        "section": "غربي",
-        "viewOnly": true
+        "section": "غربي"
       },
       {
         "name": "أم علي",
@@ -1448,8 +1351,7 @@
         "step": 1,
         "id": "illustrative-omali",
         "photo": "/img/catalog-original/menu-164-omali.webp",
-        "section": "حلو",
-        "viewOnly": true
+        "section": "حلو"
       },
       {
         "name": "مهلبية",
@@ -1459,8 +1361,7 @@
         "step": 1,
         "id": "illustrative-mahalabia",
         "photo": "/img/catalog-original/menu-165-mahalabia.webp",
-        "section": "حلو",
-        "viewOnly": true
+        "section": "حلو"
       }
     ]
   },
@@ -1507,8 +1408,7 @@
         "step": 1,
         "id": "illustrative-cane-large",
         "photo": "/img/catalog-original/menu-167-cane-large.webp",
-        "section": "عصاير",
-        "viewOnly": true
+        "section": "عصاير"
       },
       {
         "name": "موز باللبن",
@@ -1518,8 +1418,7 @@
         "step": 1,
         "id": "illustrative-banana-milk",
         "photo": "/img/catalog-missing/restaurant-167-banana-milk.webp",
-        "section": "عصاير",
-        "viewOnly": true
+        "section": "عصاير"
       },
       {
         "name": "تمر هندي",
@@ -1529,8 +1428,7 @@
         "step": 1,
         "id": "illustrative-tamarind",
         "photo": "/img/catalog-missing/restaurant-167-tamarind.webp",
-        "section": "مشروبات بلدي",
-        "viewOnly": true
+        "section": "مشروبات بلدي"
       },
       {
         "name": "سحلب",
@@ -1540,8 +1438,7 @@
         "step": 1,
         "id": "illustrative-sahlab",
         "photo": "/img/catalog-original/menu-167-sahlab.webp",
-        "section": "مشروبات بلدي",
-        "viewOnly": true
+        "section": "مشروبات بلدي"
       },
       {
         "name": "فروت سلاد",
@@ -1551,8 +1448,7 @@
         "step": 1,
         "id": "illustrative-fruit-salad",
         "photo": "/img/catalog-missing/restaurant-168-fruit-salad.webp",
-        "section": "كوكتيل",
-        "viewOnly": true
+        "section": "كوكتيل"
       },
       {
         "name": "سوبيا",
@@ -1562,8 +1458,7 @@
         "step": 1,
         "id": "illustrative-sobia",
         "photo": "/img/catalog-missing/restaurant-168-sobia.webp",
-        "section": "مشروبات بلدي",
-        "viewOnly": true
+        "section": "مشروبات بلدي"
       }
     ]
   },
@@ -1645,8 +1540,7 @@
         "step": 1,
         "id": "illustrative-cheese",
         "photo": "/img/catalog-original/menu-101-cheese.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "بطاطس محمرة",
@@ -1656,8 +1550,7 @@
         "step": 1,
         "id": "illustrative-fries",
         "photo": "/img/catalog-original/menu-101-fries.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "بابا غنوج",
@@ -1667,8 +1560,7 @@
         "step": 1,
         "id": "illustrative-baba",
         "photo": "/img/catalog-original/menu-101-baba.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "طحينة",
@@ -1678,8 +1570,7 @@
         "step": 1,
         "id": "illustrative-tahini",
         "photo": "/img/catalog-original/menu-101-tahini.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       }
     ]
   },
@@ -1751,8 +1642,7 @@
         "step": 1,
         "id": "illustrative-egg",
         "photo": "/img/catalog-original/menu-101-egg.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "ساندوتش جبنة",
@@ -1762,8 +1652,7 @@
         "step": 1,
         "id": "illustrative-cheese",
         "photo": "/img/catalog-original/menu-101-cheese.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "بطاطس محمرة",
@@ -1773,8 +1662,7 @@
         "step": 1,
         "id": "illustrative-fries",
         "photo": "/img/catalog-original/menu-101-fries.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "بابا غنوج",
@@ -1784,8 +1672,7 @@
         "step": 1,
         "id": "illustrative-baba",
         "photo": "/img/catalog-original/menu-101-baba.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       }
     ]
   },
@@ -1847,8 +1734,7 @@
         "step": 1,
         "id": "illustrative-egg",
         "photo": "/img/catalog-original/menu-101-egg.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "ساندوتش جبنة",
@@ -1858,8 +1744,7 @@
         "step": 1,
         "id": "illustrative-cheese",
         "photo": "/img/catalog-original/menu-101-cheese.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "بطاطس محمرة",
@@ -1869,8 +1754,7 @@
         "step": 1,
         "id": "illustrative-fries",
         "photo": "/img/catalog-original/menu-101-fries.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "بابا غنوج",
@@ -1880,8 +1764,7 @@
         "step": 1,
         "id": "illustrative-baba",
         "photo": "/img/catalog-original/menu-101-baba.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       }
     ]
   },
@@ -1963,8 +1846,7 @@
         "step": 1,
         "id": "illustrative-cheese",
         "photo": "/img/catalog-original/menu-101-cheese.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "طبق فول",
@@ -1974,8 +1856,7 @@
         "step": 1,
         "id": "illustrative-foolplate",
         "photo": "/img/catalog-original/menu-101-foolplate.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "بطاطس محمرة",
@@ -1985,8 +1866,7 @@
         "step": 1,
         "id": "illustrative-fries",
         "photo": "/img/catalog-original/menu-101-fries.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "بابا غنوج",
@@ -1996,8 +1876,7 @@
         "step": 1,
         "id": "illustrative-baba",
         "photo": "/img/catalog-original/menu-101-baba.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       }
     ]
   },
@@ -2059,8 +1938,7 @@
         "step": 1,
         "id": "illustrative-egg",
         "photo": "/img/catalog-original/menu-101-egg.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "ساندوتش جبنة",
@@ -2070,8 +1948,7 @@
         "step": 1,
         "id": "illustrative-cheese",
         "photo": "/img/catalog-original/menu-101-cheese.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "بطاطس محمرة",
@@ -2081,8 +1958,7 @@
         "step": 1,
         "id": "illustrative-fries",
         "photo": "/img/catalog-original/menu-101-fries.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "بابا غنوج",
@@ -2092,8 +1968,7 @@
         "step": 1,
         "id": "illustrative-baba",
         "photo": "/img/catalog-original/menu-101-baba.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       }
     ]
   },
@@ -2160,8 +2035,7 @@
         "step": 1,
         "id": "illustrative-meshaltet",
         "photo": "/img/catalog-original/menu-121-meshaltet.webp",
-        "section": "فطير",
-        "viewOnly": true
+        "section": "فطير"
       },
       {
         "name": "فطير مشلتت صغير",
@@ -2171,8 +2045,7 @@
         "step": 1,
         "id": "illustrative-meshaltet-small",
         "photo": "/img/catalog-original/menu-121-meshaltet-small.webp",
-        "section": "فطير بلدي",
-        "viewOnly": true
+        "section": "فطير بلدي"
       },
       {
         "name": "عسل أسود وطحينة",
@@ -2182,8 +2055,7 @@
         "step": 1,
         "id": "illustrative-honey-tahini",
         "photo": "/img/catalog-missing/restaurant-121-honey-tahini.webp",
-        "section": "فطير بلدي",
-        "viewOnly": true
+        "section": "فطير بلدي"
       },
       {
         "name": "فطير ميكس جبن",
@@ -2193,8 +2065,7 @@
         "step": 1,
         "id": "illustrative-feteer-mix",
         "photo": "/img/catalog-original/menu-121-feteer-mix.webp",
-        "section": "فطير",
-        "viewOnly": true
+        "section": "فطير"
       }
     ]
   },
@@ -2271,8 +2142,7 @@
         "step": 1,
         "id": "illustrative-fool-plate",
         "photo": "/img/catalog-original/menu-120-fool-plate.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "شاي بالنعناع",
@@ -2282,8 +2152,7 @@
         "step": 1,
         "id": "illustrative-tea",
         "photo": "/img/catalog-missing/restaurant-120-tea.webp",
-        "section": "مشروبات",
-        "viewOnly": true
+        "section": "مشروبات"
       },
       {
         "name": "ساندوتش جبنة",
@@ -2293,8 +2162,7 @@
         "step": 1,
         "id": "illustrative-cheese",
         "photo": "/img/catalog-original/menu-101-cheese.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "بطاطس محمرة",
@@ -2304,8 +2172,7 @@
         "step": 1,
         "id": "illustrative-fries",
         "photo": "/img/catalog-original/menu-101-fries.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       }
     ]
   },
@@ -2372,8 +2239,7 @@
         "step": 1,
         "id": "illustrative-kofta",
         "photo": "/img/catalog-original/menu-103-kofta.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "كفتة مشوية",
@@ -2383,8 +2249,7 @@
         "step": 0.5,
         "id": "illustrative-kofta-kg",
         "photo": "/img/catalog-original/menu-103-kofta-kg.webp",
-        "section": "بالكيلو",
-        "viewOnly": true
+        "section": "بالكيلو"
       },
       {
         "name": "طرشي بلدي",
@@ -2394,8 +2259,7 @@
         "step": 1,
         "id": "illustrative-pickles",
         "photo": "/img/catalog-missing/restaurant-123-pickles.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       },
       {
         "name": "طرب",
@@ -2405,8 +2269,7 @@
         "step": 0.25,
         "id": "illustrative-tarb-kg",
         "photo": "/img/catalog-original/menu-123-tarb-kg.webp",
-        "section": "مشويات بالكيلو",
-        "viewOnly": true
+        "section": "مشويات بالكيلو"
       }
     ]
   },
@@ -2478,8 +2341,7 @@
         "step": 1,
         "id": "illustrative-hawawshi-basterma",
         "photo": "/img/catalog-original/menu-122-hawawshi-basterma.webp",
-        "section": "حواوشي",
-        "viewOnly": true
+        "section": "حواوشي"
       },
       {
         "name": "حواوشي صغير (نص رغيف)",
@@ -2489,8 +2351,7 @@
         "step": 1,
         "id": "illustrative-hawawshi-half",
         "photo": "/img/catalog-original/menu-122-hawawshi-half.webp",
-        "section": "حواوشي",
-        "viewOnly": true
+        "section": "حواوشي"
       },
       {
         "name": "بطاطس محمرة",
@@ -2500,8 +2361,7 @@
         "step": 1,
         "id": "illustrative-fries",
         "photo": "/img/catalog-original/menu-122-fries.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "طحينة",
@@ -2511,8 +2371,7 @@
         "step": 1,
         "id": "illustrative-tahini",
         "photo": "/img/catalog-original/menu-122-tahini.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       }
     ]
   },
@@ -2589,8 +2448,7 @@
         "step": 1,
         "id": "illustrative-hawawshi-chicken",
         "photo": "/img/catalog-original/menu-122-hawawshi-chicken.webp",
-        "section": "حواوشي",
-        "viewOnly": true
+        "section": "حواوشي"
       },
       {
         "name": "بطاطس محمرة",
@@ -2600,8 +2458,7 @@
         "step": 1,
         "id": "illustrative-fries",
         "photo": "/img/catalog-original/menu-122-fries.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "طرشي بلدي",
@@ -2611,8 +2468,7 @@
         "step": 1,
         "id": "illustrative-pickles",
         "photo": "/img/catalog-missing/restaurant-123-pickles.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       },
       {
         "name": "ساندوتش كبدة إسكندراني",
@@ -2622,8 +2478,7 @@
         "step": 1,
         "id": "illustrative-liver-sand",
         "photo": "/img/catalog-missing/restaurant-125-liver-sand.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       }
     ]
   },
@@ -2700,8 +2555,7 @@
         "step": 1,
         "id": "illustrative-kofta",
         "photo": "/img/catalog-original/menu-103-kofta.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "كفتة مشوية",
@@ -2711,8 +2565,7 @@
         "step": 0.5,
         "id": "illustrative-kofta-kg",
         "photo": "/img/catalog-original/menu-103-kofta-kg.webp",
-        "section": "بالكيلو",
-        "viewOnly": true
+        "section": "بالكيلو"
       },
       {
         "name": "حواوشي فراخ",
@@ -2722,8 +2575,7 @@
         "step": 1,
         "id": "illustrative-hawawshi-chicken",
         "photo": "/img/catalog-original/menu-122-hawawshi-chicken.webp",
-        "section": "حواوشي",
-        "viewOnly": true
+        "section": "حواوشي"
       },
       {
         "name": "حواوشي صغير (نص رغيف)",
@@ -2733,8 +2585,7 @@
         "step": 1,
         "id": "illustrative-hawawshi-half",
         "photo": "/img/catalog-original/menu-122-hawawshi-half.webp",
-        "section": "حواوشي",
-        "viewOnly": true
+        "section": "حواوشي"
       }
     ]
   },
@@ -2801,8 +2652,7 @@
         "step": 1,
         "id": "illustrative-kofta",
         "photo": "/img/catalog-original/menu-103-kofta.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "كفتة مشوية",
@@ -2812,8 +2662,7 @@
         "step": 0.5,
         "id": "illustrative-kofta-kg",
         "photo": "/img/catalog-original/menu-103-kofta-kg.webp",
-        "section": "بالكيلو",
-        "viewOnly": true
+        "section": "بالكيلو"
       },
       {
         "name": "حواوشي صغير (نص رغيف)",
@@ -2823,8 +2672,7 @@
         "step": 1,
         "id": "illustrative-hawawshi-half",
         "photo": "/img/catalog-original/menu-122-hawawshi-half.webp",
-        "section": "حواوشي",
-        "viewOnly": true
+        "section": "حواوشي"
       },
       {
         "name": "طرب",
@@ -2834,8 +2682,7 @@
         "step": 0.25,
         "id": "illustrative-tarb-kg",
         "photo": "/img/catalog-original/menu-123-tarb-kg.webp",
-        "section": "مشويات بالكيلو",
-        "viewOnly": true
+        "section": "مشويات بالكيلو"
       }
     ]
   },
@@ -2902,8 +2749,7 @@
         "step": 0.5,
         "id": "illustrative-kofta",
         "photo": "/img/catalog-original/menu-111-kofta.webp",
-        "section": "بالكيلو",
-        "viewOnly": true
+        "section": "بالكيلو"
       },
       {
         "name": "فتة",
@@ -2913,8 +2759,7 @@
         "step": 1,
         "id": "illustrative-fattah",
         "photo": "/img/catalog-original/menu-111-fattah.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "أرز بالشعرية",
@@ -2924,8 +2769,7 @@
         "step": 1,
         "id": "illustrative-rice",
         "photo": "/img/catalog-missing/restaurant-128-rice.webp",
-        "section": "أطباق جانبية",
-        "viewOnly": true
+        "section": "أطباق جانبية"
       },
       {
         "name": "بابا غنوج",
@@ -2935,8 +2779,7 @@
         "step": 1,
         "id": "illustrative-baba",
         "photo": "/img/catalog-original/menu-128-baba.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       }
     ]
   },
@@ -3008,8 +2851,7 @@
         "step": 0.5,
         "id": "illustrative-kofta",
         "photo": "/img/catalog-original/menu-111-kofta.webp",
-        "section": "بالكيلو",
-        "viewOnly": true
+        "section": "بالكيلو"
       },
       {
         "name": "فتة",
@@ -3019,8 +2861,7 @@
         "step": 1,
         "id": "illustrative-fattah",
         "photo": "/img/catalog-original/menu-111-fattah.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "ريش ضاني",
@@ -3030,8 +2871,7 @@
         "step": 0.25,
         "id": "illustrative-ribs-kg",
         "photo": "/img/catalog-original/menu-129-ribs-kg.webp",
-        "section": "مشويات بالكيلو",
-        "viewOnly": true
+        "section": "مشويات بالكيلو"
       },
       {
         "name": "شيش طاووق",
@@ -3041,8 +2881,7 @@
         "step": 1,
         "id": "illustrative-taouk",
         "photo": "/img/catalog-original/menu-129-taouk.webp",
-        "section": "وجبات",
-        "viewOnly": true
+        "section": "وجبات"
       }
     ]
   },
@@ -3119,8 +2958,7 @@
         "step": 0.5,
         "id": "illustrative-kofta",
         "photo": "/img/catalog-original/menu-111-kofta.webp",
-        "section": "بالكيلو",
-        "viewOnly": true
+        "section": "بالكيلو"
       },
       {
         "name": "فتة",
@@ -3130,8 +2968,7 @@
         "step": 1,
         "id": "illustrative-fattah",
         "photo": "/img/catalog-original/menu-111-fattah.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "نص فرخة على الفحم",
@@ -3141,8 +2978,7 @@
         "step": 1,
         "id": "illustrative-chicken-half",
         "photo": "/img/catalog-original/menu-128-chicken-half.webp",
-        "section": "وجبات",
-        "viewOnly": true
+        "section": "وجبات"
       },
       {
         "name": "ساندوتش كفتة",
@@ -3152,8 +2988,7 @@
         "step": 1,
         "id": "illustrative-kofta-sand",
         "photo": "/img/catalog-original/menu-128-kofta-sand.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       }
     ]
   },
@@ -3235,8 +3070,7 @@
         "step": 0.5,
         "id": "illustrative-kofta",
         "photo": "/img/catalog-original/menu-111-kofta.webp",
-        "section": "بالكيلو",
-        "viewOnly": true
+        "section": "بالكيلو"
       },
       {
         "name": "وجبة مشكل",
@@ -3246,8 +3080,7 @@
         "step": 1,
         "id": "illustrative-mix",
         "photo": "/img/catalog-original/menu-111-mix.webp",
-        "section": "وجبات",
-        "viewOnly": true
+        "section": "وجبات"
       },
       {
         "name": "فتة",
@@ -3257,8 +3090,7 @@
         "step": 1,
         "id": "illustrative-fattah",
         "photo": "/img/catalog-original/menu-111-fattah.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "وجبة كفتة (ربع كيلو)",
@@ -3268,8 +3100,7 @@
         "step": 1,
         "id": "illustrative-kofta-meal",
         "photo": "/img/catalog-original/menu-128-kofta-meal.webp",
-        "section": "وجبات",
-        "viewOnly": true
+        "section": "وجبات"
       }
     ]
   },
@@ -3336,8 +3167,7 @@
         "step": 1,
         "id": "illustrative-macaroni",
         "photo": "/img/catalog-original/menu-104-macaroni.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "طاجن مكرونة بالفراخ",
@@ -3347,8 +3177,7 @@
         "step": 1,
         "id": "illustrative-chicken-pasta",
         "photo": "/img/menu-expansion/chicken-pasta.webp",
-        "section": "طواجن",
-        "viewOnly": true
+        "section": "طواجن"
       },
       {
         "name": "طاجن مكرونة بالكبدة",
@@ -3358,8 +3187,7 @@
         "step": 1,
         "id": "illustrative-liver-pasta",
         "photo": "/img/menu-expansion/liver-pasta.webp",
-        "section": "طواجن",
-        "viewOnly": true
+        "section": "طواجن"
       },
       {
         "name": "عدس بجبة زيادة",
@@ -3369,8 +3197,7 @@
         "step": 1,
         "id": "illustrative-extra-lentils",
         "photo": "/img/menu-expansion/extra-lentils.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       }
     ]
   },
@@ -3432,8 +3259,7 @@
         "step": 1,
         "id": "illustrative-macaroni",
         "photo": "/img/catalog-original/menu-104-macaroni.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "أرز بلبن",
@@ -3443,8 +3269,7 @@
         "step": 1,
         "id": "illustrative-roz",
         "photo": "/img/catalog-original/menu-104-roz.webp",
-        "section": "حلو",
-        "viewOnly": true
+        "section": "حلو"
       },
       {
         "name": "طاجن مكرونة بالفراخ",
@@ -3454,8 +3279,7 @@
         "step": 1,
         "id": "illustrative-chicken-pasta",
         "photo": "/img/menu-expansion/chicken-pasta.webp",
-        "section": "طواجن",
-        "viewOnly": true
+        "section": "طواجن"
       },
       {
         "name": "طاجن مكرونة بالكبدة",
@@ -3465,8 +3289,7 @@
         "step": 1,
         "id": "illustrative-liver-pasta",
         "photo": "/img/menu-expansion/liver-pasta.webp",
-        "section": "طواجن",
-        "viewOnly": true
+        "section": "طواجن"
       }
     ]
   },
@@ -3538,8 +3361,7 @@
         "step": 1,
         "id": "illustrative-chicken-pasta",
         "photo": "/img/menu-expansion/chicken-pasta.webp",
-        "section": "طواجن",
-        "viewOnly": true
+        "section": "طواجن"
       },
       {
         "name": "طاجن مكرونة بالكبدة",
@@ -3549,8 +3371,7 @@
         "step": 1,
         "id": "illustrative-liver-pasta",
         "photo": "/img/menu-expansion/liver-pasta.webp",
-        "section": "طواجن",
-        "viewOnly": true
+        "section": "طواجن"
       },
       {
         "name": "عدس بجبة زيادة",
@@ -3560,8 +3381,7 @@
         "step": 1,
         "id": "illustrative-extra-lentils",
         "photo": "/img/menu-expansion/extra-lentils.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       },
       {
         "name": "حمص زيادة",
@@ -3571,8 +3391,7 @@
         "step": 1,
         "id": "illustrative-extra-chickpeas",
         "photo": "/img/menu-expansion/extra-chickpeas.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       }
     ]
   },
@@ -3644,8 +3463,7 @@
         "step": 1,
         "id": "illustrative-chicken-pasta",
         "photo": "/img/menu-expansion/chicken-pasta.webp",
-        "section": "طواجن",
-        "viewOnly": true
+        "section": "طواجن"
       },
       {
         "name": "طاجن مكرونة بالكبدة",
@@ -3655,8 +3473,7 @@
         "step": 1,
         "id": "illustrative-liver-pasta",
         "photo": "/img/menu-expansion/liver-pasta.webp",
-        "section": "طواجن",
-        "viewOnly": true
+        "section": "طواجن"
       },
       {
         "name": "عدس بجبة زيادة",
@@ -3666,8 +3483,7 @@
         "step": 1,
         "id": "illustrative-extra-lentils",
         "photo": "/img/menu-expansion/extra-lentils.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       },
       {
         "name": "حمص زيادة",
@@ -3677,8 +3493,7 @@
         "step": 1,
         "id": "illustrative-extra-chickpeas",
         "photo": "/img/menu-expansion/extra-chickpeas.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       }
     ]
   },
@@ -3750,8 +3565,7 @@
         "step": 1,
         "id": "illustrative-chicken-pasta",
         "photo": "/img/menu-expansion/chicken-pasta.webp",
-        "section": "طواجن",
-        "viewOnly": true
+        "section": "طواجن"
       },
       {
         "name": "طاجن مكرونة بالكبدة",
@@ -3761,8 +3575,7 @@
         "step": 1,
         "id": "illustrative-liver-pasta",
         "photo": "/img/menu-expansion/liver-pasta.webp",
-        "section": "طواجن",
-        "viewOnly": true
+        "section": "طواجن"
       },
       {
         "name": "عدس بجبة زيادة",
@@ -3772,8 +3585,7 @@
         "step": 1,
         "id": "illustrative-extra-lentils",
         "photo": "/img/menu-expansion/extra-lentils.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       },
       {
         "name": "حمص زيادة",
@@ -3783,8 +3595,7 @@
         "step": 1,
         "id": "illustrative-extra-chickpeas",
         "photo": "/img/menu-expansion/extra-chickpeas.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       }
     ]
   },
@@ -3856,8 +3667,7 @@
         "step": 1,
         "id": "illustrative-crepe-chicken",
         "photo": "/img/catalog-original/menu-105-crepe-chicken.webp",
-        "section": "كريب",
-        "viewOnly": true
+        "section": "كريب"
       },
       {
         "name": "كريب نوتيلا",
@@ -3867,8 +3677,7 @@
         "step": 1,
         "id": "illustrative-crepe-nutella",
         "photo": "/img/catalog-original/menu-105-crepe-nutella.webp",
-        "section": "كريب",
-        "viewOnly": true
+        "section": "كريب"
       },
       {
         "name": "بيتزا تونة",
@@ -3878,8 +3687,7 @@
         "step": 1,
         "id": "illustrative-pizza-tuna",
         "photo": "/img/catalog-original/menu-137-pizza-tuna.webp",
-        "section": "بيتزا",
-        "viewOnly": true
+        "section": "بيتزا"
       },
       {
         "name": "بيتزا سي فود",
@@ -3889,8 +3697,7 @@
         "step": 1,
         "id": "illustrative-pizza-sea",
         "photo": "/img/catalog-original/menu-137-pizza-sea.webp",
-        "section": "بيتزا",
-        "viewOnly": true
+        "section": "بيتزا"
       }
     ]
   },
@@ -3952,8 +3759,7 @@
         "step": 1,
         "id": "illustrative-crepe-chicken",
         "photo": "/img/catalog-original/menu-105-crepe-chicken.webp",
-        "section": "كريب",
-        "viewOnly": true
+        "section": "كريب"
       },
       {
         "name": "بيتزا سجق",
@@ -3963,8 +3769,7 @@
         "step": 1,
         "id": "illustrative-pizza-sausage",
         "photo": "/img/catalog-original/menu-136-pizza-sausage.webp",
-        "section": "بيتزا",
-        "viewOnly": true
+        "section": "بيتزا"
       },
       {
         "name": "كريب بانيه",
@@ -3974,8 +3779,7 @@
         "step": 1,
         "id": "illustrative-crepe-pane",
         "photo": "/img/catalog-original/menu-136-crepe-pane.webp",
-        "section": "كريب",
-        "viewOnly": true
+        "section": "كريب"
       },
       {
         "name": "فطير مشلتت",
@@ -3985,8 +3789,7 @@
         "step": 1,
         "id": "illustrative-meshaltet",
         "photo": "/img/catalog-original/menu-136-meshaltet.webp",
-        "section": "فطير",
-        "viewOnly": true
+        "section": "فطير"
       }
     ]
   },
@@ -4063,8 +3866,7 @@
         "step": 1,
         "id": "illustrative-meshaltet",
         "photo": "/img/catalog-original/menu-136-meshaltet.webp",
-        "section": "فطير",
-        "viewOnly": true
+        "section": "فطير"
       },
       {
         "name": "فطير مشلتت صغير",
@@ -4074,8 +3876,7 @@
         "step": 1,
         "id": "illustrative-meshaltet-small",
         "photo": "/img/catalog-original/menu-136-meshaltet-small.webp",
-        "section": "فطير بلدي",
-        "viewOnly": true
+        "section": "فطير بلدي"
       },
       {
         "name": "عسل أسود وطحينة",
@@ -4085,8 +3886,7 @@
         "step": 1,
         "id": "illustrative-honey-tahini",
         "photo": "/img/catalog-missing/restaurant-136-honey-tahini.webp",
-        "section": "فطير بلدي",
-        "viewOnly": true
+        "section": "فطير بلدي"
       },
       {
         "name": "فطير ميكس جبن",
@@ -4096,8 +3896,7 @@
         "step": 1,
         "id": "illustrative-feteer-mix",
         "photo": "/img/catalog-original/menu-136-feteer-mix.webp",
-        "section": "فطير",
-        "viewOnly": true
+        "section": "فطير"
       }
     ]
   },
@@ -4164,8 +3963,7 @@
         "step": 1,
         "id": "illustrative-crepe-nutella",
         "photo": "/img/catalog-original/menu-105-crepe-nutella.webp",
-        "section": "كريب",
-        "viewOnly": true
+        "section": "كريب"
       },
       {
         "name": "كريب لوتس",
@@ -4175,8 +3973,7 @@
         "step": 1,
         "id": "illustrative-crepe-lotus",
         "photo": "/img/catalog-original/menu-136-crepe-lotus.webp",
-        "section": "كريب",
-        "viewOnly": true
+        "section": "كريب"
       },
       {
         "name": "فطير مشلتت",
@@ -4186,8 +3983,7 @@
         "step": 1,
         "id": "illustrative-meshaltet",
         "photo": "/img/catalog-original/menu-136-meshaltet.webp",
-        "section": "فطير",
-        "viewOnly": true
+        "section": "فطير"
       },
       {
         "name": "فطير مشلتت صغير",
@@ -4197,8 +3993,7 @@
         "step": 1,
         "id": "illustrative-meshaltet-small",
         "photo": "/img/catalog-original/menu-136-meshaltet-small.webp",
-        "section": "فطير بلدي",
-        "viewOnly": true
+        "section": "فطير بلدي"
       }
     ]
   },
@@ -4270,8 +4065,7 @@
         "step": 1,
         "id": "illustrative-crepe-chicken",
         "photo": "/img/catalog-original/menu-105-crepe-chicken.webp",
-        "section": "كريب",
-        "viewOnly": true
+        "section": "كريب"
       },
       {
         "name": "كريب بانيه",
@@ -4281,8 +4075,7 @@
         "step": 1,
         "id": "illustrative-crepe-pane",
         "photo": "/img/catalog-original/menu-136-crepe-pane.webp",
-        "section": "كريب",
-        "viewOnly": true
+        "section": "كريب"
       },
       {
         "name": "كريب لوتس",
@@ -4292,8 +4085,7 @@
         "step": 1,
         "id": "illustrative-crepe-lotus",
         "photo": "/img/catalog-original/menu-136-crepe-lotus.webp",
-        "section": "كريب",
-        "viewOnly": true
+        "section": "كريب"
       },
       {
         "name": "بطاطس محمرة",
@@ -4303,8 +4095,7 @@
         "step": 1,
         "id": "illustrative-fries",
         "photo": "/img/catalog-original/menu-136-fries.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       }
     ]
   },
@@ -4381,8 +4172,7 @@
         "step": 1,
         "id": "illustrative-feteer-mix",
         "photo": "/img/catalog-original/menu-110-feteer-mix.webp",
-        "section": "فطير بلدي",
-        "viewOnly": true
+        "section": "فطير بلدي"
       },
       {
         "name": "فطير بالسكر والقشطة",
@@ -4392,8 +4182,7 @@
         "step": 1,
         "id": "illustrative-feteer-sweet",
         "photo": "/img/catalog-original/menu-110-feteer-sweet.webp",
-        "section": "فطير بلدي",
-        "viewOnly": true
+        "section": "فطير بلدي"
       },
       {
         "name": "أم علي",
@@ -4403,8 +4192,7 @@
         "step": 1,
         "id": "illustrative-omali",
         "photo": "/img/catalog-original/menu-110-omali.webp",
-        "section": "حلو",
-        "viewOnly": true
+        "section": "حلو"
       },
       {
         "name": "ساندوتش فول",
@@ -4414,8 +4202,7 @@
         "step": 1,
         "id": "illustrative-fool-sand",
         "photo": "/img/catalog-original/menu-142-fool-sand.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       }
     ]
   },
@@ -4492,8 +4279,7 @@
         "step": 1,
         "id": "illustrative-feteer-mix",
         "photo": "/img/catalog-original/menu-110-feteer-mix.webp",
-        "section": "فطير بلدي",
-        "viewOnly": true
+        "section": "فطير بلدي"
       },
       {
         "name": "فطير بالسكر والقشطة",
@@ -4503,8 +4289,7 @@
         "step": 1,
         "id": "illustrative-feteer-sweet",
         "photo": "/img/catalog-original/menu-110-feteer-sweet.webp",
-        "section": "فطير بلدي",
-        "viewOnly": true
+        "section": "فطير بلدي"
       },
       {
         "name": "فطير لحمة مفرومة",
@@ -4514,8 +4299,7 @@
         "step": 1,
         "id": "illustrative-feteer-meat",
         "photo": "/img/catalog-original/menu-141-feteer-meat.webp",
-        "section": "فطير حادق",
-        "viewOnly": true
+        "section": "فطير حادق"
       },
       {
         "name": "بسبوسة",
@@ -4525,8 +4309,7 @@
         "step": 0.25,
         "id": "illustrative-basbousa",
         "photo": "/img/catalog-original/menu-141-basbousa.webp",
-        "section": "شرقي",
-        "viewOnly": true
+        "section": "شرقي"
       }
     ]
   },
@@ -4598,8 +4381,7 @@
         "step": 0.5,
         "id": "illustrative-fried-fish",
         "photo": "/img/catalog-original/menu-106-fried-fish.webp",
-        "section": "سمك",
-        "viewOnly": true
+        "section": "سمك"
       },
       {
         "name": "سمك بوري مشوي",
@@ -4609,8 +4391,7 @@
         "step": 0.5,
         "id": "illustrative-grilled-fish",
         "photo": "/img/catalog-original/menu-106-grilled-fish.webp",
-        "section": "سمك",
-        "viewOnly": true
+        "section": "سمك"
       },
       {
         "name": "فيليه مقلي",
@@ -4620,8 +4401,7 @@
         "step": 0.5,
         "id": "illustrative-fried-fillet",
         "photo": "/img/catalog-original/menu-144-fried-fillet.webp",
-        "section": "سمك",
-        "viewOnly": true
+        "section": "سمك"
       },
       {
         "name": "كابوريا",
@@ -4631,8 +4411,7 @@
         "step": 0.5,
         "id": "illustrative-crab",
         "photo": "/img/catalog-original/menu-144-crab.webp",
-        "section": "سي فود",
-        "viewOnly": true
+        "section": "سي فود"
       }
     ]
   },
@@ -4709,8 +4488,7 @@
         "step": 0.5,
         "id": "illustrative-fried-fish",
         "photo": "/img/catalog-original/menu-106-fried-fish.webp",
-        "section": "سمك",
-        "viewOnly": true
+        "section": "سمك"
       },
       {
         "name": "سمك بوري مشوي",
@@ -4720,8 +4498,7 @@
         "step": 0.5,
         "id": "illustrative-grilled-fish",
         "photo": "/img/catalog-original/menu-106-grilled-fish.webp",
-        "section": "سمك",
-        "viewOnly": true
+        "section": "سمك"
       },
       {
         "name": "وجبة سمك وبطاطس",
@@ -4731,8 +4508,7 @@
         "step": 1,
         "id": "illustrative-fishchips",
         "photo": "/img/catalog-original/menu-106-fishchips.webp",
-        "section": "وجبات",
-        "viewOnly": true
+        "section": "وجبات"
       },
       {
         "name": "سردين مقلي",
@@ -4742,8 +4518,7 @@
         "step": 0.5,
         "id": "illustrative-fried-sardine",
         "photo": "/img/catalog-original/menu-143-fried-sardine.webp",
-        "section": "سمك",
-        "viewOnly": true
+        "section": "سمك"
       }
     ]
   },
@@ -4815,8 +4590,7 @@
         "step": 0.5,
         "id": "illustrative-fried-fish",
         "photo": "/img/catalog-original/menu-106-fried-fish.webp",
-        "section": "سمك",
-        "viewOnly": true
+        "section": "سمك"
       },
       {
         "name": "سمك بوري مشوي",
@@ -4826,8 +4600,7 @@
         "step": 0.5,
         "id": "illustrative-grilled-fish",
         "photo": "/img/catalog-original/menu-106-grilled-fish.webp",
-        "section": "سمك",
-        "viewOnly": true
+        "section": "سمك"
       },
       {
         "name": "سلطة طحينة",
@@ -4837,8 +4610,7 @@
         "step": 1,
         "id": "illustrative-tahini",
         "photo": "/img/catalog-original/menu-143-tahini.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       },
       {
         "name": "فيليه مقلي",
@@ -4848,8 +4620,7 @@
         "step": 0.5,
         "id": "illustrative-fried-fillet",
         "photo": "/img/catalog-original/menu-144-fried-fillet.webp",
-        "section": "سمك",
-        "viewOnly": true
+        "section": "سمك"
       }
     ]
   },
@@ -4916,8 +4687,7 @@
         "step": 0.5,
         "id": "illustrative-fried-fish",
         "photo": "/img/catalog-original/menu-106-fried-fish.webp",
-        "section": "سمك",
-        "viewOnly": true
+        "section": "سمك"
       },
       {
         "name": "سمك بوري مشوي",
@@ -4927,8 +4697,7 @@
         "step": 0.5,
         "id": "illustrative-grilled-fish",
         "photo": "/img/catalog-original/menu-106-grilled-fish.webp",
-        "section": "سمك",
-        "viewOnly": true
+        "section": "سمك"
       },
       {
         "name": "طاجن جمبري",
@@ -4938,8 +4707,7 @@
         "step": 1,
         "id": "illustrative-shrimp-tagen",
         "photo": "/img/catalog-original/menu-143-shrimp-tagen.webp",
-        "section": "سي فود",
-        "viewOnly": true
+        "section": "سي فود"
       },
       {
         "name": "بابا غنوج",
@@ -4949,8 +4717,7 @@
         "step": 1,
         "id": "illustrative-baba",
         "photo": "/img/catalog-original/menu-143-baba.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       }
     ]
   },
@@ -5017,8 +4784,7 @@
         "step": 0.5,
         "id": "illustrative-fried-fish",
         "photo": "/img/catalog-original/menu-106-fried-fish.webp",
-        "section": "سمك",
-        "viewOnly": true
+        "section": "سمك"
       },
       {
         "name": "سمك بوري مشوي",
@@ -5028,8 +4794,7 @@
         "step": 0.5,
         "id": "illustrative-grilled-fish",
         "photo": "/img/catalog-original/menu-106-grilled-fish.webp",
-        "section": "سمك",
-        "viewOnly": true
+        "section": "سمك"
       },
       {
         "name": "جمبري مقلي",
@@ -5039,8 +4804,7 @@
         "step": 0.5,
         "id": "illustrative-shrimp",
         "photo": "/img/catalog-original/menu-106-shrimp.webp",
-        "section": "سي فود",
-        "viewOnly": true
+        "section": "سي فود"
       },
       {
         "name": "سردين مقلي",
@@ -5050,8 +4814,7 @@
         "step": 0.5,
         "id": "illustrative-fried-sardine",
         "photo": "/img/catalog-original/menu-143-fried-sardine.webp",
-        "section": "سمك",
-        "viewOnly": true
+        "section": "سمك"
       }
     ]
   },
@@ -5113,8 +4876,7 @@
         "step": 1,
         "id": "illustrative-fries",
         "photo": "/img/catalog-original/menu-107-fries.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       },
       {
         "name": "فتة شاورما",
@@ -5124,8 +4886,7 @@
         "step": 1,
         "id": "illustrative-fattah-shawarma",
         "photo": "/img/catalog-original/menu-149-fattah-shawarma.webp",
-        "section": "وجبات",
-        "viewOnly": true
+        "section": "وجبات"
       },
       {
         "name": "بطاطس محمرة",
@@ -5135,8 +4896,7 @@
         "step": 1,
         "id": "illustrative-fries-149",
         "photo": "/img/catalog-original/menu-149-fries.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "نص فرخة مشوية",
@@ -5146,8 +4906,7 @@
         "step": 1,
         "id": "illustrative-grilled-half",
         "photo": "/img/catalog-original/menu-149-grilled-half.webp",
-        "section": "فراخ",
-        "viewOnly": true
+        "section": "فراخ"
       }
     ]
   },
@@ -5224,8 +4983,7 @@
         "step": 1,
         "id": "illustrative-fries",
         "photo": "/img/catalog-original/menu-107-fries.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       },
       {
         "name": "وجبة شاورما فراخ",
@@ -5235,8 +4993,7 @@
         "step": 1,
         "id": "illustrative-chicken-meal",
         "photo": "/img/catalog-original/menu-148-chicken-meal.webp",
-        "section": "وجبات",
-        "viewOnly": true
+        "section": "وجبات"
       },
       {
         "name": "وجبة شاورما لحمة",
@@ -5246,8 +5003,7 @@
         "step": 1,
         "id": "illustrative-meat-meal",
         "photo": "/img/catalog-original/menu-148-meat-meal.webp",
-        "section": "وجبات",
-        "viewOnly": true
+        "section": "وجبات"
       },
       {
         "name": "ثومية",
@@ -5257,8 +5013,7 @@
         "step": 1,
         "id": "illustrative-garlic",
         "photo": "/img/catalog-missing/restaurant-148-garlic.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       }
     ]
   },
@@ -5330,8 +5085,7 @@
         "step": 1,
         "id": "illustrative-fries",
         "photo": "/img/catalog-original/menu-107-fries.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       },
       {
         "name": "نص فرخة مشوية",
@@ -5341,8 +5095,7 @@
         "step": 1,
         "id": "illustrative-grilled-half",
         "photo": "/img/catalog-original/menu-149-grilled-half.webp",
-        "section": "فراخ",
-        "viewOnly": true
+        "section": "فراخ"
       },
       {
         "name": "فرخة مشوية",
@@ -5352,8 +5105,7 @@
         "step": 1,
         "id": "illustrative-grilled-whole",
         "photo": "/img/catalog-original/menu-149-grilled-whole.webp",
-        "section": "فراخ",
-        "viewOnly": true
+        "section": "فراخ"
       },
       {
         "name": "وجبة فراخ مقلية",
@@ -5363,8 +5115,7 @@
         "step": 1,
         "id": "illustrative-fried-meal",
         "photo": "/img/catalog-original/menu-149-fried-meal.webp",
-        "section": "فراخ",
-        "viewOnly": true
+        "section": "فراخ"
       }
     ]
   },
@@ -5436,8 +5187,7 @@
         "step": 1,
         "id": "illustrative-fries",
         "photo": "/img/catalog-original/menu-107-fries.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       },
       {
         "name": "نص فرخة مشوية",
@@ -5447,8 +5197,7 @@
         "step": 1,
         "id": "illustrative-grilled-half",
         "photo": "/img/catalog-original/menu-149-grilled-half.webp",
-        "section": "فراخ",
-        "viewOnly": true
+        "section": "فراخ"
       },
       {
         "name": "فرخة مشوية",
@@ -5458,8 +5207,7 @@
         "step": 1,
         "id": "illustrative-grilled-whole",
         "photo": "/img/catalog-original/menu-149-grilled-whole.webp",
-        "section": "فراخ",
-        "viewOnly": true
+        "section": "فراخ"
       },
       {
         "name": "وجبة فراخ مقلية",
@@ -5469,8 +5217,7 @@
         "step": 1,
         "id": "illustrative-fried-meal",
         "photo": "/img/catalog-original/menu-149-fried-meal.webp",
-        "section": "فراخ",
-        "viewOnly": true
+        "section": "فراخ"
       }
     ]
   },
@@ -5542,8 +5289,7 @@
         "step": 1,
         "id": "illustrative-fries",
         "photo": "/img/catalog-original/menu-107-fries.webp",
-        "section": "إضافات",
-        "viewOnly": true
+        "section": "إضافات"
       },
       {
         "name": "نص فرخة مشوية",
@@ -5553,8 +5299,7 @@
         "step": 1,
         "id": "illustrative-grilled-half",
         "photo": "/img/catalog-original/menu-149-grilled-half.webp",
-        "section": "فراخ",
-        "viewOnly": true
+        "section": "فراخ"
       },
       {
         "name": "فرخة مشوية",
@@ -5564,8 +5309,7 @@
         "step": 1,
         "id": "illustrative-grilled-whole",
         "photo": "/img/catalog-original/menu-149-grilled-whole.webp",
-        "section": "فراخ",
-        "viewOnly": true
+        "section": "فراخ"
       },
       {
         "name": "وجبة فراخ مقلية",
@@ -5575,8 +5319,7 @@
         "step": 1,
         "id": "illustrative-fried-meal",
         "photo": "/img/catalog-original/menu-149-fried-meal.webp",
-        "section": "فراخ",
-        "viewOnly": true
+        "section": "فراخ"
       }
     ]
   },
@@ -5638,8 +5381,7 @@
         "step": 1,
         "id": "illustrative-broasted-4",
         "photo": "/img/catalog-original/menu-154-broasted-4.webp",
-        "section": "مقلي",
-        "viewOnly": true
+        "section": "مقلي"
       },
       {
         "name": "وجبة بانيه",
@@ -5649,8 +5391,7 @@
         "step": 1,
         "id": "illustrative-pane-meal",
         "photo": "/img/catalog-original/menu-154-pane-meal.webp",
-        "section": "مقلي",
-        "viewOnly": true
+        "section": "مقلي"
       },
       {
         "name": "أرز بالشعرية",
@@ -5660,8 +5401,7 @@
         "step": 1,
         "id": "illustrative-rice",
         "photo": "/img/catalog-missing/restaurant-154-rice.webp",
-        "section": "أطباق جانبية",
-        "viewOnly": true
+        "section": "أطباق جانبية"
       },
       {
         "name": "بطاطس محمرة",
@@ -5671,8 +5411,7 @@
         "step": 1,
         "id": "illustrative-fries",
         "photo": "/img/catalog-original/menu-154-fries.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       }
     ]
   },
@@ -5749,8 +5488,7 @@
         "step": 1,
         "id": "illustrative-wings",
         "photo": "/img/catalog-original/menu-153-wings.webp",
-        "section": "مقلي",
-        "viewOnly": true
+        "section": "مقلي"
       },
       {
         "name": "شاورما فراخ",
@@ -5760,8 +5498,7 @@
         "step": 1,
         "id": "illustrative-shawarma-chicken",
         "photo": "/img/catalog-original/menu-107-shawarma-chicken.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "شاورما لحمة",
@@ -5771,8 +5508,7 @@
         "step": 1,
         "id": "illustrative-shawarma-meat",
         "photo": "/img/catalog-original/menu-107-shawarma-meat.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "شيش طاووق",
@@ -5782,8 +5518,7 @@
         "step": 1,
         "id": "illustrative-taouk",
         "photo": "/img/catalog-original/menu-107-taouk.webp",
-        "section": "وجبات",
-        "viewOnly": true
+        "section": "وجبات"
       }
     ]
   },
@@ -5860,8 +5595,7 @@
         "step": 1,
         "id": "illustrative-liver",
         "photo": "/img/catalog-missing/restaurant-109-liver.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "كبدة إسكندراني",
@@ -5871,8 +5605,7 @@
         "step": 0.5,
         "id": "illustrative-liver-kg",
         "photo": "/img/catalog-missing/restaurant-109-liver-kg.webp",
-        "section": "بالكيلو",
-        "viewOnly": true
+        "section": "بالكيلو"
       },
       {
         "name": "حواوشي عادي",
@@ -5882,8 +5615,7 @@
         "step": 1,
         "id": "illustrative-hawawshi",
         "photo": "/img/catalog-original/menu-103-hawawshi.webp",
-        "section": "حواوشي",
-        "viewOnly": true
+        "section": "حواوشي"
       },
       {
         "name": "حواوشي بالجبنة",
@@ -5893,8 +5625,7 @@
         "step": 1,
         "id": "illustrative-hawawshi-cheese",
         "photo": "/img/catalog-original/menu-103-hawawshi-cheese.webp",
-        "section": "حواوشي",
-        "viewOnly": true
+        "section": "حواوشي"
       }
     ]
   },
@@ -5961,8 +5692,7 @@
         "step": 1,
         "id": "illustrative-liver",
         "photo": "/img/catalog-missing/restaurant-109-liver.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "كبدة إسكندراني",
@@ -5972,8 +5702,7 @@
         "step": 0.5,
         "id": "illustrative-liver-kg",
         "photo": "/img/catalog-missing/restaurant-109-liver-kg.webp",
-        "section": "بالكيلو",
-        "viewOnly": true
+        "section": "بالكيلو"
       },
       {
         "name": "ساندوتش مخ",
@@ -5983,8 +5712,7 @@
         "step": 1,
         "id": "illustrative-brain-sand",
         "photo": "/img/catalog-missing/restaurant-155-brain-sand.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "طاجن قوانص",
@@ -5994,8 +5722,7 @@
         "step": 1,
         "id": "illustrative-gizzard-tagen",
         "photo": "/img/catalog-original/menu-155-gizzard-tagen.webp",
-        "section": "طواجن",
-        "viewOnly": true
+        "section": "طواجن"
       }
     ]
   },
@@ -6072,8 +5799,7 @@
         "step": 1,
         "id": "illustrative-liver",
         "photo": "/img/catalog-missing/restaurant-109-liver.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "كبدة إسكندراني",
@@ -6083,8 +5809,7 @@
         "step": 0.5,
         "id": "illustrative-liver-kg",
         "photo": "/img/catalog-missing/restaurant-109-liver-kg.webp",
-        "section": "بالكيلو",
-        "viewOnly": true
+        "section": "بالكيلو"
       },
       {
         "name": "حواوشي عادي",
@@ -6094,8 +5819,7 @@
         "step": 1,
         "id": "illustrative-hawawshi",
         "photo": "/img/catalog-original/menu-103-hawawshi.webp",
-        "section": "حواوشي",
-        "viewOnly": true
+        "section": "حواوشي"
       },
       {
         "name": "حواوشي بالجبنة",
@@ -6105,8 +5829,7 @@
         "step": 1,
         "id": "illustrative-hawawshi-cheese",
         "photo": "/img/catalog-original/menu-103-hawawshi-cheese.webp",
-        "section": "حواوشي",
-        "viewOnly": true
+        "section": "حواوشي"
       }
     ]
   },
@@ -6173,8 +5896,7 @@
         "step": 1,
         "id": "illustrative-liver",
         "photo": "/img/catalog-missing/restaurant-109-liver.webp",
-        "section": "سندوتشات",
-        "viewOnly": true
+        "section": "سندوتشات"
       },
       {
         "name": "كبدة إسكندراني",
@@ -6184,8 +5906,7 @@
         "step": 0.5,
         "id": "illustrative-liver-kg",
         "photo": "/img/catalog-missing/restaurant-109-liver-kg.webp",
-        "section": "بالكيلو",
-        "viewOnly": true
+        "section": "بالكيلو"
       },
       {
         "name": "كبدة إسكندراني بالكيلو",
@@ -6195,8 +5916,7 @@
         "step": 0.25,
         "id": "illustrative-liver-kg-155",
         "photo": "/img/catalog-missing/restaurant-155-liver-kg.webp",
-        "section": "بالكيلو",
-        "viewOnly": true
+        "section": "بالكيلو"
       },
       {
         "name": "ممبار محشي",
@@ -6206,8 +5926,7 @@
         "step": 1,
         "id": "illustrative-mombar",
         "photo": "/img/catalog-original/menu-155-mombar.webp",
-        "section": "طواجن",
-        "viewOnly": true
+        "section": "طواجن"
       }
     ]
   },
@@ -6279,8 +5998,7 @@
         "step": 1,
         "id": "illustrative-beef-parcel",
         "photo": "/img/menu-expansion/beef-parcel.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "طاجن عكاوي",
@@ -6290,8 +6008,7 @@
         "step": 1,
         "id": "illustrative-oxtail-tagine",
         "photo": "/img/menu-expansion/oxtail-tagine.webp",
-        "section": "طواجن",
-        "viewOnly": true
+        "section": "طواجن"
       },
       {
         "name": "فتة باللحمة",
@@ -6301,8 +6018,7 @@
         "step": 1,
         "id": "illustrative-beef-fattah",
         "photo": "/img/menu-expansion/beef-fattah.webp",
-        "section": "أطباق جانبية",
-        "viewOnly": true
+        "section": "أطباق جانبية"
       },
       {
         "name": "شوربة خضار",
@@ -6312,8 +6028,7 @@
         "step": 1,
         "id": "illustrative-vegetable-soup",
         "photo": "/img/menu-expansion/vegetable-soup.webp",
-        "section": "شوربة",
-        "viewOnly": true
+        "section": "شوربة"
       }
     ]
   },
@@ -6380,8 +6095,7 @@
         "step": 1,
         "id": "illustrative-quail",
         "photo": "/img/catalog-original/menu-159-quail.webp",
-        "section": "حمام وسمان",
-        "viewOnly": true
+        "section": "حمام وسمان"
       },
       {
         "name": "ورقة لحمة بالخضار",
@@ -6391,8 +6105,7 @@
         "step": 1,
         "id": "illustrative-beef-parcel",
         "photo": "/img/menu-expansion/beef-parcel.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "طاجن عكاوي",
@@ -6402,8 +6115,7 @@
         "step": 1,
         "id": "illustrative-oxtail-tagine",
         "photo": "/img/menu-expansion/oxtail-tagine.webp",
-        "section": "طواجن",
-        "viewOnly": true
+        "section": "طواجن"
       },
       {
         "name": "فتة باللحمة",
@@ -6413,8 +6125,7 @@
         "step": 1,
         "id": "illustrative-beef-fattah",
         "photo": "/img/menu-expansion/beef-fattah.webp",
-        "section": "أطباق جانبية",
-        "viewOnly": true
+        "section": "أطباق جانبية"
       }
     ]
   },
@@ -6486,8 +6197,7 @@
         "step": 1,
         "id": "illustrative-beef-parcel",
         "photo": "/img/menu-expansion/beef-parcel.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "طاجن عكاوي",
@@ -6497,8 +6207,7 @@
         "step": 1,
         "id": "illustrative-oxtail-tagine",
         "photo": "/img/menu-expansion/oxtail-tagine.webp",
-        "section": "طواجن",
-        "viewOnly": true
+        "section": "طواجن"
       },
       {
         "name": "فتة باللحمة",
@@ -6508,8 +6217,7 @@
         "step": 1,
         "id": "illustrative-beef-fattah",
         "photo": "/img/menu-expansion/beef-fattah.webp",
-        "section": "أطباق جانبية",
-        "viewOnly": true
+        "section": "أطباق جانبية"
       },
       {
         "name": "شوربة خضار",
@@ -6519,8 +6227,7 @@
         "step": 1,
         "id": "illustrative-vegetable-soup",
         "photo": "/img/menu-expansion/vegetable-soup.webp",
-        "section": "شوربة",
-        "viewOnly": true
+        "section": "شوربة"
       }
     ]
   },
@@ -6592,8 +6299,7 @@
         "step": 1,
         "id": "illustrative-beef-parcel",
         "photo": "/img/menu-expansion/beef-parcel.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "طاجن عكاوي",
@@ -6603,8 +6309,7 @@
         "step": 1,
         "id": "illustrative-oxtail-tagine",
         "photo": "/img/menu-expansion/oxtail-tagine.webp",
-        "section": "طواجن",
-        "viewOnly": true
+        "section": "طواجن"
       },
       {
         "name": "فتة باللحمة",
@@ -6614,8 +6319,7 @@
         "step": 1,
         "id": "illustrative-beef-fattah",
         "photo": "/img/menu-expansion/beef-fattah.webp",
-        "section": "أطباق جانبية",
-        "viewOnly": true
+        "section": "أطباق جانبية"
       },
       {
         "name": "شوربة خضار",
@@ -6625,8 +6329,7 @@
         "step": 1,
         "id": "illustrative-vegetable-soup",
         "photo": "/img/menu-expansion/vegetable-soup.webp",
-        "section": "شوربة",
-        "viewOnly": true
+        "section": "شوربة"
       }
     ]
   },
@@ -6698,8 +6401,7 @@
         "step": 1,
         "id": "illustrative-beef-parcel",
         "photo": "/img/menu-expansion/beef-parcel.webp",
-        "section": "أطباق",
-        "viewOnly": true
+        "section": "أطباق"
       },
       {
         "name": "طاجن عكاوي",
@@ -6709,8 +6411,7 @@
         "step": 1,
         "id": "illustrative-oxtail-tagine",
         "photo": "/img/menu-expansion/oxtail-tagine.webp",
-        "section": "طواجن",
-        "viewOnly": true
+        "section": "طواجن"
       },
       {
         "name": "فتة باللحمة",
@@ -6720,8 +6421,7 @@
         "step": 1,
         "id": "illustrative-beef-fattah",
         "photo": "/img/menu-expansion/beef-fattah.webp",
-        "section": "أطباق جانبية",
-        "viewOnly": true
+        "section": "أطباق جانبية"
       },
       {
         "name": "شوربة خضار",
@@ -6731,8 +6431,7 @@
         "step": 1,
         "id": "illustrative-vegetable-soup",
         "photo": "/img/menu-expansion/vegetable-soup.webp",
-        "section": "شوربة",
-        "viewOnly": true
+        "section": "شوربة"
       }
     ]
   },
@@ -6799,8 +6498,7 @@
         "step": 0.5,
         "id": "illustrative-qatayef",
         "photo": "/img/catalog-original/menu-113-qatayef.webp",
-        "section": "شرقي",
-        "viewOnly": true
+        "section": "شرقي"
       },
       {
         "name": "مهلبية",
@@ -6810,8 +6508,7 @@
         "step": 1,
         "id": "illustrative-mahalabia",
         "photo": "/img/catalog-original/menu-165-mahalabia.webp",
-        "section": "حلو",
-        "viewOnly": true
+        "section": "حلو"
       },
       {
         "name": "آيس كريم",
@@ -6821,8 +6518,7 @@
         "step": 1,
         "id": "illustrative-icecream",
         "photo": "/img/catalog-original/menu-165-icecream.webp",
-        "section": "حلو بارد",
-        "viewOnly": true
+        "section": "حلو بارد"
       },
       {
         "name": "عصير قصب",
@@ -6832,8 +6528,7 @@
         "step": 1,
         "id": "illustrative-cane",
         "photo": "/img/catalog-original/menu-165-cane.webp",
-        "section": "عصاير",
-        "viewOnly": true
+        "section": "عصاير"
       }
     ]
   },
@@ -6910,8 +6605,7 @@
         "step": 0.5,
         "id": "illustrative-qatayef",
         "photo": "/img/catalog-original/menu-113-qatayef.webp",
-        "section": "شرقي",
-        "viewOnly": true
+        "section": "شرقي"
       },
       {
         "name": "أرز بلبن",
@@ -6921,8 +6615,7 @@
         "step": 1,
         "id": "illustrative-roz",
         "photo": "/img/catalog-original/menu-113-roz.webp",
-        "section": "حلو",
-        "viewOnly": true
+        "section": "حلو"
       },
       {
         "name": "جاتوه",
@@ -6932,8 +6625,7 @@
         "step": 1,
         "id": "illustrative-gateau",
         "photo": "/img/catalog-original/menu-164-gateau.webp",
-        "section": "غربي",
-        "viewOnly": true
+        "section": "غربي"
       },
       {
         "name": "تورتة شوكولاتة",
@@ -6943,8 +6635,7 @@
         "step": 1,
         "id": "illustrative-torta",
         "photo": "/img/catalog-original/menu-164-torta.webp",
-        "section": "غربي",
-        "viewOnly": true
+        "section": "غربي"
       }
     ]
   },
@@ -7006,8 +6697,7 @@
         "step": 0.25,
         "id": "illustrative-baklava",
         "photo": "/img/catalog-original/menu-164-baklava.webp",
-        "section": "شرقي",
-        "viewOnly": true
+        "section": "شرقي"
       },
       {
         "name": "غريبة",
@@ -7017,8 +6707,7 @@
         "step": 0.25,
         "id": "illustrative-ghorayeba",
         "photo": "/img/catalog-original/menu-164-ghorayeba.webp",
-        "section": "شرقي",
-        "viewOnly": true
+        "section": "شرقي"
       },
       {
         "name": "جاتوه",
@@ -7028,8 +6717,7 @@
         "step": 1,
         "id": "illustrative-gateau",
         "photo": "/img/catalog-original/menu-164-gateau.webp",
-        "section": "غربي",
-        "viewOnly": true
+        "section": "غربي"
       },
       {
         "name": "أم علي",
@@ -7039,8 +6727,7 @@
         "step": 1,
         "id": "illustrative-omali",
         "photo": "/img/catalog-original/menu-164-omali.webp",
-        "section": "حلو",
-        "viewOnly": true
+        "section": "حلو"
       }
     ]
   },
@@ -7107,8 +6794,7 @@
         "step": 1,
         "id": "illustrative-fruit-salad",
         "photo": "/img/catalog-missing/restaurant-168-fruit-salad.webp",
-        "section": "كوكتيل",
-        "viewOnly": true
+        "section": "كوكتيل"
       },
       {
         "name": "سوبيا",
@@ -7118,8 +6804,7 @@
         "step": 1,
         "id": "illustrative-sobia",
         "photo": "/img/catalog-missing/restaurant-168-sobia.webp",
-        "section": "مشروبات بلدي",
-        "viewOnly": true
+        "section": "مشروبات بلدي"
       },
       {
         "name": "عصير جوافة",
@@ -7129,8 +6814,7 @@
         "step": 1,
         "id": "illustrative-guava",
         "photo": "/img/catalog-missing/restaurant-169-guava.webp",
-        "section": "عصاير طازة",
-        "viewOnly": true
+        "section": "عصاير طازة"
       },
       {
         "name": "كوكتيل فواكه",
@@ -7140,8 +6824,7 @@
         "step": 1,
         "id": "illustrative-cocktail",
         "photo": "/img/catalog-original/menu-169-cocktail.webp",
-        "section": "كوكتيل",
-        "viewOnly": true
+        "section": "كوكتيل"
       }
     ]
   },
@@ -7203,8 +6886,7 @@
         "step": 1,
         "id": "illustrative-orange",
         "photo": "/img/catalog-original/menu-114-orange.webp",
-        "section": "عصاير طازة",
-        "viewOnly": true
+        "section": "عصاير طازة"
       },
       {
         "name": "كركديه",
@@ -7214,8 +6896,7 @@
         "step": 1,
         "id": "illustrative-karkade",
         "photo": "/img/catalog-original/menu-114-karkade.webp",
-        "section": "مشروبات بلدي",
-        "viewOnly": true
+        "section": "مشروبات بلدي"
       },
       {
         "name": "تمر هندي",
@@ -7225,8 +6906,7 @@
         "step": 1,
         "id": "illustrative-tamarind",
         "photo": "/img/catalog-missing/restaurant-167-tamarind.webp",
-        "section": "مشروبات بلدي",
-        "viewOnly": true
+        "section": "مشروبات بلدي"
       },
       {
         "name": "عصير جوافة",
@@ -7236,8 +6916,7 @@
         "step": 1,
         "id": "illustrative-guava",
         "photo": "/img/catalog-missing/restaurant-169-guava.webp",
-        "section": "عصاير طازة",
-        "viewOnly": true
+        "section": "عصاير طازة"
       }
     ]
   },
@@ -7314,8 +6993,7 @@
         "step": 1,
         "id": "illustrative-karkade",
         "photo": "/img/catalog-original/menu-114-karkade.webp",
-        "section": "مشروبات بلدي",
-        "viewOnly": true
+        "section": "مشروبات بلدي"
       },
       {
         "name": "فروت سلاد",
@@ -7325,8 +7003,7 @@
         "step": 1,
         "id": "illustrative-fruit-salad",
         "photo": "/img/catalog-missing/restaurant-168-fruit-salad.webp",
-        "section": "كوكتيل",
-        "viewOnly": true
+        "section": "كوكتيل"
       },
       {
         "name": "عصير رمان",
@@ -7336,8 +7013,7 @@
         "step": 1,
         "id": "illustrative-pomegranate-juice",
         "photo": "/img/menu-expansion/pomegranate-juice.webp",
-        "section": "عصاير طازة",
-        "viewOnly": true
+        "section": "عصاير طازة"
       },
       {
         "name": "عصير جزر",
@@ -7347,8 +7023,7 @@
         "step": 1,
         "id": "illustrative-carrot-juice",
         "photo": "/img/menu-expansion/carrot-juice.webp",
-        "section": "عصاير طازة",
-        "viewOnly": true
+        "section": "عصاير طازة"
       }
     ]
   },
@@ -7425,8 +7100,7 @@
         "step": 1,
         "id": "illustrative-karkade",
         "photo": "/img/catalog-original/menu-114-karkade.webp",
-        "section": "مشروبات بلدي",
-        "viewOnly": true
+        "section": "مشروبات بلدي"
       },
       {
         "name": "سوبيا",
@@ -7436,8 +7110,7 @@
         "step": 1,
         "id": "illustrative-sobia",
         "photo": "/img/catalog-missing/restaurant-168-sobia.webp",
-        "section": "مشروبات بلدي",
-        "viewOnly": true
+        "section": "مشروبات بلدي"
       },
       {
         "name": "عصير رمان",
@@ -7447,8 +7120,7 @@
         "step": 1,
         "id": "illustrative-pomegranate-juice",
         "photo": "/img/menu-expansion/pomegranate-juice.webp",
-        "section": "عصاير طازة",
-        "viewOnly": true
+        "section": "عصاير طازة"
       },
       {
         "name": "عصير جزر",
@@ -7458,8 +7130,7 @@
         "step": 1,
         "id": "illustrative-carrot-juice",
         "photo": "/img/menu-expansion/carrot-juice.webp",
-        "section": "عصاير طازة",
-        "viewOnly": true
+        "section": "عصاير طازة"
       }
     ]
   }
