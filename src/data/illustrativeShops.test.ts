@@ -12,7 +12,7 @@ describe('illustrative spice and stationery shops', () => {
       const rows = ILLUSTRATIVE_SHOPS.filter(s => s.kind === kind);
       expect(rows).toHaveLength(8);
       expect(SHOPS.filter(s => s.kind === kind)).toHaveLength(9);
-      expect(rows.every(s => s.id < 0 && s.demo && s.time === 'للعرض فقط' && !s.name.includes('تجريبية'))).toBe(true);
+      expect(rows.every(s => s.id < 0 && s.demo && s.time === '' && !s.name.includes('تجريبية'))).toBe(true);
       expect(rows.every(s => (productsForShop(s)?.length ?? 0) > 0)).toBe(true);
     }
     expect(new Set(ILLUSTRATIVE_SHOPS.map(s => s.id)).size).toBe(16);

@@ -836,7 +836,7 @@ function ResultRow({
         <TilePicture photo={entry.shop.photo} emoji={entry.shop.emoji} />
       </span>
     );
-    meta = entry.shop.demo ? "للعرض فقط" : entry.shop.open ? "مفتوح" : "مغلق";
+    meta = entry.shop.demo ? "" : entry.shop.open ? "مفتوح" : "مغلق";
     metaTone = entry.shop.open ? "text-success" : "text-danger";
   } else if (entry.type === "product") {
     thumb = (
@@ -844,7 +844,7 @@ function ResultRow({
         <TilePicture photo={entry.product.photo} emoji={entry.product.emoji} />
       </span>
     );
-    meta = `${entry.product.viewOnly ? "للعرض فقط · " : ""}${formatCurrency(entry.product.price)}${entry.product.unit ? ` / ${entry.product.unit}` : ""}`;
+    meta = `${formatCurrency(entry.product.price)}${entry.product.unit ? ` / ${entry.product.unit}` : ""}`;
     subtitle = `${entry.shop.name}${entry.shop.open ? "" : " · مغلق دلوقتي"}`;
   } else if (entry.type === "service") {
     thumb = (
