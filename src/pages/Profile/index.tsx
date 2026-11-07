@@ -1,3 +1,4 @@
+import { ChevronLeft, House, MessagesSquare, Megaphone, Share2, Link2, UserRound, Camera, Trash2 } from 'lucide-react';
 
 // ─── Imports
 import React, { useEffect, useRef, useState } from 'react';
@@ -285,7 +286,7 @@ export default function ProfilePage() {
       {/* User Information Form */}
       <div className="bg-white rounded-2xl p-5 shadow-sm mb-5">
         <div className="flex items-center justify-between mb-3.5">
-          <h3 className="text-base font-extrabold">👤 بيانات الحساب والعنوان</h3>
+          <h3 className="text-base font-extrabold"><UserRound size={18} aria-hidden="true" className="inline-block align-middle" /> بيانات الحساب والعنوان</h3>
           {!isEditing && (
             <button
               type="button"
@@ -403,9 +404,9 @@ export default function ProfilePage() {
         className="flex items-center justify-between bg-white rounded-2xl px-5 py-4 shadow-sm mb-5 min-h-[44px] font-extrabold text-sm text-green-dark transition-colors hover:bg-cream"
       >
         <span>
-          <span aria-hidden="true">🏡</span> عن قريتي
+          <House size={18} aria-hidden="true" className="inline-block align-middle" /> عن قريتي
         </span>
-        <span aria-hidden="true">⬅️</span>
+        <ChevronLeft size={20} aria-hidden="true" />
       </Link>
 
       {/* WhatsApp groups until the platform launches */}
@@ -414,9 +415,9 @@ export default function ProfilePage() {
         className="flex items-center justify-between bg-white rounded-2xl px-5 py-4 shadow-sm mb-5 min-h-[44px] font-extrabold text-sm text-green-dark transition-colors hover:bg-cream"
       >
         <span>
-          <span aria-hidden="true">💬</span> جروبات قريتي على واتساب
+          <MessagesSquare size={18} aria-hidden="true" className="inline-block align-middle" /> جروبات قريتي على واتساب
         </span>
-        <span aria-hidden="true">⬅️</span>
+        <ChevronLeft size={20} aria-hidden="true" />
       </Link>
 
       {/* Profile photo picker */}
@@ -449,7 +450,7 @@ export default function ProfilePage() {
             disabled={photoBusy}
             className="w-full min-h-[46px]"
           >
-            {photoBusy ? '⏳ بنحفظ الصورة...' : '📷 اختار صورة جديدة'}
+            <Camera size={18} aria-hidden="true" /> {photoBusy ? 'بنحفظ الصورة...' : 'اختار صورة جديدة'}
           </Button>
           {avatarUrl && (
             <Button
@@ -458,7 +459,7 @@ export default function ProfilePage() {
               disabled={photoBusy}
               className="w-full min-h-[46px]"
             >
-              🗑️ شيل الصورة
+              <Trash2 size={18} aria-hidden="true" /> شيل الصورة
             </Button>
           )}
           <p className="text-[12px] text-text-muted m-0 text-center">
@@ -506,7 +507,7 @@ export default function ProfilePage() {
       <div className="bg-linear-to-br from-[#1e3a8a] to-[#3b82f6] text-white rounded-2xl p-4 sm:p-5 flex flex-col gap-3">
         <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-5">
           <div className="min-w-0 flex-1">
-            <h4 className="text-[15px] sm:text-base font-extrabold leading-snug mb-1 text-balance">📢 ادعُ أصحابك واكسبوا سوا</h4>
+            <h4 className="text-[15px] sm:text-base font-extrabold leading-snug mb-1 text-balance"><Megaphone size={18} aria-hidden="true" className="inline-block align-middle" /> ادعُ أصحابك واكسبوا سوا</h4>
             <p className="text-xs leading-relaxed opacity-85">
               {user
                 ? 'صاحبك يكسب 25 نقطة هدية لما يسجّل من لينكك، وانت تكسب 50 نقطة أول ما يخلّص أول طلب ليه'
@@ -519,7 +520,7 @@ export default function ProfilePage() {
             className="shrink-0 whitespace-nowrap min-h-[40px] px-4"
             onClick={handleShareApp}
           >
-            مشاركة الرابط 📤
+            مشاركة الرابط <Share2 size={17} aria-hidden="true" />
           </Button>
         </div>
         {user && referral?.code && (
@@ -534,7 +535,7 @@ export default function ProfilePage() {
                 className="shrink-0 whitespace-nowrap min-h-[36px] px-3"
                 onClick={handleCopyCode}
               >
-                نسخ اللينك 🔗
+                نسخ اللينك <Link2 size={17} aria-hidden="true" />
               </Button>
             </div>
             <p className="text-[12px] leading-relaxed opacity-85 m-0">

@@ -93,7 +93,8 @@ export function createSupabaseAddressRepo(getClient: () => Promise<SupabaseClien
     },
     async remove(id) {
       const supabase = await getClient();
-      const { error } = await supabase.from('user_addresses').delete().eq('id', id);
+      const { error } = await supabase.rpc('delete_saved_address', { p_id: id });
+      if (error?.code === '23514') throw new RepoError('rejected', 'ضيف عنوان تاني الأول قبل ما تمسح عنوانك الأساسي.', { cause: error });
       check(error);
     },
     async setDefault(id) {

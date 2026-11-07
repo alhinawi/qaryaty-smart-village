@@ -1,3 +1,4 @@
+import { canDeleteAddress, LAST_ADDRESS_MESSAGE } from '@/utils/addressDeletion';
 // ─── Addresses kept on this device (guests and the demo mode)
 import { getBrowserStorage, readJson, writeJson, type KeyValueStorage } from '@/services/storage';
 import type { UserAddress } from '@/types';
@@ -35,6 +36,7 @@ export function createLocalAddressRepo(storage: KeyValueStorage = getBrowserStor
     },
     async remove(id) {
       const list = read();
+      if (!canDeleteAddress(list, id)) throw new Error(LAST_ADDRESS_MESSAGE);
       const removed = list.find((a) => a.id === id);
       let left = list.filter((a) => a.id !== id);
       if (removed?.isDefault && left.length > 0) {
