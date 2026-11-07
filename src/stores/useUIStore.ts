@@ -186,7 +186,9 @@ export const useUIStore = create<UIState>()(
 
 /** What the drawer and the bell badge show: real server notifications first,
  *  and every real one replaces one of the sample notifications (they stay
- *  until enough real ones arrive — nothing is deleted up front). */
-export function selectMergedNotifications(state: UIState): AppNotification[] {
-  return [...state.remoteNotifications, ...state.notifications.slice(state.remoteNotifications.length)];
+ *  until enough real ones arrive — nothing is deleted up front).
+ *  A pure helper, not a store selector: components merge with useMemo, since a
+ *  selector returning a fresh array loops React's snapshot check forever. */
+export function mergeNotifications(remote: AppNotification[], local: AppNotification[]): AppNotification[] {
+  return [...remote, ...local.slice(remote.length)];
 }
