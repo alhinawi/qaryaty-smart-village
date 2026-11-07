@@ -338,3 +338,100 @@ body {
   font-size: 10px;
   border-radius: 6px 0 0 6px;
 }
+
+/* Dark mode changes surfaces and ink, never photos or the green/gold action colors. */
+html[data-theme='dark'] {
+  --color-cream: #101b17;
+  --color-text: #edf4ee;
+  --color-text-muted: #aebdb4;
+  --shadow-card: 0 4px 20px rgb(0 0 0 / .22);
+  --shadow-card-hover: 0 12px 36px rgb(0 0 0 / .35);
+  background: #101b17;
+  color: #edf4ee;
+}
+html[data-theme='dark'] :is(.bg-white, .bg-white\/95, .bg-white\/90, .bg-white\/80, .bg-white\/70) { background-color: #1b2b23; }
+html[data-theme='dark'] :is(.bg-gray-50,.bg-gray-100,.bg-slate-50) { background-color: #24362c; }
+html[data-theme='dark'] :is(.text-green-dark,.text-green,.text-success) { color: #8bdda8; }
+html[data-theme='dark'] :is(.text-gray-400,.text-gray-500,.text-gray-600,.text-gray-700,.text-gray-800,.text-gray-900) { color: #b9c7bf; }
+html[data-theme='dark'] :is(.border-gray-100,.border-gray-200,.border-gray-300,.border-green\/10,.border-green\/15,.border-green\/20) { border-color: #3d5547; }
+html[data-theme='dark'] :is(.bg-green\/5,.bg-green\/8,.bg-green\/10,.bg-green\/15) { background-color: #213c2e; }
+html[data-theme='dark'] :is(.bg-amber-50,.bg-amber-100,.bg-yellow-50,.bg-yellow-100) { background-color: #3c321c; color: #f9d994; }
+html[data-theme='dark'] :is(.text-amber-900,.text-amber-950,.text-yellow-800) { color: #f9d994; }
+html[data-theme='dark'] :is(.bg-red-50,.bg-red-100) { background-color: #412a2b; color: #ffb2b2; }
+html[data-theme='dark'] :is(.text-red-600,.text-red-700,.text-danger) { color: #ffb2b2; }
+html[data-theme='dark'] :is(.bg-green-50,.bg-green-100) { background-color: #203d2c; }
+html[data-theme='dark'] :is(.text-green-700,.text-green-800) { color: #9ee8b5; }
+html[data-theme='dark'] :is(.bg-blue-50,.bg-blue-100,.bg-indigo-50) { background-color: #24364b; }
+html[data-theme='dark'] :is(.text-blue-600,.text-blue-700,.text-blue-800,.text-indigo-600,.text-indigo-700) { color: #b4d2ff; }
+html[data-theme='dark'] .phone-cc { background: #1b2b23; border-color: #3d5547; }
+html[data-theme='dark'] :is(input,select,textarea) { color-scheme: dark; }
+html[data-theme='dark'] .form-group :is(input,select,textarea):focus { background: #24362c; }
+html[data-theme='dark'] ::placeholder { color: #9bad9f; }
+html[data-theme='dark'] :focus-visible { outline-color: #ffc72c; }
+
+/* Legacy pale panels mapped to dark surfaces. */
+html[data-theme='dark'] [class~='bg-[#E0F2FE]'],
+html[data-theme='dark'] [class~='bg-[#E6F4EC]'],
+html[data-theme='dark'] [class~='bg-[#E8F0FE]'],
+html[data-theme='dark'] [class~='bg-[#EEF0F2]'],
+html[data-theme='dark'] [class~='bg-[#FCE7F3]'],
+html[data-theme='dark'] [class~='bg-[#FDECEC]'],
+html[data-theme='dark'] [class~='bg-[#FFF3CD]'],
+html[data-theme='dark'] [class~='bg-[#FFF8E1]'],
+html[data-theme='dark'] [class~='bg-[#dcfce7]'],
+html[data-theme='dark'] [class~='bg-[#e8eee9]'],
+html[data-theme='dark'] [class~='bg-[#e8f5ee]'],
+html[data-theme='dark'] [class~='bg-[#eef2ff]'],
+html[data-theme='dark'] [class~='bg-[#eff6ff]'],
+html[data-theme='dark'] [class~='bg-[#f3faf6]'],
+html[data-theme='dark'] [class~='bg-[#f5eedd]'],
+html[data-theme='dark'] [class~='bg-[#f6faf7]'],
+html[data-theme='dark'] [class~='bg-[#f9fafb]'],
+html[data-theme='dark'] [class~='bg-[#fee2e2]'],
+html[data-theme='dark'] [class~='bg-[#fef2f2]'],
+html[data-theme='dark'] [class~='bg-[#fef3c7]'],
+html[data-theme='dark'] [class~='bg-[#fff7e6]'],
+html[data-theme='dark'] [class~='bg-[#fff7ed]'],
+html[data-theme='dark'] [class~='bg-[#fff8e6]'],
+html[data-theme='dark'] [class~='bg-[#fffbeb]'] { background-color: #24362c; }
+html[data-theme='dark'] .bg-gold { color: #16351f; }
+html[data-theme='dark'] .bg-gold :is(.text-green,.text-green-dark) { color: #16351f; }
+html[data-theme='dark'] .form-group label { color: #8bdda8; }
+html[data-theme='dark'] [class~='text-[#b45309]'], html[data-theme='dark'] [class~='text-[#d97706]'], html[data-theme='dark'] [class~='text-[#7a4b00]'] { color: #f9d994; }
+/* Unpublished ?dark=1..10 design sampler. No change to persisted theme. */
+html[data-palette] {
+  --color-cream: var(--preview-bg); --color-text: var(--preview-ink); --color-text-muted: var(--preview-muted);
+  --color-green: var(--preview-accent); --color-green-dark: var(--preview-actionInk); --color-gold: var(--preview-gold);
+  background: var(--preview-bg); color: var(--preview-ink);
+}
+html[data-palette] :is(.bg-white,.bg-white\/95,.bg-white\/90,.bg-white\/80,.bg-white\/70) { background: var(--preview-surface); }
+html[data-palette] :is(.bg-gray-50,.bg-gray-100,.bg-slate-50,.bg-green\/5,.bg-green\/8,.bg-green\/10,.bg-green\/15,.bg-green-50,.bg-green-100) { background: var(--preview-raised); }
+html[data-palette] :is(.text-green-dark,.text-green,.text-success,.text-green-700,.text-green-800), html[data-palette] .form-group label { color: var(--preview-accent); }
+html[data-palette] :is(.text-gray-400,.text-gray-500,.text-gray-600,.text-gray-700,.text-gray-800,.text-gray-900) { color: var(--preview-muted); }
+html[data-palette] :is(.border-gray-100,.border-gray-200,.border-gray-300,.border-green\/10,.border-green\/15,.border-green\/20) { border-color: var(--preview-border); }
+html[data-palette] .bg-green { background: #1a7a4a; color: #ffffff; }
+html[data-palette] .bg-gold, html[data-palette] .bg-gold :is(.text-green,.text-green-dark) { color: var(--preview-actionInk); }
+html[data-palette] [class*='bg-linear'], html[data-palette] [class*='bg-gradient'] { background-image: linear-gradient(135deg,var(--preview-hero),var(--preview-heroEnd)); }
+html[data-palette] [class*='bg-linear'] .text-white, html[data-palette] [class*='bg-gradient'] .text-white { color: var(--preview-ink); }
+html[data-palette='dark-9'] .bg-white { background: linear-gradient(145deg,#173d46ee,#102e36f0); box-shadow: inset 0 1px 0 #98e5e126,0 8px 24px #0002; backdrop-filter: blur(12px); border-color: #49828766; }
+
+html[data-palette] { --color-green: #1a7a4a; --color-green-dark: #125936; --color-gold: #ffc72c; }
+html[data-palette][data-theme='light'] :is(.text-green-dark,.text-green,.text-success,.text-green-700,.text-green-800) { color: #176b42; }
+html[data-palette] .bg-green .text-green, html[data-palette] .bg-green .text-green-dark { color: #ffffff; }
+html[data-palette][data-theme='light'] header[class*='bg-linear'] { background-image: linear-gradient(135deg,#125936,#1a7a4a); }
+html[data-palette] header[class*='bg-linear'] .text-white { color: #ffffff; }
+html[data-palette] .bg-gold, html[data-palette] .bg-gold :is(.text-green,.text-green-dark) { color: #16351f; }
+html[data-palette] .bg-green { color: #ffffff; }
+html[data-palette][data-theme] .bg-gold, html[data-palette][data-theme] .bg-gold :is(.text-green,.text-green-dark) { color: #16351f; }
+/* Clearly distinct light treatments; actions remain Qaryati green/gold. */
+html[data-theme='light'][data-palette='light-2'] header[class*='bg-linear'], html[data-theme='light'][data-palette='light-3'] header[class*='bg-linear'], html[data-theme='light'][data-palette='light-4'] header[class*='bg-linear'], html[data-theme='light'][data-palette='light-6'] header[class*='bg-linear'] { background-image: none; color: #125936; }
+html[data-theme='light'][data-palette='light-2'] header[class*='bg-linear'] { background-color: #fff4d7; border-bottom: 4px solid #c49b2c; }
+html[data-theme='light'][data-palette='light-3'] header[class*='bg-linear'] { background-color: #b8dbc5; border-bottom: 2px solid #1a7a4a; }
+html[data-theme='light'][data-palette='light-4'] header[class*='bg-linear'] { background-color: #f6f9fb; border-bottom: 1px solid #8da79a; }
+html[data-theme='light'][data-palette='light-6'] header[class*='bg-linear'] { background-color: #f7df7e; border-bottom: 4px solid #1a7a4a; }
+html:is([data-palette='light-2'],[data-palette='light-3'],[data-palette='light-4'],[data-palette='light-6']) header[class*='bg-linear'] [class*='text-white'] { color: #125936; }
+html:is([data-palette='light-2'],[data-palette='light-3'],[data-palette='light-4'],[data-palette='light-6']) header[class*='bg-linear'] button { border-color: #8fae9c; }
+html[data-theme='light'][data-palette='light-5'] .bg-white { border: 2px solid #125936; box-shadow: none; border-radius: 12px; }
+html[data-theme='light'][data-palette='light-4'] .bg-white { border-radius: 12px; box-shadow: 0 6px 20px #253e4c14; }
+html[data-theme='light'][data-palette='light-2'] .bg-white { border-color: #b59859; box-shadow: 0 5px 0 #d4c18f55; }
+html[data-theme='light'][data-palette='light-6'] .bg-white { border-color: #7f9d62; }

@@ -11,6 +11,8 @@ import { DEVELOPER_NAME } from '@/config/developer';
 import { ROUTES } from '@/routes';
 import { DeveloperLinks } from './DeveloperLinks';
 
+
+
 // ─── Types
 interface MobileMenuProps {
   isOpen: boolean;
@@ -166,6 +168,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             <ChevronLeft size={18} className="text-text-muted shrink-0" aria-hidden="true" />
           </Link>
 
+          <Link to="/settings" className="flex justify-between items-center rounded-2xl bg-white border border-green/15 p-4 my-3 text-green font-bold">الإعدادات <span aria-hidden="true">‹</span></Link>
           {sections.map((section) => (
             <div key={section.id} className="mt-2">
               {section.title && (
