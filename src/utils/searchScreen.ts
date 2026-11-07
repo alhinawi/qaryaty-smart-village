@@ -15,6 +15,7 @@ import { FOOD_TYPE_LABELS, productsForShop, sectionsOf } from '@/data/catalog';
 import { SUBJECT_LABELS } from '@/data/teachers';
 import { providerRoleLabel } from '@/utils/people';
 import { gridServices } from '@/utils/peopleSections';
+import { imageForService } from '@/config/serviceImages';
 import { normalizeArabic } from '@/utils/arabicSearch';
 
 // ─── Shop kinds
@@ -327,11 +328,17 @@ function foodTiles(shops: Shop[]): ExploreTile[] {
 
 function kindTiles(shops: Shop[]): ExploreTile[] {
   const kinds = [...new Set(shops.filter((s) => s.kind !== 'restaurant').map((s) => s.kind ?? 'other'))];
+  const used = new Set<string>();
   return kinds
     .filter((kind) => kind !== 'other')
     .map((kind) => {
       const { label, emoji } = shopKindLabel(kind, shops);
-      return { key: `kind-${kind}`, label, emoji, term: label };
+      // The kind's real photo from one of its shops, preferring one no other
+      // tile shows yet; the emoji stays only for kinds with no photo at all.
+      const withPhoto = shops.filter((s) => (s.kind ?? 'other') === kind && s.photo);
+      const pick = withPhoto.find((s) => !used.has(s.photo as string)) ?? withPhoto[0];
+      if (pick?.photo) used.add(pick.photo);
+      return { key: `kind-${kind}`, label, emoji, photo: smallPhoto(pick?.photo), term: label };
     });
 }
 
@@ -342,7 +349,7 @@ function sectionTiles(shops: Shop[]): ExploreTile[] {
     for (const section of sectionsOf(products)) {
       if (!section || sections.has(section)) continue;
       const first = products.find((p) => p.section === section);
-      sections.set(section, { key: `section-${section}`, label: section, emoji: first?.emoji ?? shop.emoji, term: section });
+      sections.set(section, { key: `section-${section}`, label: section, emoji: first?.emoji ?? shop.emoji, photo: smallPhoto(first?.photo ?? shop.photo), term: section });
     }
   }
   return [...sections.values()];
@@ -358,18 +365,18 @@ export function exploreTiles(tab: SearchTabId, shops: Shop[], index: SearchEntry
   // A category: its people's subjects (teachers), then its services, from what the index can find
   const seen = new Set<string>();
   const tiles: ExploreTile[] = [];
-  const add = (label: string, emoji: string) => {
+  const add = (label: string, emoji: string, photo?: string) => {
     if (!label || seen.has(normalizeArabic(label))) return;
     seen.add(normalizeArabic(label));
-    tiles.push({ key: `tile-${label}`, label, emoji, term: label });
+    tiles.push({ key: `tile-${label}`, label, emoji, photo: smallPhoto(photo), term: label });
   };
   for (const entry of index) {
     if (entry.type === 'person' && entry.tabs.includes(tab) && entry.provider.subject) {
-      add(SUBJECT_LABELS[entry.provider.subject], entry.service.emoji);
+      add(SUBJECT_LABELS[entry.provider.subject], entry.service.emoji, entry.provider.photo ?? undefined);
     }
   }
   for (const entry of index) {
-    if (entry.type === 'service' && entry.tabs.includes(tab)) add(entry.service.name, entry.service.emoji);
+    if (entry.type === 'service' && entry.tabs.includes(tab)) add(entry.service.name, entry.service.emoji, imageForService(entry.service));
   }
   return tiles;
 }
