@@ -1,10 +1,10 @@
+import { setDemoModeFlag } from '@/config/demoMode';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { useProviderDashboardStore } from './useProviderDashboardStore';
 
 const shopId = 42;
 
-const reset = () =>
-  useProviderDashboardStore.setState({ merchants: {}, professionals: {} });
+const reset = () => { setDemoModeFlag(true); useProviderDashboardStore.setState({ merchants: {}, professionals: {} }); };
 
 const merchant = () => useProviderDashboardStore.getState().merchants[shopId];
 
