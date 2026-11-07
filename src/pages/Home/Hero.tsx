@@ -1,47 +1,39 @@
-// ─── Imports
-import { Button } from '@/components/ui/Button';
-import { PeoplePhoto } from '@/components/ui/PeoplePhoto';
-import type { OrderModalData } from '@/types';
+import { useEffect, useRef, useState } from 'react';
+import { ChevronLeft, Pause, Play } from 'lucide-react';
+import { HERO_SLIDES } from './heroSlides';
 
-// ─── Types
-interface HeroProps {
-  onOpenOrder: (data: OrderModalData) => void;
-}
-
-// ─── Component
-export function Hero({ onOpenOrder }: HeroProps) {
-  const handleClick = () => {
-    onOpenOrder({
-      emoji: '🚀',
-      name: 'اطلب دلوقتي',
-      desc: 'اختار الخدمة اللي محتاجها وهنوصلهالك في أسرع وقت',
-    });
-  };
-
+interface HeroProps { onSelectService: (serviceId: number) => void; }
+export function Hero({ onSelectService }: HeroProps) {
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const touchX = useRef<number | null>(null);
+  useEffect(() => {
+    if (paused || hovered || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const timer = window.setTimeout(() => setIndex(current => (current + 1) % HERO_SLIDES.length), 5500);
+    return () => window.clearTimeout(timer);
+  }, [index, paused, hovered]);
   return (
-    <section className="bg-linear-to-br from-green to-green-dark rounded-2xl p-6 relative overflow-hidden text-white mb-6 flex flex-col justify-between md:flex-row md:items-center md:py-9 md:px-10" aria-label="بانر البداية">
-      <div className="relative z-2 max-w-[580px]">
-        <div className="inline-block bg-gold text-black text-[0.8125rem] font-extrabold px-3 py-1 rounded-full mb-3">🌟 القرية الذكية</div>
-        <h2 className="text-[clamp(1.5rem,4vw,2.25rem)] font-black font-['Tajawal',sans-serif] mb-2 leading-[1.2]">
-          كل اللي محتاجه
-          <br />
-          على بابك!
-        </h2>
-        <p className="text-[clamp(0.875rem,2vw,1.0625rem)] opacity-[0.88] mb-5 leading-normal">خدمات القرية في إيدك - سريع وبأسعار منافسة وبدعم شباب القرية</p>
-        <Button variant="gold" size="md" onClick={handleClick} className="text-[0.9375rem] font-extrabold">
-          ابدأ اطلب الآن ⬅️
-        </Button>
+    <section className="mb-5" aria-roledescription="كاروسيل" aria-label="اكتشف خدمات قريتي" onMouseEnter={() => { if (window.matchMedia('(hover: hover)').matches) setHovered(true); }} onMouseLeave={() => setHovered(false)}>
+      <div className="relative overflow-hidden rounded-[24px] bg-green-dark h-[192px] sm:h-[250px] lg:h-[300px] touch-pan-y" onTouchStart={event => { touchX.current = event.changedTouches[0].clientX; }} onTouchEnd={event => { if (touchX.current !== null) { const delta = event.changedTouches[0].clientX - touchX.current; if (Math.abs(delta) > 45) setIndex(current => (current + (delta > 0 ? 1 : -1) + HERO_SLIDES.length) % HERO_SLIDES.length); } touchX.current = null; }}>
+        {HERO_SLIDES.map((slide, i) => (
+          <div key={slide.id} aria-hidden={index !== i} inert={index !== i} className={`absolute inset-0 transition-opacity duration-500 text-white ${index === i ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}>
+            <img src={`/img/home-refresh/banner-${slide.id}.webp`} alt="" className="absolute inset-0 w-full h-full object-cover" />
+            <div className="relative z-10 w-[60%] h-full flex flex-col justify-center px-4 sm:px-8">
+              <span className="text-[10px] sm:text-xs font-bold opacity-85 mb-1">{slide.eyebrow}</span>
+              <h2 className="font-black font-['Tajawal',sans-serif] text-[23px] sm:text-[36px] leading-tight mb-1">{slide.title}</h2>
+              <p className="text-[10px] sm:text-sm leading-5 max-w-[180px] sm:max-w-none opacity-90 mb-3">{slide.line}</p>
+              <button type="button" className="self-start inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-[10px] sm:text-sm font-extrabold bg-gold text-green-dark" onClick={() => onSelectService(slide.serviceId)}>{slide.cta}<ChevronLeft size={14} /></button>
+            </div>
+          </div>
+        ))}
       </div>
-
-      <div className="relative mt-5 md:mt-0 md:mr-8 md:w-[320px] shrink-0">
-        <div className="absolute rounded-full pointer-events-none w-[140px] h-[140px] bg-white/8 -top-5 -left-5" aria-hidden="true" />
-        <div className="absolute rounded-full pointer-events-none w-[180px] h-[180px] bg-[rgba(240,165,0,0.12)] bottom-[-30px] right-[-30px]" aria-hidden="true" />
-        <PeoplePhoto
-          id="delivery"
-          priority
-          sizes="(min-width: 768px) 320px, calc(100vw - 80px)"
-          className="relative z-2 w-full aspect-[16/10] md:aspect-[4/3] rounded-xl border-2 border-white/25 shadow-lg"
-        />
+      <div className="flex items-center justify-between mt-2 gap-1" dir="ltr">
+        <span className="text-[10px] text-text-muted w-8 text-center tabular-nums" aria-live="off">{index + 1}/{HERO_SLIDES.length}</span>
+        <div className="flex items-center justify-center">
+          {HERO_SLIDES.map((slide,i) => <button key={slide.id} type="button" aria-label={`عرض البانر ${i+1}`} title={slide.eyebrow} aria-pressed={index===i} className="h-8 w-5 sm:w-6 flex items-center justify-center" onClick={() => setIndex(i)}><span className={`h-1.5 rounded-full transition-all ${index===i ? 'w-4 bg-green' : 'w-1.5 bg-green/20'}`} /></button>)}
+        </div>
+        <button type="button" aria-label={paused ? 'تشغيل البانرات' : 'إيقاف البانرات'} onClick={() => setPaused(value=>!value)} className="w-8 h-8 flex items-center justify-center text-green/60">{paused ? <Play size={12}/> : <Pause size={12}/>}</button>
       </div>
     </section>
   );

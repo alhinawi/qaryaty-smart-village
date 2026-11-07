@@ -17,7 +17,6 @@ import { useCatalogStore } from '@/stores/useCatalogStore';
 
 // Subcomponents
 import { Hero } from './Hero';
-import { Stats } from './Stats';
 import { CategoriesSection } from './CategoriesSection';
 import { LiveOrderBanner } from './LiveOrderBanner';
 import { ServicesSection } from './ServicesSection';
@@ -229,25 +228,6 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
 
   return (
     <div className="home-page-container">
-      {/* Pull-to-Refresh Trigger Area */}
-      <div className="flex justify-center mb-3 md:hidden">
-        <button
-          type="button"
-          className={`bg-[rgba(26,122,74,0.08)] border border-[rgba(26,122,74,0.15)] rounded-xl  px-3.5 py-1.5 inline-flex items-center gap-1.5 font-['Cairo',sans-serif] text-[13px] text-green-dark font-bold cursor-pointer transition-all duration-200`}
-          onClick={() => void handlePullToRefresh()}
-          aria-label="تحديث الخدمات"
-        >
-          <span className={isRefreshing ? 'animate-[spin_0.8s_linear_infinite]' : ''}>🔄</span>
-          <span>{isRefreshing ? 'بنحدّث الصفحة...' : 'سحب للتحديث'}</span>
-        </button>
-      </div>
-
-      {/* Hero Banner */}
-      <Hero onOpenOrder={onOpenOrderModal} />
-
-      {/* Quick Statistics */}
-      <Stats />
-
       {/* Categories Bar */}
       <CategoriesSection
         categories={CATEGORIES}
@@ -255,6 +235,11 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
         onSelectCategory={setSelectedCategory}
       />
 
+      <Hero onSelectService={serviceId => { const service = services.find(item => item.id === serviceId); if (service) handleGridService(service); }} />
+      <div className="flex items-center justify-between mb-5 px-1">
+        <div><span className="text-[10px] text-text-muted block">من أهل القرية، لأهل القرية</span><p className="text-[13px] font-extrabold text-green-dark">كل اللي محتاجه، قريب منك</p></div>
+        <button type="button" onClick={() => void handlePullToRefresh()} className="text-xs text-green font-bold">{isRefreshing ? 'بنحدّث...' : 'تحديث الخدمات'}</button>
+      </div>
       {/* Live Order Pulse Widget */}
       <LiveOrderBanner />
 
