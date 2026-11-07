@@ -55,6 +55,7 @@ import { invalidateDemoMode, isDemoMode, setDemoModeFlag } from '@/config/demoMo
 import { createLocalTopShopsRepo } from './topshops/localTopShopsRepo';
 import { createSupabaseTopShopsRepo } from './topshops/supabaseTopShopsRepo';
 import type { TopShopsRepo } from './topshops/types';
+import { setAppearanceGate } from '@/config/appearanceGate';
 import { createLocalSettingsRepo } from './settings/localSettingsRepo';
 import { createSupabaseSettingsRepo } from './settings/supabaseSettingsRepo';
 import type { SettingsRepo } from './settings/types';
@@ -379,6 +380,8 @@ const liveSettings = isSupabaseConfigured ? createSupabaseSettingsRepo(getSupaba
 export const settingsRepo: SettingsRepo = liveSettings
   ? {
       getDemoMode: () => liveSettings.getDemoMode(),
+      getAppearanceEnabled: () => liveSettings.getAppearanceEnabled(),
+      setAppearanceEnabled: (on) => resilience.write(() => liveSettings.setAppearanceEnabled(on), (cause) => new ServiceUnavailableError(SETTINGS_UNAVAILABLE_MESSAGE, { cause })),
       setDemoMode: (on) =>
         resilience.write(
           () => liveSettings.setDemoMode(on),
@@ -401,6 +404,11 @@ export type { WeeklyTopShop } from './topshops/types';
 
 /** Reads the demo-mode switch and applies it. A failed read invalidates the
  * verified flag (simulated content fails closed) and the error propagates. */
+export async function loadAppearanceSetting(): Promise<boolean> {
+  try { const on = await settingsRepo.getAppearanceEnabled(); setAppearanceGate(on); return on; }
+  catch (error) { setAppearanceGate(null); throw error; }
+}
+
 export async function loadDemoModeSetting(): Promise<boolean> {
   try {
     const on = await settingsRepo.getDemoMode();
@@ -424,9 +432,11 @@ let demoModeWatchStarted = false;
 export function watchDemoModeSetting(): void {
   if (demoModeWatchStarted || typeof window === 'undefined') return;
   demoModeWatchStarted = true;
+  void loadAppearanceSetting().catch(() => {});
   const refresh = () => {
     // A failed read invalidates the verified flag inside loadDemoModeSetting
     loadDemoModeSetting().catch(() => {});
+    loadAppearanceSetting().catch(() => {});
   };
   window.addEventListener('focus', refresh);
   document.addEventListener('visibilitychange', () => {
