@@ -23,6 +23,8 @@ export interface ProfileRow {
   role: UserRole;
   blocked: boolean;
   created_at: string;
+  /** Present once the profile-avatars migration is applied. */
+  avatar_url?: string | null;
 }
 
 /** Profile columns a customer may change; role, blocked and phone are not among them. */
@@ -40,8 +42,12 @@ export function userFromProfile(row: ProfileRow): AuthUser {
     role: row.role,
     blocked: row.blocked,
     createdAt: row.created_at,
+    avatarUrl: row.avatar_url ?? '',
   };
 }
+
+/** One public bucket for profile photos; each account writes only <its id>/… */
+const AVATARS_BUCKET = 'avatars';
 
 const MESSAGES = {
   invalid: 'الإيميل أو كلمة السر مش صح',
@@ -128,7 +134,7 @@ export function createSupabaseAuthRepo(
   }
 
   /** The app may change only these columns (see the grants in supabase/schema.sql). */
-  async function updateProfileRow(userId: string, patch: Partial<Pick<ProfileRow, EditableColumn>>): Promise<AuthUser> {
+  async function updateProfileRow(userId: string, patch: Partial<ProfileRow>): Promise<AuthUser> {
     const supabase = await getClient();
     const { data, error } = await supabase.from('profiles').update(patch).eq('id', userId).select().maybeSingle();
     if (error) throw mapDbError(error);
@@ -296,6 +302,22 @@ export function createSupabaseAuthRepo(
       if (data.village !== undefined) patch.village = data.village.trim();
       if (data.address !== undefined) patch.address = data.address.trim();
       return updateProfileRow(userId, patch);
+    },
+
+    async setAvatar(userId, photo) {
+      const supabase = await getClient();
+      const path = `${userId}/avatar.jpg`;
+      if (!photo) {
+        await supabase.storage.from(AVATARS_BUCKET).remove([path]).catch(() => undefined);
+        return updateProfileRow(userId, { avatar_url: null });
+      }
+      const { error: uploadError } = await supabase.storage
+        .from(AVATARS_BUCKET)
+        .upload(path, photo, { contentType: photo.type || 'image/jpeg', cacheControl: '3600', upsert: true });
+      if (uploadError) throw new AuthError('rejected', 'الصورة مااترفعتش، جرّب صورة تانية');
+      const { data } = supabase.storage.from(AVATARS_BUCKET).getPublicUrl(path);
+      // The path never changes, so the version query busts the cached old photo
+      return updateProfileRow(userId, { avatar_url: `${data.publicUrl}?v=${Date.now()}` });
     },
 
     async listUsers() {
