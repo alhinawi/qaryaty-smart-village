@@ -467,9 +467,9 @@ export const offersRepo: OffersRepo = liveOffers
           () => liveOffers.mineForShop(shopId),
           async () => null
         ),
-      create: (shopId, shopName, title, details, hours) =>
+      create: (shopId, shopName, title, details, hours, discount) =>
         resilience.write(
-          () => liveOffers.create(shopId, shopName, title, details, hours),
+          () => liveOffers.create(shopId, shopName, title, details, hours, discount),
           (cause) => new ServiceUnavailableError(OFFERS_UNAVAILABLE_MESSAGE, { cause })
         ),
       stop: (offerId) =>
