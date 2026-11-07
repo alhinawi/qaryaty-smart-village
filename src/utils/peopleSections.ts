@@ -117,15 +117,7 @@ export function filterProviders(
       // No stages listed (e.g. Quran) means all ages
       if (stage !== 'all' && provider.stages && !provider.stages.includes(stage)) return false;
     }
-    const subjectLabel = provider.subject ? SUBJECT_LABELS[provider.subject] : '';
-    return matchesSearch(query, [
-      provider.name,
-      providerRoleLabel(provider),
-      provider.bio,
-      provider.area,
-      subjectLabel,
-      provider.specialty ?? '',
-    ]);
+    return matchesProviderSearch(provider, query);
   });
 }
 
@@ -146,4 +138,10 @@ export function sectionCounts(providers: Provider[], services: Service[]): Recor
     counts[section.id] = filterProviders(providers, services, { kinds: section.kinds }).length;
   }
   return counts;
+}
+
+/** Shared Arabic-aware match for local list search; callers keep their current filters. */
+export function matchesProviderSearch(provider: Provider, query: string): boolean {
+  return matchesSearch(query, [provider.name, providerRoleLabel(provider), provider.bio,
+    provider.area, provider.subject ? SUBJECT_LABELS[provider.subject] : '', provider.specialty ?? '']);
 }
