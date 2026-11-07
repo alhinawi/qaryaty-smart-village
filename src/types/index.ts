@@ -145,6 +145,7 @@ export interface TeacherGroup {
 }
 
 export interface Provider {
+  demo?: boolean;
   id: number;
   kind: ProviderKind;
   /** The service this provider is booked through. */
@@ -247,6 +248,7 @@ export type FoodType =
 
 /** Something a shop or restaurant sells, with its own price and unit. */
 export interface Product {
+  demo?: boolean;
   originalPrice?: number;
   offerId?: string;
   offerEndsAt?: string;

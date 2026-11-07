@@ -61,7 +61,7 @@ export function cartItemFromProduct(
   const price = product.price + (grill?.pricePerKilo ?? 0);
   return {
     id: `shop-${shop.id}-${product.id}${grill ? '-grill' : ''}`,
-    demoOnly:shop.demo===true||!isSupabaseConfigured,
+    demoOnly:shop.demo===true||product.demo===true||!isSupabaseConfigured,
     originalPrice:product.originalPrice!=null?product.originalPrice+(grill?.pricePerKilo??0):undefined,
     offerId:product.offerId,offerEndsAt:product.offerEndsAt,offerPercent:product.offerPercent,
     serviceId: 0,
