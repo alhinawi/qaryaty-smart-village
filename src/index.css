@@ -435,3 +435,8 @@ html[data-theme='light'][data-palette='light-5'] .bg-white { border: 2px solid #
 html[data-theme='light'][data-palette='light-4'] .bg-white { border-radius: 12px; box-shadow: 0 6px 20px #253e4c14; }
 html[data-theme='light'][data-palette='light-2'] .bg-white { border-color: #b59859; box-shadow: 0 5px 0 #d4c18f55; }
 html[data-theme='light'][data-palette='light-6'] .bg-white { border-color: #7f9d62; }
+
+/* Splash stays on a green brand canvas in every theme. Do not inherit the
+   theme heading foreground (dark ink on light pages) on this fixed canvas. */
+#splash h1 { color: #ffffff; }
+#splash > div > p { color: rgba(255, 255, 255, 0.85); }
