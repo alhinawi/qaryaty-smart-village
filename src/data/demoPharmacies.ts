@@ -12,7 +12,7 @@ export const DEMO_PHARMACIES: Shop[] = [
   ['صيدلية نبع العافية', 'نقيطة'],
 ].map(([name, village], index) => ({
   id: -801 - index, name, village, kind: 'pharmacy', emoji: '💊',
-  description: 'بيانات خيالية للتجربة، ليست صيدلية حقيقية ولا تعبر عن مخزون متاح. الأدوية بروشتة بعد مراجعة الصيدلي.',
+  description: 'أدوية وعناية صحية. الأدوية بروشتة بعد مراجعة الصيدلي.',
   demo: true, open: true, time: '', bgColor: '#EAF7F1',
   photo: `/img/pharmacies/demo-${index + 1}.webp`,
 }));

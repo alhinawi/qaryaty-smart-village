@@ -15,6 +15,6 @@ describe('direct catalog sharing', () => {
     expect(html).toContain('location.replace("/shops/12")');
     expect(html).toContain('property="og:title"');
     expect(escapeHtml("a&'b")).toBe('a&amp;&#39;b');
-    expect(shareDocument('provider', '2', 'اسم خيالي', true)).toContain('بيانات خيالية للتجربة');
+    expect(shareDocument('provider', '2', 'اسم', true)).not.toContain('عرض تجريبي');
   });
 });
