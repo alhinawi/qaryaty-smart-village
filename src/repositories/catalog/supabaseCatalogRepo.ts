@@ -64,6 +64,8 @@ export interface ShopRow {
   rating?: number | string | null;
   delivery_time?: string | null;
   village?: string | null;
+  is_busy?: boolean | null;
+  busy_until?: string | null;
 }
 
 export interface CatalogProductRow {
@@ -167,6 +169,8 @@ export function shopFromRow(row: ShopRow): Shop {
     rating: row.rating == null ? undefined : Number(row.rating),
     deliveryTime: row.delivery_time ?? undefined,
     village: row.village ?? undefined,
+    busy: row.is_busy ?? undefined,
+    busyUntil: row.busy_until ?? undefined,
   }));
 }
 

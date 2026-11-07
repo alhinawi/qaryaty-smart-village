@@ -31,6 +31,9 @@ export interface CustomProduct {
 
 export interface MerchantOverrides {
   open?: boolean;
+  /** مشغول: التحضير هياخد وقت أطول. busyUntil ISO للانتهاء التلقائي، null = لحد ما يقفلها. */
+  busy?: boolean;
+  busyUntil?: string | null;
   hours?: string;
   description?: string;
   /** Replaced shop photo (data URL while there is no backend). */
@@ -64,6 +67,7 @@ interface ProviderDashboardState {
   merchants: Record<number, MerchantOverrides>;
   professionals: Record<number, ProfessionalOverrides>;
   setShopOpen: (shopId: number, open: boolean) => void;
+  setShopBusy: (shopId: number, busy: boolean, busyUntil?: string | null) => void;
   setShopHours: (shopId: number, hours: string) => void;
   setShopDescription: (shopId: number, description: string) => void;
   setProductAvailable: (shopId: number, productId: string, available: boolean) => void;
@@ -102,6 +106,11 @@ export const useProviderDashboardStore = create<ProviderDashboardState>()(
       setShopOpen: (shopId, open) =>
         set((s) => ({
           merchants: { ...s.merchants, [shopId]: { ...emptyMerchant(), ...s.merchants[shopId], open } },
+        })),
+
+      setShopBusy: (shopId, busy, busyUntil = null) =>
+        set((s) => ({
+          merchants: { ...s.merchants, [shopId]: { ...emptyMerchant(), ...s.merchants[shopId], busy, busyUntil } },
         })),
 
       setShopHours: (shopId, hours) =>
