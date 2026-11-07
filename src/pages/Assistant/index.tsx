@@ -1,16 +1,17 @@
 // ─── مساعد قريتي: the role-aware assistant screen
-// Today every answer comes from the curated demo engine (no live AI key in the
-// app; see docs/proposals/ai-assistant.md for the secure Groq/Gemini path).
+// Tries the live AI (edge function, keys server-side only — see
+// docs/proposals/ai-assistant.md) and falls back to the curated demo engine
+// on any failure, so the screen always answers.
 import { useEffect, useRef, useState } from 'react';
 import { SendHorizonal } from 'lucide-react';
 import { useAuthStore, selectRole } from '@/stores/useAuthStore';
 import {
   ASSISTANT_NAME,
-  demoReply,
   greetingFor,
   quickPromptsFor,
   type AssistantMessage,
 } from '@/services/assistant/demoAssistant';
+import { resolveReply } from '@/services/assistant/assistantLive';
 
 export default function AssistantPage() {
   const role = useAuthStore(selectRole);
@@ -25,15 +26,18 @@ export default function AssistantPage() {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight });
   }, [messages]);
 
+  const [busy, setBusy] = useState(false);
+
   const ask = (question: string) => {
     const q = question.trim();
-    if (!q) return;
-    setMessages((prev) => [
-      ...prev,
-      { from: 'user', text: q },
-      { from: 'assistant', text: demoReply(q, role) },
-    ]);
+    if (!q || busy) return;
     setInput('');
+    setBusy(true);
+    setMessages((prev) => [...prev, { from: 'user', text: q }]);
+    void resolveReply(messages, q, role).then((reply) => {
+      setMessages((prev) => [...prev, { from: 'assistant', text: reply }]);
+      setBusy(false);
+    });
   };
 
   return (
@@ -59,6 +63,11 @@ export default function AssistantPage() {
             {m.text}
           </div>
         ))}
+        {busy && (
+          <div className="self-end bg-white border border-green/15 text-text-muted rounded-2xl rounded-tr-md px-3.5 py-2.5 text-[13px]" role="status">
+            بيفكّر…
+          </div>
+        )}
       </div>
 
       {messages.length <= 2 && (
@@ -94,7 +103,7 @@ export default function AssistantPage() {
         <button
           type="submit"
           aria-label="ابعت السؤال"
-          disabled={!input.trim()}
+          disabled={!input.trim() || busy}
           className="shrink-0 w-11 h-11 rounded-2xl bg-green text-white flex items-center justify-center disabled:opacity-40"
         >
           <SendHorizonal size={19} aria-hidden="true" className="-scale-x-100" />

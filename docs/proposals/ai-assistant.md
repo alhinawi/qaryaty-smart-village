@@ -1,7 +1,11 @@
 # مساعد قريتي: secure path from demo replies to live AI
 
-Status: PREPARED 2026-11-07, nothing deployed. The app ships the demo engine
-only (`src/services/assistant/demoAssistant.ts`). This doc is the plan for
+Status: CODE READY 2026-11-08, nothing deployed. The edge function
+(`supabase/functions/assistant-reply/`), the app-side live path
+(`src/services/assistant/assistantLive.ts`, fallback-tested), and the quota
+table migration (`supabase/migrations/20261108050000_assistant_usage.sql`)
+are prepared. The app still ships the demo engine only until the owner OKs
+the deploy (function + secrets), then it prefers live answers. This doc is the plan for
 turning on real answers without ever putting a provider key in the app.
 
 ## Rule number one: the key never ships
