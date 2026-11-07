@@ -14,3 +14,6 @@ Live implementation needs:
 - explicit publication/real-mode QA gate. Do not advertise automatic Friday delivery from this preview.
 
 QA:519 app tests/build pass, new component/model scoped lint pass. Full Dashboard lint has existing Date.now render-purity error at original busyUntil calculation, not introduced.390 screenshot inspected.320 summary card fits but overall existing dashboard reports horizontal document overflow, not verified isolated to this patch. No false whole-dashboard320 claim.
+
+## Demo revision
+Verified demo ON now passes fictional24 completed orders versus20 previous week (+20%),5 published linked sample reviews (4.8/5), most-requested item and best Cairo day. Fixture dates derive from the latest completed period and all sample rows retain demo:true. OFF/unknown still uses honest unavailable state, no real feed or schedule claimed. No visible sample label per user request.
