@@ -1,3 +1,5 @@
+import {stockKey,useDemoStock} from '@/components/merchant/demoStock';
+import {isTrackingDemoMode} from '@/config/demoMode';
 import { useEventSimulationStore } from '@/pages/EventsPreview/simulation';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { EventBookings } from '@/pages/EventsPreview/EventBookings';
@@ -58,7 +60,14 @@ export default function OrdersPage() {
       cancelled: "cancelled",
     };
 
+    if(!isTrackingDemoMode())return;
     const next = nextStatus[order.status];
+    if(order.id.startsWith('ord_demo_local_')&&order.shopId!=null&&order.items?.length&&next==='done'){
+      const eventId=JSON.stringify([eventScope,'cart-order',order.id]);
+      if(!useDemoStock.getState().advanceOrder(eventId,order.items.map(line=>({key:stockKey(eventScope,order.shopId!,line.productId),quantity:line.quantity})),'اتسلّم')){
+        showToast('الكمية مش كفاية في المخزون، راجع المتاح الأول');return;
+      }
+    }
     updateStatus(order.id, next);
 
     if (next === "confirmed") {
@@ -295,15 +304,21 @@ export default function OrdersPage() {
 
               {/* Action Buttons */}
               <div className="flex items-center justify-between gap-2 mt-3">
-                {!isSupabaseConfigured && order.status !== "done" && order.status !== "cancelled" && (
+                {(!isSupabaseConfigured||trackingDemo&&order.id.startsWith("ord_demo_local_")) && order.status !== "done" && order.status !== "cancelled" && (
                   <Button
                     variant="primary"
                     size="sm"
                     onClick={() => handleSimulateNextStep(order)}
                   >
-                    ⚡ محاكاة الخطوة التالية
+                    الخطوة الجاية
                   </Button>
                 )}
+
+                {trackingDemo&&order.id.startsWith('ord_demo_local_')&&order.status!=='done'&&order.status!=='cancelled'&&<button className="text-danger text-xs font-bold py-2" onClick={()=>{
+                  if(!isTrackingDemoMode())return;
+                  const eventId=JSON.stringify([eventScope,'cart-order',order.id]);
+                  if(useDemoStock.getState().advanceOrder(eventId,[],'الطلب اتلغى'))updateStatus(order.id,'cancelled');
+                }}>إلغاء الطلب</button>}
 
                 {!isSupabaseConfigured && <button
                   type="button"
