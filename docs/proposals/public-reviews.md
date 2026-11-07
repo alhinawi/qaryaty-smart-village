@@ -1,4 +1,4 @@
-# Public reviews - proposed backend, not applied
+# Public reviews - implementation and deployment gate (not applied)
 
 ## Existing state checked
 
@@ -33,7 +33,7 @@ Expose a narrow RPC/view for published reviews only: public review ID, consented
 
 ## Rollout
 
-This document and `/preview/reviews` are prototypes only. No table/RPC/policy has been created or changed. Before backend implementation: inspect live schema and RLS, take and verify a fresh recoverable backup, obtain approval for exact migrations, test on a separate database, then wire catalog detail sections and Orders eligibility. Until then the sample review page must not become a public real-review feature.
+This document and `/preview/reviews` are prototypes only. No table/RPC/policy has been created or changed. Before deployment: inspect live schema and RLS, take and verify a fresh recoverable backup, obtain approval for exact migrations, and test on a separate database. The preview is separate from the connected real-review paths and never substitutes for a failed live read.
 
 ## Implemented locally after approval
 
