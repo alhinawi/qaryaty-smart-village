@@ -9,6 +9,9 @@ import { captureReferralFromUrl } from './utils/referral';
 
 import { initTheme } from './config/theme';
 initTheme();
+import { initMotionPreview } from './config/motionPreview';
+import './motion-preview.css';
+initMotionPreview();
 
 // ─── Root Render
 const rootElement = document.getElementById('root');

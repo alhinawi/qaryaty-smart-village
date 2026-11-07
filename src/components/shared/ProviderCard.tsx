@@ -34,7 +34,7 @@ export function ProviderCard({ provider, onBook, online = false, showShare = tru
 
   return (
     <article
-      className="bg-white rounded-2xl p-4 shadow-sm flex flex-col gap-3 border border-transparent hover:border-green/30 transition-colors"
+      className="motion-card bg-white rounded-2xl p-4 shadow-sm flex flex-col gap-3 border border-transparent hover:border-green/30 transition-colors"
       aria-label={`${provider.name}، ${role}`}
     >
       <div className="flex gap-3 items-start">
