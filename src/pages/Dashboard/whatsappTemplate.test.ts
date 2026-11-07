@@ -6,6 +6,8 @@ describe('order WhatsApp template', () => {
     const { body, button } = orderWhatsappTemplate('مطعم البركة');
     expect(body).toContain('طلب جديد');
     expect(body).toContain('العنوان');
+    expect(body).toContain('ملاحظات العميل');
+    expect(body).toContain('بدون بصل');
     expect(body).toContain('الإجمالي');
     expect(body).toContain('مطعم البركة');
     expect(button).toContain('قبول');
