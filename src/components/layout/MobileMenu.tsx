@@ -11,6 +11,8 @@ import { DEVELOPER_NAME } from '@/config/developer';
 import { ROUTES } from '@/routes';
 import { DeveloperLinks } from './DeveloperLinks';
 
+import { ThemeSelector } from '@/components/shared/ThemeSelector';
+
 // ─── Types
 interface MobileMenuProps {
   isOpen: boolean;
@@ -166,6 +168,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             <ChevronLeft size={18} className="text-text-muted shrink-0" aria-hidden="true" />
           </Link>
 
+          <ThemeSelector />
           {sections.map((section) => (
             <div key={section.id} className="mt-2">
               {section.title && (
