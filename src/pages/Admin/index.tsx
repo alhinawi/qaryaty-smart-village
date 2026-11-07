@@ -4,7 +4,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router';
 import { ROUTES } from '@/routes';
-import { addProvider, addShop, authRepo, jobRepo, marketRepo, rideRepo } from '@/repositories';
+import { addProvider, addShop, authRepo, jobRepo, marketRepo, rideRepo, settingsRepo } from '@/repositories';
+import { setDemoModeFlag } from '@/config/demoMode';
+import { useDemoMode } from '@/hooks/useDemoMode';
 import { useAuthStore, selectIsStaff, selectRole, selectUser } from '@/stores/useAuthStore';
 import { useCatalogStore } from '@/stores/useCatalogStore';
 import { useUIStore } from '@/stores/useUIStore';
@@ -48,6 +50,27 @@ export default function AdminPage() {
   const services = useCatalogStore((s) => s.services);
   const shops = useCatalogStore((s) => s.shops);
   const providers = useCatalogStore((s) => s.providers);
+  // وضع العرض التجريبي: owner-only switch, flips the whole site at once
+  const demoMode = useDemoMode();
+  const [demoBusy, setDemoBusy] = useState(false);
+
+  const toggleDemoMode = async () => {
+    const next = !demoMode;
+    setDemoBusy(true);
+    try {
+      await settingsRepo.setDemoMode(next);
+      setDemoModeFlag(next);
+      await loadCatalog(true);
+      useUIStore.getState().showToast(
+        next ? '✅ الوضع التجريبي شغال — المحتوى التجريبي ظاهر' : '🏪 الوضع الحقيقي شغال — المحتوى التجريبي اتخفى'
+      );
+    } catch {
+      useUIStore.getState().showToast('⚠️ الإعداد ماتحفظش، جرّب تاني');
+    } finally {
+      setDemoBusy(false);
+    }
+  };
+
   const [queues, setQueues] = useState<QueueLink[]>([
     { to: ROUTES.jobsReview, icon: '🗂️', label: 'مراجعة الوظائف', hint: 'إعلانات جديدة ومعدّلة وبلاغات', count: null },
     { to: ROUTES.marketReview, icon: '🚩', label: 'بلاغات المستعمل والتبادل', hint: 'المنشورات المخفية بعد البلاغات', count: null },
@@ -96,6 +119,32 @@ export default function AdminPage() {
       <p className="text-[13px] text-text-muted mt-1 mb-4">
         {isStaffRole(role) ? STAFF_ROLE_HINTS[role] : ''}
       </p>
+
+      {role === 'owner' && (
+        <div className="bg-white rounded-2xl border border-[rgba(26,122,74,0.12)] p-4 mb-5 flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <h2 className="text-[15px] font-black text-green-dark m-0">🎭 وضع العرض التجريبي</h2>
+            <p className="text-[12px] text-text-muted leading-relaxed m-0 mt-1">
+              {demoMode
+                ? 'شغال: الزوار شايفين المحلات والخدمات والمنتجات التجريبية. اقفله لما تطلق الموقع بمحتوى حقيقي.'
+                : 'مقفول: الموقع في الوضع الحقيقي — مفيش أي محتوى تجريبي ظاهر. شغّله تاني في أي وقت، ومفيش بيانات بتتمسح.'}
+            </p>
+          </div>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={demoMode}
+            aria-label="وضع العرض التجريبي"
+            disabled={demoBusy}
+            onClick={() => void toggleDemoMode()}
+            className={`shrink-0 w-14 h-8 rounded-full p-1 transition-colors duration-200 cursor-pointer border-none ${demoMode ? 'bg-green' : 'bg-gray-300'}`}
+          >
+            <span
+              className={`block w-6 h-6 rounded-full bg-white shadow transition-transform duration-200 ${demoMode ? '-translate-x-6' : 'translate-x-0'}`}
+            />
+          </button>
+        </div>
+      )}
 
       {sections.overview && (
         <div className="grid grid-cols-3 gap-2 mb-5">

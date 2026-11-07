@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router';
 import App from './App';
 import './index.css';
+import { watchDemoModeSetting } from './repositories';
 import { captureReferralFromUrl } from './utils/referral';
 
 // ─── Root Render
@@ -15,6 +16,9 @@ if (!rootElement) {
 
 // Keep the invite code (if any) before the router drops the query string
 captureReferralFromUrl();
+
+// Other devices can flip the demo-mode switch; hear them on focus + a 60s beat
+watchDemoModeSetting();
 
 createRoot(rootElement).render(
   <StrictMode>
