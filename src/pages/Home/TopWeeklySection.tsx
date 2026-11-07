@@ -1,6 +1,6 @@
 // ─── الأكتر طلبًا في القرية هذا الأسبوع: shops ranked by real orders in the
 // last 7 days. Real mode: only real counts, hidden when fewer than 3 shops
-// have orders. Demo mode: a labeled sample ranking («ترتيب تجريبي»).
+// have orders. Demo mode: a sample ranking shows (still gated on the verified flag).
 import { useEffect, useState } from 'react';
 import type { Shop } from '@/types';
 import { ShopMenuModal } from '@/components/modals/ShopMenuModal';
@@ -47,9 +47,6 @@ export function TopWeeklySection() {
     <section className="mb-6" dir="rtl" aria-label="الأكتر طلبًا هذا الأسبوع">
       <div className="flex items-center justify-between mb-3">
         <h2 className="text-[17px] font-black text-green-dark m-0">🏆 الأكتر طلبًا هذا الأسبوع</h2>
-        {isSample && (
-          <span className="text-[11px] font-bold text-[#8a6100] bg-gold/15 rounded-full px-2.5 py-1">ترتيب تجريبي</span>
-        )}
       </div>
       <div className="flex flex-col gap-2">
         {ranked.map((entry, i) => (
