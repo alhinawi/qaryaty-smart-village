@@ -470,3 +470,7 @@ export const offersRepo: OffersRepo = liveOffers
     }
   : createLocalOffersRepo();
 export type { DailyOffer, OffersRepo } from './offers/types';
+
+// Reviews never fall back to fictional records, even during a backend outage.
+import { createReviewsRepo } from './reviews/supabaseReviewsRepo';
+export const reviewsRepo = createReviewsRepo(getSupabase);

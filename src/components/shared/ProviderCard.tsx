@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import { CatalogShareButton } from './CatalogShareButton';
 import { isIllustratedProvider } from '@/config/providerImages';
 // ─── Card for one person you book directly: teacher, nurse, plumber, painter, gas delivery…
@@ -127,7 +128,7 @@ export function ProviderCard({ provider, onBook, online = false, showShare = tru
         </details>
       )}
 
-      {showShare && <div className="flex justify-end"><CatalogShareButton kind="provider" id={provider.id} name={provider.name} /></div>}
+      {showShare && <div className="flex items-center justify-between"><Link to={`/providers/${provider.id}`} onClick={e=>e.stopPropagation()} onKeyDown={e=>e.stopPropagation()} className="inline-block text-[11px] text-green font-bold py-2">التفاصيل والآراء</Link><CatalogShareButton kind="provider" id={provider.id} name={provider.name} /></div>}
       <div className="flex items-end justify-between gap-2 mt-auto">
         <div className="flex flex-col gap-0.5 min-w-0">
           {prices.map((line) => (
