@@ -21,6 +21,7 @@ import { CategoriesSection } from './CategoriesSection';
 import { LiveOrderBanner } from './LiveOrderBanner';
 import { ServicesSection } from './ServicesSection';
 import { PromoBanner } from './PromoBanner';
+import { DailyOffersSection } from './DailyOffersSection';
 import { ShopsSection } from './ShopsSection';
 import { productsForShop } from '@/data/catalog';
 import { ProvidersSection } from './ProvidersSection';
@@ -314,6 +315,9 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
       {/* باب الخير: on الكل, or when the search is about giving (تبرع، زكاة، بيت المال…) */}
       {selectedCategory === 'all' &&
         (!isSearching || matchesSearch(searchQuery, [...DONATION_SEARCH_FIELDS])) && <DonationsBanner />}
+
+      {/* عروض اليوم: live merchant offers with countdown */}
+      {!isRestaurantsCategory && <DailyOffersSection />}
 
       {/* Promo Banner */}
       {!isRestaurantsCategory && <PromoBanner />}
