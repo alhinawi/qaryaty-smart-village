@@ -1,0 +1,7466 @@
+{
+  "101": {
+    "name": "فول وطعمية الحاج سيد",
+    "baseline": [
+      {
+        "id": "fool",
+        "name": "ساندوتش فول",
+        "price": 8
+      },
+      {
+        "id": "taamia",
+        "name": "ساندوتش طعمية",
+        "price": 8
+      },
+      {
+        "id": "egg",
+        "name": "ساندوتش بيض",
+        "price": 12
+      },
+      {
+        "id": "cheese",
+        "name": "ساندوتش جبنة",
+        "price": 10
+      },
+      {
+        "id": "foolplate",
+        "name": "طبق فول",
+        "price": 20
+      },
+      {
+        "id": "fries",
+        "name": "بطاطس محمرة",
+        "price": 15
+      },
+      {
+        "id": "baba",
+        "name": "بابا غنوج",
+        "price": 15
+      },
+      {
+        "id": "tahini",
+        "name": "طحينة",
+        "price": 10
+      }
+    ],
+    "items": [
+      {
+        "name": "ساندوتش فول بالبيض",
+        "emoji": "🫘",
+        "price": 12,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-fool-egg-sand",
+        "photo": "/img/catalog-original/menu-115-fool-egg-sand.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ساندوتش طعمية محشية",
+        "emoji": "🧆",
+        "price": 12,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-taamia-mahshi",
+        "photo": "/img/catalog-original/menu-115-taamia-mahshi.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ساندوتش بتنجان مقلي",
+        "emoji": "🍆",
+        "price": 10,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-eggplant-sand",
+        "photo": "/img/catalog-original/menu-115-eggplant-sand.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فول إسكندراني",
+        "emoji": "🫘",
+        "price": 25,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-fool-alex",
+        "photo": "/img/catalog-original/menu-115-fool-alex.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "102": {
+    "name": "عربية فطار أم محمد",
+    "baseline": [
+      {
+        "id": "fool",
+        "name": "ساندوتش فول",
+        "price": 7
+      },
+      {
+        "id": "taamia",
+        "name": "ساندوتش طعمية",
+        "price": 7
+      },
+      {
+        "id": "shakshuka",
+        "name": "شكشوكة",
+        "price": 25
+      },
+      {
+        "id": "fries",
+        "name": "ساندوتش بطاطس",
+        "price": 8
+      }
+    ],
+    "items": [
+      {
+        "name": "ساندوتش بيض",
+        "emoji": "🥚",
+        "price": 12,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-egg-sand",
+        "photo": "/img/catalog-original/menu-120-egg-sand.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ساندوتش جبنة بالطماطم",
+        "emoji": "🧀",
+        "price": 10,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-cheese-sand",
+        "photo": "/img/catalog-original/menu-120-cheese-sand.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طبق بيض أومليت",
+        "emoji": "🍳",
+        "price": 20,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-omelette",
+        "photo": "/img/catalog-original/menu-120-omelette.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طبق فول",
+        "emoji": "🫘",
+        "price": 20,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-fool-plate",
+        "photo": "/img/catalog-original/menu-120-fool-plate.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "قشطة بالعسل",
+        "emoji": "🍯",
+        "price": 25,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-cream-honey",
+        "photo": "/img/catalog-original/menu-120-cream-honey.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "شاي بالنعناع",
+        "emoji": "🍵",
+        "price": 5,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-tea",
+        "photo": "/img/catalog-missing/restaurant-120-tea.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فطير مشلتت",
+        "emoji": "🥞",
+        "price": 120,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-meshaltet",
+        "photo": "/img/catalog-original/menu-121-meshaltet.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فطير مشلتت صغير",
+        "emoji": "🥞",
+        "price": 70,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-meshaltet-small",
+        "photo": "/img/catalog-original/menu-121-meshaltet-small.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "103": {
+    "name": "حواوشي الريس",
+    "baseline": [
+      {
+        "id": "hawawshi",
+        "name": "حواوشي عادي",
+        "price": 45
+      },
+      {
+        "id": "hawawshi-cheese",
+        "name": "حواوشي بالجبنة",
+        "price": 55
+      },
+      {
+        "id": "kofta",
+        "name": "ساندوتش كفتة",
+        "price": 40
+      },
+      {
+        "id": "kofta-kg",
+        "name": "كفتة مشوية",
+        "price": 420
+      }
+    ],
+    "items": [
+      {
+        "name": "حواوشي سجق",
+        "emoji": "🥙",
+        "price": 50,
+        "unit": "رغيف",
+        "step": 1,
+        "id": "illustrative-hawawshi-sausage",
+        "photo": "/img/catalog-original/menu-122-hawawshi-sausage.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "حواوشي بسطرمة",
+        "emoji": "🥙",
+        "price": 65,
+        "unit": "رغيف",
+        "step": 1,
+        "id": "illustrative-hawawshi-basterma",
+        "photo": "/img/catalog-original/menu-122-hawawshi-basterma.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "حواوشي ميكس",
+        "emoji": "🥙",
+        "price": 70,
+        "unit": "رغيف",
+        "step": 1,
+        "id": "illustrative-hawawshi-mix",
+        "photo": "/img/catalog-original/menu-122-hawawshi-mix.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "حواوشي فراخ",
+        "emoji": "🥙",
+        "price": 45,
+        "unit": "رغيف",
+        "step": 1,
+        "id": "illustrative-hawawshi-chicken",
+        "photo": "/img/catalog-original/menu-122-hawawshi-chicken.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "حواوشي صغير (نص رغيف)",
+        "emoji": "🥙",
+        "price": 26,
+        "unit": "نص رغيف",
+        "step": 1,
+        "id": "illustrative-hawawshi-half",
+        "photo": "/img/catalog-original/menu-122-hawawshi-half.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بطاطس محمرة",
+        "emoji": "🍟",
+        "price": 21,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-fries",
+        "photo": "/img/catalog-original/menu-122-fries.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "سلطة بلدي",
+        "emoji": "🥗",
+        "price": 10,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-salad",
+        "photo": "/img/catalog-missing/restaurant-122-salad.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طحينة",
+        "emoji": "🥣",
+        "price": 10,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-tahini",
+        "photo": "/img/catalog-original/menu-122-tahini.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "104": {
+    "name": "كشري التحرير البلد",
+    "baseline": [
+      {
+        "id": "koshary-s",
+        "name": "كشري صغير",
+        "price": 25
+      },
+      {
+        "id": "koshary-m",
+        "name": "كشري وسط",
+        "price": 35
+      },
+      {
+        "id": "koshary-l",
+        "name": "كشري كبير",
+        "price": 45
+      },
+      {
+        "id": "macaroni",
+        "name": "مكرونة بشاميل",
+        "price": 50
+      },
+      {
+        "id": "roz",
+        "name": "أرز بلبن",
+        "price": 20
+      }
+    ],
+    "items": [
+      {
+        "name": "كشري سوبر بالتقلية الزيادة",
+        "emoji": "🍝",
+        "price": 60,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-koshary-super",
+        "photo": "/img/catalog-original/menu-131-koshary-super.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "كشري عيلة",
+        "emoji": "🍝",
+        "price": 105,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-koshary-family",
+        "photo": "/img/catalog-original/menu-131-koshary-family.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طاجن مكرونة باللحمة",
+        "emoji": "🥘",
+        "price": 65,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-tagen-macaroni",
+        "photo": "/img/catalog-original/menu-131-tagen-macaroni.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "شطة ودقة زيادة",
+        "emoji": "🌶️",
+        "price": 5,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-sauce",
+        "photo": "/img/catalog-missing/restaurant-131-sauce.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "مهلبية",
+        "emoji": "🍮",
+        "price": 21,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-mahalabia",
+        "photo": "/img/catalog-original/menu-131-mahalabia.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "أم علي",
+        "emoji": "🥧",
+        "price": 40,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-omali",
+        "photo": "/img/catalog-original/menu-131-omali.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طاجن مكرونة بالفراخ",
+        "emoji": "",
+        "price": 55,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-chicken-pasta",
+        "photo": "/img/menu-expansion/chicken-pasta.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "105": {
+    "name": "بيتزا وكريب فاميلي",
+    "baseline": [
+      {
+        "id": "pizza-margherita",
+        "name": "بيتزا مارجريتا",
+        "price": 90
+      },
+      {
+        "id": "pizza-mix",
+        "name": "بيتزا ميكس لحوم",
+        "price": 140
+      },
+      {
+        "id": "crepe-chicken",
+        "name": "كريب فراخ",
+        "price": 70
+      },
+      {
+        "id": "crepe-nutella",
+        "name": "كريب نوتيلا",
+        "price": 60
+      }
+    ],
+    "items": [
+      {
+        "name": "بيتزا فراخ",
+        "emoji": "🍕",
+        "price": 130,
+        "unit": "وسط",
+        "step": 1,
+        "id": "illustrative-pizza-chicken",
+        "photo": "/img/catalog-original/menu-136-pizza-chicken.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بيتزا سجق",
+        "emoji": "🍕",
+        "price": 120,
+        "unit": "وسط",
+        "step": 1,
+        "id": "illustrative-pizza-sausage",
+        "photo": "/img/catalog-original/menu-136-pizza-sausage.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "كريب بانيه",
+        "emoji": "🌯",
+        "price": 80,
+        "unit": "قطعة",
+        "step": 1,
+        "id": "illustrative-crepe-pane",
+        "photo": "/img/catalog-original/menu-136-crepe-pane.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "كريب لوتس",
+        "emoji": "🍪",
+        "price": 70,
+        "unit": "قطعة",
+        "step": 1,
+        "id": "illustrative-crepe-lotus",
+        "photo": "/img/catalog-original/menu-136-crepe-lotus.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بطاطس محمرة",
+        "emoji": "🍟",
+        "price": 22,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-fries",
+        "photo": "/img/catalog-original/menu-136-fries.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فطير مشلتت",
+        "emoji": "🥞",
+        "price": 130,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-meshaltet",
+        "photo": "/img/catalog-original/menu-136-meshaltet.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فطير مشلتت صغير",
+        "emoji": "🥞",
+        "price": 75,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-meshaltet-small",
+        "photo": "/img/catalog-original/menu-136-meshaltet-small.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "عسل أسود وطحينة",
+        "emoji": "🍯",
+        "price": 22,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-honey-tahini",
+        "photo": "/img/catalog-missing/restaurant-136-honey-tahini.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "106": {
+    "name": "أسماك البحر",
+    "baseline": [
+      {
+        "id": "fried-fish",
+        "name": "سمك بلطي مقلي",
+        "price": 150
+      },
+      {
+        "id": "grilled-fish",
+        "name": "سمك بوري مشوي",
+        "price": 220
+      },
+      {
+        "id": "shrimp",
+        "name": "جمبري مقلي",
+        "price": 480
+      },
+      {
+        "id": "calamari",
+        "name": "كاليماري مقلي",
+        "price": 320
+      },
+      {
+        "id": "fishchips",
+        "name": "وجبة سمك وبطاطس",
+        "price": 90
+      }
+    ],
+    "items": [
+      {
+        "name": "بلطي مقلي",
+        "emoji": "🐟",
+        "price": 135,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-fried-tilapia",
+        "photo": "/img/catalog-original/menu-143-fried-tilapia.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بوري مشوي",
+        "emoji": "🐟",
+        "price": 200,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-grilled-mullet",
+        "photo": "/img/catalog-original/menu-143-grilled-mullet.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "دنيس مشوي",
+        "emoji": "🐟",
+        "price": 290,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-grilled-bream",
+        "photo": "/img/catalog-original/menu-143-grilled-bream.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "سردين مقلي",
+        "emoji": "🐟",
+        "price": 110,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-fried-sardine",
+        "photo": "/img/catalog-original/menu-143-fried-sardine.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طاجن جمبري",
+        "emoji": "🥘",
+        "price": 135,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-shrimp-tagen",
+        "photo": "/img/catalog-original/menu-143-shrimp-tagen.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "أرز صيادية",
+        "emoji": "🍚",
+        "price": 27,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-sayadeya",
+        "photo": "/img/catalog-missing/restaurant-143-sayadeya.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "سلطة طحينة",
+        "emoji": "🥣",
+        "price": 9,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-tahini",
+        "photo": "/img/catalog-original/menu-143-tahini.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "107": {
+    "name": "شاورما أبو علي",
+    "baseline": [
+      {
+        "id": "shawarma-chicken",
+        "name": "شاورما فراخ",
+        "price": 50
+      },
+      {
+        "id": "shawarma-meat",
+        "name": "شاورما لحمة",
+        "price": 65
+      },
+      {
+        "id": "taouk",
+        "name": "شيش طاووق",
+        "price": 80
+      },
+      {
+        "id": "fries",
+        "name": "بطاطس",
+        "price": 20
+      }
+    ],
+    "items": [
+      {
+        "name": "سوري فراخ",
+        "emoji": "🌯",
+        "price": 50,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-syrian-chicken",
+        "photo": "/img/catalog-original/menu-148-syrian-chicken.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "وجبة شاورما فراخ",
+        "emoji": "🍽️",
+        "price": 90,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-chicken-meal",
+        "photo": "/img/catalog-original/menu-148-chicken-meal.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "وجبة شاورما لحمة",
+        "emoji": "🍽️",
+        "price": 115,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-meat-meal",
+        "photo": "/img/catalog-original/menu-148-meat-meal.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "شاورما فراخ بالكيلو",
+        "emoji": "🍗",
+        "price": 360,
+        "unit": "كيلو",
+        "step": 0.25,
+        "id": "illustrative-shawarma-kg",
+        "photo": "/img/catalog-original/menu-148-shawarma-kg.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ثومية",
+        "emoji": "🧄",
+        "price": 5,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-garlic",
+        "photo": "/img/catalog-missing/restaurant-148-garlic.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "مخلل",
+        "emoji": "🥒",
+        "price": 5,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-pickles",
+        "photo": "/img/catalog-missing/restaurant-148-pickles.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فتة شاورما",
+        "emoji": "🍲",
+        "price": 90,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-fattah-shawarma",
+        "photo": "/img/catalog-original/menu-149-fattah-shawarma.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بطاطس محمرة",
+        "emoji": "🍟",
+        "price": 20,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-fries",
+        "photo": "/img/catalog-original/menu-149-fries.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "108": {
+    "name": "فراخ المدينة",
+    "baseline": [
+      {
+        "id": "grilled-half",
+        "name": "نص فرخة مشوية",
+        "price": 120
+      },
+      {
+        "id": "grilled-whole",
+        "name": "فرخة مشوية",
+        "price": 230
+      },
+      {
+        "id": "fried",
+        "name": "وجبة فراخ مقلية",
+        "price": 110
+      },
+      {
+        "id": "nuggets",
+        "name": "ناجتس",
+        "price": 70
+      }
+    ],
+    "items": [
+      {
+        "name": "بروستد 8 قطع",
+        "emoji": "🍗",
+        "price": 240,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-broasted-8",
+        "photo": "/img/catalog-original/menu-153-broasted-8.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "أجنحة مقلية",
+        "emoji": "🍗",
+        "price": 60,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-wings",
+        "photo": "/img/catalog-original/menu-153-wings.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "استربس",
+        "emoji": "🍗",
+        "price": 90,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-strips",
+        "photo": "/img/catalog-original/menu-153-strips.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ملوخية",
+        "emoji": "🥬",
+        "price": 30,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-molokhia",
+        "photo": "/img/catalog-original/menu-153-molokhia.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "كول سلو",
+        "emoji": "🥗",
+        "price": 15,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-coleslaw",
+        "photo": "/img/catalog-missing/restaurant-153-coleslaw.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بروستد 4 قطع",
+        "emoji": "🍗",
+        "price": 135,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-broasted-4",
+        "photo": "/img/catalog-original/menu-154-broasted-4.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "وجبة بانيه",
+        "emoji": "🍗",
+        "price": 100,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-pane-meal",
+        "photo": "/img/catalog-original/menu-154-pane-meal.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "أرز بالشعرية",
+        "emoji": "🍚",
+        "price": 21,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-rice",
+        "photo": "/img/catalog-missing/restaurant-154-rice.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "109": {
+    "name": "كبدة وسجق الإسكندراني",
+    "baseline": [
+      {
+        "id": "liver",
+        "name": "ساندوتش كبدة",
+        "price": 25
+      },
+      {
+        "id": "sausage",
+        "name": "ساندوتش سجق",
+        "price": 25
+      },
+      {
+        "id": "liver-kg",
+        "name": "كبدة إسكندراني",
+        "price": 380
+      }
+    ],
+    "items": [
+      {
+        "name": "ساندوتش كبدة إسكندراني",
+        "emoji": "🥖",
+        "price": 26,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-liver-sand",
+        "photo": "/img/catalog-missing/restaurant-155-liver-sand.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ساندوتش ميكس كبدة وسجق",
+        "emoji": "🥖",
+        "price": 32,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-mix-sand",
+        "photo": "/img/catalog-original/menu-155-mix-sand.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ساندوتش مخ",
+        "emoji": "🥖",
+        "price": 40,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-brain-sand",
+        "photo": "/img/catalog-missing/restaurant-155-brain-sand.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "كبدة إسكندراني بالكيلو",
+        "emoji": "🍖",
+        "price": 400,
+        "unit": "كيلو",
+        "step": 0.25,
+        "id": "illustrative-liver-kg",
+        "photo": "/img/catalog-missing/restaurant-155-liver-kg.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "سجق شرقي بالكيلو",
+        "emoji": "🌭",
+        "price": 335,
+        "unit": "كيلو",
+        "step": 0.25,
+        "id": "illustrative-sausage-kg",
+        "photo": "/img/catalog-original/menu-155-sausage-kg.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طاجن قوانص",
+        "emoji": "🥘",
+        "price": 50,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-gizzard-tagen",
+        "photo": "/img/catalog-original/menu-155-gizzard-tagen.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ممبار محشي",
+        "emoji": "🌭",
+        "price": 65,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-mombar",
+        "photo": "/img/catalog-original/menu-155-mombar.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ساندوتش بطاطس",
+        "emoji": "🍟",
+        "price": 10,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-potato-sand",
+        "photo": "/img/catalog-original/menu-155-potato-sand.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بطاطس محمرة",
+        "emoji": "🍟",
+        "price": 21,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-fries",
+        "photo": "/img/catalog-original/menu-155-fries.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "110": {
+    "name": "فطاطري الأمانة",
+    "baseline": [
+      {
+        "id": "meshaltet",
+        "name": "فطير مشلتت",
+        "price": 120
+      },
+      {
+        "id": "feteer-mix",
+        "name": "فطير ميكس جبن",
+        "price": 90
+      },
+      {
+        "id": "feteer-sweet",
+        "name": "فطير بالسكر والقشطة",
+        "price": 80
+      },
+      {
+        "id": "omali",
+        "name": "أم علي",
+        "price": 45
+      }
+    ],
+    "items": [
+      {
+        "name": "فطير مشلتت صغير",
+        "emoji": "🥞",
+        "price": 65,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-meshaltet-small",
+        "photo": "/img/catalog-original/menu-141-meshaltet-small.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "عسل أسود وطحينة",
+        "emoji": "🍯",
+        "price": 19,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-honey-tahini",
+        "photo": "/img/catalog-missing/restaurant-141-honey-tahini.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فطير سجق",
+        "emoji": "🥞",
+        "price": 90,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-feteer-sausage",
+        "photo": "/img/catalog-original/menu-141-feteer-sausage.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فطير لحمة مفرومة",
+        "emoji": "🥞",
+        "price": 105,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-feteer-meat",
+        "photo": "/img/catalog-original/menu-141-feteer-meat.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فطير بسطرمة",
+        "emoji": "🥞",
+        "price": 100,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-feteer-basterma",
+        "photo": "/img/catalog-original/menu-141-feteer-basterma.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فطير فراخ",
+        "emoji": "🥞",
+        "price": 95,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-feteer-chicken",
+        "photo": "/img/catalog-original/menu-141-feteer-chicken.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فطير نوتيلا",
+        "emoji": "🍫",
+        "price": 80,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-feteer-nutella",
+        "photo": "/img/catalog-original/menu-141-feteer-nutella.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بسبوسة",
+        "emoji": "🍰",
+        "price": 135,
+        "unit": "كيلو",
+        "step": 0.25,
+        "id": "illustrative-basbousa",
+        "photo": "/img/catalog-original/menu-141-basbousa.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "111": {
+    "name": "مشويات الحاتي",
+    "baseline": [
+      {
+        "id": "kebab",
+        "name": "كباب",
+        "price": 650
+      },
+      {
+        "id": "kofta",
+        "name": "كفتة",
+        "price": 450
+      },
+      {
+        "id": "mix",
+        "name": "وجبة مشكل",
+        "price": 180
+      },
+      {
+        "id": "fattah",
+        "name": "فتة",
+        "price": 60
+      }
+    ],
+    "items": [
+      {
+        "name": "كفتة مشوية",
+        "emoji": "🍢",
+        "price": 460,
+        "unit": "كيلو",
+        "step": 0.25,
+        "id": "illustrative-kofta-kg",
+        "photo": "/img/catalog-original/menu-128-kofta-kg.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طرب",
+        "emoji": "🥩",
+        "price": 530,
+        "unit": "كيلو",
+        "step": 0.25,
+        "id": "illustrative-tarb-kg",
+        "photo": "/img/catalog-original/menu-128-tarb-kg.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "وجبة كفتة (ربع كيلو)",
+        "emoji": "🍢",
+        "price": 130,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-kofta-meal",
+        "photo": "/img/catalog-original/menu-128-kofta-meal.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "نص فرخة على الفحم",
+        "emoji": "🍗",
+        "price": 140,
+        "unit": "نص فرخة",
+        "step": 1,
+        "id": "illustrative-chicken-half",
+        "photo": "/img/catalog-original/menu-128-chicken-half.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "أرز بالشعرية",
+        "emoji": "🍚",
+        "price": 22,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-rice",
+        "photo": "/img/catalog-missing/restaurant-128-rice.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "سلطة خضرا",
+        "emoji": "🥗",
+        "price": 11,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-salad",
+        "photo": "/img/catalog-missing/restaurant-128-salad.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بابا غنوج",
+        "emoji": "🍆",
+        "price": 16,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-baba",
+        "photo": "/img/catalog-original/menu-128-baba.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ساندوتش كفتة",
+        "emoji": "🥖",
+        "price": 50,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-kofta-sand",
+        "photo": "/img/catalog-original/menu-128-kofta-sand.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "112": {
+    "name": "بط ووز أم حسن",
+    "baseline": [
+      {
+        "id": "duck",
+        "name": "بطة محمرة",
+        "price": 650
+      },
+      {
+        "id": "goose",
+        "name": "وزة محمرة",
+        "price": 900
+      },
+      {
+        "id": "mahshi",
+        "name": "محشي مشكل",
+        "price": 80
+      },
+      {
+        "id": "molokhia",
+        "name": "ملوخية",
+        "price": 30
+      }
+    ],
+    "items": [
+      {
+        "name": "نص بطة محمرة",
+        "emoji": "🦆",
+        "price": 375,
+        "unit": "نص بطة",
+        "step": 1,
+        "id": "illustrative-duck-half",
+        "photo": "/img/catalog-original/menu-159-duck-half.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "جوز حمام محشي",
+        "emoji": "🐦",
+        "price": 240,
+        "unit": "جوز",
+        "step": 1,
+        "id": "illustrative-pigeon",
+        "photo": "/img/catalog-original/menu-159-pigeon.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "سمان محمر (جوز)",
+        "emoji": "🐦",
+        "price": 130,
+        "unit": "جوز",
+        "step": 1,
+        "id": "illustrative-quail",
+        "photo": "/img/catalog-original/menu-159-quail.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فتة",
+        "emoji": "🍲",
+        "price": 65,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-fattah",
+        "photo": "/img/catalog-original/menu-159-fattah.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طاجن أرز معمر",
+        "emoji": "🍚",
+        "price": 75,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-rice-moammar",
+        "photo": "/img/catalog-missing/restaurant-159-rice-moammar.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طاجن بامية باللحمة",
+        "emoji": "🥘",
+        "price": 95,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-okra-tagen",
+        "photo": "/img/catalog-missing/restaurant-159-okra-tagen.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "شوربة لسان عصفور",
+        "emoji": "🍲",
+        "price": 22,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-soup",
+        "photo": "/img/catalog-missing/restaurant-159-soup.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ورقة لحمة بالخضار",
+        "emoji": "",
+        "price": 120,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-beef-parcel",
+        "photo": "/img/menu-expansion/beef-parcel.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "113": {
+    "name": "حلواني الشرق",
+    "baseline": [
+      {
+        "id": "basbousa",
+        "name": "بسبوسة",
+        "price": 140
+      },
+      {
+        "id": "kunafa",
+        "name": "كنافة",
+        "price": 160
+      },
+      {
+        "id": "qatayef",
+        "name": "قطايف",
+        "price": 120
+      },
+      {
+        "id": "roz",
+        "name": "أرز بلبن",
+        "price": 20
+      }
+    ],
+    "items": [
+      {
+        "name": "كنافة نوتيلا",
+        "emoji": "🍫",
+        "price": 180,
+        "unit": "كيلو",
+        "step": 0.25,
+        "id": "illustrative-kunafa-nutella",
+        "photo": "/img/catalog-original/menu-164-kunafa-nutella.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بقلاوة",
+        "emoji": "🥮",
+        "price": 250,
+        "unit": "كيلو",
+        "step": 0.25,
+        "id": "illustrative-baklava",
+        "photo": "/img/catalog-original/menu-164-baklava.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "غريبة",
+        "emoji": "🍪",
+        "price": 145,
+        "unit": "كيلو",
+        "step": 0.25,
+        "id": "illustrative-ghorayeba",
+        "photo": "/img/catalog-original/menu-164-ghorayeba.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "جاتوه",
+        "emoji": "🍰",
+        "price": 18,
+        "unit": "قطعة",
+        "step": 1,
+        "id": "illustrative-gateau",
+        "photo": "/img/catalog-original/menu-164-gateau.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "إكلير",
+        "emoji": "🥐",
+        "price": 14,
+        "unit": "قطعة",
+        "step": 1,
+        "id": "illustrative-eclair",
+        "photo": "/img/catalog-original/menu-164-eclair.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "تورتة شوكولاتة",
+        "emoji": "🎂",
+        "price": 225,
+        "unit": "تورتة",
+        "step": 1,
+        "id": "illustrative-torta",
+        "photo": "/img/catalog-original/menu-164-torta.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "أم علي",
+        "emoji": "🥧",
+        "price": 40,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-omali",
+        "photo": "/img/catalog-original/menu-164-omali.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "مهلبية",
+        "emoji": "🍮",
+        "price": 22,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-mahalabia",
+        "photo": "/img/catalog-original/menu-165-mahalabia.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "114": {
+    "name": "عصير ولع",
+    "baseline": [
+      {
+        "id": "cane",
+        "name": "عصير قصب",
+        "price": 10
+      },
+      {
+        "id": "mango",
+        "name": "عصير مانجو",
+        "price": 30
+      },
+      {
+        "id": "strawberry",
+        "name": "عصير فراولة",
+        "price": 25
+      },
+      {
+        "id": "orange",
+        "name": "عصير برتقال",
+        "price": 20
+      },
+      {
+        "id": "lemon",
+        "name": "ليمون نعناع",
+        "price": 20
+      },
+      {
+        "id": "karkade",
+        "name": "كركديه",
+        "price": 15
+      }
+    ],
+    "items": [
+      {
+        "name": "قصب كبير",
+        "emoji": "🥤",
+        "price": 16,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-cane-large",
+        "photo": "/img/catalog-original/menu-167-cane-large.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "موز باللبن",
+        "emoji": "🍌",
+        "price": 33,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-banana-milk",
+        "photo": "/img/catalog-missing/restaurant-167-banana-milk.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "تمر هندي",
+        "emoji": "🥤",
+        "price": 16,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-tamarind",
+        "photo": "/img/catalog-missing/restaurant-167-tamarind.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "سحلب",
+        "emoji": "☕",
+        "price": 28,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-sahlab",
+        "photo": "/img/catalog-original/menu-167-sahlab.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فروت سلاد",
+        "emoji": "🍇",
+        "price": 45,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-fruit-salad",
+        "photo": "/img/catalog-missing/restaurant-168-fruit-salad.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "سوبيا",
+        "emoji": "🥛",
+        "price": 20,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-sobia",
+        "photo": "/img/catalog-missing/restaurant-168-sobia.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "115": {
+    "name": "فول وطعمية أبو مازن",
+    "baseline": [
+      {
+        "id": "fool-sand",
+        "name": "ساندوتش فول",
+        "price": 8
+      },
+      {
+        "id": "taamia-sand",
+        "name": "ساندوتش طعمية",
+        "price": 8
+      },
+      {
+        "id": "fool-egg-sand",
+        "name": "ساندوتش فول بالبيض",
+        "price": 12
+      },
+      {
+        "id": "taamia-mahshi",
+        "name": "ساندوتش طعمية محشية",
+        "price": 12
+      },
+      {
+        "id": "eggplant-sand",
+        "name": "ساندوتش بتنجان مقلي",
+        "price": 10
+      },
+      {
+        "id": "fool-plate",
+        "name": "طبق فول",
+        "price": 20
+      },
+      {
+        "id": "fool-alex",
+        "name": "فول إسكندراني",
+        "price": 25
+      },
+      {
+        "id": "taamia-plate",
+        "name": "طبق طعمية (10 أقراص)",
+        "price": 20
+      },
+      {
+        "id": "pickles",
+        "name": "طرشي بلدي",
+        "price": 5
+      },
+      {
+        "id": "egg-sand",
+        "name": "ساندوتش بيض",
+        "price": 12
+      },
+      {
+        "id": "cheese-sand",
+        "name": "ساندوتش جبنة بالطماطم",
+        "price": 10
+      },
+      {
+        "id": "potato-sand",
+        "name": "ساندوتش بطاطس",
+        "price": 10
+      },
+      {
+        "id": "shakshuka",
+        "name": "شكشوكة",
+        "price": 25
+      }
+    ],
+    "items": [
+      {
+        "name": "ساندوتش جبنة",
+        "emoji": "🧀",
+        "price": 10,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-cheese",
+        "photo": "/img/catalog-original/menu-101-cheese.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بطاطس محمرة",
+        "emoji": "🍟",
+        "price": 15,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-fries",
+        "photo": "/img/catalog-original/menu-101-fries.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بابا غنوج",
+        "emoji": "🍆",
+        "price": 15,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-baba",
+        "photo": "/img/catalog-original/menu-101-baba.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طحينة",
+        "emoji": "🥣",
+        "price": 10,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-tahini",
+        "photo": "/img/catalog-original/menu-101-tahini.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "116": {
+    "name": "فول وطعمية البركة",
+    "baseline": [
+      {
+        "id": "fool-sand",
+        "name": "ساندوتش فول",
+        "price": 8
+      },
+      {
+        "id": "taamia-sand",
+        "name": "ساندوتش طعمية",
+        "price": 8
+      },
+      {
+        "id": "fool-egg-sand",
+        "name": "ساندوتش فول بالبيض",
+        "price": 13
+      },
+      {
+        "id": "taamia-mahshi",
+        "name": "ساندوتش طعمية محشية",
+        "price": 13
+      },
+      {
+        "id": "potato-sand",
+        "name": "ساندوتش بطاطس",
+        "price": 10
+      },
+      {
+        "id": "eggplant-sand",
+        "name": "ساندوتش بتنجان مقلي",
+        "price": 10
+      },
+      {
+        "id": "fool-plate",
+        "name": "طبق فول",
+        "price": 21
+      },
+      {
+        "id": "fool-alex",
+        "name": "فول إسكندراني",
+        "price": 26
+      },
+      {
+        "id": "salad",
+        "name": "سلطة بلدي",
+        "price": 10
+      },
+      {
+        "id": "tahini",
+        "name": "طحينة",
+        "price": 10
+      },
+      {
+        "id": "bread",
+        "name": "رغيف عيش بلدي",
+        "price": 2
+      }
+    ],
+    "items": [
+      {
+        "name": "ساندوتش بيض",
+        "emoji": "🥚",
+        "price": 12,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-egg",
+        "photo": "/img/catalog-original/menu-101-egg.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ساندوتش جبنة",
+        "emoji": "🧀",
+        "price": 10,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-cheese",
+        "photo": "/img/catalog-original/menu-101-cheese.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بطاطس محمرة",
+        "emoji": "🍟",
+        "price": 15,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-fries",
+        "photo": "/img/catalog-original/menu-101-fries.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بابا غنوج",
+        "emoji": "🍆",
+        "price": 15,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-baba",
+        "photo": "/img/catalog-original/menu-101-baba.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "117": {
+    "name": "فلافل الشيخ رمضان",
+    "baseline": [
+      {
+        "id": "fool-sand",
+        "name": "ساندوتش فول",
+        "price": 8
+      },
+      {
+        "id": "taamia-sand",
+        "name": "ساندوتش طعمية",
+        "price": 8
+      },
+      {
+        "id": "fool-egg-sand",
+        "name": "ساندوتش فول بالبيض",
+        "price": 12
+      },
+      {
+        "id": "taamia-mahshi",
+        "name": "ساندوتش طعمية محشية",
+        "price": 12
+      },
+      {
+        "id": "potato-sand",
+        "name": "ساندوتش بطاطس",
+        "price": 10
+      },
+      {
+        "id": "eggplant-sand",
+        "name": "ساندوتش بتنجان مقلي",
+        "price": 10
+      },
+      {
+        "id": "fool-plate",
+        "name": "طبق فول",
+        "price": 20
+      },
+      {
+        "id": "taamia-plate",
+        "name": "طبق طعمية (10 أقراص)",
+        "price": 20
+      },
+      {
+        "id": "tahini",
+        "name": "طحينة",
+        "price": 10
+      }
+    ],
+    "items": [
+      {
+        "name": "ساندوتش بيض",
+        "emoji": "🥚",
+        "price": 12,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-egg",
+        "photo": "/img/catalog-original/menu-101-egg.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ساندوتش جبنة",
+        "emoji": "🧀",
+        "price": 10,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-cheese",
+        "photo": "/img/catalog-original/menu-101-cheese.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بطاطس محمرة",
+        "emoji": "🍟",
+        "price": 15,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-fries",
+        "photo": "/img/catalog-original/menu-101-fries.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بابا غنوج",
+        "emoji": "🍆",
+        "price": 15,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-baba",
+        "photo": "/img/catalog-original/menu-101-baba.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "118": {
+    "name": "فول عم شحاتة",
+    "baseline": [
+      {
+        "id": "fool-sand",
+        "name": "ساندوتش فول",
+        "price": 8
+      },
+      {
+        "id": "taamia-sand",
+        "name": "ساندوتش طعمية",
+        "price": 8
+      },
+      {
+        "id": "fool-egg-sand",
+        "name": "ساندوتش فول بالبيض",
+        "price": 11
+      },
+      {
+        "id": "taamia-mahshi",
+        "name": "ساندوتش طعمية محشية",
+        "price": 11
+      },
+      {
+        "id": "eggplant-sand",
+        "name": "ساندوتش بتنجان مقلي",
+        "price": 10
+      },
+      {
+        "id": "fool-alex",
+        "name": "فول إسكندراني",
+        "price": 24
+      },
+      {
+        "id": "taamia-plate",
+        "name": "طبق طعمية (10 أقراص)",
+        "price": 19
+      },
+      {
+        "id": "salad",
+        "name": "سلطة بلدي",
+        "price": 10
+      },
+      {
+        "id": "tahini",
+        "name": "طحينة",
+        "price": 10
+      },
+      {
+        "id": "egg-sand",
+        "name": "ساندوتش بيض",
+        "price": 11
+      },
+      {
+        "id": "cheese-sand",
+        "name": "ساندوتش جبنة بالطماطم",
+        "price": 10
+      },
+      {
+        "id": "potato-sand",
+        "name": "ساندوتش بطاطس",
+        "price": 10
+      },
+      {
+        "id": "shakshuka",
+        "name": "شكشوكة",
+        "price": 24
+      }
+    ],
+    "items": [
+      {
+        "name": "ساندوتش جبنة",
+        "emoji": "🧀",
+        "price": 10,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-cheese",
+        "photo": "/img/catalog-original/menu-101-cheese.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طبق فول",
+        "emoji": "🫘",
+        "price": 20,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-foolplate",
+        "photo": "/img/catalog-original/menu-101-foolplate.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بطاطس محمرة",
+        "emoji": "🍟",
+        "price": 15,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-fries",
+        "photo": "/img/catalog-original/menu-101-fries.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بابا غنوج",
+        "emoji": "🍆",
+        "price": 15,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-baba",
+        "photo": "/img/catalog-original/menu-101-baba.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "119": {
+    "name": "طعمية أم هاشم",
+    "baseline": [
+      {
+        "id": "fool-sand",
+        "name": "ساندوتش فول",
+        "price": 8
+      },
+      {
+        "id": "taamia-sand",
+        "name": "ساندوتش طعمية",
+        "price": 8
+      },
+      {
+        "id": "fool-egg-sand",
+        "name": "ساندوتش فول بالبيض",
+        "price": 12
+      },
+      {
+        "id": "taamia-mahshi",
+        "name": "ساندوتش طعمية محشية",
+        "price": 12
+      },
+      {
+        "id": "potato-sand",
+        "name": "ساندوتش بطاطس",
+        "price": 10
+      },
+      {
+        "id": "fool-plate",
+        "name": "طبق فول",
+        "price": 20
+      },
+      {
+        "id": "fool-alex",
+        "name": "فول إسكندراني",
+        "price": 25
+      },
+      {
+        "id": "tahini",
+        "name": "طحينة",
+        "price": 10
+      },
+      {
+        "id": "pickles",
+        "name": "طرشي بلدي",
+        "price": 5
+      }
+    ],
+    "items": [
+      {
+        "name": "ساندوتش بيض",
+        "emoji": "🥚",
+        "price": 12,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-egg",
+        "photo": "/img/catalog-original/menu-101-egg.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ساندوتش جبنة",
+        "emoji": "🧀",
+        "price": 10,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-cheese",
+        "photo": "/img/catalog-original/menu-101-cheese.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بطاطس محمرة",
+        "emoji": "🍟",
+        "price": 15,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-fries",
+        "photo": "/img/catalog-original/menu-101-fries.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بابا غنوج",
+        "emoji": "🍆",
+        "price": 15,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-baba",
+        "photo": "/img/catalog-original/menu-101-baba.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "120": {
+    "name": "عربية فطار الأسطى سعيد",
+    "baseline": [
+      {
+        "id": "fool-sand",
+        "name": "ساندوتش فول",
+        "price": 8
+      },
+      {
+        "id": "taamia-sand",
+        "name": "ساندوتش طعمية",
+        "price": 8
+      },
+      {
+        "id": "egg-sand",
+        "name": "ساندوتش بيض",
+        "price": 12
+      },
+      {
+        "id": "cheese-sand",
+        "name": "ساندوتش جبنة بالطماطم",
+        "price": 10
+      },
+      {
+        "id": "potato-sand",
+        "name": "ساندوتش بطاطس",
+        "price": 10
+      },
+      {
+        "id": "shakshuka",
+        "name": "شكشوكة",
+        "price": 25
+      },
+      {
+        "id": "omelette",
+        "name": "طبق بيض أومليت",
+        "price": 20
+      },
+      {
+        "id": "fool-plate",
+        "name": "طبق فول",
+        "price": 20
+      },
+      {
+        "id": "cream-honey",
+        "name": "قشطة بالعسل",
+        "price": 25
+      },
+      {
+        "id": "tea",
+        "name": "شاي بالنعناع",
+        "price": 5
+      }
+    ],
+    "items": [
+      {
+        "name": "فطير مشلتت",
+        "emoji": "🥞",
+        "price": 120,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-meshaltet",
+        "photo": "/img/catalog-original/menu-121-meshaltet.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فطير مشلتت صغير",
+        "emoji": "🥞",
+        "price": 70,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-meshaltet-small",
+        "photo": "/img/catalog-original/menu-121-meshaltet-small.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "عسل أسود وطحينة",
+        "emoji": "🍯",
+        "price": 20,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-honey-tahini",
+        "photo": "/img/catalog-missing/restaurant-121-honey-tahini.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فطير ميكس جبن",
+        "emoji": "🥞",
+        "price": 90,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-feteer-mix",
+        "photo": "/img/catalog-original/menu-121-feteer-mix.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "121": {
+    "name": "فطار الغيط",
+    "baseline": [
+      {
+        "id": "fool-sand",
+        "name": "ساندوتش فول",
+        "price": 8
+      },
+      {
+        "id": "taamia-sand",
+        "name": "ساندوتش طعمية",
+        "price": 8
+      },
+      {
+        "id": "egg-sand",
+        "name": "ساندوتش بيض",
+        "price": 12
+      },
+      {
+        "id": "cheese-sand",
+        "name": "ساندوتش جبنة بالطماطم",
+        "price": 10
+      },
+      {
+        "id": "potato-sand",
+        "name": "ساندوتش بطاطس",
+        "price": 10
+      },
+      {
+        "id": "shakshuka",
+        "name": "شكشوكة",
+        "price": 25
+      },
+      {
+        "id": "omelette",
+        "name": "طبق بيض أومليت",
+        "price": 20
+      },
+      {
+        "id": "cream-honey",
+        "name": "قشطة بالعسل",
+        "price": 25
+      },
+      {
+        "id": "meshaltet",
+        "name": "فطير مشلتت",
+        "price": 120
+      },
+      {
+        "id": "meshaltet-small",
+        "name": "فطير مشلتت صغير",
+        "price": 70
+      },
+      {
+        "id": "honey-tahini",
+        "name": "عسل أسود وطحينة",
+        "price": 20
+      },
+      {
+        "id": "feteer-mix",
+        "name": "فطير ميكس جبن",
+        "price": 90
+      }
+    ],
+    "items": [
+      {
+        "name": "طبق فول",
+        "emoji": "🫘",
+        "price": 20,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-fool-plate",
+        "photo": "/img/catalog-original/menu-120-fool-plate.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "شاي بالنعناع",
+        "emoji": "🍵",
+        "price": 5,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-tea",
+        "photo": "/img/catalog-missing/restaurant-120-tea.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ساندوتش جبنة",
+        "emoji": "🧀",
+        "price": 10,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-cheese",
+        "photo": "/img/catalog-original/menu-101-cheese.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بطاطس محمرة",
+        "emoji": "🍟",
+        "price": 15,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-fries",
+        "photo": "/img/catalog-original/menu-101-fries.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "122": {
+    "name": "حواوشي أبو يوسف",
+    "baseline": [
+      {
+        "id": "hawawshi",
+        "name": "حواوشي عادي",
+        "price": 45
+      },
+      {
+        "id": "hawawshi-cheese",
+        "name": "حواوشي بالجبنة",
+        "price": 60
+      },
+      {
+        "id": "hawawshi-sausage",
+        "name": "حواوشي سجق",
+        "price": 50
+      },
+      {
+        "id": "hawawshi-basterma",
+        "name": "حواوشي بسطرمة",
+        "price": 65
+      },
+      {
+        "id": "hawawshi-mix",
+        "name": "حواوشي ميكس",
+        "price": 70
+      },
+      {
+        "id": "hawawshi-chicken",
+        "name": "حواوشي فراخ",
+        "price": 45
+      },
+      {
+        "id": "hawawshi-half",
+        "name": "حواوشي صغير (نص رغيف)",
+        "price": 26
+      },
+      {
+        "id": "fries",
+        "name": "بطاطس محمرة",
+        "price": 21
+      },
+      {
+        "id": "salad",
+        "name": "سلطة بلدي",
+        "price": 10
+      },
+      {
+        "id": "tahini",
+        "name": "طحينة",
+        "price": 10
+      }
+    ],
+    "items": [
+      {
+        "name": "ساندوتش كفتة",
+        "emoji": "🍢",
+        "price": 40,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-kofta",
+        "photo": "/img/catalog-original/menu-103-kofta.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "كفتة مشوية",
+        "emoji": "🍢",
+        "price": 420,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-kofta-kg",
+        "photo": "/img/catalog-original/menu-103-kofta-kg.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طرشي بلدي",
+        "emoji": "🥒",
+        "price": 5,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-pickles",
+        "photo": "/img/catalog-missing/restaurant-123-pickles.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طرب",
+        "emoji": "🥩",
+        "price": 480,
+        "unit": "كيلو",
+        "step": 0.25,
+        "id": "illustrative-tarb-kg",
+        "photo": "/img/catalog-original/menu-123-tarb-kg.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "123": {
+    "name": "حواوشي الفرن البلدي",
+    "baseline": [
+      {
+        "id": "hawawshi",
+        "name": "حواوشي عادي",
+        "price": 45
+      },
+      {
+        "id": "hawawshi-cheese",
+        "name": "حواوشي بالجبنة",
+        "price": 55
+      },
+      {
+        "id": "hawawshi-sausage",
+        "name": "حواوشي سجق",
+        "price": 50
+      },
+      {
+        "id": "hawawshi-mix",
+        "name": "حواوشي ميكس",
+        "price": 65
+      },
+      {
+        "id": "hawawshi-chicken",
+        "name": "حواوشي فراخ",
+        "price": 45
+      },
+      {
+        "id": "salad",
+        "name": "سلطة بلدي",
+        "price": 10
+      },
+      {
+        "id": "pickles",
+        "name": "طرشي بلدي",
+        "price": 5
+      },
+      {
+        "id": "kofta-kg",
+        "name": "كفتة مشوية",
+        "price": 420
+      },
+      {
+        "id": "tarb-kg",
+        "name": "طرب",
+        "price": 480
+      },
+      {
+        "id": "kofta-meal",
+        "name": "وجبة كفتة (ربع كيلو)",
+        "price": 120
+      },
+      {
+        "id": "kofta-sand",
+        "name": "ساندوتش كفتة",
+        "price": 45
+      }
+    ],
+    "items": [
+      {
+        "name": "حواوشي بسطرمة",
+        "emoji": "🥙",
+        "price": 65,
+        "unit": "رغيف",
+        "step": 1,
+        "id": "illustrative-hawawshi-basterma",
+        "photo": "/img/catalog-original/menu-122-hawawshi-basterma.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "حواوشي صغير (نص رغيف)",
+        "emoji": "🥙",
+        "price": 26,
+        "unit": "نص رغيف",
+        "step": 1,
+        "id": "illustrative-hawawshi-half",
+        "photo": "/img/catalog-original/menu-122-hawawshi-half.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بطاطس محمرة",
+        "emoji": "🍟",
+        "price": 21,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-fries",
+        "photo": "/img/catalog-original/menu-122-fries.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طحينة",
+        "emoji": "🥣",
+        "price": 10,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-tahini",
+        "photo": "/img/catalog-original/menu-122-tahini.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "124": {
+    "name": "حواوشي وكفتة الحاج متولي",
+    "baseline": [
+      {
+        "id": "hawawshi",
+        "name": "حواوشي عادي",
+        "price": 40
+      },
+      {
+        "id": "hawawshi-cheese",
+        "name": "حواوشي بالجبنة",
+        "price": 50
+      },
+      {
+        "id": "hawawshi-sausage",
+        "name": "حواوشي سجق",
+        "price": 45
+      },
+      {
+        "id": "hawawshi-basterma",
+        "name": "حواوشي بسطرمة",
+        "price": 55
+      },
+      {
+        "id": "hawawshi-mix",
+        "name": "حواوشي ميكس",
+        "price": 60
+      },
+      {
+        "id": "hawawshi-half",
+        "name": "حواوشي صغير (نص رغيف)",
+        "price": 22
+      },
+      {
+        "id": "salad",
+        "name": "سلطة بلدي",
+        "price": 9
+      },
+      {
+        "id": "tahini",
+        "name": "طحينة",
+        "price": 9
+      },
+      {
+        "id": "kofta-kg",
+        "name": "كفتة مشوية",
+        "price": 380
+      },
+      {
+        "id": "tarb-kg",
+        "name": "طرب",
+        "price": 430
+      },
+      {
+        "id": "kofta-meal",
+        "name": "وجبة كفتة (ربع كيلو)",
+        "price": 110
+      },
+      {
+        "id": "kofta-sand",
+        "name": "ساندوتش كفتة",
+        "price": 40
+      }
+    ],
+    "items": [
+      {
+        "name": "حواوشي فراخ",
+        "emoji": "🥙",
+        "price": 45,
+        "unit": "رغيف",
+        "step": 1,
+        "id": "illustrative-hawawshi-chicken",
+        "photo": "/img/catalog-original/menu-122-hawawshi-chicken.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بطاطس محمرة",
+        "emoji": "🍟",
+        "price": 21,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-fries",
+        "photo": "/img/catalog-original/menu-122-fries.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طرشي بلدي",
+        "emoji": "🥒",
+        "price": 5,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-pickles",
+        "photo": "/img/catalog-missing/restaurant-123-pickles.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ساندوتش كبدة إسكندراني",
+        "emoji": "🥖",
+        "price": 25,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-liver-sand",
+        "photo": "/img/catalog-missing/restaurant-125-liver-sand.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "125": {
+    "name": "حواوشي وكبدة الشاطر",
+    "baseline": [
+      {
+        "id": "hawawshi",
+        "name": "حواوشي عادي",
+        "price": 45
+      },
+      {
+        "id": "hawawshi-cheese",
+        "name": "حواوشي بالجبنة",
+        "price": 55
+      },
+      {
+        "id": "hawawshi-sausage",
+        "name": "حواوشي سجق",
+        "price": 50
+      },
+      {
+        "id": "hawawshi-basterma",
+        "name": "حواوشي بسطرمة",
+        "price": 60
+      },
+      {
+        "id": "hawawshi-mix",
+        "name": "حواوشي ميكس",
+        "price": 65
+      },
+      {
+        "id": "fries",
+        "name": "بطاطس محمرة",
+        "price": 20
+      },
+      {
+        "id": "tahini",
+        "name": "طحينة",
+        "price": 10
+      },
+      {
+        "id": "pickles",
+        "name": "طرشي بلدي",
+        "price": 5
+      },
+      {
+        "id": "liver-sand",
+        "name": "ساندوتش كبدة إسكندراني",
+        "price": 25
+      },
+      {
+        "id": "sausage-sand",
+        "name": "ساندوتش سجق",
+        "price": 25
+      },
+      {
+        "id": "mix-sand",
+        "name": "ساندوتش ميكس كبدة وسجق",
+        "price": 30
+      },
+      {
+        "id": "brain-sand",
+        "name": "ساندوتش مخ",
+        "price": 40
+      }
+    ],
+    "items": [
+      {
+        "name": "ساندوتش كفتة",
+        "emoji": "🍢",
+        "price": 40,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-kofta",
+        "photo": "/img/catalog-original/menu-103-kofta.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "كفتة مشوية",
+        "emoji": "🍢",
+        "price": 420,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-kofta-kg",
+        "photo": "/img/catalog-original/menu-103-kofta-kg.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "حواوشي فراخ",
+        "emoji": "🥙",
+        "price": 45,
+        "unit": "رغيف",
+        "step": 1,
+        "id": "illustrative-hawawshi-chicken",
+        "photo": "/img/catalog-original/menu-122-hawawshi-chicken.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "حواوشي صغير (نص رغيف)",
+        "emoji": "🥙",
+        "price": 26,
+        "unit": "نص رغيف",
+        "step": 1,
+        "id": "illustrative-hawawshi-half",
+        "photo": "/img/catalog-original/menu-122-hawawshi-half.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "126": {
+    "name": "حواوشي البيت",
+    "baseline": [
+      {
+        "id": "hawawshi",
+        "name": "حواوشي عادي",
+        "price": 45
+      },
+      {
+        "id": "hawawshi-cheese",
+        "name": "حواوشي بالجبنة",
+        "price": 55
+      },
+      {
+        "id": "hawawshi-sausage",
+        "name": "حواوشي سجق",
+        "price": 50
+      },
+      {
+        "id": "hawawshi-basterma",
+        "name": "حواوشي بسطرمة",
+        "price": 60
+      },
+      {
+        "id": "hawawshi-mix",
+        "name": "حواوشي ميكس",
+        "price": 65
+      },
+      {
+        "id": "hawawshi-chicken",
+        "name": "حواوشي فراخ",
+        "price": 45
+      },
+      {
+        "id": "fries",
+        "name": "بطاطس محمرة",
+        "price": 20
+      },
+      {
+        "id": "salad",
+        "name": "سلطة بلدي",
+        "price": 10
+      },
+      {
+        "id": "tahini",
+        "name": "طحينة",
+        "price": 10
+      },
+      {
+        "id": "pickles",
+        "name": "طرشي بلدي",
+        "price": 5
+      }
+    ],
+    "items": [
+      {
+        "name": "ساندوتش كفتة",
+        "emoji": "🍢",
+        "price": 40,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-kofta",
+        "photo": "/img/catalog-original/menu-103-kofta.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "كفتة مشوية",
+        "emoji": "🍢",
+        "price": 420,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-kofta-kg",
+        "photo": "/img/catalog-original/menu-103-kofta-kg.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "حواوشي صغير (نص رغيف)",
+        "emoji": "🥙",
+        "price": 26,
+        "unit": "نص رغيف",
+        "step": 1,
+        "id": "illustrative-hawawshi-half",
+        "photo": "/img/catalog-original/menu-122-hawawshi-half.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طرب",
+        "emoji": "🥩",
+        "price": 480,
+        "unit": "كيلو",
+        "step": 0.25,
+        "id": "illustrative-tarb-kg",
+        "photo": "/img/catalog-original/menu-123-tarb-kg.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "127": {
+    "name": "كفتة وطرب الحاج فتحي",
+    "baseline": [
+      {
+        "id": "kofta-kg",
+        "name": "كفتة مشوية",
+        "price": 380
+      },
+      {
+        "id": "tarb-kg",
+        "name": "طرب",
+        "price": 430
+      },
+      {
+        "id": "kofta-meal",
+        "name": "وجبة كفتة (ربع كيلو)",
+        "price": 110
+      },
+      {
+        "id": "kofta-sand",
+        "name": "ساندوتش كفتة",
+        "price": 40
+      },
+      {
+        "id": "salad",
+        "name": "سلطة خضرا",
+        "price": 9
+      },
+      {
+        "id": "tahini",
+        "name": "طحينة",
+        "price": 9
+      },
+      {
+        "id": "kebab-kg",
+        "name": "كباب",
+        "price": 585
+      },
+      {
+        "id": "ribs-kg",
+        "name": "ريش ضاني",
+        "price": 630
+      },
+      {
+        "id": "mix-meal",
+        "name": "وجبة مشكل",
+        "price": 160
+      },
+      {
+        "id": "chicken-half",
+        "name": "نص فرخة على الفحم",
+        "price": 110
+      }
+    ],
+    "items": [
+      {
+        "name": "كفتة",
+        "emoji": "🍢",
+        "price": 450,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-kofta",
+        "photo": "/img/catalog-original/menu-111-kofta.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فتة",
+        "emoji": "🍚",
+        "price": 60,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-fattah",
+        "photo": "/img/catalog-original/menu-111-fattah.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "أرز بالشعرية",
+        "emoji": "🍚",
+        "price": 22,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-rice",
+        "photo": "/img/catalog-missing/restaurant-128-rice.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بابا غنوج",
+        "emoji": "🍆",
+        "price": 16,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-baba",
+        "photo": "/img/catalog-original/menu-128-baba.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "128": {
+    "name": "مشويات أولاد عبد الحميد",
+    "baseline": [
+      {
+        "id": "kofta-kg",
+        "name": "كفتة مشوية",
+        "price": 460
+      },
+      {
+        "id": "kebab-kg",
+        "name": "كباب",
+        "price": 715
+      },
+      {
+        "id": "tarb-kg",
+        "name": "طرب",
+        "price": 530
+      },
+      {
+        "id": "mix-meal",
+        "name": "وجبة مشكل",
+        "price": 200
+      },
+      {
+        "id": "kofta-meal",
+        "name": "وجبة كفتة (ربع كيلو)",
+        "price": 130
+      },
+      {
+        "id": "chicken-half",
+        "name": "نص فرخة على الفحم",
+        "price": 140
+      },
+      {
+        "id": "rice",
+        "name": "أرز بالشعرية",
+        "price": 22
+      },
+      {
+        "id": "salad",
+        "name": "سلطة خضرا",
+        "price": 11
+      },
+      {
+        "id": "baba",
+        "name": "بابا غنوج",
+        "price": 16
+      },
+      {
+        "id": "kofta-sand",
+        "name": "ساندوتش كفتة",
+        "price": 50
+      },
+      {
+        "id": "tahini",
+        "name": "طحينة",
+        "price": 11
+      }
+    ],
+    "items": [
+      {
+        "name": "كفتة",
+        "emoji": "🍢",
+        "price": 450,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-kofta",
+        "photo": "/img/catalog-original/menu-111-kofta.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فتة",
+        "emoji": "🍚",
+        "price": 60,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-fattah",
+        "photo": "/img/catalog-original/menu-111-fattah.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ريش ضاني",
+        "emoji": "🍖",
+        "price": 665,
+        "unit": "كيلو",
+        "step": 0.25,
+        "id": "illustrative-ribs-kg",
+        "photo": "/img/catalog-original/menu-129-ribs-kg.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "شيش طاووق",
+        "emoji": "🍢",
+        "price": 80,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-taouk",
+        "photo": "/img/catalog-original/menu-129-taouk.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "129": {
+    "name": "حاتي النيل",
+    "baseline": [
+      {
+        "id": "kofta-kg",
+        "name": "كفتة مشوية",
+        "price": 400
+      },
+      {
+        "id": "kebab-kg",
+        "name": "كباب",
+        "price": 620
+      },
+      {
+        "id": "tarb-kg",
+        "name": "طرب",
+        "price": 455
+      },
+      {
+        "id": "ribs-kg",
+        "name": "ريش ضاني",
+        "price": 665
+      },
+      {
+        "id": "mix-meal",
+        "name": "وجبة مشكل",
+        "price": 170
+      },
+      {
+        "id": "kofta-meal",
+        "name": "وجبة كفتة (ربع كيلو)",
+        "price": 115
+      },
+      {
+        "id": "taouk",
+        "name": "شيش طاووق",
+        "price": 80
+      },
+      {
+        "id": "fattah",
+        "name": "فتة باللحمة",
+        "price": 65
+      },
+      {
+        "id": "rice",
+        "name": "أرز بالشعرية",
+        "price": 19
+      },
+      {
+        "id": "salad",
+        "name": "سلطة خضرا",
+        "price": 10
+      },
+      {
+        "id": "tahini",
+        "name": "طحينة",
+        "price": 10
+      },
+      {
+        "id": "baba",
+        "name": "بابا غنوج",
+        "price": 14
+      }
+    ],
+    "items": [
+      {
+        "name": "كفتة",
+        "emoji": "🍢",
+        "price": 450,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-kofta",
+        "photo": "/img/catalog-original/menu-111-kofta.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فتة",
+        "emoji": "🍚",
+        "price": 60,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-fattah",
+        "photo": "/img/catalog-original/menu-111-fattah.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "نص فرخة على الفحم",
+        "emoji": "🍗",
+        "price": 140,
+        "unit": "نص فرخة",
+        "step": 1,
+        "id": "illustrative-chicken-half",
+        "photo": "/img/catalog-original/menu-128-chicken-half.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ساندوتش كفتة",
+        "emoji": "🥖",
+        "price": 50,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-kofta-sand",
+        "photo": "/img/catalog-original/menu-128-kofta-sand.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "130": {
+    "name": "مشويات الشاطر حسن",
+    "baseline": [
+      {
+        "id": "kofta-kg",
+        "name": "كفتة مشوية",
+        "price": 460
+      },
+      {
+        "id": "kebab-kg",
+        "name": "كباب",
+        "price": 715
+      },
+      {
+        "id": "tarb-kg",
+        "name": "طرب",
+        "price": 530
+      },
+      {
+        "id": "ribs-kg",
+        "name": "ريش ضاني",
+        "price": 770
+      },
+      {
+        "id": "kofta-sand",
+        "name": "ساندوتش كفتة",
+        "price": 50
+      },
+      {
+        "id": "chicken-half",
+        "name": "نص فرخة على الفحم",
+        "price": 140
+      },
+      {
+        "id": "rice",
+        "name": "أرز بالشعرية",
+        "price": 22
+      },
+      {
+        "id": "salad",
+        "name": "سلطة خضرا",
+        "price": 11
+      },
+      {
+        "id": "tahini",
+        "name": "طحينة",
+        "price": 11
+      },
+      {
+        "id": "grilled-half",
+        "name": "نص فرخة مشوية",
+        "price": 130
+      },
+      {
+        "id": "grilled-whole",
+        "name": "فرخة مشوية",
+        "price": 255
+      },
+      {
+        "id": "fried-meal",
+        "name": "وجبة فراخ مقلية",
+        "price": 120
+      },
+      {
+        "id": "broasted-4",
+        "name": "بروستد 4 قطع",
+        "price": 145
+      }
+    ],
+    "items": [
+      {
+        "name": "كفتة",
+        "emoji": "🍢",
+        "price": 450,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-kofta",
+        "photo": "/img/catalog-original/menu-111-kofta.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "وجبة مشكل",
+        "emoji": "🍖",
+        "price": 180,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-mix",
+        "photo": "/img/catalog-original/menu-111-mix.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فتة",
+        "emoji": "🍚",
+        "price": 60,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-fattah",
+        "photo": "/img/catalog-original/menu-111-fattah.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "وجبة كفتة (ربع كيلو)",
+        "emoji": "🍢",
+        "price": 130,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-kofta-meal",
+        "photo": "/img/catalog-original/menu-128-kofta-meal.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "131": {
+    "name": "كشري الأصالة",
+    "baseline": [
+      {
+        "id": "koshary-s",
+        "name": "كشري صغير",
+        "price": 26
+      },
+      {
+        "id": "koshary-m",
+        "name": "كشري وسط",
+        "price": 35
+      },
+      {
+        "id": "koshary-l",
+        "name": "كشري كبير",
+        "price": 45
+      },
+      {
+        "id": "koshary-super",
+        "name": "كشري سوبر بالتقلية الزيادة",
+        "price": 60
+      },
+      {
+        "id": "koshary-family",
+        "name": "كشري عيلة",
+        "price": 105
+      },
+      {
+        "id": "tagen-macaroni",
+        "name": "طاجن مكرونة باللحمة",
+        "price": 65
+      },
+      {
+        "id": "sauce",
+        "name": "شطة ودقة زيادة",
+        "price": 5
+      },
+      {
+        "id": "roz",
+        "name": "أرز بلبن",
+        "price": 21
+      },
+      {
+        "id": "mahalabia",
+        "name": "مهلبية",
+        "price": 21
+      },
+      {
+        "id": "omali",
+        "name": "أم علي",
+        "price": 40
+      }
+    ],
+    "items": [
+      {
+        "name": "مكرونة بشاميل",
+        "emoji": "🧀",
+        "price": 50,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-macaroni",
+        "photo": "/img/catalog-original/menu-104-macaroni.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طاجن مكرونة بالفراخ",
+        "emoji": "",
+        "price": 55,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-chicken-pasta",
+        "photo": "/img/menu-expansion/chicken-pasta.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طاجن مكرونة بالكبدة",
+        "emoji": "",
+        "price": 50,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-liver-pasta",
+        "photo": "/img/menu-expansion/liver-pasta.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "عدس بجبة زيادة",
+        "emoji": "",
+        "price": 7,
+        "unit": "طبق صغير",
+        "step": 1,
+        "id": "illustrative-extra-lentils",
+        "photo": "/img/menu-expansion/extra-lentils.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "132": {
+    "name": "كشري عم عوض",
+    "baseline": [
+      {
+        "id": "koshary-s",
+        "name": "كشري صغير",
+        "price": 25
+      },
+      {
+        "id": "koshary-m",
+        "name": "كشري وسط",
+        "price": 35
+      },
+      {
+        "id": "koshary-l",
+        "name": "كشري كبير",
+        "price": 45
+      },
+      {
+        "id": "koshary-super",
+        "name": "كشري سوبر بالتقلية الزيادة",
+        "price": 55
+      },
+      {
+        "id": "koshary-family",
+        "name": "كشري عيلة",
+        "price": 100
+      },
+      {
+        "id": "tagen-macaroni",
+        "name": "طاجن مكرونة باللحمة",
+        "price": 60
+      },
+      {
+        "id": "sauce",
+        "name": "شطة ودقة زيادة",
+        "price": 5
+      },
+      {
+        "id": "mahalabia",
+        "name": "مهلبية",
+        "price": 20
+      },
+      {
+        "id": "omali",
+        "name": "أم علي",
+        "price": 40
+      }
+    ],
+    "items": [
+      {
+        "name": "مكرونة بشاميل",
+        "emoji": "🧀",
+        "price": 50,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-macaroni",
+        "photo": "/img/catalog-original/menu-104-macaroni.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "أرز بلبن",
+        "emoji": "🍮",
+        "price": 20,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-roz",
+        "photo": "/img/catalog-original/menu-104-roz.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طاجن مكرونة بالفراخ",
+        "emoji": "",
+        "price": 55,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-chicken-pasta",
+        "photo": "/img/menu-expansion/chicken-pasta.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طاجن مكرونة بالكبدة",
+        "emoji": "",
+        "price": 50,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-liver-pasta",
+        "photo": "/img/menu-expansion/liver-pasta.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "133": {
+    "name": "كشري الحاجة سعاد",
+    "baseline": [
+      {
+        "id": "koshary-s",
+        "name": "كشري صغير",
+        "price": 26
+      },
+      {
+        "id": "koshary-m",
+        "name": "كشري وسط",
+        "price": 35
+      },
+      {
+        "id": "koshary-l",
+        "name": "كشري كبير",
+        "price": 45
+      },
+      {
+        "id": "koshary-super",
+        "name": "كشري سوبر بالتقلية الزيادة",
+        "price": 60
+      },
+      {
+        "id": "koshary-family",
+        "name": "كشري عيلة",
+        "price": 105
+      },
+      {
+        "id": "macaroni",
+        "name": "مكرونة بشاميل",
+        "price": 50
+      },
+      {
+        "id": "tagen-macaroni",
+        "name": "طاجن مكرونة باللحمة",
+        "price": 65
+      },
+      {
+        "id": "sauce",
+        "name": "شطة ودقة زيادة",
+        "price": 5
+      },
+      {
+        "id": "roz",
+        "name": "أرز بلبن",
+        "price": 21
+      },
+      {
+        "id": "mahalabia",
+        "name": "مهلبية",
+        "price": 21
+      },
+      {
+        "id": "omali",
+        "name": "أم علي",
+        "price": 40
+      }
+    ],
+    "items": [
+      {
+        "name": "طاجن مكرونة بالفراخ",
+        "emoji": "",
+        "price": 55,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-chicken-pasta",
+        "photo": "/img/menu-expansion/chicken-pasta.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طاجن مكرونة بالكبدة",
+        "emoji": "",
+        "price": 50,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-liver-pasta",
+        "photo": "/img/menu-expansion/liver-pasta.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "عدس بجبة زيادة",
+        "emoji": "",
+        "price": 7,
+        "unit": "طبق صغير",
+        "step": 1,
+        "id": "illustrative-extra-lentils",
+        "photo": "/img/menu-expansion/extra-lentils.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "حمص زيادة",
+        "emoji": "",
+        "price": 7,
+        "unit": "طبق صغير",
+        "step": 1,
+        "id": "illustrative-extra-chickpeas",
+        "photo": "/img/menu-expansion/extra-chickpeas.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "134": {
+    "name": "كشري السعادة",
+    "baseline": [
+      {
+        "id": "koshary-s",
+        "name": "كشري صغير",
+        "price": 25
+      },
+      {
+        "id": "koshary-m",
+        "name": "كشري وسط",
+        "price": 35
+      },
+      {
+        "id": "koshary-l",
+        "name": "كشري كبير",
+        "price": 45
+      },
+      {
+        "id": "koshary-super",
+        "name": "كشري سوبر بالتقلية الزيادة",
+        "price": 55
+      },
+      {
+        "id": "koshary-family",
+        "name": "كشري عيلة",
+        "price": 100
+      },
+      {
+        "id": "macaroni",
+        "name": "مكرونة بشاميل",
+        "price": 50
+      },
+      {
+        "id": "tagen-macaroni",
+        "name": "طاجن مكرونة باللحمة",
+        "price": 60
+      },
+      {
+        "id": "sauce",
+        "name": "شطة ودقة زيادة",
+        "price": 5
+      },
+      {
+        "id": "roz",
+        "name": "أرز بلبن",
+        "price": 20
+      },
+      {
+        "id": "mahalabia",
+        "name": "مهلبية",
+        "price": 20
+      },
+      {
+        "id": "omali",
+        "name": "أم علي",
+        "price": 40
+      }
+    ],
+    "items": [
+      {
+        "name": "طاجن مكرونة بالفراخ",
+        "emoji": "",
+        "price": 55,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-chicken-pasta",
+        "photo": "/img/menu-expansion/chicken-pasta.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طاجن مكرونة بالكبدة",
+        "emoji": "",
+        "price": 50,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-liver-pasta",
+        "photo": "/img/menu-expansion/liver-pasta.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "عدس بجبة زيادة",
+        "emoji": "",
+        "price": 7,
+        "unit": "طبق صغير",
+        "step": 1,
+        "id": "illustrative-extra-lentils",
+        "photo": "/img/menu-expansion/extra-lentils.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "حمص زيادة",
+        "emoji": "",
+        "price": 7,
+        "unit": "طبق صغير",
+        "step": 1,
+        "id": "illustrative-extra-chickpeas",
+        "photo": "/img/menu-expansion/extra-chickpeas.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "135": {
+    "name": "كشري ومكرونة الفلاح",
+    "baseline": [
+      {
+        "id": "koshary-s",
+        "name": "كشري صغير",
+        "price": 25
+      },
+      {
+        "id": "koshary-m",
+        "name": "كشري وسط",
+        "price": 35
+      },
+      {
+        "id": "koshary-l",
+        "name": "كشري كبير",
+        "price": 45
+      },
+      {
+        "id": "koshary-super",
+        "name": "كشري سوبر بالتقلية الزيادة",
+        "price": 55
+      },
+      {
+        "id": "koshary-family",
+        "name": "كشري عيلة",
+        "price": 100
+      },
+      {
+        "id": "macaroni",
+        "name": "مكرونة بشاميل",
+        "price": 50
+      },
+      {
+        "id": "tagen-macaroni",
+        "name": "طاجن مكرونة باللحمة",
+        "price": 60
+      },
+      {
+        "id": "sauce",
+        "name": "شطة ودقة زيادة",
+        "price": 5
+      },
+      {
+        "id": "roz",
+        "name": "أرز بلبن",
+        "price": 20
+      },
+      {
+        "id": "mahalabia",
+        "name": "مهلبية",
+        "price": 20
+      },
+      {
+        "id": "omali",
+        "name": "أم علي",
+        "price": 40
+      }
+    ],
+    "items": [
+      {
+        "name": "طاجن مكرونة بالفراخ",
+        "emoji": "",
+        "price": 55,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-chicken-pasta",
+        "photo": "/img/menu-expansion/chicken-pasta.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طاجن مكرونة بالكبدة",
+        "emoji": "",
+        "price": 50,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-liver-pasta",
+        "photo": "/img/menu-expansion/liver-pasta.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "عدس بجبة زيادة",
+        "emoji": "",
+        "price": 7,
+        "unit": "طبق صغير",
+        "step": 1,
+        "id": "illustrative-extra-lentils",
+        "photo": "/img/menu-expansion/extra-lentils.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "حمص زيادة",
+        "emoji": "",
+        "price": 7,
+        "unit": "طبق صغير",
+        "step": 1,
+        "id": "illustrative-extra-chickpeas",
+        "photo": "/img/menu-expansion/extra-chickpeas.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "136": {
+    "name": "بيتزا وفطير الأمير",
+    "baseline": [
+      {
+        "id": "pizza-margherita",
+        "name": "بيتزا مارجريتا",
+        "price": 100
+      },
+      {
+        "id": "pizza-mix",
+        "name": "بيتزا ميكس لحوم",
+        "price": 155
+      },
+      {
+        "id": "pizza-chicken",
+        "name": "بيتزا فراخ",
+        "price": 130
+      },
+      {
+        "id": "pizza-sausage",
+        "name": "بيتزا سجق",
+        "price": 120
+      },
+      {
+        "id": "crepe-pane",
+        "name": "كريب بانيه",
+        "price": 80
+      },
+      {
+        "id": "crepe-lotus",
+        "name": "كريب لوتس",
+        "price": 70
+      },
+      {
+        "id": "fries",
+        "name": "بطاطس محمرة",
+        "price": 22
+      },
+      {
+        "id": "meshaltet",
+        "name": "فطير مشلتت",
+        "price": 130
+      },
+      {
+        "id": "meshaltet-small",
+        "name": "فطير مشلتت صغير",
+        "price": 75
+      },
+      {
+        "id": "honey-tahini",
+        "name": "عسل أسود وطحينة",
+        "price": 22
+      },
+      {
+        "id": "feteer-mix",
+        "name": "فطير ميكس جبن",
+        "price": 100
+      }
+    ],
+    "items": [
+      {
+        "name": "كريب فراخ",
+        "emoji": "🌯",
+        "price": 70,
+        "unit": "قطعة",
+        "step": 1,
+        "id": "illustrative-crepe-chicken",
+        "photo": "/img/catalog-original/menu-105-crepe-chicken.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "كريب نوتيلا",
+        "emoji": "🍫",
+        "price": 60,
+        "unit": "قطعة",
+        "step": 1,
+        "id": "illustrative-crepe-nutella",
+        "photo": "/img/catalog-original/menu-105-crepe-nutella.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بيتزا تونة",
+        "emoji": "🍕",
+        "price": 115,
+        "unit": "وسط",
+        "step": 1,
+        "id": "illustrative-pizza-tuna",
+        "photo": "/img/catalog-original/menu-137-pizza-tuna.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بيتزا سي فود",
+        "emoji": "🍕",
+        "price": 160,
+        "unit": "وسط",
+        "step": 1,
+        "id": "illustrative-pizza-sea",
+        "photo": "/img/catalog-original/menu-137-pizza-sea.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "137": {
+    "name": "بيتزا روما",
+    "baseline": [
+      {
+        "id": "pizza-margherita",
+        "name": "بيتزا مارجريتا",
+        "price": 90
+      },
+      {
+        "id": "pizza-mix",
+        "name": "بيتزا ميكس لحوم",
+        "price": 140
+      },
+      {
+        "id": "pizza-chicken",
+        "name": "بيتزا فراخ",
+        "price": 120
+      },
+      {
+        "id": "pizza-tuna",
+        "name": "بيتزا تونة",
+        "price": 115
+      },
+      {
+        "id": "pizza-sea",
+        "name": "بيتزا سي فود",
+        "price": 160
+      },
+      {
+        "id": "crepe-kofta",
+        "name": "كريب كفتة",
+        "price": 75
+      },
+      {
+        "id": "crepe-nutella",
+        "name": "كريب نوتيلا",
+        "price": 60
+      },
+      {
+        "id": "crepe-lotus",
+        "name": "كريب لوتس",
+        "price": 65
+      },
+      {
+        "id": "fries",
+        "name": "بطاطس محمرة",
+        "price": 20
+      }
+    ],
+    "items": [
+      {
+        "name": "كريب فراخ",
+        "emoji": "🌯",
+        "price": 70,
+        "unit": "قطعة",
+        "step": 1,
+        "id": "illustrative-crepe-chicken",
+        "photo": "/img/catalog-original/menu-105-crepe-chicken.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بيتزا سجق",
+        "emoji": "🍕",
+        "price": 120,
+        "unit": "وسط",
+        "step": 1,
+        "id": "illustrative-pizza-sausage",
+        "photo": "/img/catalog-original/menu-136-pizza-sausage.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "كريب بانيه",
+        "emoji": "🌯",
+        "price": 80,
+        "unit": "قطعة",
+        "step": 1,
+        "id": "illustrative-crepe-pane",
+        "photo": "/img/catalog-original/menu-136-crepe-pane.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فطير مشلتت",
+        "emoji": "🥞",
+        "price": 130,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-meshaltet",
+        "photo": "/img/catalog-original/menu-136-meshaltet.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "138": {
+    "name": "كريب وبيتزا الشباب",
+    "baseline": [
+      {
+        "id": "pizza-margherita",
+        "name": "بيتزا مارجريتا",
+        "price": 100
+      },
+      {
+        "id": "pizza-mix",
+        "name": "بيتزا ميكس لحوم",
+        "price": 155
+      },
+      {
+        "id": "pizza-chicken",
+        "name": "بيتزا فراخ",
+        "price": 130
+      },
+      {
+        "id": "pizza-sausage",
+        "name": "بيتزا سجق",
+        "price": 120
+      },
+      {
+        "id": "pizza-tuna",
+        "name": "بيتزا تونة",
+        "price": 125
+      },
+      {
+        "id": "pizza-veg",
+        "name": "بيتزا خضار",
+        "price": 95
+      },
+      {
+        "id": "pizza-sea",
+        "name": "بيتزا سي فود",
+        "price": 175
+      },
+      {
+        "id": "crepe-chicken",
+        "name": "كريب فراخ",
+        "price": 75
+      },
+      {
+        "id": "crepe-pane",
+        "name": "كريب بانيه",
+        "price": 80
+      },
+      {
+        "id": "crepe-nutella",
+        "name": "كريب نوتيلا",
+        "price": 65
+      },
+      {
+        "id": "crepe-lotus",
+        "name": "كريب لوتس",
+        "price": 70
+      },
+      {
+        "id": "fries",
+        "name": "بطاطس محمرة",
+        "price": 22
+      }
+    ],
+    "items": [
+      {
+        "name": "فطير مشلتت",
+        "emoji": "🥞",
+        "price": 130,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-meshaltet",
+        "photo": "/img/catalog-original/menu-136-meshaltet.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فطير مشلتت صغير",
+        "emoji": "🥞",
+        "price": 75,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-meshaltet-small",
+        "photo": "/img/catalog-original/menu-136-meshaltet-small.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "عسل أسود وطحينة",
+        "emoji": "🍯",
+        "price": 22,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-honey-tahini",
+        "photo": "/img/catalog-missing/restaurant-136-honey-tahini.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فطير ميكس جبن",
+        "emoji": "🥞",
+        "price": 100,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-feteer-mix",
+        "photo": "/img/catalog-original/menu-136-feteer-mix.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "139": {
+    "name": "بيتزا هاوس الكوبري",
+    "baseline": [
+      {
+        "id": "pizza-margherita",
+        "name": "بيتزا مارجريتا",
+        "price": 95
+      },
+      {
+        "id": "pizza-mix",
+        "name": "بيتزا ميكس لحوم",
+        "price": 145
+      },
+      {
+        "id": "pizza-chicken",
+        "name": "بيتزا فراخ",
+        "price": 125
+      },
+      {
+        "id": "pizza-sausage",
+        "name": "بيتزا سجق",
+        "price": 115
+      },
+      {
+        "id": "pizza-tuna",
+        "name": "بيتزا تونة",
+        "price": 120
+      },
+      {
+        "id": "pizza-veg",
+        "name": "بيتزا خضار",
+        "price": 90
+      },
+      {
+        "id": "pizza-sea",
+        "name": "بيتزا سي فود",
+        "price": 170
+      },
+      {
+        "id": "crepe-chicken",
+        "name": "كريب فراخ",
+        "price": 75
+      },
+      {
+        "id": "crepe-pane",
+        "name": "كريب بانيه",
+        "price": 80
+      },
+      {
+        "id": "fries",
+        "name": "بطاطس محمرة",
+        "price": 21
+      }
+    ],
+    "items": [
+      {
+        "name": "كريب نوتيلا",
+        "emoji": "🍫",
+        "price": 60,
+        "unit": "قطعة",
+        "step": 1,
+        "id": "illustrative-crepe-nutella",
+        "photo": "/img/catalog-original/menu-105-crepe-nutella.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "كريب لوتس",
+        "emoji": "🍪",
+        "price": 70,
+        "unit": "قطعة",
+        "step": 1,
+        "id": "illustrative-crepe-lotus",
+        "photo": "/img/catalog-original/menu-136-crepe-lotus.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فطير مشلتت",
+        "emoji": "🥞",
+        "price": 130,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-meshaltet",
+        "photo": "/img/catalog-original/menu-136-meshaltet.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فطير مشلتت صغير",
+        "emoji": "🥞",
+        "price": 75,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-meshaltet-small",
+        "photo": "/img/catalog-original/menu-136-meshaltet-small.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "140": {
+    "name": "بيتزا وفطير ستار",
+    "baseline": [
+      {
+        "id": "pizza-margherita",
+        "name": "بيتزا مارجريتا",
+        "price": 90
+      },
+      {
+        "id": "pizza-mix",
+        "name": "بيتزا ميكس لحوم",
+        "price": 140
+      },
+      {
+        "id": "pizza-chicken",
+        "name": "بيتزا فراخ",
+        "price": 120
+      },
+      {
+        "id": "pizza-sausage",
+        "name": "بيتزا سجق",
+        "price": 110
+      },
+      {
+        "id": "pizza-tuna",
+        "name": "بيتزا تونة",
+        "price": 115
+      },
+      {
+        "id": "crepe-kofta",
+        "name": "كريب كفتة",
+        "price": 75
+      },
+      {
+        "id": "crepe-nutella",
+        "name": "كريب نوتيلا",
+        "price": 60
+      },
+      {
+        "id": "meshaltet",
+        "name": "فطير مشلتت",
+        "price": 120
+      },
+      {
+        "id": "meshaltet-small",
+        "name": "فطير مشلتت صغير",
+        "price": 70
+      },
+      {
+        "id": "honey-tahini",
+        "name": "عسل أسود وطحينة",
+        "price": 20
+      },
+      {
+        "id": "feteer-mix",
+        "name": "فطير ميكس جبن",
+        "price": 90
+      }
+    ],
+    "items": [
+      {
+        "name": "كريب فراخ",
+        "emoji": "🌯",
+        "price": 70,
+        "unit": "قطعة",
+        "step": 1,
+        "id": "illustrative-crepe-chicken",
+        "photo": "/img/catalog-original/menu-105-crepe-chicken.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "كريب بانيه",
+        "emoji": "🌯",
+        "price": 80,
+        "unit": "قطعة",
+        "step": 1,
+        "id": "illustrative-crepe-pane",
+        "photo": "/img/catalog-original/menu-136-crepe-pane.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "كريب لوتس",
+        "emoji": "🍪",
+        "price": 70,
+        "unit": "قطعة",
+        "step": 1,
+        "id": "illustrative-crepe-lotus",
+        "photo": "/img/catalog-original/menu-136-crepe-lotus.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بطاطس محمرة",
+        "emoji": "🍟",
+        "price": 22,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-fries",
+        "photo": "/img/catalog-original/menu-136-fries.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "141": {
+    "name": "فطاطري الصفا",
+    "baseline": [
+      {
+        "id": "meshaltet",
+        "name": "فطير مشلتت",
+        "price": 115
+      },
+      {
+        "id": "meshaltet-small",
+        "name": "فطير مشلتت صغير",
+        "price": 65
+      },
+      {
+        "id": "honey-tahini",
+        "name": "عسل أسود وطحينة",
+        "price": 19
+      },
+      {
+        "id": "feteer-sausage",
+        "name": "فطير سجق",
+        "price": 90
+      },
+      {
+        "id": "feteer-meat",
+        "name": "فطير لحمة مفرومة",
+        "price": 105
+      },
+      {
+        "id": "feteer-basterma",
+        "name": "فطير بسطرمة",
+        "price": 100
+      },
+      {
+        "id": "feteer-chicken",
+        "name": "فطير فراخ",
+        "price": 95
+      },
+      {
+        "id": "feteer-nutella",
+        "name": "فطير نوتيلا",
+        "price": 80
+      },
+      {
+        "id": "basbousa",
+        "name": "بسبوسة",
+        "price": 135
+      },
+      {
+        "id": "kunafa",
+        "name": "كنافة",
+        "price": 150
+      },
+      {
+        "id": "kunafa-nutella",
+        "name": "كنافة نوتيلا",
+        "price": 190
+      },
+      {
+        "id": "baklava",
+        "name": "بقلاوة",
+        "price": 265
+      }
+    ],
+    "items": [
+      {
+        "name": "فطير ميكس جبن",
+        "emoji": "🥞",
+        "price": 90,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-feteer-mix",
+        "photo": "/img/catalog-original/menu-110-feteer-mix.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فطير بالسكر والقشطة",
+        "emoji": "🥞",
+        "price": 80,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-feteer-sweet",
+        "photo": "/img/catalog-original/menu-110-feteer-sweet.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "أم علي",
+        "emoji": "🍮",
+        "price": 45,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-omali",
+        "photo": "/img/catalog-original/menu-110-omali.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ساندوتش فول",
+        "emoji": "🫘",
+        "price": 7,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-fool-sand",
+        "photo": "/img/catalog-original/menu-142-fool-sand.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "142": {
+    "name": "فطير مشلتت أم السعد",
+    "baseline": [
+      {
+        "id": "meshaltet",
+        "name": "فطير مشلتت",
+        "price": 110
+      },
+      {
+        "id": "meshaltet-small",
+        "name": "فطير مشلتت صغير",
+        "price": 65
+      },
+      {
+        "id": "honey-tahini",
+        "name": "عسل أسود وطحينة",
+        "price": 18
+      },
+      {
+        "id": "feteer-sausage",
+        "name": "فطير سجق",
+        "price": 85
+      },
+      {
+        "id": "feteer-basterma",
+        "name": "فطير بسطرمة",
+        "price": 95
+      },
+      {
+        "id": "feteer-chicken",
+        "name": "فطير فراخ",
+        "price": 90
+      },
+      {
+        "id": "feteer-nutella",
+        "name": "فطير نوتيلا",
+        "price": 75
+      },
+      {
+        "id": "omali",
+        "name": "أم علي",
+        "price": 40
+      },
+      {
+        "id": "fool-sand",
+        "name": "ساندوتش فول",
+        "price": 7
+      },
+      {
+        "id": "taamia-sand",
+        "name": "ساندوتش طعمية",
+        "price": 7
+      },
+      {
+        "id": "egg-sand",
+        "name": "ساندوتش بيض",
+        "price": 11
+      },
+      {
+        "id": "cheese-sand",
+        "name": "ساندوتش جبنة بالطماطم",
+        "price": 9
+      }
+    ],
+    "items": [
+      {
+        "name": "فطير ميكس جبن",
+        "emoji": "🥞",
+        "price": 90,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-feteer-mix",
+        "photo": "/img/catalog-original/menu-110-feteer-mix.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فطير بالسكر والقشطة",
+        "emoji": "🥞",
+        "price": 80,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-feteer-sweet",
+        "photo": "/img/catalog-original/menu-110-feteer-sweet.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فطير لحمة مفرومة",
+        "emoji": "🥞",
+        "price": 105,
+        "unit": "فطيرة",
+        "step": 1,
+        "id": "illustrative-feteer-meat",
+        "photo": "/img/catalog-original/menu-141-feteer-meat.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بسبوسة",
+        "emoji": "🍰",
+        "price": 135,
+        "unit": "كيلو",
+        "step": 0.25,
+        "id": "illustrative-basbousa",
+        "photo": "/img/catalog-original/menu-141-basbousa.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "143": {
+    "name": "أسماك الصياد",
+    "baseline": [
+      {
+        "id": "fried-tilapia",
+        "name": "بلطي مقلي",
+        "price": 135
+      },
+      {
+        "id": "grilled-mullet",
+        "name": "بوري مشوي",
+        "price": 200
+      },
+      {
+        "id": "grilled-bream",
+        "name": "دنيس مشوي",
+        "price": 290
+      },
+      {
+        "id": "fried-sardine",
+        "name": "سردين مقلي",
+        "price": 110
+      },
+      {
+        "id": "shrimp",
+        "name": "جمبري مقلي",
+        "price": 430
+      },
+      {
+        "id": "calamari",
+        "name": "كاليماري مقلي",
+        "price": 290
+      },
+      {
+        "id": "shrimp-tagen",
+        "name": "طاجن جمبري",
+        "price": 135
+      },
+      {
+        "id": "fishchips",
+        "name": "وجبة سمك وبطاطس",
+        "price": 80
+      },
+      {
+        "id": "sayadeya",
+        "name": "أرز صيادية",
+        "price": 27
+      },
+      {
+        "id": "tahini",
+        "name": "سلطة طحينة",
+        "price": 9
+      },
+      {
+        "id": "baba",
+        "name": "بابا غنوج",
+        "price": 14
+      }
+    ],
+    "items": [
+      {
+        "name": "سمك بلطي مقلي",
+        "emoji": "🐟",
+        "price": 150,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-fried-fish",
+        "photo": "/img/catalog-original/menu-106-fried-fish.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "سمك بوري مشوي",
+        "emoji": "🐟",
+        "price": 220,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-grilled-fish",
+        "photo": "/img/catalog-original/menu-106-grilled-fish.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فيليه مقلي",
+        "emoji": "🐟",
+        "price": 170,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-fried-fillet",
+        "photo": "/img/catalog-original/menu-144-fried-fillet.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "كابوريا",
+        "emoji": "🦀",
+        "price": 265,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-crab",
+        "photo": "/img/catalog-original/menu-144-crab.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "144": {
+    "name": "أسماك أبو العربي",
+    "baseline": [
+      {
+        "id": "fried-tilapia",
+        "name": "بلطي مقلي",
+        "price": 140
+      },
+      {
+        "id": "grilled-mullet",
+        "name": "بوري مشوي",
+        "price": 210
+      },
+      {
+        "id": "grilled-bream",
+        "name": "دنيس مشوي",
+        "price": 305
+      },
+      {
+        "id": "fried-fillet",
+        "name": "فيليه مقلي",
+        "price": 170
+      },
+      {
+        "id": "shrimp",
+        "name": "جمبري مقلي",
+        "price": 455
+      },
+      {
+        "id": "calamari",
+        "name": "كاليماري مقلي",
+        "price": 305
+      },
+      {
+        "id": "crab",
+        "name": "كابوريا",
+        "price": 265
+      },
+      {
+        "id": "shrimp-tagen",
+        "name": "طاجن جمبري",
+        "price": 140
+      },
+      {
+        "id": "soup",
+        "name": "شوربة سي فود",
+        "price": 65
+      },
+      {
+        "id": "sayadeya",
+        "name": "أرز صيادية",
+        "price": 28
+      },
+      {
+        "id": "tahini",
+        "name": "سلطة طحينة",
+        "price": 10
+      },
+      {
+        "id": "baba",
+        "name": "بابا غنوج",
+        "price": 14
+      }
+    ],
+    "items": [
+      {
+        "name": "سمك بلطي مقلي",
+        "emoji": "🐟",
+        "price": 150,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-fried-fish",
+        "photo": "/img/catalog-original/menu-106-fried-fish.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "سمك بوري مشوي",
+        "emoji": "🐟",
+        "price": 220,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-grilled-fish",
+        "photo": "/img/catalog-original/menu-106-grilled-fish.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "وجبة سمك وبطاطس",
+        "emoji": "🍟",
+        "price": 90,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-fishchips",
+        "photo": "/img/catalog-original/menu-106-fishchips.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "سردين مقلي",
+        "emoji": "🐟",
+        "price": 110,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-fried-sardine",
+        "photo": "/img/catalog-original/menu-143-fried-sardine.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "145": {
+    "name": "أسماك الريس سلامة",
+    "baseline": [
+      {
+        "id": "fried-tilapia",
+        "name": "بلطي مقلي",
+        "price": 160
+      },
+      {
+        "id": "grilled-mullet",
+        "name": "بوري مشوي",
+        "price": 230
+      },
+      {
+        "id": "grilled-bream",
+        "name": "دنيس مشوي",
+        "price": 335
+      },
+      {
+        "id": "fried-sardine",
+        "name": "سردين مقلي",
+        "price": 125
+      },
+      {
+        "id": "shrimp",
+        "name": "جمبري مقلي",
+        "price": 505
+      },
+      {
+        "id": "calamari",
+        "name": "كاليماري مقلي",
+        "price": 335
+      },
+      {
+        "id": "shrimp-tagen",
+        "name": "طاجن جمبري",
+        "price": 160
+      },
+      {
+        "id": "fishchips",
+        "name": "وجبة سمك وبطاطس",
+        "price": 95
+      },
+      {
+        "id": "soup",
+        "name": "شوربة سي فود",
+        "price": 75
+      },
+      {
+        "id": "sayadeya",
+        "name": "أرز صيادية",
+        "price": 32
+      },
+      {
+        "id": "baba",
+        "name": "بابا غنوج",
+        "price": 16
+      }
+    ],
+    "items": [
+      {
+        "name": "سمك بلطي مقلي",
+        "emoji": "🐟",
+        "price": 150,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-fried-fish",
+        "photo": "/img/catalog-original/menu-106-fried-fish.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "سمك بوري مشوي",
+        "emoji": "🐟",
+        "price": 220,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-grilled-fish",
+        "photo": "/img/catalog-original/menu-106-grilled-fish.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "سلطة طحينة",
+        "emoji": "🥣",
+        "price": 9,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-tahini",
+        "photo": "/img/catalog-original/menu-143-tahini.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فيليه مقلي",
+        "emoji": "🐟",
+        "price": 170,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-fried-fillet",
+        "photo": "/img/catalog-original/menu-144-fried-fillet.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "146": {
+    "name": "مطعم الشاطئ للمأكولات البحرية",
+    "baseline": [
+      {
+        "id": "fried-tilapia",
+        "name": "بلطي مقلي",
+        "price": 160
+      },
+      {
+        "id": "grilled-mullet",
+        "name": "بوري مشوي",
+        "price": 230
+      },
+      {
+        "id": "grilled-bream",
+        "name": "دنيس مشوي",
+        "price": 335
+      },
+      {
+        "id": "fried-sardine",
+        "name": "سردين مقلي",
+        "price": 125
+      },
+      {
+        "id": "shrimp",
+        "name": "جمبري مقلي",
+        "price": 505
+      },
+      {
+        "id": "calamari",
+        "name": "كاليماري مقلي",
+        "price": 335
+      },
+      {
+        "id": "crab",
+        "name": "كابوريا",
+        "price": 295
+      },
+      {
+        "id": "fishchips",
+        "name": "وجبة سمك وبطاطس",
+        "price": 95
+      },
+      {
+        "id": "sayadeya",
+        "name": "أرز صيادية",
+        "price": 32
+      },
+      {
+        "id": "tahini",
+        "name": "سلطة طحينة",
+        "price": 10
+      }
+    ],
+    "items": [
+      {
+        "name": "سمك بلطي مقلي",
+        "emoji": "🐟",
+        "price": 150,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-fried-fish",
+        "photo": "/img/catalog-original/menu-106-fried-fish.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "سمك بوري مشوي",
+        "emoji": "🐟",
+        "price": 220,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-grilled-fish",
+        "photo": "/img/catalog-original/menu-106-grilled-fish.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طاجن جمبري",
+        "emoji": "🥘",
+        "price": 135,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-shrimp-tagen",
+        "photo": "/img/catalog-original/menu-143-shrimp-tagen.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بابا غنوج",
+        "emoji": "🍆",
+        "price": 14,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-baba",
+        "photo": "/img/catalog-original/menu-143-baba.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "147": {
+    "name": "أسماك بحيرة المنزلة",
+    "baseline": [
+      {
+        "id": "fried-tilapia",
+        "name": "بلطي مقلي",
+        "price": 160
+      },
+      {
+        "id": "grilled-mullet",
+        "name": "بوري مشوي",
+        "price": 230
+      },
+      {
+        "id": "grilled-bream",
+        "name": "دنيس مشوي",
+        "price": 335
+      },
+      {
+        "id": "calamari",
+        "name": "كاليماري مقلي",
+        "price": 335
+      },
+      {
+        "id": "crab",
+        "name": "كابوريا",
+        "price": 295
+      },
+      {
+        "id": "shrimp-tagen",
+        "name": "طاجن جمبري",
+        "price": 160
+      },
+      {
+        "id": "fishchips",
+        "name": "وجبة سمك وبطاطس",
+        "price": 95
+      },
+      {
+        "id": "sayadeya",
+        "name": "أرز صيادية",
+        "price": 32
+      },
+      {
+        "id": "tahini",
+        "name": "سلطة طحينة",
+        "price": 10
+      },
+      {
+        "id": "baba",
+        "name": "بابا غنوج",
+        "price": 16
+      }
+    ],
+    "items": [
+      {
+        "name": "سمك بلطي مقلي",
+        "emoji": "🐟",
+        "price": 150,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-fried-fish",
+        "photo": "/img/catalog-original/menu-106-fried-fish.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "سمك بوري مشوي",
+        "emoji": "🐟",
+        "price": 220,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-grilled-fish",
+        "photo": "/img/catalog-original/menu-106-grilled-fish.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "جمبري مقلي",
+        "emoji": "🦐",
+        "price": 480,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-shrimp",
+        "photo": "/img/catalog-original/menu-106-shrimp.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "سردين مقلي",
+        "emoji": "🐟",
+        "price": 110,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-fried-sardine",
+        "photo": "/img/catalog-original/menu-143-fried-sardine.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "148": {
+    "name": "شاورما الريم",
+    "baseline": [
+      {
+        "id": "shawarma-chicken",
+        "name": "شاورما فراخ",
+        "price": 50
+      },
+      {
+        "id": "shawarma-meat",
+        "name": "شاورما لحمة",
+        "price": 60
+      },
+      {
+        "id": "syrian-chicken",
+        "name": "سوري فراخ",
+        "price": 50
+      },
+      {
+        "id": "chicken-meal",
+        "name": "وجبة شاورما فراخ",
+        "price": 90
+      },
+      {
+        "id": "meat-meal",
+        "name": "وجبة شاورما لحمة",
+        "price": 115
+      },
+      {
+        "id": "taouk",
+        "name": "شيش طاووق",
+        "price": 75
+      },
+      {
+        "id": "shawarma-kg",
+        "name": "شاورما فراخ بالكيلو",
+        "price": 360
+      },
+      {
+        "id": "garlic",
+        "name": "ثومية",
+        "price": 5
+      },
+      {
+        "id": "pickles",
+        "name": "مخلل",
+        "price": 5
+      }
+    ],
+    "items": [
+      {
+        "name": "بطاطس",
+        "emoji": "🍟",
+        "price": 20,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-fries",
+        "photo": "/img/catalog-original/menu-107-fries.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فتة شاورما",
+        "emoji": "🍲",
+        "price": 90,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-fattah-shawarma",
+        "photo": "/img/catalog-original/menu-149-fattah-shawarma.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بطاطس محمرة",
+        "emoji": "🍟",
+        "price": 20,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-fries-149",
+        "photo": "/img/catalog-original/menu-149-fries.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "نص فرخة مشوية",
+        "emoji": "🍗",
+        "price": 120,
+        "unit": "نص فرخة",
+        "step": 1,
+        "id": "illustrative-grilled-half",
+        "photo": "/img/catalog-original/menu-149-grilled-half.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "149": {
+    "name": "شاورما وفراخ أبو خليل",
+    "baseline": [
+      {
+        "id": "shawarma-chicken",
+        "name": "شاورما فراخ",
+        "price": 50
+      },
+      {
+        "id": "shawarma-meat",
+        "name": "شاورما لحمة",
+        "price": 65
+      },
+      {
+        "id": "syrian-chicken",
+        "name": "سوري فراخ",
+        "price": 55
+      },
+      {
+        "id": "fattah-shawarma",
+        "name": "فتة شاورما",
+        "price": 90
+      },
+      {
+        "id": "taouk",
+        "name": "شيش طاووق",
+        "price": 80
+      },
+      {
+        "id": "shawarma-kg",
+        "name": "شاورما فراخ بالكيلو",
+        "price": 380
+      },
+      {
+        "id": "fries",
+        "name": "بطاطس محمرة",
+        "price": 20
+      },
+      {
+        "id": "pickles",
+        "name": "مخلل",
+        "price": 5
+      },
+      {
+        "id": "grilled-half",
+        "name": "نص فرخة مشوية",
+        "price": 120
+      },
+      {
+        "id": "grilled-whole",
+        "name": "فرخة مشوية",
+        "price": 230
+      },
+      {
+        "id": "fried-meal",
+        "name": "وجبة فراخ مقلية",
+        "price": 110
+      },
+      {
+        "id": "broasted-4",
+        "name": "بروستد 4 قطع",
+        "price": 130
+      }
+    ],
+    "items": [
+      {
+        "name": "بطاطس",
+        "emoji": "🍟",
+        "price": 20,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-fries",
+        "photo": "/img/catalog-original/menu-107-fries.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "وجبة شاورما فراخ",
+        "emoji": "🍽️",
+        "price": 90,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-chicken-meal",
+        "photo": "/img/catalog-original/menu-148-chicken-meal.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "وجبة شاورما لحمة",
+        "emoji": "🍽️",
+        "price": 115,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-meat-meal",
+        "photo": "/img/catalog-original/menu-148-meat-meal.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ثومية",
+        "emoji": "🧄",
+        "price": 5,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-garlic",
+        "photo": "/img/catalog-missing/restaurant-148-garlic.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "150": {
+    "name": "شاورما البيت السوري",
+    "baseline": [
+      {
+        "id": "shawarma-chicken",
+        "name": "شاورما فراخ",
+        "price": 50
+      },
+      {
+        "id": "shawarma-meat",
+        "name": "شاورما لحمة",
+        "price": 70
+      },
+      {
+        "id": "syrian-chicken",
+        "name": "سوري فراخ",
+        "price": 60
+      },
+      {
+        "id": "chicken-meal",
+        "name": "وجبة شاورما فراخ",
+        "price": 100
+      },
+      {
+        "id": "meat-meal",
+        "name": "وجبة شاورما لحمة",
+        "price": 125
+      },
+      {
+        "id": "fattah-shawarma",
+        "name": "فتة شاورما",
+        "price": 95
+      },
+      {
+        "id": "taouk",
+        "name": "شيش طاووق",
+        "price": 85
+      },
+      {
+        "id": "shawarma-kg",
+        "name": "شاورما فراخ بالكيلو",
+        "price": 400
+      },
+      {
+        "id": "fries",
+        "name": "بطاطس محمرة",
+        "price": 21
+      },
+      {
+        "id": "garlic",
+        "name": "ثومية",
+        "price": 5
+      },
+      {
+        "id": "pickles",
+        "name": "مخلل",
+        "price": 5
+      }
+    ],
+    "items": [
+      {
+        "name": "بطاطس",
+        "emoji": "🍟",
+        "price": 20,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-fries",
+        "photo": "/img/catalog-original/menu-107-fries.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "نص فرخة مشوية",
+        "emoji": "🍗",
+        "price": 120,
+        "unit": "نص فرخة",
+        "step": 1,
+        "id": "illustrative-grilled-half",
+        "photo": "/img/catalog-original/menu-149-grilled-half.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فرخة مشوية",
+        "emoji": "🍗",
+        "price": 230,
+        "unit": "فرخة",
+        "step": 1,
+        "id": "illustrative-grilled-whole",
+        "photo": "/img/catalog-original/menu-149-grilled-whole.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "وجبة فراخ مقلية",
+        "emoji": "🍗",
+        "price": 110,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-fried-meal",
+        "photo": "/img/catalog-original/menu-149-fried-meal.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "151": {
+    "name": "شاورما الملك",
+    "baseline": [
+      {
+        "id": "shawarma-chicken",
+        "name": "شاورما فراخ",
+        "price": 45
+      },
+      {
+        "id": "shawarma-meat",
+        "name": "شاورما لحمة",
+        "price": 60
+      },
+      {
+        "id": "syrian-chicken",
+        "name": "سوري فراخ",
+        "price": 50
+      },
+      {
+        "id": "chicken-meal",
+        "name": "وجبة شاورما فراخ",
+        "price": 85
+      },
+      {
+        "id": "meat-meal",
+        "name": "وجبة شاورما لحمة",
+        "price": 110
+      },
+      {
+        "id": "fattah-shawarma",
+        "name": "فتة شاورما",
+        "price": 80
+      },
+      {
+        "id": "taouk",
+        "name": "شيش طاووق",
+        "price": 70
+      },
+      {
+        "id": "shawarma-kg",
+        "name": "شاورما فراخ بالكيلو",
+        "price": 340
+      },
+      {
+        "id": "fries",
+        "name": "بطاطس محمرة",
+        "price": 18
+      },
+      {
+        "id": "garlic",
+        "name": "ثومية",
+        "price": 4
+      },
+      {
+        "id": "pickles",
+        "name": "مخلل",
+        "price": 4
+      }
+    ],
+    "items": [
+      {
+        "name": "بطاطس",
+        "emoji": "🍟",
+        "price": 20,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-fries",
+        "photo": "/img/catalog-original/menu-107-fries.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "نص فرخة مشوية",
+        "emoji": "🍗",
+        "price": 120,
+        "unit": "نص فرخة",
+        "step": 1,
+        "id": "illustrative-grilled-half",
+        "photo": "/img/catalog-original/menu-149-grilled-half.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فرخة مشوية",
+        "emoji": "🍗",
+        "price": 230,
+        "unit": "فرخة",
+        "step": 1,
+        "id": "illustrative-grilled-whole",
+        "photo": "/img/catalog-original/menu-149-grilled-whole.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "وجبة فراخ مقلية",
+        "emoji": "🍗",
+        "price": 110,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-fried-meal",
+        "photo": "/img/catalog-original/menu-149-fried-meal.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "152": {
+    "name": "شاورما ركن الشباب",
+    "baseline": [
+      {
+        "id": "shawarma-chicken",
+        "name": "شاورما فراخ",
+        "price": 55
+      },
+      {
+        "id": "shawarma-meat",
+        "name": "شاورما لحمة",
+        "price": 70
+      },
+      {
+        "id": "syrian-chicken",
+        "name": "سوري فراخ",
+        "price": 60
+      },
+      {
+        "id": "chicken-meal",
+        "name": "وجبة شاورما فراخ",
+        "price": 105
+      },
+      {
+        "id": "meat-meal",
+        "name": "وجبة شاورما لحمة",
+        "price": 130
+      },
+      {
+        "id": "fattah-shawarma",
+        "name": "فتة شاورما",
+        "price": 100
+      },
+      {
+        "id": "taouk",
+        "name": "شيش طاووق",
+        "price": 90
+      },
+      {
+        "id": "shawarma-kg",
+        "name": "شاورما فراخ بالكيلو",
+        "price": 420
+      },
+      {
+        "id": "fries",
+        "name": "بطاطس محمرة",
+        "price": 22
+      },
+      {
+        "id": "garlic",
+        "name": "ثومية",
+        "price": 6
+      },
+      {
+        "id": "pickles",
+        "name": "مخلل",
+        "price": 6
+      }
+    ],
+    "items": [
+      {
+        "name": "بطاطس",
+        "emoji": "🍟",
+        "price": 20,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-fries",
+        "photo": "/img/catalog-original/menu-107-fries.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "نص فرخة مشوية",
+        "emoji": "🍗",
+        "price": 120,
+        "unit": "نص فرخة",
+        "step": 1,
+        "id": "illustrative-grilled-half",
+        "photo": "/img/catalog-original/menu-149-grilled-half.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فرخة مشوية",
+        "emoji": "🍗",
+        "price": 230,
+        "unit": "فرخة",
+        "step": 1,
+        "id": "illustrative-grilled-whole",
+        "photo": "/img/catalog-original/menu-149-grilled-whole.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "وجبة فراخ مقلية",
+        "emoji": "🍗",
+        "price": 110,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-fried-meal",
+        "photo": "/img/catalog-original/menu-149-fried-meal.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "153": {
+    "name": "فراخ الوادي المشوية",
+    "baseline": [
+      {
+        "id": "grilled-half",
+        "name": "نص فرخة مشوية",
+        "price": 120
+      },
+      {
+        "id": "grilled-whole",
+        "name": "فرخة مشوية",
+        "price": 230
+      },
+      {
+        "id": "fried-meal",
+        "name": "وجبة فراخ مقلية",
+        "price": 110
+      },
+      {
+        "id": "broasted-8",
+        "name": "بروستد 8 قطع",
+        "price": 240
+      },
+      {
+        "id": "nuggets",
+        "name": "ناجتس",
+        "price": 70
+      },
+      {
+        "id": "wings",
+        "name": "أجنحة مقلية",
+        "price": 60
+      },
+      {
+        "id": "strips",
+        "name": "استربس",
+        "price": 90
+      },
+      {
+        "id": "molokhia",
+        "name": "ملوخية",
+        "price": 30
+      },
+      {
+        "id": "coleslaw",
+        "name": "كول سلو",
+        "price": 15
+      }
+    ],
+    "items": [
+      {
+        "name": "بروستد 4 قطع",
+        "emoji": "🍗",
+        "price": 135,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-broasted-4",
+        "photo": "/img/catalog-original/menu-154-broasted-4.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "وجبة بانيه",
+        "emoji": "🍗",
+        "price": 100,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-pane-meal",
+        "photo": "/img/catalog-original/menu-154-pane-meal.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "أرز بالشعرية",
+        "emoji": "🍚",
+        "price": 21,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-rice",
+        "photo": "/img/catalog-missing/restaurant-154-rice.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "بطاطس محمرة",
+        "emoji": "🍟",
+        "price": 21,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-fries",
+        "photo": "/img/catalog-original/menu-154-fries.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "154": {
+    "name": "بروستد الريف",
+    "baseline": [
+      {
+        "id": "grilled-half",
+        "name": "نص فرخة مشوية",
+        "price": 125
+      },
+      {
+        "id": "grilled-whole",
+        "name": "فرخة مشوية",
+        "price": 240
+      },
+      {
+        "id": "fried-meal",
+        "name": "وجبة فراخ مقلية",
+        "price": 115
+      },
+      {
+        "id": "broasted-4",
+        "name": "بروستد 4 قطع",
+        "price": 135
+      },
+      {
+        "id": "broasted-8",
+        "name": "بروستد 8 قطع",
+        "price": 250
+      },
+      {
+        "id": "nuggets",
+        "name": "ناجتس",
+        "price": 75
+      },
+      {
+        "id": "pane-meal",
+        "name": "وجبة بانيه",
+        "price": 100
+      },
+      {
+        "id": "strips",
+        "name": "استربس",
+        "price": 95
+      },
+      {
+        "id": "molokhia",
+        "name": "ملوخية",
+        "price": 32
+      },
+      {
+        "id": "rice",
+        "name": "أرز بالشعرية",
+        "price": 21
+      },
+      {
+        "id": "coleslaw",
+        "name": "كول سلو",
+        "price": 16
+      },
+      {
+        "id": "fries",
+        "name": "بطاطس محمرة",
+        "price": 21
+      }
+    ],
+    "items": [
+      {
+        "name": "أجنحة مقلية",
+        "emoji": "🍗",
+        "price": 60,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-wings",
+        "photo": "/img/catalog-original/menu-153-wings.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "شاورما فراخ",
+        "emoji": "🌯",
+        "price": 50,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-shawarma-chicken",
+        "photo": "/img/catalog-original/menu-107-shawarma-chicken.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "شاورما لحمة",
+        "emoji": "🌯",
+        "price": 65,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-shawarma-meat",
+        "photo": "/img/catalog-original/menu-107-shawarma-meat.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "شيش طاووق",
+        "emoji": "🍢",
+        "price": 80,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-taouk",
+        "photo": "/img/catalog-original/menu-107-taouk.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "155": {
+    "name": "كبدة وسجق المعلم رضا",
+    "baseline": [
+      {
+        "id": "liver-sand",
+        "name": "ساندوتش كبدة إسكندراني",
+        "price": 26
+      },
+      {
+        "id": "sausage-sand",
+        "name": "ساندوتش سجق",
+        "price": 26
+      },
+      {
+        "id": "mix-sand",
+        "name": "ساندوتش ميكس كبدة وسجق",
+        "price": 32
+      },
+      {
+        "id": "brain-sand",
+        "name": "ساندوتش مخ",
+        "price": 40
+      },
+      {
+        "id": "liver-kg",
+        "name": "كبدة إسكندراني بالكيلو",
+        "price": 400
+      },
+      {
+        "id": "sausage-kg",
+        "name": "سجق شرقي بالكيلو",
+        "price": 335
+      },
+      {
+        "id": "gizzard-tagen",
+        "name": "طاجن قوانص",
+        "price": 50
+      },
+      {
+        "id": "mombar",
+        "name": "ممبار محشي",
+        "price": 65
+      },
+      {
+        "id": "potato-sand",
+        "name": "ساندوتش بطاطس",
+        "price": 10
+      },
+      {
+        "id": "fries",
+        "name": "بطاطس محمرة",
+        "price": 21
+      },
+      {
+        "id": "tahini",
+        "name": "طحينة",
+        "price": 10
+      },
+      {
+        "id": "pickles",
+        "name": "طرشي بلدي",
+        "price": 5
+      }
+    ],
+    "items": [
+      {
+        "name": "ساندوتش كبدة",
+        "emoji": "🌭",
+        "price": 25,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-liver",
+        "photo": "/img/catalog-missing/restaurant-109-liver.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "كبدة إسكندراني",
+        "emoji": "🥘",
+        "price": 380,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-liver-kg",
+        "photo": "/img/catalog-missing/restaurant-109-liver-kg.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "حواوشي عادي",
+        "emoji": "🥙",
+        "price": 45,
+        "unit": "رغيف",
+        "step": 1,
+        "id": "illustrative-hawawshi",
+        "photo": "/img/catalog-original/menu-103-hawawshi.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "حواوشي بالجبنة",
+        "emoji": "🥙",
+        "price": 55,
+        "unit": "رغيف",
+        "step": 1,
+        "id": "illustrative-hawawshi-cheese",
+        "photo": "/img/catalog-original/menu-103-hawawshi-cheese.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "156": {
+    "name": "كبدة عم حمدي",
+    "baseline": [
+      {
+        "id": "liver-sand",
+        "name": "ساندوتش كبدة إسكندراني",
+        "price": 25
+      },
+      {
+        "id": "sausage-sand",
+        "name": "ساندوتش سجق",
+        "price": 25
+      },
+      {
+        "id": "mix-sand",
+        "name": "ساندوتش ميكس كبدة وسجق",
+        "price": 30
+      },
+      {
+        "id": "liver-kg",
+        "name": "كبدة إسكندراني بالكيلو",
+        "price": 380
+      },
+      {
+        "id": "sausage-kg",
+        "name": "سجق شرقي بالكيلو",
+        "price": 320
+      },
+      {
+        "id": "mombar",
+        "name": "ممبار محشي",
+        "price": 60
+      },
+      {
+        "id": "potato-sand",
+        "name": "ساندوتش بطاطس",
+        "price": 10
+      },
+      {
+        "id": "fries",
+        "name": "بطاطس محمرة",
+        "price": 20
+      },
+      {
+        "id": "tahini",
+        "name": "طحينة",
+        "price": 10
+      },
+      {
+        "id": "pickles",
+        "name": "طرشي بلدي",
+        "price": 5
+      }
+    ],
+    "items": [
+      {
+        "name": "ساندوتش كبدة",
+        "emoji": "🌭",
+        "price": 25,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-liver",
+        "photo": "/img/catalog-missing/restaurant-109-liver.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "كبدة إسكندراني",
+        "emoji": "🥘",
+        "price": 380,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-liver-kg",
+        "photo": "/img/catalog-missing/restaurant-109-liver-kg.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ساندوتش مخ",
+        "emoji": "🥖",
+        "price": 40,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-brain-sand",
+        "photo": "/img/catalog-missing/restaurant-155-brain-sand.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طاجن قوانص",
+        "emoji": "🥘",
+        "price": 50,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-gizzard-tagen",
+        "photo": "/img/catalog-original/menu-155-gizzard-tagen.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "157": {
+    "name": "كبدة ومخ أبو السعود",
+    "baseline": [
+      {
+        "id": "liver-sand",
+        "name": "ساندوتش كبدة إسكندراني",
+        "price": 26
+      },
+      {
+        "id": "sausage-sand",
+        "name": "ساندوتش سجق",
+        "price": 26
+      },
+      {
+        "id": "mix-sand",
+        "name": "ساندوتش ميكس كبدة وسجق",
+        "price": 32
+      },
+      {
+        "id": "brain-sand",
+        "name": "ساندوتش مخ",
+        "price": 40
+      },
+      {
+        "id": "liver-kg",
+        "name": "كبدة إسكندراني بالكيلو",
+        "price": 400
+      },
+      {
+        "id": "sausage-kg",
+        "name": "سجق شرقي بالكيلو",
+        "price": 335
+      },
+      {
+        "id": "gizzard-tagen",
+        "name": "طاجن قوانص",
+        "price": 50
+      },
+      {
+        "id": "mombar",
+        "name": "ممبار محشي",
+        "price": 65
+      },
+      {
+        "id": "potato-sand",
+        "name": "ساندوتش بطاطس",
+        "price": 10
+      },
+      {
+        "id": "fries",
+        "name": "بطاطس محمرة",
+        "price": 21
+      },
+      {
+        "id": "tahini",
+        "name": "طحينة",
+        "price": 10
+      },
+      {
+        "id": "pickles",
+        "name": "طرشي بلدي",
+        "price": 5
+      }
+    ],
+    "items": [
+      {
+        "name": "ساندوتش كبدة",
+        "emoji": "🌭",
+        "price": 25,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-liver",
+        "photo": "/img/catalog-missing/restaurant-109-liver.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "كبدة إسكندراني",
+        "emoji": "🥘",
+        "price": 380,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-liver-kg",
+        "photo": "/img/catalog-missing/restaurant-109-liver-kg.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "حواوشي عادي",
+        "emoji": "🥙",
+        "price": 45,
+        "unit": "رغيف",
+        "step": 1,
+        "id": "illustrative-hawawshi",
+        "photo": "/img/catalog-original/menu-103-hawawshi.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "حواوشي بالجبنة",
+        "emoji": "🥙",
+        "price": 55,
+        "unit": "رغيف",
+        "step": 1,
+        "id": "illustrative-hawawshi-cheese",
+        "photo": "/img/catalog-original/menu-103-hawawshi-cheese.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "158": {
+    "name": "سجق وكبدة الفلاحين",
+    "baseline": [
+      {
+        "id": "liver-sand",
+        "name": "ساندوتش كبدة إسكندراني",
+        "price": 28
+      },
+      {
+        "id": "sausage-sand",
+        "name": "ساندوتش سجق",
+        "price": 28
+      },
+      {
+        "id": "mix-sand",
+        "name": "ساندوتش ميكس كبدة وسجق",
+        "price": 33
+      },
+      {
+        "id": "brain-sand",
+        "name": "ساندوتش مخ",
+        "price": 45
+      },
+      {
+        "id": "sausage-kg",
+        "name": "سجق شرقي بالكيلو",
+        "price": 350
+      },
+      {
+        "id": "gizzard-tagen",
+        "name": "طاجن قوانص",
+        "price": 55
+      },
+      {
+        "id": "potato-sand",
+        "name": "ساندوتش بطاطس",
+        "price": 11
+      },
+      {
+        "id": "fries",
+        "name": "بطاطس محمرة",
+        "price": 22
+      },
+      {
+        "id": "tahini",
+        "name": "طحينة",
+        "price": 11
+      },
+      {
+        "id": "pickles",
+        "name": "طرشي بلدي",
+        "price": 6
+      }
+    ],
+    "items": [
+      {
+        "name": "ساندوتش كبدة",
+        "emoji": "🌭",
+        "price": 25,
+        "unit": "ساندوتش",
+        "step": 1,
+        "id": "illustrative-liver",
+        "photo": "/img/catalog-missing/restaurant-109-liver.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "كبدة إسكندراني",
+        "emoji": "🥘",
+        "price": 380,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-liver-kg",
+        "photo": "/img/catalog-missing/restaurant-109-liver-kg.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "كبدة إسكندراني بالكيلو",
+        "emoji": "🍖",
+        "price": 400,
+        "unit": "كيلو",
+        "step": 0.25,
+        "id": "illustrative-liver-kg-155",
+        "photo": "/img/catalog-missing/restaurant-155-liver-kg.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ممبار محشي",
+        "emoji": "🌭",
+        "price": 65,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-mombar",
+        "photo": "/img/catalog-original/menu-155-mombar.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "159": {
+    "name": "بط وحمام أم أحمد",
+    "baseline": [
+      {
+        "id": "duck",
+        "name": "بطة محمرة",
+        "price": 715
+      },
+      {
+        "id": "duck-half",
+        "name": "نص بطة محمرة",
+        "price": 375
+      },
+      {
+        "id": "goose",
+        "name": "وزة محمرة",
+        "price": 990
+      },
+      {
+        "id": "pigeon",
+        "name": "جوز حمام محشي",
+        "price": 240
+      },
+      {
+        "id": "quail",
+        "name": "سمان محمر (جوز)",
+        "price": 130
+      },
+      {
+        "id": "mahshi",
+        "name": "محشي مشكل",
+        "price": 90
+      },
+      {
+        "id": "fattah",
+        "name": "فتة",
+        "price": 65
+      },
+      {
+        "id": "molokhia",
+        "name": "ملوخية",
+        "price": 33
+      },
+      {
+        "id": "rice-moammar",
+        "name": "طاجن أرز معمر",
+        "price": 75
+      },
+      {
+        "id": "okra-tagen",
+        "name": "طاجن بامية باللحمة",
+        "price": 95
+      },
+      {
+        "id": "soup",
+        "name": "شوربة لسان عصفور",
+        "price": 22
+      }
+    ],
+    "items": [
+      {
+        "name": "ورقة لحمة بالخضار",
+        "emoji": "",
+        "price": 120,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-beef-parcel",
+        "photo": "/img/menu-expansion/beef-parcel.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طاجن عكاوي",
+        "emoji": "",
+        "price": 180,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-oxtail-tagine",
+        "photo": "/img/menu-expansion/oxtail-tagine.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فتة باللحمة",
+        "emoji": "",
+        "price": 110,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-beef-fattah",
+        "photo": "/img/menu-expansion/beef-fattah.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "شوربة خضار",
+        "emoji": "",
+        "price": 20,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-vegetable-soup",
+        "photo": "/img/menu-expansion/vegetable-soup.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "160": {
+    "name": "بيت الحمام المحشي",
+    "baseline": [
+      {
+        "id": "duck",
+        "name": "بطة محمرة",
+        "price": 650
+      },
+      {
+        "id": "duck-half",
+        "name": "نص بطة محمرة",
+        "price": 340
+      },
+      {
+        "id": "goose",
+        "name": "وزة محمرة",
+        "price": 900
+      },
+      {
+        "id": "pigeon",
+        "name": "جوز حمام محشي",
+        "price": 220
+      },
+      {
+        "id": "mahshi",
+        "name": "محشي مشكل",
+        "price": 80
+      },
+      {
+        "id": "fattah",
+        "name": "فتة",
+        "price": 60
+      },
+      {
+        "id": "molokhia",
+        "name": "ملوخية",
+        "price": 30
+      },
+      {
+        "id": "rice-moammar",
+        "name": "طاجن أرز معمر",
+        "price": 70
+      },
+      {
+        "id": "okra-tagen",
+        "name": "طاجن بامية باللحمة",
+        "price": 85
+      },
+      {
+        "id": "soup",
+        "name": "شوربة لسان عصفور",
+        "price": 20
+      }
+    ],
+    "items": [
+      {
+        "name": "سمان محمر (جوز)",
+        "emoji": "🐦",
+        "price": 130,
+        "unit": "جوز",
+        "step": 1,
+        "id": "illustrative-quail",
+        "photo": "/img/catalog-original/menu-159-quail.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "ورقة لحمة بالخضار",
+        "emoji": "",
+        "price": 120,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-beef-parcel",
+        "photo": "/img/menu-expansion/beef-parcel.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طاجن عكاوي",
+        "emoji": "",
+        "price": 180,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-oxtail-tagine",
+        "photo": "/img/menu-expansion/oxtail-tagine.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فتة باللحمة",
+        "emoji": "",
+        "price": 110,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-beef-fattah",
+        "photo": "/img/menu-expansion/beef-fattah.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "161": {
+    "name": "أكل بيتي أم عادل",
+    "baseline": [
+      {
+        "id": "duck",
+        "name": "بطة محمرة",
+        "price": 650
+      },
+      {
+        "id": "duck-half",
+        "name": "نص بطة محمرة",
+        "price": 340
+      },
+      {
+        "id": "goose",
+        "name": "وزة محمرة",
+        "price": 900
+      },
+      {
+        "id": "pigeon",
+        "name": "جوز حمام محشي",
+        "price": 220
+      },
+      {
+        "id": "quail",
+        "name": "سمان محمر (جوز)",
+        "price": 120
+      },
+      {
+        "id": "mahshi",
+        "name": "محشي مشكل",
+        "price": 80
+      },
+      {
+        "id": "fattah",
+        "name": "فتة",
+        "price": 60
+      },
+      {
+        "id": "molokhia",
+        "name": "ملوخية",
+        "price": 30
+      },
+      {
+        "id": "rice-moammar",
+        "name": "طاجن أرز معمر",
+        "price": 70
+      },
+      {
+        "id": "okra-tagen",
+        "name": "طاجن بامية باللحمة",
+        "price": 85
+      },
+      {
+        "id": "soup",
+        "name": "شوربة لسان عصفور",
+        "price": 20
+      }
+    ],
+    "items": [
+      {
+        "name": "ورقة لحمة بالخضار",
+        "emoji": "",
+        "price": 120,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-beef-parcel",
+        "photo": "/img/menu-expansion/beef-parcel.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طاجن عكاوي",
+        "emoji": "",
+        "price": 180,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-oxtail-tagine",
+        "photo": "/img/menu-expansion/oxtail-tagine.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فتة باللحمة",
+        "emoji": "",
+        "price": 110,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-beef-fattah",
+        "photo": "/img/menu-expansion/beef-fattah.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "شوربة خضار",
+        "emoji": "",
+        "price": 20,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-vegetable-soup",
+        "photo": "/img/menu-expansion/vegetable-soup.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "162": {
+    "name": "مطبخ الست وداد",
+    "baseline": [
+      {
+        "id": "duck",
+        "name": "بطة محمرة",
+        "price": 650
+      },
+      {
+        "id": "duck-half",
+        "name": "نص بطة محمرة",
+        "price": 340
+      },
+      {
+        "id": "goose",
+        "name": "وزة محمرة",
+        "price": 900
+      },
+      {
+        "id": "pigeon",
+        "name": "جوز حمام محشي",
+        "price": 220
+      },
+      {
+        "id": "quail",
+        "name": "سمان محمر (جوز)",
+        "price": 120
+      },
+      {
+        "id": "mahshi",
+        "name": "محشي مشكل",
+        "price": 80
+      },
+      {
+        "id": "fattah",
+        "name": "فتة",
+        "price": 60
+      },
+      {
+        "id": "molokhia",
+        "name": "ملوخية",
+        "price": 30
+      },
+      {
+        "id": "rice-moammar",
+        "name": "طاجن أرز معمر",
+        "price": 70
+      },
+      {
+        "id": "okra-tagen",
+        "name": "طاجن بامية باللحمة",
+        "price": 85
+      },
+      {
+        "id": "soup",
+        "name": "شوربة لسان عصفور",
+        "price": 20
+      }
+    ],
+    "items": [
+      {
+        "name": "ورقة لحمة بالخضار",
+        "emoji": "",
+        "price": 120,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-beef-parcel",
+        "photo": "/img/menu-expansion/beef-parcel.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طاجن عكاوي",
+        "emoji": "",
+        "price": 180,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-oxtail-tagine",
+        "photo": "/img/menu-expansion/oxtail-tagine.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فتة باللحمة",
+        "emoji": "",
+        "price": 110,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-beef-fattah",
+        "photo": "/img/menu-expansion/beef-fattah.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "شوربة خضار",
+        "emoji": "",
+        "price": 20,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-vegetable-soup",
+        "photo": "/img/menu-expansion/vegetable-soup.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "163": {
+    "name": "وز ومحشي أم رضا",
+    "baseline": [
+      {
+        "id": "duck",
+        "name": "بطة محمرة",
+        "price": 680
+      },
+      {
+        "id": "duck-half",
+        "name": "نص بطة محمرة",
+        "price": 355
+      },
+      {
+        "id": "goose",
+        "name": "وزة محمرة",
+        "price": 945
+      },
+      {
+        "id": "pigeon",
+        "name": "جوز حمام محشي",
+        "price": 230
+      },
+      {
+        "id": "quail",
+        "name": "سمان محمر (جوز)",
+        "price": 125
+      },
+      {
+        "id": "mahshi",
+        "name": "محشي مشكل",
+        "price": 85
+      },
+      {
+        "id": "fattah",
+        "name": "فتة",
+        "price": 65
+      },
+      {
+        "id": "molokhia",
+        "name": "ملوخية",
+        "price": 32
+      },
+      {
+        "id": "rice-moammar",
+        "name": "طاجن أرز معمر",
+        "price": 75
+      },
+      {
+        "id": "okra-tagen",
+        "name": "طاجن بامية باللحمة",
+        "price": 90
+      },
+      {
+        "id": "soup",
+        "name": "شوربة لسان عصفور",
+        "price": 21
+      }
+    ],
+    "items": [
+      {
+        "name": "ورقة لحمة بالخضار",
+        "emoji": "",
+        "price": 120,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-beef-parcel",
+        "photo": "/img/menu-expansion/beef-parcel.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "طاجن عكاوي",
+        "emoji": "",
+        "price": 180,
+        "unit": "طاجن",
+        "step": 1,
+        "id": "illustrative-oxtail-tagine",
+        "photo": "/img/menu-expansion/oxtail-tagine.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فتة باللحمة",
+        "emoji": "",
+        "price": 110,
+        "unit": "وجبة",
+        "step": 1,
+        "id": "illustrative-beef-fattah",
+        "photo": "/img/menu-expansion/beef-fattah.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "شوربة خضار",
+        "emoji": "",
+        "price": 20,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-vegetable-soup",
+        "photo": "/img/menu-expansion/vegetable-soup.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "164": {
+    "name": "حلواني الشرقاوي",
+    "baseline": [
+      {
+        "id": "basbousa",
+        "name": "بسبوسة",
+        "price": 125
+      },
+      {
+        "id": "kunafa",
+        "name": "كنافة",
+        "price": 145
+      },
+      {
+        "id": "kunafa-nutella",
+        "name": "كنافة نوتيلا",
+        "price": 180
+      },
+      {
+        "id": "baklava",
+        "name": "بقلاوة",
+        "price": 250
+      },
+      {
+        "id": "ghorayeba",
+        "name": "غريبة",
+        "price": 145
+      },
+      {
+        "id": "gateau",
+        "name": "جاتوه",
+        "price": 18
+      },
+      {
+        "id": "eclair",
+        "name": "إكلير",
+        "price": 14
+      },
+      {
+        "id": "torta",
+        "name": "تورتة شوكولاتة",
+        "price": 225
+      },
+      {
+        "id": "roz",
+        "name": "أرز بلبن",
+        "price": 18
+      },
+      {
+        "id": "omali",
+        "name": "أم علي",
+        "price": 40
+      }
+    ],
+    "items": [
+      {
+        "name": "قطايف",
+        "emoji": "🥟",
+        "price": 120,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-qatayef",
+        "photo": "/img/catalog-original/menu-113-qatayef.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "مهلبية",
+        "emoji": "🍮",
+        "price": 22,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-mahalabia",
+        "photo": "/img/catalog-original/menu-165-mahalabia.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "آيس كريم",
+        "emoji": "🍨",
+        "price": 22,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-icecream",
+        "photo": "/img/catalog-original/menu-165-icecream.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "عصير قصب",
+        "emoji": "🥤",
+        "price": 11,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-cane",
+        "photo": "/img/catalog-original/menu-165-cane.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "165": {
+    "name": "حلويات وعصاير عم سمير",
+    "baseline": [
+      {
+        "id": "basbousa",
+        "name": "بسبوسة",
+        "price": 155
+      },
+      {
+        "id": "kunafa",
+        "name": "كنافة",
+        "price": 175
+      },
+      {
+        "id": "kunafa-nutella",
+        "name": "كنافة نوتيلا",
+        "price": 220
+      },
+      {
+        "id": "baklava",
+        "name": "بقلاوة",
+        "price": 310
+      },
+      {
+        "id": "ghorayeba",
+        "name": "غريبة",
+        "price": 175
+      },
+      {
+        "id": "eclair",
+        "name": "إكلير",
+        "price": 16
+      },
+      {
+        "id": "mahalabia",
+        "name": "مهلبية",
+        "price": 22
+      },
+      {
+        "id": "icecream",
+        "name": "آيس كريم",
+        "price": 22
+      },
+      {
+        "id": "cane",
+        "name": "عصير قصب",
+        "price": 11
+      },
+      {
+        "id": "cane-large",
+        "name": "قصب كبير",
+        "price": 16
+      },
+      {
+        "id": "mango",
+        "name": "عصير مانجو",
+        "price": 33
+      },
+      {
+        "id": "strawberry",
+        "name": "عصير فراولة",
+        "price": 28
+      }
+    ],
+    "items": [
+      {
+        "name": "قطايف",
+        "emoji": "🥟",
+        "price": 120,
+        "unit": "كيلو",
+        "step": 0.5,
+        "id": "illustrative-qatayef",
+        "photo": "/img/catalog-original/menu-113-qatayef.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "أرز بلبن",
+        "emoji": "🍮",
+        "price": 20,
+        "unit": "علبة",
+        "step": 1,
+        "id": "illustrative-roz",
+        "photo": "/img/catalog-original/menu-113-roz.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "جاتوه",
+        "emoji": "🍰",
+        "price": 18,
+        "unit": "قطعة",
+        "step": 1,
+        "id": "illustrative-gateau",
+        "photo": "/img/catalog-original/menu-164-gateau.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "تورتة شوكولاتة",
+        "emoji": "🎂",
+        "price": 225,
+        "unit": "تورتة",
+        "step": 1,
+        "id": "illustrative-torta",
+        "photo": "/img/catalog-original/menu-164-torta.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "166": {
+    "name": "حلويات الهنا",
+    "baseline": [
+      {
+        "id": "basbousa",
+        "name": "بسبوسة",
+        "price": 135
+      },
+      {
+        "id": "kunafa",
+        "name": "كنافة",
+        "price": 150
+      },
+      {
+        "id": "kunafa-nutella",
+        "name": "كنافة نوتيلا",
+        "price": 190
+      },
+      {
+        "id": "qatayef",
+        "name": "قطايف",
+        "price": 115
+      },
+      {
+        "id": "zalabia",
+        "name": "زلابية (لقمة القاضي)",
+        "price": 55
+      },
+      {
+        "id": "eclair",
+        "name": "إكلير",
+        "price": 14
+      },
+      {
+        "id": "torta",
+        "name": "تورتة شوكولاتة",
+        "price": 240
+      },
+      {
+        "id": "roz",
+        "name": "أرز بلبن",
+        "price": 19
+      },
+      {
+        "id": "mahalabia",
+        "name": "مهلبية",
+        "price": 19
+      }
+    ],
+    "items": [
+      {
+        "name": "بقلاوة",
+        "emoji": "🥮",
+        "price": 250,
+        "unit": "كيلو",
+        "step": 0.25,
+        "id": "illustrative-baklava",
+        "photo": "/img/catalog-original/menu-164-baklava.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "غريبة",
+        "emoji": "🍪",
+        "price": 145,
+        "unit": "كيلو",
+        "step": 0.25,
+        "id": "illustrative-ghorayeba",
+        "photo": "/img/catalog-original/menu-164-ghorayeba.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "جاتوه",
+        "emoji": "🍰",
+        "price": 18,
+        "unit": "قطعة",
+        "step": 1,
+        "id": "illustrative-gateau",
+        "photo": "/img/catalog-original/menu-164-gateau.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "أم علي",
+        "emoji": "🥧",
+        "price": 40,
+        "unit": "طبق",
+        "step": 1,
+        "id": "illustrative-omali",
+        "photo": "/img/catalog-original/menu-164-omali.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "167": {
+    "name": "عصير الشلال",
+    "baseline": [
+      {
+        "id": "cane",
+        "name": "عصير قصب",
+        "price": 11
+      },
+      {
+        "id": "cane-large",
+        "name": "قصب كبير",
+        "price": 16
+      },
+      {
+        "id": "mango",
+        "name": "عصير مانجو",
+        "price": 33
+      },
+      {
+        "id": "strawberry",
+        "name": "عصير فراولة",
+        "price": 28
+      },
+      {
+        "id": "orange",
+        "name": "عصير برتقال",
+        "price": 22
+      },
+      {
+        "id": "banana-milk",
+        "name": "موز باللبن",
+        "price": 33
+      },
+      {
+        "id": "lemon",
+        "name": "ليمون نعناع",
+        "price": 22
+      },
+      {
+        "id": "karkade",
+        "name": "كركديه",
+        "price": 16
+      },
+      {
+        "id": "tamarind",
+        "name": "تمر هندي",
+        "price": 16
+      },
+      {
+        "id": "sahlab",
+        "name": "سحلب",
+        "price": 28
+      }
+    ],
+    "items": [
+      {
+        "name": "فروت سلاد",
+        "emoji": "🍇",
+        "price": 45,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-fruit-salad",
+        "photo": "/img/catalog-missing/restaurant-168-fruit-salad.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "سوبيا",
+        "emoji": "🥛",
+        "price": 20,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-sobia",
+        "photo": "/img/catalog-missing/restaurant-168-sobia.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "عصير جوافة",
+        "emoji": "🍐",
+        "price": 25,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-guava",
+        "photo": "/img/catalog-missing/restaurant-169-guava.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "كوكتيل فواكه",
+        "emoji": "🍹",
+        "price": 40,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-cocktail",
+        "photo": "/img/catalog-original/menu-169-cocktail.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "168": {
+    "name": "عصاير المحطة",
+    "baseline": [
+      {
+        "id": "cane",
+        "name": "عصير قصب",
+        "price": 10
+      },
+      {
+        "id": "cane-large",
+        "name": "قصب كبير",
+        "price": 15
+      },
+      {
+        "id": "mango",
+        "name": "عصير مانجو",
+        "price": 30
+      },
+      {
+        "id": "strawberry",
+        "name": "عصير فراولة",
+        "price": 25
+      },
+      {
+        "id": "banana-milk",
+        "name": "موز باللبن",
+        "price": 30
+      },
+      {
+        "id": "lemon",
+        "name": "ليمون نعناع",
+        "price": 20
+      },
+      {
+        "id": "fruit-salad",
+        "name": "فروت سلاد",
+        "price": 45
+      },
+      {
+        "id": "sobia",
+        "name": "سوبيا",
+        "price": 20
+      },
+      {
+        "id": "sahlab",
+        "name": "سحلب",
+        "price": 25
+      }
+    ],
+    "items": [
+      {
+        "name": "عصير برتقال",
+        "emoji": "🍊",
+        "price": 20,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-orange",
+        "photo": "/img/catalog-original/menu-114-orange.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "كركديه",
+        "emoji": "🌺",
+        "price": 15,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-karkade",
+        "photo": "/img/catalog-original/menu-114-karkade.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "تمر هندي",
+        "emoji": "🥤",
+        "price": 16,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-tamarind",
+        "photo": "/img/catalog-missing/restaurant-167-tamarind.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "عصير جوافة",
+        "emoji": "🍐",
+        "price": 25,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-guava",
+        "photo": "/img/catalog-missing/restaurant-169-guava.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "169": {
+    "name": "كوكتيل الفلاح",
+    "baseline": [
+      {
+        "id": "cane",
+        "name": "عصير قصب",
+        "price": 10
+      },
+      {
+        "id": "cane-large",
+        "name": "قصب كبير",
+        "price": 15
+      },
+      {
+        "id": "mango",
+        "name": "عصير مانجو",
+        "price": 30
+      },
+      {
+        "id": "strawberry",
+        "name": "عصير فراولة",
+        "price": 25
+      },
+      {
+        "id": "orange",
+        "name": "عصير برتقال",
+        "price": 20
+      },
+      {
+        "id": "guava",
+        "name": "عصير جوافة",
+        "price": 25
+      },
+      {
+        "id": "banana-milk",
+        "name": "موز باللبن",
+        "price": 30
+      },
+      {
+        "id": "lemon",
+        "name": "ليمون نعناع",
+        "price": 20
+      },
+      {
+        "id": "cocktail",
+        "name": "كوكتيل فواكه",
+        "price": 40
+      },
+      {
+        "id": "tamarind",
+        "name": "تمر هندي",
+        "price": 15
+      },
+      {
+        "id": "sobia",
+        "name": "سوبيا",
+        "price": 20
+      },
+      {
+        "id": "sahlab",
+        "name": "سحلب",
+        "price": 25
+      }
+    ],
+    "items": [
+      {
+        "name": "كركديه",
+        "emoji": "🌺",
+        "price": 15,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-karkade",
+        "photo": "/img/catalog-original/menu-114-karkade.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "فروت سلاد",
+        "emoji": "🍇",
+        "price": 45,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-fruit-salad",
+        "photo": "/img/catalog-missing/restaurant-168-fruit-salad.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "عصير رمان",
+        "emoji": "",
+        "price": 30,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-pomegranate-juice",
+        "photo": "/img/menu-expansion/pomegranate-juice.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "عصير جزر",
+        "emoji": "",
+        "price": 20,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-carrot-juice",
+        "photo": "/img/menu-expansion/carrot-juice.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  },
+  "170": {
+    "name": "عصاير أبو زيد",
+    "baseline": [
+      {
+        "id": "cane",
+        "name": "عصير قصب",
+        "price": 11
+      },
+      {
+        "id": "cane-large",
+        "name": "قصب كبير",
+        "price": 16
+      },
+      {
+        "id": "mango",
+        "name": "عصير مانجو",
+        "price": 33
+      },
+      {
+        "id": "strawberry",
+        "name": "عصير فراولة",
+        "price": 28
+      },
+      {
+        "id": "orange",
+        "name": "عصير برتقال",
+        "price": 22
+      },
+      {
+        "id": "guava",
+        "name": "عصير جوافة",
+        "price": 28
+      },
+      {
+        "id": "banana-milk",
+        "name": "موز باللبن",
+        "price": 33
+      },
+      {
+        "id": "lemon",
+        "name": "ليمون نعناع",
+        "price": 22
+      },
+      {
+        "id": "cocktail",
+        "name": "كوكتيل فواكه",
+        "price": 45
+      },
+      {
+        "id": "fruit-salad",
+        "name": "فروت سلاد",
+        "price": 50
+      },
+      {
+        "id": "tamarind",
+        "name": "تمر هندي",
+        "price": 16
+      },
+      {
+        "id": "sahlab",
+        "name": "سحلب",
+        "price": 28
+      }
+    ],
+    "items": [
+      {
+        "name": "كركديه",
+        "emoji": "🌺",
+        "price": 15,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-karkade",
+        "photo": "/img/catalog-original/menu-114-karkade.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "سوبيا",
+        "emoji": "🥛",
+        "price": 20,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-sobia",
+        "photo": "/img/catalog-missing/restaurant-168-sobia.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "عصير رمان",
+        "emoji": "",
+        "price": 30,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-pomegranate-juice",
+        "photo": "/img/menu-expansion/pomegranate-juice.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      },
+      {
+        "name": "عصير جزر",
+        "emoji": "",
+        "price": 20,
+        "unit": "كوباية",
+        "step": 1,
+        "id": "illustrative-carrot-juice",
+        "photo": "/img/menu-expansion/carrot-juice.webp",
+        "section": "أصناف إضافية للعرض",
+        "viewOnly": true
+      }
+    ]
+  }
+}
