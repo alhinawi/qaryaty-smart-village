@@ -45,6 +45,10 @@ import type { RideRepo } from './rides/types';
 import { createLocalMarketRepo } from './market/localMarketRepo';
 import { createSupabaseMarketRepo } from './market/supabaseMarketRepo';
 import type { MarketRepo } from './market/types';
+import { createLocalReferralRepo } from './referral/localReferralRepo';
+import { createSupabaseReferralRepo } from './referral/supabaseReferralRepo';
+import type { ClaimResult, ReferralInfo, ReferralRepo } from './referral/types';
+
 
 const breaker = createCircuitBreaker({ failureThreshold: 3, cooldownMs: 30_000 });
 const resilience = createResilience({
@@ -311,3 +315,23 @@ export { RepoError, ServiceUnavailableError, UNAVAILABLE_MESSAGE };
 export function retryBackend(): void {
   breaker.reset();
 }
+
+// ─── دعوة الأصحاب (referral link + points)
+// Reads fall back to zeros; claiming is a write and fails clearly.
+export const REFERRAL_UNAVAILABLE_MESSAGE = 'الخدمة متوقفة مؤقتًا، وكود الدعوة مااتسجلش. جرّب تاني بعد شوية';
+const liveReferrals = isSupabaseConfigured ? createSupabaseReferralRepo(getSupabase) : null;
+export const referralRepo: ReferralRepo = liveReferrals
+  ? {
+      getInfo: (userId) =>
+        resilience.read(
+          () => liveReferrals.getInfo(userId),
+          async () => ({ code: '', invitedCount: 0, pointsEarned: 0 })
+        ),
+      claim: (userId, code) =>
+        resilience.write(
+          () => liveReferrals.claim(userId, code),
+          (cause) => new ServiceUnavailableError(REFERRAL_UNAVAILABLE_MESSAGE, { cause })
+        ),
+    }
+  : createLocalReferralRepo();
+export type { ClaimResult, ReferralInfo, ReferralRepo };
