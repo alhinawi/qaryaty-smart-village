@@ -11,7 +11,7 @@ import { demoHoursLabel } from '@/utils/quickNeedsDemo';
 import { isQuickNeedsNight, nightOpenShops, quickNeedServices, quickNeedShops, quickNeedsVisible, type QuickNeed } from '@/utils/quickNeeds';
 import { useAuthStore, selectIsStaff } from '@/stores/useAuthStore';
 import { useQuickNeedsTestStore } from '@/stores/useQuickNeedsTestStore';
-import { hoursDisplayLabel } from '@/utils/shopOpenNow';
+import { hoursClosingLabel } from '@/utils/shopOpenNow';
 
 const NEEDS = [
   { id: 'pharmacy', label: 'صيدلية', emoji: '💊' },
@@ -38,7 +38,7 @@ export function QuickNeeds({ shops, services }: { shops: Shop[]; services: Servi
   const shownShops = quickNeedShops(nightOpenShops(shops, now, demo, id => overrides[id]?.open), need);
   const shownServices = quickNeedServices(services, need);
   const choices = [
-    ...shownShops.map(shop => ({ id: `shop-${shop.id}`, name: shop.name, emoji: shop.emoji, subtitle: shop.village || 'شوف بيانات المحل', to: catalogPath('shop', shop.id), shop, status: demo ? (shop.demo ? `مفتوح دلوقتي · ${demoHoursLabel(shop)}` : `مفتوح دلوقتي${shop.time ? ` · ${hoursDisplayLabel(shop.time) ?? shop.time.replace('⏰', '').trim()}` : ''}`) : '' })),
+    ...shownShops.map(shop => ({ id: `shop-${shop.id}`, name: shop.name, emoji: shop.emoji, subtitle: shop.village || 'شوف بيانات المحل', to: catalogPath('shop', shop.id), shop, status: demo ? (shop.demo ? `مفتوح دلوقتي · ${demoHoursLabel(shop)}` : `مفتوح دلوقتي${shop.time ? ` · ${hoursClosingLabel(shop.time) ?? shop.time.replace('⏰', '').trim()}` : ''}`) : '' })),
     ...shownServices.map(service => ({ id: `service-${service.id}`, name: service.name, emoji: service.emoji, subtitle: 'شوف تفاصيل الخدمة والتكلفة', to: catalogPath('service', service.id), shop: undefined, status: '' })),
   ];
   return (
