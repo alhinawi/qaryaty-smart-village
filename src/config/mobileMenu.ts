@@ -35,18 +35,17 @@ export function mobileMenuSections({ role }: MobileMenuOptions): MobileMenuSecti
   const sections: MobileMenuSection[] = [
     {
       id: 'app',
-      title: '',
+      title: 'الطلبات والفرص',
       links: [
         { id: 'messages', label: 'الرسائل', icon: '💬', to: ROUTES.messages },
         { id: 'jobs', label: 'وظائف', icon: '💼', to: ROUTES.jobs, hint: 'شغل في قريتك والقرى اللي جنبك' },
-        { id: 'marketSale', label: 'بيع المستعمل', icon: '🏷️', to: ROUTES.marketSale, hint: 'بيع واشتري حاجات مستعملة' },
-        { id: 'marketSwap', label: 'تبادل', icon: '🔄', to: ROUTES.marketSwap, hint: 'بدّل حاجة بحاجة من غير فلوس' },
+        { id: 'marketSale', label: 'المستعمل والتبادل', icon: '🏷️', to: ROUTES.marketSale, hint: 'بيع وشراء أو تبادل من نفس القسم' },
         { id: 'rides', label: 'شير مواصلة', icon: '🚗', to: ROUTES.rides, hint: 'اقسم التاكسي أو شيّر كراسي عربيتك' },
       ],
     },
     {
       id: 'qaryaty',
-      title: 'قريتي',
+      title: 'مجتمع قريتي',
       links: [
         { id: 'about', label: 'عن قريتي', icon: 'ℹ️', to: ROUTES.about },
         { id: 'groups', label: 'جروبات واتساب', icon: '👥', to: ROUTES.groups },
