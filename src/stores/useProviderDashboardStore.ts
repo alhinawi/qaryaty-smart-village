@@ -1,3 +1,4 @@
+import { creationDemoFlag } from '@/utils/contentProvenance';
 // ─── Provider dashboard store (preview)
 // Holds the edits a merchant or an independent professional makes in the
 // dashboard preview. There is no backend for this yet: everything persists in
@@ -17,6 +18,7 @@ export interface ProductOverride {
 
 /** A product the merchant added themselves, on top of the shared catalog. */
 export interface CustomProduct {
+  demo?: boolean;
   id: string;
   name: string;
   price: number;
@@ -47,6 +49,7 @@ export interface MerchantOverrides {
 
 /** One service a professional offers, with its price as people say it. */
 export interface ProService {
+  demo?: boolean;
   id: string;
   name: string;
   price: string;
@@ -75,7 +78,7 @@ interface ProviderDashboardState {
   setProductPhoto: (shopId: number, productId: string, photo: string) => void;
   setShopPhoto: (shopId: number, photo: string) => void;
   setShopWhatsapp: (shopId: number, phone: string, optIn: boolean) => void;
-  addCustomProduct: (shopId: number, input: Omit<CustomProduct, 'id' | 'available'>) => CustomProduct;
+  addCustomProduct: (shopId: number, input: Omit<CustomProduct, 'id' | 'available' | 'demo'>) => CustomProduct;
   setCustomProductAvailable: (shopId: number, productId: string, available: boolean) => void;
   setCustomProductPrice: (shopId: number, productId: string, price: number) => void;
   setCustomProductPhoto: (shopId: number, productId: string, photo: string) => void;
@@ -167,7 +170,7 @@ export const useProviderDashboardStore = create<ProviderDashboardState>()(
 
       addCustomProduct: (shopId, input) => {
         const merchant = { ...emptyMerchant(), ...get().merchants[shopId] };
-        const product: CustomProduct = { ...input, id: `custom-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`, available: true };
+        const product: CustomProduct = { ...input, demo: creationDemoFlag(), id: `custom-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`, available: true };
         set((s) => ({
           merchants: {
             ...s.merchants,
@@ -255,11 +258,12 @@ export const useProviderDashboardStore = create<ProviderDashboardState>()(
       addProService: (providerId, name, price, defaults) => {
         const pro = { ...emptyProfessional(), ...get().professionals[providerId] };
         const base = pro.services.length ? pro.services : defaults;
+        const demo = creationDemoFlag();
         const id = `svc-${Date.now().toString(36)}`;
         set((s) => ({
           professionals: {
             ...s.professionals,
-            [providerId]: { ...pro, services: [...base, { id, name, price, active: true }] },
+            [providerId]: { ...pro, services: [...base, { id, name, price, active: true, demo }] },
           },
         }));
       },

@@ -1,3 +1,4 @@
+import { contentVisible } from '@/utils/contentProvenance';
 import { DemoOpinions } from '@/components/reviews/DemoOpinions';
 import { stockKey, useDemoStock } from '@/components/merchant/demoStock';
 import{NotifyStock}from'@/components/stock/NotifyStock';
@@ -121,7 +122,7 @@ export function ShopMenuModal({ shop, onClose }: ShopMenuModalProps) {
   const localOverride=useProviderDashboardStore(s=>shop?s.merchants[shop.id]:undefined);
   const isLoading = loaded === undefined || loaded === 'loading';
   // Sold-out products remain visible; only ordering is disabled.
-  const products = useMemo(() => (Array.isArray(loaded)&&shop ? loaded.map(p=>{const edit=trackingDemo?localOverride?.products[p.id]:undefined;return applyProductOffer(edit?{...p,...edit}:p,shop.id,offers)}) : []), [loaded,shop,offers,localOverride,trackingDemo]);
+  const products = useMemo(() => (Array.isArray(loaded)&&shop ? loaded.filter(p=>contentVisible(p,trackingDemo)).map(p=>{const edit=trackingDemo?localOverride?.products[p.id]:undefined;return applyProductOffer(edit?{...p,...edit}:p,shop.id,offers)}) : []), [loaded,shop,offers,localOverride,trackingDemo]);
   const sections = useMemo(() => sectionsOf(products).filter(Boolean), [products]);
   const count = useCartStore((s) => (shop && s.getVendor()?.key === `shop:${shop.id}` ? s.items.length : 0));
   const total = useCartStore((s) => (count ? s.getTotalAmount() : 0));

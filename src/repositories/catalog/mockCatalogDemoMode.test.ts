@@ -28,6 +28,7 @@ describe('mock catalog in real mode', () => {
 
   it('hides the sample data in real mode but keeps device-added records', async () => {
     const repo = createMockCatalogRepo();
+    setDemoModeFlag(false);
     await repo.addShop({ name: 'محل حقيقي', kind: 'grocery', emoji: '', description: '', time: '' });
     setDemoModeFlag(false);
     const shops = await repo.getShops();

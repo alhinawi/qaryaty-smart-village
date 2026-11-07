@@ -46,3 +46,6 @@ export function invalidateDemoMode(): void {
   verified = false;
   for (const listener of listeners) listener();
 }
+
+/** Whether creation can capture an authoritative ON/OFF snapshot. */
+export function isDemoModeVerified(): boolean { return verified; }
