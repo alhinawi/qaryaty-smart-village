@@ -1,3 +1,4 @@
+import { HandHeart } from 'lucide-react';
 // ─── باب الخير on the home page: a way in to /donate
 import { Link } from "react-router";
 import { ROUTES } from "@/routes";
@@ -51,7 +52,7 @@ export function DonationsBanner() {
         to={ROUTES.donate}
         className="shrink-0 inline-flex items-center justify-center gap-2 min-h-[44px] px-5 rounded-xl bg-green text-white font-extrabold text-[0.9375rem] transition-transform duration-200 hover:scale-105"
       >
-        اتبرع دلوقتي ⬅️
+        اتبرع دلوقتي <HandHeart size={19} aria-hidden="true" />
       </Link>
     </section>
   );
