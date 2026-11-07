@@ -13,6 +13,9 @@ export interface DailyOffer {
   /** ISO time the offer ends; the card auto-hides after it. */
   endsAt: string;
   createdAt: string;
+  productId?: string;
+  percentOff?: number;
+  startsAt?: string;
 }
 
 export interface OffersRepo {
@@ -20,7 +23,7 @@ export interface OffersRepo {
   listActive(): Promise<DailyOffer[]>;
   /** The shop's current offer, if any (merchant side). */
   mineForShop(shopId: number): Promise<DailyOffer | null>;
-  create(shopId: number, shopName: string, title: string, details: string, hours: number): Promise<DailyOffer>;
+  create(shopId: number, shopName: string, title: string, details: string, hours: number, discount?: {productId:string;percentOff:number}): Promise<DailyOffer>;
   /** Merchant stops the offer early. */
   stop(offerId: string): Promise<void>;
 }

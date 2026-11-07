@@ -22,44 +22,50 @@ function sampleOffer(): DailyOffer | null {
     id: 'demo-offer-1',
     shopId: 101,
     shopName: 'فول وطعمية الحاج سيد',
-    title: 'خصم 20% على الفطار',
+    title: 'خصم20% على ساندوتش الفول',
+    productId:'fool',percentOff:20,startsAt:new Date().toISOString(),
     details: 'العرض شغال لحد ما الوقت يخلص',
     endsAt: new Date(Date.now() + 3 * 3600_000).toISOString(),
     createdAt: new Date().toISOString(),
   };
 }
 
-function load(): DailyOffer[] {
+function load(scope:string): DailyOffer[] {
   try {
-    return (JSON.parse(localStorage.getItem(KEY) ?? '[]') as DailyOffer[]).filter((o) => isOfferActive(o.endsAt));
+    return (JSON.parse(localStorage.getItem(`${KEY}:${scope}`) ?? '[]') as DailyOffer[]).filter((o) => isOfferActive(o.endsAt));
   } catch {
     return [];
   }
 }
 
-function save(list: DailyOffer[]): void {
+function save(scope:string,list: DailyOffer[]): void {
   try {
-    localStorage.setItem(KEY, JSON.stringify(list));
+    localStorage.setItem(`${KEY}:${scope}`, JSON.stringify(list));
   } catch {
     /* private mode */
   }
 }
 
-export function createLocalOffersRepo(): OffersRepo {
+export function createLocalOffersRepo(scope='guest'): OffersRepo {
   return {
     async listActive() {
-      const mine = load();
+      if(!isTrackingDemoMode())return [];
+      const mine = load(scope);
       const sample = sampleOffer();
       const all = sample ? [sample, ...mine] : mine;
       return all.sort((a, b) => a.endsAt.localeCompare(b.endsAt)).map(withPhoto);
     },
     async mineForShop(shopId) {
-      const mine = load().find((o) => o.shopId === shopId) ?? null;
+      if(!isTrackingDemoMode())return null;
+      const sample=sampleOffer();
+      const mine = load(scope).find((o) => o.shopId === shopId) ?? (sample?.shopId===shopId?sample:null);
       return mine ? withPhoto(mine) : null;
     },
-    async create(shopId, shopName, title, details, hours) {
+    async create(shopId, shopName, title, details, hours, discount) {
+      if(!isTrackingDemoMode())throw new Error("تسجيل العروض المحلية متاح في وضع التجربة بس");
       const offer: DailyOffer = {
         id: `offer_${Date.now()}`,
+        ...(discount ? {...discount,startsAt:new Date().toISOString()} : {}),
         shopId,
         shopName,
         title: title.trim(),
@@ -68,11 +74,11 @@ export function createLocalOffersRepo(): OffersRepo {
         createdAt: new Date().toISOString(),
       };
       // One active offer per shop: a new one replaces the old
-      save([...load().filter((o) => o.shopId !== shopId), offer]);
+      save(scope,[...load(scope).filter((o) => o.shopId !== shopId), offer]);
       return offer;
     },
     async stop(offerId) {
-      save(load().filter((o) => o.id !== offerId));
+      save(scope,load(scope).filter((o) => o.id !== offerId));
     },
   };
 }
