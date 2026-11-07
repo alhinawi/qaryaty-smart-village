@@ -129,6 +129,7 @@ function MerchantPanel() {
 function ShopInfoSection({ shop }: { shop: Shop }) {
   const overrides = useProviderDashboardStore((s) => s.merchants[shop.id]);
   const setShopOpen = useProviderDashboardStore((s) => s.setShopOpen);
+  const setShopBusy = useProviderDashboardStore((s) => s.setShopBusy);
   const setShopHours = useProviderDashboardStore((s) => s.setShopHours);
   const setShopDescription = useProviderDashboardStore((s) => s.setShopDescription);
   const setShopPhoto = useProviderDashboardStore((s) => s.setShopPhoto);
@@ -136,6 +137,8 @@ function ShopInfoSection({ shop }: { shop: Shop }) {
 
   // Keyed by shop id in the parent: switching shops remounts with that shop's values
   const open = overrides?.open ?? shop.open;
+  const busy = overrides?.busy ?? false;
+  const busyUntil = overrides?.busyUntil ?? null;
   const parsed = parseOpeningHours(overrides?.hours ?? shop.time);
   const [allDay, setAllDay] = useState(parsed.allDay);
   const [fromHour, setFromHour] = useState(parsed.from);
@@ -168,6 +171,47 @@ function ShopInfoSection({ shop }: { shop: Shop }) {
           ariaLabel={`حالة ${shop.name}`}
         />
       </div>
+      <div className="flex items-center gap-3 mb-3">
+        <div className="flex-1">
+          <p className="text-[13px] font-extrabold text-text m-0">🟠 مشغول</p>
+          <p className="text-[11px] text-text-muted m-0">الطلبات شغالة عادي، بس العميل يشوف تنبيه إن التحضير هياخد وقت أطول</p>
+        </div>
+        <Toggle
+          checked={busy}
+          onChange={(next) => {
+            setShopBusy(shop.id, next, null);
+            showToast(next ? '🟠 «' + shop.name + '» بقى مشغول — العملاء هيشوفوا تنبيه' : '✅ «' + shop.name + '» بقى فاضي');
+          }}
+          labelOn="مشغول"
+          labelOff="فاضي"
+          ariaLabel={`انشغال ${shop.name}`}
+        />
+      </div>
+      {busy && (
+        <div className="flex gap-2 mb-3 flex-wrap">
+          {[
+            { label: '٣٠ دقيقة', mins: 30 },
+            { label: 'ساعة', mins: 60 },
+            { label: 'لحد ما أقفلها', mins: 0 },
+          ].map((opt) => {
+            const active = opt.mins === 0 ? busyUntil === null : busyUntil !== null && Math.abs(new Date(busyUntil).getTime() - Date.now() - opt.mins * 60000) < 5 * 60000;
+            return (
+              <button
+                key={opt.label}
+                type="button"
+                onClick={() => {
+                  const until = opt.mins === 0 ? null : new Date(Date.now() + opt.mins * 60000).toISOString();
+                  setShopBusy(shop.id, true, until);
+                  showToast(opt.mins === 0 ? '🟠 مشغول لحد ما تقفلها بنفسك' : `🟠 مشغول — هتتشال تلقائي بعد ${opt.label}`);
+                }}
+                className={`text-[12px] font-bold px-3 py-1.5 rounded-full border cursor-pointer ${active ? 'bg-amber-500 text-white border-amber-500' : 'bg-white text-text-muted border-gray-200'}`}
+              >
+                {opt.label}
+              </button>
+            );
+          })}
+        </div>
+      )}
       <div className="grid gap-3">
         <div>
           <div className="flex items-center justify-between mb-2">
