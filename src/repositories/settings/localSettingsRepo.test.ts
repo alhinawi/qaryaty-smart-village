@@ -33,3 +33,8 @@ describe('local settings repo (demo mode)', () => {
     expect(await repo.getWhatsappEnabled()).toBe(false);
   });
 });
+
+it('remembers local mock appearance switch separately from demo', async () => {
+  const repo = createLocalSettingsRepo(); await repo.setAppearanceEnabled(false); expect(await repo.getAppearanceEnabled()).toBe(false);
+  await repo.setAppearanceEnabled(true); expect(await repo.getAppearanceEnabled()).toBe(true);
+});
