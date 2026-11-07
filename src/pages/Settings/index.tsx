@@ -1,0 +1,3 @@
+import { Link } from 'react-router';
+import { Palette, ChevronLeft } from 'lucide-react';
+export default function SettingsPage() { return <section className="p-4 max-w-xl mx-auto"><h1 className="text-2xl font-black text-text mb-2">الإعدادات</h1><p className="text-sm text-text-muted mb-5">ظبّط قريتي على راحتك.</p><Link to="/settings/appearance" className="flex items-center gap-3 rounded-2xl bg-white border border-green/20 p-4"><span className="bg-green/10 text-green rounded-xl p-3"><Palette size={24} /></span><span className="flex-1"><span className="block text-text font-extrabold">شكل التطبيق</span><span className="block text-xs text-text-muted mt-1">فاتح أو داكن، واختار لونك المفضل</span></span><ChevronLeft size={20} className="text-green" /></Link></section>; }
