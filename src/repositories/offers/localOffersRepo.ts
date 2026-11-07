@@ -23,7 +23,7 @@ function sampleOffer(): DailyOffer | null {
     shopId: 101,
     shopName: 'فول وطعمية الحاج سيد',
     title: 'خصم 20% على الفطار',
-    details: 'عرض تجريبي — بيخلص تلقائي لما الوقت يعدي',
+    details: 'العرض شغال لحد ما الوقت يخلص',
     endsAt: new Date(Date.now() + 3 * 3600_000).toISOString(),
     createdAt: new Date().toISOString(),
   };
