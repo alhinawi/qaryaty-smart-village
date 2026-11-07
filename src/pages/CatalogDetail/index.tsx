@@ -36,8 +36,8 @@ export default function CatalogDetail({ kind, onOpenOrderModal }: { kind: Catalo
       <button type="button" className="w-full bg-green text-white rounded-xl p-3 font-bold disabled:opacity-50" disabled={!shop.open && !shop.demo} onClick={() => shop.kind === 'restaurant' || productsForShop(shop) ? setMenuOpen(true) : onOpenOrderModal({ name: `طلب من ${shop.name}`, desc: shop.description, emoji: shop.emoji, price: 'حسب الطلب' })}>{'شوف المنتجات'}</button>
       <ShopMenuModal shop={menuOpen ? shop : null} onClose={() => setMenuOpen(false)} />
     </article>}
-    {provider && <ProviderCard provider={provider} onBook={book} showShare={false} />}
-    {service && <><p className="text-text-muted mb-4">{service.desc}</p>{people.length ? <div className="grid gap-3">{people.map(person => <ProviderCard key={person.id} provider={person} onBook={book} />)}</div> : <button type="button" className="w-full bg-green text-white rounded-xl p-3 font-bold" onClick={() => onOpenOrderModal(serviceToOrderModalData(service))}>اطلب الخدمة</button>}</>}
+    {provider && <ProviderCard headingLevel="h2" provider={provider} onBook={book} showShare={false} />}
+    {service && <><p className="text-text-muted mb-4">{service.desc}</p>{people.length ? <div className="grid gap-3">{people.map(person => <ProviderCard headingLevel="h2" key={person.id} provider={person} onBook={book} />)}</div> : <button type="button" className="w-full bg-green text-white rounded-xl p-3 font-bold" onClick={() => onOpenOrderModal(serviceToOrderModalData(service))}>اطلب الخدمة</button>}</>}
     <CatalogReviews key={`${kind}:${id}`} kind={kind} target={Number(id)} />
   </section>;
 }
