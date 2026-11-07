@@ -8,7 +8,7 @@ export function ServiceImageGallery({ images, name }: { images: string[]; name: 
   if (images.length === 1) return failed[images[0]] ? <ImagePlaceholder className="w-full h-full" /> : <img src={images[0]} alt="" width={720} height={480} loading="lazy" decoding="async" onError={() => setFailed(s => ({ ...s, [images[0]]: true }))} className="w-full h-full object-cover object-center" />;
   const go = (i: number) => rail.current?.scrollTo({ left: i * rail.current.clientWidth, behavior: 'instant' });
   return <div className="relative z-20 w-full h-full" role="group" aria-label={`صور ${name}`}>
-    <div ref={rail} dir="ltr" className="flex w-full h-full overflow-x-auto snap-x snap-mandatory overscroll-x-contain touch-pan-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" onScroll={event => setActive(Math.round(event.currentTarget.scrollLeft / event.currentTarget.clientWidth))}>
+    <div ref={rail} tabIndex={0} aria-label={`اسحب صور ${name} أو استخدم أزرار الصور`} dir="ltr" className="flex w-full h-full overflow-x-auto snap-x snap-mandatory overscroll-x-contain touch-pan-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" onScroll={event => setActive(Math.round(event.currentTarget.scrollLeft / event.currentTarget.clientWidth))}>
       {images.map((src, i) => <div key={src} className="w-full h-full shrink-0 snap-center" aria-hidden={active !== i}>
         {failed[src] ? <ImagePlaceholder className="w-full h-full" /> : <img src={src} alt={`${name}، صورة ${i + 1}`} width={720} height={480} loading="lazy" decoding="async" draggable={false} onError={() => setFailed(s => ({ ...s, [src]: true }))} className="w-full h-full object-cover object-center" />}
       </div>)}

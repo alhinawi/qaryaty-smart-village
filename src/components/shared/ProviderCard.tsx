@@ -14,6 +14,7 @@ interface ProviderCardProps {
   /** The online tab: lead with "أونلاين" and say where they are from. */
   online?: boolean;
   showShare?: boolean;
+  headingLevel?: 'h2' | 'h3';
 }
 
 const MODE_ICONS: Record<ProviderMode, string> = {
@@ -24,7 +25,7 @@ const MODE_ICONS: Record<ProviderMode, string> = {
   center: '🏫',
 };
 
-export function ProviderCard({ provider, onBook, online = false, showShare = true }: ProviderCardProps) {
+export function ProviderCard({ provider, onBook, online = false, showShare = true, headingLevel: Heading = 'h3' }: ProviderCardProps) {
   const role = providerRoleLabel(provider);
   // In the online tab only the online mode matters; in the village tab, how they come to you
   const modes = online ? (['online'] as ProviderMode[]) : provider.modes;
@@ -40,7 +41,7 @@ export function ProviderCard({ provider, onBook, online = false, showShare = tru
       <div className="flex gap-3 items-start">
         <Avatar src={provider.photo} name={provider.name} size={60} />
         <div className="min-w-0 flex-1">
-          <h3 className="font-extrabold text-[15px] leading-snug truncate">{provider.name}</h3>
+          <Heading className="font-extrabold text-[15px] leading-snug truncate">{provider.name}</Heading>
           <p className="text-xs text-green font-bold">{role}</p>
           {/* A new provider with no reviews or no stated experience shows neither, never a made-up 0 */}
           {(provider.reviews > 0 || provider.experienceYears > 0) && (
