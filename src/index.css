@@ -15,8 +15,8 @@
   --color-text: #1a1a1a;
   --color-text-muted: #6b7280;
   --color-white: #ffffff;
-  --color-danger: #ef4444;
-  --color-success: #16a34a;
+  --color-danger: #b91c1c;
+  --color-success: #15803d;
   --shadow-card: 0 4px 20px rgba(26, 122, 74, 0.08);
   --shadow-card-hover: 0 12px 36px rgba(26, 122, 74, 0.16);
 
@@ -440,3 +440,6 @@ html[data-theme='light'][data-palette='light-6'] .bg-white { border-color: #7f9d
    theme heading foreground (dark ink on light pages) on this fixed canvas. */
 #splash h1 { color: #ffffff; }
 #splash > div > p { color: rgba(255, 255, 255, 0.85); }
+
+/* Shared keyboard focus remains visible in all palettes. */
+:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }

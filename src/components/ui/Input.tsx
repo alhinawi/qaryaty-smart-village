@@ -12,7 +12,10 @@ export interface InputProps
 // ─── Component
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, icon, className = '', id, ...props }, ref) => {
-    const inputId = id || (label ? `input_${label.replace(/\s+/g, '_')}` : undefined);
+    const generatedId = React.useId();
+    const inputId = id || generatedId;
+    const errorId = `${inputId}_error`;
+    const describedBy = [props['aria-describedby'], error ? errorId : undefined].filter(Boolean).join(' ') || undefined;
 
     return (
       <div className="form-group">
@@ -26,9 +29,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               error ? 'is-invalid' : ''
             } ${className}`}
             {...props}
+            aria-invalid={error ? true : props['aria-invalid']}
+            aria-describedby={describedBy}
           />
         </div>
-        {error && <span className="input-error-msg">{error}</span>}
+        {error && <span id={errorId} role="alert" className="input-error-msg">{error}</span>}
       </div>
     );
   }
