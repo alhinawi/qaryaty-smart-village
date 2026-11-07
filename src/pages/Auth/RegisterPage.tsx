@@ -1,3 +1,4 @@
+import { TERMS_VERSION } from '@/pages/Terms';
 // ─── /register
 import React, { useState } from 'react';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router';
@@ -37,6 +38,7 @@ export default function RegisterPage() {
   const location = useLocation();
   const target = useRedirectTarget();
 
+  const [acceptedTerms,setAcceptedTerms]=useState(false);
   const [values, setValues] = useState(EMPTY);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState('');
@@ -108,6 +110,8 @@ export default function RegisterPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError('');
+    if(!acceptedTerms){setFormError('اقرأ شروط الاستخدام ووافق عليها علشان تكمل.');return;}
+    try{sessionStorage.setItem('qaryati_terms_acceptance',JSON.stringify({version:TERMS_VERSION,acceptedAt:new Date().toISOString()}));}catch{/* Local acceptance only. */}
     const parsed = registerSchema.safeParse({ ...values, location: mapAddress ?? undefined });
     if (!parsed.success || !mapAddress) {
       const fieldErrors = parsed.success ? {} : fieldErrorsFrom(parsed.error.issues);
@@ -158,7 +162,8 @@ export default function RegisterPage() {
         </>
       }
     >
-      <GoogleAuthButton returnTo={target} />
+      <label className="flex gap-2 items-start text-xs leading-relaxed text-text mb-4"><input type="checkbox" checked={acceptedTerms} onChange={e=>setAcceptedTerms(e.target.checked)} className="w-5 h-5 shrink-0 accent-green"/><span>قرأت ووافقت على <Link to="/terms" target="_blank" rel="noopener noreferrer" className="text-green font-bold underline">شروط الاستخدام والتنبيهات</Link>، وفاهم مسؤولية الطلبات والتعامل باحترام.</span></label>
+      <fieldset disabled={!acceptedTerms} onClickCapture={()=>{if(acceptedTerms){try{sessionStorage.setItem('qaryati_terms_acceptance',JSON.stringify({version:TERMS_VERSION,acceptedAt:new Date().toISOString()}));}catch{/* Local only. */}}}} className="border-0 p-0 m-0 disabled:opacity-50"><GoogleAuthButton returnTo={target} /></fieldset>
       <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-3" aria-label="حساب جديد">
         <AuthField id="regName" label="الاسم بالكامل" autoComplete="name" value={values.name} onChange={set('name')} error={errors.name} />
         <AuthField
@@ -265,7 +270,7 @@ export default function RegisterPage() {
           </p>
         )}
 
-        <Button type="submit" variant="primary" size="lg" loading={submitting} disabled={submitting}>
+        <Button type="submit" variant="primary" size="lg" loading={submitting} disabled={submitting||!acceptedTerms}>
           اعمل الحساب
         </Button>
       </form>

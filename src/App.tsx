@@ -1,6 +1,6 @@
 // ─── Imports
 import { Suspense, lazy, useEffect, useState } from 'react';
-import { Navigate, Route, Routes } from 'react-router';
+import { Route, Routes } from 'react-router';
 import { ROUTES } from '@/routes';
 import { useSplashScreen } from '@/hooks/useSplashScreen';
 import { useUIStore } from '@/stores/useUIStore';
@@ -28,6 +28,8 @@ import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { preloadSearchScreen } from '@/components/search/loadSearchScreen';
 
 // ─── Lazy Loaded Pages
+const TermsPage = lazy(() => import('@/pages/Terms'));
+const NotFound = lazy(() => import('@/pages/NotFound'));
 const HomePage = lazy(() => import('@/pages/Home'));
 const ReviewsAdminPage = lazy(() => import('@/components/reviews/ReviewsAdminPage'));
 const ReviewsPreviewPage = lazy(() => import('@/components/reviews/ReviewsPreviewPage'));
@@ -186,6 +188,7 @@ export default function App() {
                 <Route path="/services/:id" element={<CatalogDetail kind="service" onOpenOrderModal={handleOpenOrderModal} />} />
                 <Route path="/settings" element={<SettingsPage />} />
                 <Route path="/events-preview" element={<EventsPreview />} />
+                <Route path="/terms" element={<TermsPage />} />
                 <Route path="/settings/appearance" element={<ThemeSettingsPage />} />
                 <Route path="/preview/family-order" element={<FamilyOrderPreviewPage />} />
                 <Route path={ROUTES.orders} element={<OrdersPage />} />
@@ -225,7 +228,7 @@ export default function App() {
                 <Route path={`${ROUTES.rides}/:id`} element={<RideDetailPage />} />
                 <Route path={`${ROUTES.rides}/:id/edit`} element={<RideFormPage key="edit" />} />
                 {/* Unknown URLs go home instead of a blank page */}
-                <Route path="*" element={<Navigate to={ROUTES.home} replace />} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>
           </PageWrapper>
