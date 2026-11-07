@@ -424,14 +424,14 @@ html[data-palette] .bg-gold, html[data-palette] .bg-gold :is(.text-green,.text-g
 html[data-palette] .bg-green { color: #ffffff; }
 html[data-palette][data-theme] .bg-gold, html[data-palette][data-theme] .bg-gold :is(.text-green,.text-green-dark) { color: #16351f; }
 /* Clearly distinct light treatments; actions remain Qaryati green/gold. */
-html[data-palette='light-2'] header[class*='bg-linear'], html[data-palette='light-3'] header[class*='bg-linear'], html[data-palette='light-4'] header[class*='bg-linear'], html[data-palette='light-6'] header[class*='bg-linear'] { background-image: none; color: #125936; }
-html[data-palette='light-2'] header[class*='bg-linear'] { background-color: #fff4d7; border-bottom: 4px solid #c49b2c; }
-html[data-palette='light-3'] header[class*='bg-linear'] { background-color: #b8dbc5; border-bottom: 2px solid #1a7a4a; }
-html[data-palette='light-4'] header[class*='bg-linear'] { background-color: #f6f9fb; border-bottom: 1px solid #8da79a; }
-html[data-palette='light-6'] header[class*='bg-linear'] { background-color: #f7df7e; border-bottom: 4px solid #1a7a4a; }
+html[data-theme='light'][data-palette='light-2'] header[class*='bg-linear'], html[data-theme='light'][data-palette='light-3'] header[class*='bg-linear'], html[data-theme='light'][data-palette='light-4'] header[class*='bg-linear'], html[data-theme='light'][data-palette='light-6'] header[class*='bg-linear'] { background-image: none; color: #125936; }
+html[data-theme='light'][data-palette='light-2'] header[class*='bg-linear'] { background-color: #fff4d7; border-bottom: 4px solid #c49b2c; }
+html[data-theme='light'][data-palette='light-3'] header[class*='bg-linear'] { background-color: #b8dbc5; border-bottom: 2px solid #1a7a4a; }
+html[data-theme='light'][data-palette='light-4'] header[class*='bg-linear'] { background-color: #f6f9fb; border-bottom: 1px solid #8da79a; }
+html[data-theme='light'][data-palette='light-6'] header[class*='bg-linear'] { background-color: #f7df7e; border-bottom: 4px solid #1a7a4a; }
 html:is([data-palette='light-2'],[data-palette='light-3'],[data-palette='light-4'],[data-palette='light-6']) header[class*='bg-linear'] [class*='text-white'] { color: #125936; }
 html:is([data-palette='light-2'],[data-palette='light-3'],[data-palette='light-4'],[data-palette='light-6']) header[class*='bg-linear'] button { border-color: #8fae9c; }
-html[data-palette='light-5'] .bg-white { border: 2px solid #125936; box-shadow: none; border-radius: 12px; }
-html[data-palette='light-4'] .bg-white { border-radius: 12px; box-shadow: 0 6px 20px #253e4c14; }
-html[data-palette='light-2'] .bg-white { border-color: #b59859; box-shadow: 0 5px 0 #d4c18f55; }
-html[data-palette='light-6'] .bg-white { border-color: #7f9d62; }
+html[data-theme='light'][data-palette='light-5'] .bg-white { border: 2px solid #125936; box-shadow: none; border-radius: 12px; }
+html[data-theme='light'][data-palette='light-4'] .bg-white { border-radius: 12px; box-shadow: 0 6px 20px #253e4c14; }
+html[data-theme='light'][data-palette='light-2'] .bg-white { border-color: #b59859; box-shadow: 0 5px 0 #d4c18f55; }
+html[data-theme='light'][data-palette='light-6'] .bg-white { border-color: #7f9d62; }
