@@ -1,10 +1,10 @@
 // ─── Imports
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { Modal } from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
 import { EmptyState } from '@/components/ui/EmptyState';
-import { selectMergedNotifications, useUIStore } from '@/stores/useUIStore';
+import { mergeNotifications, useUIStore } from '@/stores/useUIStore';
 import { useAuthStore, selectUser } from '@/stores/useAuthStore';
 import { notificationsRepo, SERVER_NOTIF_PREFIX } from '@/repositories';
 
@@ -12,7 +12,9 @@ import { notificationsRepo, SERVER_NOTIF_PREFIX } from '@/repositories';
 export function NotificationsDrawer() {
   const isOpen = useUIStore((state) => state.isNotificationsOpen);
   const setIsOpen = useUIStore((state) => state.setIsNotificationsOpen);
-  const notifications = useUIStore(selectMergedNotifications);
+  const remoteNotifs = useUIStore((state) => state.remoteNotifications);
+  const localNotifs = useUIStore((state) => state.notifications);
+  const notifications = useMemo(() => mergeNotifications(remoteNotifs, localNotifs), [remoteNotifs, localNotifs]);
   const setRemoteNotifications = useUIStore((state) => state.setRemoteNotifications);
   const markAsRead = useUIStore((state) => state.markNotificationAsRead);
   const markAllAsRead = useUIStore((state) => state.markAllNotificationsAsRead);
