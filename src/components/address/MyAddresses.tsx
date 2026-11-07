@@ -1,3 +1,4 @@
+import { canDeleteAddress, LAST_ADDRESS_MESSAGE } from '@/utils/addressDeletion';
 // ─── حسابي ← عناويني: list, add, edit, delete, set the default
 import { useEffect, useState } from 'react';
 import type { UserAddress } from '@/types';
@@ -22,6 +23,7 @@ export default function MyAddresses() {
   }, [load, user?.id]);
 
   const handleDelete = async (a: UserAddress) => {
+    if (!canDeleteAddress(addresses, a.id)) { showToast(LAST_ADDRESS_MESSAGE); return; }
     const ok = await confirmDelete(a);
     if (!ok) return;
     setBusyId(a.id);
@@ -94,6 +96,7 @@ export default function MyAddresses() {
         </button>
       )}
 
+      {addresses.length === 1 && <p className="text-xs text-text-muted leading-relaxed mb-3">{LAST_ADDRESS_MESSAGE}</p>}
       <ul className="flex flex-col gap-2.5">
         {addresses.map((a) => (
           <li
@@ -143,9 +146,11 @@ export default function MyAddresses() {
               </a>
               <button
                 type="button"
-                disabled={busyId === a.id}
+                disabled={busyId === a.id || !canDeleteAddress(addresses, a.id)}
                 className="px-3 py-1.5 rounded-full bg-red-50 text-danger disabled:opacity-50 ms-auto"
                 onClick={() => void handleDelete(a)}
+                aria-disabled={!canDeleteAddress(addresses, a.id)}
+                title={!canDeleteAddress(addresses, a.id) ? LAST_ADDRESS_MESSAGE : undefined}
               >
                 مسح
               </button>
