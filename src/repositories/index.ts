@@ -51,6 +51,10 @@ import type { ClaimResult, ReferralInfo, ReferralRepo } from './referral/types';
 import { createLocalNotificationsRepo } from './notifications/localNotificationsRepo';
 import { createSupabaseNotificationsRepo } from './notifications/supabaseNotificationsRepo';
 import type { NotificationsRepo } from './notifications/types';
+import { invalidateDemoMode, isDemoMode, setDemoModeFlag } from '@/config/demoMode';
+import { createLocalSettingsRepo } from './settings/localSettingsRepo';
+import { createSupabaseSettingsRepo } from './settings/supabaseSettingsRepo';
+import type { SettingsRepo } from './settings/types';
 
 
 const breaker = createCircuitBreaker({ failureThreshold: 3, cooldownMs: 30_000 });
@@ -70,14 +74,22 @@ if (isSupabaseConfigured) backendStatus.markLive();
 const mockCatalog = createMockCatalogRepo();
 
 function createResilientCatalogRepo(live: CatalogRepo, fallback: CatalogRepo): CatalogRepo {
+  // In الوضع الحقيقي a failed read must NOT silently show the demo sample data:
+  // the visitor sees "الخدمة متوقفة" instead of fake shops.
+  const demoOrFail =
+    <A extends unknown[], R>(fn: (...args: A) => Promise<R>) =>
+    (...args: A): Promise<R> =>
+      isDemoMode()
+        ? fn(...args)
+        : Promise.reject(new ServiceUnavailableError(UNAVAILABLE_MESSAGE));
   return {
-    getServices: () => resilience.read(live.getServices, fallback.getServices),
-    getShops: () => resilience.read(live.getShops, fallback.getShops),
-    getProviders: () => resilience.read(live.getProviders, fallback.getProviders),
+    getServices: () => resilience.read(live.getServices, demoOrFail(fallback.getServices)),
+    getShops: () => resilience.read(live.getShops, demoOrFail(fallback.getShops)),
+    getProviders: () => resilience.read(live.getProviders, demoOrFail(fallback.getProviders)),
     getProducts: (shop) =>
       resilience.read(
         () => live.getProducts(shop),
-        () => fallback.getProducts(shop)
+        demoOrFail(() => fallback.getProducts(shop))
       ),
     // Writes never fall back silently: the admin sees the error instead of
     // thinking a record was added when it only landed on this device.
@@ -87,7 +99,7 @@ function createResilientCatalogRepo(live: CatalogRepo, fallback: CatalogRepo): C
 }
 
 export const catalogRepo: CatalogRepo = isSupabaseConfigured
-  ? createResilientCatalogRepo(createSupabaseCatalogRepo(getSupabase), mockCatalog)
+  ? createResilientCatalogRepo(createSupabaseCatalogRepo(getSupabase, isDemoMode), mockCatalog)
   : mockCatalog;
 
 export const getServices = () => catalogRepo.getServices();
@@ -354,3 +366,54 @@ export const notificationsRepo: NotificationsRepo = liveNotifications
     }
   : createLocalNotificationsRepo();
 export { SERVER_NOTIF_PREFIX, type NotificationsRepo } from './notifications/types';
+
+// ─── إعدادات الموقع (demo mode switch lives here)
+export const SETTINGS_UNAVAILABLE_MESSAGE = 'الخدمة متوقفة مؤقتًا، والإعداد ماتحفظش. جرّب تاني بعد شوية';
+const liveSettings = isSupabaseConfigured ? createSupabaseSettingsRepo(getSupabase) : null;
+export const settingsRepo: SettingsRepo = liveSettings
+  ? {
+      getDemoMode: () => liveSettings.getDemoMode(),
+      setDemoMode: (on) =>
+        resilience.write(
+          () => liveSettings.setDemoMode(on),
+          (cause) => new ServiceUnavailableError(SETTINGS_UNAVAILABLE_MESSAGE, { cause })
+        ),
+    }
+  : createLocalSettingsRepo();
+export type { SettingsRepo };
+
+/** Reads the demo-mode switch and applies it. A failed read invalidates the
+ * verified flag (simulated content fails closed) and the error propagates. */
+export async function loadDemoModeSetting(): Promise<boolean> {
+  try {
+    const on = await settingsRepo.getDemoMode();
+    setDemoModeFlag(on);
+    return on;
+  } catch (error) {
+    invalidateDemoMode();
+    throw error;
+  }
+}
+
+// ─── Cross-device propagation without a DB change: re-read the switch when
+// the tab regains focus and on a slow 60s beat. setDemoModeFlag only notifies
+// subscribers on a real change, so a quiet poll costs one cheap read.
+// (Instant propagation would need Supabase Realtime on app_settings — a DB
+// publication change that waits on the owner's approval like any DB change.)
+const DEMO_MODE_POLL_MS = 60_000;
+let demoModeWatchStarted = false;
+
+/** Starts the background demo-mode watch once. Safe to call again. */
+export function watchDemoModeSetting(): void {
+  if (demoModeWatchStarted || typeof window === 'undefined') return;
+  demoModeWatchStarted = true;
+  const refresh = () => {
+    // A failed read invalidates the verified flag inside loadDemoModeSetting
+    loadDemoModeSetting().catch(() => {});
+  };
+  window.addEventListener('focus', refresh);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') refresh();
+  });
+  window.setInterval(refresh, DEMO_MODE_POLL_MS);
+}
