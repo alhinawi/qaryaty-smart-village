@@ -8,7 +8,7 @@ import { isStaffRole, canReviewContent, canManageProviders } from '@/config/staf
 import type { UserRole } from '@/types';
 
 export interface MobileMenuLink {
-  id: 'messages' | 'jobs' | 'jobsReview' | 'marketSale' | 'marketSwap' | 'marketReview' | 'rides' | 'ridesReview' | 'about' | 'groups' | 'donate' | 'advertise' | 'admin' | 'dashboard';
+  id: 'messages' | 'jobs' | 'jobsReview' | 'marketSale' | 'marketSwap' | 'marketReview' | 'rides' | 'ridesReview' | 'about' | 'groups' | 'donate' | 'advertise' | 'admin' | 'dashboard' | 'assistant';
   label: string;
   /** Emoji shown in the item's icon tile */
   icon: string;
@@ -37,6 +37,7 @@ export function mobileMenuSections({ role }: MobileMenuOptions): MobileMenuSecti
       id: 'app',
       title: 'الطلبات والفرص',
       links: [
+        { id: 'assistant', label: 'مساعد قريتي', icon: '🤖', to: ROUTES.assistant, hint: 'اسأل عن أي حاجة في التطبيق' },
         { id: 'messages', label: 'الرسائل', icon: '💬', to: ROUTES.messages },
         { id: 'jobs', label: 'وظائف', icon: '💼', to: ROUTES.jobs, hint: 'شغل في قريتك والقرى اللي جنبك' },
         { id: 'marketSale', label: 'المستعمل والتبادل', icon: '🏷️', to: ROUTES.marketSale, hint: 'بيع وشراء أو تبادل من نفس القسم' },

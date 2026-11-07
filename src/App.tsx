@@ -48,6 +48,7 @@ const RegisterPage = lazy(() => import('@/pages/Auth/RegisterPage'));
 const AuthCallbackPage = lazy(() => import('@/pages/Auth/AuthCallbackPage'));
 const CompleteProfilePage = lazy(() => import('@/pages/Auth/CompleteProfilePage'));
 const AboutPage = lazy(() => import('@/pages/About'));
+const AssistantPage = lazy(() => import('@/pages/Assistant'));
 const GroupsPage = lazy(() => import('@/pages/Groups'));
 const SearchScreen = lazy(() => preloadSearchScreen().then((m) => ({ default: m.SearchScreen })));
 const DonatePage = lazy(() => import('@/pages/Donate'));
@@ -205,6 +206,7 @@ export default function App() {
                 <Route path={ROUTES.authCallback} element={<AuthCallbackPage />} />
                 <Route path={ROUTES.completeProfile} element={<CompleteProfilePage />} />
                 <Route path={ROUTES.about} element={<AboutPage />} />
+                <Route path={ROUTES.assistant} element={<AssistantPage />} />
                 <Route path={ROUTES.groups} element={<GroupsPage />} />
                 <Route path={ROUTES.donate} element={<DonatePage />} />
                 <Route path={ROUTES.jobs} element={<JobsPage />} />
