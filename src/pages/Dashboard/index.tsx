@@ -385,7 +385,7 @@ function ProductsSection({ shop }: { shop: Shop }) {
                       onToggle={(next) => {
                         useRestockDemo.getState().transition(restockScope,shop.id,p.id,custom.available,next);
                         setCustomProductAvailable(shop.id, p.id, next);
-                        showToast(next ? `✅ «${p.name}» رجع متاح` : `⏸️ «${p.name}» اتقفل مؤقتًا`);
+                        showToast(next ? `✅ «${p.name}» رجع بقى متاح` : `⏸️ «${p.name}» اتقفل مؤقتًا`);
                       }}
                       onPrice={(price) => {
                         setCustomProductPrice(shop.id, p.id, price);
@@ -420,7 +420,7 @@ function ProductsSection({ shop }: { shop: Shop }) {
                     onToggle={(next) => {
                       useRestockDemo.getState().transition(restockScope,shop.id,p.id,overrides?.products[p.id]?.available??true,next);
                       setProductAvailable(shop.id, p.id, next);
-                      showToast(next ? `✅ «${p.name}» رجع متاح` : `⏸️ «${p.name}» اتقفل مؤقتًا`);
+                      showToast(next ? `✅ «${p.name}» رجع بقى متاح` : `⏸️ «${p.name}» اتقفل مؤقتًا`);
                     }}
                     onPrice={(price) => {
                       setProductPrice(shop.id, p.id, price);
