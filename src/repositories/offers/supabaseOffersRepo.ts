@@ -41,9 +41,13 @@ export function createSupabaseOffersRepo(getClient: () => Promise<SupabaseClient
         .gt('ends_at', new Date().toISOString())
         .eq('shops.hidden', false);
       if (!isDemoMode()) query = query.eq('shops.is_demo', false);
-      const { data, error } = await query.order('ends_at', { ascending: true }).limit(20);
-      if (error) throw new RepoError('unavailable', 'ماقدرناش نجيب العروض', { cause: error });
-      return (data as Row[]).map(toOffer);
+      const rows:Row[]=[];
+      for(let offset=0;;offset+=1000){
+        const {data,error}=await query.order('ends_at',{ascending:true}).order('id',{ascending:true}).range(offset,offset+999);
+        if(error)throw new RepoError('unavailable','ماقدرناش نجيب العروض',{cause:error});
+        rows.push(...data as Row[]);if(data.length<1000)break;
+      }
+      return rows.map(toOffer);
     },
 
     async mineForShop(shopId) {
