@@ -31,3 +31,7 @@ the first photo on a page.
 | village-market-640/1200.webp | About page header | Woman in hijab buying vegetables | Sesame Image, generated |
 | shop-owner-480/960.webp | About page, advertise section | Grocery shop owner | Sesame Image, generated |
 | volunteers-480/960.webp | Donate page header | Volunteers packing Ramadan boxes | Sesame Image, generated |
+
+## Donation hero replacement, 2026-11-07
+
+The volunteers hero now uses versioned `volunteers-photo-480.webp` and `volunteers-photo-960.webp`, generated for this project in a photoreal style. Four fictional Egyptian adult volunteers pack unbranded food boxes; both women wear hijabs. This is illustrative imagery, not actual charity personnel. No third-party logos or real people. Source: qaryati-charity-realistic.png. Updated metadata to the real 16:9 ratio. No donation, contact or payment details changed.
