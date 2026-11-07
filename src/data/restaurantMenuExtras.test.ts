@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { existsSync } from 'node:fs';
 import { RESTAURANTS } from './catalog';
 import { appendIllustrativeRestaurantItems, RESTAURANT_MENU_EXTRAS } from './restaurantMenuExtras';
+import { cartItemFromProduct, useCartStore } from '@/stores/useCartStore';
 import type { Product } from '@/types';
 
 describe('illustrative restaurant additions', () => {
@@ -13,14 +14,21 @@ describe('illustrative restaurant additions', () => {
       const before = JSON.stringify(originals);
       const result = appendIllustrativeRestaurantItems(shop, originals);
       expect(JSON.stringify(originals)).toBe(before);
-      expect(result.filter(item => !item.viewOnly)).toEqual(originals);
-      expect(result.filter(item => item.viewOnly)).toHaveLength(fixture.items.length);
+      const originalIds = new Set(originals.map(item => item.id));
+      expect(result.filter(item => originalIds.has(item.id))).toEqual(originals);
+      expect(result.filter(item => !originalIds.has(item.id))).toHaveLength(fixture.items.length);
+      expect(result.every(item => !item.viewOnly)).toBe(true);
       expect(result.some(item => item.section === 'أصناف إضافية للعرض')).toBe(false);
       expect(result.length).toBe(shop.id <= 114 ? 12 : originals.length + 4);
       expect(new Set(result.map(item => item.name)).size).toBe(result.length);
       expect(new Set(result.map(item => item.id)).size).toBe(result.length);
       for (const item of fixture.items) {
         expect(item.price).toBeGreaterThan(0);
+        useCartStore.getState().clearCart();
+        const cartItem = cartItemFromProduct(shop, item);
+        expect(useCartStore.getState().addItem(cartItem).status).toBe('added');
+        expect(useCartStore.getState().items[0].productId).toBe(item.id);
+        expect(useCartStore.getState().getTotalAmount()).toBe(item.price * cartItem.quantity);
         expect(item.photo && existsSync(`public${item.photo}`), `${shop.name}: ${item.name}`).toBe(true);
       }
       added += fixture.items.length;
