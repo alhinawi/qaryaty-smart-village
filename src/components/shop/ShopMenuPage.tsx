@@ -298,7 +298,7 @@ export function ShopMenuPage({ shop, onClose }: ShopMenuPageProps) {
                 setIsCartOpen(true);
               }}
             >
-              السلة: {count.toLocaleString('ar-EG')} صنف • {formatCurrency(total)}
+              السلة: {count} صنف • {formatCurrency(total)}
             </button>
           </div>
         )}
