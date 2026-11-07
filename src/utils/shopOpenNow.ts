@@ -34,3 +34,31 @@ export function isShopOpenNow(shop: Pick<Shop, 'open' | 'time'>, now: Date = new
   if (!shop.open) return false;
   return hoursOpenNow(shop.time, now) ?? true;
 }
+
+/** Egyptian-spoken clock: 0→"12 بالليل", 1-5AM→"X بالليل", 6-11AM→"X الصبح", noon→"12 الضهر", 1-5PM→"X العصر", 6-11PM→"X مساءً". */
+export function minuteToSpoken(minute: number): string {
+  const h24 = Math.floor(minute / 60) % 24;
+  if (h24 === 0) return '12 بالليل';
+  if (h24 <= 5) return `${h24} بالليل`;
+  if (h24 < 12) return `${h24} الصبح`;
+  if (h24 === 12) return '12 الضهر';
+  const h = h24 - 12;
+  return h <= 5 ? `${h} العصر` : `${h} مساءً`;
+}
+
+/** 420, 1440 → "من 7 الصبح لحد 12 بالليل". */
+export function spokenHoursRange(fromMinute: number, toMinute: number): string {
+  return `من ${minuteToSpoken(fromMinute)} لحد ${minuteToSpoken(toMinute)}`;
+}
+
+/** "⏰ 8ص - 1ص" → "من 8 الصبح لحد 1 بالليل"; "24 ساعة" stays; null when unreadable. */
+export function hoursDisplayLabel(time: string | undefined): string | null {
+  if (!time) return null;
+  if (time.includes('24')) return '24 ساعة';
+  const range = time.match(/(\d{1,2})\s*([صم])\s*-\s*(\d{1,2})\s*([صم])/);
+  if (!range) return null;
+  const from = hourLabelToMinute(`${range[1]}${range[2]}`);
+  const to = hourLabelToMinute(`${range[3]}${range[4]}`);
+  if (from == null || to == null) return null;
+  return spokenHoursRange(from, to);
+}
