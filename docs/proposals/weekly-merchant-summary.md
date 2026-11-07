@@ -17,3 +17,6 @@ QA:519 app tests/build pass, new component/model scoped lint pass. Full Dashboar
 
 ## Demo revision
 Verified demo ON now passes fictional24 completed orders versus20 previous week (+20%),5 published linked sample reviews (4.8/5), most-requested item and best Cairo day. Fixture dates derive from the latest completed period and all sample rows retain demo:true. OFF/unknown still uses honest unavailable state, no real feed or schedule claimed. No visible sample label per user request.
+
+## Peak hour / copy revision
+Peak hour calculated by Africa/Cairo completion timestamp hour (ties retained); label explicitly means completed-order hour, not order-created demand. Current demo peak19:00-20:00Cairo. User requested removing internal noWhatsApp/noMoney footer; removed. Unavailable text now merchant-friendly. Backend scope/limits remain documented here rather than footer.

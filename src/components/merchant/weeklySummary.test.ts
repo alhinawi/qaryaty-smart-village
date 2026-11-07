@@ -8,3 +8,5 @@ it('includes explicit samples only with demo enabled',()=>{expect(weeklySummary(
 it('uses current published valid linked reviews once',()=>{const r={id:'x',orderId:'r1',shopId:1,rating:4,createdAt:'2026-11-02T10:00:00Z',published:true,demo:false};const s=weeklySummary({...input,reviews:[r,{...r,id:'dup'},{...r,id:'bad',orderId:'none'}]});expect(s.state==='ready'&&s.rating).toBe(4);expect(s.state==='ready'&&s.ratingCount).toBe(1);});
 it('keeps ties instead of inventing a winner',()=>{const s=weeklySummary({...input,orders:[order,{...order,id:'r2',completedAt:'2026-11-02T10:00:00Z',items:[{productId:'b',name:'ب',quantity:2}]}]});expect(s.state==='ready'&&s.bestProducts.length).toBe(2);expect(s.state==='ready'&&s.bestDays.length).toBe(2);});
 it('calculates prior week comparison',()=>{const s=weeklySummary({...input,orders:[order,{...order,id:'r0',completedAt:'2026-10-25T10:00:00Z'},{...order,id:'r2'}]});expect(s.state==='ready'&&s.change).toBe(100);});
+
+it('groups peak completion hour by Cairo local time',()=>{const s=weeklySummary(input);expect(s.state==='ready'&&s.peakHours).toEqual([12]);});
