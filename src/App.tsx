@@ -29,6 +29,7 @@ import { preloadSearchScreen } from '@/components/search/loadSearchScreen';
 
 // ─── Lazy Loaded Pages
 const HomePage = lazy(() => import('@/pages/Home'));
+const FamilyOrderPreviewPage = lazy(() => import('@/components/family/FamilyOrderPreviewPage'));
 const OrdersPage = lazy(() => import('@/pages/Orders'));
 const FavoritesPage = lazy(() => import('@/pages/Favorites'));
 const MessagesPage = lazy(() => import('@/pages/Messages'));
@@ -171,6 +172,7 @@ export default function App() {
                   path={ROUTES.home}
                   element={<HomePage onOpenOrderModal={handleOpenOrderModal} />}
                 />
+                <Route path="/preview/family-order" element={<FamilyOrderPreviewPage />} />
                 <Route path={ROUTES.orders} element={<OrdersPage />} />
                 <Route
                   path={ROUTES.favorites}
