@@ -7,6 +7,9 @@ import './index.css';
 import { watchDemoModeSetting } from './repositories';
 import { captureReferralFromUrl } from './utils/referral';
 
+import { initTheme } from './config/theme';
+initTheme();
+
 // ─── Root Render
 const rootElement = document.getElementById('root');
 
