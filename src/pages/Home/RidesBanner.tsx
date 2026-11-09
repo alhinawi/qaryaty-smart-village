@@ -1,5 +1,7 @@
 // ─── شير مواصلة on the home page: a way in to /rides, one tile for each kind of trip
 import { Link } from 'react-router';
+import { ArrowLeft } from 'lucide-react';
+
 import { ROUTES } from '@/routes';
 import { RIDE_KINDS } from '@/config/rides';
 
@@ -11,7 +13,7 @@ export function RidesBanner() {
           شير مواصلة
         </h3>
         <Link to={ROUTES.rides} className="text-[13px] font-extrabold text-green min-h-[44px] inline-flex items-center">
-          كل المشاوير ⬅️
+          كل المشاوير <ArrowLeft size={14} className="shrink-0 ms-0.5" aria-hidden="true" />
         </Link>
       </div>
       <ul className="grid grid-cols-2 gap-3 list-none p-0 m-0">
@@ -31,7 +33,7 @@ export function RidesBanner() {
                 <span className="font-black text-[15px] text-green-dark">{k.label}</span>
               </span>
               <span className="text-[12.5px] text-text-muted leading-relaxed flex-1">{k.hint}</span>
-              <span className="text-[13px] font-extrabold text-green">شوف المشاوير ⬅️</span>
+              <span className="text-[13px] font-extrabold text-green inline-flex items-center gap-1">شوف المشاوير <ArrowLeft size={14} className="shrink-0" aria-hidden="true" /></span>
             </Link>
           </li>
         ))}
