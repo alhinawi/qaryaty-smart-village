@@ -74,16 +74,17 @@ describe('sample data', () => {
     expect(home / PROVIDERS.length).toBeGreaterThan(0.5);
   });
 
-  it('online-only teachers come from المنصورة and القاهرة too', () => {
-    const online = PROVIDERS.filter((p) => p.kind === 'teacher' && !worksInPerson(p));
-    const places = new Set(online.map((p) => p.village));
-    expect(places.has('المنصورة')).toBe(true);
-    expect(places.has('القاهرة')).toBe(true);
+  it('about 90% of teachers are from منية سندوب, the rest from ميت خميس', () => {
+    // The developer's own cards carry no made-up village; the 90% rule is for the sample teachers.
+    const teachers = PROVIDERS.filter((p) => p.kind === 'teacher' && !(DEVELOPER_TEACHER_IDS as readonly number[]).includes(p.id));
+    const home = teachers.filter((p) => p.village === 'منية سندوب').length;
+    expect(home / teachers.length).toBeGreaterThanOrEqual(0.85);
+    expect(teachers.every((p) => p.village === 'منية سندوب' || p.village === 'ميت خميس')).toBe(true);
   });
 
-  it('has a far in-person teacher that the default view hides', () => {
-    const far = PROVIDERS.filter((p) => p.kind === 'teacher' && p.village === 'تلبانة');
-    expect(far.length).toBeGreaterThan(0);
-    expect(far.every((p) => !isLocalProvider(p, withNearby))).toBe(true);
+  it('online and in-person modes both still exist among teachers', () => {
+    const teachers = PROVIDERS.filter((p) => p.kind === 'teacher');
+    expect(teachers.some((p) => !worksInPerson(p))).toBe(true);
+    expect(teachers.some((p) => worksInPerson(p))).toBe(true);
   });
 });
