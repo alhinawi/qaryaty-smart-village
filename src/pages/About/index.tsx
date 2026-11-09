@@ -210,7 +210,7 @@ export default function AboutPage() {
               </span>
               <div>
                 <h4 className="text-sm font-extrabold mb-1">
-                  <span aria-hidden="true">{step.icon}</span> {step.title}
+                  {step.title}
                 </h4>
                 <p className="text-xs text-white/80 leading-relaxed">{step.text}</p>
               </div>
