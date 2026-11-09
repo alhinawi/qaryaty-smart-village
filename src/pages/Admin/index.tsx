@@ -282,6 +282,15 @@ function OosBadgeStyleSection() {
               onClick={() => setStyle(option.id)}
               className={`rounded-xl border-2 px-4 py-2 text-sm font-bold transition-colors ${isOn ? 'bg-green text-white border-green' : 'bg-white text-text border-gray-200 hover:border-green'}`}
             >
+              <span aria-hidden="true" className="block w-[96px] h-[56px] rounded-lg overflow-hidden relative mb-2 bg-[#d9c9a8]">
+                {option.id === 'dim' ? (
+                  <span className="absolute inset-0 bg-black/45 flex items-center justify-center">
+                    <span className="text-white text-[10px] font-black">خلصان</span>
+                  </span>
+                ) : (
+                  <span className="absolute top-[8px] -right-[18px] w-[68px] rotate-45 bg-danger text-white text-[8px] font-black text-center py-0.5">خلصان</span>
+                )}
+              </span>
               {option.label}
               <span className={`block text-[11px] font-normal mt-0.5 ${isOn ? 'text-white/85' : 'text-text-muted'}`}>{option.hint}</span>
             </button>
