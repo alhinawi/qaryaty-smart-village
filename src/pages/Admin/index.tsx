@@ -13,6 +13,7 @@ import { useDemoMode } from '@/hooks/useDemoMode';
 import { useAuthStore, selectIsStaff, selectRole, selectUser } from '@/stores/useAuthStore';
 import { useCatalogStore } from '@/stores/useCatalogStore';
 import { useUIStore } from '@/stores/useUIStore';
+import { useDisplayPrefsStore, type OosBadgeStyle } from '@/stores/useDisplayPrefsStore';
 import { useConfirmStore } from '@/stores/useConfirmStore';
 import { Badge } from '@/components/ui/Badge';
 import { AccountPicker } from '@/components/ui/AccountPicker';
@@ -192,6 +193,8 @@ export default function AdminPage() {
         <button type="button" role="switch" aria-label="السماح بتغيير الثيمات" aria-checked={appearanceOn === true} disabled={appearanceBusy || appearanceOn === null} onClick={() => void toggleAppearance()} className={`shrink-0 w-14 h-8 rounded-full p-1 border-none disabled:opacity-50 ${appearanceOn ? 'bg-green' : 'bg-gray-300'}`}><span className={`block w-6 h-6 rounded-full bg-white shadow transition-transform ${appearanceOn ? '-translate-x-6' : 'translate-x-0'}`} /></button>
       </section>}
 
+      {role === 'owner' && <OosBadgeStyleSection />}
+
       {sections.overview && (
         <div className="grid grid-cols-3 gap-2 mb-5">
           {stats.map((s) => (
@@ -256,7 +259,41 @@ export default function AdminPage() {
 // ─── واتساب الطلبات master switch (owner only): OFF = no merchant opt-in, the
 // DB trigger queues nothing, no provider calls, no spend. ON = merchants can
 // opt in; sending still needs a paid provider to be wired.
-function WhatsappMasterSection() {
+function OosBadgeStyleSection() {
+  const style = useDisplayPrefsStore((state) => state.oosBadgeStyle);
+  const setStyle = useDisplayPrefsStore((state) => state.setOosBadgeStyle);
+  const options: { id: OosBadgeStyle; label: string; hint: string }[] = [
+    { id: 'dim', label: 'تغميق الصورة', hint: 'الصورة بتتغمّق و«خلصان» أبيض في النص' },
+    { id: 'ribbon', label: 'شريط أحمر', hint: 'الصورة زي ما هي وشريط أحمر على الزاوية' },
+  ];
+  return (
+    <section aria-label="شكل شارة خلصان" className="bg-white rounded-2xl border border-green/15 p-4 mb-5">
+      <h2 className="text-[15px] font-black text-green-dark m-0">شكل شارة «خلصان»</h2>
+      <p className="text-xs text-text-muted leading-relaxed m-0 mt-1">اختار شكل شارة المنتج النافذ في المنيو والبحث.</p>
+      <div className="flex flex-wrap gap-2 mt-3" role="radiogroup" aria-label="شكل شارة خلصان">
+        {options.map((option) => {
+          const isOn = style === option.id;
+          return (
+            <button
+              key={option.id}
+              type="button"
+              role="radio"
+              aria-checked={isOn}
+              onClick={() => setStyle(option.id)}
+              className={`rounded-xl border-2 px-4 py-2 text-sm font-bold transition-colors ${isOn ? 'bg-green text-white border-green' : 'bg-white text-text border-gray-200 hover:border-green'}`}
+            >
+              {option.label}
+              <span className={`block text-[11px] font-normal mt-0.5 ${isOn ? 'text-white/85' : 'text-text-muted'}`}>{option.hint}</span>
+            </button>
+          );
+        })}
+      </div>
+      <p className="text-[10px] text-text-muted m-0 mt-2">دلوقتي الاختيار محفوظ على الجهاز ده. مزامنته على كل الأجهزة من إعداد مشترك في الـ DB جاهزة كمقترح SQL ومستنية موافقتك.</p>
+    </section>
+  );
+}
+
+function SearchMissesSection() {
   const showToast = useUIStore((s) => s.showToast);
   const [enabled, setEnabled] = useState<boolean | null>(null);
   const [busy, setBusy] = useState(false);
