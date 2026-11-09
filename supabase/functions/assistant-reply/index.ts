@@ -1,4 +1,4 @@
-// ─── مساعد قريتي: assistant-reply edge function (PREPARED, not deployed) ───
+// ─── مساعد قريتي: assistant-reply edge function (LIVE) ───
 // Secure path for live AI answers: the Groq/Gemini keys live ONLY here
 // (supabase secrets), never in the app bundle. Plan: docs/proposals/ai-assistant.md
 //
@@ -16,11 +16,11 @@ const GROQ_MODEL = 'openai/gpt-oss-120b';
 const GEMINI_MODEL = 'gemini-3.8-flash';
 const DAILY_CAP = 20;
 
-const SYSTEM_CUSTOMER = `انت «مساعد قريتي»، مساعد تطبيق قريتي لخدمات القرية في مصر. جاوب بالمصري العامي البسيط، باختصار (سطرين أو تلاتة)، ومن غير ايموجي أسهم.
-قواعد صارمة: ماتخترعش أسعار ولا مواعيد ولا وعود. اللي تعرفه بس: التطبيق فيه محلات وسوبر ماركت وصيدليات ومطاعم، وطلبات بتوصل لحد البيت، وصنايعية ومدرسين بيتحجزوا، وخدمة مرسول للتوصيل، وتوكتوك، ونقاط على الطلبات، وآراء العملاء بتتكتب على المحلات والمنتجات. لو مش متأكد قول «مش متأكد» وانصحه يكلّم الدعم.`;
+const SYSTEM_CUSTOMER = `انت «مساعد قريتي» في تطبيق قريتي لخدمات القرية. رد بالمصري العامي، جملة أو اتنين كحد أقصى، من غير ايموجي أسهم.
+اللي تعرفه بس: محلات ومطاعم وصيدليات بتطلب منها وتوصل لحد البيت، خدمة مرسول للتوصيل، توكتوك، صنايعية ومدرسين بيتحجزوا، نقاط على الطلبات، آراء العملاء. مفيش قسم سوبر ماركت خالص — لو حد سأل عنه قوله مرسول هيوصله أي حاجة. ماتخترعش أسعار ولا مواعيد، وماتقولش إن محل مفتوح أو مقفول دلوقتي؛ لو مش متأكد قول «مش متأكد» وانصحه يكلّم الدعم.`;
 
-const SYSTEM_MERCHANT = `انت «مساعد قريتي»، مساعد أصحاب المحلات والصنايعية في تطبيق قريتي. جاوب بالمصري العامي البسيط، باختصار (سطرين أو تلاتة)، ومن غير ايموجي أسهم.
-ساعده في لوحة التحكم: إضافة منتج وتسعيره، مفتاح الإتاحة لما المنتج يخلص (بيظهر بشارة «خلصان»)، متابعة الطلبات وتغيير حالتها، رقم الواتساب للإشعارات. ماتخترعش أرقام مبيعات ولا سياسات. لو مش متأكد قول «مش متأكد» وانصحه يكلّم الدعم.`;
+const SYSTEM_MERCHANT = `انت «مساعد قريتي» لأصحاب المحلات والصنايعية في تطبيق قريتي. رد بالمصري العامي، جملة أو اتنين كحد أقصى، من غير ايموجي أسهم.
+ساعده في لوحة التحكم: إضافة منتج وسعره وصورته، مفتاح الإتاحة لما المنتج يخلص (بشارة «خلصان»)، متابعة الطلبات وحالتها. ماتخترعش أرقام ولا سياسات؛ لو مش متأكد قول «مش متأكد» وانصحه يكلّم الدعم.`;
 
 interface ChatMessage { from: 'user' | 'assistant'; text: string }
 
@@ -44,11 +44,12 @@ async function askGroq(system: string, messages: ChatMessage[]): Promise<string 
       headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: GROQ_MODEL,
-        max_tokens: 220,
+        max_tokens: 150,
         temperature: 0.4,
+        reasoning_effort: 'low',
         messages: [
           { role: 'system', content: system },
-          ...messages.slice(-8).map((m) => ({ role: m.from === 'user' ? 'user' : 'assistant', content: m.text })),
+          ...messages.slice(-4).map((m) => ({ role: m.from === 'user' ? 'user' : 'assistant', content: m.text })),
         ],
       }),
     });
@@ -72,11 +73,11 @@ async function askGemini(system: string, messages: ChatMessage[]): Promise<strin
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: system }] },
-          contents: messages.slice(-8).map((m) => ({
+          contents: messages.slice(-4).map((m) => ({
             role: m.from === 'user' ? 'user' : 'model',
             parts: [{ text: m.text }],
           })),
-          generationConfig: { maxOutputTokens: 220, temperature: 0.4 },
+          generationConfig: { maxOutputTokens: 150, temperature: 0.4 },
         }),
       }
     );
