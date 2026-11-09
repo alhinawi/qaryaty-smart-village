@@ -20,6 +20,7 @@ import { createLocalOffersRepo } from '@/repositories/offers/localOffersRepo';
 import { offersRepo, type DailyOffer } from '@/repositories';
 import { applyProductOffer } from '@/repositories/offers/priceOffer';
 import { LineControl } from '@/components/shop/LineControl';
+import { OosBadge } from '@/components/shop/OosBadge';
 import { NotifyStock } from '@/components/stock/NotifyStock';
 import { normalizeArabic } from '@/utils/arabicSearch';
 import { dialogTabStops, isTopDialog } from '@/utils/dialogFocus';
@@ -258,9 +259,13 @@ export function ShopMenuPage({ shop, onClose }: ShopMenuPageProps) {
               <li key={p.id} className="bg-white rounded-2xl border border-black/6 shadow-sm p-2 flex flex-col gap-1.5">
                 <div className="relative">
                   <ProductPhoto photo={p.photo} emoji={p.emoji} className="w-full aspect-square rounded-xl" />
-                  <div className="absolute bottom-1.5 left-1.5">
-                    <LineControl shop={shop} product={p} grill={false} label="أضف" round />
-                  </div>
+                  {p.available === false ? (
+                    <OosBadge />
+                  ) : (
+                    <div className="absolute bottom-1.5 left-1.5">
+                      <LineControl shop={shop} product={p} grill={false} label="أضف" round />
+                    </div>
+                  )}
                 </div>
                 <div className="text-[13px] font-bold leading-snug line-clamp-2 min-h-[2.5em]">
                   {p.name}
@@ -269,7 +274,6 @@ export function ShopMenuPage({ shop, onClose }: ShopMenuPageProps) {
                       بروشتة
                     </span>
                   )}
-                  {p.available === false && <span className="ms-1 text-[11px] rounded bg-gray-100 text-text-muted px-1.5 py-0.5">خلصان</span>}
                 </div>
                 <div className="text-[12px]">
                   <OfferPrice price={p.price} original={p.originalPrice} percent={p.offerPercent} unit={p.unit} />
