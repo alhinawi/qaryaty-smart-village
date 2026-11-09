@@ -1,4 +1,6 @@
 import { HandHeart } from 'lucide-react';
+import { HeartHandshake, ShieldCheck } from 'lucide-react';
+
 // ─── باب الخير (/donate): causes and village organizations to give to
 // The causes, their contacts and payment details live in src/config/donations.ts.
 import { useEffect, useState } from "react";
@@ -149,7 +151,7 @@ function CauseCard({
           onClick={() => onDonate(cause.id)}
           className="inline-flex items-center justify-center gap-1.5 min-h-[44px] px-4 rounded-xl bg-green text-white font-extrabold text-sm cursor-pointer font-['Cairo',sans-serif] transition-transform duration-200 hover:scale-[1.03]"
         >
-          <span aria-hidden="true">🤲</span> عايز أتبرع
+          <HeartHandshake size={17} className="shrink-0" aria-hidden="true" /> عايز أتبرع
         </button>
         <a
           href={donationWhatsappLink(cause)}
@@ -308,7 +310,7 @@ export default function DonatePage() {
               </span>
               <div>
                 <h4 className="text-sm font-extrabold mb-1">
-                  <span aria-hidden="true">{step.icon}</span> {step.title}
+                  {step.title}
                 </h4>
                 <p className="text-xs text-white/80 leading-relaxed">
                   {step.text}
@@ -318,7 +320,7 @@ export default function DonatePage() {
           ))}
         </ol>
         <p className="text-xs text-white/85 leading-relaxed mt-5 bg-white/10 rounded-xl p-3">
-          <span aria-hidden="true">🛡️</span> التطبيق مش بياخد فلوس منك. متحوّلش
+          <ShieldCheck size={15} className="inline -mt-0.5 ms-0.5" aria-hidden="true" /> التطبيق مش بياخد فلوس منك. متحوّلش
           لأي رقم غير اللي مكتوب في الصفحة دي، حتى لو حد كلمك باسم قريتي.
         </p>
       </section>

@@ -293,7 +293,7 @@ function OosBadgeStyleSection() {
   );
 }
 
-function SearchMissesSection() {
+function WhatsappMasterSection() {
   const showToast = useUIStore((s) => s.showToast);
   const [enabled, setEnabled] = useState<boolean | null>(null);
   const [busy, setBusy] = useState(false);
