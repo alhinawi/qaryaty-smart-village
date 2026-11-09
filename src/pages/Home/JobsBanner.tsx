@@ -1,5 +1,7 @@
 // ─── وظائف on the home page: a way in to /jobs
 import { Link } from 'react-router';
+import { ArrowLeft } from 'lucide-react';
+
 import { ROUTES } from '@/routes';
 
 export function JobsBanner() {
@@ -26,7 +28,7 @@ export function JobsBanner() {
         to={ROUTES.jobs}
         className="shrink-0 inline-flex items-center justify-center min-h-[44px] px-4 rounded-xl bg-green text-white font-extrabold text-sm"
       >
-        شوف الوظائف ⬅️
+        شوف الوظائف <ArrowLeft size={16} className="shrink-0" aria-hidden="true" />
       </Link>
     </section>
   );

@@ -1,5 +1,7 @@
 // ─── Second step of the picker: "العنوان بالكامل"
 import { lazy, Suspense, useState, type FormEvent } from 'react';
+import { Pencil } from 'lucide-react';
+
 import type { AddressDraft, LatLng } from '@/types';
 import { Input } from '@/components/ui/Input';
 import { addressDraftSchema, normalizeEgyptianPhone } from '@/utils/validators';
@@ -120,7 +122,7 @@ export default function AddressDetailsForm({
             </svg>
           </span>
           <span className="absolute bottom-2 left-2 z-[400] bg-white/95 text-green-dark text-xs font-bold rounded-full px-3 py-1.5 shadow">
-            ← غيّر المكان
+            <Pencil size={12} className="inline -mt-0.5 ms-0.5" aria-hidden="true" /> غيّر المكان
           </span>
         </button>
 

@@ -1,5 +1,7 @@
 // ─── Imports
 import { useEffect } from 'react';
+import { ArrowLeft, ChevronLeft } from 'lucide-react';
+
 import { Link, useLocation } from 'react-router';
 import { ROUTES } from '@/routes';
 import { DEVELOPER_NAME } from '@/config/developer';
@@ -271,7 +273,7 @@ export default function AboutPage() {
             <span className="block text-[13px] text-text-muted">لحد ما نطلق المنصة، الخدمة شغالة من الجروبات</span>
           </span>
         </span>
-        <span aria-hidden="true">⬅️</span>
+        <ChevronLeft size={20} className="shrink-0 text-green" aria-hidden="true" />
       </Link>
 
       {/* Donations */}
@@ -291,7 +293,7 @@ export default function AboutPage() {
             <span className="block text-[13px] text-text-muted">اتبرع لأهل قريتك: بيت المال، الجمعية الشرعية، تجهيز عرايس</span>
           </span>
         </span>
-        <span aria-hidden="true">⬅️</span>
+        <ChevronLeft size={20} className="shrink-0 text-green" aria-hidden="true" />
       </Link>
 
       {/* Developer + call to action */}
@@ -307,7 +309,7 @@ export default function AboutPage() {
           to={ROUTES.home}
           className="inline-flex items-center justify-center min-h-[44px] px-5 rounded-xl bg-gold text-black font-extrabold text-[0.9375rem] transition-transform duration-200 hover:scale-105"
         >
-          ابدأ اطلب دلوقتي ⬅️
+          ابدأ اطلب دلوقتي <ArrowLeft size={16} className="shrink-0" aria-hidden="true" />
         </Link>
       </section>
 
