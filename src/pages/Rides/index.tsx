@@ -1,5 +1,7 @@
 // ─── شير مواصلة: every live shared trip, with filters
 import { useEffect, useMemo, useState } from 'react';
+import { Plus } from 'lucide-react';
+
 import { Link } from 'react-router';
 import { ROUTES } from '@/routes';
 import { rideRepo } from '@/repositories';
@@ -55,7 +57,7 @@ export default function RidesPage() {
         }
       }}
     >
-      ➕ نزّل مشوارك
+      <Plus size={17} className="shrink-0" aria-hidden="true" /> نزّل مشوارك
     </Link>
   );
 
@@ -139,7 +141,7 @@ export default function RidesPage() {
             ))}
           </select>
         </div>
-        <div className="flex gap-2 mt-2 overflow-x-auto pb-1 -mx-1 px-1" role="group" aria-label="نوع المشوار">
+        <div className="flex gap-2 mt-2 overflow-x-auto pb-1" role="group" aria-label="نوع المشوار">
           <button type="button" className={chip(f.kind === '')} aria-pressed={f.kind === ''} onClick={() => set('kind', '')}>
             الكل
           </button>
@@ -155,7 +157,7 @@ export default function RidesPage() {
             </button>
           ))}
         </div>
-        <div className="flex gap-2 mt-1 overflow-x-auto pb-1 -mx-1 px-1">
+        <div className="flex gap-2 mt-1 overflow-x-auto pb-1">
           <button type="button" className={chip(f.womenOnly)} aria-pressed={f.womenOnly} onClick={() => set('womenOnly', !f.womenOnly)}>
             🧕 ستات بس
           </button>
