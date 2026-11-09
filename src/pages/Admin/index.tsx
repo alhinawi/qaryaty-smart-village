@@ -16,6 +16,8 @@ import { useUIStore } from '@/stores/useUIStore';
 import { useDisplayPrefsStore, type OosBadgeStyle } from '@/stores/useDisplayPrefsStore';
 import { useConfirmStore } from '@/stores/useConfirmStore';
 import { Badge } from '@/components/ui/Badge';
+import { ProductPhoto } from '@/components/ui/ProductPhoto';
+import { OosBadge } from '@/components/shop/OosBadge';
 import { AccountPicker } from '@/components/ui/AccountPicker';
 import {
   APPOINTABLE_ROLES,
@@ -259,8 +261,13 @@ export default function AdminPage() {
 // ─── واتساب الطلبات master switch (owner only): OFF = no merchant opt-in, the
 // DB trigger queues nothing, no provider calls, no spend. ON = merchants can
 // opt in; sending still needs a paid provider to be wired.
-function OosBadgeStyleSection() {
-  const style = useDisplayPrefsStore((state) => state.oosBadgeStyle);
+/** Real product photo (كشري التحرير) so the owner sees the true badge look. */
+const KUSHARI_PHOTO = 'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail';
+
+/** Real product photo (كشري التحرير) so the owner sees the true badge look. */
+const KUSHARI_PHOTO = 'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail';
+
+function OosBadgeStyleSection() {  const style = useDisplayPrefsStore((state) => state.oosBadgeStyle);
   const setStyle = useDisplayPrefsStore((state) => state.setOosBadgeStyle);
   const options: { id: OosBadgeStyle; label: string; hint: string }[] = [
     { id: 'dim', label: 'تغميق الصورة', hint: 'الصورة بتتغمّق و«خلصان» أبيض في النص' },
@@ -282,14 +289,9 @@ function OosBadgeStyleSection() {
               onClick={() => setStyle(option.id)}
               className={`rounded-xl border-2 px-4 py-2 text-sm font-bold transition-colors ${isOn ? 'bg-green text-white border-green' : 'bg-white text-text border-gray-200 hover:border-green'}`}
             >
-              <span aria-hidden="true" className="block w-[96px] h-[56px] rounded-lg overflow-hidden relative mb-2 bg-[#d9c9a8]">
-                {option.id === 'dim' ? (
-                  <span className="absolute inset-0 bg-black/45 flex items-center justify-center">
-                    <span className="text-white text-[10px] font-black">خلصان</span>
-                  </span>
-                ) : (
-                  <span className="absolute top-[8px] -right-[18px] w-[68px] rotate-45 bg-danger text-white text-[8px] font-black text-center py-0.5">خلصان</span>
-                )}
+              <span aria-hidden="true" className="block relative mb-2 mx-auto w-[148px]">
+                <ProductPhoto photo={KUSHARI_PHOTO} emoji="🍝" className="w-[148px] h-[148px] rounded-xl" />
+                <OosBadge style={option.id} />
               </span>
               {option.label}
               <span className={`block text-[11px] font-normal mt-0.5 ${isOn ? 'text-white/85' : 'text-text-muted'}`}>{option.hint}</span>
