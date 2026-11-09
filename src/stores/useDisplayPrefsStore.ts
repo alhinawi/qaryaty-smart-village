@@ -12,7 +12,7 @@ interface DisplayPrefsState {
 /**
  * Display preferences. Local fallback for the owner's control-panel choices;
  * the shared-DB path (so every device follows the owner's pick) is proposed in
- * supabase/migrations/20261108040000_app_settings.sql and waits for his OK.
+ * docs/proposals/deferred-app-settings-khallasan.sql and waits for his OK.
  */
 export const useDisplayPrefsStore = create<DisplayPrefsState>()(
   persist(
