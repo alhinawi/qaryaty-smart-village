@@ -20,6 +20,7 @@ import { useUIStore } from '@/stores/useUIStore';
 import type { Job, JobReportReason } from '@/repositories/jobs/types';
 import { BackLink, JobTypeBadge, SafetyNote, StatusBadge } from './parts';
 import { dangerBtn, outlineBtn, primaryBtn, useSignInFirst } from './jobUi';
+import { counted } from '@/utils/plural';
 
 function errorText(err: unknown): string {
   return err instanceof Error && err.message ? err.message : 'حصلت مشكلة، جرّب تاني';
@@ -167,7 +168,7 @@ export default function JobDetailPage() {
 
         <p className="text-[12px] text-text-muted mt-4 mb-0">
           اتنشر {postedAgo(job.approvedAt ?? job.createdAt)}
-          {live && left !== null && ` · فاضل ${left} يوم على الإعلان`}
+          {live && left !== null && ` · فاضل ${left} ${counted(left, 'يوم', 'يومين', 'أيام')} على الإعلان`}
         </p>
       </article>
 
