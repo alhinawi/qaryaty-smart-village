@@ -36,7 +36,6 @@ const ReviewsPreviewPage = lazy(() => import('@/components/reviews/ReviewsPrevie
 const CatalogDetail = lazy(() => import('@/pages/CatalogDetail'));
 const SettingsPage = lazy(() => import('@/pages/Settings'));
 const EventsPreview = lazy(() => import('@/pages/EventsPreview'));
-const GamiyaPreview = lazy(() => import('@/pages/GamiyaPreview'));
 const AddressesSettingsPage = lazy(() => import('@/pages/Settings/Addresses'));
 const ThemeSettingsPage = lazy(() => import('@/pages/Settings/ThemeSettings'));
 const FamilyOrderPreviewPage = lazy(() => import('@/components/family/FamilyOrderPreviewPage'));
@@ -191,7 +190,6 @@ export default function App() {
                 <Route path="/services/:id" element={<CatalogDetail kind="service" onOpenOrderModal={handleOpenOrderModal} />} />
                 <Route path="/settings" element={<SettingsPage />} />
                 <Route path="/events-preview" element={<EventsPreview />} />
-                <Route path="/preview/gamiya" element={<GamiyaPreview />} />
                 <Route path="/terms" element={<TermsPage />} />
                 <Route path="/settings/addresses" element={<AddressesSettingsPage />} />
                 <Route path="/settings/appearance" element={<ThemeSettingsPage />} />
