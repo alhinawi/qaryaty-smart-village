@@ -37,6 +37,8 @@ import { matchesSearch } from "@/utils/arabicSearch";
 import { ROUTES } from "@/routes";
 import { productsForShop } from "@/data/catalog";
 import { LineControl } from "@/components/shop/LineControl";
+import { NotifyStock } from '@/components/stock/NotifyStock';
+import { OosBadge } from '@/components/shop/OosBadge';
 import { ShopMenuPage } from "@/components/shop/ShopMenuPage";
 import { Avatar } from "@/components/shared/Avatar";
 import { formatCurrency } from "@/utils/helpers";
@@ -927,16 +929,12 @@ function ProductCard({
         onClick={() => onOpen(entry)}
         className="flex flex-col gap-1.5 bg-transparent border-none cursor-pointer p-0 text-start font-['Cairo',sans-serif]"
       >
-        <span className="w-full h-[84px] rounded-xl overflow-hidden bg-[#f9fafb] flex items-center justify-center text-[34px]">
+        <span className="relative w-full h-[84px] rounded-xl overflow-hidden bg-[#f9fafb] flex items-center justify-center text-[34px]">
           <TilePicture photo={product.photo} emoji={product.emoji} />
+          {product.available === false && <OosBadge size="sm" />}
         </span>
         <span className="font-bold text-[0.8125rem] text-text leading-snug line-clamp-2 min-h-[2.6em]">
           <Highlight text={product.name} query={query} />
-          {product.available === false && (
-            <span className="ms-1 text-[11px] rounded bg-gray-100 text-text-muted px-1.5 py-0.5">
-              خلصان
-            </span>
-          )}
         </span>
         <span className="text-[0.75rem] font-bold text-text">
           <OfferPrice
@@ -947,7 +945,11 @@ function ProductCard({
           />
         </span>
       </button>
-      <LineControl shop={shop} product={product} grill={false} label="أضف" />
+      {product.available === false ? (
+        <NotifyStock shop={shop} product={product} />
+      ) : (
+        <LineControl shop={shop} product={product} grill={false} label="أضف" />
+      )}
     </div>
   );
 }
