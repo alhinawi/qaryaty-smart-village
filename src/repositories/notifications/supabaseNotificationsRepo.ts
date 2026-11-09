@@ -1,6 +1,7 @@
 // ─── Server notifications on Supabase (see the notifications migration)
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { RepoError } from '@/repositories/errors';
+import { counted } from '@/utils/plural';
 import type { AppNotification } from '@/types';
 import { SERVER_NOTIF_PREFIX, type NotificationsRepo } from './types';
 
@@ -21,18 +22,15 @@ export function relativeTime(iso: string, now = Date.now()): string {
   if (mins < 1) return 'دلوقتي';
   if (mins === 1) return 'منذ دقيقة';
   if (mins === 2) return 'منذ دقيقتين';
-  if (mins <= 10) return `منذ ${mins} دقائق`;
-  if (mins < 60) return `منذ ${mins} دقيقة`;
+  if (mins < 60) return `منذ ${mins} ${counted(mins, 'دقيقة', 'دقيقتين', 'دقائق')}`;
   const hours = Math.floor(mins / 60);
   if (hours === 1) return 'منذ ساعة';
   if (hours === 2) return 'منذ ساعتين';
-  if (hours <= 10) return `منذ ${hours} ساعات`;
-  if (hours < 24) return `منذ ${hours} ساعة`;
+  if (hours < 24) return `منذ ${hours} ${counted(hours, 'ساعة', 'ساعتين', 'ساعات')}`;
   const days = Math.floor(hours / 24);
   if (days === 1) return 'منبارح';
   if (days === 2) return 'منذ يومين';
-  if (days <= 10) return `منذ ${days} أيام`;
-  return `منذ ${days} يوم`;
+  return `منذ ${days} ${counted(days, 'يوم', 'يومين', 'أيام')}`;
 }
 
 function toApp(row: Row): AppNotification {
