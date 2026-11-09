@@ -296,7 +296,7 @@ function PickerScreen({
             type="button"
             disabled={moving}
             onClick={() => setStep('details')}
-            className="w-full min-h-[52px] rounded-2xl bg-green text-white font-black text-lg shadow-md active:scale-[0.98] transition disabled:opacity-60"
+            className="w-full min-h-[52px] rounded-2xl bg-green text-white font-black text-lg shadow-md transition disabled:opacity-60"
           >
             أدخل العنوان بالكامل
           </button>
@@ -425,7 +425,7 @@ function SearchPanel({ onClose, onPick }: { onClose: () => void; onPick: (p: Pla
               <button
                 type="button"
                 onClick={() => onPick(r)}
-                className="w-full flex items-start gap-3 px-4 py-3 text-right border-b border-gray-50 active:bg-cream"
+                className="w-full flex items-start gap-3 px-4 py-3 text-right border-b border-gray-50"
               >
                 <span className="mt-1 text-green"><PinSmallIcon /></span>
                 <span className="flex-1 min-w-0">
@@ -463,7 +463,7 @@ function RoundButton({
       aria-label={label}
       title={label}
       aria-pressed={active || undefined}
-      className={`pointer-events-auto w-12 h-12 shrink-0 rounded-full grid place-items-center shadow-[0_2px_10px_rgba(0,0,0,0.18)] active:scale-95 transition ${
+      className={`pointer-events-auto w-12 h-12 shrink-0 rounded-full grid place-items-center shadow-[0_2px_10px_rgba(0,0,0,0.18)] transition ${
         active ? 'bg-green text-white' : 'bg-white text-green-dark'
       } ${busy ? 'animate-pulse' : ''}`}
     >
