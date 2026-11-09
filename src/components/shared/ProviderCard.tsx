@@ -5,6 +5,7 @@ import type { Provider, ProviderMode, TeacherGroup } from '@/types';
 import { Avatar } from './Avatar';
 import { MODE_LABELS, STAGE_LABELS } from '@/data/teachers';
 import { providerRoleLabel } from '@/utils/people';
+import { counted } from '@/utils/plural';
 import { groupDays, seatsText } from '@/utils/teacherGroups';
 
 interface ProviderCardProps {
@@ -47,8 +48,8 @@ export function ProviderCard({ provider, onBook, online = false, showShare = tru
           {(provider.reviews > 0 || provider.experienceYears > 0) && (
             <p className="text-[11px] text-text-muted mt-0.5">
               {[
-                provider.reviews > 0 ? `⭐ ${provider.rating.toFixed(1)} (${provider.reviews} تقييم)` : null,
-                provider.experienceYears > 0 ? `${provider.experienceYears} سنين خبرة` : null,
+                provider.reviews > 0 ? `⭐ ${provider.rating.toFixed(1)} (${provider.reviews} ${counted(provider.reviews, 'تقييم', 'تقييمين', 'تقييمات')})` : null,
+                provider.experienceYears > 0 ? `${provider.experienceYears} ${counted(provider.experienceYears, 'سنة', 'سنتين', 'سنين')} خبرة` : null,
               ]
                 .filter(Boolean)
                 .join(' · ')}

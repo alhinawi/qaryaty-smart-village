@@ -1,5 +1,6 @@
 // ─── وظائف: labels, the safety note and the small rules the pages share
 import { matchesSearch } from '@/utils/arabicSearch';
+import { counted } from '@/utils/plural';
 import type { Job, JobReportReason, JobStatus, JobType } from '@/repositories/jobs/types';
 
 /** A post shows this long after approval, then the owner can renew it */
@@ -88,8 +89,7 @@ export function postedAgo(iso: string, now = Date.now()): string {
   if (days <= 0) return 'النهارده';
   if (days === 1) return 'امبارح';
   if (days === 2) return 'من يومين';
-  if (days <= 10) return `من ${days} أيام`;
-  return `من ${days} يوم`;
+  return `من ${days} ${counted(days, 'يوم', 'يومين', 'أيام')}`;
 }
 
 /** "منية سندوب، مركز المنصورة - الدقهلية" → "منية سندوب" for the cards */
