@@ -264,9 +264,6 @@ export default function AdminPage() {
 /** Real product photo (كشري التحرير) so the owner sees the true badge look. */
 const KUSHARI_PHOTO = 'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail';
 
-/** Real product photo (كشري التحرير) so the owner sees the true badge look. */
-const KUSHARI_PHOTO = 'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Egyptian_food_Koshary.jpg/330px-Egyptian_food_Koshary.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail';
-
 function OosBadgeStyleSection() {  const style = useDisplayPrefsStore((state) => state.oosBadgeStyle);
   const setStyle = useDisplayPrefsStore((state) => state.setOosBadgeStyle);
   const options: { id: OosBadgeStyle; label: string; hint: string }[] = [
