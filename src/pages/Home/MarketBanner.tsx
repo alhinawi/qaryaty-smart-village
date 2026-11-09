@@ -1,5 +1,7 @@
 // One market entry; existing sale/swap URLs keep selecting the corresponding section.
 import { Link } from 'react-router';
+import { ArrowLeft } from 'lucide-react';
+
 import { ROUTES } from '@/routes';
 
 export function MarketBanner() {
@@ -10,7 +12,7 @@ export function MarketBanner() {
       <span className="min-w-0 flex-1">
         <span className="block font-black text-base text-green-dark">المستعمل والتبادل</span>
         <span className="block text-[13px] text-text-muted leading-relaxed mt-1">اشتري أو بيع حاجة مستعملة، أو اختار التبادل جوّه القسم.</span>
-        <span className="block text-[13px] font-extrabold text-green mt-2">شوف المعروض ←</span>
+        <span className="block text-[13px] font-extrabold text-green mt-2">شوف المعروض <ArrowLeft size={14} className="shrink-0 inline -mt-0.5" aria-hidden="true" /></span>
       </span>
     </Link>
   </section>;
