@@ -1,5 +1,7 @@
 // ─── Imports
 import { useEffect } from 'react';
+import { ArrowLeft } from 'lucide-react';
+
 import { Link } from 'react-router';
 import { ROUTES } from '@/routes';
 import { WhatsAppIcon } from '@/components/ui/WhatsAppIcon';
@@ -142,7 +144,7 @@ export default function GroupsPage() {
           to={`${ROUTES.about}#advertise`}
           className="inline-flex items-center justify-center min-h-[44px] px-5 rounded-xl bg-green text-white font-extrabold text-[0.9375rem] transition-transform duration-200 hover:scale-105"
         >
-          تواصل معانا ⬅️
+          تواصل معانا <ArrowLeft size={16} className="shrink-0" aria-hidden="true" />
         </Link>
       </section>
     </article>

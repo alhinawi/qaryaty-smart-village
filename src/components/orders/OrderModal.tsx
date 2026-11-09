@@ -1,4 +1,6 @@
 import { validOrderPoint, ORDER_LOCATION_REQUIRED } from '@/utils/orderLocation';
+import { ArrowLeft, ChevronRight } from 'lucide-react';
+
 // ─── Imports
 import React, { useState } from 'react';
 import { Modal } from '@/components/ui/Modal';
@@ -342,7 +344,7 @@ export function OrderModal({
             </div>
 
             <Button type="submit" variant="primary" size="lg" className="w-full">
-              التالي: الدفع والخصم ⬅️
+              التالي: الدفع والخصم <ArrowLeft size={17} className="shrink-0" aria-hidden="true" />
             </Button>
 
             <button
@@ -473,7 +475,7 @@ export function OrderModal({
               className="btn-cancel"
               onClick={() => setStep(1)}
             >
-              ⬅️ العودة لتعديل البيانات
+              <ChevronRight size={15} className="shrink-0 inline -mt-0.5" aria-hidden="true" /> العودة لتعديل البيانات
             </button>
           </form>
         )}

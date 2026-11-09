@@ -1,5 +1,7 @@
 // ─── Imports
 import React, { useState } from 'react';
+import { Send } from 'lucide-react';
+
 import { Button } from '@/components/ui/Button';
 import { useUIStore } from '@/stores/useUIStore';
 
@@ -199,7 +201,7 @@ export default function MessagesPage() {
               className="flex-1 py-2.5 px-3.5 rounded-xl border border-gray-200 font-['Cairo',sans-serif] text-sm outline-none"
             />
             <Button type="submit" variant="primary" size="md">
-              إرسال ⬅️
+              إرسال <Send size={16} className="shrink-0 -scale-x-100" aria-hidden="true" />
             </Button>
           </form>
         </div>
