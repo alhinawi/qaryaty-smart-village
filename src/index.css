@@ -398,7 +398,8 @@ html[data-palette] {
 }
 html[data-palette] :is(.bg-white,.bg-white\/95,.bg-white\/90,.bg-white\/80,.bg-white\/70) { background: var(--preview-surface); }
 html[data-palette] :is(.bg-gray-50,.bg-gray-100,.bg-slate-50,.bg-green\/5,.bg-green\/8,.bg-green\/10,.bg-green\/15,.bg-green-50,.bg-green-100) { background: var(--preview-raised); }
-html[data-palette] :is(.text-green-dark,.text-green,.text-success,.text-green-700,.text-green-800), html[data-palette] .form-group label { color: var(--preview-accent); }
+html[data-palette] :is(.text-green-dark,.text-green,.text-success,.text-green-700,.text-green-800):not(:hover):not(:focus), html[data-palette] .form-group label:not(:hover):not(:focus) { color: var(--preview-accent); }
+/* Never dark green text on a green hover/focus background (palette accent must yield to the button's own hover white). */
 html[data-palette] :is(.text-gray-400,.text-gray-500,.text-gray-600,.text-gray-700,.text-gray-800,.text-gray-900) { color: var(--preview-muted); }
 html[data-palette] :is(.border-gray-100,.border-gray-200,.border-gray-300,.border-green\/10,.border-green\/15,.border-green\/20) { border-color: var(--preview-border); }
 html[data-palette] .bg-green { background: #1a7a4a; color: #ffffff; }
@@ -408,7 +409,7 @@ html[data-palette] [class*='bg-linear']:not(.keep-palette-off) .text-white, html
 html[data-palette='dark-9'] .bg-white { background: linear-gradient(145deg,#173d46ee,#102e36f0); box-shadow: inset 0 1px 0 #98e5e126,0 8px 24px #0002; backdrop-filter: blur(12px); border-color: #49828766; }
 
 html[data-palette] { --color-green: #1a7a4a; --color-green-dark: #125936; --color-gold: #ffc72c; }
-html[data-palette][data-theme='light'] :is(.text-green-dark,.text-green,.text-success,.text-green-700,.text-green-800) { color: #176b42; }
+html[data-palette][data-theme='light'] :is(.text-green-dark,.text-green,.text-success,.text-green-700,.text-green-800):not(:hover):not(:focus) { color: #176b42; }
 html[data-palette] .bg-green .text-green, html[data-palette] .bg-green .text-green-dark { color: #ffffff; }
 html[data-palette][data-theme='light'] header[class*='bg-linear'] { background-image: linear-gradient(135deg,#125936,#1a7a4a); }
 html[data-palette] header[class*='bg-linear'] .text-white { color: #ffffff; }

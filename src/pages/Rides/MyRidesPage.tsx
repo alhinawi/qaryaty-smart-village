@@ -1,5 +1,7 @@
 // ─── "مشاويري": the trips you posted with their join requests, and the requests you sent
 import { useCallback, useEffect, useState } from 'react';
+import { Plus } from 'lucide-react';
+
 import { Link, Navigate, useLocation } from 'react-router';
 import { ROUTES, ridePath } from '@/routes';
 import { rideRepo } from '@/repositories';
@@ -110,7 +112,7 @@ export default function MyRidesPage() {
             <p className="font-extrabold m-0">لسه مانزّلتش مشاوير</p>
             <p className="text-[13px] text-text-muted mt-1 mb-4">لو بتطلع كل يوم في نفس الميعاد، نزّل مشوارك وشيّر المصاريف.</p>
             <Link to={ROUTES.ridesNew} className={primaryBtn}>
-              ➕ نزّل مشوارك
+              <Plus size={17} className="shrink-0" aria-hidden="true" /> نزّل مشوارك
             </Link>
           </div>
         ) : (
