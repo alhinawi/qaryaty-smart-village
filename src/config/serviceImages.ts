@@ -46,7 +46,6 @@ export const SERVICE_IMAGES: Record<number, string> = {
   42: '/img/services/gas.webp',
   43: '/img/services/service-43.webp',
   44: '/img/services/service-44.webp',
-  45: '/img/services/service-45.webp',
 };
 export function imageForService(service: Pick<Service, 'id'>): string | undefined {
   return SERVICE_IMAGES[service.id];
