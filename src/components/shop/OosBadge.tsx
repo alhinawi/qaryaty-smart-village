@@ -1,12 +1,15 @@
-import { useDisplayPrefsStore } from '@/stores/useDisplayPrefsStore';
+import { useDisplayPrefsStore, type OosBadgeStyle } from '@/stores/useDisplayPrefsStore';
 
 /**
  * Out-of-stock overlay on a product photo, in the style the owner picked from
  * لوحة التحكم: «dim» darkens the photo with a centered white «خلصان»;
  * «ribbon» puts a red corner ribbon on the untouched photo.
+ * The optional `style` prop overrides the stored preference so the admin
+ * preview can render both variants with this same component.
  */
-export function OosBadge({ size = 'lg' }: { size?: 'lg' | 'sm' }) {
-  const style = useDisplayPrefsStore((state) => state.oosBadgeStyle);
+export function OosBadge({ size = 'lg', style: styleOverride }: { size?: 'lg' | 'sm'; style?: OosBadgeStyle }) {
+  const storedStyle = useDisplayPrefsStore((state) => state.oosBadgeStyle);
+  const style = styleOverride ?? storedStyle;
   if (style === 'ribbon') {
     return (
       <div className="absolute inset-0 rounded-xl overflow-hidden pointer-events-none" aria-hidden="true">
