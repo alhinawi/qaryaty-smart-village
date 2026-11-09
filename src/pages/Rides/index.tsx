@@ -18,6 +18,7 @@ import { useAuthStore, selectUser } from '@/stores/useAuthStore';
 import type { Ride } from '@/repositories/rides/types';
 import { outlineBtn, primaryBtn, useSignInFirst } from '@/pages/Jobs/jobUi';
 import { RideCard, RideSafetyNote } from './parts';
+import { counted } from '@/utils/plural';
 
 const chip = (on: boolean) =>
   `inline-flex items-center gap-1 min-h-[40px] px-3.5 rounded-full border-2 text-[13px] font-extrabold cursor-pointer whitespace-nowrap font-[Cairo,sans-serif] ${
@@ -191,7 +192,7 @@ export default function RidesPage() {
         </div>
       ) : (
         <>
-          <p className="text-[12px] text-text-muted m-0 mb-2">{shown.length === 1 ? 'مشوار واحد' : shown.length === 2 ? 'مشوارين' : `${shown.length} مشاوير`}</p>
+          <p className="text-[12px] text-text-muted m-0 mb-2">{shown.length === 1 ? 'مشوار واحد' : shown.length === 2 ? 'مشوارين' : `${shown.length} ${counted(shown.length, 'مشوار', 'مشوارين', 'مشاوير')}`}</p>
           <ul className="flex flex-col gap-3 p-0 m-0 list-none">
             {shown.map((ride) => (
               <li key={ride.id}>

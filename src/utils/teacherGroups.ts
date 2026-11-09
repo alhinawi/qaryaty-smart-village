@@ -2,6 +2,7 @@
 import type { Provider, SchoolStage, ServiceOption, TeacherGroup, TeacherSubject } from '@/types';
 import { MODE_LABELS, STAGE_LABELS } from '@/data/teachers';
 import { toArabicDigits } from './arabicNumbers';
+import { counted } from './plural';
 
 export const LESSON_OPTION_ID = 'lesson';
 export const GROUP_OPTION_ID = 'group';
@@ -90,7 +91,7 @@ export function seatsText(seatsLeft: number): string {
   if (seatsLeft <= 0) return 'المجموعة كاملة';
   if (seatsLeft === 1) return 'فاضل مكان واحد';
   if (seatsLeft === 2) return 'فاضل مكانين';
-  return `فاضل ${toArabicDigits(seatsLeft)} ${seatsLeft <= 10 ? 'أماكن' : 'مكان'}`;
+  return `فاضل ${toArabicDigits(seatsLeft)} ${counted(seatsLeft, 'مكان', 'مكانين', 'أماكن')}`;
 }
 
 /** Groups that still have room. */

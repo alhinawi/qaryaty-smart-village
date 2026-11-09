@@ -1,6 +1,7 @@
 // ─── بيع المستعمل وتبادل: labels, the safety note and the small rules the pages share
 // The database (supabase/migrations/20261106180000_market.sql) enforces the same rules.
 import { matchesSearch } from '@/utils/arabicSearch';
+import { counted } from '@/utils/plural';
 import type {
   ListingCategory,
   ListingCondition,
@@ -102,20 +103,20 @@ export function ownerStatusLabel(l: Pick<MarketListing, 'status' | 'expiresAt' |
   if (l.status === 'sold' || l.status === 'swapped') return KIND_INFO[l.kind].done;
   if (!isLive(l, now)) return 'خلصت مدته';
   const d = daysLeft(l, now);
-  return d === 0 ? 'آخر يوم ليه' : `منشور • فاضل ${d} يوم`;
+  return d === 0 ? 'آخر يوم ليه' : `منشور • فاضل ${d} ${counted(d, 'يوم', 'يومين', 'أيام')}`;
 }
 
 /** "من ساعتين" style age of a post or message */
 export function timeAgo(iso: string, now = Date.now()): string {
   const mins = Math.max(0, Math.floor((now - new Date(iso).getTime()) / 60000));
   if (mins < 1) return 'دلوقتي';
-  if (mins < 60) return mins <= 2 ? 'من دقيقة' : `من ${mins} دقيقة`;
+  if (mins < 60) return mins === 1 ? 'من دقيقة' : mins === 2 ? 'من دقيقتين' : `من ${mins} ${counted(mins, 'دقيقة', 'دقيقتين', 'دقائق')}`;
   const hours = Math.floor(mins / 60);
-  if (hours < 24) return hours === 1 ? 'من ساعة' : hours === 2 ? 'من ساعتين' : `من ${hours} ساعات`;
+  if (hours < 24) return hours === 1 ? 'من ساعة' : hours === 2 ? 'من ساعتين' : `من ${hours} ${counted(hours, 'ساعة', 'ساعتين', 'ساعات')}`;
   const days = Math.floor(hours / 24);
   if (days === 1) return 'امبارح';
   if (days === 2) return 'من يومين';
-  return days <= 10 ? `من ${days} أيام` : `من ${days} يوم`;
+  return `من ${days} ${counted(days, 'يوم', 'يومين', 'أيام')}`;
 }
 
 // ─── Browse filters
