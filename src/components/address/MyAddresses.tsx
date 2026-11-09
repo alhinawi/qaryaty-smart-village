@@ -89,7 +89,7 @@ export default function MyAddresses() {
         <button
           type="button"
           onClick={() => setEditing('new')}
-          className="w-full border-2 border-dashed border-green/40 rounded-2xl p-5 text-center active:scale-[0.99] transition"
+          className="w-full border-2 border-dashed border-green/40 rounded-2xl p-5 text-center transition"
         >
           <span className="block text-3xl mb-1">🗺️</span>
           <span className="block font-bold text-green-dark">حدّد بيتك على الخريطة</span>

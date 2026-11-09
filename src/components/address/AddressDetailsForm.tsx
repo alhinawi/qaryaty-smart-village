@@ -202,7 +202,7 @@ export default function AddressDetailsForm({
         <button
           type="submit"
           disabled={saving}
-          className="w-full min-h-[52px] rounded-2xl bg-green text-white font-black text-lg shadow-md active:scale-[0.98] transition disabled:opacity-60"
+          className="w-full min-h-[52px] rounded-2xl bg-green text-white font-black text-lg shadow-md transition disabled:opacity-60"
         >
           {saving ? 'بنحفظ…' : saveLabel}
         </button>

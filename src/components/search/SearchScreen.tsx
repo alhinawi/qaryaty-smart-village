@@ -582,7 +582,7 @@ function Explore({
                   onClick={() => onPick(tile.term)}
                   className="w-[76px] flex flex-col items-center gap-1.5 bg-transparent border-none cursor-pointer p-0 group"
                 >
-                  <span className="w-[68px] h-[68px] rounded-full overflow-hidden bg-white border border-green/10 shadow-sm flex items-center justify-center text-[30px] transition-transform group-hover:scale-105 group-active:scale-95">
+                  <span className="w-[68px] h-[68px] rounded-full overflow-hidden bg-white border border-green/10 shadow-sm flex items-center justify-center text-[30px] transition-transform group-hover:scale-105">
                     <TilePicture photo={tile.photo} emoji={tile.emoji} />
                   </span>
                   <span className="text-[0.75rem] font-bold text-text leading-tight text-center line-clamp-2">
@@ -1016,7 +1016,7 @@ function ResultRow({
     <button
       type="button"
       onClick={() => onOpen(entry)}
-      className="w-full flex items-center gap-3 px-3 py-2.5 min-h-[64px] bg-transparent border-none cursor-pointer text-start font-['Cairo',sans-serif] transition-colors hover:bg-green/5 active:bg-green/10"
+      className="w-full flex items-center gap-3 px-3 py-2.5 min-h-[64px] bg-transparent border-none cursor-pointer text-start font-['Cairo',sans-serif] transition-colors hover:bg-green/5"
     >
       {thumb}
       <span className="flex-1 min-w-0">

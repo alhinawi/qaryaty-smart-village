@@ -24,7 +24,7 @@ export default function AddressPickerField({ id, label, value, onOpen, error, pl
         aria-labelledby={`${id}-label ${id}`}
         aria-describedby={error ? `${id}-error` : undefined}
         aria-invalid={error ? true : undefined}
-        className={`w-full min-h-[52px] flex items-center gap-3 rounded-xl border-2 bg-white px-3 py-2.5 text-right transition active:scale-[0.99] ${
+        className={`w-full min-h-[52px] flex items-center gap-3 rounded-xl border-2 bg-white px-3 py-2.5 text-right transition ${
           error ? 'border-danger' : value ? 'border-green/40' : 'border-dashed border-green/50'
         }`}
       >
