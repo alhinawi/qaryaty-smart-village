@@ -17,7 +17,7 @@ interface DisplayPrefsState {
 export const useDisplayPrefsStore = create<DisplayPrefsState>()(
   persist(
     (set) => ({
-      oosBadgeStyle: 'dim',
+      oosBadgeStyle: 'ribbon',  // owner approved the ribbon design (WhatsApp 2026-11-09)
       setOosBadgeStyle: (style) => set({ oosBadgeStyle: style }),
     }),
     { name: 'qaryati_display_prefs' }
