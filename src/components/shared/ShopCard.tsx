@@ -108,13 +108,13 @@ export const ShopCard = React.memo(function ShopCard({
             {shop.description}
           </p>
         )}
-        {!shop.demo && <div
+        <div
           className={`inline-block text-[11px] font-bold px-2 py-0.5 rounded-xl mb-1 ${
-            openNow ? "bg-green-50 text-success" : "bg-red-50 text-danger"
+            openNow ? "bg-green-50 text-success" : "bg-danger text-white"
           }`}
         >
-          {openNow ? "🟢 مفتوح" : "🔴 مغلق"}
-        </div>}
+          {openNow ? "مفتوح" : "مغلق"}
+        </div>
         {shop.time && <div className="text-[11px] text-text-muted">{shop.time}</div>}
         {shop.kind === "restaurant" && (shop.rating || shop.deliveryTime) && (
           <div className="text-[11px] text-text-muted mt-0.5 flex flex-wrap gap-x-2">
