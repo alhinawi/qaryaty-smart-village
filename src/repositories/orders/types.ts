@@ -1,7 +1,16 @@
 // ─── Orders repository
 import type { Order } from '@/types';
 
-export type NewOrder = Omit<Order, 'id' | 'createdAt'>;
+export type NewOrder = Omit<Order, 'id' | 'createdAt'> & {
+  /**
+   * With a coupon: the order before it (the price plus the full commission, and
+   * that commission). The database works the coupon out again from these; the
+   * order's own totalAmount and commissionAmount are what the customer sees.
+   */
+  couponBase?: { totalAmount: number | null; commissionAmount: number };
+  /** What the coupon took off (demo mode prices with it; Supabase ignores it). */
+  couponEffect?: { itemsOff: number; commissionOff: number; deliveryOff: number };
+};
 
 export interface OrderRepo {
   /** Account-owned server history. Throws on auth mismatch or outage; never sample data. */

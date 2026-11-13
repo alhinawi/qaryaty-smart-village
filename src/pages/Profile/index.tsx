@@ -1,4 +1,4 @@
-import { ChevronLeft, House, MessagesSquare, Megaphone, Share2, Link2, UserRound, Camera, Trash2, Smartphone, Pencil } from 'lucide-react';
+import { ChevronLeft, House, MessagesSquare, Megaphone, Share2, Link2, UserRound, Camera, Trash2, Smartphone, Pencil, TicketPercent } from 'lucide-react';
 
 // ─── Imports
 import React, { useEffect, useRef, useState } from 'react';
@@ -396,6 +396,17 @@ export default function ProfilePage() {
       </div>
 
       <MyAddresses />
+
+      {/* قسايمي: the coupons this customer can use */}
+      <Link
+        to={ROUTES.coupons}
+        className="flex items-center justify-between bg-white rounded-2xl px-5 py-4 shadow-sm mb-5 min-h-[44px] font-extrabold text-sm text-green-dark transition-colors hover:bg-cream"
+      >
+        <span>
+          <TicketPercent size={18} aria-hidden="true" className="inline-block align-middle" /> قسايمي
+        </span>
+        <ChevronLeft size={20} aria-hidden="true" />
+      </Link>
 
       {/* About the app: phones and tablets have no footer, so the link lives here too */}
       <Link

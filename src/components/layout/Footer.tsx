@@ -39,6 +39,12 @@ export function Footer() {
             عن قريتي
           </Link>
           <Link
+            to={ROUTES.coupons}
+            className="text-sm font-bold text-white/90 px-3 py-2 rounded-xl transition-colors hover:bg-white/15 hover:text-gold-light"
+          >
+            قسايمي
+          </Link>
+          <Link
             to={ROUTES.groups}
             className="text-sm font-bold text-white/90 px-3 py-2 rounded-xl transition-colors hover:bg-white/15 hover:text-gold-light"
           >
