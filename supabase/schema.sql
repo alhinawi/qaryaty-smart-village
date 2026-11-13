@@ -95,6 +95,8 @@ alter table public.providers add column if not exists group_price numeric;
 alter table public.providers add column if not exists inspection_fee numeric;
 alter table public.providers add column if not exists delivery_fee numeric;
 alter table public.providers add column if not exists groups jsonb;
+-- Optional links on a provider's card: [{label, url, kind?}] (a certificate, sample lessons…)
+alter table public.providers add column if not exists links jsonb;
 
 -- ─── Profiles (one per auth user, filled by a trigger) ───────────────────────────────
 create table if not exists public.profiles (

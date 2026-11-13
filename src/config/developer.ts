@@ -14,6 +14,13 @@ export interface DeveloperLink {
   url: string;
 }
 
+/** His IELTS certificate (Google Drive, anyone with the link), shown on his English teacher card */
+export const DEVELOPER_IELTS_CERTIFICATE_URL =
+  'https://drive.google.com/file/d/10JKnLOyvdNTyD73aErrxVthWoy1kohNT/view?usp=drivesdk';
+
+/** A folder of sample English and programming lessons (Google Drive), shown on both his teacher cards */
+export const DEVELOPER_LESSON_SAMPLES_URL = 'https://drive.google.com/drive/folders/1-0y6uXa07T7bbKinrWscVrh7vZl-A8Ol';
+
 /** WhatsApp number in international format, digits only (Egypt: 20 + the number without its leading 0) */
 export const DEVELOPER_WHATSAPP = '201028928248';
 

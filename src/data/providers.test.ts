@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { existsSync } from 'node:fs';
 import type { Provider } from '@/types';
-import { DEVELOPER_NAME } from '@/config/developer';
+import { DEVELOPER_IELTS_CERTIFICATE_URL, DEVELOPER_LESSON_SAMPLES_URL, DEVELOPER_NAME } from '@/config/developer';
+import { safeProviderLinks } from '@/utils/providerLinks';
 import { DEVELOPER_TEACHER_IDS, PROVIDERS } from './providers';
 import { SERVICES } from './services';
 import { providerToOrderModalData } from '@/utils/pricing';
@@ -99,9 +100,17 @@ describe('providers sample data', () => {
       expect(p.photo).toBe('/img/t/mohamed-alhinawi.webp');
       expect(existsSync(`public${p.photo}`)).toBe(true);
       expect(p.modes).toEqual(['online']);
-      // No made-up price, rating, years or groups
-      expect([p.numericPrice, p.priceType, p.reviews, p.experienceYears, p.groups]).toEqual([null, 'quote', 0, 0, undefined]);
+      // His own 5 years of experience; no made-up price, rating or groups
+      expect([p.numericPrice, p.priceType, p.reviews, p.experienceYears, p.groups]).toEqual([null, 'quote', 0, 5, undefined]);
+      // Both cards link to his sample lessons
+      expect(p.links).toContainEqual({ label: 'عينة من شروحاتي', url: DEVELOPER_LESSON_SAMPLES_URL, kind: 'samples' });
     }
+    // The IELTS certificate is on the English card only
+    const [computer, english] = cards;
+    expect(english.links?.[0]).toEqual({ label: 'حاصل على شهادة IELTS', url: DEVELOPER_IELTS_CERTIFICATE_URL, kind: 'certificate' });
+    expect(computer.links?.some((l) => l.kind === 'certificate')).toBe(false);
+    // Every link survives the same check the live data goes through
+    for (const p of cards) expect(safeProviderLinks(p.links)).toEqual(p.links);
   });
 
   it('every sample person has a distinct generated portrait of their own', () => {

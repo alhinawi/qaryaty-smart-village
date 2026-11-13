@@ -3,7 +3,7 @@
 import { writeFileSync } from 'node:fs';
 import { SERVICES } from '../src/data/services';
 import { SHOPS } from '../src/data/shops';
-import { PROVIDERS } from '../src/data/providers';
+import { DEVELOPER_TEACHER_IDS, PROVIDERS } from '../src/data/providers';
 import { CATALOG_BY_KIND, MENUS } from '../src/data/catalog';
 import type { Product } from '../src/types';
 
@@ -63,7 +63,8 @@ const shops = SHOPS.map((s) => ({
 
 const providers = PROVIDERS.map((p) => ({
   id: p.id,
-  is_demo: true,
+  // The developer's own teacher cards are real, not sample data
+  is_demo: !(DEVELOPER_TEACHER_IDS as readonly number[]).includes(p.id),
   kind: p.kind,
   service_id: p.serviceId,
   name: p.name,
@@ -87,6 +88,7 @@ const providers = PROVIDERS.map((p) => ({
   inspection_fee: p.inspectionFee ?? null,
   delivery_fee: p.deliveryFee ?? null,
   groups: p.groups ?? null,
+  links: p.links ?? null,
   active: p.active,
 }));
 

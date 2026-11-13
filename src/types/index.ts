@@ -181,6 +181,17 @@ export interface Provider {
   inspectionFee?: number;
   /** Delivered goods (a gas cylinder): the delivery fee on top of the price. */
   deliveryFee?: number;
+  /** Optional links on the card: a certificate, sample lessons… Shown only when set. */
+  links?: ProviderLink[];
+}
+
+/** One link on a provider's card, opened in a new tab (https only). */
+export interface ProviderLink {
+  /** What the card says, e.g. حاصل على شهادة IELTS */
+  label: string;
+  url: string;
+  /** Picks the icon; a link with no kind gets a plain link icon. */
+  kind?: 'certificate' | 'samples';
 }
 
 export interface Service {

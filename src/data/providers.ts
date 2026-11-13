@@ -5,7 +5,7 @@ import { withProviderPortrait } from '@/config/providerImages';
 import type { Provider } from '@/types';
 import { providerPhoto } from '@/utils/avatars';
 import { WORKERS } from './workers';
-import { DEVELOPER_NAME } from '@/config/developer';
+import { DEVELOPER_IELTS_CERTIFICATE_URL, DEVELOPER_LESSON_SAMPLES_URL, DEVELOPER_NAME } from '@/config/developer';
 import { sampleTeacherGroups } from '@/utils/teacherGroups';
 
 /** The developer's own teacher cards (programming, English): a real person, not sample data. */
@@ -2073,7 +2073,8 @@ const PEOPLE: Provider[] = [
     active: true,
   },
   // ─── A real teacher: the app's developer, with his own photo and his consent.
-  // One card per subject he teaches, so he shows under both. No ratings, years,
+  // One card per subject he teaches, so he shows under both. His 5 years of
+  // experience, IELTS certificate and sample lessons are his own; no ratings,
   // prices, groups or village are made up for him: the card hides what is empty.
   ...(['computer', 'english'] as const).map(
     (subject, i): Provider => ({
@@ -2084,7 +2085,7 @@ const PEOPLE: Provider[] = [
       gender: 'male',
       photo: '/img/t/mohamed-alhinawi.webp',
       subject,
-      experienceYears: 0,
+      experienceYears: 5,
       rating: 0,
       reviews: 0,
       price: 'السعر بالاتفاق',
@@ -2098,6 +2099,12 @@ const PEOPLE: Provider[] = [
           : 'إنجليزي من البيت، أونلاين',
       modes: ['online'],
       active: true,
+      links: [
+        ...(subject === 'english'
+          ? [{ label: 'حاصل على شهادة IELTS', url: DEVELOPER_IELTS_CERTIFICATE_URL, kind: 'certificate' as const }]
+          : []),
+        { label: 'عينة من شروحاتي', url: DEVELOPER_LESSON_SAMPLES_URL, kind: 'samples' as const },
+      ],
     }),
   ),
   {"id": 145, "kind": "babysitter", "serviceId": 29, "name": "أمينة عبد الرحمن", "gender": "female", "photo": "", "experienceYears": 0, "rating": 0, "reviews": 0, "price": "السعر بالاتفاق", "numericPrice": null, "priceType": "quote", "area": "", "village": "منية سندوب", "bio": "جليسة لكبار السن: صحبة ومساعدة في الأكل والحركة اليومية، بدون إجراءات تمريضية", "modes": ["home"], "active": true},
