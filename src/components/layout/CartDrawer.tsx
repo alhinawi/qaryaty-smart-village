@@ -4,7 +4,7 @@ import{useProviderDashboardStore}from'@/stores/useProviderDashboardStore';
 import{OfferPrice}from'@/components/ui/OfferPrice';
 // ─── Imports
 import { SERVICE_IMAGES } from '@/config/serviceImages';
-import React, { useState } from "react";
+import { useState } from "react";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
@@ -28,11 +28,7 @@ import { useUserStore } from "@/stores/useUserStore";
 import { orderFormSchema } from "@/utils/validators";
 import { formatCurrency, generateOrderNumber } from "@/utils/helpers";
 import {
-  FIRST_ORDER_PROMO,
-  FIRST_ORDER_PROMO_APPLIED,
-  FIRST_ORDER_PROMO_TEXT,
   WAIVED_FEES_LABEL,
-  checkPromoCode,
   describeTotal,
   getCartItemPriceType,
   getCartPricing,
@@ -42,6 +38,8 @@ import { APP_COMMISSION_LABEL, APP_COMMISSION_PERCENT } from "@/config/commissio
 import { DELIVERY_FEE_DEFAULT,DELIVERY_FEE_LABEL } from "@/config/delivery";
 import { useDeliveryFee } from "@/hooks/useDeliveryFee";
 import { PhoneInput } from "@/components/ui/PhoneInput";
+import { CouponField } from "@/components/coupons/CouponField";
+import { useCouponField } from "@/hooks/useCouponField";
 
 // ─── Component
 // The content only mounts while the drawer is open, so the promo code,
@@ -78,17 +76,13 @@ function CartDrawerContent() {
   const updateQuantity = useCartStore((state) => state.updateQuantity);
   const clearCart = useCartStore((state) => state.clearCart);
 
-  const orders = useOrderStore((state) => state.orders);
   const addOrder = useOrderStore((state) => state.addOrder);
 
   const profile = useUserStore((state) => state.profile);
-  const usedPromoCodes = useUserStore((state) => state.usedPromoCodes);
   const markPromoUsed = useUserStore((state) => state.markPromoUsed);
   const addRewardPoints = useUserStore((state) => state.addRewardPoints);
 
-  const [promoCode, setPromoCode] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [discountApplied, setDiscountApplied] = useState(false);
   const [address, setAddress] = useState(profile.address || "");
   const [mapPoint, setMapPoint] = useState<LatLng | null>(null);
   const [addressId, setAddressId] = useState<string | null>(null);
@@ -108,7 +102,17 @@ function CartDrawerContent() {
   // رسوم التوصيل: a shop cart is brought to the door; a service cart never pays it
   const quotedDeliveryFee = useDeliveryFee(!demoOnly&&shopItems ? shopId : undefined);
   const deliveryFee=demoOnly?DELIVERY_FEE_DEFAULT:quotedDeliveryFee;
-  const pricing = getCartPricing(items, discountApplied, deliveryFee);
+  // قسايم: checked against the coupons table; the database checks it again on the order
+  const before = getCartPricing(items, null, deliveryFee);
+  const coupon = useCouponField({
+    target: shopItems ? "products" : "services",
+    shopId: shopItems ? (shopId ?? null) : null,
+    items: before.totalToPay == null ? null : before.subtotal,
+    commission: before.fullCommission,
+    delivery: before.deliveryFee,
+    enabled: items.length > 0,
+  });
+  const pricing = getCartPricing(items, coupon.applied?.coupon, deliveryFee);
   // Card and wallet charge a known amount, so they need a fixed total
   const paymentOptions = demoOnly?["cash" as const]:paymentChoices(!pricing.isEstimate && (pricing.totalToPay ?? 0) > 0);
   const payWith: PaymentMethod = paymentOptions.includes(paymentMethod) ? paymentMethod : "cash";
@@ -119,19 +123,6 @@ function CartDrawerContent() {
     formatCurrency,
     pricing.feesWaived ? 0 : APP_COMMISSION_PERCENT,
   );
-
-  const promoContext = { orders, usedPromoCodes };
-
-  const handleApplyPromo = (e: React.FormEvent) => {
-    e.preventDefault();
-    const result = checkPromoCode(promoCode, promoContext);
-    if (result.ok) {
-      setDiscountApplied(true);
-      showToast(FIRST_ORDER_PROMO_APPLIED);
-    } else {
-      showToast(result.message);
-    }
-  };
 
   const handleCheckout = async () => {
     if (items.length === 0 || submitting) return;
@@ -172,7 +163,7 @@ function CartDrawerContent() {
       phone,
       notes: "",
       paymentMethod: payWith,
-      discountCode: promoCode,
+      discountCode: coupon.applied?.code ?? "",
     });
 
     if (!validation.success) {
@@ -187,10 +178,19 @@ function CartDrawerContent() {
       return;
     }
 
-    // Re-check the promo in case it was used elsewhere meanwhile
-    const promoStillValid =
-      discountApplied && checkPromoCode(promoCode, promoContext).ok;
-    const finalPricing = getCartPricing(items, promoStillValid, deliveryFee);
+    // Check the coupon again (used elsewhere meanwhile, ended, used up); the
+    // database checks it once more when the order is saved
+    let applied = coupon.applied;
+    if (applied) {
+      setSubmitting(true);
+      applied = await coupon.apply(applied.code);
+      setSubmitting(false);
+      if (!applied) {
+        showToast("⚠️ الكوبون مابقاش ينفع على الطلب ده، راجع السلة");
+        return;
+      }
+    }
+    const finalPricing = getCartPricing(items, applied?.coupon, deliveryFee);
     const total = finalPricing.totalToPay;
 
     const vendor = useCartStore.getState().getVendor();
@@ -214,8 +214,18 @@ function CartDrawerContent() {
         phone: validation.data.phone,
         ...(mapPoint ? { lat: mapPoint.lat, lng: mapPoint.lng } : {}),
         paymentMethod: validation.data.paymentMethod,
-        discountCode: promoStillValid ? FIRST_ORDER_PROMO : undefined,
+        discountCode: applied?.code,
         discountAmount: finalPricing.discountAmount,
+        ...(applied
+          ? {
+              couponBase: { totalAmount: before.totalToPay, commissionAmount: before.fullCommission },
+              couponEffect: {
+                itemsOff: finalPricing.itemsDiscount,
+                commissionOff: finalPricing.fullCommission - finalPricing.commission,
+                deliveryOff: finalPricing.deliveryDiscount,
+              },
+            }
+          : {}),
         totalAmount: total,
         commissionAmount: finalPricing.commission,
         deliveryFee: finalPricing.deliveryFee,
@@ -236,8 +246,8 @@ function CartDrawerContent() {
     }
     setSubmitting(false);
 
-    if (promoStillValid&&!demoOnly) {
-      markPromoUsed(FIRST_ORDER_PROMO);
+    if (applied&&!demoOnly) {
+      markPromoUsed(applied.code);
     }
     // Same rule as the order modal: +10 points, except for a free order
     if (total !== 0&&!demoOnly) {
@@ -331,31 +341,8 @@ function CartDrawerContent() {
             ))}
           </div>
 
-          {/* Promo Code Box */}
-          <form onSubmit={handleApplyPromo} className="form-group mb-4">
-            <label htmlFor="cartPromo">
-              🎟️ كود الخصم (كود {FIRST_ORDER_PROMO}: {FIRST_ORDER_PROMO_TEXT})
-            </label>
-            <div className="flex gap-2">
-              <input
-                id="cartPromo"
-                type="text"
-                placeholder="أدخل كود الخصم..."
-                value={promoCode}
-                onChange={(e) => setPromoCode(e.target.value)}
-                disabled={discountApplied}
-                className="flex-1"
-              />
-              <Button
-                type="submit"
-                variant={discountApplied ? "success" : "gold"}
-                size="sm"
-                disabled={discountApplied}
-              >
-                {discountApplied ? "مفعّل ✓" : "تطبيق"}
-              </Button>
-            </div>
-          </form>
+          {/* قسايم: the coupon field, with a link to قسايمي */}
+          <CouponField id="cartPromo" field={coupon} onOpenCoupons={close} />
 
           {/* Delivery Details (prefilled from the profile) */}
           <div className="flex flex-col gap-3 mb-4">
@@ -409,26 +396,42 @@ function CartDrawerContent() {
               <span>المجموع الفرعي:</span>
               <span>{formatCurrency(pricing.subtotal)}</span>
             </div>
+            {pricing.itemsDiscount > 0 && (
+              <div className="flex justify-between text-sm mb-1.5 text-success font-bold">
+                <span>خصم الكوبون ({coupon.applied?.code}):</span>
+                <span>- {formatCurrency(pricing.itemsDiscount)}</span>
+              </div>
+            )}
             {pricing.feesWaived && (
               <div className="flex justify-between text-sm mb-1.5 text-success font-bold">
-                <span>{WAIVED_FEES_LABEL}:</span>
+                <span>{WAIVED_FEES_LABEL(coupon.applied?.code)}:</span>
                 <span>
-                  {pricing.discountAmount > 0 && (
+                  {pricing.fullCommission > 0 && (
                     <s className="text-text-muted font-normal ml-1">
-                      {formatCurrency(pricing.discountAmount)}
+                      {formatCurrency(pricing.fullCommission - pricing.commission)}
                     </s>
                   )}
-                  ببلاش
+                  {pricing.commission > 0 ? formatCurrency(pricing.commission) : "ببلاش"}
                 </span>
               </div>
             )}
-            {pricing.commission > 0 && (
+            {pricing.commission > 0 && !pricing.feesWaived && (
               <div className="flex justify-between text-sm mb-1.5">
                 <span>{APP_COMMISSION_LABEL}:</span>
                 <span>{formatCurrency(pricing.commission)}</span>
               </div>
             )}
-            {pricing.deliveryFee > 0 && (
+            {pricing.deliveryDiscount > 0 ? (
+              <div className="flex justify-between text-sm mb-1.5 text-success font-bold">
+                <span>{DELIVERY_FEE_LABEL} (كوبون {coupon.applied?.code}):</span>
+                <span>
+                  <s className="text-text-muted font-normal ml-1">
+                    {formatCurrency(pricing.deliveryFee + pricing.deliveryDiscount)}
+                  </s>
+                  {pricing.deliveryFee > 0 ? formatCurrency(pricing.deliveryFee) : "ببلاش"}
+                </span>
+              </div>
+            ) : pricing.deliveryFee > 0 && (
               <div className="flex justify-between text-sm mb-1.5">
                 <span>{DELIVERY_FEE_LABEL}:</span>
                 <span>{formatCurrency(pricing.deliveryFee)}</span>

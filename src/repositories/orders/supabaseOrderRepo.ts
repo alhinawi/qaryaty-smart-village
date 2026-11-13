@@ -30,9 +30,10 @@ export function orderToRow(id: string, input: NewOrder, userId: string | null) {
     payment_method: input.paymentMethod,
     discount_code: input.discountCode ?? null,
     discount_amount: input.discountAmount,
-    // The database sets the commission itself and adds it to the price (orders_before_insert)
-    total_amount: input.totalAmount,
-    commission_amount: input.commissionAmount ?? 0,
+    // The database sets the commission itself and adds it to the price, and works
+    // out the coupon from the order before it (orders_before_insert)
+    total_amount: input.couponBase ? input.couponBase.totalAmount : input.totalAmount,
+    commission_amount: (input.couponBase ? input.couponBase.commissionAmount : input.commissionAmount) ?? 0,
     // رسوم التوصيل: the database sets its own value (orders_before_insert)
     delivery_fee: input.deliveryFee ?? 0,
     is_estimate: input.isEstimate ?? false,
@@ -107,11 +108,15 @@ export function createSupabaseOrderRepo(getClient: () => Promise<SupabaseClient>
         if (error.code === '23505' && /one_promo/.test(error.message ?? '')) {
           throw new RepoError('rejected', PROMO_USED_MESSAGE, { cause: error });
         }
+        // The coupon didn't pass the database's own check (orders_before_insert)
+        const coupon = /^coupon: (.+)$/.exec(error.message ?? '');
+        if (coupon) throw new RepoError('rejected', coupon[1], { cause: error });
         if (/OFFER_PRICE_CHANGED/.test(error.message??''))throw new RepoError('rejected','السعر أو العرض اتغيّر. اقفل السلة وافتحها وراجع السعر قبل التأكيد',{cause:error});
         if (isRejectedByDatabase(error.code)) throw new RepoError('rejected', REJECTED_MESSAGE, { cause: error });
         throw error;
       }
-      return { ...input, id, createdAt: getFormattedDate() };
+      const { couponBase: _base, couponEffect: _effect, ...order } = input;
+      return { ...order, id, createdAt: getFormattedDate() };
     },
     async quoteDeliveryFee(shopId) {
       const supabase = await getClient();

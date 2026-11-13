@@ -511,3 +511,25 @@ export type { DailyPrice, PriceDraft } from './prices/types';
 export const adminRepo: AdminRepo = isSupabaseConfigured
   ? createSupabaseAdminRepo(getSupabase, supabaseUrl)
   : createMockAdminRepo();
+
+// ─── قسايم (coupons). The order itself is priced and checked by the database.
+import { createMockCouponRepo } from './coupons/mockCouponRepo';
+import { createSupabaseCouponRepo } from './coupons/supabaseCouponRepo';
+import type { CouponRepo } from './coupons/types';
+export const COUPONS_UNAVAILABLE_MESSAGE = 'القسايم مش متاحة دلوقتي، جرّب تاني بعد شوية';
+const liveCoupons = isSupabaseConfigured ? createSupabaseCouponRepo(getSupabase) : null;
+export const couponRepo: CouponRepo = liveCoupons
+  ? (() => {
+      const w = <T>(fn: () => Promise<T>) =>
+        resilience.write(fn, (cause) => new ServiceUnavailableError(COUPONS_UNAVAILABLE_MESSAGE, { cause }));
+      return {
+        listMine: () => resilience.read(() => liveCoupons.listMine(), async () => []),
+        // No fallback: a coupon nobody checked must not look valid
+        check: (input) => w(() => liveCoupons.check(input)),
+        listAll: () => w(() => liveCoupons.listAll()),
+        save: (draft, id) => w(() => liveCoupons.save(draft, id)),
+        setActive: (id, active) => w(() => liveCoupons.setActive(id, active)),
+      };
+    })()
+  : createMockCouponRepo();
+export type { AdminCoupon, CouponCheck, CouponDevice, CouponRepo } from './coupons/types';
