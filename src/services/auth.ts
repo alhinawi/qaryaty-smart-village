@@ -90,9 +90,10 @@ export interface AuthService {
   logout(token: string): Promise<void>;
   /** Current state of a user (role/blocked may have changed). null when gone. */
   getUser(userId: string): Promise<AuthUser | null>;
+  /** The phone is checked (Egyptian mobile) and saved through its own server path; send it only when it changed. */
   updateProfile(
     userId: string,
-    data: Partial<Pick<AuthUser, 'name' | 'village' | 'address'>>
+    data: Partial<Pick<AuthUser, 'name' | 'village' | 'address' | 'phone'>>
   ): Promise<AuthUser>;
   /** Sets the account photo (processed client-side first), or clears it with null. */
   setAvatar(userId: string, photo: Blob | null): Promise<AuthUser>;
@@ -194,6 +195,9 @@ interface StoredAccount {
 const USERS_KEY = 'qaryati_mock_users_v2';
 const SESSIONS_KEY = 'qaryati_mock_sessions_v1';
 
+/** The phone from the profile form isn't an Egyptian mobile number. */
+export const PHONE_INVALID_MESSAGE = 'رقم الموبايل غير صحيح، لازم يكون 11 رقم ويبدأ بـ 010 أو 011 أو 012 أو 015';
+
 const MESSAGES = {
   invalid: 'الإيميل أو كلمة السر مش صح',
   taken: 'الإيميل ده عنده حساب قبل كده، جرّب تسجل دخول',
@@ -287,7 +291,7 @@ export function createMockAuthService(
     const entry = Object.entries(accounts).find(([, acc]) => acc.user.id === userId);
     if (!entry) throw new AuthError('not_found', MESSAGES.notFound);
     const [email, account] = entry;
-    const user = { ...account.user, ...patch, id: account.user.id, username: account.user.username, email: account.user.email, phone: account.user.phone };
+    const user = { ...account.user, ...patch, id: account.user.id, username: account.user.username, email: account.user.email, phone: patch.phone ?? account.user.phone };
     accounts[email] = { ...account, user };
     writeAccounts(accounts);
     return user;
@@ -359,6 +363,11 @@ export function createMockAuthService(
       if (data.name !== undefined) clean.name = data.name.trim();
       if (data.village !== undefined) clean.village = data.village.trim();
       if (data.address !== undefined) clean.address = data.address.trim();
+      if (data.phone !== undefined) {
+        const phone = normalizeEgyptianPhone(data.phone);
+        if (!/^01[0125][0-9]{8}$/.test(phone)) throw new AuthError('rejected', PHONE_INVALID_MESSAGE);
+        clean.phone = phone;
+      }
       return patchUser(userId, clean);
     },
 
