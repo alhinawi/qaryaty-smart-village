@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { AuthError, DEMO_ADMIN, createMockAuthService, type AuthService } from './auth';
+import { AuthError, DEMO_ADMIN, PHONE_INVALID_MESSAGE, createMockAuthService, type AuthService } from './auth';
 import { createMemoryStorage, type KeyValueStorage } from './storage';
 import { loginSchema, registerSchema } from '@/utils/validators';
 
@@ -146,5 +146,25 @@ describe('usernameFromEmail (Google accounts get one made for them)', () => {
     expect(usernameFromEmail('12@gmail.com', () => false)).toBe('user12');
     expect(usernameFromEmail('admin@gmail.com', () => false)).toMatch(/^admin_\d{4}$/);
     expect(usernameFromEmail('mo10@gmail.com', (n) => n === 'mo10')).toMatch(/^mo10_\d{4}$/);
+  });
+});
+
+describe('mock auth: phone from the profile form', () => {
+  let auth: AuthService;
+  beforeEach(() => {
+    auth = createMockAuthService(createMemoryStorage());
+  });
+
+  it('changes the phone from the profile form, normalized and checked', async () => {
+    const result = await auth.register(newAccount);
+    if (result.status !== 'signed_in') throw new Error('expected a session');
+    const { user } = result.session;
+    const updated = await auth.updateProfile(user.id, { phone: '٠١١ ٩٨٧٦ ٥٤٣٢' });
+    expect(updated.phone).toBe('01198765432');
+    expect((await auth.getUser(user.id))?.phone).toBe('01198765432');
+    await expect(auth.updateProfile(user.id, { phone: '0123' })).rejects.toMatchObject({ message: PHONE_INVALID_MESSAGE });
+    expect((await auth.getUser(user.id))?.phone).toBe('01198765432');
+    // Other fields alone leave the phone as it is
+    expect((await auth.updateProfile(user.id, { name: 'محمد' })).phone).toBe('01198765432');
   });
 });
