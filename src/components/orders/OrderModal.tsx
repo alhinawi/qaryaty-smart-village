@@ -15,11 +15,7 @@ import AddressChooser from '@/components/address/AddressChooser';
 import type { LatLng } from '@/types';
 import { formatCurrency, generateOrderNumber } from '@/utils/helpers';
 import {
-  FIRST_ORDER_PROMO,
-  FIRST_ORDER_PROMO_APPLIED,
-  FIRST_ORDER_PROMO_TEXT,
   WAIVED_FEES_LABEL,
-  checkPromoCode,
   describeTotal,
   getOrderPricing,
   resolveQuantity,
@@ -29,6 +25,8 @@ import { PAYMENT_LABELS, isOnlinePayment, paymentChoices, startOnlinePayment } f
 import { APP_COMMISSION_LABEL, APP_COMMISSION_PERCENT } from '@/config/commission';
 import { DELIVERY_FEE_LABEL } from '@/config/delivery';
 import { PhoneInput } from '@/components/ui/PhoneInput';
+import { CouponField } from '@/components/coupons/CouponField';
+import { useCouponField } from '@/hooks/useCouponField';
 
 // ─── Types
 interface OrderModalProps {
@@ -49,9 +47,7 @@ export function OrderModal({
 }: OrderModalProps) {
   const profile = useUserStore((state) => state.profile);
   const addRewardPoints = useUserStore((state) => state.addRewardPoints);
-  const usedPromoCodes = useUserStore((state) => state.usedPromoCodes);
   const markPromoUsed = useUserStore((state) => state.markPromoUsed);
-  const orders = useOrderStore((state) => state.orders);
   const addOrder = useOrderStore((state) => state.addOrder);
   const showToast = useUIStore((state) => state.showToast);
 
@@ -62,8 +58,6 @@ export function OrderModal({
   const [phone, setPhone] = useState(profile.phone || '');
   const [notes, setNotes] = useState('');
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('cash');
-  const [discountCode, setDiscountCode] = useState('');
-  const [discountApplied, setDiscountApplied] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   // Required choices (ممرض/ممرضة, المرحلة, …): option id → chosen value
   // An option with one choice left (a teacher who teaches one stage) is already chosen
@@ -79,10 +73,21 @@ export function OrderModal({
   // An option with `showWhen` is asked only after its trigger answer (which group, for a group)
   const serviceOptions = visibleOptions(data?.options, selected);
 
-  if (!isOpen || !data) return null;
+  // قسايم: checked against the coupons table; the database checks it again on the order
+  const before = data ? getOrderPricing(data, null, { selections: selected, quantity }) : null;
+  const coupon = useCouponField({
+    target: 'services',
+    shopId: null,
+    items: before?.fullPrice ?? null,
+    commission: before?.fullCommission ?? 0,
+    delivery: 0,
+    enabled: isOpen && !!data && step === 2,
+  });
 
-  const pricing = getOrderPricing(data, discountApplied, { selections: selected, quantity });
-  const { basePrice, discountAmount, feesWaived, finalPrice, isEstimate, unitPrice, amount, deliveryFee, priceLabel, commission, totalToPay } =
+  if (!isOpen || !data || !before) return null;
+
+  const pricing = getOrderPricing(data, coupon.applied?.coupon, { selections: selected, quantity });
+  const { basePrice, feesWaived, priceDiscount, fullCommission, finalPrice, isEstimate, unitPrice, amount, deliveryFee, priceLabel, commission, totalToPay } =
     pricing;
   const unit = resolveQuantity(data.quantity, selected)?.unit;
   // Card and wallet charge a known amount, so they need a fixed price
@@ -107,7 +112,7 @@ export function OrderModal({
       phone,
       notes,
       paymentMethod: payWith,
-      discountCode,
+      discountCode: coupon.applied?.code ?? '',
     });
 
     const fieldErrors: Record<string, string> = {};
@@ -130,25 +135,23 @@ export function OrderModal({
     setStep(2);
   };
 
-  const handleApplyPromo = () => {
-    const result = checkPromoCode(discountCode, { orders, usedPromoCodes });
-    if (result.ok) {
-      setDiscountApplied(true);
-      showToast(FIRST_ORDER_PROMO_APPLIED);
-    } else {
-      showToast(result.message);
-    }
-  };
-
   const handleFinalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (submitting) return;
 
-    // Re-check at submit time in case another order was placed meanwhile
-    const promoStillValid =
-      discountApplied &&
-      checkPromoCode(discountCode, { orders, usedPromoCodes }).ok;
-    const finalPricing = getOrderPricing(data, promoStillValid, { selections: selected, quantity });
+    // Check the coupon again (used elsewhere meanwhile, ended, used up); the
+    // database checks it once more when the order is saved
+    let applied = coupon.applied;
+    if (applied) {
+      setSubmitting(true);
+      applied = await coupon.apply(applied.code);
+      setSubmitting(false);
+      if (!applied) {
+        showToast('⚠️ الكوبون مابقاش ينفع على الطلب ده، شيله أو جرّب غيره');
+        return;
+      }
+    }
+    const finalPricing = getOrderPricing(data, applied?.coupon, { selections: selected, quantity });
     const appliedDiscount = finalPricing.discountAmount;
     // What the customer pays, عمولة التطبيق included (null: price set after confirmation)
     const total = finalPricing.totalToPay;
@@ -167,10 +170,23 @@ export function OrderModal({
           ...(mapPoint ? { lat: mapPoint.lat, lng: mapPoint.lng } : {}),
           notes,
           paymentMethod: payWith,
-          discountCode: promoStillValid ? FIRST_ORDER_PROMO : undefined,
+          discountCode: applied?.code,
           discountAmount: appliedDiscount,
           totalAmount: total,
           commissionAmount: finalPricing.commission,
+          ...(applied
+            ? {
+                couponBase: {
+                  totalAmount: before.fullPrice == null ? null : before.fullPrice + before.fullCommission,
+                  commissionAmount: before.fullCommission,
+                },
+                couponEffect: {
+                  itemsOff: finalPricing.priceDiscount,
+                  commissionOff: finalPricing.fullCommission - finalPricing.commission,
+                  deliveryOff: 0,
+                },
+              }
+            : {}),
           isEstimate,
           status: 'pending',
           options:
@@ -195,8 +211,8 @@ export function OrderModal({
       return;
     }
 
-    if (promoStillValid) {
-      markPromoUsed(FIRST_ORDER_PROMO);
+    if (applied) {
+      markPromoUsed(applied.code);
     }
 
     // +10 reward points per order, but not for an order that ends up free
@@ -360,32 +376,8 @@ export function OrderModal({
         {/* STEP 2: Payment & Promo */}
         {step === 2 && (
           <form onSubmit={(e) => void handleFinalSubmit(e)} className="flex flex-col gap-4">
-            {/* Promo Code Box */}
-            <div className="form-group">
-              <label htmlFor="modalPromo">
-                🎟️ كود الخصم (كود {FIRST_ORDER_PROMO}: {FIRST_ORDER_PROMO_TEXT})
-              </label>
-              <div className="flex gap-2">
-                <input
-                  id="modalPromo"
-                  type="text"
-                  placeholder="أدخل كود الخصم..."
-                  value={discountCode}
-                  onChange={(e) => setDiscountCode(e.target.value)}
-                  disabled={discountApplied}
-                  className="flex-1"
-                />
-                <Button
-                  type="button"
-                  variant={discountApplied ? 'success' : 'gold'}
-                  size="sm"
-                  onClick={handleApplyPromo}
-                  disabled={discountApplied}
-                >
-                  {discountApplied ? 'مفعّل ✓' : 'تطبيق'}
-                </Button>
-              </div>
-            </div>
+            {/* قسايم: the coupon field, with a link to قسايمي */}
+            <CouponField id="modalPromo" field={coupon} onOpenCoupons={onClose} />
 
             {/* Payment Method Selector */}
             <div className="form-group">
@@ -426,18 +418,24 @@ export function OrderModal({
                   <span>{formatCurrency(deliveryFee)}</span>
                 </div>
               )}
+              {priceDiscount > 0 && (
+                <div className="flex justify-between text-sm mb-1.5 text-success font-bold">
+                  <span>خصم الكوبون ({coupon.applied?.code}):</span>
+                  <span>- {formatCurrency(priceDiscount)}</span>
+                </div>
+              )}
               {feesWaived && (
                 <div className="flex justify-between text-sm mb-1.5 text-success font-bold">
-                  <span>{WAIVED_FEES_LABEL}:</span>
+                  <span>{WAIVED_FEES_LABEL(coupon.applied?.code)}:</span>
                   <span>
-                    {discountAmount > 0 && (
-                      <s className="text-text-muted font-normal ml-1">{formatCurrency(discountAmount)}</s>
+                    {fullCommission > commission && (
+                      <s className="text-text-muted font-normal ml-1">{formatCurrency(fullCommission - commission)}</s>
                     )}
-                    ببلاش
+                    {commission > 0 ? formatCurrency(commission) : 'ببلاش'}
                   </span>
                 </div>
               )}
-              {commission > 0 && (
+              {commission > 0 && !feesWaived && (
                 <div className="flex justify-between text-sm mb-1.5">
                   <span>{APP_COMMISSION_LABEL}:</span>
                   <span>{formatCurrency(commission)}</span>
@@ -456,7 +454,7 @@ export function OrderModal({
               {finalPrice == null && (
                 <p className="text-xs text-text-muted mt-1">
                   مقدم الخدمة هيكلمك يأكد السعر قبل التنفيذ.
-                  {feesWaived && ' وبما إنه أول طلب، مش هتدفع عمولة التطبيق عليه.'}
+                  {feesWaived && ' وبالكوبون ده مش هتدفع عمولة التطبيق عليه.'}
                 </p>
               )}
               {isEstimate && (

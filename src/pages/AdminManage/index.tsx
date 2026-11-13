@@ -15,6 +15,7 @@ const UsersTab = lazy(() => import('./UsersTab'));
 const CatalogTab = lazy(() => import('./CatalogTab'));
 const VillagesTab = lazy(() => import('./VillagesTab'));
 const DonationsTab = lazy(() => import('./DonationsTab'));
+const CouponsTab = lazy(() => import('./CouponsTab'));
 
 export default function AdminPage() {
   const session = useAuthStore((s) => s.session);
@@ -93,6 +94,7 @@ export default function AdminPage() {
         {tab === 'catalog' && <CatalogTab />}
         {tab === 'villages' && <VillagesTab />}
         {tab === 'donations' && <DonationsTab />}
+        {tab === 'coupons' && <CouponsTab />}
       </Suspense>
     </div>
   );

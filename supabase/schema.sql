@@ -475,7 +475,7 @@ alter table public.orders drop constraint if exists orders_sane_values;
 alter table public.orders add constraint orders_sane_values check (
   discount_amount >= 0 and (total_amount is null or total_amount >= 0)
   and commission_amount >= 0
-  and (discount_code is null or discount_code = 'QARYA1')
+  and (discount_code is null or discount_code = 'QARYA1')  -- any coupon code after migrations/20261110000000_coupons.sql
   and length(order_number) <= 40 and length(service_name) <= 300
   and length(service_emoji) <= 40 and length(address) <= 300
   and length(coalesce(notes, '')) <= 1000

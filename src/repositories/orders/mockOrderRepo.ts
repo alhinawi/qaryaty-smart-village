@@ -26,10 +26,15 @@ export function createMockOrderRepo(scope='guest'): OrderRepo {
         });
         if(!isTrackingDemoMode())throw Error('المحاكاة متوقفة');
         const subtotal=Math.round(items.reduce((s,l)=>s+l.unitPrice*l.quantity,0)*100)/100;
-        const fee=appCommission({payable:subtotal,isEstimate:false});const waived=input.discountCode==='QARYA1';
-        return {...input,items,totalAmount:subtotal+(waived?0:fee)+DELIVERY_FEE_DEFAULT,commissionAmount:waived?0:fee,discountAmount:waived?fee:0,deliveryFee:DELIVERY_FEE_DEFAULT,id:`ord_demo_local_${Date.now()}`,createdAt:getFormattedDate()};
+        const fee=appCommission({payable:subtotal,isEstimate:false});
+        // The coupon the cart checked (demo mode has no server to check it again)
+        const off=input.discountCode?input.couponEffect??{itemsOff:0,commissionOff:0,deliveryOff:0}:{itemsOff:0,commissionOff:0,deliveryOff:0};
+        const itemsOff=Math.min(off.itemsOff,subtotal),commissionOff=Math.min(off.commissionOff,fee),deliveryOff=Math.min(off.deliveryOff,DELIVERY_FEE_DEFAULT);
+        const {couponBase:_base,couponEffect:_effect,...order}=input;
+        return {...order,items,totalAmount:subtotal-itemsOff+fee-commissionOff+DELIVERY_FEE_DEFAULT-deliveryOff,commissionAmount:fee-commissionOff,discountAmount:itemsOff+commissionOff+deliveryOff,deliveryFee:DELIVERY_FEE_DEFAULT-deliveryOff,id:`ord_demo_local_${Date.now()}`,createdAt:getFormattedDate()};
       }
-      return { ...input, id: `ord_${Date.now()}`, createdAt: getFormattedDate() };
+      const { couponBase: _base, couponEffect: _effect, ...order } = input;
+      return { ...order, id: `ord_${Date.now()}`, createdAt: getFormattedDate() };
     },
     async quoteDeliveryFee() {
       return DELIVERY_FEE_DEFAULT;

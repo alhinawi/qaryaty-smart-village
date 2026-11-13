@@ -24,6 +24,8 @@ export const ROUTES = {
   /** Provider dashboard: merchants and professionals (provider/staff tiers) */
   dashboard: '/dashboard',
   about: '/about',
+  /** قسايمي: the coupons a customer can use, with copy and «استخدمها» */
+  coupons: '/coupons',
   /** مساعد قريتي: the role-aware assistant */
   assistant: '/assistant',
   groups: '/groups',
