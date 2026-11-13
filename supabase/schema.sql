@@ -6,7 +6,8 @@
 --   • Every table has Row Level Security on.
 --   • Catalog (services, shops, providers): anyone reads; only admins write.
 --   • profiles: you read your own row and may change only name, village and
---     address. role, blocked, phone, email, username and anything added later (a balance, points)
+--     address. Your phone changes only through update_my_phone(), which checks the
+--     Egyptian format. role, blocked, email, username and anything added later (a balance, points)
 --     can't be changed from the app: column privileges are a whitelist.
 --     Admins change role/blocked only through admin_set_role / admin_set_blocked.
 --   • orders: anyone may place one (guests too), only as themselves; the status
@@ -289,9 +290,35 @@ language sql stable security definer set search_path = public as $$
 $$;
 
 -- Replaced by column privileges (below): role/blocked/phone are not updatable
--- from the app at all, and the old trigger also stopped the SQL Editor.
+-- directly from the app (the phone only through update_my_phone), and the old
+-- trigger also stopped the SQL Editor.
 drop trigger if exists protect_profile_columns on public.profiles;
 drop function if exists public.protect_profile_columns();
+
+-- A customer's own phone, from the profile form. Checked here (Egyptian mobile);
+-- not unique, and nothing is limited per phone (QARYA1 is once per account).
+create or replace function public.update_my_phone(p_phone text)
+returns public.profiles
+language plpgsql security definer set search_path = public as $$
+declare
+  v_phone text := btrim(coalesce(p_phone, ''));
+  result  public.profiles;
+begin
+  if auth.uid() is null then
+    raise exception 'profile:not_signed_in' using errcode = '42501';
+  end if;
+  if public.is_blocked() then
+    raise exception 'profile:blocked' using errcode = '42501';
+  end if;
+  if v_phone !~ '^01[0125][0-9]{8}$' then
+    raise exception 'profile:bad_phone' using errcode = '22023';
+  end if;
+  update public.profiles set phone = v_phone where id = auth.uid() returning * into result;
+  if result.id is null then
+    raise exception 'profile:not_found' using errcode = 'P0002';
+  end if;
+  return result;
+end $$;
 
 -- Admin actions: the only way to change role or blocked from the app
 create or replace function public.admin_set_role(target uuid, new_role text)
@@ -598,6 +625,8 @@ revoke all on function public.admin_set_role(uuid, text) from public, anon;
 revoke all on function public.admin_set_blocked(uuid, boolean) from public, anon;
 grant execute on function public.admin_set_role(uuid, text) to authenticated;
 grant execute on function public.admin_set_blocked(uuid, boolean) to authenticated;
+revoke all on function public.update_my_phone(text) from public, anon;
+grant execute on function public.update_my_phone(text) to authenticated;
 revoke all on function public.username_available(text) from public;
 grant execute on function public.username_available(text) to anon, authenticated;
 revoke all on function public.reserved_usernames() from public, anon, authenticated;

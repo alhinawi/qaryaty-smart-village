@@ -20,7 +20,8 @@ interface AuthState {
   logout: () => Promise<void>;
   /** Re-read the user (role/blocked can change from the admin panel). */
   refresh: () => Promise<void>;
-  updateUser: (data: Partial<Pick<AuthUser, 'name' | 'village' | 'address'>>) => Promise<void>;
+  /** Saves to the account and mirrors the saved row into the profile (orders, forms prefill from both). */
+  updateUser: (data: Partial<Pick<AuthUser, 'name' | 'village' | 'address' | 'phone'>>) => Promise<void>;
   /** Sets the account photo, or clears it with null. */
   setAvatar: (photo: Blob | null) => Promise<void>;
   /** Off to Google; `returnTo` is the page to open after coming back. */
@@ -123,6 +124,7 @@ export const useAuthStore = create<AuthState>()(
         if (!session) return;
         const user = await authRepo.updateProfile(session.user.id, data);
         set({ session: { ...session, user } });
+        useUserStore.getState().applyAuthUser(user);
       },
 
       setAvatar: async (photo) => {
