@@ -19,6 +19,8 @@ export const ROUTES = {
   /** Google accounts pick a username and give a phone here before ordering. */
   completeProfile: '/complete-profile',
   admin: '/admin',
+  /** Full management: orders, users, shops and prices, villages, delivery fees, donations (owner and general supervisor) */
+  adminManage: '/admin/manage',
   /** Provider dashboard: merchants and professionals (provider/staff tiers) */
   dashboard: '/dashboard',
   about: '/about',

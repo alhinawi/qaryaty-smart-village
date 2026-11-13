@@ -8,7 +8,7 @@ import { isStaffRole, canReviewContent, canManageProviders } from '@/config/staf
 import type { UserRole } from '@/types';
 
 export interface MobileMenuLink {
-  id: 'messages' | 'jobs' | 'jobsReview' | 'marketSale' | 'marketSwap' | 'marketReview' | 'rides' | 'ridesReview' | 'about' | 'groups' | 'donate' | 'advertise' | 'admin' | 'dashboard' | 'assistant';
+  id: 'messages' | 'jobs' | 'jobsReview' | 'marketSale' | 'marketSwap' | 'marketReview' | 'rides' | 'ridesReview' | 'about' | 'groups' | 'donate' | 'advertise' | 'admin' | 'adminManage' | 'dashboard' | 'assistant';
   label: string;
   /** Emoji shown in the item's icon tile */
   icon: string;
@@ -78,6 +78,9 @@ export function mobileMenuSections({ role }: MobileMenuOptions): MobileMenuSecti
   }
   if (canManageProviders(role)) {
     staffLinks.push({ id: 'dashboard', label: 'لوحة مقدم الخدمة', icon: '📊', to: ROUTES.dashboard, hint: 'المحلات ومقدمي الخدمة والطلبات' });
+  }
+  if (role === 'owner' || role === 'admin') {
+    staffLinks.push({ id: 'adminManage', label: 'إدارة قريتي', icon: '🛠️', to: ROUTES.adminManage, hint: 'الطلبات والمستخدمين والمحلات والقرى' });
   }
   if (isStaffRole(role)) {
     staffLinks.push({ id: 'admin', label: 'لوحة التحكم', icon: '⚙️', to: ROUTES.admin });

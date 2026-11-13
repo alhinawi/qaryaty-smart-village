@@ -64,6 +64,9 @@ import { createLocalOffersRepo } from './offers/localOffersRepo';
 import { createSupabaseOffersRepo } from './offers/supabaseOffersRepo';
 import type { OffersRepo } from './offers/types';
 
+import { createMockAdminRepo } from './admin/mockAdminRepo';
+import { createSupabaseAdminRepo } from './admin/supabaseAdminRepo';
+import type { AdminRepo } from './admin/types';
 
 const breaker = createCircuitBreaker({ failureThreshold: 3, cooldownMs: 30_000 });
 const resilience = createResilience({
@@ -504,3 +507,7 @@ export const reviewsRepo = createReviewsRepo(getSupabase);
 import { createPricesRepo } from './prices/supabasePricesRepo';
 export const pricesRepo = createPricesRepo(getSupabase);
 export type { DailyPrice, PriceDraft } from './prices/types';
+// ─── Admin dashboard (لوحة التحكم): no offline fallback, every call is checked on the server
+export const adminRepo: AdminRepo = isSupabaseConfigured
+  ? createSupabaseAdminRepo(getSupabase, supabaseUrl)
+  : createMockAdminRepo();
