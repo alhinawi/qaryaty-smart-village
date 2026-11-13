@@ -69,6 +69,7 @@ const RideFormPage = lazy(() => import('@/pages/Rides/RideFormPage'));
 const MyRidesPage = lazy(() => import('@/pages/Rides/MyRidesPage'));
 const RidesReviewPage = lazy(() => import('@/pages/Rides/RidesReviewPage'));
 const AdminPage = lazy(() => import('@/pages/Admin'));
+const AdminManagePage = lazy(() => import('@/pages/AdminManage'));
 const ProviderDashboardPage = lazy(() => import('@/pages/Dashboard'));
 
 // ─── Page Loading Fallback
@@ -228,6 +229,7 @@ export default function App() {
                 <Route path={ROUTES.ridesMine} element={<MyRidesPage />} />
                 <Route path={ROUTES.ridesReview} element={<RidesReviewPage />} />
                 <Route path={ROUTES.admin} element={<AdminPage />} />
+                <Route path={ROUTES.adminManage} element={<AdminManagePage />} />
                 <Route path={ROUTES.dashboard} element={<ProviderDashboardPage />} />
                 <Route path={`${ROUTES.rides}/:id`} element={<RideDetailPage />} />
                 <Route path={`${ROUTES.rides}/:id/edit`} element={<RideFormPage key="edit" />} />

@@ -197,6 +197,18 @@ export default function AdminPage() {
 
       {role === 'owner' && <OosBadgeStyleSection />}
 
+      {(role === 'owner' || role === 'admin') && (
+        <Link
+          to={ROUTES.adminManage}
+          className="block bg-green text-white rounded-2xl p-4 mb-4 no-underline"
+        >
+          <span className="block text-[15px] font-black">إدارة قريتي</span>
+          <span className="block text-[12px] opacity-90 mt-1">
+            الطلبات والفلوس، المستخدمين، المحلات والأسعار، القرى ورسوم التوصيل، وباب الخير
+          </span>
+        </Link>
+      )}
+
       {sections.overview && (
         <div className="grid grid-cols-3 gap-2 mb-5">
           {stats.map((s) => (

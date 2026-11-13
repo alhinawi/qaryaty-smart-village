@@ -232,7 +232,7 @@ export function createSupabaseCatalogRepo(
     },
     async getShops() {
       const supabase = await getClient();
-      let query = supabase.from('shops').select('*');
+      let query = supabase.from('shops').select('*').eq('hidden', false);
       if (!showDemo()) query = query.eq('is_demo', false);
       const { data, error } = await query.order('id');
       if (error) throw error;
@@ -263,6 +263,7 @@ export function createSupabaseCatalogRepo(
         .from('catalog_products')
         .select('*')
         .eq('scope', productScope(shop))
+        .eq('hidden', false)
         .order('position')
         .order('product_id');
       if (error) throw error;
