@@ -11,6 +11,7 @@ import { Link, useNavigate } from 'react-router';
 import { useAuthStore, selectUser } from '@/stores/useAuthStore';
 import { AuthError, referralRepo, type ReferralInfo } from '@/repositories';
 import { referralLink } from '@/utils/referral';
+import { PHONE_INVALID_MESSAGE } from '@/services/auth';
 import { ROUTES } from '@/routes';
 import { useVillageStore } from '@/stores/useVillageStore';
 import { VillagePicker } from '@/components/address/VillagePicker';
@@ -41,6 +42,7 @@ export default function ProfilePage() {
   const [villageDraft, setVillageDraft] = useState(savedVillage);
 
   const [saving, setSaving] = useState(false);
+  const [phoneError, setPhoneError] = useState('');
 
   // Profile photo: accounts save it to their user record, guests keep it on the device
   const setAuthAvatar = useAuthStore((state) => state.setAvatar);
@@ -105,18 +107,31 @@ export default function ProfilePage() {
       return;
     }
     const villageChanged = villageDraft.trim() !== savedVillage;
+    const cleanPhone = normalizeEgyptianPhone(phone);
+    if (user && !/^01[0125][0-9]{8}$/.test(cleanPhone)) {
+      setPhoneError(PHONE_INVALID_MESSAGE);
+      return;
+    }
+    setPhoneError('');
     if (user) {
-      // Signed in: saved to the account first; the phone can't change from here
+      // Signed in: saved to the account first (the phone through its own checked path);
+      // the auth store mirrors the saved row into the profile
+      const phoneChanged = cleanPhone !== user.phone;
       setSaving(true);
       try {
-        await updateAuthUser({ name, ...(villageChanged ? { village: villageDraft } : {}) });
+        await updateAuthUser({
+          name,
+          ...(villageChanged ? { village: villageDraft } : {}),
+          ...(phoneChanged ? { phone: cleanPhone } : {}),
+        });
       } catch (error) {
-        showToast(error instanceof AuthError ? `⚠️ ${error.message}` : '⚠️ ماقدرناش نحفظ التعديل، جرّب تاني');
+        const message = error instanceof AuthError ? error.message : 'ماقدرناش نحفظ التعديل، جرّب تاني';
+        if (message === PHONE_INVALID_MESSAGE) setPhoneError(message);
+        showToast(`⚠️ ${message}`);
         return;
       } finally {
         setSaving(false);
       }
-      updateProfile({ name, ...(villageChanged ? { village: villageDraft } : {}) });
     } else {
       updateProfile({ name, phone: normalizeEgyptianPhone(phone), ...(villageChanged ? { village: villageDraft } : {}) });
     }
@@ -296,7 +311,8 @@ export default function ProfilePage() {
                   return;
                 }
                 setName(profile.name);
-                setPhone(profile.phone);
+                setPhone(user.phone || profile.phone);
+                setPhoneError('');
                 setVillageDraft(savedVillage);
                 setIsEditing(true);
               }}
@@ -322,15 +338,18 @@ export default function ProfilePage() {
               <label htmlFor="profilePhone">رقم الموبايل</label>
               <PhoneInput
                 id="profilePhone"
-                value={user ? user.phone : phone}
-                onChange={(e) => setPhone(e.target.value)}
-                disabled={Boolean(user)}
-                aria-describedby={user ? 'profilePhoneHint' : undefined}
+                value={phone}
+                onChange={(e) => {
+                  setPhone(e.target.value);
+                  if (phoneError) setPhoneError('');
+                }}
+                aria-invalid={Boolean(phoneError)}
+                aria-describedby={phoneError ? 'profilePhoneError' : undefined}
                 required
               />
-              {user && (
-                <span id="profilePhoneHint" className="text-[11px] text-text-muted">
-                  رقم الموبايل مش بيتغير من هنا
+              {phoneError && (
+                <span id="profilePhoneError" role="alert" className="input-error-msg">
+                  {phoneError}
                 </span>
               )}
             </div>

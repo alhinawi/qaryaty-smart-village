@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { AuthError } from '@/services/auth';
+import { AuthError, PHONE_INVALID_MESSAGE } from '@/services/auth';
 import { createSupabaseAuthRepo, mapAuthError, type ProfileRow } from './supabaseAuthRepo';
 
 const profile: ProfileRow = {
@@ -167,5 +167,50 @@ describe('supabase auth repo', () => {
       ...({ role: 'admin', blocked: false } as object),
     });
     expect(update).toHaveBeenCalledWith({ name: 'أحمد', village: 'البركة', address: 'شارع الجامع' });
+  });
+  it('a new phone goes through update_my_phone, never the profile update', async () => {
+    const rpc = vi.fn(async (_fn: string, _args: object) => ({ data: { ...profile, phone: '01198765432' }, error: null }));
+    const update = vi.fn((_patch: object) => ({
+      eq: () => ({ select: () => ({ maybeSingle: async () => ({ data: { ...profile, phone: '01198765432', name: 'أحمد علي' }, error: null }) }) }),
+    }));
+    const client = { rpc, from: () => ({ update }) } as unknown as SupabaseClient;
+    const user = await createSupabaseAuthRepo(async () => client).updateProfile('u1', { name: 'أحمد علي', phone: '+20 119 876 5432' });
+    expect(rpc).toHaveBeenCalledWith('update_my_phone', { p_phone: '01198765432' });
+    expect(update).toHaveBeenCalledWith({ name: 'أحمد علي' });
+    expect(user.phone).toBe('01198765432');
+    expect(user.name).toBe('أحمد علي');
+  });
+
+  it('only the phone: one call, no empty profile update', async () => {
+    const rpc = vi.fn(async (_fn: string, _args: object) => ({ data: { ...profile, phone: '01598765432' }, error: null }));
+    const update = vi.fn();
+    const client = { rpc, from: () => ({ update }) } as unknown as SupabaseClient;
+    const user = await createSupabaseAuthRepo(async () => client).updateProfile('u1', { phone: '01598765432' });
+    expect(update).not.toHaveBeenCalled();
+    expect(user.phone).toBe('01598765432');
+  });
+
+  it('a phone the server refuses stops the save with a clear Arabic message', async () => {
+    const update = vi.fn();
+    const client = {
+      rpc: async () => ({ data: null, error: { code: '22023', message: 'profile:bad_phone' } }),
+      from: () => ({ update }),
+    } as unknown as SupabaseClient;
+    const error = await createSupabaseAuthRepo(async () => client)
+      .updateProfile('u1', { name: 'أحمد', phone: '0123' })
+      .catch((e: unknown) => e);
+    expect(error).toBeInstanceOf(AuthError);
+    expect((error as AuthError).message).toBe(PHONE_INVALID_MESSAGE);
+    expect(update).not.toHaveBeenCalled();
+  });
+
+  it('a blocked account trying to change its phone gets the blocked message', async () => {
+    const client = {
+      rpc: async () => ({ data: null, error: { code: '42501', message: 'profile:blocked' } }),
+    } as unknown as SupabaseClient;
+    const error = await createSupabaseAuthRepo(async () => client)
+      .updateProfile('u1', { phone: '01012345679' })
+      .catch((e: unknown) => e);
+    expect((error as AuthError).code).toBe('blocked');
   });
 });

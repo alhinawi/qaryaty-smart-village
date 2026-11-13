@@ -9,7 +9,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { AuthSession, AuthUser, UserRole } from '@/types';
 import { normalizeEgyptianPhone, normalizeUsername } from '@/utils/validators';
-import { AuthError, USERNAME_TAKEN_MESSAGE, type AuthService } from '@/services/auth';
+import { AuthError, PHONE_INVALID_MESSAGE, USERNAME_TAKEN_MESSAGE, type AuthService } from '@/services/auth';
 
 export interface ProfileRow {
   id: string;
@@ -27,7 +27,7 @@ export interface ProfileRow {
   avatar_url?: string | null;
 }
 
-/** Profile columns a customer may change; role, blocked and phone are not among them. */
+/** Profile columns a customer may update directly; the phone goes through update_my_phone(), role and blocked never. */
 type EditableColumn = 'name' | 'village' | 'address';
 
 export function userFromProfile(row: ProfileRow): AuthUser {
@@ -140,6 +140,21 @@ export function createSupabaseAuthRepo(
     if (error) throw mapDbError(error);
     if (!data) throw new AuthError('not_found', MESSAGES.notFound);
     return userFromProfile(data as ProfileRow);
+  }
+
+  /** The phone: only through update_my_phone(), which checks the format and changes the caller's own row. */
+  async function updateMyPhone(phone: string): Promise<AuthUser> {
+    const supabase = await getClient();
+    const { data, error } = await supabase.rpc('update_my_phone', { p_phone: normalizeEgyptianPhone(phone) });
+    if (error) {
+      if (error.code === '22023') throw new AuthError('rejected', PHONE_INVALID_MESSAGE);
+      if (error.code === '42501' && /blocked/.test(error.message ?? '')) throw new AuthError('blocked', MESSAGES.blocked);
+      if (error.code === 'P0002') throw new AuthError('not_found', MESSAGES.notFound);
+      throw mapDbError(error);
+    }
+    const row = data as ProfileRow | null;
+    if (!row?.id) throw new AuthError('not_found', MESSAGES.notFound);
+    return userFromProfile(row);
   }
 
   async function adminRpc(fn: 'admin_set_role' | 'admin_set_blocked', args: Record<string, unknown>): Promise<AuthUser> {
@@ -301,7 +316,11 @@ export function createSupabaseAuthRepo(
       if (data.name !== undefined) patch.name = data.name.trim();
       if (data.village !== undefined) patch.village = data.village.trim();
       if (data.address !== undefined) patch.address = data.address.trim();
-      return updateProfileRow(userId, patch);
+      // The phone first: a wrong number stops the save before anything else changes
+      let user: AuthUser | null = null;
+      if (data.phone !== undefined) user = await updateMyPhone(data.phone);
+      if (Object.keys(patch).length > 0 || !user) user = await updateProfileRow(userId, patch);
+      return user;
     },
 
     async setAvatar(userId, photo) {
