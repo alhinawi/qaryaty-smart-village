@@ -1,7 +1,8 @@
 import { Link } from 'react-router';
+import { Award, ExternalLink, FolderOpen, Link2 } from 'lucide-react';
 import { CatalogShareButton } from './CatalogShareButton';
 // ─── Card for one person you book directly: teacher, nurse, plumber, painter, gas delivery…
-import type { Provider, ProviderMode, TeacherGroup } from '@/types';
+import type { Provider, ProviderLink, ProviderMode, TeacherGroup } from '@/types';
 import { Avatar } from './Avatar';
 import { MODE_LABELS, STAGE_LABELS } from '@/data/teachers';
 import { providerRoleLabel } from '@/utils/people';
@@ -17,6 +18,12 @@ interface ProviderCardProps {
   showShare?: boolean;
   headingLevel?: 'h2' | 'h3';
 }
+
+const LINK_ICONS: Record<NonNullable<ProviderLink['kind']> | 'link', typeof Award> = {
+  certificate: Award,
+  samples: FolderOpen,
+  link: Link2,
+};
 
 const MODE_ICONS: Record<ProviderMode, string> = {
   online: '💻',
@@ -65,6 +72,30 @@ export function ProviderCard({ provider, onBook, online = false, showShare = tru
       </div>
 
       <p className="text-[13px] text-text leading-relaxed">{provider.bio}</p>
+
+      {/* A certificate, sample lessons…: only when the provider has them */}
+      {provider.links && provider.links.length > 0 && (
+        <ul className="flex flex-wrap gap-1.5 text-[12px] font-bold" aria-label={`روابط ${provider.name}`}>
+          {provider.links.map((link) => {
+            const Icon = LINK_ICONS[link.kind ?? 'link'];
+            return (
+              <li key={link.url} className="min-w-0 max-w-full">
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex max-w-full items-center gap-1.5 rounded-full border border-green/25 bg-[#f6faf7] px-2.5 py-1 text-green-dark hover:border-green hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green"
+                  aria-label={`${link.label} (بيفتح في صفحة جديدة)`}
+                >
+                  <Icon aria-hidden="true" className="size-3.5 shrink-0" />
+                  <span className="truncate">{link.label}</span>
+                  <ExternalLink aria-hidden="true" className="size-3 shrink-0 opacity-60" />
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      )}
 
       <div className="flex flex-wrap gap-1.5 text-[11px] font-bold">
         {provider.stages?.map((stage) => (

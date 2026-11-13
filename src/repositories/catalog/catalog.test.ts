@@ -35,6 +35,22 @@ describe('supabase row mapping', () => {
     });
     expect(provider).toMatchObject({ serviceId: 9, experienceYears: 5, photo: '', village: 'منية سندوب' });
     expect(provider.stages).toBeUndefined();
+    expect(provider.links).toBeUndefined();
+
+    const base = {
+      id: 144, kind: 'teacher' as const, service_id: 16, name: 'x', gender: 'male' as const, photo: null, subject: 'english' as const,
+      stages: null, specialty: null, experience_years: 5, rating: 0, reviews: 0, price: 'السعر بالاتفاق',
+      numeric_price: null, price_type: 'quote' as const, area: '', village: '', bio: '', modes: ['online' as const], active: true,
+    };
+    const withLinks = providerFromRow({
+      ...base,
+      links: [
+        { label: 'حاصل على شهادة IELTS', url: 'https://drive.google.com/file/d/a/view', kind: 'certificate' },
+        { label: 'سيئ', url: 'javascript:alert(1)' },
+      ],
+    });
+    expect(withLinks.links).toEqual([{ label: 'حاصل على شهادة IELTS', url: 'https://drive.google.com/file/d/a/view', kind: 'certificate' }]);
+    expect(providerFromRow({ ...base, links: [] }).links).toBeUndefined();
   });
 });
 

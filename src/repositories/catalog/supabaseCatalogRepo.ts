@@ -29,6 +29,7 @@ import type {
   TeacherSubject,
 } from '@/types';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import { safeProviderLinks } from '@/utils/providerLinks';
 import { RepoError } from '../errors';
 import type { CatalogRepo, NewProviderInput, NewShopInput } from './types';
 
@@ -135,6 +136,8 @@ export interface ProviderRow {
   inspection_fee?: number | null;
   delivery_fee?: number | null;
   groups?: TeacherGroup[] | null;
+  /** [{label, url, kind?}]: a certificate, sample lessons… (only https links are shown) */
+  links?: unknown;
 }
 
 export function serviceFromRow(row: ServiceRow): Service {
@@ -208,6 +211,7 @@ export function providerFromRow(row: ProviderRow): Provider {
     ...(row.inspection_fee != null && { inspectionFee: Number(row.inspection_fee) }),
     ...(row.delivery_fee != null && { deliveryFee: Number(row.delivery_fee) }),
     ...(row.groups?.length && { groups: row.groups }),
+    ...(safeProviderLinks(row.links).length && { links: safeProviderLinks(row.links) }),
   });
 }
 
