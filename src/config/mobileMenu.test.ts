@@ -25,7 +25,7 @@ describe('mobile menu', () => {
   it('gives the owner and the general supervisor every staff link', () => {
     for (const role of ['owner', 'admin'] as const) {
       const ids = allLinks(role).map((l) => l.id);
-      for (const id of ['jobsReview', 'marketReview', 'ridesReview', 'dashboard', 'admin']) {
+      for (const id of ['jobsReview', 'marketReview', 'ridesReview', 'dashboard', 'adminManage', 'admin']) {
         expect(ids).toContain(id);
       }
     }
@@ -35,11 +35,13 @@ describe('mobile menu', () => {
     const ids = allLinks('content_admin').map((l) => l.id);
     expect(ids).toEqual(expect.arrayContaining(['jobsReview', 'marketReview', 'ridesReview', 'admin']));
     expect(ids).not.toContain('dashboard');
+    expect(ids).not.toContain('adminManage');
   });
 
   it('gives the orders supervisor the provider dashboard, not the review queues', () => {
     const ids = allLinks('orders_admin').map((l) => l.id);
     expect(ids).toEqual(expect.arrayContaining(['dashboard', 'admin']));
+    expect(ids).not.toContain('adminManage');
     expect(ids).not.toContain('jobsReview');
     expect(ids).not.toContain('marketReview');
     expect(ids).not.toContain('ridesReview');

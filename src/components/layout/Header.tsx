@@ -64,7 +64,7 @@ export function Header() {
   const closeMenu = useCallback(() => setIsMenuOpen(false), [setIsMenuOpen]);
   // Pages reached from the menu light up the ☰ button
   const isMenuPage =
-    [ROUTES.messages, ROUTES.about, ROUTES.groups, ROUTES.donate, ROUTES.admin].some((path) => pathname === path) ||
+    [ROUTES.messages, ROUTES.about, ROUTES.groups, ROUTES.donate, ROUTES.admin, ROUTES.adminManage].some((path) => pathname === path) ||
     pathname.startsWith(ROUTES.jobs) ||
     pathname.startsWith('/market/') ||
     pathname.startsWith(ROUTES.rides);
