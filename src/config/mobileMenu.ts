@@ -8,7 +8,7 @@ import { isStaffRole, canReviewContent, canManageProviders } from '@/config/staf
 import type { UserRole } from '@/types';
 
 export interface MobileMenuLink {
-  id: 'messages' | 'jobs' | 'jobsReview' | 'marketSale' | 'marketSwap' | 'marketReview' | 'rides' | 'ridesReview' | 'about' | 'groups' | 'donate' | 'advertise' | 'admin' | 'adminManage' | 'dashboard' | 'assistant';
+  id: 'messages' | 'coupons' | 'jobs' | 'jobsReview' | 'marketSale' | 'marketSwap' | 'marketReview' | 'rides' | 'ridesReview' | 'about' | 'groups' | 'donate' | 'advertise' | 'admin' | 'adminManage' | 'dashboard' | 'assistant';
   label: string;
   /** Emoji shown in the item's icon tile */
   icon: string;
@@ -39,6 +39,7 @@ export function mobileMenuSections({ role }: MobileMenuOptions): MobileMenuSecti
       links: [
         { id: 'assistant', label: 'مساعد قريتي', icon: '🤖', to: ROUTES.assistant, hint: 'اسأل عن أي حاجة في التطبيق' },
         { id: 'messages', label: 'الرسائل', icon: '💬', to: ROUTES.messages },
+        { id: 'coupons', label: 'قسايمي', icon: '🎟️', to: ROUTES.coupons, hint: 'كوبونات الخصم اللي تقدر تستخدمها' },
         { id: 'jobs', label: 'وظائف', icon: '💼', to: ROUTES.jobs, hint: 'شغل في قريتك والقرى اللي جنبك' },
         { id: 'marketSale', label: 'المستعمل والتبادل', icon: '🏷️', to: ROUTES.marketSale, hint: 'بيع وشراء أو تبادل من نفس القسم' },
         { id: 'rides', label: 'شير مواصلة', icon: '🚗', to: ROUTES.rides, hint: 'اقسم التاكسي أو شيّر كراسي عربيتك' },

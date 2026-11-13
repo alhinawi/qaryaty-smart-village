@@ -1,5 +1,5 @@
 // ─── The dashboard's sections, in the order of the tab bar
-export type AdminTab = 'overview' | 'orders' | 'users' | 'catalog' | 'villages' | 'donations';
+export type AdminTab = 'overview' | 'orders' | 'users' | 'catalog' | 'villages' | 'donations' | 'coupons';
 
 export const ADMIN_TABS: { id: AdminTab; label: string; emoji: string }[] = [
   { id: 'overview', label: 'الملخص', emoji: '📊' },
@@ -8,6 +8,7 @@ export const ADMIN_TABS: { id: AdminTab; label: string; emoji: string }[] = [
   { id: 'catalog', label: 'المحلات والخدمات', emoji: '🏪' },
   { id: 'villages', label: 'القرى', emoji: '🏘️' },
   { id: 'donations', label: 'باب الخير', emoji: '🤲' },
+  { id: 'coupons', label: 'القسايم', emoji: '🎟️' },
 ];
 
 /** Who opens /admin/manage: the owner and the general supervisor. The server checks every call with is_admin(). */

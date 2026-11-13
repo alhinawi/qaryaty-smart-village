@@ -14,6 +14,7 @@ import type {
 import { STAGE_LABELS } from '@/data/teachers';
 import { APP_COMMISSION_MAX, APP_COMMISSION_MIN, APP_COMMISSION_PERCENT } from '@/config/commission';
 import { teacherLessonOptions } from './teacherGroups';
+import { couponEffect, type Coupon } from './coupons';
 
 // ─── Promo code
 // The first-order code waives the fees only: عمولة التطبيق is not charged, and
@@ -63,7 +64,22 @@ export function checkPromoCode(
 export const FIRST_ORDER_PROMO_TEXT = 'أول طلب من غير رسوم';
 export const FIRST_ORDER_PROMO_APPLIED = `🎉 كود ${FIRST_ORDER_PROMO} اتفعّل: أول طلب من غير عمولة التطبيق. رسوم التوصيل بتروح للمندوب، فبتتدفع عادي`;
 /** The line in the price breakdown when the fees are waived. */
-export const WAIVED_FEES_LABEL = `رسوم التطبيق (كود ${FIRST_ORDER_PROMO})`;
+/** The waived-commission line: «رسوم التطبيق (كوبون QARYA1)». */
+export const WAIVED_FEES_LABEL = (code: string = FIRST_ORDER_PROMO) => `رسوم التطبيق (كوبون ${code})`;
+
+// ─── Coupons on a price
+/**
+ * The coupon on an order: a coupon from the coupons table, or true for the
+ * legacy first-order code (waives عمولة التطبيق only). Rules in ./coupons.ts.
+ */
+export type PricingCoupon = Pick<Coupon, 'kind' | 'value' | 'maxDiscount'> | boolean | null | undefined;
+
+const WAIVE_FEES: Pick<Coupon, 'kind' | 'value' | 'maxDiscount'> = { kind: 'waive_fees', value: 0, maxDiscount: null };
+
+function asCoupon(coupon: PricingCoupon): Pick<Coupon, 'kind' | 'value' | 'maxDiscount'> | null {
+  if (coupon === true) return WAIVE_FEES;
+  return coupon || null;
+}
 
 // ─── App commission
 /**
@@ -91,11 +107,17 @@ export interface OrderPricing {
   priceType: PriceType;
   /** Price shown as the service price; null when it is set after confirmation. */
   basePrice: number | null;
-  /** The fees the first-order code waived (the commission that isn't charged). */
+  /** Everything the coupon took off (the commission it waived, or the price discount). */
   discountAmount: number;
-  /** true when the first-order code is on: no fees, now or when the price is set later. */
+  /** true when a fees coupon (QARYA1) is on: no commission, now or when the price is set later. */
   feesWaived: boolean;
-  /** The price of the order itself, paid in full. null when set after confirmation. */
+  /** What a price coupon took off the price itself. */
+  priceDiscount: number;
+  /** The price before any coupon (the server works from this). null when set after confirmation. */
+  fullPrice: number | null;
+  /** عمولة التطبيق before any coupon. */
+  fullCommission: number;
+  /** The price of the order itself after a price coupon. null when set after confirmation. */
   finalPrice: number | null;
   isEstimate: boolean;
   /** Price of one unit after the choices (null: set after confirmation). */
@@ -174,9 +196,10 @@ export function unitPrice(
 export function getOrderPricing(
   data: Pick<OrderModalData, 'numericPrice' | 'priceType'> &
     Partial<Pick<OrderModalData, 'options' | 'quantity' | 'deliveryFee'>>,
-  discountApplied: boolean,
+  discount: PricingCoupon,
   order: { selections?: Record<string, string>; quantity?: number } = {}
 ): OrderPricing {
+  const coupon = asCoupon(discount);
   const selections = order.selections ?? {};
   const perUnit = unitPrice(data, selections);
   const amount = data.quantity ? (order.quantity ?? data.quantity.min) : 1;
@@ -193,7 +216,10 @@ export function getOrderPricing(
       priceType,
       basePrice: null,
       discountAmount: 0,
-      feesWaived: discountApplied,
+      feesWaived: coupon?.kind === 'waive_fees',
+      priceDiscount: 0,
+      fullPrice: null,
+      fullCommission: 0,
       finalPrice: null,
       isEstimate: false,
       unitPrice: null,
@@ -204,16 +230,23 @@ export function getOrderPricing(
   }
 
   const basePrice = (priced as number) + deliveryFee;
-  const finalPrice = basePrice;
   const isEstimate = priceType === 'from';
-  const fee = appCommission({ payable: finalPrice, isEstimate });
-  const commission = discountApplied ? 0 : fee;
+  // The commission is on the full price; a coupon comes off after it
+  const fee = appCommission({ payable: basePrice, isEstimate });
+  const effect = coupon
+    ? couponEffect(coupon, { target: 'services', shopId: null, items: basePrice, commission: fee, delivery: 0 })
+    : null;
+  const commission = fee - (effect?.commissionOff ?? 0);
+  const finalPrice = basePrice - (effect?.itemsOff ?? 0);
 
   return {
     priceType,
     basePrice,
-    discountAmount: discountApplied ? fee : 0,
-    feesWaived: discountApplied,
+    discountAmount: effect?.total ?? 0,
+    feesWaived: coupon?.kind === 'waive_fees',
+    priceDiscount: effect?.itemsOff ?? 0,
+    fullPrice: basePrice,
+    fullCommission: fee,
     finalPrice,
     isEstimate,
     unitPrice: perUnit ?? null,
@@ -227,18 +260,24 @@ export function getOrderPricing(
 export interface CartPricing {
   /** Sum of items that have a price (fixed + starting prices). */
   subtotal: number;
-  /** The fees the first-order code waived (the commission that isn't charged). */
+  /** Everything the coupon took off (commission, items and delivery together). */
   discountAmount: number;
-  /** true when the first-order code is on. */
+  /** true when a fees coupon (QARYA1) is on. */
   feesWaived: boolean;
-  /** What the items cost, paid in full (the first-order code doesn't touch it). */
+  /** What a price coupon took off the items. */
+  itemsDiscount: number;
+  /** What a free-delivery coupon took off رسوم التوصيل. */
+  deliveryDiscount: number;
+  /** عمولة التطبيق before any coupon (the server starts from this). */
+  fullCommission: number;
+  /** What the items cost after a price coupon. */
   total: number;
   /** true when some items have a starting price or no price yet. */
   isEstimate: boolean;
   hasQuoteItems: boolean;
   /** عمولة التطبيق charged, shown at checkout only (0 with the first-order code). */
   commission: number;
-  /** رسوم التوصيل: a shop cart only, never waived by the first-order code. */
+  /** رسوم التوصيل charged: a shop cart only, never waived by QARYA1, waived by a free-delivery coupon. */
   deliveryFee: number;
   /** total plus the commission and the delivery fee. null when nothing in the cart has a price yet. */
   totalToPay: number | null;
@@ -254,7 +293,8 @@ export function getCartItemPriceType(item: CartItem): PriceType {
  * service cart): it is added on top, the commission is on the items only, and the
  * first-order code doesn't waive it. Same rule as orders_before_insert.
  */
-export function getCartPricing(items: CartItem[], discountApplied: boolean, deliveryFee = 0): CartPricing {
+export function getCartPricing(items: CartItem[], discount: PricingCoupon, deliveryFee = 0): CartPricing {
+  const coupon = asCoupon(discount);
   let subtotal = 0;
   let isEstimate = false;
   let hasQuoteItems = false;
@@ -270,22 +310,36 @@ export function getCartPricing(items: CartItem[], discountApplied: boolean, deli
     if (type !== 'fixed') isEstimate = true;
   }
 
-  const total = subtotal;
   const unpriced = subtotal === 0 && hasQuoteItems;
   deliveryFee = Number.isFinite(deliveryFee) && deliveryFee > 0 ? deliveryFee : 0;
-  const fee = appCommission({ payable: unpriced ? null : total, isEstimate });
-  const commission = discountApplied ? 0 : fee;
+  // The commission is on the full price; a coupon comes off after it
+  const fee = appCommission({ payable: unpriced ? null : subtotal, isEstimate });
+  const effect = coupon
+    ? couponEffect(coupon, {
+        target: 'products',
+        shopId: null,
+        items: unpriced ? null : subtotal,
+        commission: fee,
+        delivery: deliveryFee,
+      })
+    : null;
+  const commission = fee - (effect?.commissionOff ?? 0);
+  const total = subtotal - (effect?.itemsOff ?? 0);
+  const deliveryCharged = deliveryFee - (effect?.deliveryOff ?? 0);
 
   return {
     subtotal,
-    discountAmount: discountApplied ? fee : 0,
-    feesWaived: discountApplied,
+    discountAmount: effect?.total ?? 0,
+    feesWaived: coupon?.kind === 'waive_fees',
+    itemsDiscount: effect?.itemsOff ?? 0,
+    deliveryDiscount: effect?.deliveryOff ?? 0,
     total,
     isEstimate,
     hasQuoteItems,
     commission,
-    deliveryFee,
-    totalToPay: unpriced ? null : total + commission + deliveryFee,
+    fullCommission: fee,
+    deliveryFee: deliveryCharged,
+    totalToPay: unpriced ? null : total + commission + deliveryCharged,
   };
 }
 
