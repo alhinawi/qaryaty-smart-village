@@ -11,7 +11,11 @@ const GEMINI_MODEL = 'gemini-3.8-flash';
 const DAILY_CAP = 20;
 const MAX_TEXT = 600;
 const MAX_HISTORY = 4;
+// Both providers together must finish inside the app's 9 second wait.
+const PROVIDER_TIMEOUT_MS = 4000;
 const MAX_TOKENS = 150;
+// Gemini counts its hidden thinking tokens inside this cap, so 150 cut answers off mid-sentence.
+const GEMINI_MAX_TOKENS = 600;
 
 const SYSTEM_CUSTOMER = `انت «مساعد قريتي» في تطبيق قريتي لخدمات القرية. رد بالمصري العامي، جملة أو اتنين كحد أقصى، من غير ايموجي أسهم.
 اللي تعرفه بس: محلات ومطاعم وصيدليات بتطلب منها وتوصل لحد البيت، خدمة مرسول للتوصيل، توكتوك، صنايعية ومدرسين بيتحجزوا، نقاط على الطلبات، آراء العملاء. مفيش قسم سوبر ماركت خالص — لو حد سأل عنه قوله مرسول هيوصله أي حاجة. ماتخترعش أسعار ولا مواعيد، وماتقولش إن محل مفتوح أو مقفول دلوقتي؛ لو مش متأكد قول «مش متأكد» وانصحه يكلّم الدعم.`;
@@ -59,6 +63,7 @@ async function askGroq(fetchFn: typeof fetch, key: string | undefined, system: s
   try {
     const res = await fetchFn(GROQ_URL, {
       method: 'POST',
+      signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS),
       headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         model: GROQ_MODEL,
@@ -85,11 +90,12 @@ async function askGemini(fetchFn: typeof fetch, key: string | undefined, system:
   try {
     const res = await fetchFn(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`, {
       method: 'POST',
+      signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS),
       headers: { 'Content-Type': 'application/json', 'x-goog-api-key': key },
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: system }] },
         contents: messages.map((m) => ({ role: m.from === 'user' ? 'user' : 'model', parts: [{ text: m.text }] })),
-        generationConfig: { maxOutputTokens: MAX_TOKENS, temperature: 0.4 },
+        generationConfig: { maxOutputTokens: GEMINI_MAX_TOKENS, temperature: 0.4 },
       }),
     });
     if (!res.ok) return null;
