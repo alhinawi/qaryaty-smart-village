@@ -9,6 +9,8 @@ import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ProductPhoto } from "@/components/ui/ProductPhoto";
+import { QuantityPicker } from "@/components/ui/QuantityPicker";
+import { formatQuantity as formatUnitQuantity } from "@/utils/quantity";
 import { useCartStore } from "@/stores/useCartStore";
 import { createOrder,getProducts,offersRepo } from "@/repositories";
 import {repriceCart,cartPriceChanged} from "@/repositories/offers/revalidateCart";
@@ -51,7 +53,7 @@ export function CartDrawer() {
 }
 
 function formatQuantity(item: CartItem): string {
-  return item.unit ? `${item.quantity.toLocaleString("ar-EG")} ${item.unit}` : "";
+  return item.unit ? formatUnitQuantity(item.quantity, item.unit) : "";
 }
 
 function formatLinePrice(item: CartItem): string {
@@ -303,31 +305,6 @@ function CartDrawerContent() {
                   </div>
                 </div>
 
-                {/* Quantity: only for things ordered by a unit (kilo, hour, month) */}
-                {item.unit && (
-                  <div className="flex items-center gap-1.5 ms-auto">
-                    <button
-                      type="button"
-                      className="w-11 h-11 rounded-md bg-white border border-gray-300 flex items-center justify-center font-extrabold cursor-pointer"
-                      onClick={() => updateQuantity(item.id, item.quantity - (item.step ?? 1))}
-                      aria-label={`أقل ${item.name}`}
-                    >
-                      -
-                    </button>
-                    <span className="text-sm font-extrabold min-w-[52px] text-center" aria-live="polite">
-                      {formatQuantity(item)}
-                    </span>
-                    <button
-                      type="button"
-                      className="w-11 h-11 rounded-md bg-white border border-gray-300 flex items-center justify-center font-extrabold cursor-pointer"
-                      onClick={() => updateQuantity(item.id, item.quantity + (item.step ?? 1))}
-                      aria-label={`أكتر ${item.name}`}
-                    >
-                      +
-                    </button>
-                  </div>
-                )}
-
                 {/* Delete Button */}
                 <button
                   type="button"
@@ -337,6 +314,19 @@ function CartDrawerContent() {
                 >
                   🗑️
                 </button>
+
+                {/* Quantity: only for things ordered by a unit (kilo, loaf, hour, month) */}
+                {item.unit && (
+                  <div className="basis-full">
+                    <QuantityPicker
+                      name={item.name}
+                      quantity={item.quantity}
+                      unit={item.unit}
+                      step={item.step ?? 1}
+                      onChange={(q) => updateQuantity(item.id, q)}
+                    />
+                  </div>
+                )}
               </div>
             ))}
           </div>

@@ -6,17 +6,19 @@ import { ShopMenuPage } from '@/components/shop/ShopMenuPage';
 import { ProviderCard } from '@/components/shared/ProviderCard';
 import { CatalogShareButton } from '@/components/shared/CatalogShareButton';
 import { ProductPhoto } from '@/components/ui/ProductPhoto';
-import { productsForShop } from '@/data/catalog';
 import { providerToOrderModalData, serviceToOrderModalData } from '@/utils/pricing';
 import { providersForService } from '@/utils/peopleSections';
 import { groupPreselection } from '@/utils/teacherGroups';
 import { validCatalogId, type CatalogKind } from '@/utils/catalogLinks';
 import { isShopOpenNow } from '@/utils/shopOpenNow';
+import { isShopService, sellsProducts } from '@/utils/serviceShops';
+import { useUIStore } from '@/stores/useUIStore';
 import type { OrderModalData, Provider, TeacherGroup } from '@/types';
 export default function CatalogDetail({ kind, onOpenOrderModal }: { kind: CatalogKind; onOpenOrderModal: (data: OrderModalData) => void }) {
   const { id } = useParams();
   const { shops, providers, services, loadState, load } = useCatalogStore();
   const [menuOpen, setMenuOpen] = useState(false);
+  const openShopService = useUIStore((s) => s.openShopService);
   useEffect(() => { void load(); }, [load]);
   const shop = kind === 'shop' ? shops.find(item => item.id === Number(id)) : undefined;
   const provider = kind === 'provider' ? providers.find(item => item.id === Number(id) && item.active && services.some(service => service.id === item.serviceId && !service.hidden)) : undefined;
@@ -34,11 +36,11 @@ export default function CatalogDetail({ kind, onOpenOrderModal }: { kind: Catalo
       {shop.photo && <ProductPhoto photo={shop.photo} emoji={shop.emoji} className="w-full h-44 rounded-xl overflow-hidden mb-4" />}
       <p className="text-text-muted mb-3">{shop.description}</p>
       {!shop.demo && <p className={`text-sm mb-3 ${isShopOpenNow(shop) ? 'text-green' : 'text-danger'}`}>{isShopOpenNow(shop) ? 'مفتوح حاليًا' : 'مغلق حاليًا'} {shop.time}</p>}
-      <button type="button" className="w-full bg-green text-white rounded-xl p-3 font-bold disabled:opacity-50" disabled={!isShopOpenNow(shop) && !shop.demo} onClick={() => shop.kind === 'restaurant' || productsForShop(shop) ? setMenuOpen(true) : onOpenOrderModal({ name: `طلب من ${shop.name}`, desc: shop.description, emoji: shop.emoji, price: 'حسب الطلب' })}>{'شوف المنتجات'}</button>
+      <button type="button" className="w-full bg-green text-white rounded-xl p-3 font-bold disabled:opacity-50" disabled={!isShopOpenNow(shop) && !shop.demo} onClick={() => sellsProducts(shop) ? setMenuOpen(true) : onOpenOrderModal({ name: `طلب من ${shop.name}`, desc: shop.description, emoji: shop.emoji, price: 'حسب الطلب' })}>{'شوف المنتجات'}</button>
       <ShopMenuPage shop={menuOpen ? shop : null} onClose={() => setMenuOpen(false)} />
     </article>}
     {provider && <ProviderCard headingLevel="h2" provider={provider} onBook={book} showShare={false} />}
-    {service && <><p className="text-text-muted mb-4">{service.desc}</p>{people.length ? <div className="grid gap-3">{people.map(person => <ProviderCard headingLevel="h2" key={person.id} provider={person} onBook={book} />)}</div> : <button type="button" className="w-full bg-green text-white rounded-xl p-3 font-bold" onClick={() => onOpenOrderModal(serviceToOrderModalData(service))}>اطلب الخدمة</button>}</>}
+    {service && <><p className="text-text-muted mb-4">{service.desc}</p>{isShopService(service) && people.length > 0 && <button type="button" className="w-full min-h-11 mb-4 bg-green text-white rounded-xl p-3 font-bold" onClick={() => openShopService(service)}>🛍️ اختار من محلات {service.name}</button>}{people.length ? <div className="grid gap-3">{people.map(person => <ProviderCard headingLevel="h2" key={person.id} provider={person} onBook={book} />)}</div> : <button type="button" className="w-full bg-green text-white rounded-xl p-3 font-bold" onClick={() => isShopService(service) ? openShopService(service) : onOpenOrderModal(serviceToOrderModalData(service))}>{isShopService(service) ? 'شوف المحلات واختار المنتجات' : 'اطلب الخدمة'}</button>}</>}
     <CatalogReviews key={`${kind}:${id}`} kind={kind} target={Number(id)} />
   </section>;
 }

@@ -25,6 +25,7 @@ import { OrderSuccess } from '@/components/orders/OrderSuccess';
 import { RatingModal } from '@/components/shared/RatingModal';
 import { Toast } from '@/components/ui/Toast';
 import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
+import { ServiceShopsModal } from '@/components/modals/ServiceShopsModal';
 import { preloadSearchScreen } from '@/components/search/loadSearchScreen';
 
 // ─── Lazy Loaded Pages
@@ -254,6 +255,9 @@ export default function App() {
             <SearchScreen onOpenOrderModal={handleOpenOrderModal} />
           </Suspense>
         )}
+
+        {/* A shop-like service's shops and their products (عيش، خضار…) */}
+        <ServiceShopsModal />
 
         {/* Global Cart Drawer */}
         <CartDrawer />

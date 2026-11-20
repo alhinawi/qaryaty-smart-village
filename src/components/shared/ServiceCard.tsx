@@ -16,6 +16,8 @@ import { useAddToCart } from "@/hooks/useAddToCart";
 
 import { useUIStore } from "@/stores/useUIStore";
 
+import { isShopService } from "@/utils/serviceShops";
+
 // ─── Constants
 
 const CATEGORY_BACKGROUNDS: Record<ServiceCategory, string> = {
@@ -55,6 +57,13 @@ export const ServiceCard = React.memo(function ServiceCard({
 
   const showToast = useUIStore((state) => state.showToast);
 
+  const openShopService = useUIStore((state) => state.openShopService);
+
+  // سوبر ماركت، عيش، جزارة…: open the village's shops to pick products from
+  const isShop = isShopService(service);
+
+  const open = () => (isShop ? openShopService(service) : onSelect(service));
+
   const images = imagesForService(service);
   const bg = CATEGORY_BACKGROUNDS[service.cat] || "#f9fafb";
 
@@ -75,6 +84,12 @@ export const ServiceCard = React.memo(function ServiceCard({
   const handleQuickAdd = async (e: React.MouseEvent) => {
     e.stopPropagation();
 
+    // A shop is never one cart line: pick its products
+    if (isShop) {
+      openShopService(service);
+      return;
+    }
+
     // Choices (subject, grade, hours) are made in the order form, not in the cart
     if (service.options?.length) {
       onSelect(service);
@@ -93,7 +108,7 @@ export const ServiceCard = React.memo(function ServiceCard({
           : ""
       }`}
     >
-      <button type="button" className="absolute inset-0 z-10 rounded-2xl cursor-pointer border-0 bg-transparent focus-visible:outline-offset-[-3px]" onClick={() => onSelect(service)} aria-label={`طلب خدمة ${service.name}`} />
+      <button type="button" className="absolute inset-0 z-10 rounded-2xl cursor-pointer border-0 bg-transparent focus-visible:outline-offset-[-3px]" onClick={open} aria-label={isShop ? `محلات ${service.name}` : `طلب خدمة ${service.name}`} />
       {/* Service Image */}
       <div
         className={`h-[150px] shrink-0 self-center w-full flex items-center justify-center text-[48px] relative ${
@@ -168,8 +183,20 @@ export const ServiceCard = React.memo(function ServiceCard({
             {service.price}
           </div>
 
-          {/* Services with required choices (المرحلة، ممرض/ممرضة…) go through the order form */}
-          {service.options?.length ? (
+          {/* Shops: pick products. Services with required choices (المرحلة، ممرض/ممرضة…) go through the order form */}
+          {isShop ? (
+            <button
+              type="button"
+              className="relative z-20 min-h-11 bg-[rgba(26,122,74,0.1)] text-green border-none py-1.5 px-2.5 rounded-xl text-xs font-extrabold font-['Cairo',sans-serif] cursor-pointer transition-all duration-200 hover:bg-green hover:text-white"
+              onClick={(e) => {
+                e.stopPropagation();
+                openShopService(service);
+              }}
+              aria-label={`تسوّق من محلات ${service.name}`}
+            >
+              تسوّق
+            </button>
+          ) : service.options?.length ? (
             <button
               type="button"
               className="relative z-20 min-h-11 bg-[rgba(26,122,74,0.1)] text-green border-none py-1.5 px-2.5 rounded-xl text-xs font-extrabold font-['Cairo',sans-serif] cursor-pointer transition-all duration-200 hover:bg-green hover:text-white"

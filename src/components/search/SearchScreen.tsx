@@ -2,6 +2,7 @@ import{isShopOpenNow}from'@/utils/shopOpenNow';
 import{useProviderDashboardStore}from'@/stores/useProviderDashboardStore';
 import{OfferPrice}from'@/components/ui/OfferPrice';
 import {useAuthStore} from '@/stores/useAuthStore';
+import { isShopService, sellsProducts } from "@/utils/serviceShops";
 import {useTrackingDemoMode} from '@/hooks/useTrackingDemoMode';
 import {offersRepo,isSupabaseConfigured,type DailyOffer} from '@/repositories';
 import {createLocalOffersRepo} from '@/repositories/offers/localOffersRepo';
@@ -35,7 +36,6 @@ import { CATEGORIES } from "@/data/categories";
 import { DONATION_SEARCH_FIELDS } from "@/config/donations";
 import { matchesSearch } from "@/utils/arabicSearch";
 import { ROUTES } from "@/routes";
-import { productsForShop } from "@/data/catalog";
 import { LineControl } from "@/components/shop/LineControl";
 import { NotifyStock } from '@/components/stock/NotifyStock';
 import { OosBadge } from '@/components/shop/OosBadge';
@@ -115,6 +115,7 @@ function SearchOverlay({
   const removeSearchHistoryItem = useUIStore((s) => s.removeSearchHistoryItem);
   const clearSearchHistory = useUIStore((s) => s.clearSearchHistory);
   const setIsCartOpen = useUIStore((s) => s.setIsCartOpen);
+  const openShopService = useUIStore((s) => s.openShopService);
   const showToast = useUIStore((s) => s.showToast);
   const cartCount = useCartStore((s) => s.getTotalCount());
   const goToTab = useGoToTab();
@@ -249,7 +250,7 @@ function SearchOverlay({
       return;
     }
     remember();
-    if (shop.kind === "restaurant" || productsForShop(shop)) {
+    if (sellsProducts(shop)) {
       close(() => onOpenMenu(shop));
       return;
     }
@@ -265,6 +266,11 @@ function SearchOverlay({
 
   const openService = (service: Service) => {
     remember();
+    // سوبر ماركت، عيش…: pick a shop and its products, never the whole service
+    if (isShopService(service)) {
+      close(() => openShopService(service));
+      return;
+    }
     close(() => onOpenOrderModal(serviceToOrderModalData(service)));
   };
 

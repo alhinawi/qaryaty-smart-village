@@ -2,7 +2,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { rememberSearch } from '@/utils/recentSearches';
-import type { AppNotification, Order } from '@/types';
+import type { AppNotification, Order, Service } from '@/types';
 
 // ─── Initial Notifications
 const INITIAL_NOTIFICATIONS: AppNotification[] = [
@@ -65,6 +65,11 @@ interface UIState {
 
   isCartOpen: boolean;
   setIsCartOpen: (open: boolean) => void;
+
+  /** A shop-like service (عيش، خضار…) the customer tapped: its shops are open to pick from. */
+  shopService: Service | null;
+  openShopService: (service: Service) => void;
+  closeShopService: () => void;
 
   isNotificationsOpen: boolean;
   setIsNotificationsOpen: (open: boolean) => void;
@@ -147,6 +152,10 @@ export const useUIStore = create<UIState>()(
 
       isCartOpen: false,
       setIsCartOpen: (open) => set({ isCartOpen: open }),
+
+      shopService: null,
+      openShopService: (service) => set({ shopService: service }),
+      closeShopService: () => set({ shopService: null }),
 
       isNotificationsOpen: false,
       setIsNotificationsOpen: (open) => set({ isNotificationsOpen: open }),
