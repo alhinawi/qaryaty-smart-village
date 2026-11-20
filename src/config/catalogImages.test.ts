@@ -24,9 +24,20 @@ describe('original catalog photos', () => {
     const products = SHOPS.flatMap(shop => productsForShop(shop) ?? []);
     expect(products.filter(product => !product.photo).map(product => product.name)).toEqual([]);
     for (const image of Object.values(manifest)) {
-      if (image.photo.startsWith('/img/catalog-missing/')) {
+      if (image.photo.startsWith('/img/catalog-missing/') || image.photo.startsWith('/img/catalog-db/')) {
         expect(existsSync(`public${image.photo}`), image.photo).toBe(true);
       }
+    }
+  });
+  it('serves the shop items that the live catalog hot-linked from our own files', () => {
+    const db = Object.entries(manifest).filter(([, v]) => v.photo.startsWith('/img/catalog-db/'));
+    expect(db.length).toBeGreaterThan(300);
+    for (const [key, image] of db) {
+      const [scope, id] = key.split('|');
+      const remote: Product = { id, name: image.name, emoji: '🛍️', price: 1, unit: 'قطعة', step: 1,
+        photo: 'originalPhoto' in image ? (image.originalPhoto as string) : undefined };
+      expect(catalogProductPhoto(scope, remote).photo, key).toBe(image.photo);
+      expect(scope.startsWith('dairy'), 'dairy belongs to the gold/dairy work').toBe(false);
     }
   });
   it('uses a different asset for every catalog entry', () => {
