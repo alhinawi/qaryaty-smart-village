@@ -5,6 +5,8 @@ import { OfferPrice } from '@/components/ui/OfferPrice';
 import { isSupabaseConfigured } from '@/repositories/supabaseClient';
 // ─── Imports
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { Link } from 'react-router';
+import { ROUTES } from '@/routes';
 import { ProductPhoto } from '@/components/ui/ProductPhoto';
 import { GRILL_PRICE_PER_KILO, sectionsOf } from '@/data/catalog';
 import { useCatalogStore } from '@/stores/useCatalogStore';
@@ -284,9 +286,25 @@ export function ShopMenuPage({ shop, onClose }: ShopMenuPageProps) {
                 <GrillRow shop={shop} product={p} />
               </li>
             ))}
-            {visible.length === 0 && (
-              <li className="col-span-2 text-center text-gray-500 py-8">
-                {products.length === 0 ? 'المنيو لسه مش متاح، اكتب طلبك للمندوب.' : 'مفيش حاجة بالاسم ده'}
+            {visible.length === 0 && products.length > 0 && (
+              <li className="col-span-2 text-center text-gray-500 py-8">مفيش حاجة بالاسم ده</li>
+            )}
+            {products.length === 0 && (
+              <li className="col-span-2 text-center py-8 px-2" data-testid="shop-menu-empty">
+                <div className="text-[34px] mb-1" aria-hidden="true">
+                  {shop.emoji}
+                </div>
+                <p className="font-bold text-text mb-1">{shop.name} لسه ما نزّلش منتجاته على قريتي</p>
+                <p className="text-[13px] text-gray-600 mb-3">
+                  ابعتلنا اللي محتاجه في الرسايل، وخدمة العملاء هتكلّم المحل وترد عليك.
+                </p>
+                <Link
+                  to={ROUTES.messages}
+                  onClick={close}
+                  className="inline-flex items-center justify-center min-h-[44px] px-5 rounded-xl bg-green text-white font-bold"
+                >
+                  كلّم خدمة العملاء
+                </Link>
               </li>
             )}
           </ul>

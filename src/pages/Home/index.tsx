@@ -45,6 +45,7 @@ import { providerToOrderModalData, serviceToOrderModalData } from '@/utils/prici
 import { groupPreselection } from '@/utils/teacherGroups';
 import { doctorSpecialties, matchesDoctorSpecialty } from '@/utils/doctorSpecialties';
 import { matchesSearch } from '@/utils/arabicSearch';
+import { isShopService } from '@/utils/serviceShops';
 import {
   PEOPLE_SECTIONS,
   filterProviders,
@@ -209,7 +210,13 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
     onOpenOrderModal(providerToOrderModalData(provider, service, group && groupPreselection(group)));
   };
 
+  const openShopService = useUIStore((state) => state.openShopService);
   const handleSelectService = (service: Service) => {
+    // سوبر ماركت، عيش…: its shops and their products, never the whole service in the cart
+    if (isShopService(service)) {
+      openShopService(service);
+      return;
+    }
     const data = serviceToOrderModalData(service);
     const selected = specialties.find(option => option.id === specialty);
     if (selected && !service.name.includes('تمريض') && service.cat === 'health') {
@@ -225,7 +232,8 @@ export default function HomePage({ onOpenOrderModal }: HomePageProps) {
     [pickerService, providers]
   );
   const handleGridService = (service: Service) => {
-    if (providersForService(service, providers).length > 0) setPickerService(service);
+    if (isShopService(service)) handleSelectService(service);
+    else if (providersForService(service, providers).length > 0) setPickerService(service);
     else handleSelectService(service);
   };
   const handlePick = (provider: Provider) => {

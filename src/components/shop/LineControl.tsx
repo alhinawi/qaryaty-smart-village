@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { GRILL_PRICE_PER_KILO } from '@/data/catalog';
 import { useAddToCart } from '@/hooks/useAddToCart';
 import { cartItemFromProduct, useCartStore } from '@/stores/useCartStore';
@@ -6,6 +6,8 @@ import { useTrackingDemoMode } from '@/hooks/useTrackingDemoMode';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { stockKey, useDemoStock } from '@/components/merchant/demoStock';
 import { NotifyStock } from '@/components/stock/NotifyStock';
+import { QuantityPicker, QuantitySheet } from '@/components/ui/QuantityPicker';
+import { formatQuantityNumber, quickQuantities } from '@/utils/quantity';
 import type { Product, Shop } from '@/types';
 
 /**
@@ -24,6 +26,9 @@ export function LineControl({ shop, product, grill, label, round = false }: { sh
   const addToCart = useAddToCart();
   const scope = useAuthStore((s) => s.session?.user.id ?? 'guest');
   const count = useDemoStock((s) => s.counts[stockKey(scope, shop.id, product.id)]);
+  // The quick choices: opened by tapping the number, or right after adding something
+  // bought in bulk (bread: 5, 10, 20…), so 10 loaves is one more tap, not nine.
+  const [choicesOpen, setChoicesOpen] = useState(false);
 
   if (trackingDemo && count === 0) {
     return round
@@ -38,6 +43,12 @@ export function LineControl({ shop, product, grill, label, round = false }: { sh
   }
 
   const step = item.step ?? 1;
+  const max = trackingDemo && count != null ? count : undefined;
+  const bulk = (quickQuantities(item.unit, step)[0] ?? 1) >= 5;
+  const add = async () => {
+    if (bulk) setChoicesOpen(true);
+    if (!(await addToCart(item))) setChoicesOpen(false);
+  };
   if (!inCart) {
     if (round) {
       return (
@@ -45,7 +56,7 @@ export function LineControl({ shop, product, grill, label, round = false }: { sh
           type="button"
           aria-label={`${label} ${item.name}`}
           disabled={trackingDemo && count != null && count < step}
-          onClick={() => void addToCart(item)}
+          onClick={() => void add()}
           className="w-10 h-10 rounded-full bg-white text-green border border-green/25 shadow-md text-[22px] font-extrabold leading-none cursor-pointer flex items-center justify-center disabled:opacity-50"
         >
           +
@@ -57,7 +68,7 @@ export function LineControl({ shop, product, grill, label, round = false }: { sh
         type="button"
         className="min-h-[40px] px-3.5 py-1.5 rounded-lg bg-green text-white text-[13px] font-bold cursor-pointer whitespace-nowrap"
         disabled={trackingDemo && count != null && count < (item.step ?? 1)}
-        onClick={() => void addToCart(item)}
+        onClick={() => void add()}
         aria-label={`${label} ${item.name}`}
       >
         {label}
@@ -65,37 +76,59 @@ export function LineControl({ shop, product, grill, label, round = false }: { sh
     );
   }
 
+  const sheet = (
+    <QuantitySheet
+      isOpen={choicesOpen}
+      onClose={() => setChoicesOpen(false)}
+      emoji={product.emoji}
+      name={item.name}
+      quantity={inCart.quantity}
+      unit={item.unit}
+      step={step}
+      max={max}
+      onChange={(q) => updateQuantity(item.id, q)}
+    />
+  );
+
   if (round) {
+    const atMax = max != null && inCart.quantity + step > max;
     return (
-      <div className="flex items-center bg-white rounded-full border border-green/25 shadow-md px-1 py-0.5" dir="ltr">
-        <button type="button" aria-label={`أقل ${item.name}`} onClick={() => updateQuantity(item.id, inCart.quantity - step)} className="w-8 h-8 rounded-full text-green font-extrabold cursor-pointer">-</button>
-        <span className="min-w-[20px] text-center text-[13px] font-extrabold" dir="rtl" aria-live="polite">{inCart.quantity}</span>
-        <button type="button" aria-label={`أكتر ${item.name}`} disabled={trackingDemo && count != null && inCart.quantity + step > count} onClick={() => updateQuantity(item.id, inCart.quantity + step)} className="w-8 h-8 rounded-full text-green font-extrabold cursor-pointer disabled:opacity-50">+</button>
-      </div>
+      <>
+        <div className="flex items-center gap-1" dir="ltr">
+          <button
+            type="button"
+            aria-label={`العدد ${formatQuantityNumber(inCart.quantity)}${item.unit ? ` ${item.unit}` : ''} — غيّر عدد ${item.name}`}
+            aria-haspopup="dialog"
+            onClick={() => setChoicesOpen(true)}
+            className="min-w-[44px] h-11 px-2.5 rounded-full bg-white text-green-dark border border-green/25 shadow-md text-[14px] font-extrabold cursor-pointer flex items-center gap-1"
+            dir="rtl"
+          >
+            <span aria-live="polite">{formatQuantityNumber(inCart.quantity)}</span>
+            <span className="text-[9px]" aria-hidden="true">▼</span>
+          </button>
+          <button
+            type="button"
+            aria-label={`أكتر ${item.name}`}
+            disabled={atMax}
+            onClick={() => updateQuantity(item.id, inCart.quantity + step)}
+            className="w-11 h-11 rounded-full bg-white text-green border border-green/25 shadow-md text-[22px] font-extrabold leading-none cursor-pointer flex items-center justify-center disabled:opacity-50"
+          >
+            +
+          </button>
+        </div>
+        {sheet}
+      </>
     );
   }
   return (
-    <div className="flex items-center gap-1.5" dir="ltr">
-      <button
-        type="button"
-        className="w-9 h-9 rounded-lg bg-white border border-gray-300 font-extrabold cursor-pointer"
-        onClick={() => updateQuantity(item.id, inCart.quantity - step)}
-        aria-label={`أقل ${item.name}`}
-      >
-        -
-      </button>
-      <span className="min-w-[58px] text-center text-[13px] font-extrabold" dir="rtl" aria-live="polite">
-        {inCart.quantity.toLocaleString('ar-EG')} {item.unit}
-      </span>
-      <button
-        type="button"
-        className="w-9 h-9 rounded-lg bg-white border border-gray-300 font-extrabold cursor-pointer"
-        disabled={trackingDemo && count != null && inCart.quantity + step > count}
-        onClick={() => updateQuantity(item.id, inCart.quantity + step)}
-        aria-label={`أكتر ${item.name}`}
-      >
-        +
-      </button>
-    </div>
+    <QuantityPicker
+      name={item.name}
+      quantity={inCart.quantity}
+      unit={item.unit}
+      step={step}
+      max={max}
+      defaultOpen={choicesOpen}
+      onChange={(q) => updateQuantity(item.id, q)}
+    />
   );
 }

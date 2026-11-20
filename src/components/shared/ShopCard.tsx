@@ -6,7 +6,7 @@ import type { OrderModalData, Shop } from "@/types";
 import { isShopBusy } from "@/utils/shopBusy";
 import { isShopOpenNow } from "@/utils/shopOpenNow";
 import { useUIStore } from "@/stores/useUIStore";
-import { productsForShop } from "@/data/catalog";
+import { sellsProducts } from "@/utils/serviceShops";
 import { ProductPhoto } from "@/components/ui/ProductPhoto";
 
 // ─── Types
@@ -40,8 +40,8 @@ export const ShopCard = React.memo(function ShopCard({
       showToast(`⚠️ ${shop.name} مغلق حالياً، بيفتح ${shop.time}`);
       return;
     }
-    // Restaurants always open their menu (it loads through the repository)
-    if (onOpenMenu && (shop.kind === "restaurant" || productsForShop(shop))) {
+    // Shops that sell things open their product list (it loads through the repository)
+    if (onOpenMenu && sellsProducts(shop)) {
       onOpenMenu(shop);
       return;
     }

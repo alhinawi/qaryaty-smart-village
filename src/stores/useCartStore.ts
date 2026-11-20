@@ -4,6 +4,7 @@ import { imageForService } from '@/config/serviceImages';
 import { persist } from 'zustand/middleware';
 import type { CartItem, Product, Service, Shop } from '@/types';
 import { formatCurrency as formatPrice } from '@/utils/helpers';
+import { isWholeShopLine } from '@/utils/serviceShops';
 
 // One order at a time: the cart holds one service, or products from one
 // shop/restaurant. Adding from somewhere else asks to empty it first.
@@ -81,6 +82,18 @@ export function cartItemFromProduct(
   };
 }
 
+/**
+ * Carts saved by older versions. v1 could mix several services: start fresh rather than
+ * guess which to keep. v2 could hold a whole shop-like service ("عيش من الفرن") as one
+ * line: drop those lines and keep the rest.
+ */
+export function migrateCart(persisted: unknown, version: number): { items: CartItem[] } {
+  if (version < 2) return { items: [] };
+  const items = (persisted as { items?: unknown } | null)?.items;
+  if (!Array.isArray(items)) return { items: [] };
+  return { items: (items as CartItem[]).filter((item) => item && !isWholeShopLine(item)) };
+}
+
 function roundToStep(quantity: number, step: number): number {
   return Math.round(quantity / step) * step;
 }
@@ -142,9 +155,8 @@ export const useCartStore = create<CartStore>()(
     }),
     {
       name: 'qaryati_cart_storage',
-      version: 2,
-      // v1 carts could mix several services; start fresh rather than guess which to keep
-      migrate: () => ({ items: [], cartWiggle: false }),
+      version: 3,
+      migrate: (persisted, version) => migrateCart(persisted, version),
       partialize: (state) => ({ items: state.items }),
     },
   ),
