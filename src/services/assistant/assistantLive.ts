@@ -9,6 +9,30 @@ import type { UserRole } from '@/types';
 
 const LIVE_TIMEOUT_MS = 9000;
 
+/** The Cloudflare Pages copy answers through its own Pages Function, never through Supabase. */
+export function isCloudflarePagesHost(hostname: string): boolean {
+  return /(^|\.)qaryaty\.pages\.dev$/i.test(hostname);
+}
+
+async function askPagesFunction(messages: AssistantMessage[], audience: AssistantAudience): Promise<LiveReply> {
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), LIVE_TIMEOUT_MS);
+    const res = await fetch('/api/assistant', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages, audience }),
+      signal: controller.signal,
+    });
+    clearTimeout(timer);
+    const data = (await res.json()) as { ok?: boolean; text?: string; reason?: LiveReply['reason'] } | null;
+    if (data?.ok && typeof data.text === 'string' && data.text.trim()) return { ok: true, text: data.text.trim() };
+    return { ok: false, reason: data?.reason ?? 'unavailable' };
+  } catch {
+    return { ok: false, reason: 'unavailable' };
+  }
+}
+
 export interface LiveReply {
   ok: boolean;
   text?: string;
@@ -17,6 +41,9 @@ export interface LiveReply {
 
 /** Raw call to the edge function. Exported for tests; UI uses resolveReply. */
 export async function askLive(messages: AssistantMessage[], audience: AssistantAudience): Promise<LiveReply> {
+  if (typeof window !== 'undefined' && isCloudflarePagesHost(window.location.hostname)) {
+    return askPagesFunction(messages, audience);
+  }
   if (!isSupabaseConfigured) return { ok: false, reason: 'unavailable' };
   try {
     const supabase = await getSupabase();
